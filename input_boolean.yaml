@@ -1,0 +1,33 @@
+##############################################################
+# Modes
+##############################################################
+trigger_sunset_mode:
+  name: Sunset Mode
+trigger_night_mode:
+  name: Night Mode
+trigger_guest_mode:
+  name: Guest Mode
+trigger_sleep_mode:
+  name: Sleep Mode
+trigger_home_theater_mode:
+  name: Home Theater Mode
+
+##############################################################
+# Motion
+##############################################################
+motion_kitchen:
+  name: Kitchen Motion
+motion_living_room:
+  name: Living Room Motion
+motion_bedroom:
+  name: Bedroom Motion
+motion_bathroom:
+  name: Bathroom Motion
+
+##############################################################
+# Triggers
+##############################################################
+motion_trigger_bedroom_lights:
+  name: Bedroom Lights Triggered by Motion
+motion_trigger_bathroom_lights:
+  name: Bathroom Lights Triggered by Motion

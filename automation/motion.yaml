@@ -1,0 +1,94 @@
+##############################################################
+# Kitchen
+##############################################################
+
+- alias: Kitchen Motion Started
+  trigger:
+    platform: state
+    entity_id: binary_sensor.kitchen_multisensor_sensor
+    from: "off"
+    to: "on"
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.motion_kitchen
+- alias: Kitchen Motion Ended
+  trigger:
+    platform: state
+    entity_id: binary_sensor.kitchen_multisensor_sensor
+    from: "on"
+    to: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.motion_kitchen
+
+
+##############################################################
+# Living Room
+##############################################################
+
+- alias: Living Room Motion Started
+  trigger:
+    platform: state
+    entity_id: binary_sensor.living_room_multisensor_sensor
+    from: "off"
+    to: "on"
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.motion_living_room
+- alias: Living Room Motion Ended
+  trigger:
+    platform: state
+    entity_id: binary_sensor.living_room_multisensor_sensor
+    from: "on"
+    to: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.motion_living_room
+
+
+##############################################################
+# Bedroom
+##############################################################
+
+- alias: Bedroom Motion Started
+  trigger:
+    platform: state
+    entity_id: binary_sensor.bedroom_multisensor_sensor
+    from: "off"
+    to: "on"
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.motion_bedroom
+- alias: Bedroom Motion Ended
+  trigger:
+    platform: state
+    entity_id: binary_sensor.bedroom_multisensor_sensor
+    from: "on"
+    to: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.motion_bedroom
+
+
+##############################################################
+# Bathroom
+##############################################################
+
+- alias: Bathroom Motion Started
+  trigger:
+    platform: state
+    entity_id: binary_sensor.bathroom_multisensor_sensor
+    from: "off"
+    to: "on"
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.motion_bathroom
+- alias: Bathroom Motion Ended
+  trigger:
+    platform: state
+    entity_id: binary_sensor.bathroom_multisensor_sensor
+    from: "on"
+    to: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.motion_bathroom

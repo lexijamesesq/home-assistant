@@ -1,0 +1,10 @@
+alias: Select Kitchen Bright Scene
+sequence:
+  service: scene.turn_on
+  data_template:
+    entity_id: >
+      {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+        scene.kitchen_bright_at_night
+      {% else %}
+        scene.kitchen_bright
+      {% endif %}
