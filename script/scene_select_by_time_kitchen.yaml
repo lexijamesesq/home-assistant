@@ -1,0 +1,14 @@
+alias: Select Kitchen Scene by Time
+sequence:
+  service: script.turn_on
+  data_template:
+    entity_id: >
+      {% if (now().strftime("%A") | lower) in ["sunday", "monday", "tuesday", "wednesday", "thursday"] and now().strftime("%H")|int >= 21 %}
+        script.scene_select_kitchen_dim
+      {% elif (now().strftime("%A") | lower) in ["friday", "saturday"] and now().strftime("%H")|int >= 23 %}
+        script.scene_select_kitchen_dim
+      {% elif now().strftime("%H")|int <= 6 %}
+        script.scene_select_kitchen_dim
+      {% else %}
+        script.scene_select_kitchen_bright
+      {% endif %}

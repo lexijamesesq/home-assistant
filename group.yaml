@@ -1,0 +1,66 @@
+##############################################################
+# Lights
+##############################################################
+
+kitchen_overhead_lights:
+  name: Kitchen Overhead Lights
+  icon: mdi:lightbulb
+  entities:
+    - light.overhead_1
+    - light.overhead_2
+    - light.overhead_3
+    - light.overhead_4
+kitchen_island_lights:
+  name: Kitchen Island Lights
+  icon: mdi:ceiling-light
+  entities:
+    - light.island_1
+    - light.island_2
+kitchen_lights:
+  name: Kitchen Lights
+  icon: mdi:lightbulb
+  entities:
+    - group.kitchen_overhead_lights
+    - group.kitchen_island_lights
+living_room_lights:
+  name: Living Room Lights
+  icon: mdi:ceiling-light
+  entities:
+    - light.living_room_1
+bedroom_lights:
+  name: Bedroom Lights
+  icon: mdi:ceiling-light
+  entities:
+    - light.bedroom_1
+    - light.bedroom_2
+bathroom_vanity_lights:
+  name: Bathroom Vanity Lights
+  icon: mdi:lightbulb
+  entities:
+    - light.bathroom_1
+    - light.bathroom_2
+    - light.bathroom_3
+    - light.bathroom_4
+bathroom_overhead_lights:
+  name: Bathroom Overhead Lights
+  icon: mdi:lightbulb
+  entities:
+    - light.bathroom_5
+bathroom_lights:
+  name: Bathroom Lights
+  icon: mdi:lightbulb
+  entities:
+    - group.bathroom_vanity_lights
+    - group.bathroom_overhead_lights
+
+##############################################################
+# Sensors
+##############################################################
+
+motion_guest_areas:
+  name: Guest Areas Motion
+  icon: mdi:run-fast
+  entities:
+    - input_boolean.motion_living_room
+    - input_boolean.motion_kitchen
+    - input_boolean.motion_bathroom

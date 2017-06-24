@@ -1,0 +1,96 @@
+homeassistant:
+  name: Home
+  latitude: !secret home_lattitude
+  longitude: !secret home_longitude
+  elevation: !secret home_elevation
+  unit_system: imperial
+  time_zone: !secret home_timezone
+  customize: !include customizations.yaml
+
+zone:
+  - name: Home
+    latitude: !secret home_lattitude
+    longitude: !secret home_longitude
+    radius: 30
+    icon: mdi:home
+  - name: Work
+    latitude: !secret work_lattitude
+    longitude: !secret work_longitude
+    radius: 200
+    icon: mdi:domain
+
+config:
+conversation:
+frontend:
+updater:
+
+http:
+  # Uncomment this to add a password (recommended!)
+  api_password: !secret api_password
+  # Uncomment this if you are using SSL or running in Docker etc
+  # base_url: !secret base_url
+  # ssl_certificate: !secret ssl_certificate
+  # ssl_key: !secret ssl_key
+
+history:
+logbook:
+recorder:
+  purge_days: 7
+
+sun:
+tts:
+  platform: google
+
+emulated_hue:
+# type: alexa
+  host_ip: !secret emulated_hue_host
+  listen_port: !secret emulated_hue_port
+  expose_by_default: true
+  exposed_domains:
+    - group
+    - script
+    - switch
+
+zwave:
+  usb_path: !secret zwave_usb_path
+  config_path: !secret zwave_config_path
+  polling_interval: 300000
+  new_entity_ids: true
+
+nest:
+  client_id: !secret nest_client_id
+  client_secret: !secret nest_client_secret
+
+light:
+  - platform: lifx
+    server: !secret lifx_host
+    broadcast: !secret lifx_broadcast
+
+device_tracker:
+  - platform: owntracks
+    max_gps_accuracy: 200
+    track_new_devices: false
+
+mqtt:
+  broker: !secret mqtt_remote_host
+  port: !secret mqtt_remote_port
+  client_id: !secret mqtt_remote_client_id
+  keepalive: 60
+  username: !secret mqtt_remote_username
+  password: !secret mqtt_remote_password
+
+
+# Disabled Features ##########################################
+# introduction:
+# discovery:
+
+
+# Includes ###################################################
+automation: !include_dir_merge_list automation/
+group: !include group.yaml
+input_boolean: !include input_boolean.yaml
+media_player: !include media_player.yaml
+scene: !include scene.yaml
+script: !include_dir_named script/
+sensor: !include sensor.yaml
+switch: !include switch.yaml

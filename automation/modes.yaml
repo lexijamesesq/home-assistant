@@ -1,0 +1,102 @@
+##############################################################
+# Timed Modes
+##############################################################
+
+# Sunset Mode ################################################
+- alias: Start Sunset Mode
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:45:00"
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.trigger_sunset_mode
+- alias: End Sunset Mode
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:10:00"
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.trigger_sunset_mode
+
+# Night Mode #################################################
+- alias: Start Night Mode
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:10:00"
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.trigger_night_mode
+- alias: End Night Mode
+  trigger:
+    platform: sun
+    event: sunrise
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.trigger_night_mode
+
+##############################################################
+# Event Modes
+##############################################################
+
+# Guest Mode #################################################
+- alias: Start Guest Mode
+  trigger:
+    platform: state
+    entity_id: input_boolean.motion_guest_areas
+    to: 'on'
+  condition: 
+    condition: state
+    entity_id: group.all_devices
+    state: 'not_home'
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.trigger_guest_mode
+- alias: End Guest Mode
+  trigger:
+    platform: state
+    entity_id: input_boolean.motion_guest_areas
+    to: 'off'
+    for:
+      minutes: 30
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.trigger_guest_mode
+
+# Sleep Mode #################################################
+# Starts when bedroom beacon is detected during bedtime.
+# Lognger delay before exiting mode, beacon detection is spotty.
+- alias: Start Sleep Mode
+  trigger:
+    platform: state
+    entity_id: sensor.bedroom_presence
+    to: 'occupied'
+    for:
+      seconds: 30
+  condition:
+    condition: or
+    conditions:
+      - condition: time
+        after: '21:00:00'
+      - condition: time
+        before: '06:00:00'
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.trigger_sleep_mode
+- alias: End Sleep Mode
+  trigger:
+    - platform: state
+      entity_id: sensor.bedroom_presence
+      to: 'unoccupied'
+      for:
+        minutes: 5
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.trigger_sleep_mode
+
+
+
+
+# Home Theater Mode ##########################################

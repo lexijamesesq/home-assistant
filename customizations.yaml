@@ -1,0 +1,362 @@
+##############################################################
+# Nest Entities
+##############################################################
+binary_sensor.living_room_thermostat_nest_fan:
+  hidden: true
+binary_sensor.living_room_thermostat_nest_has_leaf:
+  hidden: true
+binary_sensor.living_room_thermostat_nest_is_locked:
+  hidden: true
+binary_sensor.living_room_thermostat_nest_is_using_emergency_heat:
+  hidden: true
+binary_sensor.living_room_thermostat_nest_online:
+  friendly_name: Nest Online
+  hidden: true
+climate.living_room_nest:
+  friendly_name: Nest Thermostat
+  homebridge_hidden: true
+sensor.living_room_thermostat_nest_humidity:
+  friendly_name: Nest Humidity
+sensor.living_room_thermostat_nest_hvac_state:
+  friendly_name: Nest State
+sensor.living_room_thermostat_nest_operation_mode:
+  friendly_name: Nest Mode
+sensor.living_room_thermostat_nest_target:
+  friendly_name: Nest Target
+sensor.living_room_thermostat_nest_temperature:
+  friendly_name: Nest Temp
+
+##############################################################
+# Media Player Entities
+##############################################################
+media_player.plex_apple_tv:
+  friendly_name: Plex (Apple TV)
+  hidden: true
+  homebridge_hidden: true
+media_player.denon_avrx1200w:
+  hidden: true
+  homebridge_hidden: true
+media_player.denon_avrx4300h:
+  hidden: true
+  homebridge_hidden: true
+
+##############################################################
+# Group Entities
+##############################################################
+group.all_automations:
+  emulated_hue: false
+  homebridge_hidden: true
+group.all_devices:
+  emulated_hue: false
+  homebridge_hidden: true
+group.all_lights:
+  friendly_name: All Lights
+group.all_scripts:
+  emulated_hue: false
+  homebridge_hidden: true
+group.all_switches:
+  emulated_hue: false
+  homebridge_hidden: true
+group.bathroom_lights:
+  emulated_hue: false
+  homebridge_hidden: true
+group.bedroom_lights:
+  emulated_hue: false
+  homebridge_hidden: true
+group.kitchen_lights:
+  emulated_hue: false
+  homebridge_hidden: true
+group.living_room_lights:
+  emulated_hue: false
+  homebridge_hidden: true
+group.kitchen_overhead_lights:
+  emulated_hue: false
+  homebridge_hidden: true
+group.kitchen_island_lights:
+  emulated_hue: false
+  homebridge_hidden: true
+group.motion_guest_areas:
+  emulated_hue: false
+  homebridge_hidden: true
+
+##############################################################
+# Light Entites
+##############################################################
+light.overhead_1:
+  emulated_hue: false
+  homebridge_hidden: true
+light.overhead_2:
+  emulated_hue: false
+  homebridge_hidden: true
+light.overhead_3:
+  emulated_hue: false
+  homebridge_hidden: true
+light.overhead_4:
+  emulated_hue: false
+  homebridge_hidden: true
+light.island_1:
+  icon: mdi:ceiling-light
+  emulated_hue: false
+  homebridge_hidden: true
+light.island_2:
+  icon: mdi:ceiling-light
+  emulated_hue: false
+  homebridge_hidden: true
+light.living_room_1:
+  icon: mdi:ceiling-light
+  emulated_hue: false
+  homebridge_hidden: true
+light.bedroom_1:
+  icon: mdi:ceiling-light
+  emulated_hue: false
+  homebridge_hidden: true
+light.bedroom_2:
+  icon: mdi:ceiling-light
+  emulated_hue: false
+  homebridge_hidden: true
+light.bathroom_1:
+  emulated_hue: false
+  homebridge_hidden: true
+light.bathroom_2:
+  emulated_hue: false
+  homebridge_hidden: true
+light.bathroom_3:
+  emulated_hue: false
+  homebridge_hidden: true
+light.bathroom_4:
+  emulated_hue: false
+  homebridge_hidden: true
+
+##############################################################
+# Scene Entities
+##############################################################
+scene.away_lighting_at_night:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.bathroom_bright:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.bathroom_bright_at_night:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.bathroom_dim:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.bathroom_dim_at_night:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.bathroom_nightlight:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.bedroom_bright:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.bedroom_bright_at_night:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.bedroom_dim:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.bedroom_dim_at_night:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.kitchen_bright:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.kitchen_bright_at_night:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.kitchen_bright_at_night_slow:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.kitchen_bright_at_sunset_slow:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.kitchen_dim:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.kitchen_dim_at_night:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.kitchen_prep:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.kitchen_prep_at_night:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.living_room_bright:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.living_room_bright_at_night:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.living_room_dim:
+  emulated_hue: false
+  homebridge_hidden: true
+scene.living_room_dim_at_night:
+  emulated_hue: false
+  homebridge_hidden: true
+
+##############################################################
+# Script Entities
+##############################################################
+script.scene_select_bathroom_bright:
+  friendly_name: Bathroom Bright
+script.scene_select_bathroom_dim:
+  friendly_name: Bathroom Dim
+script.scene_select_bedroom_bright:
+  friendly_name: Bedroom Bright
+script.scene_select_bedroom_dim:
+  friendly_name: Bedroom Dim
+script.scene_select_by_time_bathroom:
+  emulated_hue: false
+  homebridge_hidden: true
+script.scene_select_by_time_bedroom:
+  emulated_hue: false
+  homebridge_hidden: true
+script.scene_select_by_time_kitchen:
+  emulated_hue: false
+  homebridge_hidden: true
+script.scene_select_by_time_living_room:
+  emulated_hue: false
+  homebridge_hidden: true
+script.scene_select_kitchen_bright:
+  friendly_name: Kitchen Bright
+script.scene_select_kitchen_dim:
+  friendly_name: Kitchen Dim
+script.scene_select_kitchen_prep:
+  friendly_name: Kitchen Prep
+script.scene_select_living_room_bright:
+  friendly_name: Living Room Bright
+script.scene_select_living_room_dim:
+  friendly_name: Living Room Dim
+
+##############################################################
+# Z-Wave Entities
+##############################################################
+zwave.zstick:
+  friendly_name: Z-Wave Stick
+zwave.bathroom_multisensor:
+  friendly_name: Bathroom MultiSensor
+zwave.bedroom_multisensor:
+  friendly_name: Bedroom MultiSensor
+zwave.kitchen_multisensor:
+  friendly_name: Kitchen MultiSensor
+zwave.living_room_multisensor:
+  friendly_name: Living Room MultiSensor
+
+##############################################################
+# Binary Sensor Entities
+##############################################################
+binary_sensor.living_room_multisensor_sensor:
+  friendly_name: Living Room Motion
+  device_class: motion
+binary_sensor.kitchen_multisensor_sensor:
+  friendly_name: Kitchen Motion
+  device_class: motion
+binary_sensor.bathroom_multisensor_sensor:
+  friendly_name: Bathroom Motion
+  device_class: motion
+binary_sensor.bedroom_multisensor_sensor:
+  friendly_name: Bedroom Motion
+  device_class: motion
+
+##############################################################
+# Sensor Entities
+##############################################################
+sensor.bathroom_multisensor_alarm_level:
+  hidden: true
+sensor.bathroom_multisensor_alarm_type:
+  hidden: true
+sensor.bathroom_multisensor_burglar:
+  hidden: true
+sensor.bathroom_multisensor_luminance:
+  friendly_name: Bathroom Brightness
+sensor.bathroom_multisensor_relative_humidity:
+  friendly_name: Bathroom Humidity
+sensor.bathroom_multisensor_sourcenodeid:
+  hidden: true
+sensor.bathroom_multisensor_temperature:
+  friendly_name: Bathroom Temp
+sensor.bathroom_multisensor_ultraviolet:
+  friendly_name: Bathroom UV
+  hidden: true
+sensor.bedroom_presence:
+  hidden: true
+sensor.bedroom_multisensor_alarm_level:
+  hidden: true
+sensor.bedroom_multisensor_alarm_type:
+  hidden: true
+sensor.bedroom_multisensor_burglar:
+  hidden: true
+sensor.bedroom_multisensor_luminance:
+  friendly_name: Bedroom Brightness
+sensor.bedroom_multisensor_relative_humidity:
+  friendly_name: Bedroom Humidity
+sensor.bedroom_multisensor_sourcenodeid:
+  hidden: true
+sensor.bedroom_multisensor_temperature:
+  friendly_name: Bedroom Temp
+sensor.bedroom_multisensor_ultraviolet:
+  friendly_name: Bedroom UV
+  hidden: true
+sensor.kitchen_multisensor_alarm_level:
+  hidden: true
+sensor.kitchen_multisensor_alarm_type:
+  hidden: true
+sensor.kitchen_multisensor_burglar:
+  hidden: true
+sensor.kitchen_multisensor_luminance:
+  friendly_name: Kitchen Brightness
+sensor.kitchen_multisensor_relative_humidity:
+  friendly_name: Kitchen Humidity
+sensor.kitchen_multisensor_sourcenodeid:
+  hidden: true
+sensor.kitchen_multisensor_temperature:
+  friendly_name: Kitchen Temp
+sensor.kitchen_multisensor_ultraviolet:
+  friendly_name: Kitchen UV
+  hidden: true
+sensor.living_room_multisensor_alarm_level:
+  hidden: true
+sensor.living_room_multisensor_alarm_type:
+  hidden: true
+sensor.living_room_multisensor_burglar:
+  hidden: true
+sensor.living_room_multisensor_luminance:
+  friendly_name: Living Room Brightness
+sensor.living_room_multisensor_relative_humidity:
+  friendly_name: Living Room Humidity
+sensor.living_room_multisensor_sourcenodeid:
+  hidden: true
+sensor.living_room_multisensor_temperature:
+  friendly_name: Living Room Temp
+sensor.living_room_multisensor_ultraviolet:
+  friendly_name: Living Room UV
+  hidden: true
+
+##############################################################
+# Input Booleans
+##############################################################
+input_boolean.motion_bathroom:
+  homebridge_hidden: true
+input_boolean.motion_bedroom:
+  homebridge_hidden: true
+input_boolean.motion_kitchen:
+  homebridge_hidden: true
+input_boolean.motion_living_room:
+  homebridge_hidden: true
+input_boolean.motion_trigger_bathroom_lights:
+  homebridge_hidden: true
+input_boolean.motion_trigger_bedroom_lights:
+  homebridge_hidden: true
+input_boolean.trigger_guest_mode:
+  homebridge_hidden: true
+input_boolean.trigger_home_theater_mode:
+  homebridge_hidden: true
+input_boolean.trigger_night_mode:
+  homebridge_hidden: true
+input_boolean.trigger_sleep_mode:
+  homebridge_hidden: true
+input_boolean.trigger_sunset_mode:
+  homebridge_hidden: true

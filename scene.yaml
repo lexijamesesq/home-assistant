@@ -1,0 +1,254 @@
+##############################################################
+# Kitchen
+##############################################################
+
+# Bright Scenes ##############################################
+- name: Kitchen Bright
+  entities:
+    group.kitchen_overhead_lights:
+      state: on
+      transition: 2
+      brightness: 191
+      color_temp: 285
+    group.kitchen_island_lights:
+      state: on
+      transition: 2
+      brightness: 128
+      color_temp: 285
+
+- name: Kitchen Bright at Night
+  entities:
+    group.kitchen_overhead_lights:
+      state: on
+      transition: 2
+      brightness: 153
+      color_temp: 285
+    group.kitchen_island_lights:
+      state: on
+      transition: 2
+      brightness: 51
+      color_temp: 285
+
+# Timed Scenes ###############################################
+- name: Kitchen Bright at Sunset Slow
+  entities:
+    group.kitchen_overhead_lights:
+      state: on
+      transition: 600
+      brightness: 128
+      color_temp: 312
+    group.kitchen_island_lights:
+      state: on
+      transition: 600
+      brightness: 30
+      color_temp: 312
+- name: Kitchen Bright at Night Slow
+  entities:
+    group.kitchen_overhead_lights:
+      state: on
+      transition: 300
+      brightness: 153
+      color_temp: 285
+    group.kitchen_island_lights:
+      state: on
+      transition: 300
+      brightness: 51
+      color_temp: 285
+
+# Dim Scenes #################################################
+- name: Kitchen Dim
+  entities:
+    group.kitchen_overhead_lights:
+      state: on
+      transition: 2
+      brightness: 77
+      color_temp: 285
+    group.kitchen_island_lights:
+      state: on
+      transition: 2
+      brightness: 36
+      color_temp: 285
+
+- name: Kitchen Dim at Night
+  entities:
+    group.kitchen_overhead_lights:
+      state: on
+      transition: 2
+      brightness: 51
+      color_temp: 285
+    group.kitchen_island_lights:
+      state: on
+      transition: 2
+      brightness: 20
+      color_temp: 285
+
+# Prep Scenes #################################################
+- name: Kitchen Prep
+  entities:
+    group.kitchen_overhead_lights:
+      state: on
+      transition: 2
+      brightness: 191
+      color_temp: 285
+    group.kitchen_island_lights:
+      state: on
+      transition: 2
+      brightness: 166
+      color_temp: 285
+
+- name: Kitchen Prep at Night
+  entities:
+    group.kitchen_overhead_lights:
+      state: on
+      transition: 2
+      brightness: 153
+      color_temp: 285
+    group.kitchen_island_lights:
+      state: on
+      transition: 2
+      brightness: 150
+      color_temp: 285
+
+
+##############################################################
+# Living Room
+##############################################################
+
+# Bright Scenes #############################################
+- name: Living Room Bright
+  entities:
+    group.living_room_lights:
+      state: on
+      transition: 2
+      brightness: 191
+      color_temp: 285
+
+- name: Living Room Bright at Night
+  entities:
+    group.living_room_lights:
+      state: on
+      transition: 2
+      brightness: 153
+      color_temp: 285
+
+# Dim Scenes #############################################
+- name: Living Room Dim
+  entities:
+    group.living_room_lights:
+      state: on
+      transition: 2
+      brightness: 115
+      color_temp: 285
+
+- name: Living Room Dim at Night
+  entities:
+    group.living_room_lights:
+      state: on
+      transition: 2
+      brightness: 102
+      color_temp: 285
+
+
+##############################################################
+# Bedroom
+##############################################################
+
+# Bright Scenes #############################################
+- name: Bedroom Bright
+  entities:
+    group.bedroom_lights:
+      state: on
+      transition: 2
+      brightness: 204
+      color_temp: 285
+
+- name: Bedroom Bright at Night
+  entities:
+    group.bedroom_lights:
+      state: on
+      transition: 2
+      brightness: 191
+      color_temp: 285
+
+# Dim Scenes #################################################
+- name: Bedroom Dim
+  entities:
+    group.bedroom_lights:
+      state: on
+      transition: 2
+      brightness: 76
+      color_temp: 285
+
+- name: Bedroom Dim at Night
+  entities:
+    group.bedroom_lights:
+      state: on
+      transition: 2
+      brightness: 76
+      color_temp: 285
+
+
+##############################################################
+# Bathroom
+##############################################################
+
+# Bright Scenes ##############################################
+- name: Bathroom Bright
+  entities:
+    group.bathroom_lights:
+      state: on
+      transition: 2
+      brightness: 153
+      color_temp: 285
+
+- name: Bathroom Bright at Night
+  entities:
+    group.bathroom_lights:
+      state: on
+      transition: 2
+      brightness: 141
+      color_temp: 285
+
+# Dim Scenes ##############################################
+- name: Bathroom Dim
+  entities:
+    group.bathroom_lights:
+      state: on
+      transition: 2
+      brightness: 71
+      color_temp: 285
+
+- name: Bathroom Dim at Night
+  entities:
+    group.bathroom_lights:
+      state: on
+      transition: 2
+      brightness: 64
+      color_temp: 285
+
+# Bright Scenes ##############################################
+- name: Bathroom Nightlight
+  entities:
+    group.bathroom_lights:
+      state: on
+      transition: 2
+      brightness: 12
+      color_temp: 285
+
+
+##############################################################
+# Away
+##############################################################
+
+# Furry Overlord Lighting ####################################
+- name: Away Lighting at Night
+  entities:
+    group.kitchen_lights:
+      state: off
+    group.bedroom_lights:
+      state: off
+    group.living_room_lights:
+      state: on
+      transition: 2
+      brightness: 153
+      color_temp: 285

@@ -1,0 +1,23 @@
+# PMS Statistics
+- platform: plex
+  host: !secret pms_host
+  port: !secret pms_port
+  name: !secret pms_name
+  username: !secret plex_username
+  password: !secret plex_password
+  server: !secret pms_server
+
+# iBeacon Bedroom Presence Detection
+- platform: mqtt
+  state_topic: "owntracks/alex/Alex's iPhone/event"
+  name: "Bedroom Presence"
+  value_template: >
+    {% if value_json._type == 'transition' and value_json.desc == '-bedroom' %}
+      {% if value_json.event == 'enter' %}
+        occupied
+      {% else %}
+        unoccupied
+      {% endif %}
+    {% else %}
+      unknown
+    {% endif %}

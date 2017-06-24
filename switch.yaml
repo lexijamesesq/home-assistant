@@ -1,0 +1,51 @@
+# Kitchen ####################################################
+- platform: template
+  switches:
+    kitchen_lights:
+      friendly_name: 'Kitchen Lights'
+      value_template: "{{ is_state('group.kitchen_lights', 'on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.scene_select_by_time_kitchen
+      turn_off:
+        service: homeassistant.turn_off
+        entity_id: group.kitchen_lights
+
+# Bathroom ####################################################
+- platform: template
+  switches:
+    bathroom_lights:
+      friendly_name: 'Bathroom Lights'
+      value_template: "{{ is_state('group.bathroom_lights', 'on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.scene_select_by_time_bathroom
+      turn_off:
+        service: homeassistant.turn_off
+        entity_id: group.bathroom_lights
+
+# Bedroom ####################################################
+- platform: template
+  switches:
+    bedroom_lights:
+      friendly_name: 'Bedroom Lights'
+      value_template: "{{ is_state('group.bedroom_lights', 'on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.scene_select_by_time_bedroom
+      turn_off:
+        service: homeassistant.turn_off
+        entity_id: group.bedroom_lights
+
+# Living Room ################################################
+- platform: template
+  switches:
+    living_room_lights:
+      friendly_name: 'Living Room Lights'
+      value_template: "{{ is_state('group.living_room_lights', 'on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.scene_select_by_time_living_room
+      turn_off:
+        service: homeassistant.turn_off
+        entity_id: group.living_room_lights
