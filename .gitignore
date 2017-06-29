@@ -20,6 +20,7 @@ www
 
 .HAVERSION
 .uuid
+gitupdate.sh
 ip_bans.yaml
 known_devices.yaml
 OZW_Log.txt
