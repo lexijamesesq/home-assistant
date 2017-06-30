@@ -21,3 +21,18 @@
     {% else %}
       unknown
     {% endif %}
+
+# Dark Sky Weather
+- platform: darksky
+  api_key: 54378ea5cd65c2fe9af18344559a26c5
+  monitored_conditions:
+    - summary
+    - icon
+    - precip_probability
+    - temperature
+    - temperature_max
+    - temperature_min
+    - humidity
+    - minutely_summary
+    - hourly_summary
+    - daily_summary
