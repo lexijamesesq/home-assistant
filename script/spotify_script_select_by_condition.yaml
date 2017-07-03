@@ -1,0 +1,28 @@
+alias: Spotify Script Select by Condition
+sequence:
+  - service_template: >
+      {% if is_state('media_player.spotify', 'playing') %}
+        homeassistant.turn_on
+      {% else %}
+        homeassistant.turn_off
+      {% endif %}
+    entity_id: input_boolean.spotify_playing
+  - service_template: >
+      {% if is_state_attr('media_player.spotify', 'source', source_requesting) %}
+        homeassistant.turn_off
+      {% else %}
+        homeassistant.turn_on
+      {% endif %}
+    entity_id: input_boolean.spotify_changing_source
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.spotify_playing', 'on') and is_state('input_boolean.spotify_changing_source', 'on') %}
+          script.spotify_changing_source_while_playing
+        {% elif is_state('input_boolean.spotify_changing_source', 'on') %}
+          script.spotify_changing_source
+        {% else %}
+          script.spotify_play_pause
+        {% endif %}
+      variables:
+        source_requesting: "{{ source_requesting }}"

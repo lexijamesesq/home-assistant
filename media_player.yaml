@@ -14,6 +14,10 @@
   login_id: !secret media_player_apple_tv_login_id
   name: !secret media_player_apple_tv_name
 
+- platform: spotify
+  client_id: !secret media_player_spotify_client_id
+  client_secret: !secret media_player_spotify_client_secret
+
 ##############################################################
 # Receivers
 ##############################################################
