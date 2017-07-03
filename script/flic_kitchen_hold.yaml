@@ -1,0 +1,4 @@
+alias: Flic Kitchen Hold
+sequence:
+  - service: script.turn_on
+    entity_id: script.scene_select_kitchen_dim

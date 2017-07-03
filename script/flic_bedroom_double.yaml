@@ -1,0 +1,4 @@
+alias: Flic Bedroom Double
+sequence:
+  - service: switch.toggle
+    entity_id: switch.bedroom_lights

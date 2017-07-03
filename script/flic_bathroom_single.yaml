@@ -1,0 +1,4 @@
+alias: Flic Bathroom Single
+sequence:
+  - service: switch.toggle
+    entity_id: switch.bathroom_lights

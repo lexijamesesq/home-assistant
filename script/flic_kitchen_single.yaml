@@ -1,0 +1,4 @@
+alias: Flic Kitchen Single
+sequence:
+  - service: switch.toggle
+    entity_id: switch.kitchen_lights
