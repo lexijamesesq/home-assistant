@@ -260,6 +260,18 @@ binary_sensor.bathroom_multisensor_sensor:
 binary_sensor.bedroom_multisensor_sensor:
   friendly_name: Bedroom Motion
   device_class: motion
+binary_sensor.flic_80e4da71a9a9:
+  friendly_name: Flic Bedroom
+  hidden: true
+binary_sensor.flic_80e4da719608:
+  friendly_name: Flic Kitchen
+  hidden: true
+binary_sensor.flic_80e4da71960a:
+  friendly_name: Flic Bathroom
+  hidden: true
+binary_sensor.flic_80e4da71a98e:
+  friendly_name: Flic Shower
+  hidden: true
 
 ##############################################################
 # Sensor Entities

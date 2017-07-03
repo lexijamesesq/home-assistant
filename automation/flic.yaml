@@ -1,0 +1,148 @@
+##############################################################
+# Kitchen
+##############################################################
+- alias: Flic Kitchen Single Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da719608
+      click_type: single
+  action:
+    service: script.turn_on
+    entity_id: script.flic_kitchen_single
+    
+- alias: Flic Kitchen Double Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da719608
+      click_type: double
+  action:
+    service: script.turn_on
+    entity_id: script.flic_kitchen_double
+    
+- alias: Flic Kitchen Hold Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da719608
+      click_type: hold
+  action:
+    service: script.turn_on
+    entity_id: script.flic_kitchen_hold
+
+
+##############################################################
+# Living Room
+##############################################################
+
+
+
+##############################################################
+# Bedroom
+##############################################################
+- alias: Flic Bedroom Single Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da71a9a9
+      click_type: single
+  action:
+    service: script.turn_on
+    entity_id: script.flic_bedroom_single
+
+- alias: Flic Bedroom Double Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da71a9a9
+      click_type: double
+  action:
+    service: script.turn_on
+    entity_id: script.flic_bedroom_double
+
+- alias: Flic Bedroom Hold Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da71a9a9
+      click_type: hold
+  action:
+    service: script.turn_on
+    entity_id: script.flic_bedroom_hold
+
+
+##############################################################
+# Bathroom
+##############################################################
+- alias: Flic Bathroom Single Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da71960a
+      click_type: single
+  action:
+    service: script.turn_on
+    entity_id: script.flic_bathroom_single
+
+- alias: Flic Bathroom Double Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da71960a
+      click_type: double
+  action:
+    service: script.turn_on
+    entity_id: script.flic_bathroom_double
+
+- alias: Flic Bathroom Hold Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da71960a
+      click_type: hold
+  action:
+    service: script.turn_on
+    entity_id: script.flic_bathroom_hold
+
+- alias: Flic Shower Single Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da71a98e
+      click_type: single
+  action:
+    service: script.turn_on
+    entity_id: script.flic_shower_single
+
+- alias: Flic Shower Double Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da71a98e
+      click_type: double
+  action:
+    service: script.turn_on
+    entity_id: script.flic_shower_double
+
+- alias: Flic Shower Hold Action
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da71a98e
+      click_type: hold
+  action:
+    service: script.turn_on
+    entity_id: script.flic_shower_hold

@@ -31,3 +31,11 @@ motion_trigger_bedroom_lights:
   name: Bedroom Lights Triggered by Motion
 motion_trigger_bathroom_lights:
   name: Bathroom Lights Triggered by Motion
+
+##############################################################
+# Media Players
+##############################################################
+spotify_changing_source:
+  name: Spotify Changing Source
+spotify_playing:
+  name: Spotify Playing

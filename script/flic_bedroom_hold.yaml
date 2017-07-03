@@ -1,0 +1,4 @@
+alias: Flic Bedroom Hold
+sequence:
+  - service: switch.toggle
+    entity_id: switch.bedroom_lights
