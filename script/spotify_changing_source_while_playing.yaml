@@ -1,0 +1,14 @@
+alias: Spotify Changing Source While Playing
+sequence:
+  - service: media_player.select_source
+    data_template:
+      entity_id: media_player.spotify
+      source: "{{ source_requesting }}"
+  - service: media_player.shuffle_set
+    data:
+      entity_id: media_player.spotify
+      shuffle: true
+  - service: homeassistant.turn_off
+    entity_id:
+      - input_boolean.spotify_changing_source
+      - input_boolean.spotify_playing
