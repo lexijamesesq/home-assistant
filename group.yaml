@@ -1,4 +1,222 @@
 ##############################################################
+# Custom Cards
+##############################################################
+
+card_home_inside:
+  name: Inside
+  entities:
+    - sensor.temp_average
+    - sensor.humidity_average
+    - sensor.guests_present
+    - device_tracker.alex_alexs_iphone
+    - device_tracker.beacon_octavia
+
+card_home_outside:
+  name: Outside
+  entities:
+    - sensor.dark_sky_temperature
+    - sensor.dark_sky_daily_high_temperature
+    - sensor.dark_sky_daily_low_temperature
+    - sensor.dark_sky_humidity
+    - sensor.dark_sky_precip_probability
+
+card_home_bathroom:
+  name: Bathroom
+  control: hidden
+  entities:
+    - switch.bathroom_lights
+    - input_select.select_scene_bathroom
+
+card_home_bedroom:
+  name: Bedroom
+  control: hidden
+  entities:
+    - switch.bedroom_lights
+    - input_boolean.trigger_sleep_mode
+    - input_select.select_scene_bedroom
+
+card_home_kitchen:
+  name: Kitchen
+  control: hidden
+  entities:
+    - switch.kitchen_lights
+    - input_select.select_scene_kitchen
+
+card_home_living_room:
+  name: Living Room
+  control: hidden
+  entities:
+    - switch.living_room_lights
+    - input_select.select_scene_living_room
+
+card_bathroom_overview:
+  name: Bathroom
+  entities:
+    - sensor.bathroom_multisensor_temperature
+    - sensor.bathroom_multisensor_relative_humidity
+    - sensor.bathroom_multisensor_luminance
+    - binary_sensor.bathroom_multisensor_sensor
+
+card_bathroom_lights:
+  name: Lights
+  control: hidden
+  entities:
+    - switch.bathroom_lights
+    - group.bathroom_vanity_lights
+    - group.bathroom_overhead_lights
+    - input_select.select_scene_bathroom
+
+card_bedroom_overview:
+  name: Bedroom
+  entities:
+    - sensor.bedroom_multisensor_temperature
+    - sensor.bedroom_multisensor_relative_humidity
+    - sensor.bedroom_multisensor_luminance
+    - binary_sensor.bedroom_multisensor_sensor
+    - input_boolean.trigger_sleep_mode
+
+card_bedroom_lights:
+  name: Lights
+  control: hidden
+  entities:
+    - switch.bedroom_lights
+    - input_select.select_scene_bedroom
+
+card_kitchen_overview:
+  name: Kitchen
+  entities:
+    - sensor.kitchen_multisensor_temperature
+    - sensor.kitchen_multisensor_relative_humidity
+    - sensor.kitchen_multisensor_luminance
+    - binary_sensor.kitchen_multisensor_sensor
+
+card_kitchen_lights:
+  name: Lights
+  control: hidden
+  entities:
+    - switch.kitchen_lights
+    - group.kitchen_overhead_lights
+    - group.kitchen_island_lights
+    - input_select.select_scene_kitchen
+
+card_living_room_overview:
+  name: Living Room
+  entities:
+    - sensor.living_room_multisensor_temperature
+    - sensor.living_room_multisensor_relative_humidity
+    - sensor.living_room_multisensor_luminance
+    - binary_sensor.living_room_multisensor_sensor
+
+card_living_room_lights:
+  name: Lights
+  control: hidden
+  entities:
+    - switch.living_room_lights
+    - input_select.select_scene_living_room
+
+card_zwave_devices:
+  name: Zwave
+  entities:
+    - zwave.bathroom_multisensor
+    - zwave.bedroom_multisensor
+    - zwave.kitchen_multisensor
+    - zwave.living_room_multisensor
+    - zwave.zstick
+
+card_battery_level:
+  name: Battery Level
+  entities:
+    - sensor.battery_bathroom_multisensor
+    - sensor.battery_bedroom_multisensor
+    - sensor.battery_Kitchen_multisensor
+    - sensor.battery_living_room_multisensor
+    - sensor.battery_alex_iphone
+
+
+##############################################################
+# Views
+##############################################################
+
+default_view:
+  name: Home
+  icon: mdi:home-assistant
+  view: yes
+  entities:
+    - device_tracker.alex_alexs_iphone
+    - device_tracker.beacon_octavia
+    - group.card_home_inside
+    - group.card_home_outside
+    - group.card_home_bathroom
+    - group.card_home_bedroom
+    - group.card_home_kitchen
+    - group.card_home_living_room
+
+view_bathroom:
+  name: Bathroom
+  icon: mdi:duck
+  view: yes
+  entities:
+    - group.card_bathroom_overview
+    - group.card_bathroom_lights
+    - media_player.spotify
+
+view_bedroom:
+  name: Bedroom
+  icon: mdi:hotel
+  view: yes
+  entities:
+    - group.card_bedroom_overview
+    - group.card_bedroom_lights
+    - media_player.plex_alex_bussas_ipad_mini
+
+view_kitchen:
+  name: Kitchen
+  icon: mdi:fridge
+  view: yes
+  entities:
+    - group.card_kitchen_overview
+    - group.card_kitchen_lights
+
+view_living_room:
+  name: Living Room
+  icon: mdi:sofa
+  view: yes
+  entities:
+    - group.card_living_room_overview
+    - binary_sensor.living_room_multisensor_sensor
+    - group.card_living_room_lights
+    - media_player.living_room_apple_tv
+
+view_lights:
+  name: Lights
+  icon: mdi:lightbulb-outline
+  view: yes
+  entities:
+    - group.bedroom_lights
+    - group.bathroom_vanity_lights
+    - group.bathroom_overhead_lights
+    - group.kitchen_overhead_lights
+    - group.kitchen_island_lights
+    - group.living_room_lights
+
+view_scripts:
+  name: Scripts
+  icon: mdi:script
+  view: yes
+  entities:
+    - group.all_automations
+    - group.all_scripts
+
+view_system_health:
+  name: System Health
+  icon: mdi:heart-pulse
+  view: yes
+  entities:
+    - group.card_battery_level
+    - group.card_zwave_devices
+
+
+##############################################################
 # Lights
 ##############################################################
 
@@ -64,3 +282,10 @@ motion_guest_areas:
     - input_boolean.motion_living_room
     - input_boolean.motion_kitchen
     - input_boolean.motion_bathroom
+
+##############################################################
+# Custom
+##############################################################
+
+
+
