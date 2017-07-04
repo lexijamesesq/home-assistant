@@ -1,0 +1,41 @@
+select_scene_bedroom:
+    name: Scene
+    icon: mdi:chart-bubble
+    initial: Select a scene...
+    options:
+     - Select a scene...
+     - Auto
+     - Bright
+     - Dim
+
+select_scene_bathroom:
+    name: Scene
+    icon: mdi:chart-bubble
+    initial: Select a scene...
+    options:
+     - Select a scene...
+     - Auto
+     - Bright
+     - Dim
+     - Nightlight
+
+select_scene_kitchen:
+    name: Scene
+    icon: mdi:chart-bubble
+    initial: Select a scene...
+    options:
+     - Select a scene...
+     - Auto
+     - Bright
+     - Dim
+     - Prep
+
+select_scene_living_room:
+    name: Scene
+    icon: mdi:chart-bubble
+    initial: Select a scene...
+    options:
+     - Select a scene...
+     - Auto
+     - Bright
+     - Dim

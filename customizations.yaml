@@ -44,16 +44,22 @@ media_player.denon_avrx4300h:
 # Group Entities
 ##############################################################
 group.all_automations:
+  friendly_name: Automations
+  control: hidden
   emulated_hue: false
   homebridge_hidden: true
+  hidden: false
 group.all_devices:
   emulated_hue: false
   homebridge_hidden: true
 group.all_lights:
   friendly_name: All Lights
 group.all_scripts:
+  friendly_name: Scripts
+  control: hidden
   emulated_hue: false
   homebridge_hidden: true
+  hidden: false
 group.all_switches:
   emulated_hue: false
   homebridge_hidden: true
@@ -284,8 +290,10 @@ sensor.bathroom_multisensor_burglar:
   hidden: true
 sensor.bathroom_multisensor_luminance:
   friendly_name: Bathroom Brightness
+  icon: mdi:brightness-5
 sensor.bathroom_multisensor_relative_humidity:
   friendly_name: Bathroom Humidity
+  icon: mdi:water-percent
 sensor.bathroom_multisensor_sourcenodeid:
   hidden: true
 sensor.bathroom_multisensor_temperature:
@@ -303,8 +311,10 @@ sensor.bedroom_multisensor_burglar:
   hidden: true
 sensor.bedroom_multisensor_luminance:
   friendly_name: Bedroom Brightness
+  icon: mdi:brightness-5
 sensor.bedroom_multisensor_relative_humidity:
   friendly_name: Bedroom Humidity
+  icon: mdi:water-percent
 sensor.bedroom_multisensor_sourcenodeid:
   hidden: true
 sensor.bedroom_multisensor_temperature:
@@ -320,8 +330,10 @@ sensor.kitchen_multisensor_burglar:
   hidden: true
 sensor.kitchen_multisensor_luminance:
   friendly_name: Kitchen Brightness
+  icon: mdi:brightness-5
 sensor.kitchen_multisensor_relative_humidity:
   friendly_name: Kitchen Humidity
+  icon: mdi:water-percent
 sensor.kitchen_multisensor_sourcenodeid:
   hidden: true
 sensor.kitchen_multisensor_temperature:
@@ -337,8 +349,10 @@ sensor.living_room_multisensor_burglar:
   hidden: true
 sensor.living_room_multisensor_luminance:
   friendly_name: Living Room Brightness
+  icon: mdi:brightness-5
 sensor.living_room_multisensor_relative_humidity:
   friendly_name: Living Room Humidity
+  icon: mdi:water-percent
 sensor.living_room_multisensor_sourcenodeid:
   hidden: true
 sensor.living_room_multisensor_temperature:
@@ -346,6 +360,20 @@ sensor.living_room_multisensor_temperature:
 sensor.living_room_multisensor_ultraviolet:
   friendly_name: Living Room UV
   hidden: true
+sensor.humidity_average:
+  icon: mdi:water-percent
+sensor.guests_present:
+  icon: mdi:human-greeting
+sensor.dark_sky_temperature:
+  friendly_name: Temperature
+sensor.dark_sky_daily_high_temperature:
+  friendly_name: High
+sensor.dark_sky_daily_low_temperature:
+  friendly_name: Low
+sensor.dark_sky_humidity:
+  friendly_name: Humidity
+sensor.dark_sky_precip_probability:
+  friendly_name: Chance of Rain
 
 ##############################################################
 # Input Booleans
@@ -369,6 +397,7 @@ input_boolean.trigger_home_theater_mode:
 input_boolean.trigger_night_mode:
   homebridge_hidden: true
 input_boolean.trigger_sleep_mode:
+  icon: mdi:sleep
   homebridge_hidden: true
 input_boolean.trigger_sunset_mode:
   homebridge_hidden: true
