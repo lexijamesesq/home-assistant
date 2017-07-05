@@ -90,6 +90,7 @@ automation: !include_dir_merge_list automation/
 binary_sensor: !include binary_sensor.yaml
 group: !include group.yaml
 input_boolean: !include input_boolean.yaml
+input_slider: !include input_slider.yaml
 input_select: !include input_select.yaml
 media_player: !include media_player.yaml
 scene: !include scene.yaml

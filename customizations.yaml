@@ -214,16 +214,7 @@ script.scene_select_bedroom_bright:
   friendly_name: Bedroom Bright
 script.scene_select_bedroom_dim:
   friendly_name: Bedroom Dim
-script.scene_select_by_time_bathroom:
-  emulated_hue: false
-  homebridge_hidden: true
-script.scene_select_by_time_bedroom:
-  emulated_hue: false
-  homebridge_hidden: true
-script.scene_select_by_time_kitchen:
-  emulated_hue: false
-  homebridge_hidden: true
-script.scene_select_by_time_living_room:
+script.scene_select_by_time:
   emulated_hue: false
   homebridge_hidden: true
 script.scene_select_kitchen_bright:
@@ -401,3 +392,23 @@ input_boolean.trigger_sleep_mode:
   homebridge_hidden: true
 input_boolean.trigger_sunset_mode:
   homebridge_hidden: true
+
+##############################################################
+# Input Select
+##############################################################
+input_slider.bathroom_prefer_dim_after_weekday:
+  icon: mdi:theme-light-dark
+input_slider.bathroom_prefer_dim_after_weekend:
+  icon: mdi:theme-light-dark
+input_slider.bedroom_prefer_dim_after_weekday:
+  icon: mdi:theme-light-dark
+input_slider.bedroom_prefer_dim_after_weekend:
+  icon: mdi:theme-light-dark
+input_slider.kitchen_prefer_dim_after_weekday:
+  icon: mdi:theme-light-dark
+input_slider.kitchen_prefer_dim_after_weekend:
+  icon: mdi:theme-light-dark
+input_slider.living_room_prefer_dim_after_weekday:
+  icon: mdi:theme-light-dark
+input_slider.living_room_prefer_dim_after_weekend:
+  icon: mdi:theme-light-dark
