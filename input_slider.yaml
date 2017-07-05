@@ -1,0 +1,66 @@
+##############################################################
+# Bedroom
+##############################################################
+
+bedroom_prefer_dim_after_weekday:
+  name: Dim After (Weekday)
+  min: 1
+  max: 11
+  step: 1
+
+bedroom_prefer_dim_after_weekend:
+  name: Dim After (Weekend)
+  min: 1
+  max: 11
+  step: 1
+
+
+##############################################################
+# Bathroom
+##############################################################
+
+bathroom_prefer_dim_after_weekday:
+  name: Dim After (Weekday)
+  min: 1
+  max: 11
+  step: 1
+
+bathroom_prefer_dim_after_weekend:
+  name: Dim After (Weekend)
+  min: 1
+  max: 11
+  step: 1
+
+
+##############################################################
+# Kitchen
+##############################################################
+
+kitchen_prefer_dim_after_weekday:
+  name: Dim After (Weekday)
+  min: 1
+  max: 11
+  step: 1
+
+kitchen_prefer_dim_after_weekend:
+  name: Dim After (Weekend)
+  min: 1
+  max: 11
+  step: 1
+
+
+##############################################################
+# Living Room
+##############################################################
+
+living_room_prefer_dim_after_weekday:
+  name: Dim After (Weekday)
+  min: 1
+  max: 11
+  step: 1
+
+living_room_prefer_dim_after_weekend:
+  name: Dim After (Weekend)
+  min: 1
+  max: 11
+  step: 1
