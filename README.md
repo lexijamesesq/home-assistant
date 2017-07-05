@@ -14,7 +14,7 @@ Home Assistant Version: 0.48.0
 * [Denon AVR-X1200W 7.2 Channel AV Receiver](https://www.amazon.com/gp/product/B00ZY7FHXY/)
 * [Denon AVR-X4300H 9.2 Channel AV Receiver](https://www.amazon.com/gp/product/B01KZRPNIQ/)
 * [Estimote Proximity Beacons](https://www.amazon.com/gp/product/B01M7SREI7/) x3
-* [Flic Button](https://flic.io/) x4 *via Flic SDK for Linux*
+* [Flic Bluetooth Smart Button](https://flic.io/) x4 *via Flic SDK for Linux*
 * [LIFX (A19) Wi-Fi Smart LED Light Bulb](https://www.amazon.com/gp/product/B01M7SREI7/) x9 *via Emulated Hue*
 * [LIFX (BR30) Wi-Fi Smart LED Light Bulb](https://www.amazon.com/gp/product/B01KY02MPG/) x5 *via Emulated Hue*
 * [TRENDnet Low Energy Micro Bluetooth 4.0 Class I USB 2.0](https://www.amazon.com/gp/product/B002AQSTXM/)
