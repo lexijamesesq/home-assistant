@@ -34,7 +34,7 @@
 # The hoomans are gone, turn off the lights, but leave one on...
 # Just because I can see in the dark, doesn't mean I want to be in the dark.
 # Turn on Living Room light at night, when no one is home
-- alias: Away Lighting Default
+- alias: Furry Overlord Lighting
   trigger:
     - platform: state
       entity_id: group.all_devices
@@ -42,6 +42,8 @@
     - platform: state
       entity_id: input_boolean.trigger_guest_mode
       to: 'off'
+    - platform: state
+      entity_id: input_boolean.trigger_night_mode
   condition:
     condition: and
     conditions:
