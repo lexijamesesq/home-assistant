@@ -62,6 +62,8 @@ card_bathroom_lights:
   control: hidden
   entities:
     - switch.bathroom_lights
+    - input_slider.bathroom_prefer_dim_after_weekday
+    - input_slider.bathroom_prefer_dim_after_weekend
     - group.bathroom_vanity_lights
     - group.bathroom_overhead_lights
     - input_select.select_scene_bathroom
@@ -80,6 +82,8 @@ card_bedroom_lights:
   control: hidden
   entities:
     - switch.bedroom_lights
+    - input_slider.bedroom_prefer_dim_after_weekday
+    - input_slider.bedroom_prefer_dim_after_weekend
     - input_select.select_scene_bedroom
 
 card_kitchen_overview:
@@ -95,6 +99,8 @@ card_kitchen_lights:
   control: hidden
   entities:
     - switch.kitchen_lights
+    - input_slider.kitchen_prefer_dim_after_weekday
+    - input_slider.kitchen_prefer_dim_after_weekend
     - group.kitchen_overhead_lights
     - group.kitchen_island_lights
     - input_select.select_scene_kitchen
@@ -112,6 +118,8 @@ card_living_room_lights:
   control: hidden
   entities:
     - switch.living_room_lights
+    - input_slider.living_room_prefer_dim_after_weekday
+    - input_slider.living_room_prefer_dim_after_weekend
     - input_select.select_scene_living_room
 
 card_zwave_devices:

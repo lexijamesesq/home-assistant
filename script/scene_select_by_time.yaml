@@ -1,0 +1,16 @@
+alias: Select Scene by Time
+sequence:
+  service: script.turn_on
+  data_template:
+    entity_id: >
+      {% set weekday = (states('input_slider.' ~ room ~ '_prefer_dim_after_weekday') | int) + 12 %}
+      {% set weekend = (states('input_slider.' ~ room ~ '_prefer_dim_after_weekend') | int) + 12 %}
+      {% if (now().strftime("%A") | lower) in ["sunday", "monday", "tuesday", "wednesday", "thursday"] and now().strftime("%H")|int >= weekday %}
+        script.scene_select_{{ room }}_dim
+      {% elif (now().strftime("%A") | lower) in ["friday", "saturday"] and now().strftime("%H")|int >= weekend %}
+        script.scene_select_{{ room }}_dim
+      {% elif now().strftime("%H")|int <= 6 %}
+        script.scene_select_{{ room }}_dim
+      {% else %}
+        script.scene_select_{{ room }}_bright
+      {% endif %}
