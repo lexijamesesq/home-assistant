@@ -1,0 +1,83 @@
+- alias: Select Bedroom Scene
+  trigger:
+    platform: state
+    entity_id: input_select.select_scene_bedroom
+  action:
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state('input_select.select_scene_bedroom', 'Auto') %}
+            script.scene_select_by_time_bedroom
+          {%-elif is_state('input_select.select_scene_bedroom', 'Bright') %}
+            script.scene_select_bedroom_bright
+          {%-elif is_state('input_select.select_scene_bedroom', 'Dim') %}
+            script.scene_select_bedroom_dim
+          {% endif %}
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.select_scene_bedroom
+        option: 'Select a scene...'
+
+- alias: Select Bathroom Scene
+  trigger:
+    platform: state
+    entity_id: input_select.select_scene_Bathroom
+  action:
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state('input_select.select_scene_bathroom', 'Auto') %}
+            script.scene_select_by_time_bathroom
+          {%-elif is_state('input_select.select_scene_bathroom', 'Bright') %}
+            script.scene_select_bathroom_bright
+          {%-elif is_state('input_select.select_scene_bathroom', 'Dim') %}
+            script.scene_select_bathroom_dim
+          {%-elif is_state('input_select.select_scene_bathroom', 'Nightlight') %}
+            script.scene_select_bathroom_nightlight
+          {% endif %}
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.select_scene_bathroom
+        option: 'Select a scene...'
+
+- alias: Select Kitchen Scene
+  trigger:
+    platform: state
+    entity_id: input_select.select_scene_kitchen
+  action:
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state('input_select.select_scene_kitchen', 'Auto') %}
+            script.scene_select_by_time_kitchen
+          {%-elif is_state('input_select.select_scene_kitchen', 'Bright') %}
+            script.scene_select_kitchen_bright
+          {%-elif is_state('input_select.select_scene_kitchen', 'Dim') %}
+            script.scene_select_kitchen_dim
+          {%-elif is_state('input_select.select_scene_kitchen', 'Prep') %}
+            script.scene_select_kitchen_prep
+          {% endif %}
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.select_scene_kitchen
+        option: 'Select a scene...'
+
+- alias: Select Living Room Scene
+  trigger:
+    platform: state
+    entity_id: input_select.select_scene_living_room
+  action:
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state('input_select.select_scene_living_room', 'Auto') %}
+            script.scene_select_by_time_living_room
+          {%-elif is_state('input_select.select_scene_living_room', 'Bright') %}
+            script.scene_select_living_room_bright
+          {%-elif is_state('input_select.select_scene_living_room', 'Dim') %}
+            script.scene_select_living_room_dim
+          {% endif %}
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.select_scene_living_room
+        option: 'Select a scene...'
