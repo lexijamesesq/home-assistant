@@ -1,0 +1,7 @@
+alias: Select Night Home Theater Mode Off Scene
+sequence:
+  - service: homeassistant.turn_on
+    entity_id:
+      - scene.kitchen_bright_at_night_slow
+      - script.scene_select_living_room_ambient
+  - service: shell_command.hyperion_mood_blobs_blue
