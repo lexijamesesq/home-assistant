@@ -1,0 +1,29 @@
+alias: Select Living Room Home Theater Restore Scene
+sequence:
+  # Always turn on fan
+  - service: switch.turn_on
+    entity_id: switch.living_room_fan_switch
+    
+  # Check if lights were on
+  - condition: state
+    entity_id: input_boolean.home_theater_restore_living_room_lights
+    state: 'on'
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.home_theater_restore_living_room_color_loop', 'on') %}
+          script.scene_select_living_room_ambient
+        {% else %}
+          script.scene_select_by_time
+        {% endif %}
+      variables:
+        room: living_room
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.home_theater_restore_living_room_lights
+    
+  # Check if lights were in a color loop
+  - condition: state
+    entity_id: input_boolean.home_theater_restore_living_room_color_loop
+    state: 'on'
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.home_theater_restore_living_room_color_loop

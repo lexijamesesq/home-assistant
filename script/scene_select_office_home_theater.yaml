@@ -1,0 +1,14 @@
+alias: Select Office Home Theater Scene
+sequence:
+  # Only want the office lights if the kitchen lights are on
+  - condition: state
+    entity_id: group.kitchen_lights
+    state: 'on'
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+          scene.office_home_theater_at_night
+        {% else %}
+          scene.office_home_theater
+        {% endif %}

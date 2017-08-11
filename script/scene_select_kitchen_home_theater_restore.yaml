@@ -1,0 +1,16 @@
+alias: Select Kitchen Home Theater Restore Scene
+sequence:
+  # Check if lights were on
+  - condition: state
+    entity_id: input_boolean.home_theater_restore_kitchen_lights
+    state: 'on'
+
+  # Delay to allow Living Room lights to finish using script
+  - delay: '00:00:01'
+  - service: script.turn_on
+    entity_id: script.scene_select_by_time
+    data:
+      variables:
+        room: kitchen
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.home_theater_restore_kitchen_lights
