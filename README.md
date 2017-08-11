@@ -1,7 +1,7 @@
 # Home Assistant
 Example [Home Assistant](https://home-assistant.io/) Configs
 
-Home Assistant Version: 0.48.0
+Home Assistant Version: 0.50.1
 
 # Devices
 * [Aeotec Multisensor 6](https://www.amazon.com/gp/product/B0151Z8ZQY/) x4
