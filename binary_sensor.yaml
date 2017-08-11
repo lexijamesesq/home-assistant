@@ -1,4 +1,6 @@
-- platform: flic
-  host: !secret flic_host
-  port: !secret flic_port
-  discovery: true
+# Using Hax for Mac instead of Linux SDK
+# Reliability became inconsistent
+# - platform: flic
+#   host: !secret flic_host
+#   port: !secret flic_port
+#   discovery: true

@@ -14,7 +14,6 @@ binary_sensor.living_room_thermostat_nest_online:
   hidden: true
 climate.living_room_nest:
   friendly_name: Nest Thermostat
-  homebridge_hidden: true
 sensor.living_room_thermostat_nest_humidity:
   friendly_name: Nest Humidity
 sensor.living_room_thermostat_nest_hvac_state:
@@ -32,13 +31,10 @@ sensor.living_room_thermostat_nest_temperature:
 media_player.plex_apple_tv:
   friendly_name: Plex (Apple TV)
   hidden: true
-  homebridge_hidden: true
 media_player.denon_avrx1200w:
   hidden: true
-  homebridge_hidden: true
 media_player.denon_avrx4300h:
   hidden: true
-  homebridge_hidden: true
 
 ##############################################################
 # Group Entities
@@ -46,187 +42,73 @@ media_player.denon_avrx4300h:
 group.all_automations:
   friendly_name: Automations
   control: hidden
-  emulated_hue: false
-  homebridge_hidden: true
   hidden: false
-group.all_devices:
-  emulated_hue: false
-  homebridge_hidden: true
 group.all_lights:
   friendly_name: All Lights
+  emulated_hue: true
 group.all_scripts:
   friendly_name: Scripts
   control: hidden
-  emulated_hue: false
-  homebridge_hidden: true
   hidden: false
-group.all_switches:
-  emulated_hue: false
-  homebridge_hidden: true
-group.bathroom_lights:
-  emulated_hue: false
-  homebridge_hidden: true
-group.bedroom_lights:
-  emulated_hue: false
-  homebridge_hidden: true
-group.kitchen_lights:
-  emulated_hue: false
-  homebridge_hidden: true
-group.living_room_lights:
-  emulated_hue: false
-  homebridge_hidden: true
-group.kitchen_overhead_lights:
-  emulated_hue: false
-  homebridge_hidden: true
-group.kitchen_island_lights:
-  emulated_hue: false
-  homebridge_hidden: true
-group.motion_guest_areas:
-  emulated_hue: false
-  homebridge_hidden: true
 
 ##############################################################
 # Light Entites
 ##############################################################
-light.overhead_1:
-  emulated_hue: false
-  homebridge_hidden: true
-light.overhead_2:
-  emulated_hue: false
-  homebridge_hidden: true
-light.overhead_3:
-  emulated_hue: false
-  homebridge_hidden: true
-light.overhead_4:
-  emulated_hue: false
-  homebridge_hidden: true
 light.island_1:
   icon: mdi:ceiling-light
-  emulated_hue: false
-  homebridge_hidden: true
 light.island_2:
   icon: mdi:ceiling-light
-  emulated_hue: false
-  homebridge_hidden: true
 light.living_room_1:
   icon: mdi:ceiling-light
-  emulated_hue: false
-  homebridge_hidden: true
 light.bedroom_1:
   icon: mdi:ceiling-light
-  emulated_hue: false
-  homebridge_hidden: true
 light.bedroom_2:
   icon: mdi:ceiling-light
-  emulated_hue: false
-  homebridge_hidden: true
-light.bathroom_1:
-  emulated_hue: false
-  homebridge_hidden: true
-light.bathroom_2:
-  emulated_hue: false
-  homebridge_hidden: true
-light.bathroom_3:
-  emulated_hue: false
-  homebridge_hidden: true
-light.bathroom_4:
-  emulated_hue: false
-  homebridge_hidden: true
+light.office_dimmer_switch_level:
+  friendly_name: Office Overhead Light Bar
+  icon: mdi:spotlight-beam
 
 ##############################################################
 # Scene Entities
 ##############################################################
-scene.away_lighting_at_night:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.bathroom_bright:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.bathroom_bright_at_night:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.bathroom_dim:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.bathroom_dim_at_night:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.bathroom_nightlight:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.bedroom_bright:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.bedroom_bright_at_night:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.bedroom_dim:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.bedroom_dim_at_night:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.kitchen_bright:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.kitchen_bright_at_night:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.kitchen_bright_at_night_slow:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.kitchen_bright_at_sunset_slow:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.kitchen_dim:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.kitchen_dim_at_night:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.kitchen_prep:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.kitchen_prep_at_night:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.living_room_bright:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.living_room_bright_at_night:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.living_room_dim:
-  emulated_hue: false
-  homebridge_hidden: true
-scene.living_room_dim_at_night:
-  emulated_hue: false
-  homebridge_hidden: true
+
 
 ##############################################################
 # Script Entities
 ##############################################################
 script.scene_select_bathroom_bright:
   friendly_name: Bathroom Bright
+  emulated_hue: true
 script.scene_select_bathroom_dim:
   friendly_name: Bathroom Dim
+  emulated_hue: true
 script.scene_select_bedroom_bright:
   friendly_name: Bedroom Bright
+  emulated_hue: true
 script.scene_select_bedroom_dim:
   friendly_name: Bedroom Dim
-script.scene_select_by_time:
-  emulated_hue: false
-  homebridge_hidden: true
+  emulated_hue: true
 script.scene_select_kitchen_bright:
   friendly_name: Kitchen Bright
+  emulated_hue: true
 script.scene_select_kitchen_dim:
   friendly_name: Kitchen Dim
+  emulated_hue: true
 script.scene_select_kitchen_prep:
   friendly_name: Kitchen Prep
+  emulated_hue: true
 script.scene_select_living_room_bright:
   friendly_name: Living Room Bright
+  emulated_hue: true
 script.scene_select_living_room_dim:
   friendly_name: Living Room Dim
+  emulated_hue: true
+script.scene_select_office_bright:
+  friendly_name: Office Bright
+  emulated_hue: true
+script.scene_select_office_dim:
+  friendly_name: Office Dim
+  emulated_hue: true
 
 ##############################################################
 # Z-Wave Entities
@@ -281,7 +163,7 @@ sensor.bathroom_multisensor_burglar:
   hidden: true
 sensor.bathroom_multisensor_luminance:
   friendly_name: Bathroom Brightness
-  icon: mdi:brightness-5
+  icon: mdi:weather-sunny
 sensor.bathroom_multisensor_relative_humidity:
   friendly_name: Bathroom Humidity
   icon: mdi:water-percent
@@ -302,7 +184,7 @@ sensor.bedroom_multisensor_burglar:
   hidden: true
 sensor.bedroom_multisensor_luminance:
   friendly_name: Bedroom Brightness
-  icon: mdi:brightness-5
+  icon: mdi:weather-sunny
 sensor.bedroom_multisensor_relative_humidity:
   friendly_name: Bedroom Humidity
   icon: mdi:water-percent
@@ -321,7 +203,7 @@ sensor.kitchen_multisensor_burglar:
   hidden: true
 sensor.kitchen_multisensor_luminance:
   friendly_name: Kitchen Brightness
-  icon: mdi:brightness-5
+  icon: mdi:weather-sunny
 sensor.kitchen_multisensor_relative_humidity:
   friendly_name: Kitchen Humidity
   icon: mdi:water-percent
@@ -340,7 +222,7 @@ sensor.living_room_multisensor_burglar:
   hidden: true
 sensor.living_room_multisensor_luminance:
   friendly_name: Living Room Brightness
-  icon: mdi:brightness-5
+  icon: mdi:weather-sunny
 sensor.living_room_multisensor_relative_humidity:
   friendly_name: Living Room Humidity
   icon: mdi:water-percent
@@ -369,29 +251,18 @@ sensor.dark_sky_precip_probability:
 ##############################################################
 # Input Booleans
 ##############################################################
-input_boolean.motion_bathroom:
-  homebridge_hidden: true
-input_boolean.motion_bedroom:
-  homebridge_hidden: true
-input_boolean.motion_kitchen:
-  homebridge_hidden: true
-input_boolean.motion_living_room:
-  homebridge_hidden: true
-input_boolean.motion_trigger_bathroom_lights:
-  homebridge_hidden: true
-input_boolean.motion_trigger_bedroom_lights:
-  homebridge_hidden: true
 input_boolean.trigger_guest_mode:
-  homebridge_hidden: true
+  emulated_hue: true
 input_boolean.trigger_home_theater_mode:
-  homebridge_hidden: true
+  icon: mdi:theater
+  emulated_hue: true
 input_boolean.trigger_night_mode:
-  homebridge_hidden: true
+  icon: mdi:weather-night
 input_boolean.trigger_sleep_mode:
   icon: mdi:sleep
-  homebridge_hidden: true
+  emulated_hue: true
 input_boolean.trigger_sunset_mode:
-  homebridge_hidden: true
+  icon: mdi:weather-sunset
 
 ##############################################################
 # Input Select
@@ -412,3 +283,21 @@ input_slider.living_room_prefer_dim_after_weekday:
   icon: mdi:theme-light-dark
 input_slider.living_room_prefer_dim_after_weekend:
   icon: mdi:theme-light-dark
+
+##############################################################
+# Switches
+##############################################################
+switch.bathroom_lights:
+  emulated_hue: true
+switch.bedroom_lights:
+  emulated_hue: true
+switch.kitchen_lights:
+  emulated_hue: true
+switch.living_room_fan_switch:
+  friendly_name: Living Room Fan
+  icon: mdi:fan
+  emulated_hue: true
+switch.living_room_lights:
+  emulated_hue: true
+switch.office_lights:
+  emulated_hue: true

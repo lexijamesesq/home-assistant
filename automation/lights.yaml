@@ -6,7 +6,7 @@
 - alias: Welcome Lighting at Night
   trigger:
     platform: state
-    entity_id: group.all_devices
+    entity_id: device_tracker.alex_alexs_iphone
     to: 'home'
   condition:
     condition: and
@@ -15,16 +15,24 @@
         entity_id: input_boolean.trigger_night_mode
         state: 'on'
       - condition: state
-        entity_id: group.kitchen_overhead_lights
-        state: 'off'
-      - condition: state
-        entity_id: group.kitchen_island_lights
+        entity_id: group.kitchen_lights
         state: 'off'
   action:
-    service: scene.turn_on
-    entity_id:
-      - scene.kitchen_bright_at_night
-      - scene.living_room_bright_at_night
+    - service: shell_command.hyperion_mood_blobs_blue
+    - service: script.turn_on
+      entity_id: script.scene_select_by_time
+      data:
+        variables:
+          room: living_room
+    - delay: '00:00:01'
+    - service: script.turn_on
+      entity_id: script.scene_select_by_time
+      data:
+        variables:
+          room: kitchen
+    - delay: '00:03:00'
+    - service: script.turn_on
+      entity_id: script.scene_select_living_room_ambient
 
 ##############################################################
 # Presence Events - Away
@@ -33,11 +41,11 @@
 # Furry Overlord Lighting ####################################
 # The hoomans are gone, turn off the lights, but leave one on...
 # Just because I can see in the dark, doesn't mean I want to be in the dark.
-# Turn on Living Room light at night, when no one is home
-- alias: Furry Overlord Lighting
+# Turn on Living Room light at night, when no one is home, if it's before 11:00pm
+- alias: Start Furry Overlord Lighting
   trigger:
     - platform: state
-      entity_id: group.all_devices
+      entity_id: device_tracker.alex_alexs_iphone
       to: 'not_home'
     - platform: state
       entity_id: input_boolean.trigger_guest_mode
@@ -51,16 +59,40 @@
         entity_id: input_boolean.trigger_night_mode
         state: 'on'
       - condition: state
-        entity_id: group.all_devices
+        entity_id: device_tracker.alex_alexs_iphone
         state: 'not_home'
       - condition: state
         entity_id: input_boolean.trigger_guest_mode
         state: 'off'
+      - condition: time
+        before: '23:00:00'
   action:
     service: scene.turn_on
     entity_id: scene.away_lighting_at_night
+# Turn off lighting between 2:02am and 2:55am
+- alias: End Furry Overlord Lighting
+  trigger:
+    - platform: time
+      at: '02:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.alex_alexs_iphone
+        state: 'not_home'
+      - condition: state
+        entity_id: input_boolean.trigger_guest_mode
+        state: 'off'
+      - condition: state
+        entity_id: group.living_room_lights
+        state: 'off'
+  action:
+    - delay: '00:{{ (range(2, 55) | random) }}:00'
+    - service: light.turn_off
+      entity_id: group.living_room_lights
 
 # Simulate Presence ##########################################
+# Simulate presence between 5:00pm and 3:00am, Night Mode determines actual start time
 # Turn on the kitchen lights when no one is home
 # Lights turn on a random time after one one is home
 # Lights stay on for a random length of time
@@ -68,7 +100,7 @@
 - alias: Simulate Presence at Night
   trigger:
     - platform: state
-      entity_id: group.all_devices
+      entity_id: device_tracker.alex_alexs_iphone
       to: 'not_home'
       for:
         minutes: 20
@@ -89,11 +121,17 @@
         entity_id: input_boolean.trigger_night_mode
         state: 'on'
       - condition: state
-        entity_id: group.all_devices
+        entity_id: device_tracker.alex_alexs_iphone
         state: 'not_home'
       - condition: state
         entity_id: input_boolean.trigger_guest_mode
         state: 'off'
+      - condition: or
+        conditions:
+          - condition: time
+            after: '17:00:00'
+          - condition: time
+            before: '03:00:00'
   action:
     - service: scene.turn_on
       entity_id: scene.kitchen_dim_at_night
@@ -107,7 +145,7 @@
 # Timed Events - Home
 ##############################################################
 
-# Kitchen Lights at Sunset ###################################
+# Lights at Sunset ###########################################
 - alias: Sunset Lighting Slow
   trigger:
     platform: state
@@ -126,8 +164,14 @@
         entity_id: device_tracker.alex_alexs_iphone
         state: 'home'
   action:
-    service: scene.turn_on
-    entity_id: scene.kitchen_bright_at_sunset_slow
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state('input_boolean.trigger_home_theater_mode', 'on') %}
+            script.scene_select_sunset_home_theater_mode_on
+          {% else %}
+            script.scene_select_sunset_home_theater_mode_off
+          {% endif %}
 
 # Kitchen Lights After Sunset ################################
 - alias: Night Lighting Default Slow
@@ -144,10 +188,18 @@
       - condition: state
         entity_id: group.kitchen_island_lights
         state: 'on'
+      - condition: state
+        entity_id: device_tracker.alex_alexs_iphone
+        state: 'home'
   action:
-    service: scene.turn_on
-    entity_id: scene.kitchen_bright_at_night_slow
-
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state('input_boolean.trigger_home_theater_mode', 'on') %}
+            script.scene_select_night_home_theater_mode_on
+          {% else %}
+            script.scene_select_night_home_theater_mode_off
+          {% endif %}
 
 ##############################################################
 # Timed Events - Away
@@ -164,7 +216,7 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: group.all_devices
+        entity_id: device_tracker.alex_alexs_iphone
         state: 'not_home'
       - condition: state
         entity_id: input_boolean.trigger_guest_mode
@@ -209,7 +261,13 @@
             below: 5.0
   action:
     - service: script.turn_on
-      entity_id: script.scene_select_bathroom_dim
+      data_template:
+        entity_id: >
+          {% if is_state('input_boolean.trigger_sleep_mode', 'off') %}
+            script.scene_select_bathroom_dim
+          {% else %}
+            script.scene_select_bathroom_nightlight
+          {% endif %}
       data:
         variables:
           motion_trigger: true
@@ -334,7 +392,7 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: group.all_devices
+        entity_id: device_tracker.alex_alexs_iphone
         state: 'not_home'
       - condition: state
         entity_id: input_boolean.trigger_night_mode
@@ -357,7 +415,7 @@
     to: 'off'
   condition:
     condition: state
-    entity_id: group.all_devices
+    entity_id: device_tracker.alex_alexs_iphone
     state: 'not_home'
   action:
     service: light.turn_off
@@ -368,7 +426,39 @@
 # Events - Home
 ##############################################################
 
-# Turn Off Lights w Plex in Sleep Mode #######################
+# Dim Lights While Watching Plex on Apple TV #################
+- alias: Enable Home Theater Scene Durring Night
+  trigger:
+    platform: state
+    entity_id: input_boolean.trigger_home_theater_mode
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_night_mode
+        state: 'on'
+  action:
+    service: script.turn_on
+    entity_id: script.scene_select_home_theater_mode_on
+- alias: Restore Post Home Theater Scene Durring Night
+  trigger:
+    platform: state
+    entity_id: input_boolean.trigger_home_theater_mode
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_night_mode
+        state: 'on'
+  action:
+    service: script.turn_on
+    entity_id: script.scene_select_home_theater_mode_off
+
+# Turn Off Lights While Watching Plex in Sleep Mode ##########
 - alias: Sleep Mode Lights Out Plex
   trigger:
     platform: state
@@ -378,7 +468,7 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: group.all_devices
+        entity_id: device_tracker.alex_alexs_iphone
         state: 'home'
       - condition: state
         entity_id: input_boolean.trigger_sleep_mode
@@ -387,5 +477,64 @@
         entity_id: group.bedroom_lights
         state: 'on'
   action:
-    service: light.turn_off
-    entity_id: group.bedroom_lights
+    service: scene.turn_on
+    entity_id: scene.bedroom_bedtime_fade_out
+
+
+##############################################################
+# Color Loops
+##############################################################
+
+# Kitchen Overhead Lights ####################################
+- alias: Continue Color Loop Kitchen Overhead Lights
+  trigger:
+    - platform: state
+      entity_id: input_boolean.color_loop_kitchen_overhead
+      to: 'on'
+    - platform: event
+      event_type: event_color_loop_kitchen_overhead
+  condition:
+    condition: state
+    entity_id: input_boolean.color_loop_kitchen_overhead
+    state: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.scene_select_color_loop_kitchen_overhead
+    - delay: '00:00:{{ (range(2, 10) | random) }}'
+    - event: event_color_loop_kitchen_overhead
+
+# Bedroom Lights #############################################
+- alias: Continue Color Loop Bedroom Lights
+  trigger:
+    - platform: state
+      entity_id: input_boolean.color_loop_bedroom
+      to: 'on'
+    - platform: event
+      event_type: event_color_loop_bedroom
+  condition:
+    condition: state
+    entity_id: input_boolean.color_loop_bedroom
+    state: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.scene_select_color_loop_bedroom
+    - delay: '00:00:{{ (range(2, 10) | random) }}'
+    - event: event_color_loop_bedroom
+
+# Living Room Lights #########################################
+- alias: Continue Color Loop Living Room Lights
+  trigger:
+    - platform: state
+      entity_id: input_boolean.color_loop_living_room
+      to: 'on'
+    - platform: event
+      event_type: event_color_loop_Living_room
+  condition:
+    condition: state
+    entity_id: input_boolean.color_loop_living_room
+    state: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.color_loop_living_room_trigger
+    - delay: '00:00:{{ (range(50, 120) | random) }}'
+    - event: event_color_loop_Living_room
