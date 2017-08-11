@@ -1,0 +1,40 @@
+- alias: Select AmbiScreen Effect
+  trigger:
+    platform: state
+    entity_id: input_select.hyperion_effect
+  condition:
+    condition: template
+    value_template: '{{ states.input_select.hyperion_effect.state != "Select an effect..." }}'
+  action:
+    - service_template: >
+        {% if is_state('input_select.hyperion_effect', 'Off') %}
+          shell_command.hyperion_off
+        {%-elif is_state('input_select.hyperion_effect', 'HDMI') %}
+          shell_command.hyperion_hdmi
+        {%-elif is_state('input_select.hyperion_effect', 'Plex Playing') %}
+          shell_command.hyperion_plex_playing
+        {%-elif is_state('input_select.hyperion_effect', 'Knight Rider') %}
+          shell_command.hyperion_knight_rider
+        {%-elif is_state('input_select.hyperion_effect', 'Mood Blobs Blue') %}
+          shell_command.hyperion_mood_blobs_blue
+        {%-elif is_state('input_select.hyperion_effect', 'Mood Blobs Cold') %}
+          shell_command.hyperion_mood_blobs_cold
+        {%-elif is_state('input_select.hyperion_effect', 'Mood Blobs Full Color') %}
+          shell_command.hyperion_mood_blobs_full_color
+        {%-elif is_state('input_select.hyperion_effect', 'Mood Blobs Green') %}
+          shell_command.hyperion_mood_blobs_green
+        {%-elif is_state('input_select.hyperion_effect', 'Mood Blobs Red') %}
+          shell_command.hyperion_mood_blobs_red
+        {%-elif is_state('input_select.hyperion_effect', 'Mood Blobs Warm') %}
+          shell_command.hyperion_mood_blobs_warm
+        {%-elif is_state('input_select.hyperion_effect', 'Rainbow Swirl') %}
+          shell_command.hyperion_rainbow_swirl
+        {%-elif is_state('input_select.hyperion_effect', 'Rainbow Swirl Fast') %}
+          shell_command.hyperion_rainbow_swirl_fast
+        {%-elif is_state('input_select.hyperion_effect', 'Color Traces') %}
+          shell_command.hyperion_color_traces
+        {% endif %}
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.hyperion_effect
+        option: "Select an effect..."
