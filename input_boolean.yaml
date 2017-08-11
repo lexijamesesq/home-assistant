@@ -39,3 +39,19 @@ spotify_changing_source:
   name: Spotify Changing Source
 spotify_playing:
   name: Spotify Playing
+home_theater_restore_kitchen_lights:
+  name: Home Theater Restore Kitchen Lights
+home_theater_restore_living_room_lights:
+  name: Home Theater Restore Living Room Lights
+home_theater_restore_living_room_color_loop:
+  name: Home Theater Restore Living Room Color Loop
+
+##############################################################
+# Color Loops
+##############################################################
+color_loop_kitchen_overhead:
+  name: Kitchen Overhead Color Loop
+color_loop_bedroom:
+  name: Bedroom Color Loop
+color_loop_living_room:
+  name: Living Room Color Loop
