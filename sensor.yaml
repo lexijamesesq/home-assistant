@@ -47,12 +47,20 @@
       friendly_name: 'Average Temperature'
       unit_of_measurement: "°F"
       value_template: >
-        {{ ((float(states.sensor.bathroom_multisensor_temperature.state) + float(states.sensor.kitchen_multisensor_temperature.state) + float(states.sensor.living_room_multisensor_temperature.state) + float(states.sensor.living_room_thermostat_nest_temperature.state)) / 4) | round(1) }}
+        {% if states.sensor.bathroom_multisensor_temperature.state is defined and states.sensor.kitchen_multisensor_temperature.state is defined and states.sensor.living_room_multisensor_temperature.state is defined and states.sensor.living_room_thermostat_nest_temperature.state is defined %}
+          {{ ((float(states.sensor.bathroom_multisensor_temperature.state) + float(states.sensor.kitchen_multisensor_temperature.state) + float(states.sensor.living_room_multisensor_temperature.state) + float(states.sensor.living_room_thermostat_nest_temperature.state)) / 4) | round(1) }}
+        {% else %}
+          unknown
+        {% endif %}
     humidity_average:
       friendly_name: 'Average Humidity'
       unit_of_measurement: "%"
       value_template: >
-        {{ ((float(states.sensor.bathroom_multisensor_relative_humidity.state) + float(states.sensor.kitchen_multisensor_relative_humidity.state) + float(states.sensor.living_room_multisensor_relative_humidity.state) + float(states.sensor.living_room_thermostat_nest_humidity.state)) / 4) | round(1) }}
+        {% if states.sensor.bathroom_multisensor_relative_humidity.state is defined and states.sensor.kitchen_multisensor_relative_humidity.state is defined and states.sensor.living_room_multisensor_relative_humidity.state is defined and states.sensor.living_room_thermostat_nest_humidity.state is defined %}
+          {{ ((float(states.sensor.bathroom_multisensor_relative_humidity.state) + float(states.sensor.kitchen_multisensor_relative_humidity.state) + float(states.sensor.living_room_multisensor_relative_humidity.state) + float(states.sensor.living_room_thermostat_nest_humidity.state)) / 4) | round(1) }}
+        {% else %}
+          unknown
+        {% endif %}
     guests_present:
       friendly_name: 'Guests'
       value_template: >
@@ -71,14 +79,18 @@
       value_template: >
         {{ states.zwave.bathroom_multisensor.attributes.battery_level }}
       icon_template: >
-        {% set level = states.zwave.bathroom_multisensor.attributes.battery_level %}
-        {% if level | float == 100 %}
-          mdi:battery
-        {% elif level | float < 10 %}
-          mdi:battery-outline
+        {% if states.zwave.bathroom_multisensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.bathroom_multisensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
         {% else %}
-          {% set icon_level = (level / 10) | int * 10 %}
-          mdi:battery-{{ icon_level }}
+          mdi:battery
         {% endif %}
     battery_bedroom_multisensor:
       friendly_name: 'Bedroom MultiSensor'
@@ -86,14 +98,18 @@
       value_template: >
         {{ states.zwave.bedroom_multisensor.attributes.battery_level }}
       icon_template: >
-        {% set level = states.zwave.bedroom_multisensor.attributes.battery_level %}
-        {% if level | float == 100 %}
-          mdi:battery
-        {% elif level | float < 10 %}
-          mdi:battery-outline
+        {% if states.zwave.bedroom_multisensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.bedroom_multisensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
         {% else %}
-          {% set icon_level = (level / 10) | int * 10 %}
-          mdi:battery-{{ icon_level }}
+          mdi:battery
         {% endif %}
     battery_kitchen_multisensor:
       friendly_name: 'Kitchen MultiSensor'
@@ -101,14 +117,18 @@
       value_template: >
         {{ states.zwave.kitchen_multisensor.attributes.battery_level }}
       icon_template: >
-        {% set level = states.zwave.kitchen_multisensor.attributes.battery_level %}
-        {% if level | float == 100 %}
-          mdi:battery
-        {% elif level | float < 10 %}
-          mdi:battery-outline
+        {% if states.zwave.kitchen_multisensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.kitchen_multisensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
         {% else %}
-          {% set icon_level = (level / 10) | int * 10 %}
-          mdi:battery-{{ icon_level }}
+          mdi:battery
         {% endif %}
     battery_living_room_multisensor:
       friendly_name: 'Living Room MultiSensor'
@@ -116,14 +136,18 @@
       value_template: >
         {{ states.zwave.living_room_multisensor.attributes.battery_level }}
       icon_template: >
-        {% set level = states.zwave.living_room_multisensor.attributes.battery_level %}
-        {% if level | float == 100 %}
-          mdi:battery
-        {% elif level | float < 10 %}
-          mdi:battery-outline
+        {% if states.zwave.living_room_multisensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.living_room_multisensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
         {% else %}
-          {% set icon_level = (level / 10) | int * 10 %}
-          mdi:battery-{{ icon_level }}
+          mdi:battery
         {% endif %}
     battery_alex_iphone:
       friendly_name: "Alex's iPhone"
@@ -131,12 +155,16 @@
       value_template: >
         {{ states.device_tracker.alex_alexs_iphone.attributes.battery }}
       icon_template: >
-        {% set level = states.device_tracker.alex_alexs_iphone.attributes.battery %}
-        {% if level | float == 100 %}
-          mdi:battery
-        {% elif level | float < 10 %}
-          mdi:battery-outline
+        {% if states.device_tracker.alex_alexs_iphone.attributes.battery is defined %}
+          {% set level = states.device_tracker.alex_alexs_iphone.attributes.battery %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
         {% else %}
-          {% set icon_level = (level / 10) | int * 10 %}
-          mdi:battery-{{ icon_level }}
+          mdi:battery
         {% endif %}

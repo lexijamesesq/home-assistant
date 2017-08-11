@@ -2,32 +2,40 @@
   trigger:
     platform: state
     entity_id: input_select.select_scene_bedroom
+  condition:
+    condition: template
+    value_template: '{{ states.input_select.select_scene_bedroom.state != "Select a scene..." }}'
   action:
     - service: script.turn_on
       data_template:
         entity_id: >
           {% if is_state('input_select.select_scene_bedroom', 'Auto') %}
-            script.scene_select_by_time_bedroom
+            script.scene_select_by_time
           {%-elif is_state('input_select.select_scene_bedroom', 'Bright') %}
             script.scene_select_bedroom_bright
           {%-elif is_state('input_select.select_scene_bedroom', 'Dim') %}
             script.scene_select_bedroom_dim
           {% endif %}
+        variables:
+          room: bedroom
     - service: input_select.select_option
       data:
         entity_id: input_select.select_scene_bedroom
-        option: 'Select a scene...'
+        option: "Select a scene..."
 
 - alias: Select Bathroom Scene
   trigger:
     platform: state
     entity_id: input_select.select_scene_Bathroom
+  condition:
+    condition: template
+    value_template: '{{ states.input_select.select_scene_bathroom.state != "Select a scene..." }}'
   action:
     - service: script.turn_on
       data_template:
         entity_id: >
           {% if is_state('input_select.select_scene_bathroom', 'Auto') %}
-            script.scene_select_by_time_bathroom
+            script.scene_select_by_time
           {%-elif is_state('input_select.select_scene_bathroom', 'Bright') %}
             script.scene_select_bathroom_bright
           {%-elif is_state('input_select.select_scene_bathroom', 'Dim') %}
@@ -35,49 +43,92 @@
           {%-elif is_state('input_select.select_scene_bathroom', 'Nightlight') %}
             script.scene_select_bathroom_nightlight
           {% endif %}
+        variables:
+          room: bathroom
     - service: input_select.select_option
       data:
         entity_id: input_select.select_scene_bathroom
-        option: 'Select a scene...'
+        option: "Select a scene..."
 
 - alias: Select Kitchen Scene
   trigger:
     platform: state
     entity_id: input_select.select_scene_kitchen
+  condition:
+    condition: template
+    value_template: '{{ states.input_select.select_scene_kitchen.state != "Select a scene..." }}'
   action:
     - service: script.turn_on
       data_template:
         entity_id: >
           {% if is_state('input_select.select_scene_kitchen', 'Auto') %}
-            script.scene_select_by_time_kitchen
+            script.scene_select_by_time
           {%-elif is_state('input_select.select_scene_kitchen', 'Bright') %}
             script.scene_select_kitchen_bright
           {%-elif is_state('input_select.select_scene_kitchen', 'Dim') %}
             script.scene_select_kitchen_dim
+          {%-elif is_state('input_select.select_scene_kitchen', 'Home Theater') %}
+            script.scene_select_kitchen_home_theater
           {%-elif is_state('input_select.select_scene_kitchen', 'Prep') %}
             script.scene_select_kitchen_prep
           {% endif %}
+        variables:
+          room: kitchen
     - service: input_select.select_option
       data:
         entity_id: input_select.select_scene_kitchen
-        option: 'Select a scene...'
+        option: "Select a scene..."
 
 - alias: Select Living Room Scene
   trigger:
     platform: state
     entity_id: input_select.select_scene_living_room
+  condition:
+    condition: template
+    value_template: '{{ states.input_select.select_scene_living_room.state != "Select a scene..." }}'
   action:
     - service: script.turn_on
       data_template:
         entity_id: >
-          {% if is_state('input_select.select_scene_living_room', 'Auto') %}
-            script.scene_select_by_time_living_room
+          {% if is_state('input_select.select_scene_living_room', 'Ambient') %}
+            script.scene_select_living_room_ambient
+          {%-elif is_state('input_select.select_scene_living_room', 'Auto') %}
+            script.scene_select_by_time
           {%-elif is_state('input_select.select_scene_living_room', 'Bright') %}
             script.scene_select_living_room_bright
           {%-elif is_state('input_select.select_scene_living_room', 'Dim') %}
             script.scene_select_living_room_dim
           {% endif %}
+        variables:
+          room: living_room
     - service: input_select.select_option
       data:
         entity_id: input_select.select_scene_living_room
-        option: 'Select a scene...'
+        option: "Select a scene..."
+
+- alias: Select Office Scene
+  trigger:
+    platform: state
+    entity_id: input_select.select_scene_office
+  condition:
+    condition: template
+    value_template: '{{ states.input_select.select_scene_office.state != "Select a scene..." }}'
+  action:
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state('input_select.select_scene_office', 'Auto') %}
+            script.scene_select_by_time
+          {%-elif is_state('input_select.select_scene_office', 'Bright') %}
+            script.scene_select_office_bright
+          {%-elif is_state('input_select.select_scene_office', 'Dim') %}
+            script.scene_select_office_dim
+          {%-elif is_state('input_select.select_scene_office', 'Home Theater') %}
+            script.scene_select_office_home_theater
+          {% endif %}
+        variables:
+          room: office
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.select_scene_office
+        option: "Select a scene..."

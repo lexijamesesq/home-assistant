@@ -59,5 +59,24 @@
           variables:
             room: living_room
       turn_off:
+        - service: homeassistant.turn_off
+          entity_id:
+            - group.living_room_lights
+            - input_boolean.color_loop_living_room
+        - service: shell_command.hyperion_off
+
+# Office #####################################################
+- platform: template
+  switches:
+    office_lights:
+      friendly_name: 'Office Lights'
+      value_template: "{{ is_state('group.office_lights', 'on') }}"
+      turn_on:
+        service: script.turn_on
+        entity_id: script.scene_select_by_time
+        data:
+          variables:
+            room: office
+      turn_off:
         service: homeassistant.turn_off
-        entity_id: group.living_room_lights
+        entity_id: group.office_lights

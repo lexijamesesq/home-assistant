@@ -35,6 +35,13 @@ card_home_bedroom:
     - input_boolean.trigger_sleep_mode
     - input_select.select_scene_bedroom
 
+card_home_office:
+  name: Office
+  control: hidden
+  entities:
+    - switch.office_lights
+    - input_select.select_scene_office
+
 card_home_kitchen:
   name: Kitchen
   control: hidden
@@ -47,6 +54,8 @@ card_home_living_room:
   control: hidden
   entities:
     - switch.living_room_lights
+    - switch.living_room_fan_switch
+    - input_select.hyperion_effect
     - input_select.select_scene_living_room
 
 card_bathroom_overview:
@@ -82,6 +91,7 @@ card_bedroom_lights:
   control: hidden
   entities:
     - switch.bedroom_lights
+    - input_boolean.color_loop_bedroom
     - input_slider.bedroom_prefer_dim_after_weekday
     - input_slider.bedroom_prefer_dim_after_weekend
     - input_select.select_scene_bedroom
@@ -102,6 +112,7 @@ card_kitchen_lights:
     - input_slider.kitchen_prefer_dim_after_weekday
     - input_slider.kitchen_prefer_dim_after_weekend
     - group.kitchen_overhead_lights
+    - input_boolean.color_loop_kitchen_overhead
     - group.kitchen_island_lights
     - input_select.select_scene_kitchen
 
@@ -112,15 +123,29 @@ card_living_room_overview:
     - sensor.living_room_multisensor_relative_humidity
     - sensor.living_room_multisensor_luminance
     - binary_sensor.living_room_multisensor_sensor
+    - switch.living_room_fan_switch
+    - input_boolean.trigger_home_theater_mode
 
 card_living_room_lights:
   name: Lights
   control: hidden
   entities:
     - switch.living_room_lights
+    - switch.hyperion
+    - light.tv_ambient_lighting
     - input_slider.living_room_prefer_dim_after_weekday
     - input_slider.living_room_prefer_dim_after_weekend
+    - input_select.hyperion_effect
     - input_select.select_scene_living_room
+
+card_office_lights:
+  name: Lights
+  control: hidden
+  entities:
+    - switch.office_lights
+    - input_slider.office_prefer_dim_after_weekday
+    - input_slider.office_prefer_dim_after_weekend
+    - input_select.select_scene_office
 
 card_zwave_devices:
   name: Zwave
@@ -129,6 +154,8 @@ card_zwave_devices:
     - zwave.bedroom_multisensor
     - zwave.kitchen_multisensor
     - zwave.living_room_multisensor
+    - zwave.living_room_fan
+    - zwave.office_dimmer_switch
     - zwave.zstick
 
 card_battery_level:
@@ -158,6 +185,7 @@ default_view:
     - group.card_home_bedroom
     - group.card_home_kitchen
     - group.card_home_living_room
+    - group.card_home_office
 
 view_bathroom:
   name: Bathroom
@@ -175,6 +203,7 @@ view_bedroom:
   entities:
     - group.card_bedroom_overview
     - group.card_bedroom_lights
+    - media_player.spotify
     - media_player.plex_alex_bussas_ipad_mini
 
 view_kitchen:
@@ -184,6 +213,7 @@ view_kitchen:
   entities:
     - group.card_kitchen_overview
     - group.card_kitchen_lights
+    - media_player.spotify
 
 view_living_room:
   name: Living Room
@@ -193,7 +223,17 @@ view_living_room:
     - group.card_living_room_overview
     - binary_sensor.living_room_multisensor_sensor
     - group.card_living_room_lights
-    - media_player.living_room_apple_tv
+    - media_player.plex_apple_tv
+
+view_office:
+  name: Office
+  icon: mdi:desktop-mac
+  view: yes
+  entities:
+    - group.card_office_lights
+    - media_player.spotify
+    - media_player.plex_alexs_imac
+    - media_player.denon_avrx1200w
 
 view_lights:
   name: Lights
@@ -206,6 +246,7 @@ view_lights:
     - group.kitchen_overhead_lights
     - group.kitchen_island_lights
     - group.living_room_lights
+    - group.office_lights
 
 view_scripts:
   name: Scripts
@@ -278,6 +319,12 @@ bathroom_lights:
   entities:
     - group.bathroom_vanity_lights
     - group.bathroom_overhead_lights
+
+office_lights:
+  name: Office Lights
+  icon: mdi:spotlight-beam
+  entities:
+    - light.office_dimmer_switch_level
 
 ##############################################################
 # Sensors

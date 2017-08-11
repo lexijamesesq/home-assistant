@@ -1,10 +1,15 @@
 alias: Select Living Room Bright Scene
 sequence:
-  service: scene.turn_on
-  data_template:
-    entity_id: >
-      {% if is_state('input_boolean.trigger_night_mode', 'on') %}
-        scene.living_room_bright_at_night
-      {% else %}
-        scene.living_room_bright
-      {% endif %}
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+          scene.living_room_bright_at_night
+        {% else %}
+          scene.living_room_bright
+        {% endif %}
+  - condition: state
+    entity_id: input_boolean.color_loop_Living_room
+    state: 'on'
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.color_loop_Living_room

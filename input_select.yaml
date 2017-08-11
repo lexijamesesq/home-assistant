@@ -1,41 +1,75 @@
 select_scene_bedroom:
-    name: Scene
-    icon: mdi:chart-bubble
-    initial: Select a scene...
-    options:
-     - Select a scene...
-     - Auto
-     - Bright
-     - Dim
+  name: Scene
+  icon: mdi:chart-bubble
+  initial: Select a scene...
+  options:
+   - Select a scene...
+   - Auto
+   - Bright
+   - Dim
 
 select_scene_bathroom:
-    name: Scene
-    icon: mdi:chart-bubble
-    initial: Select a scene...
-    options:
-     - Select a scene...
-     - Auto
-     - Bright
-     - Dim
-     - Nightlight
+  name: Scene
+  icon: mdi:chart-bubble
+  initial: Select a scene...
+  options:
+   - Select a scene...
+   - Auto
+   - Bright
+   - Dim
+   - Nightlight
 
 select_scene_kitchen:
-    name: Scene
-    icon: mdi:chart-bubble
-    initial: Select a scene...
-    options:
-     - Select a scene...
-     - Auto
-     - Bright
-     - Dim
-     - Prep
+  name: Scene
+  icon: mdi:chart-bubble
+  initial: Select a scene...
+  options:
+   - Select a scene...
+   - Auto
+   - Bright
+   - Dim
+   - Home Theater
+   - Prep
 
 select_scene_living_room:
-    name: Scene
-    icon: mdi:chart-bubble
-    initial: Select a scene...
-    options:
-     - Select a scene...
-     - Auto
-     - Bright
-     - Dim
+  name: Scene
+  icon: mdi:chart-bubble
+  initial: Select a scene...
+  options:
+   - Select a scene...
+   - Ambient
+   - Auto
+   - Bright
+   - Dim
+
+select_scene_office:
+  name: Scene
+  icon: mdi:chart-bubble
+  initial: Select a scene...
+  options:
+   - Select a scene...
+   - Auto
+   - Bright
+   - Dim
+   - Home Theater
+
+
+hyperion_effect:
+  name: Hyperion Effect
+  icon: mdi:television
+  initial: Select an effect...
+  options:
+   - Select an effect...
+   - 'Off'
+   - HDMI
+   - Plex Playing
+   - Knight Rider
+   - Mood Blobs Blue
+   - Mood Blobs Cold
+   - Mood Blobs Full Color
+   - Mood Blobs Green
+   - Mood Blobs Red
+   - Mood Blobs Warm
+   - Rainbow Swirl
+   - Rainbow Swirl Fast
+   - Color Traces

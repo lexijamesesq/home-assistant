@@ -9,11 +9,6 @@
 ##############################################################
 # Media Players
 ##############################################################
-- platform: apple_tv
-  host: !secret media_player_apple_tv_host
-  login_id: !secret media_player_apple_tv_login_id
-  name: !secret media_player_apple_tv_name
-
 - platform: spotify
   client_id: !secret media_player_spotify_client_id
   client_secret: !secret media_player_spotify_client_secret
@@ -25,6 +20,6 @@
   host: !secret media_player_denon_desk_host
   name: !secret media_player_denon_desk_name
 
-- platform: denon
-  host: !secret media_player_denon_home_theater_host
-  name: !secret media_player_denon_home_theater_name
+# - platform: denon
+#   host: !secret media_player_denon_home_theater_host
+#   name: !secret media_player_denon_home_theater_name

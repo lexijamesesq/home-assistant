@@ -1,4 +1,7 @@
 alias: Flic Kitchen Hold
 sequence:
   - service: script.turn_on
-    entity_id: script.scene_select_kitchen_dim
+    entity_id: script.spotify_script_select_by_condition
+    data:
+      variables:
+        source_requesting: "Alex's iMac"
