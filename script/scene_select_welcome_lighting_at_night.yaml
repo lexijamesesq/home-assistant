@@ -1,0 +1,17 @@
+alias: Select Welcome Lighting at Night Scene
+sequence:
+  - service: shell_command.hyperion_mood_blobs_blue
+  - service: script.turn_on
+    entity_id: script.scene_select_by_time
+    data:
+      variables:
+        room: living_room
+  - delay: '00:00:01'
+  - service: script.turn_on
+    entity_id: script.scene_select_by_time
+    data:
+      variables:
+        room: kitchen
+  - delay: '00:03:00'
+  - service: script.turn_on
+    entity_id: script.scene_select_living_room_ambient

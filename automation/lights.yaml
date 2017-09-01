@@ -14,25 +14,23 @@
       - condition: state
         entity_id: group.kitchen_lights
         state: 'off'
-      - condition: state
-        entity_id: input_boolean.trigger_night_mode
-        state: 'on'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.trigger_sunset_mode
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.trigger_night_mode
+            state: 'on'
   action:
-    - service: shell_command.hyperion_mood_blobs_blue
     - service: script.turn_on
-      entity_id: script.scene_select_by_time
-      data:
-        variables:
-          room: living_room
-    - delay: '00:00:01'
-    - service: script.turn_on
-      entity_id: script.scene_select_by_time
-      data:
-        variables:
-          room: kitchen
-    - delay: '00:03:00'
-    - service: script.turn_on
-      entity_id: script.scene_select_living_room_ambient
+      data_template:
+        entity_id: >
+          {% if is_state('input_boolean.trigger_sunset_mode', 'on') %}
+            script.scene_select_welcome_lighting_at_sunset
+          {% else %}
+            script.scene_select_welcome_lighting_at_night
+          {% endif %}
 
 ##############################################################
 # Presence Events - Away
@@ -48,9 +46,6 @@
     - platform: state
       entity_id: input_boolean.trigger_guest_mode
       to: 'off'
-    - platform: state
-      entity_id: input_boolean.trigger_night_mode
-      to: 'on'
   condition:
     condition: and
     conditions:
@@ -60,24 +55,25 @@
       - condition: state
         entity_id: input_boolean.trigger_guest_mode
         state: 'off'
-      - condition: state
-        entity_id: input_boolean.trigger_night_mode
-        state: 'on'
   action:
     - service: script.turn_on
       entity_id: script.scene_select_away_lighting
-
-
 
 # Furry Overlord Lighting ####################################
 # Turn on Living Room light at night, when no one is home, if it's before 11:00pm
 - alias: Start Furry Overlord Lighting
   trigger:
+    - platform: state
+      entity_id: input_boolean.trigger_night_mode
+      to: 'on'
     - platform: event
       event_type: event_start_furry_overlord_lighting
   condition:
     condition: and
     conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_night_mode
+        state: 'on'
       - condition: time
         before: '23:00:00'
   action:

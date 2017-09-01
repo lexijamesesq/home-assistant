@@ -16,6 +16,19 @@
       brightness: 128
       color_temp: 285
 
+- name: Kitchen Bright at Sunset
+  entities:
+    group.kitchen_overhead_lights:
+      state: on
+      transition: 2
+      brightness: 128
+      color_temp: 312
+    group.kitchen_island_lights:
+      state: on
+      transition: 2
+      brightness: 30
+      color_temp: 312
+
 - name: Kitchen Bright at Night
   entities:
     group.kitchen_overhead_lights:
