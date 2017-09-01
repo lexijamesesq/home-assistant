@@ -325,21 +325,3 @@
       state: on
       transition: 5
       brightness: 6
-
-
-##############################################################
-# Away
-##############################################################
-
-# Furry Overlord Lighting ####################################
-- name: Away Lighting at Night
-  entities:
-    group.kitchen_lights:
-      state: off
-    group.bedroom_lights:
-      state: off
-    group.living_room_lights:
-      state: on
-      transition: 2
-      brightness: 153
-      color_temp: 285
