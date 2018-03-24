@@ -1,0 +1,11 @@
+alias: Color Loop Bedroom Trigger
+sequence:
+  - service: script.turn_on
+    entity_id: script.color_loop_process_rgb
+    data_template:
+      variables:
+        saturation: 100
+        value: 70
+        transition: 5
+        light: >-
+          light.bedroom_{{ (range(1, 3) | random) }}
