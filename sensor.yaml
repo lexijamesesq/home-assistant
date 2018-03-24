@@ -9,19 +9,25 @@
 #   server: !secret pms_server
 
 # iBeacon Bedroom Presence Detection
-- platform: mqtt
-  state_topic: "owntracks/alex/Alex's iPhone/event"
-  name: "Bedroom Presence"
-  value_template: >
-    {% if value_json._type == 'transition' and value_json.desc == '-bedroom' %}
-      {% if value_json.event == 'enter' %}
-        occupied
-      {% else %}
-        unoccupied
-      {% endif %}
-    {% else %}
-      unknown
-    {% endif %}
+# - platform: mqtt
+#   state_topic: "owntracks/alex/Alex's iPhone/event"
+#   name: "Bedroom Presence"
+#   value_template: >
+#     {% if value_json._type == 'transition' and value_json.desc == '-bedroom' %}
+#       {% if value_json.event == 'enter' %}
+#         occupied
+#       {% else %}
+#         unoccupied
+#       {% endif %}
+#     {% else %}
+#       unknown
+#     {% endif %}
+
+# Time & Date
+- platform: time_date
+  display_options:
+    - time
+    - date
 
 # Dark Sky Weather
 - platform: darksky
@@ -41,34 +47,96 @@
     minutes: 5
 
 # Custom sensors for UI display
+- platform: min_max
+  name: 'Average Temperature'
+  type: mean
+  entity_ids:
+    - sensor.bathroom_multisensor_temperature
+    - sensor.kitchen_multisensor_temperature
+    - sensor.living_room_multisensor_temperature
+    - sensor.living_room_thermostat_nest_temperature
+  round_digits: 1
+
+- platform: min_max
+  name: 'Average Humidity'
+  type: mean
+  entity_ids:
+    - sensor.bathroom_multisensor_relative_humidity
+    - sensor.kitchen_multisensor_relative_humidity
+    - sensor.living_room_multisensor_relative_humidity
+    - sensor.living_room_thermostat_nest_humidity
+  round_digits: 1
+
 - platform: template
   sensors:
-    temp_average:
-      friendly_name: 'Average Temperature'
-      unit_of_measurement: "°F"
+    bedroom_presence:
+      friendly_name: 'Bedroom Presence'
       value_template: >
-        {% if states.sensor.bathroom_multisensor_temperature.state is defined and states.sensor.kitchen_multisensor_temperature.state is defined and states.sensor.living_room_multisensor_temperature.state is defined and states.sensor.living_room_thermostat_nest_temperature.state is defined %}
-          {{ ((float(states.sensor.bathroom_multisensor_temperature.state) + float(states.sensor.kitchen_multisensor_temperature.state) + float(states.sensor.living_room_multisensor_temperature.state) + float(states.sensor.living_room_thermostat_nest_temperature.state)) / 4) | round(1) }}
+        {% if is_state('device_tracker.beacon_bedroom', 'bedroom') %}
+          occupied
         {% else %}
-          unknown
+          unoccupied
         {% endif %}
-    humidity_average:
-      friendly_name: 'Average Humidity'
-      unit_of_measurement: "%"
+    august_front_door:
+      friendly_name: 'Front Door'
       value_template: >
-        {% if states.sensor.bathroom_multisensor_relative_humidity.state is defined and states.sensor.kitchen_multisensor_relative_humidity.state is defined and states.sensor.living_room_multisensor_relative_humidity.state is defined and states.sensor.living_room_thermostat_nest_humidity.state is defined %}
-          {{ ((float(states.sensor.bathroom_multisensor_relative_humidity.state) + float(states.sensor.kitchen_multisensor_relative_humidity.state) + float(states.sensor.living_room_multisensor_relative_humidity.state) + float(states.sensor.living_room_thermostat_nest_humidity.state)) / 4) | round(1) }}
+        {{ states.lock.august_smart_lock_pro_locked.state }}
+      icon_template: >
+        {% if is_state('lock.august_smart_lock_pro_locked', 'locked') %}
+          mdi:lock
+        {% elif is_state('lock.august_smart_lock_pro_locked', 'unlocked') %}
+          mdi:lock-open
         {% else %}
-          unknown
+          mdi:timer-sand
         {% endif %}
-    guests_present:
-      friendly_name: 'Guests'
+
+# Custom sensors for mode monitoring
+- platform: template
+  sensors:
+    sunset_mode:
+      friendly_name: 'Sunset Mode'
       value_template: >
-        {% if is_state('input_booleal.trigger_guest_mode', 'on') %}
-          possibly
+        {{ states.input_boolean.trigger_sunset_mode.state }}
+      icon_template: 'mdi:weather-sunset'
+    night_mode:
+      friendly_name: 'Night Mode'
+      value_template: >
+        {{ states.input_boolean.trigger_night_mode.state }}
+      icon_template: 'mdi:weather-night'
+    guest_mode:
+      friendly_name: 'Guest Mode'
+      value_template: >
+        {{ states.input_boolean.trigger_guest_mode.state }}
+      icon_template: 'mdi:human-greeting'
+    home_theater_mode:
+      friendly_name: 'Home Theater Mode'
+      value_template: >
+        {{ states.input_boolean.trigger_home_theater_mode.state }}
+      icon_template: 'mdi:theater'
+    sleep_mode:
+      friendly_name: 'Sleep Mode'
+      value_template: >
+        {{ states.input_boolean.trigger_sleep_mode.state }}
+      icon_template: 'mdi:sleep'
+    simulate_presence_mode:
+      friendly_name: 'Simulate Presence Mode'
+      value_template: >
+        {% if is_state('group.residents', 'not_home') and is_state('input_boolean.trigger_guest_mode', 'off') and is_state('input_boolean.trigger_night_mode', 'on') %}
+          {% if is_state('input_boolean.trigger_simulate_presence_mode', 'on') %}
+            simulating - lights on
+          {% elif is_state('input_boolean.trigger_simulate_presence_mode', 'off') and ((as_timestamp(now()) - as_timestamp(states.group.residents.last_changed)) | int < (as_timestamp(now()) - as_timestamp(states.input_boolean.trigger_simulate_presence_mode.last_changed)) | int) %}
+            {% if as_timestamp(now()) < (as_timestamp(states.group.residents.last_changed) + 1200) %}
+              delay
+            {% else %}
+              error
+            {% endif %}
+          {% else %}
+            simulating - lights off
+          {% endif %}
         {% else %}
-          nope
+          off
         {% endif %}
+      icon_template: 'mdi:security-home'
 
 # Battery sensors
 - platform: template
@@ -149,14 +217,14 @@
         {% else %}
           mdi:battery
         {% endif %}
-    battery_alex_iphone:
-      friendly_name: "Alex's iPhone"
+    battery_august:
+      friendly_name: 'August Smart Lock Pro'
       unit_of_measurement: '%'
       value_template: >
-        {{ states.device_tracker.alex_alexs_iphone.attributes.battery }}
+        {{ states.zwave.august_smart_lock_pro.attributes.battery_level }}
       icon_template: >
-        {% if states.device_tracker.alex_alexs_iphone.attributes.battery is defined %}
-          {% set level = states.device_tracker.alex_alexs_iphone.attributes.battery %}
+        {% if states.zwave.august_smart_lock_pro.attributes.battery_level is defined %}
+          {% set level = states.zwave.august_smart_lock_pro.attributes.battery_level %}
           {% if level | float == 100 %}
             mdi:battery
           {% elif level | float < 10 %}
@@ -168,3 +236,316 @@
         {% else %}
           mdi:battery
         {% endif %}
+
+
+# Networked Devices
+- platform: template
+  sensors:
+    network_airportextreme:
+      friendly_name: Airport Extreme
+      value_template: >
+        {{ 'online' if is_state('device_tracker.airportextreme', 'home') else 'offline' }}
+      icon_template: 'mdi:apple'
+    network_alexs_imac:
+      friendly_name: Alex's iMac
+      value_template: >
+        {{ 'online' if is_state('device_tracker.alexs_imac', 'home') else 'offline' }}
+      icon_template: 'mdi:desktop-mac'
+    network_amazon_echo_bedroom:
+      friendly_name: Amazon Echo Bedroom
+      value_template: >
+        {{ 'online' if is_state('device_tracker.amazon_echo_bedroom', 'home') else 'offline' }}
+      icon_template: 'mdi:amazon'
+    network_amazon_echo_bathroom:
+      friendly_name: Amazon Echo Bathroom
+      value_template: >
+        {{ 'online' if is_state('device_tracker.amazon_echo_bathroom', 'home') else 'offline' }}
+      icon_template: 'mdi:amazon'
+    network_amazon_echo_kitchen:
+      friendly_name: Amazon Echo Kitchen
+      value_template: >
+        {{ 'online' if is_state('device_tracker.amazon_echo_kitchen', 'home') else 'offline' }}
+      icon_template: 'mdi:amazon'
+    network_ambiscreen:
+      friendly_name: AmbiScreen
+      value_template: >
+        {{ 'online' if is_state('device_tracker.ambiscreen', 'home') else 'offline' }}
+      icon_template: 'mdi:television'
+    network_appletv:
+      friendly_name: Apple TV
+      value_template: >
+        {{ 'online' if is_state('device_tracker.appletv', 'home') else 'offline' }}
+      icon_template: 'mdi:apple'
+    network_august_connect:
+      friendly_name: August Connect
+      value_template: >
+        {{ 'online' if is_state('device_tracker.august_connect', 'home') else 'offline' }}
+      icon_template: 'mdi:access-point-network'
+    network_clara:
+      friendly_name: Clara
+      value_template: >
+        {{ 'online' if is_state('device_tracker.clara_nic1', 'home') else 'offline' }}
+      icon_template: 'mdi:server-network'
+    network_denon_avr_x1200w:
+      friendly_name: Denon AVR-X1200W
+      value_template: >
+        {{ 'online' if is_state('device_tracker.denon_avr_x1200w', 'home') else 'offline' }}
+      icon_template: 'mdi:music'
+    network_denon_avr_x4300h:
+      friendly_name: Denon AVR-X4300H
+      value_template: >
+        {{ 'online' if is_state('device_tracker.denon_avr_x4300h', 'home') else 'offline' }}
+      icon_template: 'mdi:music'
+    network_netgear_r8000:
+      friendly_name: Guest AP
+      value_template: >
+        {{ 'online' if is_state('device_tracker.netgear_r8000', 'home') else 'offline' }}
+      icon_template: 'mdi:access-point-network'
+    network_nest:
+      friendly_name: Nest
+      value_template: >
+        {{ 'online' if is_state('device_tracker.nest', 'home') else 'offline' }}
+      icon_template: 'mdi:nest-thermostat'
+    network_oswin:
+      friendly_name: Oswin
+      value_template: >
+        {{ 'online' if is_state('group.device_tracker_oswin', 'home') else 'offline' }}
+      icon_template: 'mdi:server-network'
+    network_overwatch:
+      friendly_name: Overwatch
+      value_template: >
+        {{ 'online' if is_state('device_tracker.overwatch', 'home') else 'offline' }}
+      icon_template: 'mdi:server'
+    network_pfsense:
+      friendly_name: pfSense
+      value_template: >
+        {{ 'online' if is_state('device_tracker.pfsense', 'home') else 'offline' }}
+      icon_template: 'mdi:server'
+    network_sonos_one_bedroom:
+      friendly_name: Sonos One Bedroom
+      value_template: >
+        {{ 'online' if is_state('device_tracker.sonos_one_bedroom', 'home') else 'offline' }}
+      icon_template: 'mdi:speaker-wireless'
+    network_sonos_one_bathroom:
+      friendly_name: Sonos One Bathroom
+      value_template: >
+        {{ 'online' if is_state('device_tracker.sonos_one_bathroom', 'home') else 'offline' }}
+      icon_template: 'mdi:speaker-wireless'
+    network_sonos_one_kitchen:
+      friendly_name: Sonos One Kitchen
+      value_template: >
+        {{ 'online' if is_state('device_tracker.sonos_one_kitchen', 'home') else 'offline' }}
+      icon_template: 'mdi:speaker-wireless'
+    network_unifi_ap:
+      friendly_name: UniFi AP
+      value_template: >
+        {{ 'online' if is_state('device_tracker.unifi_ap', 'home') else 'offline' }}
+      icon_template: 'mdi:access-point-network'
+    network_unifi_switch_16:
+      friendly_name: UniFi Switch 16
+      value_template: >
+        {{ 'online' if is_state('device_tracker.unifi_switch_16', 'home') else 'offline' }}
+      icon_template: 'mdi:switch'
+    network_unifi_switch_8:
+      friendly_name: UniFi Switch 8
+      value_template: >
+        {{ 'online' if is_state('device_tracker.unifi_switch_8', 'home') else 'offline' }}
+      icon_template: 'mdi:switch'
+    network_woodhouse:
+      friendly_name: Woodhouse
+      value_template: >
+        {{ 'online' if is_state('group.device_tracker_woodhouse', 'home') else 'offline' }}
+      icon_template: 'mdi:server'
+    network_uvc_apartment_entrance:
+      friendly_name: UVC Apartment Entrance
+      value_template: >
+        {{ 'online' if is_state('device_tracker.uvc_apartment_entrance', 'home') else 'offline' }}
+      icon_template: 'mdi:cctv'
+
+
+# InfluxDB Sensors
+- platform: influxdb
+  host: 10.0.1.5
+  port: 8086
+  queries:
+    - name: Overwatch CPU Load
+      unit_of_measurement: '15 min'
+      group_function: last
+      where: '"host" = ''overwatch'' and time > now() - 5m'
+      value_template: '{{ value | round(2) }}'
+      measurement: '"system"'
+      field: '"load15"'
+      database: telegraf
+    - name: Overwatch CPU Temp
+      unit_of_measurement: 'ºC'
+      group_function: last
+      where: '"host" = ''overwatch'' and "chip" = ''coretemp-isa-0000'' and time > now() - 5m'
+      value_template: '{{ value | round() }}'
+      measurement: '"sensors"'
+      field: '"temp_input"'
+      database: telegraf
+    - name: Overwatch RAM Used
+      unit_of_measurement: '%'
+      group_function: last
+      where: '"host" = ''overwatch'' and time > now() - 5m'
+      value_template: '{{ value | round() }}'
+      measurement: '"mem"'
+      field: '"used_percent"'
+      database: telegraf
+    - name: Woodhouse CPU Load
+      unit_of_measurement: '15 min'
+      group_function: last
+      where: '"host" = ''woodhouse'' and time > now() - 5m'
+      value_template: '{{ value | round(2) }}'
+      measurement: '"system"'
+      field: '"load15"'
+      database: telegraf
+    - name: Woodhouse CPU1 Temp
+      unit_of_measurement: 'ºC'
+      group_function: last
+      where: '"host" = ''woodhouse'' and "chip" = ''coretemp-isa-0000'' and time > now() - 5m'
+      value_template: '{{ value | round() }}'
+      measurement: '"sensors"'
+      field: '"temp_input"'
+      database: telegraf
+    - name: Woodhouse CPU2 Temp
+      unit_of_measurement: 'ºC'
+      group_function: last
+      where: '"host" = ''woodhouse'' and "chip" = ''coretemp-isa-0001'' and time > now() - 5m'
+      value_template: '{{ value | round() }}'
+      measurement: '"sensors"'
+      field: '"temp_input"'
+      database: telegraf
+    - name: Woodhouse RAM Used
+      unit_of_measurement: '%'
+      group_function: last
+      where: '"host" = ''woodhouse'' and time > now() - 5m'
+      value_template: '{{ value | round() }}'
+      measurement: '"mem"'
+      field: '"used_percent"'
+      database: telegraf
+
+
+# Cox Data Usage
+# - platform: file
+#   name: Data Plan
+#   file_path: /config/json/cox_usage.json
+#   value_template: >
+#     {% if value_json is defined %}
+#       {{ value_json.lpInternetSubscribed }}
+#     {% else %}
+#       undefined
+#     {% endif %}
+#   icon_template: >
+#     {% if value_json is defined %}
+#       mdi:lan-connect
+#     {% else %}
+#       mdi:lan-connect
+#     {% endif %}
+
+# - platform: file
+#   name: Data Usage
+#   file_path: /config/json/cox_usage.json
+#   value_template: >
+#     {% if value_json is defined %}
+#       {% if value_json.dumUsage | int == 0 and value_json.dumLimit | int == 0 and value_json.dumUtilization | int == 0 %}
+#         stats unavailable
+#       {% else %}
+#         {{ value_json.dumUsage | int }} / {{ value_json.dumLimit | int }} GB ({{ value_json.dumUtilization | int }} %)
+#       {% endif %}
+#     {% else %}
+#       undefined
+#     {% endif %}
+#   icon_template: >
+#     {% if value_json is defined %}
+#       {% if value_json.dumUtilization | int < 90 %}
+#         mdi:alert
+#       {% else %}
+#         mdi:elevator
+#     {% else %}
+#       mdi:elevator
+#     {% endif %}
+
+# - platform: file
+#   name: Data Resets
+#   file_path: /config/json/cox_usage.json
+#   value_template: >
+#     {% if value_json is defined %}
+#       {% if value_json.dumDaysLeft is defined %}
+#         {{ value_json.dumDaysLeft | int }} days
+#       {% else %}
+#         unknown
+#       {% endif %}
+#     {% else %}
+#       undefined
+#     {% endif %}
+#   icon_template: >
+#     {% if value_json is defined %}
+#       {% if value_json.dumDaysLeft is defined %}
+#         mdi:calendar-clock
+#       {% else %}
+#         mdi:calendar-question
+#     {% else %}
+#       mdi:calendar-clock
+#     {% endif %}
+
+
+# suncalc data sensors
+#   sunrise       - sunrise (top edge of the sun appears on the horizon)
+#   sunriseEnd    - sunrise ends (bottom edge of the sun touches the horizon)
+#   goldenHourEnd - morning golden hour (soft light, best time for photography) ends
+#   solarNoon     - solar noon (sun is in the highest position)
+#   goldenHour    - evening golden hour starts
+#   sunsetStart   - sunset starts (bottom edge of the sun touches the horizon)
+#   sunset        - sunset (sun disappears below the horizon, evening civil twilight starts)
+#   dusk          - dusk (evening nautical twilight starts)
+#   nauticalDusk  - nautical dusk (evening astronomical twilight starts)
+#   night         - night starts (dark enough for astronomical observations)
+#   nadir         - nadir (darkest moment of the night, sun is in the lowest position)
+#   nightEnd      - night ends (morning astronomical twilight starts)
+#   nauticalDawn  - nautical dawn (morning nautical twilight starts)
+#   dawn          - dawn (morning nautical twilight ends, morning civil twilight starts)
+#   HH:MM         - timestamp_custom('%H:%M')
+
+# Used for "first light" automations in the morning
+- platform: file
+  name: Suncalc goldenHourEnd
+  file_path: /config/json/suncalc_data.json
+  value_template: >
+    {% if value_json is defined %}
+      {{ as_timestamp(value_json.goldenHourEnd) | timestamp_custom('%H:%M') }}
+    {% else %}
+      undefined
+    {% endif %}
+
+# Used for "sun starts setting" automations in the evening
+- platform: file
+  name: Suncalc goldenHour
+  file_path: /config/json/suncalc_data.json
+  value_template: >
+    {% if value_json is defined %}
+      {{ as_timestamp(value_json.goldenHour) | timestamp_custom('%H:%M') }}
+    {% else %}
+      undefined
+    {% endif %}
+
+# Used for "sun light is gone" automations in the evening
+- platform: file
+  name: Suncalc sunsetStart
+  file_path: /config/json/suncalc_data.json
+  value_template: >
+    {% if value_json is defined %}
+      {{ as_timestamp(value_json.sunsetStart) | timestamp_custom('%H:%M') }}
+    {% else %}
+      undefined
+    {% endif %}
+
+- platform: file
+  name: Golden Hour
+  file_path: /config/json/suncalc_data.json
+  value_template: >
+    {% if value_json is defined %}
+      {{ as_timestamp(value_json.goldenHour) | timestamp_custom('%-I:%M %p') }}
+    {% else %}
+      undefined
+    {% endif %}
