@@ -20,7 +20,6 @@
   host: !secret media_player_denon_desk_host
   name: !secret media_player_denon_desk_name
 
-# - platform: denon
-# Does not currently work with the AVR-X4300H
-#   host: !secret media_player_denon_home_theater_host
-#   name: !secret media_player_denon_home_theater_name
+- platform: denonavr
+  host: !secret media_player_denon_home_theater_host
+  name: !secret media_player_denon_home_theater_name
