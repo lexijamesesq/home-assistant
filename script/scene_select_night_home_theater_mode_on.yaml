@@ -7,3 +7,4 @@ sequence:
       - input_boolean.home_theater_restore_kitchen_lights
       - input_boolean.home_theater_restore_living_room_lights
       - input_boolean.home_theater_restore_living_room_color_loop
+      - input_boolean.home_theater_tv_ambient_light
