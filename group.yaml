@@ -5,10 +5,11 @@
 card_home_inside:
   name: Inside
   entities:
-    - sensor.temp_average
-    - sensor.humidity_average
-    - sensor.guests_present
+    - sensor.average_temperature
+    - sensor.average_humidity
+    - sensor.august_front_door
     - device_tracker.alex_alexs_iphone
+    - device_tracker.29a8f57641fd49929e90abfdd42d6a0f
     - device_tracker.beacon_octavia
 
 card_home_outside:
@@ -19,6 +20,7 @@ card_home_outside:
     - sensor.dark_sky_daily_low_temperature
     - sensor.dark_sky_humidity
     - sensor.dark_sky_precip_probability
+    - sensor.golden_hour
 
 card_home_bathroom:
   name: Bathroom
@@ -54,7 +56,7 @@ card_home_living_room:
   control: hidden
   entities:
     - switch.living_room_lights
-    - switch.living_room_fan_switch
+    - input_boolean.trigger_home_theater_mode
     - input_select.hyperion_effect
     - input_select.select_scene_living_room
 
@@ -71,10 +73,10 @@ card_bathroom_lights:
   control: hidden
   entities:
     - switch.bathroom_lights
-    - input_slider.bathroom_prefer_dim_after_weekday
-    - input_slider.bathroom_prefer_dim_after_weekend
-    - group.bathroom_vanity_lights
-    - group.bathroom_overhead_lights
+    - input_number.bathroom_prefer_dim_after_weekday
+    - input_number.bathroom_prefer_dim_after_weekend
+    - light.bathroom_vanity_lights
+    - light.bathroom_overhead_lights
     - input_select.select_scene_bathroom
 
 card_bedroom_overview:
@@ -92,8 +94,8 @@ card_bedroom_lights:
   entities:
     - switch.bedroom_lights
     - input_boolean.color_loop_bedroom
-    - input_slider.bedroom_prefer_dim_after_weekday
-    - input_slider.bedroom_prefer_dim_after_weekend
+    - input_number.bedroom_prefer_dim_after_weekday
+    - input_number.bedroom_prefer_dim_after_weekend
     - input_select.select_scene_bedroom
 
 card_kitchen_overview:
@@ -109,11 +111,11 @@ card_kitchen_lights:
   control: hidden
   entities:
     - switch.kitchen_lights
-    - input_slider.kitchen_prefer_dim_after_weekday
-    - input_slider.kitchen_prefer_dim_after_weekend
-    - group.kitchen_overhead_lights
+    - light.kitchen_overhead_lights
     - input_boolean.color_loop_kitchen_overhead
-    - group.kitchen_island_lights
+    - light.kitchen_island_lights
+    - input_number.kitchen_prefer_dim_after_weekday
+    - input_number.kitchen_prefer_dim_after_weekend
     - input_select.select_scene_kitchen
 
 card_living_room_overview:
@@ -123,7 +125,6 @@ card_living_room_overview:
     - sensor.living_room_multisensor_relative_humidity
     - sensor.living_room_multisensor_luminance
     - binary_sensor.living_room_multisensor_sensor
-    - switch.living_room_fan_switch
     - input_boolean.trigger_home_theater_mode
 
 card_living_room_lights:
@@ -131,10 +132,9 @@ card_living_room_lights:
   control: hidden
   entities:
     - switch.living_room_lights
-    - switch.hyperion
-    - light.tv_ambient_lighting
-    - input_slider.living_room_prefer_dim_after_weekday
-    - input_slider.living_room_prefer_dim_after_weekend
+    - input_boolean.color_loop_living_room
+    - input_number.living_room_prefer_dim_after_weekday
+    - input_number.living_room_prefer_dim_after_weekend
     - input_select.hyperion_effect
     - input_select.select_scene_living_room
 
@@ -143,29 +143,95 @@ card_office_lights:
   control: hidden
   entities:
     - switch.office_lights
-    - input_slider.office_prefer_dim_after_weekday
-    - input_slider.office_prefer_dim_after_weekend
+    - input_number.office_prefer_dim_after_weekday
+    - input_number.office_prefer_dim_after_weekend
     - input_select.select_scene_office
 
-card_zwave_devices:
-  name: Zwave
+card_server_health:
+  name: Server Health
   entities:
-    - zwave.bathroom_multisensor
-    - zwave.bedroom_multisensor
-    - zwave.kitchen_multisensor
-    - zwave.living_room_multisensor
-    - zwave.living_room_fan
-    - zwave.office_dimmer_switch
-    - zwave.zstick
+    - sensor.overwatch_cpu_load
+    - sensor.overwatch_cpu_temp
+    - sensor.overwatch_ram_used
+    - sensor.woodhouse_cpu_load
+    - sensor.woodhouse_cpu1_temp
+    - sensor.woodhouse_cpu2_temp
+    - sensor.woodhouse_ram_used
+
+# card_cox_data_utilization:
+#   name: Cox Data Utilization
+#   entities:
+#     - sensor.data_plan
+#     - sensor.data_usage
+#     - sensor.data_resets
+
+card_active_mode_monitoring:
+  name: Active Mode Monitoring
+  entities:
+    - sensor.sunset_mode
+    - sensor.night_mode
+    - sensor.guest_mode
+    - sensor.home_theater_mode
+    - sensor.sleep_mode
+    - sensor.simulate_presence_mode
+
+card_network_health:
+  name: Network Health
+  entities:
+    - sensor.cox_wan
+    - sensor.airvpn_wan
+    - sensor.nowhere_network_vpn
+    - sensor.network_airportextreme
+    - sensor.network_alexs_imac
+    - sensor.network_amazon_echo_bedroom
+    - sensor.network_amazon_echo_bathroom
+    - sensor.network_amazon_echo_kitchen
+    - sensor.network_ambiscreen
+    - sensor.network_appletv
+    - sensor.network_august_connect
+    - sensor.network_clara
+    - sensor.network_denon_avr_x1200w
+    - sensor.network_denon_avr_x4300h
+    - sensor.network_nest
+    - sensor.network_netgear_r8000
+    - sensor.network_overwatch
+    - sensor.network_oswin
+    - sensor.network_pfsense
+    - sensor.network_sonos_one_bedroom
+    - sensor.network_sonos_one_bathroom
+    - sensor.network_sonos_one_kitchen
+    - sensor.network_unifi_ap
+    - sensor.network_unifi_switch_16
+    - sensor.network_unifi_switch_8
+    - sensor.network_unifi_switch_8
+    - sensor.network_uvc_apartment_entrance
+    - sensor.network_woodhouse
 
 card_battery_level:
   name: Battery Level
   entities:
+    - sensor.battery_august
     - sensor.battery_bathroom_multisensor
     - sensor.battery_bedroom_multisensor
     - sensor.battery_Kitchen_multisensor
     - sensor.battery_living_room_multisensor
-    - sensor.battery_alex_iphone
+
+card_zwave_devices:
+  name: Zwave
+  entities:
+    - zwave.august_smart_lock_pro
+    - zwave.bathroom_multisensor
+    - zwave.homeseer_bathroom_switch
+    - zwave.bedroom_multisensor
+    - zwave.homeseer_bedroom_switch
+    - zwave.kitchen_multisensor
+    - zwave.homeseer_kitchen_switch
+    - zwave.living_room_multisensor
+    - zwave.homeseer_living_room_switch
+    - zwave.office_dimmer_switch
+    - zwave.zstick
+
+
 
 
 ##############################################################
@@ -177,10 +243,9 @@ default_view:
   icon: mdi:home-assistant
   view: yes
   entities:
-    - device_tracker.alex_alexs_iphone
-    - device_tracker.beacon_octavia
     - group.card_home_inside
     - group.card_home_outside
+    - camera.apartment_entrance
     - group.card_home_bathroom
     - group.card_home_bedroom
     - group.card_home_kitchen
@@ -240,13 +305,13 @@ view_lights:
   icon: mdi:lightbulb-outline
   view: yes
   entities:
-    - group.bedroom_lights
-    - group.bathroom_vanity_lights
-    - group.bathroom_overhead_lights
-    - group.kitchen_overhead_lights
-    - group.kitchen_island_lights
-    - group.living_room_lights
-    - group.office_lights
+    - light.bedroom_lights
+    - light.bathroom_vanity_lights
+    - light.bathroom_overhead_lights
+    - light.kitchen_overhead_lights
+    - light.kitchen_island_lights
+    - light.living_room_lights
+    - light.office_lights
 
 view_scripts:
   name: Scripts
@@ -261,70 +326,29 @@ view_system_health:
   icon: mdi:heart-pulse
   view: yes
   entities:
+    - group.card_server_health
+    - group.card_cox_data_utilization
+    - group.card_active_mode_monitoring
+    - group.card_network_health
     - group.card_battery_level
     - group.card_zwave_devices
 
 
 ##############################################################
-# Lights
+# People
 ##############################################################
 
-kitchen_overhead_lights:
-  name: Kitchen Overhead Lights
-  icon: mdi:lightbulb
+alex:
+  name: Alex
+  icon: mdi:human-male
   entities:
-    - light.overhead_1
-    - light.overhead_2
-    - light.overhead_3
-    - light.overhead_4
-kitchen_island_lights:
-  name: Kitchen Island Lights
-  icon: mdi:ceiling-light
-  entities:
-    - light.island_1
-    - light.island_2
-kitchen_lights:
-  name: Kitchen Lights
-  icon: mdi:lightbulb
-  entities:
-    - group.kitchen_overhead_lights
-    - group.kitchen_island_lights
-living_room_lights:
-  name: Living Room Lights
-  icon: mdi:ceiling-light
-  entities:
-    - light.living_room_1
-bedroom_lights:
-  name: Bedroom Lights
-  icon: mdi:ceiling-light
-  entities:
-    - light.bedroom_1
-    - light.bedroom_2
-bathroom_vanity_lights:
-  name: Bathroom Vanity Lights
-  icon: mdi:lightbulb
-  entities:
-    - light.bathroom_1
-    - light.bathroom_2
-    - light.bathroom_3
-    - light.bathroom_4
-bathroom_overhead_lights:
-  name: Bathroom Overhead Lights
-  icon: mdi:lightbulb
-  entities:
-    - light.bathroom_5
-bathroom_lights:
-  name: Bathroom Lights
-  icon: mdi:lightbulb
-  entities:
-    - group.bathroom_vanity_lights
-    - group.bathroom_overhead_lights
+    - device_tracker.29a8f57641fd49929e90abfdd42d6a0f
 
-office_lights:
-  name: Office Lights
-  icon: mdi:spotlight-beam
+residents:
+  name: Residents
+  icon: mdi:account-multiple
   entities:
-    - light.office_dimmer_switch_level
+    - group.alex
 
 ##############################################################
 # Sensors
@@ -337,10 +361,13 @@ motion_guest_areas:
     - input_boolean.motion_living_room
     - input_boolean.motion_kitchen
     - input_boolean.motion_bathroom
-
-##############################################################
-# Custom
-##############################################################
-
-
-
+device_tracker_woodhouse:
+  name: Woodhouse
+  entities:
+    - device_tracker.woodhouse_nic1
+    - device_tracker.woodhouse_nic2
+device_tracker_oswin:
+  name: Oswin
+  entities:
+    - device_tracker.oswin_nic1
+    - device_tracker.oswin_nic2
