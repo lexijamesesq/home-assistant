@@ -1,9 +1,5 @@
 alias: Select Living Room Home Theater Restore Scene
 sequence:
-  # Always turn on fan
-  - service: switch.turn_on
-    entity_id: switch.living_room_fan_switch
-    
   # Check if lights were on
   - condition: state
     entity_id: input_boolean.home_theater_restore_living_room_lights
