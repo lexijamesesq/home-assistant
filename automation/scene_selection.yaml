@@ -9,7 +9,9 @@
     - service: script.turn_on
       data_template:
         entity_id: >
-          {% if is_state('input_select.select_scene_bedroom', 'Auto') %}
+          {% if is_state('input_select.select_scene_bedroom', 'Ambient') %}
+            script.scene_select_bedroom_ambient
+          {%-elif is_state('input_select.select_scene_bedroom', 'Auto') %}
             script.scene_select_by_time
           {%-elif is_state('input_select.select_scene_bedroom', 'Bright') %}
             script.scene_select_bedroom_bright
