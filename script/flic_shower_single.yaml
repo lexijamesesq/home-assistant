@@ -1,4 +1,7 @@
 alias: Flic Shower Single
 sequence:
-  - service: switch.toggle
-    entity_id: switch.bathroom_lights
+  - condition: state
+    entity_id: media_player.spotify
+    state: 'playing'
+  - service: media_player.media_next_track
+    entity_id: media_player.spotify
