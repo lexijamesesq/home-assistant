@@ -1,7 +1,7 @@
 alias: Select Kitchen Home Theater Scene
 sequence:
   - condition: state
-    entity_id: group.kitchen_lights
+    entity_id: light.kitchen_lights
     state: 'on'
   - service: script.turn_off
     entity_id: script.scene_select_kitchen_home_theater_restore
