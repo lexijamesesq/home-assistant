@@ -4,4 +4,4 @@ sequence:
     entity_id:
       - scene.kitchen_bright_at_night_slow
       - script.scene_select_living_room_ambient
-  - service: shell_command.hyperion_mood_blobs_blue
+      - input_boolean.home_theater_tv_ambient_light
