@@ -1,0 +1,81 @@
+##############################################################
+# HA Start Configuration
+##############################################################
+
+# Manually Set Sunset Mode State #############################
+# State is only changed if it is incorrect. Don't want to trigger mode changes on restart unnecessarily.
+- alias: Manually Reset Start Sunset Mode
+  trigger:
+    platform: homeassistant
+    event: start
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_sunset_mode
+        state: 'off'
+      - condition: template
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_goldenHour.state | timestamp_custom("%H:%M") }}'
+      - condition: template
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.trigger_sunset_mode
+- alias: Manually Reset End Sunset Mode
+  trigger:
+    platform: homeassistant
+    event: start
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_sunset_mode
+        state: 'on'
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_goldenHour.state | timestamp_custom("%H:%M") }}'
+          - condition: template
+            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.trigger_sunset_mode
+
+# Manually Set Night Mode State ##############################
+# State is only changed if it is incorrect. Don't want to trigger mode changes on restart unnecessarily.
+- alias: Manually Reset Start Night Mode
+  trigger:
+    platform: homeassistant
+    event: start
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_night_mode
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
+          - condition: template
+            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_goldenhourend.state | timestamp_custom("%H:%M") }}'
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.trigger_night_mode
+- alias: Manually Reset End Night Mode
+  trigger:
+    platform: homeassistant
+    event: start
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_night_mode
+        state: 'on'
+      - condition: template
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
+      - condition: template
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_goldenhourend.state | timestamp_custom("%H:%M") }}'
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.trigger_night_mode
