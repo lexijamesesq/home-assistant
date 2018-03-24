@@ -4,6 +4,7 @@ select_scene_bedroom:
   initial: Select a scene...
   options:
    - Select a scene...
+   - Ambient
    - Auto
    - Bright
    - Dim
