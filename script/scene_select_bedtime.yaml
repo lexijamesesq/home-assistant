@@ -1,12 +1,10 @@
 alias: Select Bedtime Scene
 sequence:
-  # Turn On Bedroom Lights
-  - service: switch.turn_on
-    entity_id: switch.bedroom_lights
   # Turn Off Living Room Lights
   - service: switch.turn_off
     entity_id: switch.living_room_lights
-  - service: shell_command.hyperion_off
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.home_theater_tv_ambient_light
   # Turn Off Office Lights
   - service: switch.turn_off
     entity_id: switch.office_lights
@@ -16,3 +14,17 @@ sequence:
   # Turn Off Bathroom Lights
   - service: switch.turn_off
     entity_id: switch.bathroom_lights
+  # Don't turn the lights on if they're already on, but if they're on, keep them on
+  - service_template: >
+      {% if is_state('light.bedroom_lights', 'on') %}
+        homeassistant.turn_off
+      {% else %}
+        script.turn_on
+      {% endif %}
+    data_template:
+      entity_id: >
+        {% if is_state('light.bedroom_lights', 'on') %}
+          input_boolean.motion_trigger_bedroom_lights
+        {% else %}
+          script.scene_select_bedroom_dim
+        {% endif %}
