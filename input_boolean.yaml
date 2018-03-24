@@ -11,6 +11,8 @@ trigger_sleep_mode:
   name: Sleep Mode
 trigger_home_theater_mode:
   name: Home Theater Mode
+trigger_simulate_presence_mode:
+  name: Simulate Presence Mode
 
 ##############################################################
 # Motion
@@ -23,6 +25,8 @@ motion_bedroom:
   name: Bedroom Motion
 motion_bathroom:
   name: Bathroom Motion
+motion_front_door:
+  name: Front Door Motion
 
 ##############################################################
 # Triggers
@@ -45,6 +49,8 @@ home_theater_restore_living_room_lights:
   name: Home Theater Restore Living Room Lights
 home_theater_restore_living_room_color_loop:
   name: Home Theater Restore Living Room Color Loop
+home_theater_tv_ambient_light:
+  name: TV Ambient Light
 
 ##############################################################
 # Color Loops
