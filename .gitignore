@@ -1,11 +1,13 @@
 deps
 lib
+python
 tts
 www
 
 .*
 *.db
 *.db-journal
+*.db_bak
 *.conf
 *.csr
 *.crt
@@ -20,6 +22,7 @@ www
 
 .HAVERSION
 .uuid
+entity_registry.yaml
 gitupdate.sh
 ip_bans.yaml
 known_devices.yaml
