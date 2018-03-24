@@ -1,4 +1,0 @@
-alias: Flic Hallway Double
-sequence:
-  - service: switch.toggle
-    entity_id: switch.bedroom_lights
