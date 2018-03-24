@@ -6,14 +6,11 @@
 - alias: Welcome Lighting at Night
   trigger:
     platform: state
-    entity_id: device_tracker.alex_alexs_iphone
+    entity_id: group.residents
     to: 'home'
   condition:
     condition: and
     conditions:
-      - condition: state
-        entity_id: group.kitchen_lights
-        state: 'off'
       - condition: or
         conditions:
           - condition: state
@@ -23,6 +20,14 @@
             entity_id: input_boolean.trigger_night_mode
             state: 'on'
   action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.trigger_simulate_presence_mode
+    - delay: '00:00:02'
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: light.kitchen_lights
+          state: 'off'
     - service: script.turn_on
       data_template:
         entity_id: >
@@ -37,12 +42,14 @@
 ##############################################################
 
 # Empty Home Lighting ########################################
-# All residents and guests have left the premises.
+# All residents have left the premises, but are there guests?
 - alias: Start Away Lighting
   trigger:
     - platform: state
-      entity_id: device_tracker.alex_alexs_iphone
+      entity_id: group.residents
       to: 'not_home'
+      for:
+        minutes: 2
     - platform: state
       entity_id: input_boolean.trigger_guest_mode
       to: 'off'
@@ -50,14 +57,20 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.alex_alexs_iphone
+        entity_id: group.residents
         state: 'not_home'
       - condition: state
         entity_id: input_boolean.trigger_guest_mode
         state: 'off'
   action:
     - service: script.turn_on
-      entity_id: script.scene_select_away_lighting
+      data_template:
+        entity_id: >
+          {% if is_state('group.motion_guest_areas', 'on') or is_state('input_boolean.trigger_home_theater_mode', 'on') %}
+            script.mode_select_guest_mode_on
+          {% else %}
+            script.scene_select_away_lighting
+          {% endif %}
 
 # Furry Overlord Lighting ####################################
 # Turn on Living Room light at night, when no one is home, if it's before 11:00pm
@@ -71,6 +84,9 @@
   condition:
     condition: and
     conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'not_home'
       - condition: state
         entity_id: input_boolean.trigger_night_mode
         state: 'on'
@@ -88,13 +104,13 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.alex_alexs_iphone
+        entity_id: group.residents
         state: 'not_home'
       - condition: state
         entity_id: input_boolean.trigger_guest_mode
         state: 'off'
       - condition: state
-        entity_id: group.living_room_lights
+        entity_id: light.living_room_lights
         state: 'on'
   action:
     - delay: '00:{{ (range(2, 55) | random) }}:00'
@@ -102,54 +118,22 @@
       entity_id: switch.living_room_lights
 
 # Simulate Presence ##########################################
-# Simulate presence between 5:00pm and 3:00am, Night Mode determines actual start time
-# Turn on the kitchen lights when no one is home
-# Lights turn on a random time after one one is home
-# Lights stay on for a random length of time
-# Lights will turn on again after a random delay
-- alias: Simulate Presence at Night
+- alias: Start Simulating Presence at Night
   trigger:
     - platform: state
-      entity_id: device_tracker.alex_alexs_iphone
-      to: 'not_home'
-      for:
-        minutes: 20
-    - platform: state
-      entity_id: input_boolean.trigger_guest_mode
-      to: 'off'
-      for:
-        minutes: 20
-    - platform: state
-      entity_id: input_boolean.trigger_night_mode
+      entity_id: input_boolean.trigger_simulate_presence_mode
       to: 'on'
-    - platform: event
-      event_type: event_simulate_presence
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.trigger_night_mode
-        state: 'on'
-      - condition: state
-        entity_id: device_tracker.alex_alexs_iphone
-        state: 'not_home'
-      - condition: state
-        entity_id: input_boolean.trigger_guest_mode
-        state: 'off'
-      - condition: or
-        conditions:
-          - condition: time
-            after: '17:00:00'
-          - condition: time
-            before: '03:00:00'
   action:
     - service: scene.turn_on
       entity_id: scene.kitchen_dim_at_night
-    - delay: '00:{{ (range(2, 10) | random) }}:00'
+- alias: End Simulating Presence at Night
+  trigger:
+    - platform: state
+      entity_id: input_boolean.trigger_simulate_presence_mode
+      to: 'off'
+  action:
     - service: light.turn_off
-      entity_id: group.kitchen_lights
-    - delay: '00:{{ (range(35, 55) | random) }}:00'
-    - event: event_simulate_presence
+      entity_id: light.kitchen_lights
 
 ##############################################################
 # Timed Events - Home
@@ -165,13 +149,13 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: group.kitchen_overhead_lights
+        entity_id: light.kitchen_overhead_lights
         state: 'off'
       - condition: state
-        entity_id: group.kitchen_island_lights
+        entity_id: light.kitchen_island_lights
         state: 'off'
       - condition: state
-        entity_id: device_tracker.alex_alexs_iphone
+        entity_id: group.residents
         state: 'home'
   action:
     - service: script.turn_on
@@ -193,13 +177,13 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: group.kitchen_overhead_lights
+        entity_id: light.kitchen_overhead_lights
         state: 'on'
       - condition: state
-        entity_id: group.kitchen_island_lights
+        entity_id: light.kitchen_island_lights
         state: 'on'
       - condition: state
-        entity_id: device_tracker.alex_alexs_iphone
+        entity_id: group.residents
         state: 'home'
   action:
     - service: script.turn_on
@@ -226,22 +210,24 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.alex_alexs_iphone
+        entity_id: group.residents
         state: 'not_home'
       - condition: state
         entity_id: input_boolean.trigger_guest_mode
         state: 'on'
-      - condition: state
-        entity_id: group.kitchen_overhead_lights
-        state: 'off'
-      - condition: state
-        entity_id: group.kitchen_island_lights
-        state: 'off'
   action:
-    service: scene.turn_on
-    entity_id:
-      - scene.kitchen_bright_at_night
-      - scene.living_room_bright_at_night
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.trigger_simulate_presence_mode
+    - delay: '00:00:02'
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: light.kitchen_lights
+          state: 'off'
+    - service: scene.turn_on
+      entity_id:
+        - scene.kitchen_bright_at_night
+        - scene.living_room_bright_at_night
 
 
 ##############################################################
@@ -259,7 +245,7 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: group.bathroom_lights
+        entity_id: light.bathroom_lights
         state: 'off'
       - condition: or
         conditions:
@@ -296,7 +282,7 @@
         state: 'on'
   action:
     - service: light.turn_off
-      entity_id: group.bathroom_lights
+      entity_id: light.bathroom_lights
     - service: homeassistant.turn_off
       entity_id: input_boolean.motion_trigger_bathroom_lights
 
@@ -315,7 +301,7 @@
         entity_id: input_boolean.trigger_sleep_mode
         state: 'off'
       - condition: state
-        entity_id: group.bedroom_lights
+        entity_id: light.bedroom_lights
         state: 'off'
       - condition: or
         conditions:
@@ -350,7 +336,7 @@
         before: '21:00:00'
   action:
     - service: light.turn_off
-      entity_id: group.bedroom_lights
+      entity_id: light.bedroom_lights
     - service: homeassistant.turn_off
       entity_id: input_boolean.motion_trigger_bedroom_lights
 - alias: Bedroom Lighting Timed Out during Bedtime
@@ -378,7 +364,7 @@
             before: '06:00:00'
   action:
     - service: light.turn_off
-      entity_id: group.bedroom_lights
+      entity_id: light.bedroom_lights
     - service: homeassistant.turn_off
       entity_id: input_boolean.motion_trigger_bedroom_lights
 
@@ -402,22 +388,24 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.alex_alexs_iphone
+        entity_id: group.residents
         state: 'not_home'
       - condition: state
         entity_id: input_boolean.trigger_night_mode
         state: 'on'
-      - condition: state
-        entity_id: group.kitchen_overhead_lights
-        state: 'off'
-      - condition: state
-        entity_id: group.kitchen_island_lights
-        state: 'off'
   action:
-    service: scene.turn_on
-    entity_id:
-      - scene.kitchen_bright_at_night
-      - scene.living_room_bright_at_night
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.trigger_simulate_presence_mode
+    - delay: '00:00:02'
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: light.kitchen_lights
+          state: 'off'
+    - service: scene.turn_on
+      entity_id:
+        - scene.kitchen_bright_at_night
+        - scene.living_room_bright_at_night
 - alias: Guest Lighting Timed Out
   trigger:
     platform: state
@@ -425,7 +413,7 @@
     to: 'off'
   condition:
     condition: state
-    entity_id: device_tracker.alex_alexs_iphone
+    entity_id: group.residents
     state: 'not_home'
   action:
     service: light.turn_off
@@ -472,19 +460,19 @@
 - alias: Sleep Mode Lights Out Plex
   trigger:
     platform: state
-    entity_id: media_player.plex_alex_bussas_ipad_mini
+    entity_id: media_player.plex_alexs_ipad_mini
     to: 'playing'
   condition:
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.alex_alexs_iphone
+        entity_id: group.residents
         state: 'home'
       - condition: state
         entity_id: input_boolean.trigger_sleep_mode
         state: 'on'
       - condition: state
-        entity_id: group.bedroom_lights
+        entity_id: light.bedroom_lights
         state: 'on'
   action:
     service: scene.turn_on
@@ -509,7 +497,13 @@
     state: 'on'
   action:
     - service: script.turn_on
-      entity_id: script.scene_select_color_loop_kitchen_overhead
+      data_template:
+        entity_id: >
+          {% if trigger.platform == 'state' %}
+            script.color_loop_kitchen_overhead_init
+          {% else %}
+            script.color_loop_kitchen_overhead_trigger
+          {% endif %}
     - delay: '00:00:{{ (range(2, 10) | random) }}'
     - event: event_color_loop_kitchen_overhead
 
@@ -527,8 +521,14 @@
     state: 'on'
   action:
     - service: script.turn_on
-      entity_id: script.scene_select_color_loop_bedroom
-    - delay: '00:00:{{ (range(2, 10) | random) }}'
+      data_template:
+        entity_id: >
+          {% if trigger.platform == 'state' %}
+            script.color_loop_bedroom_init
+          {% else %}
+            script.color_loop_bedroom_trigger
+          {% endif %}
+    - delay: '00:00:{{ (range(25, 60) | random) }}'
     - event: event_color_loop_bedroom
 
 # Living Room Lights #########################################
@@ -538,7 +538,7 @@
       entity_id: input_boolean.color_loop_living_room
       to: 'on'
     - platform: event
-      event_type: event_color_loop_Living_room
+      event_type: event_color_loop_living_room
   condition:
     condition: state
     entity_id: input_boolean.color_loop_living_room
@@ -547,4 +547,30 @@
     - service: script.turn_on
       entity_id: script.color_loop_living_room_trigger
     - delay: '00:00:{{ (range(50, 120) | random) }}'
-    - event: event_color_loop_Living_room
+    - event: event_color_loop_living_room
+
+
+##############################################################
+# Ambient Lights
+##############################################################
+
+# Home Theater TV ############################################
+- alias: Turn On Home Theater TV Ambient Light
+  trigger:
+    - platform: state
+      entity_id: input_boolean.home_theater_tv_ambient_light
+      to: 'on'
+  action:
+    - service_template: >
+        {% if is_state('input_boolean.trigger_home_theater_mode', 'off') %}
+          shell_command.hyperion_mood_blobs_blue
+        {% else %}
+          shell_command.hyperion_plex_playing
+        {% endif %}
+- alias: Turn Off Home Theater TV Ambient Light
+  trigger:
+    - platform: state
+      entity_id: input_boolean.home_theater_tv_ambient_light
+      to: 'off'
+  action:
+    - service: shell_command.hyperion_off
