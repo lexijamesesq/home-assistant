@@ -8,20 +8,26 @@ homeassistant:
   customize: !include customizations.yaml
 
 zone:
-  - name: Home
+  - name: home
     latitude: !secret home_lattitude
     longitude: !secret home_longitude
     radius: 30
     icon: mdi:home
-  - name: Work
+  - name: !secret work_name
     latitude: !secret work_lattitude
     longitude: !secret work_longitude
+    radius: 200
+    icon: mdi:domain
+  - name: !secret dance_name
+    latitude: !secret dance_lattitude
+    longitude: !secret dance_longitude
     radius: 200
     icon: mdi:domain
 
 config:
 conversation:
 frontend:
+
 updater:
 
 http:
@@ -31,15 +37,52 @@ http:
   base_url: !secret base_url
   # ssl_certificate: !secret ssl_certificate
   # ssl_key: !secret ssl_key
+  ip_ban_enabled: true
+  login_attempts_threshold: 3
+
+recorder:
+  purge_interval: 2
+  purge_keep_days: 5
 
 history:
+  exclude:
+    domains:
+      - time_date
+      - automation
+      - script
+
 logbook:
-recorder:
-  purge_days: 7
+  include:
+    domains:
+      - automation
+      - script
+
+influxdb:
+  host: !secret influxdb_host
+  port: !secret influxdb_port
+  database: !secret influxdb_database
+  include:
+    entities:
+       - sensor.average_humidity
+       - sensor.average_temperature
+       - sensor.bathroom_multisensor_luminance
+       - sensor.bathroom_multisensor_relative_humidity
+       - sensor.bathroom_multisensor_temperature
+       - sensor.bedroom_multisensor_luminance
+       - sensor.bedroom_multisensor_relative_humidity
+       - sensor.bedroom_multisensor_temperature
+       - sensor.dark_sky_humidity
+       - sensor.dark_sky_temperature
+       - sensor.kitchen_multisensor_luminance
+       - sensor.kitchen_multisensor_relative_humidity
+       - sensor.kitchen_multisensor_temperature
+       - sensor.living_room_multisensor_luminance
+       - sensor.living_room_multisensor_relative_humidity
+       - sensor.living_room_multisensor_temperature
+       - sensor.living_room_thermostat_nest_target
+       - sensor.living_room_thermostat_nest_temperature
 
 sun:
-tts:
-  platform: google
 
 apple_tv:
   host: !secret media_player_apple_tv_host
@@ -47,9 +90,7 @@ apple_tv:
   name: !secret media_player_apple_tv_name
   credentials: !secret media_player_apple_tv_credentials
 
-
 emulated_hue:
-# type: alexa
   host_ip: !secret emulated_hue_host
   listen_port: !secret emulated_hue_port
   expose_by_default: false
@@ -61,8 +102,41 @@ emulated_hue:
 zwave:
   usb_path: !secret zwave_usb_path
   config_path: !secret zwave_config_path
-  polling_interval: 300000
   new_entity_ids: true
+  polling_interval: 300000
+  device_config:
+    sensor.bathroom_multisensor_alarm_level:
+      ignored: true
+    sensor.bathroom_multisensor_alarm_type:
+      ignored: true
+    sensor.bathroom_multisensor_burglar:
+      ignored: true
+    sensor.bathroom_multisensor_sourcenodeid:
+      ignored: true
+    sensor.bedroom_multisensor_alarm_level:
+      ignored: true
+    sensor.bedroom_multisensor_alarm_type:
+      ignored: true
+    sensor.bedroom_multisensor_burglar:
+      ignored: true
+    sensor.bedroom_multisensor_sourcenodeid:
+      ignored: true
+    sensor.kitchen_multisensor_alarm_level:
+      ignored: true
+    sensor.kitchen_multisensor_alarm_type:
+      ignored: true
+    sensor.kitchen_multisensor_burglar:
+      ignored: true
+    sensor.kitchen_multisensor_sourcenodeid:
+      ignored: true
+    sensor.living_room_multisensor_alarm_level:
+      ignored: true
+    sensor.living_room_multisensor_alarm_type:
+      ignored: true
+    sensor.living_room_multisensor_burglar:
+      ignored: true
+    sensor.living_room_multisensor_sourcenodeid:
+      ignored: true
 
 nest:
   client_id: !secret nest_client_id
@@ -74,25 +148,105 @@ light:
     broadcast: !secret lifx_broadcast
   - platform: hyperion
     host: !secret hyperion_host
-    default_color: [50, 50, 50]
+    default_color: [0, 0, 0]
+    # Kitchen Light Groups
+  - platform: group
+    name: Kitchen Overhead Lights
+    entities:
+      - light.overhead_1
+      - light.overhead_2
+      - light.overhead_3
+      - light.overhead_4
+  - platform: group
+    name: Kitchen Island Lights
+    icon: mdi:ceiling-light
+    entities:
+      - light.island_1
+      - light.island_2
+  - platform: group
+    name: Kitchen Lights
+    entities:
+      - light.kitchen_overhead_lights
+      - light.kitchen_island_lights
+  # Bathroom Light Groups
+  - platform: group
+    name: Bathroom Vanity Lights
+    entities:
+      - light.bathroom_1
+      - light.bathroom_2
+      - light.bathroom_3
+      - light.bathroom_4
+  - platform: group
+    name: Bathroom Overhead Lights
+    entities:
+      - light.bathroom_5
+  - platform: group
+    name: Bathroom Lights
+    entities:
+      - light.bathroom_vanity_lights
+      - light.bathroom_overhead_lights
+  # Bedroom Light Groups
+  - platform: group
+    name: Bedroom Lights
+    icon: mdi:ceiling-light
+    entities:
+      - light.bedroom_1
+      - light.bedroom_2    
+  # Living Room Light Groups
+  - platform: group
+    name: Living Room Lights
+    icon: mdi:ceiling-light
+    entities:
+      - light.living_room_1
+  # Office Light Groups
+  - platform: group
+    name: Office Lights
+    icon: mdi:spotlight-beam
+    entities:
+      - light.office_dimmer_switch_level
 
 device_tracker:
-  - platform: owntracks
-    max_gps_accuracy: 200
-    track_new_devices: false
+  - platform: geofency
+    mobile_beacons:
+      - Octavia
+  - platform: unifi
+    host: !secret unifi_host
+    port: !secret unifi_port
+    username: !secret unifi_username
+    password: !secret unifi_password
+    verify_ssl: false
+    track_new_devices: true
+  - platform: ping
+    hosts:
+      unifi_switch_16: !secret unifi_switch_16
+      unifi_switch_8: !secret unifi_switch_8
+      unifi_ap: !secret unifi_ap
+#  - platform: owntracks
+#    max_gps_accuracy: 200
+#    track_new_devices: false
 
-mqtt:
-  broker: !secret mqtt_remote_host
-  port: !secret mqtt_remote_port
-  client_id: !secret mqtt_remote_client_id
-  keepalive: 60
-  username: !secret mqtt_remote_username
-  password: !secret mqtt_remote_password
+# mqtt:
+#   broker: !secret mqtt_remote_host
+#   port: !secret mqtt_remote_port
+#   client_id: !secret mqtt_remote_client_id
+#   keepalive: 60
+#   username: !secret mqtt_remote_username
+#   password: !secret mqtt_remote_password
+
+notify:
+  - name: Pushover
+    platform: pushover
+    api_key: !secret pushover_api_key
+    user_key: !secret pushover_user_key
+
 
 
 # Disabled Features ##########################################
 # introduction:
 # discovery:
+# tts:
+#   platform: google
+
 
 
 # Includes ###################################################
@@ -100,7 +254,7 @@ automation: !include_dir_merge_list automation/
 binary_sensor: !include binary_sensor.yaml
 group: !include group.yaml
 input_boolean: !include input_boolean.yaml
-input_slider: !include input_slider.yaml
+input_number: !include input_number.yaml
 input_select: !include input_select.yaml
 media_player: !include media_player.yaml
 scene: !include scene.yaml
