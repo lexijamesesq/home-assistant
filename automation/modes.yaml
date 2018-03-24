@@ -5,17 +5,15 @@
 # Sunset Mode ################################################
 - alias: Start Sunset Mode
   trigger:
-    platform: sun
-    event: sunset
-    offset: "-00:55:00"
+    platform: template
+    value_template: '{{ is_state("sensor.suncalc_goldenHour", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.trigger_sunset_mode
 - alias: End Sunset Mode
   trigger:
-    platform: sun
-    event: sunset
-    offset: "-00:25:00"
+    platform: template
+    value_template: '{{ is_state("sensor.suncalc_sunsetstart", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.trigger_sunset_mode
@@ -23,16 +21,15 @@
 # Night Mode #################################################
 - alias: Start Night Mode
   trigger:
-    platform: sun
-    event: sunset
-    offset: "-00:25:00"
+    platform: template
+    value_template: '{{ is_state("sensor.suncalc_sunsetstart", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.trigger_night_mode
 - alias: End Night Mode
   trigger:
-    platform: sun
-    event: sunrise
+    platform: template
+    value_template: '{{ is_state("sensor.suncalc_goldenhourend", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.trigger_night_mode
@@ -44,26 +41,81 @@
 # Guest Mode #################################################
 - alias: Start Guest Mode
   trigger:
-    platform: state
-    entity_id: input_boolean.motion_guest_areas
-    to: 'on'
+    - platform: state
+      entity_id: group.motion_guest_areas
+      to: 'on'
+    - platform: event
+      event_type: event_trigger_guest_mode
   condition: 
     condition: state
-    entity_id: group.all_devices
+    entity_id: group.residents
     state: 'not_home'
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.trigger_guest_mode
 - alias: End Guest Mode
   trigger:
-    platform: state
-    entity_id: input_boolean.motion_guest_areas
-    to: 'off'
-    for:
-      minutes: 30
+    - platform: state
+      entity_id: group.residents
+      to: 'home'
+    - platform: state
+      entity_id: group.motion_guest_areas
+      to: 'off'
+      for:
+        minutes: 30
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.trigger_guest_mode
+
+# Simulate Presence Mode #####################################
+# Turns on between 5:00pm and 3:00am, Night Mode determines actual start time
+# Used for triggering scenes when no one is home, to simulate presence
+# Mode turns on a random time after one one is home
+# Mode stays on for a random length of time
+# Mode will turn on again after a random delay
+- alias: Simulate Presence Mode
+  trigger:
+    - platform: state
+      entity_id: group.residents
+      to: 'not_home'
+      for:
+        minutes: 20
+    - platform: state
+      entity_id: input_boolean.trigger_guest_mode
+      to: 'off'
+      for:
+        minutes: 20
+    - platform: state
+      entity_id: input_boolean.trigger_night_mode
+      to: 'on'
+    - platform: event
+      event_type: event_simulate_presence
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_night_mode
+        state: 'on'
+      - condition: state
+        entity_id: group.residents
+        state: 'not_home'
+      - condition: state
+        entity_id: input_boolean.trigger_guest_mode
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: time
+            after: '17:00:00'
+          - condition: time
+            before: '03:00:00'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.trigger_simulate_presence_mode
+    - delay: '00:{{ (range(2, 10) | random) }}:00'
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.trigger_simulate_presence_mode
+    - delay: '00:{{ (range(35, 55) | random) }}:00'
+    - event: event_simulate_presence
 
 # Sleep Mode #################################################
 # Starts when bedroom beacon is detected during bedtime.
@@ -80,8 +132,8 @@
     conditions:
       - condition: time
         after: '21:00:00'
-      - condition: time
-        before: '06:00:00'
+      - condition: template
+        value_template: '{{ as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M") < states.sensor.suncalc_goldenhourend.state | timestamp_custom("%H:%M") }}'
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.trigger_sleep_mode
@@ -100,26 +152,37 @@
 # Home Theater Mode ##########################################
 - alias: Start Home Theater Mode
   trigger:
-    platform: state
-    entity_id: media_player.plex_apple_tv
-    to: 'playing'
+    - platform: state
+      entity_id: media_player.living_room_apple_tv
+      from: 'idle'
+      to: 'playing'
+    - platform: state
+      entity_id: media_player.living_room_apple_tv
+      from: 'paused'
+      to: 'playing'
+  condition:
+    condition: state
+    entity_id: input_boolean.trigger_home_theater_mode
+    state: 'off'
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.trigger_home_theater_mode
 - alias: End Home Theater Mode
   trigger:
     - platform: state
-      entity_id: media_player.plex_apple_tv
+      entity_id: media_player.living_room_apple_tv
+      from: 'playing'
+      to: 'paused'
+      for:
+        seconds: 10
+    - platform: state
+      entity_id: media_player.living_room_apple_tv
       from: 'playing'
       to: 'idle'
-      for:
-        seconds: 3
     - platform: state
-      entity_id: media_player.plex_apple_tv
+      entity_id: media_player.living_room_apple_tv
       from: 'paused'
       to: 'idle'
-      for:
-        seconds: 3
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.trigger_home_theater_mode
