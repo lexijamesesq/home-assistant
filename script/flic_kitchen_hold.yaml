@@ -4,4 +4,4 @@ sequence:
     entity_id: script.spotify_script_select_by_condition
     data:
       variables:
-        source_requesting: "Alex's iMac"
+        source_requesting: "Alex’s iMac"
