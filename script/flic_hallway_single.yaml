@@ -1,4 +1,0 @@
-alias: Flic Hallway Single
-sequence:
-  - service: switch.toggle
-    entity_id: switch.bedroom_lights
