@@ -45,7 +45,7 @@ group.all_automations:
   hidden: false
 group.all_lights:
   friendly_name: All Lights
-  emulated_hue: true
+  emulated_hue_hidden: false
 group.all_scripts:
   friendly_name: Scripts
   control: hidden
@@ -78,37 +78,46 @@ light.office_dimmer_switch_level:
 ##############################################################
 script.scene_select_bathroom_bright:
   friendly_name: Bathroom Bright
-  emulated_hue: true
+  emulated_hue_hidden: false
 script.scene_select_bathroom_dim:
   friendly_name: Bathroom Dim
-  emulated_hue: true
+  emulated_hue_hidden: false
 script.scene_select_bedroom_bright:
   friendly_name: Bedroom Bright
-  emulated_hue: true
+  emulated_hue_hidden: false
 script.scene_select_bedroom_dim:
   friendly_name: Bedroom Dim
-  emulated_hue: true
+  emulated_hue_hidden: false
+script.scene_select_bedroom_ambient:
+  friendly_name: Bedroom Ambient
+  emulated_hue_hidden: false
 script.scene_select_kitchen_bright:
   friendly_name: Kitchen Bright
-  emulated_hue: true
+  emulated_hue_hidden: false
 script.scene_select_kitchen_dim:
   friendly_name: Kitchen Dim
-  emulated_hue: true
+  emulated_hue_hidden: false
 script.scene_select_kitchen_prep:
   friendly_name: Kitchen Prep
-  emulated_hue: true
+  emulated_hue_hidden: false
+script.scene_select_kitchen_overhead_ambient:
+  friendly_name: Kitchen Overhead Ambient
+  emulated_hue_hidden: false
 script.scene_select_living_room_bright:
   friendly_name: Living Room Bright
-  emulated_hue: true
+  emulated_hue_hidden: false
 script.scene_select_living_room_dim:
   friendly_name: Living Room Dim
-  emulated_hue: true
+  emulated_hue_hidden: false
+script.scene_select_living_room_ambient:
+  friendly_name: Living Room Ambient
+  emulated_hue_hidden: false
 script.scene_select_office_bright:
   friendly_name: Office Bright
-  emulated_hue: true
+  emulated_hue_hidden: false
 script.scene_select_office_dim:
   friendly_name: Office Dim
-  emulated_hue: true
+  emulated_hue_hidden: false
 
 ##############################################################
 # Z-Wave Entities
@@ -233,10 +242,10 @@ sensor.living_room_multisensor_temperature:
 sensor.living_room_multisensor_ultraviolet:
   friendly_name: Living Room UV
   hidden: true
-sensor.humidity_average:
+sensor.average_humidity:
   icon: mdi:water-percent
-sensor.guests_present:
-  icon: mdi:human-greeting
+sensor.average_temperature:
+  icon: mdi:thermometer
 sensor.dark_sky_temperature:
   friendly_name: Temperature
 sensor.dark_sky_daily_high_temperature:
@@ -247,57 +256,94 @@ sensor.dark_sky_humidity:
   friendly_name: Humidity
 sensor.dark_sky_precip_probability:
   friendly_name: Chance of Rain
+sensor.golden_hour:
+  icon: mdi:weather-sunset
+sensor.data_plan:
+  icon: mdi:lan-connect
+sensor.data_usage:
+  icon: mdi:elevator
+sensor.data_resets:
+  icon: mdi:calendar-clock
+sensor.speedtest_download:
+  icon: mdi:download-network
+sensor.speedtest_upload:
+  icon: mdi:upload-network
+sensor.overwatch_cpu_load:
+  icon: mdi:chart-line
+sensor.overwatch_cpu_temp:
+  icon: mdi:thermometer
+sensor.overwatch_ram_used:
+  icon: mdi:memory
+sensor.woodhouse_cpu_load:
+  icon: mdi:chart-line
+sensor.woodhouse_cpu1_temp:
+  icon: mdi:thermometer
+sensor.woodhouse_cpu2_temp:
+  icon: mdi:thermometer
+sensor.woodhouse_ram_used:
+  icon: mdi:memory
+sensor.cox_wan:
+  icon: mdi:network
+sensor.airvpn_wan:
+  icon: mdi:security-network
+sensor.nowhere_network_vpn:
+  icon: mdi:security-network
 
 ##############################################################
 # Input Booleans
 ##############################################################
+input_boolean.home_theater_tv_ambient_light:
+  icon: mdi:television
+  emulated_hue_hidden: false
 input_boolean.trigger_guest_mode:
-  emulated_hue: true
+  emulated_hue_hidden: false
 input_boolean.trigger_home_theater_mode:
   icon: mdi:theater
-  emulated_hue: true
+  emulated_hue_hidden: false
 input_boolean.trigger_night_mode:
   icon: mdi:weather-night
 input_boolean.trigger_sleep_mode:
   icon: mdi:sleep
-  emulated_hue: true
+  emulated_hue_hidden: false
 input_boolean.trigger_sunset_mode:
   icon: mdi:weather-sunset
 
 ##############################################################
 # Input Select
 ##############################################################
-input_slider.bathroom_prefer_dim_after_weekday:
+input_number.bathroom_prefer_dim_after_weekday:
   icon: mdi:theme-light-dark
-input_slider.bathroom_prefer_dim_after_weekend:
+input_number.bathroom_prefer_dim_after_weekend:
   icon: mdi:theme-light-dark
-input_slider.bedroom_prefer_dim_after_weekday:
+input_number.bedroom_prefer_dim_after_weekday:
   icon: mdi:theme-light-dark
-input_slider.bedroom_prefer_dim_after_weekend:
+input_number.bedroom_prefer_dim_after_weekend:
   icon: mdi:theme-light-dark
-input_slider.kitchen_prefer_dim_after_weekday:
+input_number.kitchen_prefer_dim_after_weekday:
   icon: mdi:theme-light-dark
-input_slider.kitchen_prefer_dim_after_weekend:
+input_number.kitchen_prefer_dim_after_weekend:
   icon: mdi:theme-light-dark
-input_slider.living_room_prefer_dim_after_weekday:
+input_number.living_room_prefer_dim_after_weekday:
   icon: mdi:theme-light-dark
-input_slider.living_room_prefer_dim_after_weekend:
+input_number.living_room_prefer_dim_after_weekend:
   icon: mdi:theme-light-dark
 
 ##############################################################
 # Switches
 ##############################################################
 switch.bathroom_lights:
-  emulated_hue: true
+  emulated_hue_hidden: false
 switch.bedroom_lights:
-  emulated_hue: true
+  emulated_hue_hidden: false
 switch.kitchen_lights:
-  emulated_hue: true
-switch.living_room_fan_switch:
-  friendly_name: Living Room Fan
-  icon: mdi:fan
-  emulated_hue: true
+  emulated_hue_hidden: false
 switch.living_room_lights:
-  emulated_hue: true
+  emulated_hue_hidden: false
 switch.office_lights:
-  emulated_hue: true
+  emulated_hue_hidden: false
+
+##############################################################
+# Devices
+##############################################################
+device_tracker.358713ee0d7543e7b8b3d4ed34507290:
+  device: alex_iphone
