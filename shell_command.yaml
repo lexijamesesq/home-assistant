@@ -1,3 +1,7 @@
+##############################################################
+# Hyperion Scripts
+##############################################################
+
 hyperion_off: '/config/hyperion/hyperionoff.sh'
 hyperion_hdmi: '/config/hyperion/hyperionon.sh'
 hyperion_plex_playing: '/config/hyperion/hyperion-plex-playing.sh'
@@ -11,3 +15,11 @@ hyperion_mood_blobs_warm: '/config/hyperion/effects.sh "Warm mood blobs"'
 hyperion_rainbow_swirl: '/config/hyperion/effects.sh "Rainbow swirl"'
 hyperion_rainbow_swirl_fast: '/config/hyperion/effects.sh "Rainbow swirl fast"'
 hyperion_color_traces: '/config/hyperion/effects.sh "Color traces"'
+
+
+##############################################################
+# Python Scripts
+##############################################################
+
+query_cox_data_usage: 'python /config/python/cox_usage.py'
+query_suncalc: 'python2 /config/python/query_suncalc.py'
