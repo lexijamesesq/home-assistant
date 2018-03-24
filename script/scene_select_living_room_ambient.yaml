@@ -1,4 +1,4 @@
 alias: Select Living Room Ambient Scene
 sequence:
   service: homeassistant.turn_on
-  entity_id: input_boolean.color_loop_Living_room
+  entity_id: input_boolean.color_loop_living_room
