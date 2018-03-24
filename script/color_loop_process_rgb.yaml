@@ -8,7 +8,7 @@ sequence:
         brightness: "{{ value }}"
         transition: "{{ transition }}"
         colors: >-
-          {% set h = (range(230, 325) | random) %}
+          {% set h = (range(170, 325) | random) %}
           {% set s = 100 / 100 %}
           {% set v = 44 / 100 %}
   
