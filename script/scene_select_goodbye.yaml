@@ -1,0 +1,21 @@
+alias: Select Goodbye Scene
+sequence:
+  # Cancel lighting scripts containing delays
+  - service: script.turn_off
+    entity_id: script.scene_select_welcome_lighting_at_night
+  # Turn Off Living Room Lights
+  - service: switch.turn_off
+    entity_id: switch.living_room_lights
+  - service: shell_command.hyperion_off
+  # Turn Off Office Lights
+  - service: switch.turn_off
+    entity_id: switch.office_lights
+  # Turn Off Kitchen Lights
+  - service: switch.turn_off
+    entity_id: switch.kitchen_lights
+  # Turn Off Bathroom Lights
+  - service: switch.turn_off
+    entity_id: switch.bathroom_lights
+  # Turn Off Bedroom Lights
+  - service: switch.turn_off
+    entity_id: switch.bedroom_lights
