@@ -1,0 +1,343 @@
+##############################################################
+# General Events
+##############################################################
+# Windows Notifications ######################################
+- alias: Notify Security - Window Opened or Closed When Away
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_windows
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.kitchen_windows
+      from: 'on'
+      to: 'off'
+    - platform: state
+      entity_id: binary_sensor.living_room_windows
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.living_room_windows
+      from: 'on'
+      to: 'off'
+    - platform: state
+      entity_id: binary_sensor.rec_room_windows
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.rec_room_windows
+      from: 'on'
+      to: 'off'
+    - platform: state
+      entity_id: binary_sensor.bedroom_windows
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.bedroom_windows
+      from: 'on'
+      to: 'off'
+    - platform: state
+      entity_id: binary_sensor.den_windows
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.den_windows
+      from: 'on'
+      to: 'off'
+    - platform: state
+      entity_id: binary_sensor.guest_bedroom_windows
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.guest_bedroom_windows
+      from: 'on'
+      to: 'off'
+  condition:
+    - condition: state
+      entity_id: group.residents
+      state: 'not_home'
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data_template:
+      title: "Condo"
+      message: "The {{ trigger.to_state.attributes.friendly_name }} were {% if trigger.to_state.state == 'on' %}opened{% else %}closed{% endif %}."
+      data:
+        push:
+          thread-id: "ha-condo-group"
+          sound: "gamelan.wav"
+
+# Door Notifications #########################################
+- alias: Notify Security - Door Opened
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.garage_door
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.front_door
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.patio_door
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.den_door
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.trigger_sleep_mode
+      state: 'off'
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data_template:
+      title: "Condo"
+      message: "The {{ trigger.to_state.attributes.friendly_name }} was {% if trigger.to_state.state == 'on' %}opened{% else %}closed{% endif %}."
+      data:
+        push:
+          thread-id: "ha-condo-group"
+          sound: "gamelan.wav"
+
+# Garage Notifications #######################################
+- alias: Notify Security - Garage Actual Opened or Closed
+  trigger:
+    - platform: state
+      entity_id:  sensor.garage_actual
+      from: 'closed'
+      to: 'open'
+    - platform: state
+      entity_id:  sensor.garage_actual
+      from: 'open'
+      to: 'closed'
+  condition:
+    - condition: state
+      entity_id: input_boolean.trigger_sleep_mode
+      state: 'off'
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data_template:
+      title: "Condo"
+      message: "The {{ trigger.to_state.attributes.friendly_name }} was {% if trigger.to_state.state == 'open' %}opened{% else %}closed{% endif %}."
+      data:
+        push:
+          thread-id: "ha-condo-group"
+          sound: "gamelan.wav"
+
+
+##############################################################
+# Extended Time Events
+##############################################################
+# Door Notifications #########################################
+- alias: Notify Security - Door Opened for Extended Period of Time
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.garage_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 2
+    - platform: state
+      entity_id: binary_sensor.garage_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 5
+    - platform: state
+      entity_id: binary_sensor.garage_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: binary_sensor.front_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 2
+    - platform: state
+      entity_id: binary_sensor.front_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 5
+    - platform: state
+      entity_id: binary_sensor.front_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: binary_sensor.patio_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 2
+    - platform: state
+      entity_id: binary_sensor.patio_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 5
+    - platform: state
+      entity_id: binary_sensor.patio_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: binary_sensor.den_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 2
+    - platform: state
+      entity_id: binary_sensor.den_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 5
+    - platform: state
+      entity_id: binary_sensor.den_door
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 10
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data_template:
+      title: "Condo"
+      message: "The {{ trigger.to_state.attributes.friendly_name }} has been open for {{ ((as_timestamp(now()) - as_timestamp(trigger.to_state.last_changed)) / 60) | int  }} minutes."
+      data:
+        push:
+          thread-id: "ha-condo-group"
+          sound: "siren.wav"
+
+# Garage Notifications #######################################
+- alias: Notify Security - Garage Actual Opened for Extended Period of Time
+  trigger:
+    - platform: state
+      entity_id:  sensor.garage_actual
+      to: 'open'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id:  sensor.garage_actual
+      to: 'open'
+      for:
+        minutes: 20
+    - platform: state
+      entity_id:  sensor.garage_actual
+      to: 'open'
+      for:
+        minutes: 30
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data_template:
+      title: "Condo"
+      message: "The {{ trigger.to_state.attributes.friendly_name }} has been open for {{ ((as_timestamp(now()) - as_timestamp(states.sensor.garage_actual.last_changed)) / 60) | int  }} minutes."
+      data:
+        push:
+          thread-id: "ha-condo-group"
+          sound: "siren.wav"
+
+
+##############################################################
+# Critical Events
+##############################################################
+# Home Notifications #########################################
+- alias: Notify Security - Home Not Secure for Extended Period of Time When Away
+  trigger:
+    - platform: state
+      entity_id: sensor.dashboard_home_state
+      to: "Insecure"
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: group.residents
+      to: 'not_home'
+      for:
+        minutes: 10
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: sensor.dashboard_home_state
+        state: 'Insecure'
+      - condition: state
+        entity_id: group.residents
+        state: 'not_home'
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data_template:
+      title: "Condo"
+      message: "The condo has not been secure for 10 minutes."
+      data:
+        push:
+          thread-id: "ha-condo-group"
+          sound: "siren.wav"
+          critical: 1
+          volume: 1.0
+
+# Sleep Mode Notifications ###################################
+- alias: Notify Security - Home Not Secure During Sleep Mode
+  trigger:
+    - platform: state
+      entity_id:  sensor.garage_actual
+      to: 'open'
+    - platform: state
+      entity_id: binary_sensor.garage_door
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.front_door
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.patio_door
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.den_door
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.kitchen_windows
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.living_room_windows
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.rec_room_windows
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.bedroom_windows
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.den_windows
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.guest_bedroom_windows
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.trigger_sleep_mode
+      state: 'on'
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data_template:
+      title: "Condo"
+      message: "The {{ trigger.to_state.attributes.friendly_name }} was opened."
+      data:
+        push:
+          thread-id: "ha-condo-group"
+          sound: "siren.wav"
+          critical: 1
+          volume: 1.0
+

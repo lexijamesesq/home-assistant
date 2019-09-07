@@ -1,0 +1,157 @@
+##############################################################
+# Downstairs Windows
+##############################################################
+# Checks to make sure it's the first thermostate to switch mode
+# or that it's triggering before All Windows triggers
+- alias: Set Downstairs Thermostat to ECO When Windows Open
+  trigger:
+    platform: state
+    entity_id: group.downstairs_windows
+    from: 'off'
+    to: 'on'
+    for:
+      seconds: 30
+  condition:
+    condition: and
+    conditions:
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: group.residents
+            state: 'home'
+          - condition: state
+            entity_id: input_boolean.trigger_guest_mode
+            state: 'on'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: group.all_windows
+            state: 'off'
+          - condition: template
+            value_template: '{{ is_state("group.all_windows", "on") and (as_timestamp(now()) < (as_timestamp(states.group.all_windows.last_changed) + 300)) }}'
+  action:
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.downstairs
+        preset_mode: 'eco'
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.downstairs
+        hvac_mode: 'auto'
+
+
+##############################################################
+# Upstairs Windows
+##############################################################
+# Checks to make sure it's the first thermostate to switch mode
+# or that it's triggering before All Windows triggers
+- alias: Set Upstairs Thermostat to ECO When Windows Open
+  trigger:
+    platform: state
+    entity_id: group.upstairs_windows
+    from: 'off'
+    to: 'on'
+    for:
+      seconds: 30
+  condition:
+    condition: and
+    conditions:
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: group.residents
+            state: 'home'
+          - condition: state
+            entity_id: input_boolean.trigger_guest_mode
+            state: 'on'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: group.all_windows
+            state: 'off'
+          - condition: template
+            value_template: '{{ is_state("group.all_windows", "on") and (as_timestamp(now()) < (as_timestamp(states.group.all_windows.last_changed) + 300)) }}'
+  action:
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.upstairs
+        preset_mode: 'eco'
+
+
+##############################################################
+# All Windows
+##############################################################
+# Checks to make sure at least one thermostat is not in eco mode
+- alias: Set All Thermostats to ECO When Windows Open
+  trigger:
+    platform: state
+    entity_id: group.upstairs_windows
+    from: 'off'
+    to: 'on'
+    for:
+      minutes: 5
+  condition:
+    condition: and
+    conditions:
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: group.residents
+            state: 'home'
+          - condition: state
+            entity_id: input_boolean.trigger_guest_mode
+            state: 'on'
+      - condition: template
+        value_template: '{{ (not is_state("climate.downstairs", "eco")) or (not is_state("climate.upstairs", "eco")) }}'
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: '{{ state_attr("climate.downstairs", "preset_mode") | lower != "away and eco" and state_attr("climate.downstairs", "preset_mode") | lower != "eco" }}'
+          - condition: template
+            value_template: '{{ state_attr("climate.upstairs", "preset_mode") | lower != "away and eco" and state_attr("climate.upstairs", "preset_mode") | lower != "eco" }}'
+  action:
+    - service: climate.set_preset_mode
+      data:
+        entity_id:
+          - climate.downstairs
+          - climate.upstairs
+        preset_mode: 'eco'
+
+
+##############################################################
+# Restore Nest Mode
+##############################################################
+# Checks to make sure at least one thermostat is not in eco mode
+- alias: Restore All Thermostats When Windows Close
+  trigger:
+    platform: state
+    entity_id: group.all_windows
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.trigger_guest_mode
+        state: 'on'
+  action:
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.downstairs
+        preset_mode: 'none'
+    - service: climate.set_hvac_mode
+      data_template:
+        entity_id: climate.downstairs
+        hvac_mode: '{{ states("sensor.climate_downstairs_restore_mode") }}'
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.upstairs
+        preset_mode: 'none'
+    - service: climate.set_hvac_mode
+      data_template:
+        entity_id: climate.upstairs
+        hvac_mode: '{{ states("sensor.climate_upstairs_restore_mode") }}'
+        

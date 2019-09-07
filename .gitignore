@@ -1,4 +1,6 @@
+custom_components
 deps
+json
 lib
 python
 tts

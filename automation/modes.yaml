@@ -42,7 +42,9 @@
 - alias: Start Guest Mode
   trigger:
     - platform: state
-      entity_id: group.motion_guest_areas
+      entity_id:
+        - binary_sensor.garage_door
+        - binary_sensor.front_door
       to: 'on'
     - platform: event
       event_type: event_trigger_guest_mode
@@ -63,6 +65,10 @@
       to: 'off'
       for:
         minutes: 30
+  condition:
+    condition: state
+    entity_id: input_boolean.trigger_home_theater_mode
+    state: 'off'
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.trigger_guest_mode
@@ -70,7 +76,7 @@
 # Simulate Presence Mode #####################################
 # Turns on between 5:00pm and 3:00am, Night Mode determines actual start time
 # Used for triggering scenes when no one is home, to simulate presence
-# Mode turns on a random time after one one is home
+# Mode turns on a random time after no one is home
 # Mode stays on for a random length of time
 # Mode will turn on again after a random delay
 - alias: Simulate Presence Mode
@@ -79,12 +85,12 @@
       entity_id: group.residents
       to: 'not_home'
       for:
-        minutes: 20
+        minutes: 10
     - platform: state
       entity_id: input_boolean.trigger_guest_mode
       to: 'off'
       for:
-        minutes: 20
+        minutes: 10
     - platform: state
       entity_id: input_boolean.trigger_night_mode
       to: 'on'
@@ -133,7 +139,18 @@
       - condition: time
         after: '21:00:00'
       - condition: template
-        value_template: '{{ as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M") < states.sensor.suncalc_goldenhourend.state | timestamp_custom("%H:%M") }}'
+        value_template: >
+          {% set weekday = as_timestamp(states.sensor.date.state + " 06:00") %}
+          {% set weekend = as_timestamp(states.sensor.date.state + " " + states.sensor.suncalc_goldenhourend.state) %}
+          {% set time    = as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) %}
+          {% set today   = (now().strftime("%A") | lower) %}
+          {% if today in ["monday", "tuesday", "wednesday", "thursday", "friday"] and time < weekday %}
+            true
+          {% elif today in ["saturday", "sunday"] and time < weekend %}
+            true
+          {% else %}
+            false
+          {% endif %}
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.trigger_sleep_mode
@@ -153,36 +170,72 @@
 - alias: Start Home Theater Mode
   trigger:
     - platform: state
-      entity_id: media_player.living_room_apple_tv
-      from: 'idle'
-      to: 'playing'
-    - platform: state
-      entity_id: media_player.living_room_apple_tv
-      from: 'paused'
-      to: 'playing'
-  condition:
-    condition: state
-    entity_id: input_boolean.trigger_home_theater_mode
-    state: 'off'
+      entity_id: media_player.denon_avr_x4300h
+      from: 'off'
+      to: 'on'
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.trigger_home_theater_mode
 - alias: End Home Theater Mode
   trigger:
     - platform: state
-      entity_id: media_player.living_room_apple_tv
-      from: 'playing'
-      to: 'paused'
-      for:
-        seconds: 10
-    - platform: state
-      entity_id: media_player.living_room_apple_tv
-      from: 'playing'
-      to: 'idle'
-    - platform: state
-      entity_id: media_player.living_room_apple_tv
-      from: 'paused'
-      to: 'idle'
+      entity_id: media_player.denon_avr_x4300h
+      from: 'on'
+      to: 'off'
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.trigger_home_theater_mode
+
+
+##############################################################
+# Notify Modes
+##############################################################
+
+# Overwatch CPU Temp #########################################
+- alias: Mode Start Notify Overwatch CPU Temp
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.overwatch_cpu_temp
+      above: 68
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.notify_overwatch_cpu_temp
+- alias: Mode End Notify Overwatch CPU Temp
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.overwatch_cpu_temp
+      below: 69
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.notify_overwatch_cpu_temp
+    
+# Woodhouse CPU Temp #########################################
+- alias: Mode Start Notify Woodhouse CPU Temp
+  trigger:
+    - platform: numeric_state
+      entity_id:
+        - sensor.woodhouse_cpu1_temp
+        - sensor.woodhouse_cpu2_temp
+      above: 68
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.notify_woodhouse_cpu_temp
+- alias: Mode End Notify Woodhouse CPU Temp
+  trigger:
+    - platform: numeric_state
+      entity_id:
+        - sensor.woodhouse_cpu1_temp
+        - sensor.woodhouse_cpu2_temp
+      below: 69
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: sensor.woodhouse_cpu1_temp
+        below: 69
+      - condition: numeric_state
+        entity_id: sensor.woodhouse_cpu2_temp
+        below: 69
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.notify_woodhouse_cpu_temp

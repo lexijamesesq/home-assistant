@@ -15,7 +15,7 @@
         entity_id: input_boolean.trigger_sunset_mode
         state: 'off'
       - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_goldenHour.state | timestamp_custom("%H:%M") }}'
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
       - condition: template
         value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
   action:
@@ -34,7 +34,7 @@
       - condition: or
         conditions:
           - condition: template
-            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_goldenHour.state | timestamp_custom("%H:%M") }}'
+            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
           - condition: template
             value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
   action:
@@ -79,3 +79,17 @@
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.trigger_night_mode
+
+# Manually Start HomeKit #####################################
+# Wait until the zwave network is ready
+- alias: Manually Start HomeKit
+  trigger:
+    - platform: event
+      event_type: zwave.network_ready
+    - platform: event
+      event_type: zwave.network_complete
+    - platform: event
+      event_type: zwave.network_complete_some_dead
+  action:
+    - service: homekit.start
+    - event: event_zwave_network_ready

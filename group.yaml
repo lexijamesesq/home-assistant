@@ -1,340 +1,4 @@
 ##############################################################
-# Custom Cards
-##############################################################
-
-card_home_inside:
-  name: Inside
-  entities:
-    - sensor.average_temperature
-    - sensor.average_humidity
-    - sensor.august_front_door
-    - device_tracker.alex_alexs_iphone
-    - device_tracker.29a8f57641fd49929e90abfdd42d6a0f
-    - device_tracker.beacon_octavia
-
-card_home_outside:
-  name: Outside
-  entities:
-    - sensor.dark_sky_temperature
-    - sensor.dark_sky_daily_high_temperature
-    - sensor.dark_sky_daily_low_temperature
-    - sensor.dark_sky_humidity
-    - sensor.dark_sky_precip_probability
-    - sensor.golden_hour
-
-card_home_bathroom:
-  name: Bathroom
-  control: hidden
-  entities:
-    - switch.bathroom_lights
-    - input_select.select_scene_bathroom
-
-card_home_bedroom:
-  name: Bedroom
-  control: hidden
-  entities:
-    - switch.bedroom_lights
-    - input_boolean.trigger_sleep_mode
-    - input_select.select_scene_bedroom
-
-card_home_office:
-  name: Office
-  control: hidden
-  entities:
-    - switch.office_lights
-    - input_select.select_scene_office
-
-card_home_kitchen:
-  name: Kitchen
-  control: hidden
-  entities:
-    - switch.kitchen_lights
-    - input_select.select_scene_kitchen
-
-card_home_living_room:
-  name: Living Room
-  control: hidden
-  entities:
-    - switch.living_room_lights
-    - input_boolean.trigger_home_theater_mode
-    - input_select.hyperion_effect
-    - input_select.select_scene_living_room
-
-card_bathroom_overview:
-  name: Bathroom
-  entities:
-    - sensor.bathroom_multisensor_temperature
-    - sensor.bathroom_multisensor_relative_humidity
-    - sensor.bathroom_multisensor_luminance
-    - binary_sensor.bathroom_multisensor_sensor
-
-card_bathroom_lights:
-  name: Lights
-  control: hidden
-  entities:
-    - switch.bathroom_lights
-    - input_number.bathroom_prefer_dim_after_weekday
-    - input_number.bathroom_prefer_dim_after_weekend
-    - light.bathroom_vanity_lights
-    - light.bathroom_overhead_lights
-    - input_select.select_scene_bathroom
-
-card_bedroom_overview:
-  name: Bedroom
-  entities:
-    - sensor.bedroom_multisensor_temperature
-    - sensor.bedroom_multisensor_relative_humidity
-    - sensor.bedroom_multisensor_luminance
-    - binary_sensor.bedroom_multisensor_sensor
-    - input_boolean.trigger_sleep_mode
-
-card_bedroom_lights:
-  name: Lights
-  control: hidden
-  entities:
-    - switch.bedroom_lights
-    - input_boolean.color_loop_bedroom
-    - input_number.bedroom_prefer_dim_after_weekday
-    - input_number.bedroom_prefer_dim_after_weekend
-    - input_select.select_scene_bedroom
-
-card_kitchen_overview:
-  name: Kitchen
-  entities:
-    - sensor.kitchen_multisensor_temperature
-    - sensor.kitchen_multisensor_relative_humidity
-    - sensor.kitchen_multisensor_luminance
-    - binary_sensor.kitchen_multisensor_sensor
-
-card_kitchen_lights:
-  name: Lights
-  control: hidden
-  entities:
-    - switch.kitchen_lights
-    - light.kitchen_overhead_lights
-    - input_boolean.color_loop_kitchen_overhead
-    - light.kitchen_island_lights
-    - input_number.kitchen_prefer_dim_after_weekday
-    - input_number.kitchen_prefer_dim_after_weekend
-    - input_select.select_scene_kitchen
-
-card_living_room_overview:
-  name: Living Room
-  entities:
-    - sensor.living_room_multisensor_temperature
-    - sensor.living_room_multisensor_relative_humidity
-    - sensor.living_room_multisensor_luminance
-    - binary_sensor.living_room_multisensor_sensor
-    - input_boolean.trigger_home_theater_mode
-
-card_living_room_lights:
-  name: Lights
-  control: hidden
-  entities:
-    - switch.living_room_lights
-    - input_boolean.color_loop_living_room
-    - input_number.living_room_prefer_dim_after_weekday
-    - input_number.living_room_prefer_dim_after_weekend
-    - input_select.hyperion_effect
-    - input_select.select_scene_living_room
-
-card_office_lights:
-  name: Lights
-  control: hidden
-  entities:
-    - switch.office_lights
-    - input_number.office_prefer_dim_after_weekday
-    - input_number.office_prefer_dim_after_weekend
-    - input_select.select_scene_office
-
-card_server_health:
-  name: Server Health
-  entities:
-    - sensor.overwatch_cpu_load
-    - sensor.overwatch_cpu_temp
-    - sensor.overwatch_ram_used
-    - sensor.woodhouse_cpu_load
-    - sensor.woodhouse_cpu1_temp
-    - sensor.woodhouse_cpu2_temp
-    - sensor.woodhouse_ram_used
-
-# card_cox_data_utilization:
-#   name: Cox Data Utilization
-#   entities:
-#     - sensor.data_plan
-#     - sensor.data_usage
-#     - sensor.data_resets
-
-card_active_mode_monitoring:
-  name: Active Mode Monitoring
-  entities:
-    - sensor.sunset_mode
-    - sensor.night_mode
-    - sensor.guest_mode
-    - sensor.home_theater_mode
-    - sensor.sleep_mode
-    - sensor.simulate_presence_mode
-
-card_network_health:
-  name: Network Health
-  entities:
-    - sensor.cox_wan
-    - sensor.airvpn_wan
-    - sensor.nowhere_network_vpn
-    - sensor.network_airportextreme
-    - sensor.network_alexs_imac
-    - sensor.network_amazon_echo_bedroom
-    - sensor.network_amazon_echo_bathroom
-    - sensor.network_amazon_echo_kitchen
-    - sensor.network_ambiscreen
-    - sensor.network_appletv
-    - sensor.network_august_connect
-    - sensor.network_clara
-    - sensor.network_denon_avr_x1200w
-    - sensor.network_denon_avr_x4300h
-    - sensor.network_nest
-    - sensor.network_netgear_r8000
-    - sensor.network_overwatch
-    - sensor.network_oswin
-    - sensor.network_pfsense
-    - sensor.network_sonos_one_bedroom
-    - sensor.network_sonos_one_bathroom
-    - sensor.network_sonos_one_kitchen
-    - sensor.network_unifi_ap
-    - sensor.network_unifi_switch_16
-    - sensor.network_unifi_switch_8
-    - sensor.network_unifi_switch_8
-    - sensor.network_uvc_apartment_entrance
-    - sensor.network_woodhouse
-
-card_battery_level:
-  name: Battery Level
-  entities:
-    - sensor.battery_august
-    - sensor.battery_bathroom_multisensor
-    - sensor.battery_bedroom_multisensor
-    - sensor.battery_Kitchen_multisensor
-    - sensor.battery_living_room_multisensor
-
-card_zwave_devices:
-  name: Zwave
-  entities:
-    - zwave.august_smart_lock_pro
-    - zwave.bathroom_multisensor
-    - zwave.homeseer_bathroom_switch
-    - zwave.bedroom_multisensor
-    - zwave.homeseer_bedroom_switch
-    - zwave.kitchen_multisensor
-    - zwave.homeseer_kitchen_switch
-    - zwave.living_room_multisensor
-    - zwave.homeseer_living_room_switch
-    - zwave.office_dimmer_switch
-    - zwave.zstick
-
-
-
-
-##############################################################
-# Views
-##############################################################
-
-default_view:
-  name: Home
-  icon: mdi:home-assistant
-  view: yes
-  entities:
-    - group.card_home_inside
-    - group.card_home_outside
-    - camera.apartment_entrance
-    - group.card_home_bathroom
-    - group.card_home_bedroom
-    - group.card_home_kitchen
-    - group.card_home_living_room
-    - group.card_home_office
-
-view_bathroom:
-  name: Bathroom
-  icon: mdi:duck
-  view: yes
-  entities:
-    - group.card_bathroom_overview
-    - group.card_bathroom_lights
-    - media_player.spotify
-
-view_bedroom:
-  name: Bedroom
-  icon: mdi:hotel
-  view: yes
-  entities:
-    - group.card_bedroom_overview
-    - group.card_bedroom_lights
-    - media_player.spotify
-    - media_player.plex_alex_bussas_ipad_mini
-
-view_kitchen:
-  name: Kitchen
-  icon: mdi:fridge
-  view: yes
-  entities:
-    - group.card_kitchen_overview
-    - group.card_kitchen_lights
-    - media_player.spotify
-
-view_living_room:
-  name: Living Room
-  icon: mdi:sofa
-  view: yes
-  entities:
-    - group.card_living_room_overview
-    - binary_sensor.living_room_multisensor_sensor
-    - group.card_living_room_lights
-    - media_player.plex_apple_tv
-
-view_office:
-  name: Office
-  icon: mdi:desktop-mac
-  view: yes
-  entities:
-    - group.card_office_lights
-    - media_player.spotify
-    - media_player.plex_alexs_imac
-    - media_player.denon_avrx1200w
-
-view_lights:
-  name: Lights
-  icon: mdi:lightbulb-outline
-  view: yes
-  entities:
-    - light.bedroom_lights
-    - light.bathroom_vanity_lights
-    - light.bathroom_overhead_lights
-    - light.kitchen_overhead_lights
-    - light.kitchen_island_lights
-    - light.living_room_lights
-    - light.office_lights
-
-view_scripts:
-  name: Scripts
-  icon: mdi:script
-  view: yes
-  entities:
-    - group.all_automations
-    - group.all_scripts
-
-view_system_health:
-  name: System Health
-  icon: mdi:heart-pulse
-  view: yes
-  entities:
-    - group.card_server_health
-    - group.card_cox_data_utilization
-    - group.card_active_mode_monitoring
-    - group.card_network_health
-    - group.card_battery_level
-    - group.card_zwave_devices
-
-
-##############################################################
 # People
 ##############################################################
 
@@ -342,13 +6,25 @@ alex:
   name: Alex
   icon: mdi:human-male
   entities:
-    - device_tracker.29a8f57641fd49929e90abfdd42d6a0f
+    - device_tracker.alexs_iphone_geofency
 
 residents:
   name: Residents
   icon: mdi:account-multiple
   entities:
     - group.alex
+
+
+##############################################################
+# Lights
+##############################################################
+simulate_presence_scenes:
+  name: Simulate Presence Scenes
+  entities:
+    - scene.den_hallway_night_mid
+    - scene.kitchen_night_mid
+    - scene.living_room_night_mid
+
 
 ##############################################################
 # Sensors
@@ -358,16 +34,61 @@ motion_guest_areas:
   name: Guest Areas Motion
   icon: mdi:run-fast
   entities:
+    - input_boolean.motion_garage
+    - input_boolean.motion_garage_stairs
+    - input_boolean.motion_downstairs_hallway
     - input_boolean.motion_living_room
-    - input_boolean.motion_kitchen
-    - input_boolean.motion_bathroom
+    - input_boolean.motion_main_stairs
+    - input_boolean.motion_upstairs_hallway
+    - input_boolean.motion_den
+
+motion_upstairs_hallway_group_areas:
+  name: Upstairs Hallway Group Motion
+  icon: mdi:run-fast
+  entities:
+    - input_boolean.motion_main_stairs
+    - input_boolean.motion_upstairs_hallway
+
 device_tracker_woodhouse:
   name: Woodhouse
   entities:
     - device_tracker.woodhouse_nic1
     - device_tracker.woodhouse_nic2
+
 device_tracker_oswin:
   name: Oswin
   entities:
     - device_tracker.oswin_nic1
     - device_tracker.oswin_nic2
+
+all_doors:
+  entities:
+    - binary_sensor.garage_door
+    - binary_sensor.front_door
+    - binary_sensor.patio_door
+    - binary_sensor.den_door
+
+downstairs_windows:
+  entities:
+    - binary_sensor.kitchen_windows
+    - binary_sensor.living_room_windows
+    - binary_sensor.rec_room_windows
+
+upstairs_windows:
+  entities:
+    - binary_sensor.bedroom_windows
+    - binary_sensor.den_windows
+    - binary_sensor.guest_bedroom_windows
+
+all_windows:
+  entities:
+    - binary_sensor.kitchen_windows
+    - binary_sensor.living_room_windows
+    - binary_sensor.rec_room_windows
+    - binary_sensor.bedroom_windows
+    - binary_sensor.den_windows
+    - binary_sensor.guest_bedroom_windows
+
+laundry_door_sensor:
+  - binary_sensor.laundry_door_left_sensor
+  - binary_sensor.laundry_door_right_sensor

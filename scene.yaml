@@ -2,339 +2,614 @@
 # Kitchen
 ##############################################################
 
-# Bright Scenes ##############################################
-- name: Kitchen Bright
+- name: Kitchen Day High
   entities:
-    light.kitchen_overhead_lights:
+    light.kitchen:
       state: on
       transition: 2
-      brightness: 191
-      color_temp: 285
-    light.kitchen_island_lights:
-      state: on
-      transition: 2
-      brightness: 128
-      color_temp: 285
+      brightness: 165
 
-- name: Kitchen Bright at Sunset
+- name: Kitchen Day Mid
   entities:
-    light.kitchen_overhead_lights:
+    light.kitchen:
       state: on
       transition: 2
-      brightness: 128
-      color_temp: 312
-    light.kitchen_island_lights:
-      state: on
-      transition: 2
-      brightness: 30
-      color_temp: 312
+      brightness: 55
 
-- name: Kitchen Bright at Night
+- name: Kitchen Night High
   entities:
-    light.kitchen_overhead_lights:
+    light.kitchen:
       state: on
       transition: 2
-      brightness: 153
-      color_temp: 285
-    light.kitchen_island_lights:
-      state: on
-      transition: 2
-      brightness: 51
-      color_temp: 285
+      brightness: 145
 
-# Prep Scenes #################################################
-- name: Kitchen Prep
+- name: Kitchen Night Mid
   entities:
-    light.kitchen_overhead_lights:
+    light.kitchen:
       state: on
       transition: 2
-      brightness: 191
-      color_temp: 285
-    light.kitchen_island_lights:
-      state: on
-      transition: 2
-      brightness: 166
-      color_temp: 285
+      brightness: 90
 
-- name: Kitchen Prep at Night
+- name: Kitchen Night Low
   entities:
-    light.kitchen_overhead_lights:
+    light.kitchen:
       state: on
       transition: 2
-      brightness: 153
-      color_temp: 285
-    light.kitchen_island_lights:
-      state: on
-      transition: 2
-      brightness: 150
-      color_temp: 285
+      brightness: 35
 
-# Dim Scenes #################################################
-- name: Kitchen Dim
+- name: Kitchen Night HT On High
   entities:
-    light.kitchen_overhead_lights:
+    light.kitchen:
       state: on
       transition: 2
-      brightness: 102
-      color_temp: 285
-    light.kitchen_island_lights:
-      state: on
-      transition: 2
-      brightness: 56
-      color_temp: 285
+      brightness: 145
 
-- name: Kitchen Dim at Night
+- name: Kitchen Night HT On Mid
   entities:
-    light.kitchen_overhead_lights:
+    light.kitchen:
       state: on
       transition: 2
-      brightness: 87
-      color_temp: 285
-    light.kitchen_island_lights:
-      state: on
-      transition: 2
-      brightness: 41
-      color_temp: 285
+      brightness: 90
 
-# Home Theater Scenes ########################################
-- name: Kitchen Home Theater
+- name: Kitchen Night HT On Low
   entities:
-    light.kitchen_overhead_lights:
+    light.kitchen:
+      state: on
+      transition: 2
+      brightness: 35
+
+- name: Kitchen Night HT Playing High
+  entities:
+    light.kitchen:
       state: on
       transition: 5
-      brightness: 77
-      color_temp: 285
-    light.kitchen_island_lights:
-      state: on
-      transition: 5
-      brightness: 36
-      color_temp: 285
+      brightness: 75
 
-- name: Kitchen Home Theater at Night
+- name: Kitchen Night HT Playing Mid
   entities:
-    light.kitchen_overhead_lights:
+    light.kitchen:
       state: on
       transition: 5
-      brightness: 51
-      color_temp: 285
-    light.kitchen_island_lights:
-      state: on
-      transition: 5
-      brightness: 20
-      color_temp: 285
+      brightness: 10
 
-# Timed Scenes ###############################################
-- name: Kitchen Bright at Sunset Slow
+- name: Kitchen Night HT Playing Low
   entities:
-    light.kitchen_overhead_lights:
+    light.kitchen:
       state: on
-      transition: 600
-      brightness: 128
-      color_temp: 312
-    light.kitchen_island_lights:
-      state: on
-      transition: 600
-      brightness: 30
-      color_temp: 312
-- name: Kitchen Bright at Night Slow
-  entities:
-    light.kitchen_overhead_lights:
-      state: on
-      transition: 300
-      brightness: 153
-      color_temp: 285
-    light.kitchen_island_lights:
-      state: on
-      transition: 300
-      brightness: 51
-      color_temp: 285
+      transition: 5
+      brightness: 5
 
 
 ##############################################################
 # Living Room
 ##############################################################
 
-# Bright Scenes #############################################
-- name: Living Room Bright
+- name: Living Room Day High
   entities:
-    light.living_room_lights:
+    light.living_room:
       state: on
       transition: 2
-      brightness: 191
-      color_temp: 285
+      brightness: 210
 
-- name: Living Room Bright at Night
+- name: Living Room Day Mid
   entities:
-    light.living_room_lights:
+    light.living_room:
       state: on
       transition: 2
-      brightness: 153
-      color_temp: 285
+      brightness: 70
 
-# Dim Scenes #############################################
-- name: Living Room Dim
+- name: Living Room Day HT On High
   entities:
-    light.living_room_lights:
-      state: on
-      transition: 2
-      brightness: 115
-      color_temp: 285
-
-- name: Living Room Dim at Night
-  entities:
-    light.living_room_lights:
-      state: on
-      transition: 2
-      brightness: 102
-      color_temp: 285
-
-# Home Theater Scenes ####################################
-- name: Living Room Home Theater Fade Out
-  entities:
-    light.living_room_lights:
+    light.living_room:
       state: off
       transition: 2
 
-
-##############################################################
-# Bedroom
-##############################################################
-
-# Bright Scenes #############################################
-- name: Bedroom Bright
+- name: Living Room Day HT On Mid
   entities:
-    light.bedroom_lights:
-      state: on
-      transition: 2
-      brightness: 204
-      color_temp: 250
-
-- name: Bedroom Bright at Night
-  entities:
-    light.bedroom_lights:
-      state: on
-      transition: 2
-      brightness: 191
-      color_temp: 285
-
-# Dim Scenes #################################################
-- name: Bedroom Dim
-  entities:
-    light.bedroom_lights:
-      state: on
-      transition: 2
-      brightness: 76
-      color_temp: 250
-
-- name: Bedroom Dim at Night
-  entities:
-    light.bedroom_lights:
-      state: on
-      transition: 2
-      brightness: 76
-      color_temp: 285
-
-# Bedtime Scenes #########################################
-- name: Bedroom Bedtime Fade Out
-  entities:
-    light.bedroom_lights:
+    light.living_room:
       state: off
+      transition: 2
+
+- name: Living Room Day HT Playing High
+  entities:
+    light.living_room:
+      state: off
+      transition: 2
+
+- name: Living Room Day HT Playing Mid
+  entities:
+    light.living_room:
+      state: off
+      transition: 2
+
+- name: Living Room Night High
+  entities:
+    light.living_room:
+      state: on
+      transition: 2
+      brightness: 190
+
+- name: Living Room Night Mid
+  entities:
+    light.living_room:
+      state: on
+      transition: 2
+      brightness: 120
+
+- name: Living Room Night Low
+  entities:
+    light.living_room:
+      state: on
+      transition: 2
+      brightness: 50
+
+- name: Living Room Night HT On High
+  entities:
+    light.living_room:
+      state: on
       transition: 5
-
-
-##############################################################
-# Bathroom
-##############################################################
-
-# Bright Scenes ##############################################
-- name: Bathroom Bright
-  entities:
-    light.bathroom_lights:
-      state: on
-      transition: 2
-      brightness: 153
-      color_temp: 285
-
-- name: Bathroom Bright at Night
-  entities:
-    light.bathroom_lights:
-      state: on
-      transition: 2
-      brightness: 141
-      color_temp: 285
-
-# Dim Scenes ##############################################
-- name: Bathroom Dim
-  entities:
-    light.bathroom_lights:
-      state: on
-      transition: 2
-      brightness: 71
-      color_temp: 285
-
-- name: Bathroom Dim at Night
-  entities:
-    light.bathroom_lights:
-      state: on
-      transition: 2
-      brightness: 64
-      color_temp: 285
-
-# Nightlight Scenes ##########################################
-- name: Bathroom Nightlight
-  entities:
-    light.bathroom_5:
-      state: on
-      transition: 2
-      brightness: 7
-      color_temp: 285
-
-
-##############################################################
-# Office
-##############################################################
-
-# Bright Scenes ##############################################
-- name: Office Bright
-  entities:
-    light.office_lights:
-      state: on
-      transition: 2
-      brightness: 115
-
-- name: Office Bright at Night
-  entities:
-    light.office_lights:
-      state: on
-      transition: 2
       brightness: 100
 
-# Dim Scenes ##############################################
-- name: Office Dim
+- name: Living Room Night HT On Mid
   entities:
-    light.office_lights:
-      state: on
-      transition: 2
-      brightness: 55
-
-- name: Office Dim at Night
-  entities:
-    light.office_lights:
-      state: on
-      transition: 2
-      brightness: 48
-
-# Home Theater Scenes ########################################
-- name: Office Home Theater
-  entities:
-    light.office_lights:
+    light.living_room:
       state: on
       transition: 5
-      brightness: 12
+      brightness: 60
 
-- name: Office Home Theater at Night
+- name: Living Room Night HT On Low
   entities:
-    light.office_lights:
+    light.living_room:
       state: on
       transition: 5
-      brightness: 6
+      brightness: 25
+
+- name: Living Room Night HT Playing High
+  entities:
+    light.downstairs_hallway:
+      state: off
+      transition: 5
+    light.main_stairs:
+      state: off
+      transition: 5
+    light.living_room:
+      state: off
+      transition: 5
+
+- name: Living Room Night HT Playing Mid
+  entities:
+    light.downstairs_hallway:
+      state: off
+      transition: 5
+    light.main_stairs:
+      state: off
+      transition: 5
+    light.living_room:
+      state: off
+      transition: 5
+
+- name: Living Room Night HT Playing Low
+  entities:
+    light.downstairs_hallway:
+      state: off
+      transition: 5
+    light.main_stairs:
+      state: off
+      transition: 5
+    light.living_room:
+      state: off
+      transition: 5
+
+
+##############################################################
+# TV Ambient
+##############################################################
+
+- name: TV Ambient Day
+  entities:
+    light.tv_ambient:
+      state: off
+
+# TV Ambient Day HT On - Comes from LIFX
+- name: TV Ambient Day HT On
+  entities:
+    script.scene_select_tv_ambient_ht_on:
+      state: on
+
+- name: TV Ambient Sunset
+  entities:
+    light.tv_ambient:
+      state: off
+
+- name: TV Ambient Sunset HT Playing
+  entities:
+    light.tv_ambient:
+      state: on
+      brightness: 45
+      color_temp: 285
+
+- name: TV Ambient Night
+  entities:
+    light.tv_ambient:
+      state: off
+
+# TV Ambient Night HT On - Comes from LIFX
+- name: TV Ambient Night HT On
+  entities:
+    script.scene_select_tv_ambient_ht_on:
+      state: on
+
+- name: TV Ambient Night HT Playing
+  entities:
+    light.tv_ambient:
+      state: on
+      brightness: 25
+      color_temp: 285
+
+
+##############################################################
+# Garage Stairs
+##############################################################
+
+- name: Garage Stairs Day High
+  entities:
+    light.garage_stairs:
+      state: on
+      transition: 2
+      brightness: 95
+
+- name: Garage Stairs Day Mid
+  entities:
+    light.garage_stairs:
+      state: on
+      transition: 2
+      brightness: 45
+
+- name: Garage Stairs Night High
+  entities:
+    light.garage_stairs:
+      state: on
+      transition: 2
+      brightness: 75
+
+- name: Garage Stairs Night Mid
+  entities:
+    light.garage_stairs:
+      state: on
+      transition: 2
+      brightness: 50
+
+- name: Garage Stairs Night Low
+  entities:
+    light.garage_stairs:
+      state: on
+      transition: 2
+      brightness: 25
+
+
+##############################################################
+# Downstairs Hallway
+##############################################################
+
+- name: Downstairs Hallway Day High
+  entities:
+    light.downstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 95
+
+- name: Downstairs Hallway Day Mid
+  entities:
+    light.downstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 45
+
+- name: Downstairs Hallway Night High
+  entities:
+    light.downstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 75
+
+- name: Downstairs Hallway Night Mid
+  entities:
+    light.downstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 50
+
+- name: Downstairs Hallway Night Low
+  entities:
+    light.downstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 25
+
+
+##############################################################
+# Upstairs Hallway Group
+##############################################################
+- name: Upstairs Hallway Group Day High
+  entities:
+    light.main_stairs:
+      state: on
+      transition: 2
+      brightness: 95
+    light.upstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 95
+    light.bedroom_hallway:
+      state: on
+      transition: 2
+      brightness: 95
+
+- name: Upstairs Hallway Group Day Mid
+  entities:
+    light.main_stairs:
+      state: on
+      transition: 2
+      brightness: 45
+    light.upstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 45
+    light.bedroom_hallway:
+      state: on
+      transition: 2
+      brightness: 45
+
+- name: Upstairs Hallway Group Night High
+  entities:
+    light.main_stairs:
+      state: on
+      transition: 2
+      brightness: 75
+    light.upstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 75
+    light.bedroom_hallway:
+      state: on
+      transition: 2
+      brightness: 75
+
+- name: Upstairs Hallway Group Night Mid
+  entities:
+    light.main_stairs:
+      state: on
+      transition: 2
+      brightness: 50
+    light.upstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 50
+    light.bedroom_hallway:
+      state: on
+      transition: 2
+      brightness: 50
+
+- name: Upstairs Hallway Group Night Low
+  entities:
+    light.main_stairs:
+      state: on
+      transition: 2
+      brightness: 25
+    light.upstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 25
+    light.bedroom_hallway:
+      state: on
+      transition: 2
+      brightness: 25
+
+
+##############################################################
+# Main Stairs
+##############################################################
+
+- name: Main Stairs Day High
+  entities:
+    light.main_stairs:
+      state: on
+      transition: 2
+      brightness: 95
+
+- name: Main Stairs Day Mid
+  entities:
+    light.main_stairs:
+      state: on
+      transition: 2
+      brightness: 45
+
+- name: Main Stairs Night High
+  entities:
+    light.main_stairs:
+      state: on
+      transition: 2
+      brightness: 75
+
+- name: Main Stairs Night Mid
+  entities:
+    light.main_stairs:
+      state: on
+      transition: 2
+      brightness: 50
+
+- name: Main Stairs Night Low
+  entities:
+    light.main_stairs:
+      state: on
+      transition: 2
+      brightness: 25
+
+
+##############################################################
+# Upstairs Hallway
+##############################################################
+
+- name: Upstairs Hallway Day High
+  entities:
+    light.upstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 95
+
+- name: Upstairs Hallway Day Mid
+  entities:
+    light.upstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 45
+
+- name: Upstairs Hallway Night High
+  entities:
+    light.upstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 75
+
+- name: Upstairs Hallway Night Mid
+  entities:
+    light.upstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 50
+
+- name: Upstairs Hallway Night Low
+  entities:
+    light.upstairs_hallway:
+      state: on
+      transition: 2
+      brightness: 25
+
+
+##############################################################
+# Bedroom Hallway
+##############################################################
+
+- name: Bedroom Hallway Day High
+  entities:
+    light.bedroom_hallway:
+      state: on
+      transition: 2
+      brightness: 95
+
+- name: Bedroom Hallway Day Mid
+  entities:
+    light.bedroom_hallway:
+      state: on
+      transition: 2
+      brightness: 45
+
+- name: Bedroom Hallway Night High
+  entities:
+    light.bedroom_hallway:
+      state: on
+      transition: 2
+      brightness: 75
+
+- name: Bedroom Hallway Night Mid
+  entities:
+    light.bedroom_hallway:
+      state: on
+      transition: 2
+      brightness: 50
+
+- name: Bedroom Hallway Night Low
+  entities:
+    light.bedroom_hallway:
+      state: on
+      transition: 2
+      brightness: 25
+
+
+##############################################################
+# Den Hallway
+##############################################################
+
+- name: Den Hallway Day High
+  entities:
+    light.den_hallway:
+      state: on
+      transition: 2
+      brightness: 95
+
+- name: Den Hallway Day Mid
+  entities:
+    light.den_hallway:
+      state: on
+      transition: 2
+      brightness: 45
+
+- name: Den Hallway Night High
+  entities:
+    light.den_hallway:
+      state: on
+      transition: 2
+      brightness: 75
+
+- name: Den Hallway Night Mid
+  entities:
+    light.den_hallway:
+      state: on
+      transition: 2
+      brightness: 50
+
+- name: Den Hallway Night Low
+  entities:
+    light.den_hallway:
+      state: on
+      transition: 2
+      brightness: 25
+
+
+##############################################################
+# Den Cabinets
+##############################################################
+
+- name: Den Cabinets Day High
+  entities:
+    light.den_cabinets:
+      state: on
+      brightness: 75
+      color_temp: 285
+
+- name: Den Cabinets Day Mid
+  entities:
+    light.den_cabinets:
+      state: on
+      brightness: 75
+      color_temp: 285
+
+- name: Den Cabinets Night High
+  entities:
+    light.den_cabinets:
+      state: on
+      brightness: 75
+      color_temp: 285
+
+- name: Den Cabinets Night Mid
+  entities:
+    light.den_cabinets:
+      state: on
+      brightness: 75
+      color_temp: 285
+
+- name: Den Cabinets Night Low
+  entities:
+    light.den_cabinets:
+      state: on
+      brightness: 75
+      color_temp: 285
+
+
+
+##############################################################
+# LIFX Cloud
+##############################################################
+
+# - platform: lifx_cloud
+#   token: !secret lifx_cloud_token

@@ -1,0 +1,29 @@
+##############################################################
+# Rest Commands
+##############################################################
+
+# Restart Sonarr After Crash #################################
+- alias: Service Restart - Sonarr
+  trigger:
+    - platform: state
+      entity_id:  sensor.service_status_sonarr
+      to: 'Down'
+      for:
+        minutes: 10
+  action:
+    - service: rest_command.docker_restart_sonarr
+    - event: event_service_restart_sonarr
+
+
+# Restart Plex When Upgrade Available ########################
+- alias: Service Update - Plex
+  trigger:
+    - platform: time
+      at: "03:00:00"
+  condition:
+    - condition: state
+      entity_id: sensor.tautulli_plex_update_available
+      state: 'on'
+  action:
+    - service: rest_command.docker_restart_plex
+    - event: event_service_upgrading_plex

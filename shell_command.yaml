@@ -1,25 +1,7 @@
 ##############################################################
-# Hyperion Scripts
-##############################################################
-
-hyperion_off: '/config/hyperion/hyperionoff.sh'
-hyperion_hdmi: '/config/hyperion/hyperionon.sh'
-hyperion_plex_playing: '/config/hyperion/hyperion-plex-playing.sh'
-hyperion_knight_rider: '/config/hyperion/effects.sh "Knight rider"'
-hyperion_mood_blobs_blue: '/config/hyperion/effects.sh "Blue mood blobs"'
-hyperion_mood_blobs_cold: '/config/hyperion/effects.sh "Cold mood blobs"'
-hyperion_mood_blobs_full_color: '/config/hyperion/effects.sh "Full color mood blobs"'
-hyperion_mood_blobs_green: '/config/hyperion/effects.sh "Green mood blobs"'
-hyperion_mood_blobs_red: '/config/hyperion/effects.sh "Red mood blobs"'
-hyperion_mood_blobs_warm: '/config/hyperion/effects.sh "Warm mood blobs"'
-hyperion_rainbow_swirl: '/config/hyperion/effects.sh "Rainbow swirl"'
-hyperion_rainbow_swirl_fast: '/config/hyperion/effects.sh "Rainbow swirl fast"'
-hyperion_color_traces: '/config/hyperion/effects.sh "Color traces"'
-
-
-##############################################################
 # Python Scripts
 ##############################################################
 
 query_cox_data_usage: 'python /config/python/cox_usage.py'
 query_suncalc: 'python2 /config/python/query_suncalc.py'
+lifxlan_tv_ambient_ht_on: 'python /config/python/scenes/tv_ambient_ht_on.py'

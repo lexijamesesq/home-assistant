@@ -1,4 +1,10 @@
-- platform: flic
-  host: !secret flic_host
-  port: !secret flic_port
-  discovery: true
+# Not currently using Flic buttons
+# - platform: flic
+#   host: !secret flic_host
+#   port: !secret flic_port
+#   discovery: true
+
+- platform: ring
+  monitored_conditions:
+    - ding
+    - motion

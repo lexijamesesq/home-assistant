@@ -54,23 +54,30 @@ select_scene_office:
    - Dim
    - Home Theater
 
-
-hyperion_effect:
-  name: Hyperion Effect
-  icon: mdi:television
-  initial: Select an effect...
+master_sonos:
+  name: Master Sonos Player
+  icon: mdi:music
+  initial: Kitchen
   options:
-   - Select an effect...
-   - 'Off'
-   - HDMI
-   - Plex Playing
-   - Knight Rider
-   - Mood Blobs Blue
-   - Mood Blobs Cold
-   - Mood Blobs Full Color
-   - Mood Blobs Green
-   - Mood Blobs Red
-   - Mood Blobs Warm
-   - Rainbow Swirl
-   - Rainbow Swirl Fast
-   - Color Traces
+    - Kitchen
+    - Living Room
+    - Rec Room
+    - Bedroom
+    - Bathroom
+    - Den
+
+octavia_state:
+  name: Octavia State
+  icon: mdi:jeepney
+  initial: Parked
+  options:
+    - Parked
+    - Driving
+
+octavia_driver:
+  name: Octavia Driver
+  icon: mdi:jeepney
+  initial: Unoccupied
+  options:
+    - Unoccupied
+    - Alex

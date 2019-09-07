@@ -17,24 +17,44 @@ trigger_simulate_presence_mode:
 ##############################################################
 # Motion
 ##############################################################
-motion_kitchen:
-  name: Kitchen Motion
-motion_living_room:
-  name: Living Room Motion
-motion_bedroom:
-  name: Bedroom Motion
-motion_bathroom:
-  name: Bathroom Motion
 motion_front_door:
   name: Front Door Motion
+motion_garage:
+  name: Garage Motion
+motion_garage_stairs:
+  name: Garage Stairs Motion
+motion_downstairs_hallway:
+  name: Downstairs Hallway Motion
+motion_living_room:
+  name: Living Room Motion
+motion_main_stairs:
+  name: Main Motion
+motion_upstairs_hallway:
+  name: Upstairs Hallway Motion
+motion_den:
+  name: Den Motion
+motion_den_hallway:
+  name: Den Hallway Motion
 
 ##############################################################
 # Triggers
 ##############################################################
-motion_trigger_bedroom_lights:
-  name: Bedroom Lights Triggered by Motion
-motion_trigger_bathroom_lights:
-  name: Bathroom Lights Triggered by Motion
+motion_trigger_upstairs_hallway_group_lights:
+  name: Upstairs Hallway Group Lights Triggered by Motion
+motion_trigger_den_hallway_lights:
+  name: Den Hallway Lights Triggered by Motion
+motion_trigger_downstairs_hallway_lights:
+  name: Downstairs Hallway Lights Triggered by Motion
+door_trigger_downstairs_hallway_lights:
+  name: Downstairs Hallway Lights Triggered by Door
+motion_trigger_garage_lights:
+  name: Garage Lights Triggered by Motion
+door_trigger_garage_lights:
+  name: Garage Lights Triggered by Door
+motion_trigger_garage_stairs_lights:
+  name: Garage Stairs Lights Triggered by Motion
+door_trigger_garage_stairs_lights:
+  name: Garage Stairs Lights Triggered by Door
 
 ##############################################################
 # Media Players
@@ -52,6 +72,20 @@ home_theater_restore_living_room_color_loop:
 home_theater_tv_ambient_light:
   name: TV Ambient Light
 
+# Sonos Speakers #############################################
+sonos_kitchen:
+  name: Kitchen
+sonos_living_room:
+  name: Living Room
+sonos_rec_room:
+  name: Rec Room
+sonos_bedroom:
+  name: Bedroom
+sonos_bathroom:
+  name: Bathroom
+sonos_den:
+  name: Den
+
 ##############################################################
 # Color Loops
 ##############################################################
@@ -61,3 +95,17 @@ color_loop_bedroom:
   name: Bedroom Color Loop
 color_loop_living_room:
   name: Living Room Color Loop
+
+##############################################################
+# Covers
+##############################################################
+trigger_garage_opener:
+  name: Garage Opener
+
+##############################################################
+# Notify States
+##############################################################
+notify_overwatch_cpu_temp:
+  name: Overwatch CPU Temp
+notify_woodhouse_cpu_temp:
+  name: Woodhouse CPU Temp

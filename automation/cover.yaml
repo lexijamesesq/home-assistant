@@ -1,0 +1,13 @@
+# Toggle Off When Stop Event Triggered #######################
+# Garage Actual switch automatically toggles itself off on an 
+# open or close event, but not on a stop event.
+- alias: Toggle Garage Actual Switch Off
+  trigger:
+    - platform: state
+      entity_id: switch.garage_actual
+      to: 'on'
+      for:
+        seconds: 2
+  action:
+    - service: switch.turn_off
+      entity_id: switch.garage_actual

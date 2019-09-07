@@ -1,0 +1,29 @@
+alias: Select Downstairs Hallway Dim Scene
+sequence:
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+          scene.downstairs_hallway_dim_at_night
+        {% else %}
+          scene.downstairs_hallway_dim
+        {% endif %}
+  - service_template: >
+      {% if trigger is defined %}
+        {% if trigger == 'motion' or trigger == 'door' %}
+          homeassistant.turn_on
+        {% else %}
+          homeassistant.turn_off
+        {% endif %}
+      {% else %}
+        homeassistant.turn_off
+      {% endif %}
+    data_template:
+      entity_id: >
+        {% if trigger is defined %}
+          {% if trigger == 'motion' %}
+            input_boolean.motion_trigger_downstairs_hallway_lights
+          {% elif trigger == 'door' %}
+            input_boolean.door_trigger_downstairs_hallway_lights
+          {% endif %}
+        {% endif %}

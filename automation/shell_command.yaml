@@ -15,7 +15,7 @@
 # Query suncalc every 1 hour #################################
 - alias: Query Suncalc
   trigger:
-    platform: time
+    platform: time_pattern
     hours: '/1'
     minutes: 00
     seconds: 00

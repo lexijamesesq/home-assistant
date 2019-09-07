@@ -1,0 +1,17 @@
+alias: Select Kitchen Home Theater Scene
+sequence:
+  - condition: state
+    entity_id: light.kitchen
+    state: 'on'
+  - service: script.turn_off
+    entity_id: script.scene_select_kitchen_home_theater_restore
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+          scene.kitchen_home_theater_at_night
+        {% else %}
+          scene.kitchen_home_theater
+        {% endif %}
+  - service: homeassistant.turn_on
+    entity_id: input_boolean.home_theater_restore_kitchen_lights

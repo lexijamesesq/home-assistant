@@ -1,0 +1,44 @@
+- alias: TileBoard Switch to Sonos Tab
+  trigger:
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
+  action:
+    - event: tileboard
+      event_data:
+        page: 2
+        command: 'open_page'
+- alias: TileBoard Switch to Home Tab
+  trigger:
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'paused'
+      for:
+        seconds: 30
+  action:
+    - event: tileboard
+      event_data:
+        page: 0
+        command: 'open_page'
+- alias: TileBoard Turn Screen Off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.trigger_sleep_mode
+      to: 'on'
+      for:
+        minutes: 20
+  action:
+    - event: tileboard
+      event_data:
+        page: 0
+        command: 'screen_off'
+- alias: TileBoard Turn Screen On
+  trigger:
+    - platform: state
+      entity_id: input_boolean.trigger_sleep_mode
+      to: 'off'
+  action:
+    - event: tileboard
+      event_data:
+        page: 0
+        command: 'screen_on'

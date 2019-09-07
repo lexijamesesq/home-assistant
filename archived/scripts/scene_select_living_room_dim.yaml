@@ -1,0 +1,10 @@
+alias: Select Living Room Dim Scene
+sequence:
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+          scene.living_room_dim_at_night
+        {% else %}
+          scene.living_room_dim
+        {% endif %}

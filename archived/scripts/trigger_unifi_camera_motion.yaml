@@ -1,0 +1,15 @@
+alias: Trigger UniFi Camera Motion
+sequence:
+  - service_template: >
+      {% if event == 'started' %}
+        homeassistant.turn_on
+      {% else %}
+        homeassistant.turn_off
+      {% endif %}
+    data_template:
+      entity_id: >
+        {% if camera_id == 'F09FC2C024EB' %}
+          input_boolean.motion_front_door
+        {% elif camera_id == 'FCECDA303C75' %}
+          input_boolean.motion_garage
+        {% endif %}

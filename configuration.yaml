@@ -1,61 +1,97 @@
 homeassistant:
   name: Home
-  latitude: !secret home_lattitude
+  latitude: !secret home_latitude
   longitude: !secret home_longitude
   elevation: !secret home_elevation
   unit_system: imperial
   time_zone: !secret home_timezone
-  customize: !include customizations.yaml
+  customize: !include customize.yaml
+  whitelist_external_dirs:
+     - /config/json/
+
 
 zone:
-  - name: home
-    latitude: !secret home_lattitude
+  - name: Home
+    latitude: !secret home_latitude
     longitude: !secret home_longitude
     radius: 30
     icon: mdi:home
+  - name: Home Extended
+    latitude: !secret home_latitude
+    longitude: !secret home_longitude
+    radius: 2000
+    passive: true
+    icon: mdi:home
   - name: !secret work_name
-    latitude: !secret work_lattitude
+    latitude: !secret work_latitude
     longitude: !secret work_longitude
     radius: 200
     icon: mdi:domain
+  - name: Work Extended
+    latitude: !secret work_latitude
+    longitude: !secret work_longitude
+    radius: 2000
+    passive: true
+    icon: mdi:domain
   - name: !secret dance_name
-    latitude: !secret dance_lattitude
+    latitude: !secret dance_latitude
     longitude: !secret dance_longitude
     radius: 200
     icon: mdi:domain
 
+
 config:
 conversation:
 frontend:
+system_health:
+
 
 updater:
 
+
 http:
   # Uncomment this to add a password (recommended!)
-  api_password: !secret api_password
+  # api_password: !secret api_password
   # Uncomment this if you are using SSL or running in Docker etc
   base_url: !secret base_url
   # ssl_certificate: !secret ssl_certificate
   # ssl_key: !secret ssl_key
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - !secret trusted_proxy_ip_lan
+    - !secret trusted_proxy_ip_iot
   ip_ban_enabled: true
   login_attempts_threshold: 3
 
+
 recorder:
-  purge_interval: 2
+  purge_interval: 1
   purge_keep_days: 5
+  db_url: !secret recorder_db_url
+
 
 history:
   exclude:
     domains:
-      - time_date
       - automation
+      - date
       - script
+      - time
+
 
 logbook:
   include:
     domains:
       - automation
+      - cover
+      - device_tracker
       - script
+      - switch
+
+
+lovelace:
+  mode: yaml
+
 
 influxdb:
   host: !secret influxdb_host
@@ -65,30 +101,67 @@ influxdb:
     entities:
        - sensor.average_humidity
        - sensor.average_temperature
-       - sensor.bathroom_multisensor_luminance
-       - sensor.bathroom_multisensor_relative_humidity
-       - sensor.bathroom_multisensor_temperature
-       - sensor.bedroom_multisensor_luminance
-       - sensor.bedroom_multisensor_relative_humidity
-       - sensor.bedroom_multisensor_temperature
        - sensor.dark_sky_humidity
+       - sensor.dark_sky_precip_probability
        - sensor.dark_sky_temperature
-       - sensor.kitchen_multisensor_luminance
-       - sensor.kitchen_multisensor_relative_humidity
-       - sensor.kitchen_multisensor_temperature
-       - sensor.living_room_multisensor_luminance
-       - sensor.living_room_multisensor_relative_humidity
-       - sensor.living_room_multisensor_temperature
-       - sensor.living_room_thermostat_nest_target
-       - sensor.living_room_thermostat_nest_temperature
+       - sensor.den_multisensor_luminance
+       - sensor.den_multisensor_relative_humidity
+       - sensor.den_multisensor_temperature
+       - sensor.den_trisensor_luminance
+       - sensor.den_trtisensor_relative_humidity
+       - sensor.den_trtisensor_temperature
+       - sensor.downstairs_hallway_multisensor_luminance
+       - sensor.downstairs_hallway_multisensor_relative_humidity
+       - sensor.downstairs_hallway_multisensor_temperature
+       - sensor.garage_stairs_multisensor_luminance
+       - sensor.garage_stairs_multisensor_relative_humidity
+       - sensor.garage_stairs_multisensor_temperature
+       - sensor.main_stairs_multisensor_luminance
+       - sensor.main_stairs_multisensor_relative_humidity
+       - sensor.main_stairs_multisensor_temperature
+       - sensor.downstairs_thermostat_humidity
+       - sensor.downstairs_thermostat_target
+       - sensor.downstairs_thermostat_temperature
+       - sensor.upstairs_thermostat_humidity
+       - sensor.upstairs_thermostat_target
+       - sensor.upstairs_thermostat_temperature
+       - sensor.server_rack_ups_battery_charge
+
 
 sun:
+
 
 apple_tv:
   host: !secret media_player_apple_tv_host
   login_id: !secret media_player_apple_tv_login_id
   name: !secret media_player_apple_tv_name
   credentials: !secret media_player_apple_tv_credentials
+
+
+sonos:
+  media_player:
+    hosts:
+      - !secret media_player_sonos_one_kitchen
+      - !secret media_player_sonos_one_bedroom
+      - !secret media_player_sonos_one_bathroom
+      - !secret media_player_sonos_amp_living_room
+      - !secret media_player_sonos_amp_rec_room
+      - !secret media_player_sonos_one_den
+      - !secret media_player_sonos_boost
+
+dyson:
+  username: !secret dyson_username
+  password: !secret dyson_password
+  language: GB
+  devices:
+    - device_id: !secret dyson_device_id
+      device_ip: !secret dyson_device_ip
+
+
+neato:
+  username: !secret neato_username
+  password: !secret neato_password
+
 
 emulated_hue:
   host_ip: !secret emulated_hue_host
@@ -99,131 +172,101 @@ emulated_hue:
     - script
     - switch
 
+
 zwave:
   usb_path: !secret zwave_usb_path
   config_path: !secret zwave_config_path
-  new_entity_ids: true
-  polling_interval: 300000
+  polling_interval: 60000
   device_config:
-    sensor.bathroom_multisensor_alarm_level:
+    light.garage_stairs:
+      polling_intensity: 1
+      refresh_value: true
+      delay: 3
+    light.downstairs_hallway:
+      polling_intensity: 1
+      refresh_value: true
+      delay: 3
+    light.living_room:
+      polling_intensity: 1
+      refresh_value: true
+      delay: 3
+    light.kitchen:
+      polling_intensity: 1
+      refresh_value: true
+      delay: 3
+    light.main_stairs:
+      polling_intensity: 1
+      refresh_value: true
+      delay: 3
+    light.upstairs_hallway:
+      polling_intensity: 1
+      refresh_value: true
+      delay: 3
+    light.bedroom_hallway:
+      polling_intensity: 1
+      refresh_value: true
+      delay: 3
+    light.den_hallway:
+      polling_intensity: 1
+      refresh_value: true
+      delay: 3
+    zwave.unknown_node_45:
       ignored: true
-    sensor.bathroom_multisensor_alarm_type:
-      ignored: true
-    sensor.bathroom_multisensor_burglar:
-      ignored: true
-    sensor.bathroom_multisensor_sourcenodeid:
-      ignored: true
-    sensor.bedroom_multisensor_alarm_level:
-      ignored: true
-    sensor.bedroom_multisensor_alarm_type:
-      ignored: true
-    sensor.bedroom_multisensor_burglar:
-      ignored: true
-    sensor.bedroom_multisensor_sourcenodeid:
-      ignored: true
-    sensor.kitchen_multisensor_alarm_level:
-      ignored: true
-    sensor.kitchen_multisensor_alarm_type:
-      ignored: true
-    sensor.kitchen_multisensor_burglar:
-      ignored: true
-    sensor.kitchen_multisensor_sourcenodeid:
-      ignored: true
-    sensor.living_room_multisensor_alarm_level:
-      ignored: true
-    sensor.living_room_multisensor_alarm_type:
-      ignored: true
-    sensor.living_room_multisensor_burglar:
-      ignored: true
-    sensor.living_room_multisensor_sourcenodeid:
-      ignored: true
+
 
 nest:
   client_id: !secret nest_client_id
   client_secret: !secret nest_client_secret
 
+
+ring:
+  username: !secret ring_username
+  password: !secret ring_password
+
+
 light:
-  - platform: lifx
-    server: !secret lifx_host
-    broadcast: !secret lifx_broadcast
-  - platform: hyperion
-    host: !secret hyperion_host
-    default_color: [0, 0, 0]
-    # Kitchen Light Groups
   - platform: group
-    name: Kitchen Overhead Lights
+    name: Upstairs Hallway Group Lights
     entities:
-      - light.overhead_1
-      - light.overhead_2
-      - light.overhead_3
-      - light.overhead_4
+      - light.main_stairs
+      - light.upstairs_hallway    
+      - light.bedroom_hallway
   - platform: group
-    name: Kitchen Island Lights
-    icon: mdi:ceiling-light
+    name: Den Cabinets
     entities:
-      - light.island_1
-      - light.island_2
-  - platform: group
-    name: Kitchen Lights
-    entities:
-      - light.kitchen_overhead_lights
-      - light.kitchen_island_lights
-  # Bathroom Light Groups
-  - platform: group
-    name: Bathroom Vanity Lights
-    entities:
-      - light.bathroom_1
-      - light.bathroom_2
-      - light.bathroom_3
-      - light.bathroom_4
-  - platform: group
-    name: Bathroom Overhead Lights
-    entities:
-      - light.bathroom_5
-  - platform: group
-    name: Bathroom Lights
-    entities:
-      - light.bathroom_vanity_lights
-      - light.bathroom_overhead_lights
-  # Bedroom Light Groups
-  - platform: group
-    name: Bedroom Lights
-    icon: mdi:ceiling-light
-    entities:
-      - light.bedroom_1
-      - light.bedroom_2    
-  # Living Room Light Groups
-  - platform: group
-    name: Living Room Lights
-    icon: mdi:ceiling-light
-    entities:
-      - light.living_room_1
-  # Office Light Groups
-  - platform: group
-    name: Office Lights
-    icon: mdi:spotlight-beam
-    entities:
-      - light.office_dimmer_switch_level
+      - light.den_cabinet_1
+      - light.den_cabinet_2
+  - platform: switch
+    name: Garage Lights
+    entity_id: switch.garage_lights
+  - platform: switch
+    name: Patio Lights
+    entity_id: switch.patio_lights
+  - platform: switch
+    name: Patio String Lights
+    entity_id: switch.patio_string_lights
+  - platform: switch
+    name: Bedroom Closet Lights
+    entity_id: switch.bedroom_closet_lights
+  - platform: switch
+    name: Laundry Lights
+    entity_id: switch.laundry_lights
+  - platform: switch
+    name: Guest Bedroom Closet Lights
+    entity_id: switch.guest_bedroom_closet_lights
+
 
 device_tracker:
-  - platform: geofency
-    mobile_beacons:
-      - Octavia
-  - platform: unifi
-    host: !secret unifi_host
-    port: !secret unifi_port
-    username: !secret unifi_username
-    password: !secret unifi_password
-    verify_ssl: false
-    track_new_devices: true
-  - platform: ping
-    hosts:
-      unifi_switch_16: !secret unifi_switch_16
-      unifi_switch_8: !secret unifi_switch_8
-      unifi_ap: !secret unifi_ap
+  - platform: automatic
+    client_id: !secret automatic_client_id
+    secret: !secret automatic_secret
+    current_location: true
+#     devices:
+#       - 2007 Honda Element
 #  - platform: owntracks
 #    max_gps_accuracy: 200
 #    track_new_devices: false
+
 
 # mqtt:
 #   broker: !secret mqtt_remote_host
@@ -233,6 +276,7 @@ device_tracker:
 #   username: !secret mqtt_remote_username
 #   password: !secret mqtt_remote_password
 
+
 notify:
   - name: Pushover
     platform: pushover
@@ -240,10 +284,147 @@ notify:
     user_key: !secret pushover_user_key
 
 
+geofency:
+  mobile_beacons:
+    - Octavia
+
+
+google:
+  client_id: !secret google_calendar_client_id
+  client_secret: !secret google_calendar_secret
+  track_new_calendar: true
+
+
+konnected:
+  access_token: !secret konnected_access_token
+  api_host: !secret konnected_api_host
+  devices:
+    - id: !secret konnected_main_device_id
+      host: !secret konnected_main_host
+      port: !secret konnected_main_port
+      discovery: false
+      binary_sensors:
+        - zone: 1
+          type: motion
+          name: !secret konnected_main_zone1_name
+        - zone: 2
+          type: door
+          name: !secret konnected_main_zone2_name
+        - zone: 3
+          type: door
+          name: !secret konnected_main_zone3_name
+        - zone: 4
+          type: window
+          name: !secret konnected_main_zone4_name
+        - zone: 5
+          type: door
+          name: !secret konnected_main_zone5_name
+        - zone: 6
+          type: window
+          name: !secret konnected_main_zone6_name
+    - id: !secret konnected_addon_device_id
+      host: !secret konnected_addon_host
+      port: !secret konnected_addon_port
+      discovery: false
+      binary_sensors:
+        - zone: 1
+          type: motion
+          name: !secret konnected_addon_zone1_name
+        - zone: 2
+          type: window
+          name: !secret konnected_addon_zone2_name
+        - zone: 3
+          type: window
+          name: !secret konnected_addon_zone3_name
+        - zone: 4
+          type: door
+          name: !secret konnected_addon_zone4_name
+        - zone: 5
+          type: window
+          name: !secret konnected_addon_zone5_name
+        - zone: 6
+          type: window
+          name: !secret konnected_addon_zone6_name      
+
+
+cover:
+  - platform: template
+    covers:
+      garage_actual:
+        friendly_name: "Garage Actual"
+        entity_id: binary_sensor.garage_actual
+        value_template: "{{ is_state('binary_sensor.garage_actual', 'on') }}"
+        open_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.garage_actual
+        close_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.garage_actual
+        stop_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.garage_actual
+        icon_template: >-
+          {% if is_state('binary_sensor.garage_actual', 'on') %}
+            mdi:garage-open
+          {% else %}
+            mdi:garage
+          {% endif %}
+
+
+homekit:
+  auto_start: false
+  ip_address: !secret homekit_ip_address
+  filter:
+    include_domains:
+      - climate
+      - cover
+      - light
+    include_entities:
+      - binary_sensor.bedroom_windows
+      - binary_sensor.den_door
+      - binary_sensor.den_windows
+      - binary_sensor.front_door
+      - binary_sensor.garage_door
+      - binary_sensor.guest_bedroom_windows
+      - binary_sensor.kitchen_windows
+      - binary_sensor.living_room_windows
+      - binary_sensor.patio_door
+      - binary_sensor.rec_room_windows
+      - binary_sensor.den_multisensor_sensor
+      -  binary_sensor.den_trisensor_sensor
+      - binary_sensor.downstairs_hallway_multisensor_sensor
+      - binary_sensor.garage_motion_sensor
+      - binary_sensor.garage_stairs_multisensor_sensor
+      - binary_sensor.living_room_motion_sensor
+      - binary_sensor.main_stairs_multisensor_sensor
+      - binary_sensor.upstairs_hallway_motion_sensor
+      - input_boolean.trigger_guest_mode
+      - input_boolean.trigger_home_theater_mode
+      - input_boolean.trigger_sleep_mode
+      - remote.living_room_apple_tv
+    exclude_entities:
+      - light.bedroom_1
+      - light.bedroom_2
+      - light.den_cabinet_1
+      - light.den_cabinet_2
+      - light.den_cabinets
+      - light.living_room_1
+      - light.main_stairs_and_upstairs_hallway
+      - light.tv_ambient
+
+
+ios:
+mobile_app:
+
 
 # Disabled Features ##########################################
 # introduction:
 # discovery:
+# ssdp:
+# zeroconf:
 # tts:
 #   platform: google
 
@@ -256,7 +437,9 @@ group: !include group.yaml
 input_boolean: !include input_boolean.yaml
 input_number: !include input_number.yaml
 input_select: !include input_select.yaml
+input_text: !include input_text.yaml
 media_player: !include media_player.yaml
+rest_command: !include rest_command.yaml
 scene: !include scene.yaml
 script: !include_dir_named script/
 sensor: !include sensor.yaml

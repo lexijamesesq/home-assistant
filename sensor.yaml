@@ -8,20 +8,18 @@
 #   password: !secret plex_password
 #   server: !secret pms_server
 
-# iBeacon Bedroom Presence Detection
-# - platform: mqtt
-#   state_topic: "owntracks/alex/Alex's iPhone/event"
-#   name: "Bedroom Presence"
-#   value_template: >
-#     {% if value_json._type == 'transition' and value_json.desc == '-bedroom' %}
-#       {% if value_json.event == 'enter' %}
-#         occupied
-#       {% else %}
-#         unoccupied
-#       {% endif %}
-#     {% else %}
-#       unknown
-#     {% endif %}
+# Home Assistant Version
+- platform: version
+
+# Tautulli
+- platform: tautulli
+  api_key: !secret tautulli_api_key
+  host: !secret tautulli_host
+  monitored_conditions:
+    - friendly_name
+    - full_title
+    - stream_video_resolution
+    - video_resolution
 
 # Time & Date
 - platform: time_date
@@ -32,45 +30,64 @@
 # Dark Sky Weather
 - platform: darksky
   api_key: !secret darksky_api_key
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  forecast:
+    - 0
   monitored_conditions:
     - summary
-    - icon
     - precip_probability
     - temperature
-    - temperature_max
-    - temperature_min
     - humidity
     - minutely_summary
     - hourly_summary
     - daily_summary
-  update_inverval:
+    - temperature_high
+    - temperature_low
+    - sunrise_time
+    - sunset_time
+    - nearest_storm_distance
+  scan_interval:
     minutes: 5
+
+# - platform: srp_energy
+#   username: !secret srp_username
+#   password: !secret srp_password
+#   id: !secret srp_account_id
+
+# Ring
+- platform: ring
+  monitored_conditions:
+    - battery
+    - last_activity
+    - last_ding
+    - last_motion
+    - volume
+    - wifi_signal_category
+    - wifi_signal_strength
 
 # Custom sensors for UI display
 - platform: min_max
   name: 'Average Temperature'
   type: mean
   entity_ids:
-    - sensor.bathroom_multisensor_temperature
-    - sensor.kitchen_multisensor_temperature
-    - sensor.living_room_multisensor_temperature
-    - sensor.living_room_thermostat_nest_temperature
+    - sensor.downstairs_thermostat_temperature
+    - sensor.upstairs_thermostat_temperature
   round_digits: 1
 
 - platform: min_max
   name: 'Average Humidity'
   type: mean
   entity_ids:
-    - sensor.bathroom_multisensor_relative_humidity
-    - sensor.kitchen_multisensor_relative_humidity
-    - sensor.living_room_multisensor_relative_humidity
-    - sensor.living_room_thermostat_nest_humidity
+    - sensor.downstairs_thermostat_humidity
+    - sensor.upstairs_thermostat_humidity
   round_digits: 1
 
 - platform: template
   sensors:
     bedroom_presence:
       friendly_name: 'Bedroom Presence'
+      entity_id: device_tracker.beacon_bedroom
       value_template: >
         {% if is_state('device_tracker.beacon_bedroom', 'bedroom') %}
           occupied
@@ -79,76 +96,120 @@
         {% endif %}
     august_front_door:
       friendly_name: 'Front Door'
+      entity_id: lock.august_smart_lock_pro_front_door
       value_template: >
-        {{ states.lock.august_smart_lock_pro_locked.state }}
+        {{ states.lock.august_smart_lock_pro_front_door.state }}
       icon_template: >
-        {% if is_state('lock.august_smart_lock_pro_locked', 'locked') %}
+        {% if is_state('lock.august_smart_lock_pro_front_door', 'locked') %}
           mdi:lock
-        {% elif is_state('lock.august_smart_lock_pro_locked', 'unlocked') %}
+        {% elif is_state('lock.august_smart_lock_pro_front_door', 'unlocked') %}
           mdi:lock-open
         {% else %}
           mdi:timer-sand
         {% endif %}
+    august_garage_door:
+      friendly_name: 'Garage Door'
+      entity_id: lock.august_smart_lock_pro_garage_door
+      value_template: >
+        {{ states.lock.august_smart_lock_pro_garage_door.state }}
+      icon_template: >
+        {% if is_state('lock.august_smart_lock_pro_garage_door', 'locked') %}
+          mdi:lock
+        {% elif is_state('lock.august_smart_lock_pro_garage_door', 'unlocked') %}
+          mdi:lock-open
+        {% else %}
+          mdi:timer-sand
+        {% endif %}
+    garage_actual:
+      friendly_name: 'Garage Actual'
+      entity_id: binary_sensor.garage_actual
+      value_template: >
+        {% if is_state('binary_sensor.garage_actual', 'off') %}
+          closed
+        {% elif is_state('binary_sensor.garage_actual', 'on') %}
+          open
+        {% else %}
+          unknown
+        {% endif %}
+      icon_template: >
+        {% if is_state('binary_sensor.garage_actual', 'off') %}
+          mdi:garage
+        {% elif is_state('binary_sensor.garage_actual', 'on') %}
+          mdi:garage-open
+        {% else %}
+          mdi:timer-sand
+        {% endif %}
+
 
 # Custom sensors for mode monitoring
 - platform: template
   sensors:
     sunset_mode:
       friendly_name: 'Sunset Mode'
+      entity_id: input_boolean.trigger_sunset_mode
       value_template: >
         {{ states.input_boolean.trigger_sunset_mode.state }}
       icon_template: 'mdi:weather-sunset'
     night_mode:
       friendly_name: 'Night Mode'
+      entity_id: input_boolean.trigger_night_mode
       value_template: >
         {{ states.input_boolean.trigger_night_mode.state }}
       icon_template: 'mdi:weather-night'
     guest_mode:
       friendly_name: 'Guest Mode'
+      entity_id: input_boolean.trigger_guest_mode
       value_template: >
         {{ states.input_boolean.trigger_guest_mode.state }}
       icon_template: 'mdi:human-greeting'
     home_theater_mode:
       friendly_name: 'Home Theater Mode'
+      entity_id: input_boolean.trigger_home_theater_mode
       value_template: >
         {{ states.input_boolean.trigger_home_theater_mode.state }}
       icon_template: 'mdi:theater'
     sleep_mode:
       friendly_name: 'Sleep Mode'
+      entity_id: input_boolean.trigger_sleep_mode
       value_template: >
         {{ states.input_boolean.trigger_sleep_mode.state }}
       icon_template: 'mdi:sleep'
     simulate_presence_mode:
       friendly_name: 'Simulate Presence Mode'
+      entity_id:
+        - group.residents
+        - input_boolean.trigger_guest_mode
+        - input_boolean.trigger_simulate_presence_mode
       value_template: >
         {% if is_state('group.residents', 'not_home') and is_state('input_boolean.trigger_guest_mode', 'off') and is_state('input_boolean.trigger_night_mode', 'on') %}
           {% if is_state('input_boolean.trigger_simulate_presence_mode', 'on') %}
-            simulating - lights on
+            Lights On
           {% elif is_state('input_boolean.trigger_simulate_presence_mode', 'off') and ((as_timestamp(now()) - as_timestamp(states.group.residents.last_changed)) | int < (as_timestamp(now()) - as_timestamp(states.input_boolean.trigger_simulate_presence_mode.last_changed)) | int) %}
             {% if as_timestamp(now()) < (as_timestamp(states.group.residents.last_changed) + 1200) %}
-              delay
+              Delay
             {% else %}
-              error
+              Error
             {% endif %}
           {% else %}
-            simulating - lights off
+            Lights Off
           {% endif %}
         {% else %}
           off
         {% endif %}
-      icon_template: 'mdi:security-home'
+      icon_template: 'mdi:shield-home'
 
 # Battery sensors
 - platform: template
   sensors:
-    battery_bathroom_multisensor:
-      friendly_name: 'Bathroom MultiSensor'
+    battery_august_front_door:
+      friendly_name: 'August - Front Door'
+      entity_id: zwave.august_smart_lock_pro_front_door
       unit_of_measurement: '%'
       value_template: >
-        {{ states.zwave.bathroom_multisensor.attributes.battery_level }}
+        {{ states.zwave.august_smart_lock_pro_front_door.attributes.battery_level }}
       icon_template: >
-        {% if states.zwave.bathroom_multisensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.bathroom_multisensor.attributes.battery_level %}
+        {% if states.zwave.august_smart_lock_pro_front_door.attributes.battery_level is defined %}
+          {% set level = states.zwave.august_smart_lock_pro_front_door.attributes.battery_level %}
           {% if level | float == 100 %}
             mdi:battery
           {% elif level | float < 10 %}
@@ -158,35 +219,27 @@
             mdi:battery-{{ icon_level }}
           {% endif %}
         {% else %}
-          mdi:battery
+          mdi:battery-alert
         {% endif %}
-    battery_bedroom_multisensor:
-      friendly_name: 'Bedroom MultiSensor'
-      unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.bedroom_multisensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.bedroom_multisensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.bedroom_multisensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
+    dashboard_battery_august_front_door:
+      friendly_name: 'August - Front Door'
+      entity_id: sensor.battery_august_front_door
+      value_template: >-
+        {% if states.sensor.battery_august_front_door.state | int <= 50 %}
+          on
         {% else %}
-          mdi:battery
+          off
         {% endif %}
-    battery_kitchen_multisensor:
-      friendly_name: 'Kitchen MultiSensor'
+        
+    battery_august_garage_door:
+      friendly_name: 'August - Garage Door'
+      entity_id: zwave.august_smart_lock_pro_garage_door
       unit_of_measurement: '%'
       value_template: >
-        {{ states.zwave.kitchen_multisensor.attributes.battery_level }}
+        {{ states.zwave.august_smart_lock_pro_garage_door.attributes.battery_level }}
       icon_template: >
-        {% if states.zwave.kitchen_multisensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.kitchen_multisensor.attributes.battery_level %}
+        {% if states.zwave.august_smart_lock_pro_garage_door.attributes.battery_level is defined %}
+          {% set level = states.zwave.august_smart_lock_pro_garage_door.attributes.battery_level %}
           {% if level | float == 100 %}
             mdi:battery
           {% elif level | float < 10 %}
@@ -196,35 +249,27 @@
             mdi:battery-{{ icon_level }}
           {% endif %}
         {% else %}
-          mdi:battery
+          mdi:battery-alert
         {% endif %}
-    battery_living_room_multisensor:
-      friendly_name: 'Living Room MultiSensor'
-      unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.living_room_multisensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.living_room_multisensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.living_room_multisensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
+    dashboard_battery_august_garage_door:
+      friendly_name: 'August - Garage Door'
+      entity_id: sensor.battery_august_garage_door
+      value_template: >-
+        {% if states.sensor.battery_august_garage_door.state | int <= 50 %}
+          on
         {% else %}
-          mdi:battery
+          off
         {% endif %}
-    battery_august:
-      friendly_name: 'August Smart Lock Pro'
+
+    battery_bedroom_closet_door_sensor:
+      friendly_name: 'Bedroom Closet Door Sensor'
+      entity_id: zwave.bedroom_closet_door_sensor
       unit_of_measurement: '%'
       value_template: >
-        {{ states.zwave.august_smart_lock_pro.attributes.battery_level }}
+        {{ states.zwave.bedroom_closet_door_sensor.attributes.battery_level }}
       icon_template: >
-        {% if states.zwave.august_smart_lock_pro.attributes.battery_level is defined %}
-          {% set level = states.zwave.august_smart_lock_pro.attributes.battery_level %}
+        {% if states.zwave.bedroom_closet_door_sensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.bedroom_closet_door_sensor.attributes.battery_level %}
           {% if level | float == 100 %}
             mdi:battery
           {% elif level | float < 10 %}
@@ -234,140 +279,1015 @@
             mdi:battery-{{ icon_level }}
           {% endif %}
         {% else %}
-          mdi:battery
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_bedroom_closet_door_sensor:
+      friendly_name: 'Bedroom Closet Door Sensor'
+      entity_id: sensor.battery_bedroom_closet_door_sensor
+      value_template: >-
+        {% if states.sensor.battery_bedroom_closet_door_sensor.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    battery_den_multisensor:
+      friendly_name: 'Den MultiSensor'
+      entity_id: zwave.den_multisensor
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.zwave.den_multisensor.attributes.battery_level }}
+      icon_template: >
+        {% if states.zwave.den_multisensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.den_multisensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_den_multisensor:
+      friendly_name: 'Den MultiSensor'
+      entity_id: sensor.battery_den_multisensor
+      value_template: >-
+        {% if states.sensor.battery_den_multisensor.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    battery_den_trisensor:
+      friendly_name: 'Den TriSensor'
+      entity_id: zwave.den_trisensor
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.zwave.den_trisensor.attributes.battery_level }}
+      icon_template: >
+        {% if states.zwave.den_trisensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.den_trisensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_den_trisensor:
+      friendly_name: 'Den TriSensor'
+      entity_id: sensor.battery_den_trisensor
+      value_template: >-
+        {% if states.sensor.battery_den_trisensor.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    battery_downstairs_hallway_multisensor:
+      friendly_name: 'Downstairs Hallway MultiSensor'
+      entity_id: zwave.downstairs_hallway_multisensor
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.zwave.downstairs_hallway_multisensor.attributes.battery_level }}
+      icon_template: >
+        {% if states.zwave.downstairs_hallway_multisensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.downstairs_hallway_multisensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_downstairs_hallway_multisensor:
+      friendly_name: 'Downstairs Hallway MultiSensor'
+      entity_id: sensor.battery_downstairs_hallway_multisensor
+      value_template: >-
+        {% if states.sensor.battery_downstairs_hallway_multisensor.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    battery_garage_motion_sensor:
+      friendly_name: 'Garage Motion Sensor'
+      entity_id: zwave.garage_motion_sensor
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.zwave.garage_motion_sensor.attributes.battery_level }}
+      icon_template: >
+        {% if states.zwave.garage_motion_sensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.garage_motion_sensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_garage_motion_sensor:
+      friendly_name: 'Garage Motion Sensor'
+      entity_id: sensor.battery_garage_motion_sensor
+      value_template: >-
+        {% if states.sensor.battery_garage_motion_sensor.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    battery_garage_stairs_multisensor:
+      friendly_name: 'Garage Stairs MultiSensor'
+      entity_id: zwave.garage_stairs_multisensor
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.zwave.garage_stairs_multisensor.attributes.battery_level }}
+      icon_template: >
+        {% if states.zwave.garage_stairs_multisensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.garage_stairs_multisensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_garage_stairs_multisensor:
+      friendly_name: 'Garage Stairs MultiSensor'
+      entity_id: sensor.battery_garage_stairs_multisensor
+      value_template: >-
+        {% if states.sensor.battery_garage_stairs_multisensor.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    battery_guest_bedroom_closet_door_sensor:
+      friendly_name: 'Guest Bedroom Closet Door Sensor'
+      entity_id: zwave.guest_bedroom_closet_door_sensor
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.zwave.guest_bedroom_closet_door_sensor.attributes.battery_level }}
+      icon_template: >
+        {% if states.zwave.guest_bedroom_closet_door_sensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.guest_bedroom_closet_door_sensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_guest_bedroom_closet_door_sensor:
+      friendly_name: 'Guest Bedroom Closet Door Sensor'
+      entity_id: sensor.battery_guest_bedroom_closet_door_sensor
+      value_template: >-
+        {% if states.sensor.battery_guest_bedroom_closet_door_sensor.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    battery_laundry_door_left_sensor:
+      friendly_name: 'Laundry Door Left Sensor'
+      entity_id: zwave.laundry_door_left_sensor
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.zwave.laundry_door_left_sensor.attributes.battery_level }}
+      icon_template: >
+        {% if states.zwave.laundry_door_left_sensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.laundry_door_left_sensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_laundry_door_left_sensor:
+      friendly_name: 'Laundry Door Left Sensor'
+      entity_id: sensor.battery_laundry_door_left_sensor
+      value_template: >-
+        {% if states.sensor.battery_laundry_door_left_sensor.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    battery_laundry_door_right_sensor:
+      friendly_name: 'Laundry Door Right Sensor'
+      entity_id: zwave.laundry_door_right_sensor
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.zwave.laundry_door_right_sensor.attributes.battery_level }}
+      icon_template: >
+        {% if states.zwave.laundry_door_right_sensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.laundry_door_right_sensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_laundry_door_right_sensor:
+      friendly_name: 'Laundry Door Right Sensor'
+      entity_id: sensor.battery_laundry_door_right_sensor
+      value_template: >-
+        {% if states.sensor.battery_laundry_door_right_sensor.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    battery_main_stairs_multisensor:
+      friendly_name: 'Main Stairs MultiSensor'
+      entity_id: zwave.main_stairs_multisensor
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.zwave.main_stairs_multisensor.attributes.battery_level }}
+      icon_template: >
+        {% if states.zwave.main_stairs_multisensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.main_stairs_multisensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_main_stairs_multisensor:
+      friendly_name: 'Main Stairs MultiSensor'
+      entity_id: sensor.battery_main_stairs_multisensor
+      value_template: >-
+        {% if states.sensor.battery_main_stairs_multisensor.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    battery_server_rack_ups:
+      friendly_name: 'Server Rack UPS'
+      entity_id: sensor.server_rack_ups_battery_charge
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.sensor.server_rack_ups_battery_charge.state }}
+      icon_template: >
+        {% if states.sensor.server_rack_ups_battery_charge.state is defined %}
+          {% set level = states.sensor.server_rack_ups_battery_charge.state | int %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_server_rack_ups:
+      friendly_name: 'Server Rack UPS'
+      entity_id: sensor.battery_server_rack_ups
+      value_template: >-
+        {% if states.sensor.battery_server_rack_ups.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    battery_front_door_ring_pro:
+      friendly_name: 'Front Door Ring Pro'
+      entity_id: sensor.ring_front_door_battery
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.sensor.ring_front_door_battery.state }}
+      icon_template: >
+        {% if states.sensor.ring_front_door_battery.state is defined %}
+          {% set level = states.sensor.ring_front_door_battery.state %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_front_door_ring_pro:
+      friendly_name: 'Front Door Ring Pro'
+      entity_id: sensor.battery_front_door_ring_pro
+      value_template: >-
+        {% if states.sensor.battery_front_door_ring_pro.state | int <= 50 %}
+          on
+        {% else %}
+          off
         {% endif %}
 
 
 # Networked Devices
 - platform: template
   sensors:
-    network_airportextreme:
-      friendly_name: Airport Extreme
-      value_template: >
-        {{ 'online' if is_state('device_tracker.airportextreme', 'home') else 'offline' }}
-      icon_template: 'mdi:apple'
-    network_alexs_imac:
-      friendly_name: Alex's iMac
-      value_template: >
-        {{ 'online' if is_state('device_tracker.alexs_imac', 'home') else 'offline' }}
-      icon_template: 'mdi:desktop-mac'
-    network_amazon_echo_bedroom:
-      friendly_name: Amazon Echo Bedroom
-      value_template: >
-        {{ 'online' if is_state('device_tracker.amazon_echo_bedroom', 'home') else 'offline' }}
-      icon_template: 'mdi:amazon'
-    network_amazon_echo_bathroom:
-      friendly_name: Amazon Echo Bathroom
-      value_template: >
-        {{ 'online' if is_state('device_tracker.amazon_echo_bathroom', 'home') else 'offline' }}
-      icon_template: 'mdi:amazon'
-    network_amazon_echo_kitchen:
-      friendly_name: Amazon Echo Kitchen
-      value_template: >
-        {{ 'online' if is_state('device_tracker.amazon_echo_kitchen', 'home') else 'offline' }}
-      icon_template: 'mdi:amazon'
-    network_ambiscreen:
-      friendly_name: AmbiScreen
-      value_template: >
-        {{ 'online' if is_state('device_tracker.ambiscreen', 'home') else 'offline' }}
-      icon_template: 'mdi:television'
-    network_appletv:
-      friendly_name: Apple TV
-      value_template: >
-        {{ 'online' if is_state('device_tracker.appletv', 'home') else 'offline' }}
-      icon_template: 'mdi:apple'
-    network_august_connect:
-      friendly_name: August Connect
-      value_template: >
-        {{ 'online' if is_state('device_tracker.august_connect', 'home') else 'offline' }}
-      icon_template: 'mdi:access-point-network'
-    network_clara:
-      friendly_name: Clara
-      value_template: >
-        {{ 'online' if is_state('device_tracker.clara_nic1', 'home') else 'offline' }}
-      icon_template: 'mdi:server-network'
-    network_denon_avr_x1200w:
-      friendly_name: Denon AVR-X1200W
-      value_template: >
-        {{ 'online' if is_state('device_tracker.denon_avr_x1200w', 'home') else 'offline' }}
-      icon_template: 'mdi:music'
-    network_denon_avr_x4300h:
-      friendly_name: Denon AVR-X4300H
-      value_template: >
-        {{ 'online' if is_state('device_tracker.denon_avr_x4300h', 'home') else 'offline' }}
-      icon_template: 'mdi:music'
-    network_netgear_r8000:
-      friendly_name: Guest AP
-      value_template: >
-        {{ 'online' if is_state('device_tracker.netgear_r8000', 'home') else 'offline' }}
-      icon_template: 'mdi:access-point-network'
-    network_nest:
-      friendly_name: Nest
-      value_template: >
-        {{ 'online' if is_state('device_tracker.nest', 'home') else 'offline' }}
-      icon_template: 'mdi:nest-thermostat'
-    network_oswin:
-      friendly_name: Oswin
-      value_template: >
-        {{ 'online' if is_state('group.device_tracker_oswin', 'home') else 'offline' }}
-      icon_template: 'mdi:server-network'
     network_overwatch:
       friendly_name: Overwatch
       value_template: >
-        {{ 'online' if is_state('device_tracker.overwatch', 'home') else 'offline' }}
+        {{ ('online' if is_state('device_tracker.overwatch', 'home') else 'offline') | title }}
       icon_template: 'mdi:server'
     network_pfsense:
       friendly_name: pfSense
       value_template: >
-        {{ 'online' if is_state('device_tracker.pfsense', 'home') else 'offline' }}
+        {{ ('online' if is_state('device_tracker.pfsense', 'home') else 'offline') | title }}
       icon_template: 'mdi:server'
-    network_sonos_one_bedroom:
-      friendly_name: Sonos One Bedroom
+    network_unifi_ap_downstairs:
+      friendly_name: UniFi AP Downstairs
       value_template: >
-        {{ 'online' if is_state('device_tracker.sonos_one_bedroom', 'home') else 'offline' }}
-      icon_template: 'mdi:speaker-wireless'
-    network_sonos_one_bathroom:
-      friendly_name: Sonos One Bathroom
-      value_template: >
-        {{ 'online' if is_state('device_tracker.sonos_one_bathroom', 'home') else 'offline' }}
-      icon_template: 'mdi:speaker-wireless'
-    network_sonos_one_kitchen:
-      friendly_name: Sonos One Kitchen
-      value_template: >
-        {{ 'online' if is_state('device_tracker.sonos_one_kitchen', 'home') else 'offline' }}
-      icon_template: 'mdi:speaker-wireless'
-    network_unifi_ap:
-      friendly_name: UniFi AP
-      value_template: >
-        {{ 'online' if is_state('device_tracker.unifi_ap', 'home') else 'offline' }}
+        {{ ('online' if is_state('device_tracker.unifi_ap_downstairs', 'home') else 'offline') | title }}
       icon_template: 'mdi:access-point-network'
+    network_unifi_ap_upstairs:
+      friendly_name: UniFi AP Upstairs
+      value_template: >
+        {{ ('online' if is_state('device_tracker.unifi_ap_upstairs', 'home') else 'offline') | title }}
+      icon_template: 'mdi:access-point-network'
+    network_unifi_cloudkey:
+      friendly_name: UniFi Cloud Key Plus
+      value_template: >
+        {{ ('online' if is_state('device_tracker.unifi_cloudkey', 'home') else 'offline') | title }}
+      icon_template: 'mdi:mixcloud'
     network_unifi_switch_16:
       friendly_name: UniFi Switch 16
       value_template: >
-        {{ 'online' if is_state('device_tracker.unifi_switch_16', 'home') else 'offline' }}
+        {{ ('online' if is_state('device_tracker.unifi_switch_16', 'home') else 'offline') | title }}
       icon_template: 'mdi:switch'
-    network_unifi_switch_8:
-      friendly_name: UniFi Switch 8
+    network_unifi_switch_8_downstairs:
+      friendly_name: UniFi Switch 8 - Downstairs
       value_template: >
-        {{ 'online' if is_state('device_tracker.unifi_switch_8', 'home') else 'offline' }}
+        {{ ('online' if is_state('device_tracker.unifi_switch_8_downstairs', 'home') else 'offline') | title }}
+      icon_template: 'mdi:switch'
+    network_unifi_switch_8_upstairs:
+      friendly_name: UniFi Switch 8 - Upstairs
+      value_template: >
+        {{ ('online' if is_state('device_tracker.unifi_switch_8_upstairs', 'home') else 'offline') | title }}
       icon_template: 'mdi:switch'
     network_woodhouse:
       friendly_name: Woodhouse
       value_template: >
-        {{ 'online' if is_state('group.device_tracker_woodhouse', 'home') else 'offline' }}
+        {{ ('online' if is_state('group.device_tracker_woodhouse', 'home') else 'offline') | title }}
       icon_template: 'mdi:server'
-    network_uvc_apartment_entrance:
-      friendly_name: UVC Apartment Entrance
+    network_uvc_front_door:
+      friendly_name: UVC Front Door
       value_template: >
-        {{ 'online' if is_state('device_tracker.uvc_apartment_entrance', 'home') else 'offline' }}
+        {{ ('online' if is_state('device_tracker.uvc_front_door', 'home') else 'offline') | title }}
       icon_template: 'mdi:cctv'
+    network_uvc_garage:
+      friendly_name: UVC Garage
+      value_template: >
+        {{ ('online' if is_state('device_tracker.uvc_garage', 'home') else 'offline') | title }}
+      icon_template: 'mdi:cctv'
+    network_uvc_main_floor:
+      friendly_name: UVC Main Floor
+      value_template: >
+        {{ ('online' if is_state('device_tracker.uvc_main_floor', 'home') else 'offline') | title }}
+      icon_template: 'mdi:cctv'
+    network_uvc_main_patio:
+      friendly_name: UVC Main Patio
+      value_template: >
+        {{ ('online' if is_state('device_tracker.uvc_main_patio', 'home') else 'offline') | title }}
+      icon_template: 'mdi:cctv'
+
+
+
+# Custom sensors for dashboard views
+- platform: template
+  sensors:
+    dashboard_inside_average_temperature:
+      friendly_name: 'Average Temperature'
+      value_template: '{{ states.sensor.average_temperature.state | round() }}'
+      unit_of_measurement: 'ºF'
+    dashboard_inside_average_humidity:
+      friendly_name: 'Average Humidity'
+      value_template: '{{ states.sensor.average_humidity.state | round() }}'
+      unit_of_measurement: '%'
+    dashboard_outside_temperature:
+      friendly_name: 'Temperature'
+      value_template: '{{ states.sensor.dark_sky_temperature.state | round() }}'
+      unit_of_measurement: 'ºF'
+    dashboard_outside_high_temperature:
+      friendly_name: 'High'
+      value_template: '{{ states.sensor.dark_sky_daytime_high_temperature_0.state | round() }}'
+      unit_of_measurement: 'ºF'
+    dashboard_outside_low_temperature:
+      friendly_name: 'Low'
+      value_template: '{{ states.sensor.dark_sky_overnight_low_temperature_0.state | round() }}'
+      unit_of_measurement: 'ºF'
+    dashboard_outside_humidity:
+      friendly_name: 'Humidity'
+      value_template: '{{ states.sensor.dark_sky_humidity.state | round() }}'
+      unit_of_measurement: '%'
+    dashboard_garage_stairs_motion:
+      friendly_name: 'Motion'
+      value_template: >-
+        {% if states.binary_sensor.garage_stairs_multisensor_sensor.state == 'on' %}
+          detected
+        {% else %}
+          clear
+        {% endif %}
+    dashboard_downstairs_hallway_motion:
+      friendly_name: 'Motion'
+      value_template: >-
+        {% if states.binary_sensor.downstairs_hallway_multisensor_sensor.state == 'on' %}
+          detected
+        {% else %}
+          clear
+        {% endif %}
+    dashboard_main_stairs_motion:
+      friendly_name: 'Motion'
+      value_template: >-
+        {% if states.binary_sensor.main_stairs_multisensor_sensor.state == 'on' %}
+          detected
+        {% else %}
+          clear
+        {% endif %}
+    dashboard_den_hallway_motion:
+      friendly_name: 'Motion'
+      value_template: >-
+        {% if states.binary_sensor.den_hallway_multisensor_sensor.state == 'on' %}
+          detected
+        {% else %}
+          clear
+        {% endif %}
+    dashboard_current_mode:
+      friendly_name: 'Current Mode'
+      value_template: >-
+        {% if states.input_boolean.trigger_sunset_mode.state == 'on' %}
+          Sunset
+        {% elif states.input_boolean.trigger_night_mode.state == 'on' %}
+          Night
+        {% else %}
+          Day
+        {% endif %}
+      icon_template: >-
+        {% if states.input_boolean.trigger_sunset_mode.state == 'on' %}
+          mdi:weather-sunset
+        {% elif states.input_boolean.trigger_night_mode.state == 'on' %}
+          mdi:weather-night
+        {% else %}
+          mdi:weather-sunny
+        {% endif %}
+    dashboard_home_state:
+      friendly_name: Home State
+      value_template: >-
+        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_smart_lock_pro_front_door.state == 'locked' and states.lock.august_smart_lock_pro_garage_door.state == 'locked' and states.group.all_doors.state == 'off' and states.group.all_windows.state == 'off' %}
+          Secure
+        {% else %}
+          Insecure
+        {% endif %}
+      icon_template: >-
+        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_smart_lock_pro_front_door.state == 'locked' and states.lock.august_smart_lock_pro_garage_door.state == 'locked' and states.group.all_doors.state == 'off' and states.group.all_windows.state == 'off' %}
+          mdi:shield-home
+        {% else %}
+          mdi:shield
+        {% endif %}
+    dashboard_water_delivery:
+      friendly_name: Water Delivery
+      entity_id: sensor.time
+      value_template: >-
+        {% set nextdelivery =  as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.readyrefresh.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set dayof = states.sensor.date.state == nextdelivery %}
+        {% if daybefore or dayof %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: 'mdi:cup-water'
+    dashboard_water_delivery_title:
+      friendly_name: Water Delivery Title
+      entity_id: 
+        - sensor.date
+        - calendar.readyrefresh
+      value_template: >-
+        {% set nextdelivery =  as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+        {% set fivedaysbefore = as_timestamp(now()) > (as_timestamp(states.calendar.readyrefresh.attributes.start_time) - (24*60*60*5)) and as_timestamp(now()) < as_timestamp(states.calendar.readyrefresh.attributes.start_time) %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.readyrefresh.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
+        {% set dayof = states.sensor.date.state == nextdelivery %}
+        {% if daybefore %}
+          Tomorrow
+        {% elif dayof %}
+          Today
+        {% elif fivedaysbefore %}
+          {{ as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%A') }}
+        {% else %}
+          {{ as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%B %-d') }}
+        {% endif %}
+      icon_template: 'mdi:cup-water'
+    dashboard_trash_pickup:
+      friendly_name: Trash Pickup
+      entity_id:
+        - sensor.time
+        - calendar.trash
+      value_template: >-
+        {% set nextpickup =  as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.trash.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set dayof = states.sensor.date.state == nextpickup %}
+        {% if daybefore or dayof %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: >-
+        {% set nextpickup =  as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.trash.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set dayof = states.sensor.date.state == nextpickup %}
+        {% if daybefore or dayof %}
+          mdi:delete-empty
+        {% else %}
+          mdi:delete
+        {% endif %}
+    dashboard_trash_pickup_title:
+      friendly_name: Trash Pickup Title
+      entity_id:
+        - sensor.date
+        - sensor.dashboard_trash_pickup
+      value_template: >-
+        {% set nextpickup =  as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.trash.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set dayof = states.sensor.date.state == nextpickup %}
+        {% if daybefore %}
+          Tomorrow
+        {% elif dayof %}
+          Today
+        {% else %}
+          {{ as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%A') }}
+        {% endif %}
+      icon_template: >-
+        {% set nextpickup =  as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.trash.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set dayof = states.sensor.date.state == nextpickup %}
+        {% if daybefore or dayof %}
+          mdi:delete-empty
+        {% else %}
+          mdi:delete
+        {% endif %}
+    dashboard_recycling_pickup:
+      friendly_name: Recycling Pickup
+      entity_id: sensor.time
+      value_template: >-
+        {% set nextpickup =  as_timestamp(states.calendar.recycling.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.recycling.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set dayof = states.sensor.date.state == nextpickup %}
+        {% if daybefore or dayof %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: 'mdi:recycle'
+    dashboard_recycling_pickup_title:
+      friendly_name: Recycling Pickup Title
+      entity_id:
+        - sensor.date
+        - sensor.dashboard_recycling_pickup
+      value_template: >-
+        {% set nextpickup =  as_timestamp(states.calendar.recycling.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.recycling.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set dayof = states.sensor.date.state == nextpickup %}
+        {% if daybefore %}
+          Tomorrow
+        {% elif dayof %}
+          Today
+        {% else %}
+          {{ as_timestamp(states.calendar.recycling.attributes.start_time)|timestamp_custom('%A') }}
+        {% endif %}
+      icon_template: 'mdi:recycle'
+    dashboard_bedroom_fan_hepa_filter:
+      friendly_name: Bedroom Fan HEPA Filter
+      entity_id: fan.bedroom
+      value_template: >-
+        {% if states.fan.bedroom.attributes["hepa_filter"] <= 33 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: 'mdi:air-filter'
+    dashboard_bedroom_fan_carbon_filter:
+      friendly_name: Bedroom Fan Carbon Filter
+      entity_id: fan.bedroom
+      value_template: >-
+        {% if states.fan.bedroom.attributes["carbon_filter"] <= 33 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: 'mdi:air-filter'
+    dashboard_octavia_fuel_remaining:
+      friendly_name: Octavia Fuel Remaining
+      entity_id: device_tracker.octavia
+      value_template: >-
+        {% if states.device_tracker.octavia.attributes["fuel_level"] <= 33 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: 'mdi:gas-station'
+    dashboard_neato_rory_status:
+      friendly_name: Rory
+      entity_id: vacuum.rory
+      value_template: >-
+        {% if states.vacuum.rory.state != 'docked' %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: 'mdi:robot-vacuum-variant'
+    dashboard_neato_amelia_status:
+      friendly_name: Amelia
+      entity_id: vacuum.amelia
+      value_template: >-
+        {% if states.vacuum.amelia.state != 'docked' %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: 'mdi:robot-vacuum-variant'
+      
+
+
+# Sonos Grouping Sensors
+- platform: template
+  sensors:
+    sonos_group_master:
+      friendly_name: Sonos Group Master
+      entity_id:
+        - media_player.sonos_kitchen
+        - media_player.sonos_living_room
+        - media_player.sonos_rec_room
+        - media_player.sonos_bedroom
+        - media_player.sonos_bathroom
+        - media_player.sonos_den
+      value_template: >-
+        {%- for player in states.media_player if player.attributes.sonos_group and player.state == 'playing' and player.attributes.sonos_group[0] == player.entity_id %}
+          {% if loop.last %}
+            {{ player.entity_id }}
+          {% endif %}
+        {% else %}
+          {{ 'media_player.sonos_'+ states.input_select.master_sonos.state|lower|replace(" ", "_") }}
+        {% endfor -%}
+        
+    sonos_group_master_state:
+      friendly_name: Sonos Group Master
+      entity_id:
+        - media_player.sonos_kitchen
+        - media_player.sonos_living_room
+        - media_player.sonos_rec_room
+        - media_player.sonos_bedroom
+        - media_player.sonos_bathroom
+        - media_player.sonos_den
+      value_template: >-
+        {% set master = states.sensor.sonos_group_master.state %}
+        {%- if is_state(master, "playing") %}
+          playing
+        {% else %}
+          paused
+        {% endif -%}
+        
+    sonos_speakers_join:
+      friendly_name: Sonos Join Speakers
+      entity_id:
+        - input_boolean.sonos_kitchen
+        - input_boolean.sonos_living_room
+        - input_boolean.sonos_rec_room
+        - input_boolean.sonos_bedroom
+        - input_boolean.sonos_bathroom
+        - input_boolean.sonos_den
+      value_template: >-
+        {% set master = states.sensor.sonos_group_master.state %}
+        {% for switch in states.input_boolean if "sonos" in switch.entity_id and switch.state == "on" and switch.entity_id|replace("input_boolean", "media_player") != master -%}
+          {{ switch.entity_id|replace("input_boolean", "media_player") }}
+          {%- if not loop.last -%}
+            ,
+          {%- endif %}
+        {%- endfor %}
+        
+    sonos_speakers_unjoin:
+      friendly_name: Sonos Unjoin Speakers
+      entity_id: sensor.sonos_speakers_join
+      value_template: >-
+        {% set master = states.sensor.sonos_group_master.state %}
+        {% for switch in states.input_boolean if "sonos" in switch.entity_id and switch.state == "off" and switch.entity_id|replace("input_boolean", "media_player") != master -%}
+          {{ switch.entity_id|replace("input_boolean", "media_player") }}
+          {%- if not loop.last -%}
+            ,
+          {%- endif %}
+        {%- endfor %}
+        
+    sonos_switches_on:
+      friendly_name: Sonos Switches On
+      entity_id:
+        - media_player.sonos_kitchen
+        - media_player.sonos_living_room
+        - media_player.sonos_rec_room
+        - media_player.sonos_bedroom
+        - media_player.sonos_bathroom
+        - media_player.sonos_den
+      value_template: >-
+        {% set master = 'media_player.sonos_'+ states.input_select.master_sonos.state|lower|replace(" ", "_") %}
+        {%- for player in states.media_player if player.attributes.sonos_group and player.entity_id == master %}
+          {%- set slaves = player.attributes.sonos_group %}
+          {{ slaves|join(",")|replace("media_player", "input_boolean") }}
+        {%- endfor %}
+        
+    sonos_switches_off:
+      friendly_name: Sonos Switches Off
+      entity_id: sensor.sonos_switches_on
+      value_template: >-
+        {% set master = 'media_player.sonos_'+ states.input_select.master_sonos.state|lower|replace(" ", "_") %}
+        {% for player in states.media_player if player.attributes.sonos_group and player.attributes.sonos_group|length == 1 and player.entity_id != master -%}
+          {{ player.entity_id|replace("media_player", "input_boolean") }}
+          {%- if not loop.last -%}
+            ,
+          {%- endif -%}
+        {%- endfor %}
+
+
+# Preferred Lighting Time Sensors
+- platform: template
+  sensors:
+    prefer_weekday_lighting_low:
+      friendly_name: Prefer Weekday Lighting Low Time
+      value_template: '21:00'
+    prefer_weekday_lighting_mid:
+      friendly_name: Prefer Weekday Lighting Mid Time
+      entity_id:
+       - sensor.date
+       - sensor.prefer_weekday_lighting_low
+       - sensor.suncalc_sunsetstart
+      value_template: >-
+        {% set time   = as_timestamp(now()) | timestamp_custom("%H:%M") %}
+        {% set today  = as_timestamp(now()) | timestamp_custom('%Y-%m-%d') %}
+        {% set sunset = as_timestamp(today ~ " " ~ states.sensor.suncalc_sunsetstart.state) %}
+        {% set prefer_weekday_low = states.sensor.prefer_weekday_lighting_low.state %}
+        {{ (((as_timestamp(today ~ " " ~ prefer_weekday_low) - sunset) / 2) + sunset) | timestamp_custom("%H:%M") }}
+    prefer_weekend_lighting_low:
+      friendly_name: Prefer Weekend Lighting Low Time
+      value_template: '22:00'
+    prefer_weekend_lighting_mid:
+      friendly_name: Prefer Weekend Lighting Mid Time
+      entity_id:
+       - sensor.date
+       - sensor.prefer_weekend_lighting_low
+       - sensor.suncalc_sunsetstart
+      value_template: >-
+        {% set time   = as_timestamp(now()) | timestamp_custom("%H:%M") %}
+        {% set today  = as_timestamp(now()) | timestamp_custom('%Y-%m-%d') %}
+        {% set sunset = as_timestamp(today ~ " " ~ states.sensor.suncalc_sunsetstart.state) %}
+        {% set prefer_weekend_low = states.sensor.prefer_weekend_lighting_low.state %}
+        {{ (((as_timestamp(today ~ " " ~ prefer_weekend_low) - sunset) / 2) + sunset) | timestamp_custom("%H:%M") }}
+
+
+# Nest Restore Modes
+- platform: template
+  sensors:
+    climate_downstairs_restore_mode:
+      friendly_name: Downstairs Nest Restore Mode
+      entity_id: climate.downstairs
+      value_template: >-
+        {%- set previous_state = states('sensor.climate_downstairs_restore_mode') -%}
+        {%- if not is_state('climate.downstairs', 'auto') -%}
+          {{ states('climate.downstairs') }}
+        {%- else -%}
+          {{ previous_state }}
+        {%- endif %}
+    climate_upstairs_restore_mode:
+      friendly_name: Upstairs Nest Restore Mode
+      entity_id: climate.upstairs
+      value_template: >-
+        {%- set previous_state = states('sensor.climate_upstairs_restore_mode') -%}
+        {%- if not is_state('climate.upstairs', 'auto') -%}
+          {{ states('climate.upstairs') }}
+        {%- else -%}
+          {{ previous_state }}
+        {%- endif %}
+
+
+# Resident & Vehicle Sensors
+- platform: template
+  sensors:
+    device_tracker_alex:
+      friendly_name: Alex
+      entity_id:
+        - device_tracker.alexs_iphone_geofency
+        - input_select.octavia_driver
+        - input_select.octavia_state
+      value_template: >-
+        {%- if is_state('input_select.octavia_driver', 'Alex') -%}
+          {{ states.input_select.octavia_state.state | title }}
+        {%- elif is_state('device_tracker.alexs_iphone_geofency', 'home_extended') or is_state('device_tracker.alexs_iphone_geofency', 'work_extended') -%}
+          Away
+        {%- else -%}
+          {{ states.device_tracker.alexs_iphone_geofency.state | replace("not_home", "away") | title }}
+        {%- endif %}
+      entity_picture_template: '/local/calvin.png'
+- platform: google_geocode
+  name: Octavia
+  origin: device_tracker.octavia
+  options: city
+  api_key: !secret google_geocode_api_key 
+
+
+# Tautulli Sensors
+- platform: template
+  sensors:
+    tautulli_count_transcode:
+      friendly_name: Stream Count (Transcode)
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ states.sensor.tautulli.attributes["stream_count_transcode"] }}'
+    tautulli_direct_plays:
+      friendly_name: Stream Count (Direct Play)
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ states.sensor.tautulli.attributes["stream_count_direct_play"] }}'
+    tautulli_direct_streams:
+      friendly_name: Stream Count (Direct Stream)
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ states.sensor.tautulli.attributes["stream_count_direct_stream"] }}'
+    tautulli_total_streams:
+      friendly_name: Stream Count
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ states.sensor.tautulli.attributes["stream_count"] }}'
+    tautulli_wan_bandwidth:
+      friendly_name: WAN Bandwidth
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ ((states.sensor.tautulli.attributes["wan_bandwidth"] / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
+      unit_of_measurement: "Mbps"
+    tautulli_lan_bandwidth:
+      friendly_name: LAN Bandwidth
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ ((states.sensor.tautulli.attributes["lan_bandwidth"] / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
+      unit_of_measurement: "Mbps"
+    tautulli_total_bandwidth:
+      friendly_name: Total Bandwidth
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ ((states.sensor.tautulli.attributes["total_bandwidth"] / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
+      unit_of_measurement: "Mbps"
+    # Tautulli User 1
+    tautulli_user1:
+      friendly_name: !secret tautulli_user1_friendly_name
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity | title }}'
+      entity_picture_template: !secret tautulli_user1_picture
+    tautulli_user1_playing:
+      friendly_name: !secret tautulli_user1_friendly_name_playing
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user1")).full_title }}'
+    # Tautulli User 2
+    tautulli_user2:
+      friendly_name: !secret tautulli_user2_friendly_name
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity | title }}'
+      entity_picture_template: !secret tautulli_user2_picture
+    tautulli_user2_playing:
+      friendly_name: !secret tautulli_user2_friendly_name_playing
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user2")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user2")).full_title }}'
+    # Tautulli User 3
+    tautulli_user3:
+      friendly_name: !secret tautulli_user3_friendly_name
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity | title }}'
+      entity_picture_template: !secret tautulli_user3_picture
+    tautulli_user3_playing:
+      friendly_name: !secret tautulli_user3_friendly_name_playing
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user3")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user3")).full_title }}'
+    # Tautulli User 4
+    tautulli_user4:
+      friendly_name: !secret tautulli_user4_friendly_name
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity | title }}'
+      entity_picture_template: !secret tautulli_user4_picture
+    tautulli_user4_playing:
+      friendly_name: !secret tautulli_user4_friendly_name_playing
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user4")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user4")).full_title }}'
+    # Tautulli User 5
+    tautulli_user5:
+      friendly_name: !secret tautulli_user5_friendly_name
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity | title }}'
+      entity_picture_template: !secret tautulli_user5_picture
+    tautulli_user5_playing:
+      friendly_name: !secret tautulli_user5_friendly_name_playing
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user5")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user5")).full_title }}'
+    # Tautulli User 6
+    tautulli_user6:
+      friendly_name: !secret tautulli_user6_friendly_name
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity | title }}'
+      entity_picture_template: !secret tautulli_user6_picture
+    tautulli_user6_playing:
+      friendly_name: !secret tautulli_user6_friendly_name_playing
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user6")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user6")).full_title }}'
+    # Tautulli User 7
+    tautulli_user7:
+      friendly_name: !secret tautulli_user7_friendly_name
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity | title }}'
+      entity_picture_template: !secret tautulli_user7_picture
+    tautulli_user7_playing:
+      friendly_name: !secret tautulli_user7_friendly_name_playing
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user7")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user7")).full_title }}'
+    # Tautulli User 8
+    tautulli_user8:
+      friendly_name: !secret tautulli_user8_friendly_name
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity | title }}'
+      entity_picture_template: !secret tautulli_user8_picture
+    tautulli_user8_playing:
+      friendly_name: !secret tautulli_user8_friendly_name_playing
+      entity_id:
+        - sensor.tautulli
+      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user8")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user8")).full_title }}'
+
+- platform: rest
+  name: Tautulli Plex Update Available
+  resource: !secret tautulli_plex_update
+  value_template: '{{ "on" if value_json.response.data.update_available else "off" }}'
+  scan_interval: 3600
+- platform: rest
+  name: Tautulli Plex Update Version
+  resource: !secret tautulli_plex_update
+  value_template: '{{ value_json.response.data.version }}'
+  scan_interval: 3600
+
+
 
 
 # InfluxDB Sensors
 - platform: influxdb
-  host: 10.0.1.5
-  port: 8086
+  host: !secret influxdb_host
+  port: !secret influxdb_port
   queries:
+    # Overwatch Server
     - name: Overwatch CPU Load
       unit_of_measurement: '15 min'
       group_function: last
@@ -392,6 +1312,7 @@
       measurement: '"mem"'
       field: '"used_percent"'
       database: telegraf
+    # Woodhouse Server
     - name: Woodhouse CPU Load
       unit_of_measurement: '15 min'
       group_function: last
@@ -424,6 +1345,190 @@
       measurement: '"mem"'
       field: '"used_percent"'
       database: telegraf
+    # Overwatch Services
+    - name: Service Status Home Assistant
+      group_function: last
+      where: !secret influxdb_service_status_home_assistant
+      value_template: '{{ "Up" if value == "200" else "Down" }}'
+      measurement: '"http_response"'
+      field: '"http_response_code"'
+      database: telegraf
+    - name: Service Status Dashboard
+      group_function: last
+      where: !secret influxdb_service_status_dashboard
+      value_template: '{{ "Up" if value == "200" else "Down" }}'
+      measurement: '"http_response"'
+      field: '"http_response_code"'
+      database: telegraf
+    # Woodhouse Services
+    - name: Service Status Plex
+      group_function: last
+      where: !secret influxdb_service_status_plex
+      value_template: '{{ "Up" if value == "200" else "Down" }}'
+      measurement: '"http_response"'
+      field: '"http_response_code"'
+      database: telegraf
+    - name: Service Status Sonarr
+      group_function: last
+      where: !secret influxdb_service_status_sonarr
+      value_template: '{{ "Up" if value == "200" else "Down" }}'
+      measurement: '"http_response"'
+      field: '"http_response_code"'
+      database: telegraf
+    - name: Service Status SABnzbd
+      group_function: last
+      where: !secret influxdb_service_status_sabnzbd
+      value_template: '{{ "Up" if value == "200" else "Down" }}'
+      measurement: '"http_response"'
+      field: '"http_response_code"'
+      database: telegraf
+    - name: Service Status Tautulli
+      group_function: last
+      where: !secret influxdb_service_status_tautulli
+      value_template: '{{ "Up" if value == "200" else "Down" }}'
+      measurement: '"http_response"'
+      field: '"http_response_code"'
+      database: telegraf
+    - name: Service Status Grafana
+      group_function: last
+      where: !secret influxdb_service_status_grafana
+      value_template: '{{ "Up" if value == "200" else "Down" }}'
+      measurement: '"http_response"'
+      field: '"http_response_code"'
+      database: telegraf
+    #UniFi
+    - name: Service Status UniFi Network
+      group_function: last
+      where: !secret influxdb_service_status_unifi_network
+      value_template: '{{ "Up" if value == "200" else "Down" }}'
+      measurement: '"http_response"'
+      field: '"http_response_code"'
+      database: telegraf
+    - name: Service Status UniFi Protect
+      group_function: last
+      where: !secret influxdb_service_status_unifi_protect
+      value_template: '{{ "Up" if value == "200" else "Down" }}'
+      measurement: '"http_response"'
+      field: '"http_response_code"'
+      database: telegraf
+    #Network
+    - name: Network Status Cox WAN
+      group_function: last
+      where: '"host" = ''woodhouse'' and time > now() - 5m'
+      value_template: '{{ "Up" if value == "1" else "Down" }}'
+      measurement: '"wan"'
+      field: '"cox_wan"'
+      database: telegraf
+    - name: Network Status VPN WAN
+      group_function: last
+      where: '"host" = ''woodhouse'' and time > now() - 5m'
+      value_template: '{{ "Up" if value == "1" else "Down" }}'
+      measurement: '"wan"'
+      field: '"vpn_wan"'
+      database: telegraf
+    - name: Network Status VPN2 WAN
+      group_function: last
+      where: '"host" = ''woodhouse'' and time > now() - 5m'
+      value_template: '{{ "Up" if value == "1" else "Down" }}'
+      measurement: '"wan"'
+      field: '"vpn2_wan"'
+      database: telegraf
+    - name: Network Status VPN3 WAN
+      group_function: last
+      where: '"host" = ''woodhouse'' and time > now() - 5m'
+      value_template: '{{ "Up" if value == "1" else "Down" }}'
+      measurement: '"wan"'
+      field: '"vpn3_wan"'
+      database: telegraf
+    - name: Network Status LAN
+      group_function: last
+      where: '"host" = ''woodhouse'' and time > now() - 5m'
+      value_template: '{{ "Up" if value == "1" else "Down" }}'
+      measurement: '"wan"'
+      field: '"lan"'
+      database: telegraf
+    - name: Network Status VL40 IoT
+      group_function: last
+      where: '"host" = ''woodhouse'' and time > now() - 5m'
+      value_template: '{{ "Up" if value == "1" else "Down" }}'
+      measurement: '"wan"'
+      field: '"vl40_iot"'
+      database: telegraf
+    - name: Network Status  VL50 Guest
+      group_function: last
+      where: '"host" = ''woodhouse'' and time > now() - 5m'
+      value_template: '{{ "Up" if value == "1" else "Down" }}'
+      measurement: '"wan"'
+      field: '"vl50_guest"'
+      database: telegraf
+
+
+# States for Conditionals
+- platform: template
+  sensors:
+    state_all_services_up:
+      friendly_name: State - All Services Up
+      entity_id:
+        - sensor.service_status_home_assistant
+        - sensor.service_status_dashboard
+        - sensor.service_status_plex
+        - sensor.service_status_sonarr
+        - sensor.service_status_sabnzbd
+        - sensor.service_status_tautulli
+        - sensor.service_status_grafana
+        - sensor.service_status_unifi_network
+        - sensor.service_status_unifi_protect
+      value_template: >-
+        {% set services = [
+          "sensor.service_status_home_assistant",
+          "sensor.service_status_dashboard",
+          "sensor.service_status_plex",
+          "sensor.service_status_sonarr",
+          "sensor.service_status_sabnzbd",
+          "sensor.service_status_tautulli",
+          "sensor.service_status_grafana",
+          "sensor.service_status_unifi_network",
+          "sensor.service_status_unifi_protect"
+        ] %}
+        
+        {{ 'on' if states.sensors
+          | selectattr('entity_id', 'in', services)
+          | selectattr('state', 'eq', 'Down')
+          | list
+          | count == 0
+          else 'off'
+        }}
+    state_all_vpn_wan_down:
+      friendly_name: State - All VPN WANs Down
+      entity_id:
+        - sensor.network_status_vpn_wan
+        - sensor.network_status_vpn2_wan
+        - sensor.network_status_vpn3_wan
+      value_template: >-
+        {% set networks = [
+          "sensor.network_status_vpn_wan",
+          "sensor.network_status_vpn2_wan",
+          "sensor.network_status_vpn3_wan",
+        ] %}
+        
+        {{ 'on' if states.sensors
+          | selectattr('entity_id', 'in', networks)
+          | selectattr('state', 'eq', 'Down')
+          | list
+          | count == 3
+          else 'off'
+        }}
+    state_ha_new_major_version:
+      friendly_name: State - HA New Major Version
+      entity_id:
+        - sensor.version
+        - binary_sensor.updater
+      value_template: >-
+        {%- if not is_state("binary_sensor.updater", "unavailable") -%}
+          {{- "on" if state_attr("binary_sensor.updater", "newest_version").rsplit(".", 1)[0] > states("sensor.current_version").rsplit(".", 1)[0] else "off" -}}
+        {%- else -%}
+          unknown
+        {%- endif %}
 
 
 # Cox Data Usage
@@ -549,3 +1654,15 @@
     {% else %}
       undefined
     {% endif %}
+
+# nut sensors
+- platform: nut
+  name: Server Rack UPS
+  alias: rack
+  username: !secret nut_username
+  password: !secret nut_password
+  resources:
+    - battery.charge
+    - battery.runtime
+    - ups.status
+    - ups.status.display
