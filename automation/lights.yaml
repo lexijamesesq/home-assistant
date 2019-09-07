@@ -1,13 +1,15 @@
 ##############################################################
-# Presence Events - Home
+# Residents & Guests
 ##############################################################
-
-# Welcome Lighting at Night ##################################
-- alias: Welcome Lighting at Night
+# Welcome Lighting ###########################################
+- alias: Start Welcome Lighting
   trigger:
-    platform: state
-    entity_id: group.residents
-    to: 'home'
+    - platform: state
+      entity_id: group.residents
+      to: 'home'
+    - platform: state
+      entity_id: input_boolean.trigger_guest_mode
+      to: 'on'
   condition:
     condition: and
     conditions:
@@ -22,24 +24,12 @@
   action:
     - service: homeassistant.turn_off
       entity_id: input_boolean.trigger_simulate_presence_mode
-    - delay: '00:00:02'
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: light.kitchen_lights
-          state: 'off'
+    - delay: '00:00:05'
     - service: script.turn_on
-      data_template:
-        entity_id: >
-          {% if is_state('input_boolean.trigger_sunset_mode', 'on') %}
-            script.scene_select_welcome_lighting_at_sunset
-          {% else %}
-            script.scene_select_welcome_lighting_at_night
-          {% endif %}
-
-##############################################################
-# Presence Events - Away
-##############################################################
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'kitchen,living_room,den_cabinets'
 
 # Empty Home Lighting ########################################
 # All residents have left the premises, but are there guests?
@@ -49,7 +39,7 @@
       entity_id: group.residents
       to: 'not_home'
       for:
-        minutes: 2
+        minutes: 3
     - platform: state
       entity_id: input_boolean.trigger_guest_mode
       to: 'off'
@@ -72,51 +62,6 @@
             script.scene_select_away_lighting
           {% endif %}
 
-# Furry Overlord Lighting ####################################
-# Turn on Living Room light at night, when no one is home, if it's before 11:00pm
-- alias: Start Furry Overlord Lighting
-  trigger:
-    - platform: state
-      entity_id: input_boolean.trigger_night_mode
-      to: 'on'
-    - platform: event
-      event_type: event_start_furry_overlord_lighting
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: group.residents
-        state: 'not_home'
-      - condition: state
-        entity_id: input_boolean.trigger_night_mode
-        state: 'on'
-      - condition: time
-        before: '23:00:00'
-  action:
-    service: script.turn_on
-    entity_id: script.scene_select_living_room_dim
-# Turn off Living Room light between 2:02am and 2:55am
-- alias: End Furry Overlord Lighting
-  trigger:
-    - platform: time
-      at: '02:00:00'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: group.residents
-        state: 'not_home'
-      - condition: state
-        entity_id: input_boolean.trigger_guest_mode
-        state: 'off'
-      - condition: state
-        entity_id: light.living_room_lights
-        state: 'on'
-  action:
-    - delay: '00:{{ (range(2, 55) | random) }}:00'
-    - service: switch.turn_off
-      entity_id: switch.living_room_lights
-
 # Simulate Presence ##########################################
 - alias: Start Simulating Presence at Night
   trigger:
@@ -125,7 +70,8 @@
       to: 'on'
   action:
     - service: scene.turn_on
-      entity_id: scene.kitchen_dim_at_night
+      data_template:
+        entity_id: '{{ states.group.simulate_presence_scenes.attributes.entity_id | random }}'
 - alias: End Simulating Presence at Night
   trigger:
     - platform: state
@@ -133,444 +79,38 @@
       to: 'off'
   action:
     - service: light.turn_off
-      entity_id: light.kitchen_lights
+      entity_id: group.all_lights
+
 
 ##############################################################
-# Timed Events - Home
+# Sleep Mode
 ##############################################################
 
-# Lights at Sunset ###########################################
-- alias: Sunset Lighting Slow
+- alias: Sleep Mode Started Turn Den Cabinet Lights Off
   trigger:
-    platform: state
-    entity_id: input_boolean.trigger_sunset_mode
-    to: 'on'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: light.kitchen_overhead_lights
-        state: 'off'
-      - condition: state
-        entity_id: light.kitchen_island_lights
-        state: 'off'
-      - condition: state
-        entity_id: group.residents
-        state: 'home'
+    - platform: state
+      entity_id: input_boolean.trigger_sleep_mode
+      to: 'on'
+      for:
+        minutes: 2
   action:
-    - service: script.turn_on
-      data_template:
-        entity_id: >
-          {% if is_state('input_boolean.trigger_home_theater_mode', 'on') %}
-            script.scene_select_sunset_home_theater_mode_on
-          {% else %}
-            script.scene_select_sunset_home_theater_mode_off
-          {% endif %}
-
-# Kitchen Lights After Sunset ################################
-- alias: Night Lighting Default Slow
-  trigger:
-    platform: state
-    entity_id: input_boolean.trigger_sunset_mode
-    to: 'off'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: light.kitchen_overhead_lights
-        state: 'on'
-      - condition: state
-        entity_id: light.kitchen_island_lights
-        state: 'on'
-      - condition: state
-        entity_id: group.residents
-        state: 'home'
-  action:
-    - service: script.turn_on
-      data_template:
-        entity_id: >
-          {% if is_state('input_boolean.trigger_home_theater_mode', 'on') %}
-            script.scene_select_night_home_theater_mode_on
-          {% else %}
-            script.scene_select_night_home_theater_mode_off
-          {% endif %}
-
-##############################################################
-# Timed Events - Away
-##############################################################
-
-# Guest Lighting at Night ####################################
-# This is the trigger inverse of "Guest Lighting on Motion"
-- alias: Guest Lighting at Night
-  trigger:
-    platform: state
-    entity_id: input_boolean.trigger_night_mode
-    to: 'on'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: group.residents
-        state: 'not_home'
-      - condition: state
-        entity_id: input_boolean.trigger_guest_mode
-        state: 'on'
-  action:
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.trigger_simulate_presence_mode
-    - delay: '00:00:02'
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: light.kitchen_lights
-          state: 'off'
-    - service: scene.turn_on
+    - service: light.turn_off
       entity_id:
-        - scene.kitchen_bright_at_night
-        - scene.living_room_bright_at_night
+        - light.den_cabinets
 
-
-##############################################################
-# Motion Events - Anytime
-##############################################################
-
-# Bathroom Lighting on Motion ################################
-# Triggers when LUX is below X, or when Night Mode is on
-- alias: Bathroom Lighting on Motion
+- alias: Sleep Mode Lights On When Patio Door Opens
   trigger:
-    platform: state
-    entity_id: input_boolean.motion_bathroom
-    to: 'on'
+    - platform: state
+      entity_id: binary_sensor.patio_door
+      to: 'on'
   condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: light.bathroom_lights
-        state: 'off'
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: input_boolean.trigger_night_mode
-            state: 'on'
-          - condition: numeric_state
-            entity_id: sensor.bathroom_multisensor_luminance
-            below: 5.0
+    condition: state
+    entity_id: input_boolean.trigger_sleep_mode
+    state: 'on'
   action:
     - service: script.turn_on
-      data_template:
-        entity_id: >
-          {% if is_state('input_boolean.trigger_sleep_mode', 'off') %}
-            script.scene_select_bathroom_dim
-          {% else %}
-            script.scene_select_bathroom_nightlight
-          {% endif %}
+      entity_id: script.update_scene
       data:
         variables:
-          motion_trigger: true
-- alias: Bathroom Lighting Timed Out
-  trigger:
-    platform: state
-    entity_id: input_boolean.motion_bathroom
-    to: 'off'
-#   for:
-#     minutes: 1
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.motion_trigger_bathroom_lights
-        state: 'on'
-  action:
-    - service: light.turn_off
-      entity_id: light.bathroom_lights
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.motion_trigger_bathroom_lights
+          lights: 'kitchen,living_room'
 
-# Bedroom Lighting on Motion #################################
-# Triggers only while while Sleep Mode is off
-# Triggers when LUX is below X, or when Night Mode is on
-- alias: Bedroom Lighting on Motion
-  trigger:
-    platform: state
-    entity_id: input_boolean.motion_bedroom
-    to: 'on'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.trigger_sleep_mode
-        state: 'off'
-      - condition: state
-        entity_id: light.bedroom_lights
-        state: 'off'
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: input_boolean.trigger_night_mode
-            state: 'on'
-          - condition: numeric_state
-            entity_id: sensor.bedroom_multisensor_luminance
-            below: 5.0
-  action:
-    - service: script.turn_on
-      entity_id: script.scene_select_bedroom_dim
-      data:
-        variables:
-          motion_trigger: true
-- alias: Bedroom Lighting Timed Out
-  trigger:
-    platform: state
-    entity_id: input_boolean.motion_bedroom
-    to: 'off'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.trigger_sleep_mode
-        state: 'off'
-      - condition: state
-        entity_id: input_boolean.motion_trigger_bedroom_lights
-        state: 'on'
-      - condition: time
-        after: '06:00:00'
-        before: '21:00:00'
-  action:
-    - service: light.turn_off
-      entity_id: light.bedroom_lights
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.motion_trigger_bedroom_lights
-- alias: Bedroom Lighting Timed Out during Bedtime
-  trigger:
-    platform: state
-    entity_id: input_boolean.motion_bedroom
-    to: 'off'
-    # Extend the timeout during bedtime to allow for beacon delay
-    for:
-      minutes: 3
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.trigger_sleep_mode
-        state: 'off'
-      - condition: state
-        entity_id: input_boolean.motion_trigger_bedroom_lights
-        state: 'on'
-      - condition: or
-        conditions:
-          - condition: time
-            after: '21:00:00'
-          - condition: time
-            before: '06:00:00'
-  action:
-    - service: light.turn_off
-      entity_id: light.bedroom_lights
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.motion_trigger_bedroom_lights
-
-##############################################################
-# Motion Events - Home
-##############################################################
-
-
-##############################################################
-# Motion Events - Away
-##############################################################
-
-# Guest Lighting on Motion ###################################
-# This is the trigger inverse of "Guest Lighting at Night"
-- alias: Guest Lighting on Motion
-  trigger:
-    platform: state
-    entity_id: input_boolean.trigger_guest_mode
-    to: 'on'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: group.residents
-        state: 'not_home'
-      - condition: state
-        entity_id: input_boolean.trigger_night_mode
-        state: 'on'
-  action:
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.trigger_simulate_presence_mode
-    - delay: '00:00:02'
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: light.kitchen_lights
-          state: 'off'
-    - service: scene.turn_on
-      entity_id:
-        - scene.kitchen_bright_at_night
-        - scene.living_room_bright_at_night
-- alias: Guest Lighting Timed Out
-  trigger:
-    platform: state
-    entity_id: input_boolean.trigger_guest_mode
-    to: 'off'
-  condition:
-    condition: state
-    entity_id: group.residents
-    state: 'not_home'
-  action:
-    service: light.turn_off
-    entity_id: 
-      - group.all_lights
-
-##############################################################
-# Events - Home
-##############################################################
-
-# Dim Lights While Watching Plex on Apple TV #################
-- alias: Enable Home Theater Scene Durring Night
-  trigger:
-    platform: state
-    entity_id: input_boolean.trigger_home_theater_mode
-    from: 'off'
-    to: 'on'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.trigger_night_mode
-        state: 'on'
-  action:
-    service: script.turn_on
-    entity_id: script.scene_select_home_theater_mode_on
-- alias: Restore Post Home Theater Scene Durring Night
-  trigger:
-    platform: state
-    entity_id: input_boolean.trigger_home_theater_mode
-    from: 'on'
-    to: 'off'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.trigger_night_mode
-        state: 'on'
-  action:
-    service: script.turn_on
-    entity_id: script.scene_select_home_theater_mode_off
-
-# Turn Off Lights While Watching Plex in Sleep Mode ##########
-- alias: Sleep Mode Lights Out Plex
-  trigger:
-    platform: state
-    entity_id: media_player.plex_alexs_ipad_mini
-    to: 'playing'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: group.residents
-        state: 'home'
-      - condition: state
-        entity_id: input_boolean.trigger_sleep_mode
-        state: 'on'
-      - condition: state
-        entity_id: light.bedroom_lights
-        state: 'on'
-  action:
-    service: scene.turn_on
-    entity_id: scene.bedroom_bedtime_fade_out
-
-
-##############################################################
-# Color Loops
-##############################################################
-
-# Kitchen Overhead Lights ####################################
-- alias: Continue Color Loop Kitchen Overhead Lights
-  trigger:
-    - platform: state
-      entity_id: input_boolean.color_loop_kitchen_overhead
-      to: 'on'
-    - platform: event
-      event_type: event_color_loop_kitchen_overhead
-  condition:
-    condition: state
-    entity_id: input_boolean.color_loop_kitchen_overhead
-    state: 'on'
-  action:
-    - service: script.turn_on
-      data_template:
-        entity_id: >
-          {% if trigger.platform == 'state' %}
-            script.color_loop_kitchen_overhead_init
-          {% else %}
-            script.color_loop_kitchen_overhead_trigger
-          {% endif %}
-    - delay: '00:00:{{ (range(2, 10) | random) }}'
-    - event: event_color_loop_kitchen_overhead
-
-# Bedroom Lights #############################################
-- alias: Continue Color Loop Bedroom Lights
-  trigger:
-    - platform: state
-      entity_id: input_boolean.color_loop_bedroom
-      to: 'on'
-    - platform: event
-      event_type: event_color_loop_bedroom
-  condition:
-    condition: state
-    entity_id: input_boolean.color_loop_bedroom
-    state: 'on'
-  action:
-    - service: script.turn_on
-      data_template:
-        entity_id: >
-          {% if trigger.platform == 'state' %}
-            script.color_loop_bedroom_init
-          {% else %}
-            script.color_loop_bedroom_trigger
-          {% endif %}
-    - delay: '00:00:{{ (range(25, 60) | random) }}'
-    - event: event_color_loop_bedroom
-
-# Living Room Lights #########################################
-- alias: Continue Color Loop Living Room Lights
-  trigger:
-    - platform: state
-      entity_id: input_boolean.color_loop_living_room
-      to: 'on'
-    - platform: event
-      event_type: event_color_loop_living_room
-  condition:
-    condition: state
-    entity_id: input_boolean.color_loop_living_room
-    state: 'on'
-  action:
-    - service: script.turn_on
-      entity_id: script.color_loop_living_room_trigger
-    - delay: '00:00:{{ (range(50, 120) | random) }}'
-    - event: event_color_loop_living_room
-
-
-##############################################################
-# Ambient Lights
-##############################################################
-
-# Home Theater TV ############################################
-- alias: Turn On Home Theater TV Ambient Light
-  trigger:
-    - platform: state
-      entity_id: input_boolean.home_theater_tv_ambient_light
-      to: 'on'
-  action:
-    - service_template: >
-        {% if is_state('input_boolean.trigger_home_theater_mode', 'off') %}
-          shell_command.hyperion_mood_blobs_blue
-        {% else %}
-          shell_command.hyperion_plex_playing
-        {% endif %}
-- alias: Turn Off Home Theater TV Ambient Light
-  trigger:
-    - platform: state
-      entity_id: input_boolean.home_theater_tv_ambient_light
-      to: 'off'
-  action:
-    - service: shell_command.hyperion_off

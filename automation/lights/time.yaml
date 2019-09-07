@@ -1,0 +1,98 @@
+##############################################################
+# Sunset
+##############################################################
+- alias: Update Lights Before and After Sunset
+  trigger:
+    - platform: state
+      entity_id: input_boolean.trigger_sunset_mode
+      to: 'on'
+    - platform: state
+      entity_id: input_boolean.trigger_sunset_mode
+      to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'home'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'kitchen,living_room,tv_ambient,den_cabinets'
+
+
+##############################################################
+# Night Progressive Dimming
+##############################################################
+- alias: Update Lights at Night Progressive Dimming
+  trigger:
+    - platform: template
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states.sensor.prefer_weekday_lighting_mid.state }}'
+    - platform: template
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states.sensor.prefer_weekdat_lighting_low.state }}'
+    - platform: template
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states.sensor.prefer_weekend_lighting_mid.state }}'
+    - platform: template
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states.sensor.prefer_weekend_lighting_low.state }}'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'home'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: light.kitchen
+            state: 'on'
+          - condition: state
+            entity_id: light.living_room
+            state: 'on'
+          - condition: state
+            entity_id: light.tv_ambient
+            state: 'on'
+          - condition: state
+            entity_id: light.den_cabinets
+            state: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data_template:
+        variables:
+          lights: >
+            {% set lights = ["kitchen","living_room","tv_ambient","den_cabinets"] %}
+    
+            {% for light in lights if is_state('light.'~light, 'on') -%}
+                {{ light }}
+              {%- if not loop.last -%}
+                ,
+              {%- endif %}
+            {%- endfor %}
+
+##############################################################
+# Timed Turn Off
+##############################################################
+# Bedroom Closet Lights Timed Out ############################
+- alias: Bedroom Closet Lights Timed Out
+  trigger:
+    platform: state
+    entity_id: light.bedroom_closet_lights
+    to: 'on'
+    for:
+      minutes: 30
+  action:
+    - service: light.turn_off
+      entity_id: light.bedroom_closet_lights
+# Guest Bedroom Closet Lights Timed Out ######################
+- alias: Guest Bedroom Closet Lights Timed Out
+  trigger:
+    platform: state
+    entity_id: light.guest_bedroom_closet_lights
+    to: 'on'
+    for:
+      minutes: 30
+  action:
+    - service: light.turn_off
+      entity_id: light.guest_bedroom_closet_lights

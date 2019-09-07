@@ -1,0 +1,6 @@
+alias: Select Kitchen Sunset Home Theater Mode On Scene
+sequence:
+  - service: homeassistant.turn_on
+    entity_id:
+      - scene.kitchen_home_theater
+      - input_boolean.home_theater_restore_kitchen_lights

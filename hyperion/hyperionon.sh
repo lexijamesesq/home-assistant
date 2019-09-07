@@ -1,1 +1,0 @@
-echo  '{ "command": "clearall" }' | nc 10.0.1.24 19444

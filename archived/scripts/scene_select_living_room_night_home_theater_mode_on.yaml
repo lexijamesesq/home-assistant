@@ -1,0 +1,7 @@
+alias: Select Living Room Night Home Theater Mode On Scene
+sequence:
+  - service: homeassistant.turn_on
+    entity_id:
+      - scene.living_room_home_theater_fade_out
+      - scene.tv_ambient_home_theater_playing_at_night
+      - input_boolean.home_theater_restore_living_room_lights

@@ -1,0 +1,108 @@
+##############################################################
+# Home Theater On
+##############################################################
+- alias: Enable Home Theater On Lighting
+  trigger:
+    platform: state
+    entity_id: input_boolean.trigger_home_theater_mode
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_sunset_mode
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.trigger_night_mode
+        state: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'living_room,tv_ambient'
+- alias: Restore Home Theater Off Lighting
+  trigger:
+    platform: state
+    entity_id: input_boolean.trigger_home_theater_mode
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_sunset_mode
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.trigger_night_mode
+        state: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'living_room,tv_ambient'
+
+
+##############################################################
+# Home Theater Playing
+##############################################################
+# Enhance with "restore" input_boolean for kitchen & living room
+- alias: Enable Home Theater Playing Lighting
+  trigger:
+    - platform: state
+      entity_id: media_player.living_room_apple_tv
+      from: 'idle'
+      to: 'playing'
+    - platform: state
+      entity_id: media_player.living_room_apple_tv
+      from: 'paused'
+      to: 'playing'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_sunset_mode
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.trigger_night_mode
+        state: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'kitchen,living_room,tv_ambient'
+# Enhance with "restore" input_boolean for kitchen & living room
+- alias: Restore Home Theater On Lighting
+  trigger:
+    - platform: state
+      entity_id: media_player.living_room_apple_tv
+      from: 'playing'
+      to: 'paused'
+      for:
+        seconds: 10
+    - platform: state
+      entity_id: media_player.living_room_apple_tv
+      from: 'playing'
+      to: 'idle'
+    - platform: state
+      entity_id: media_player.living_room_apple_tv
+      from: 'paused'
+      to: 'idle'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_boolean.trigger_sunset_mode
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.trigger_night_mode
+        state: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'living_room,tv_ambient,kitchen'

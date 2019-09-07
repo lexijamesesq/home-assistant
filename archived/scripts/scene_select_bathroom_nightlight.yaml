@@ -1,0 +1,11 @@
+alias: Select Bathroom Nightlight Scene
+sequence:
+  - service: scene.turn_on
+    entity_id: scene.bathroom_nightlight
+  - service_template: >
+      {% if trigger is defined and trigger == 'motion' %}
+        homeassistant.turn_on
+      {% else %}
+        homeassistant.turn_off
+      {% endif %}
+    entity_id: input_boolean.motion_trigger_bathroom_lights

@@ -1,0 +1,65 @@
+##############################################################
+# Cycle Stale Air
+##############################################################
+- alias: Cycle Stale Air When Away
+  trigger:
+    - platform: state
+      entity_id: group.residents
+      to: 'not_home'
+      for:
+        hours: 2
+    - platform: state
+      entity_id: group.residents
+      to: 'not_home'
+      for:
+        hours: 4
+    - platform: state
+      entity_id: group.residents
+      to: 'not_home'
+      for:
+        hours: 6
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'not_home'
+      - condition: state
+        entity_id: input_boolean.trigger_guest_mode
+        state: 'off'
+      - condition: state
+        entity_id: group.all_windows
+        state: 'off'
+      - condition: template
+        value_template: '{{ state_attr("climate.downstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.downstairs", "preset_mode") | lower == "eco" }}'
+      - condition: template
+        value_template: '{{ state_attr("climate.upstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.upstairs", "preset_mode") | lower == "eco" }}'
+  action:
+    - service: script.turn_on
+      entity_id: script.cycle_nest_fan
+      data:
+        variables:
+          minutes: 15
+- alias: End Cycle Stale Air Upon Return
+  trigger:
+    - platform: state
+      entity_id: group.residents
+      to: 'home'
+    - platform: state
+      entity_id: input_boolean.trigger_guest_mode
+      to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: script.cycle_nest_fan
+        state: 'on'
+  action:
+    - service: script.turn_off
+      entity_id: script.cycle_nest_fan
+    - service: climate.set_fan_mode
+      entity_id: 
+        - climate.downstairs
+        - climate.upstairs
+      data:
+        fan_mode: 'auto'

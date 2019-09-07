@@ -1,0 +1,5 @@
+alias: Select Kitchen Sunset Home Theater Mode Off Scene
+sequence:
+  - service: homeassistant.turn_on
+    entity_id:
+      - scene.kitchen_bright_at_sunset

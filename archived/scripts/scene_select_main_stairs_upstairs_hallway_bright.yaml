@@ -1,0 +1,33 @@
+alias: Select Main Stairs and Upstairs Hallway Bright Scene
+sequence:
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+          scene.main_stairs_bright_at_night
+        {% else %}
+          scene.main_stairs_bright
+        {% endif %}
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+          scene.upstairs_hallway_bright_at_night
+        {% else %}
+          scene.upstairs_hallway_bright
+        {% endif %}
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+          scene.bedroom_hallway_bright_at_night
+        {% else %}
+          scene.bedroom_hallway_bright
+        {% endif %}
+  - service_template: >
+      {% if trigger is defined and trigger == 'motion' %}
+        homeassistant.turn_on
+      {% else %}
+        homeassistant.turn_off
+      {% endif %}
+    entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights

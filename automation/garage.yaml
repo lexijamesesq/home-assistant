@@ -1,0 +1,101 @@
+##############################################################
+# Motion Events - Anytime
+##############################################################
+
+# Garage Lighting on Motion ##################################
+- alias: Garage Lighting on Motion
+  trigger:
+    platform: state
+    entity_id: input_boolean.motion_garage
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.garage_lights
+    state: 'off'
+  action:
+    - service: light.turn_on
+      entity_id: light.garage_lights
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_trigger_garage_lights
+
+# Garage Lighting on Door Open ###############################
+- alias: Garage Lighting on Garage Actual Open
+  trigger:
+    platform: state
+    entity_id: binary_sensor.garage_actual
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.garage_lights
+    state: 'off'
+  action:
+    - service: light.turn_on
+      entity_id: light.garage_lights
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.door_trigger_garage_lights
+# Separated to add delay on the Garage Door so they do not 
+# immmediately turn back on if turned off before entering
+- alias: Garage Lighting on Garage Door Open
+  trigger:
+    platform: state
+    entity_id: binary_sensor.garage_door
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.garage_lights
+    state: 'off'
+    for:
+      minutes: 1
+  action:
+    - service: light.turn_on
+      entity_id: light.garage_lights
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.door_trigger_garage_lights
+
+# Garage Lighting Timed Out ##################################
+# Transitions from a door to a motion trigger, so lights
+# do not turn out if someone stays in the motion zone.
+- alias: Garage Lighting Door to Motion Transition
+  trigger:
+    platform: state
+    entity_id: input_boolean.motion_garage
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: input_boolean.door_trigger_garage_lights
+    state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_trigger_garage_lights
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.door_trigger_garage_lights
+- alias: Garage Lighting on Gragage Actual Timed Out
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.garage_actual
+      to: 'off'
+    - platform: state
+      entity_id: input_boolean.motion_garage
+      to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.motion_garage
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.motion_trigger_garage_lights
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.garage_actual
+        state: 'off'
+      - condition: state
+        entity_id: light.garage_lights
+        state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.garage_lights
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.door_trigger_garage_lights
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_trigger_garage_lights

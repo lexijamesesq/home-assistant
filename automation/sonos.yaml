@@ -1,0 +1,236 @@
+##############################################################
+# Timed Events
+##############################################################
+- alias: Sonos Group Weekday Morning
+  trigger:
+    platform: time
+    # Military time format. This trigger will fire at 3:00 AM
+    at: '03:00:00'
+  condition:
+    condition: template
+    value_template: '{{ (now().strftime("%A") | lower) in ["monday", "tuesday", "wednesday", "thursday", "friday"] }}'
+  action:
+    - service: sonos.join
+      data_template:
+        master: media_player.sonos_kitchen
+      entity_id:
+        - media_player.sonos_rec_room
+        - media_player.sonos_bedroom
+        - media_player.sonos_bathroom
+        - media_player.sonos_den
+    - service: sonos.unjoin
+      entity_id:
+        - media_player.sonos_living_room
+    - service: media_player.volume_set
+      entity_id:
+        - media_player.sonos_rec_room
+      data:
+        volume_level: 0.35
+    - service: media_player.volume_set
+      entity_id:
+        - media_player.sonos_living_room
+      data:
+        volume_level: 0.25
+    - service: media_player.volume_set
+      entity_id:
+        - media_player.sonos_kitchen
+        - media_player.sonos_bedroom
+        - media_player.sonos_bathroom
+        - media_player.sonos_den
+      data:
+        volume_level: 0.20
+
+- alias: Sonos Kitchen Weekday Morning Volume Ramp Up
+  trigger:
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
+      for:
+        minutes: 2
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
+      for:
+        minutes: 4
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
+      for:
+        minutes: 6
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
+      for:
+        minutes: 8
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
+      for:
+        minutes: 10
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        after: '03:00:00'
+        before: '09:00:00'
+      - condition: template
+        value_template: '{{ (now().strftime("%A") | lower) in ["monday", "tuesday", "wednesday", "thursday", "friday"] }}'
+      - condition: template
+        value_template: '{{ state_attr("media_player.sonos_kitchen", "volume_level") < 0.30 or state_attr("media_player.sonos_bedroom", "volume_level") < 0.30 or state_attr("media_player.sonos_bathroom", "volume_level") < 0.30 }}'
+  action:
+    service: media_player.volume_set
+    data_template:
+      entity_id: >-
+        {% set players = ["sonos_kitchen", "sonos_bedroom", "sonos_bathroom"] %}
+        {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.30 -%}
+          {{ 'media_player.' ~ player }}
+          {%- if not loop.last -%}
+            ,
+          {%- endif %}
+        {%- endfor %}
+      volume_level: >-
+        {% set players = ["sonos_kitchen", "sonos_bedroom", "sonos_bathroom"] %}
+        {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.30 -%}
+          {%- if loop.first -%}
+            {{ state_attr('media_player.' ~ player, 'volume_level') + 0.02 }}
+          {%- endif %}
+        {%- endfor %}
+
+- alias: Sonos Group Reset
+  trigger:
+    platform: time
+    # Military time format. This trigger will fire at 9:00 AM
+    at: '09:00:00'
+  condition:
+    condition: template
+    value_template: '{{ (now().strftime("%A") | lower) in ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"] }}'
+  action:
+    - service: sonos.join
+      data_template:
+        master: media_player.sonos_kitchen
+      entity_id:
+        - media_player.sonos_bedroom
+        - media_player.sonos_bathroom
+        - media_player.sonos_den
+        - media_player.sonos_living_room
+        - media_player.sonos_rec_room
+    - service: media_player.volume_set
+      entity_id:
+        - media_player.sonos_rec_room
+      data:
+        volume_level: 0.35
+    - service: media_player.volume_set
+      entity_id:
+        - media_player.sonos_kitchen
+        - media_player.sonos_bedroom
+        - media_player.sonos_bathroom
+      data:
+        volume_level: 0.30
+    - service: media_player.volume_set
+      entity_id:
+        - media_player.sonos_living_room
+      data:
+        volume_level: 0.25
+    - service: media_player.volume_set
+      entity_id:
+        - media_player.sonos_den
+      data:
+        volume_level: 0.20
+
+
+##############################################################
+# Speaker Grouping
+##############################################################
+# Group Master Speaker #######################################
+# Sets the input_select based on the master speaker sensor
+
+- alias: Set Sonos Group Master Input Select
+  trigger:
+    - platform: state
+      entity_id: sensor.sonos_group_master
+    - platform: homeassistant
+      event: start
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: '{{ states.sensor.sonos_group_master.state != "" }}'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.master_sonos
+        option: >-
+          {% set master = states.sensor.sonos_group_master.state %}
+          {% if "media_player.sonos_kitchen" in master %}Kitchen
+          {% elif "media_player.sonos_living_room" in master%}Living Room
+          {% elif "media_player.sonos_rec_room" in master%}Rec Room
+          {% elif "media_player.sonos_bedroom" in master%}Bedroom
+          {% elif "media_player.sonos_bathroom" in master%}Bathroom
+          {% elif "media_player.sonos_den" in master%}Den
+          {% endif %}
+
+# Sync Input Booleans to Speaker Status ######################
+- alias: Set Sonos Switches On
+  trigger:
+    - platform: state
+      entity_id: sensor.sonos_switches_on
+    - platform: homeassistant
+      event: start
+  condition:
+    condition: template
+    value_template: '{{ states.sensor.sonos_switches_on.state != "" }}'
+  action:
+    - service: input_boolean.turn_on
+      data_template:
+        entity_id: '{{states.sensor.sonos_switches_on.state}}'
+- alias: Set Sonos Switches Off
+  trigger:
+    - platform: state
+      entity_id: sensor.sonos_switches_off
+    - platform: homeassistant
+      event: start
+  condition:
+    condition: template
+    value_template: '{{ states.sensor.sonos_switches_off.state != "" }}'
+  action:
+    - service: input_boolean.turn_off
+      data_template:
+        entity_id: '{{states.sensor.sonos_switches_off.state}}'
+
+# Toggle Speaker State #######################################
+- alias: Toggle Sonos Speaker State
+  trigger:
+    - platform: state
+      entity_id: input_boolean.sonos_bathroom
+    - platform: state
+      entity_id: input_boolean.sonos_bedroom
+    - platform: state
+      entity_id: input_boolean.sonos_den
+    - platform: state
+      entity_id: input_boolean.sonos_kitchen
+    - platform: state
+      entity_id: input_boolean.sonos_living_room
+    - platform: state
+      entity_id: input_boolean.sonos_rec_room
+  condition:
+    condition: template
+    value_template: >-
+      {% set switch  = trigger.to_state.entity_id %}
+      {% set speaker = trigger.to_state.entity_id|replace("input_boolean", "media_player") %}
+      {% if is_state(switch, "on") %}
+        {{ is_state(speaker, "paused") }}
+      {% else %}
+        {{ is_state(speaker, "playing") }}
+      {% endif %}
+  action:
+    - service: script.turn_on
+      data_template:
+        entity_id: >-
+          {% set switch  = trigger.to_state.entity_id %}
+          {% if is_state(switch, "on") %}
+            script.sonos_speaker_join_group
+          {% else %}
+            script.sonos_speaker_unjoin_group
+          {% endif %}
+        variables:
+          speaker: '{{ trigger.to_state.entity_id|replace("input_boolean", "media_player") }}'

@@ -6,19 +6,20 @@
       to: 'on'
   action:
     - delay: '00:00:02'
-    - service: notify.pushover
+    - service: notify.mobile_app_alexs_iphone
       data_template:
-        title: Movement Detected
-        message: >
-          {% if is_state("lock.august_smart_lock_pro_locked", "unlocked") %}
-            Guest Mode has been triggered and the front door was {% if is_state("sensor.august_smart_lock_pro_access_control", "2") %}manually unlocked.{% elif is_state("sensor.august_smart_lock_pro_access_control", "4") %}unlocked with the August app.{% elif is_state("sensor.august_smart_lock_pro_access_control", "6") %}unlocked with the keypad.{% else %}unlocked.{% endif %} Expecting anyone?
-          {% else %}
+        title: "Condo"
+        message: >-
+          {%- if is_state("lock.august_smart_lock_pro_front_door", "unlocked") -%}
+            Guest Mode has been triggered and the front door was {% if is_state("sensor.august_smart_lock_pro_front_door_access_control", "2") %}manually unlocked.{% elif is_state("sensor.august_smart_lock_pro_front_door_access_control", "4") %}unlocked with the August app.{% elif is_state("sensor.august_smart_lock_pro_front_door_access_control", "6") %}unlocked with the keypad.{% else %}unlocked.{% endif %} Expecting anyone?
+          {%- else -%}
             Guest Mode has been triggered and the front door is locked. Cats? Aliens?
-          {% endif %}
-      data:
+          {%- endif %}
         data:
-          priority: 0
-          sound: siren
+          push:
+            thread-id: "ha-condo-group"
+            sound: "siren.wav"
+          
 - alias: Notify of Guest Mode Ended
   trigger:
     - platform: state
@@ -29,52 +30,11 @@
       entity_id: group.residents
       state: 'not_home'
   action:
-    - service: notify.pushover
+    - service: notify.mobile_app_alexs_iphone
       data_template:
-        title: Guest Mode Ended
-        message: >
-          Motion in guest areas has not been detected for 30 minutes. Guest Mode has been turned off.
-      data:
+        title: "Condo"
+        message: "Motion in guest areas has not been detected for 30 minutes. Guest Mode has been turned off."
         data:
-          priority: 0
-          sound: siren
-
-
-# Excessive CPU Load #########################################
-- alias: Notify of Excessive CPU Load
-  trigger:
-    - platform: numeric_state
-      entity_id: sensor.overwatch_cpu_load
-      above: 2
-      for:
-        hours: 1
-  action:
-    service: notify.pushover
-    data: 
-      message: 'Overwatch has had an excessive CPU Load for over an hour.'
-      data:
-        sound: siren
-        priority: 0
-
-
-# UniFi Camera Motion ########################################
-- alias: Notify of UniFi Camera Motion Detected
-  trigger:
-    - platform: state
-      entity_id: input_boolean.motion_front_door
-      to: 'on'
-  condition:
-    - condition: state
-      entity_id: lock.august_smart_lock_pro_locked
-      state: 'locked'
-  action:
-    - service: notify.pushover
-      data_template:
-        title: 'Outside Motion Detected'
-        message: 'Motion has been detected by the Apartment Entrance camera.'
-      data:
-        data:
-          priority: 0
-          sound: siren
-          url: 'unifivideo://'
-          url_title: 'Open UniFi Video'
+          push:
+            thread-id: "ha-condo-group"
+            sound: "gamelan.wav"

@@ -1,0 +1,22 @@
+alias: Select Welcome Lighting at Night Scene
+sequence:
+  # Cancel lighting scripts containing delays
+  - service: script.turn_off
+    entity_id: script.scene_select_away_lighting
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.trigger_simulate_presence_mode
+  - service: script.turn_off
+    entity_id: script.cycle_nest_fan
+  - service: script.turn_on
+    entity_id: script.scene_select_by_time
+    data:
+      variables:
+        room: kitchen
+  - delay: '00:00:01'
+  - service: script.turn_on
+    entity_id: script.scene_select_by_time
+    data:
+      variables:
+        room: living_room
+  - service: scene.turn_on
+    entity_id: scene.den_cabinet_ambient

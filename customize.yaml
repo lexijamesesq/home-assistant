@@ -1,0 +1,399 @@
+media_player.denon_avrx1200w:
+  hidden: true
+media_player.denon_avrx4300h:
+  hidden: true
+group.all_automations:
+  friendly_name: Automations
+  control: hidden
+  hidden: false
+group.all_lights:
+  friendly_name: All Lights
+  emulated_hue_hidden: false
+group.all_scripts:
+  friendly_name: Scripts
+  control: hidden
+  hidden: false
+light.island_1:
+  icon: mdi:ceiling-light
+light.island_2:
+  icon: mdi:ceiling-light
+light.living_room_1:
+  icon: mdi:ceiling-light
+light.bedroom_1:
+  icon: mdi:ceiling-light
+light.bedroom_2:
+  icon: mdi:ceiling-light
+light.office_dimmer_switch_level:
+  friendly_name: Office Overhead Light Bar
+  icon: mdi:spotlight-beam
+script.scene_select_bathroom_bright:
+  friendly_name: Bathroom Bright
+  emulated_hue_hidden: false
+script.scene_select_bathroom_dim:
+  friendly_name: Bathroom Dim
+  emulated_hue_hidden: false
+script.scene_select_bedroom_bright:
+  friendly_name: Bedroom Bright
+  emulated_hue_hidden: false
+script.scene_select_bedroom_dim:
+  friendly_name: Bedroom Dim
+  emulated_hue_hidden: false
+script.scene_select_bedroom_ambient:
+  friendly_name: Bedroom Ambient
+  emulated_hue_hidden: false
+script.scene_select_kitchen_bright:
+  friendly_name: Kitchen Bright
+  emulated_hue_hidden: false
+script.scene_select_kitchen_dim:
+  friendly_name: Kitchen Dim
+  emulated_hue_hidden: false
+script.scene_select_kitchen_prep:
+  friendly_name: Kitchen Prep
+  emulated_hue_hidden: false
+script.scene_select_kitchen_overhead_ambient:
+  friendly_name: Kitchen Overhead Ambient
+  emulated_hue_hidden: false
+script.scene_select_living_room_bright:
+  friendly_name: Living Room Bright
+  emulated_hue_hidden: false
+script.scene_select_living_room_dim:
+  friendly_name: Living Room Dim
+  emulated_hue_hidden: false
+script.scene_select_living_room_ambient:
+  friendly_name: Living Room Ambient
+  emulated_hue_hidden: false
+script.scene_select_office_bright:
+  friendly_name: Office Bright
+  emulated_hue_hidden: false
+script.scene_select_office_dim:
+  friendly_name: Office Dim
+  emulated_hue_hidden: false
+binary_sensor.garage_actual:
+  device_class: garage_door
+binary_sensor.garage_stairs_multisensor_sensor:
+  device_class: motion
+binary_sensor.downstairs_hallway_multisensor_sensor:
+  device_class: motion
+binary_sensor.main_stairs_multisensor_sensor:
+  device_class: motion
+binary_sensor.den_multisensor_sensor:
+  device_class: motion
+binary_sensor.garage_motion_sensor:
+  device_class: motion
+binary_sensor.garage_stairs_motion_sensor:
+  device_class: motion
+binary_sensor.flic_80e4da71a9a9:
+  friendly_name: Flic Bedroom
+  hidden: true
+binary_sensor.flic_80e4da719608:
+  friendly_name: Flic Kitchen
+  hidden: true
+binary_sensor.flic_80e4da71960a:
+  friendly_name: Flic Bathroom
+  hidden: true
+binary_sensor.flic_80e4da71a98e:
+  friendly_name: Flic Shower
+  hidden: true
+device_tracker.alexs_iphone_geofency:
+  friendly_name: Alex
+  entity_picture: /local/calvin.png
+sensor.august_smart_lock_pro_front_door_alarm_level:
+  hidden: true
+sensor.august_smart_lock_pro_front_door_alarm_type:
+  hidden: true
+sensor.august_smart_lock_pro_front_door_sourcenodeid:
+  hidden: true
+sensor.august_smart_lock_pro_garage_door_alarm_level:
+  hidden: true
+sensor.august_smart_lock_pro_garage_door_alarm_type:
+  hidden: true
+sensor.august_smart_lock_pro_garage_door_sourcenodeid:
+  hidden: true
+sensor.main_stairs_multisensor_alarm_level:
+  hidden: true
+sensor.main_stairs_multisensor_alarm_type:
+  hidden: true
+sensor.main_stairs_multisensor_burglar:
+  hidden: true
+sensor.main_stairs_multisensor_luminance:
+  icon: mdi:weather-sunny
+sensor.main_stairs_multisensor_relative_humidity:
+  icon: mdi:water-percent
+sensor.main_stairs_multisensor_sourcenodeid:
+  hidden: true
+sensor.main_stairs_multisensor_ultraviolet:
+  hidden: true
+sensor.bedroom_presence:
+  hidden: true
+sensor.den_multisensor_alarm_level:
+  hidden: true
+sensor.den_multisensor_alarm_type:
+  hidden: true
+sensor.den_multisensor_burglar:
+  hidden: true
+sensor.den_multisensor_luminance:
+  icon: mdi:weather-sunny
+sensor.den_multisensor_relative_humidity:
+  icon: mdi:water-percent
+sensor.den_multisensor_sourcenodeid:
+  hidden: true
+sensor.den_multisensor_temperature:
+  friendly_name: Den Temp
+sensor.den_multisensor_ultraviolet:
+  hidden: true
+sensor.downstairs_hallway_multisensor_alarm_level:
+  hidden: true
+sensor.downstairs_hallway_multisensor_alarm_type:
+  hidden: true
+sensor.downstairs_hallway_multisensor_burglar:
+  hidden: true
+sensor.downstairs_hallway_multisensor_luminance:
+  icon: mdi:weather-sunny
+sensor.downstairs_hallway_multisensor_relative_humidity:
+  icon: mdi:water-percent
+sensor.downstairs_hallway_multisensor_sourcenodeid:
+  hidden: true
+sensor.downstairs_hallway_multisensor_ultraviolet:
+  hidden: true
+sensor.garage_motion_sensor_alarm_level:
+  hidden: true
+sensor.garage_motion_sensor_alarm_type:
+  hidden: true
+sensor.garage_motion_sensor_burglar:
+  hidden: true
+sensor.garage_motion_sensor_sourcenodeid:
+  hidden: true
+sensor.garage_stairs_multisensor_alarm_level:
+  hidden: true
+sensor.garage_stairs_multisensor_alarm_type:
+  hidden: true
+sensor.garage_stairs_multisensor_burglar:
+  hidden: true
+sensor.garage_stairs_multisensor_luminance:
+  icon: mdi:weather-sunny
+sensor.garage_stairs_multisensor_relative_humidity:
+  icon: mdi:water-percent
+sensor.garage_stairs_multisensor_sourcenodeid:
+  hidden: true
+sensor.garage_stairs_multisensor_ultraviolet:
+  hidden: true
+sensor.average_humidity:
+  icon: mdi:water-percent
+sensor.average_temperature:
+  icon: mdi:thermometer
+sensor.dark_sky_temperature:
+  friendly_name: Temperature
+sensor.dark_sky_daytime_high_temperature_0d:
+  friendly_name: High
+  icon: mdi:thermometer-plus
+sensor.dark_sky_overnight_low_temperature_0d:
+  friendly_name: Low
+  icon: mdi:thermometer-minus
+sensor.dark_sky_humidity:
+  friendly_name: Humidity
+sensor.dark_sky_precip_probability:
+  friendly_name: Chance of Rain
+sensor.golden_hour:
+  icon: mdi:weather-sunset
+sensor.data_plan:
+  icon: mdi:lan-connect
+sensor.data_usage:
+  icon: mdi:elevator
+sensor.data_resets:
+  icon: mdi:calendar-clock
+sensor.speedtest_download:
+  icon: mdi:download-network
+sensor.speedtest_upload:
+  icon: mdi:upload-network
+sensor.overwatch_cpu_load:
+  icon: mdi:chart-line
+sensor.overwatch_cpu_temp:
+  icon: mdi:thermometer
+sensor.overwatch_ram_used:
+  icon: mdi:memory
+sensor.woodhouse_cpu_load:
+  icon: mdi:chart-line
+sensor.woodhouse_cpu1_temp:
+  icon: mdi:thermometer
+sensor.woodhouse_cpu2_temp:
+  icon: mdi:thermometer
+sensor.woodhouse_ram_used:
+  icon: mdi:memory
+sensor.cox_wan:
+  icon: mdi:network
+sensor.airvpn_wan:
+  icon: mdi:security-network
+sensor.nowhere_network_vpn:
+  icon: mdi:security-network
+sensor.alex:
+  entity_picture: /local/calvin.png
+sensor.octavia:
+  entity_picture: /local/jeep.png
+input_boolean.sonos_kitchen:
+  icon: mdi:speaker
+input_boolean.sonos_living_room:
+  icon: mdi:speaker
+input_boolean.sonos_rec_room:
+  icon: mdi:speaker
+input_boolean.sonos_bedroom:
+  icon: mdi:speaker
+input_boolean.sonos_bathroom:
+  icon: mdi:speaker
+input_boolean.sonos_den:
+  icon: mdi:speaker
+input_boolean.trigger_guest_mode:
+  icon: mdi:human-greeting
+input_boolean.trigger_home_theater_mode:
+  icon: mdi:theater
+  emulated_hue_hidden: false
+input_boolean.trigger_night_mode:
+  icon: mdi:weather-night
+input_boolean.trigger_sleep_mode:
+  icon: mdi:sleep
+  emulated_hue_hidden: false
+input_boolean.trigger_sunset_mode:
+  icon: mdi:weather-sunset
+input_number.bathroom_prefer_dim_after_weekday:
+  icon: mdi:theme-light-dark
+input_number.bathroom_prefer_dim_after_weekend:
+  icon: mdi:theme-light-dark
+input_number.bedroom_prefer_dim_after_weekday:
+  icon: mdi:theme-light-dark
+input_number.bedroom_prefer_dim_after_weekend:
+  icon: mdi:theme-light-dark
+input_number.kitchen_prefer_dim_after_weekday:
+  icon: mdi:theme-light-dark
+input_number.kitchen_prefer_dim_after_weekend:
+  icon: mdi:theme-light-dark
+input_number.living_room_prefer_dim_after_weekday:
+  icon: mdi:theme-light-dark
+input_number.living_room_prefer_dim_after_weekend:
+  icon: mdi:theme-light-dark
+switch.pfsense:
+  hidden: true
+switch.woodhouse:
+  hidden: true
+binary_sensor.upstairs_thermostat_is_using_emergency_heat:
+  hidden: true
+binary_sensor.upstairs_thermostat_is_locked:
+  hidden: true
+binary_sensor.upstairs_thermostat_has_leaf:
+  hidden: true
+zwave.unknown_node_45_2:
+  hidden: true
+switch.sonos_boost:
+  hidden: true
+switch.oswin:
+  hidden: true
+sensor.bathroom_multisensor_sourcenodeid:
+  hidden: true
+sensor.bathroom_multisensor_burglar:
+  hidden: true
+sensor.bathroom_multisensor_alarm_type:
+  hidden: true
+sensor.bathroom_multisensor_alarm_level:
+  hidden: true
+sensor.laundry_door_right_sensor_sourcenodeid:
+  hidden: true
+sensor.laundry_door_right_sensor_burglar:
+  hidden: true
+sensor.laundry_door_right_sensor_alarm_type:
+  hidden: true
+sensor.laundry_door_right_sensor_alarm_level:
+  hidden: true
+sensor.laundry_door_right_sensor_access_control:
+  hidden: true
+sensor.laundry_door_left_sensor_sourcenodeid:
+  hidden: true
+sensor.laundry_door_left_sensor_burglar:
+  hidden: true
+sensor.laundry_door_left_sensor_alarm_type:
+  hidden: true
+sensor.laundry_door_left_sensor_alarm_level:
+  hidden: true
+sensor.laundry_door_left_sensor_access_control:
+  hidden: true
+sensor.guest_bedroom_closet_door_sensor_sourcenodeid:
+  hidden: true
+sensor.guest_bedroom_closet_door_sensor_burglar:
+  hidden: true
+sensor.guest_bedroom_closet_door_sensor_alarm_type:
+  hidden: true
+sensor.guest_bedroom_closet_door_sensor_alarm_level:
+  hidden: true
+sensor.guest_bedroom_closet_door_sensor_access_control:
+  hidden: true
+sensor.garage_actual_water_chlorine_level:
+  hidden: true
+sensor.garage_actual_velocity:
+  hidden: true
+sensor.garage_actual_target_temperature:
+  hidden: true
+sensor.garage_actual_solar_radiation:
+  hidden: true
+sensor.garage_actual_luminance:
+  hidden: true
+sensor.garage_actual_general:
+  hidden: true
+sensor.garage_actual_alarm_type:
+  hidden: true
+sensor.garage_actual_alarm_level:
+  hidden: true
+sensor.garage_actual_air_flow:
+  hidden: true
+binary_sensor.downstairs_thermostat_is_using_emergency_heat:
+  hidden: true
+binary_sensor.downstairs_thermostat_is_locked:
+  hidden: true
+binary_sensor.downstairs_thermostat_has_leaf:
+  hidden: true
+sensor.den_trisensor_burglar:
+  hidden: true
+sensor.den_trisensor_alarm_type:
+  hidden: true
+sensor.den_trisensor_alarm_level:
+  hidden: true
+sensor.den_trisensor_sourcenodeid:
+  hidden: true
+switch.clara:
+  hidden: true
+switch.living_room_apple_tv:
+  hidden: true
+switch.alex_s_imac:
+  hidden: true
+sensor.service_status_home_assistant:
+  icon: mdi:home-assistant
+sensor.service_status_dashboard:
+  icon: mdi:tablet-dashboard
+sensor.service_status_plex:
+  icon: mdi:plex
+sensor.service_status_unifi_protect:
+  icon: mdi:cctv
+sensor.service_status_unifi_network:
+  icon: mdi:router-wireless-settings
+sensor.service_status_sabnzbd:
+  icon: mdi:cloud-download
+sensor.service_status_sonarr:
+  icon: mdi:cloud-search
+sensor.service_status_grafana:
+  icon: mdi:desktop-mac-dashboard
+sensor.service_status_tautulli:
+  icon: mdi:account-details
+binary_sensor.den_trisensor_sensor:
+  device_class: motion
+cover.garage_actual:
+  device_class: garage
+sensor.network_status_vl50_guest:
+  icon: mdi:lan-connect
+sensor.network_status_cox_wan:
+  icon: mdi:lan-connect
+sensor.network_status_lan:
+  icon: mdi:lan-connect
+sensor.network_status_vl40_iot:
+  icon: mdi:lan-connect
+sensor.network_status_vpn_wan:
+  icon: mdi:lan-connect
+sensor.network_status_vpn2_wan:
+  icon: mdi:lan-connect
+sensor.network_status_vpn3_wan:
+  icon: mdi:lan-connect

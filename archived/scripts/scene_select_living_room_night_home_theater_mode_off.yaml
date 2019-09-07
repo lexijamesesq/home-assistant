@@ -1,0 +1,5 @@
+alias: Select Living Room Night Home Theater Mode Off Scene
+sequence:
+  - service: homeassistant.turn_on
+    entity_id:
+      - scene.living_room_bright_at_night

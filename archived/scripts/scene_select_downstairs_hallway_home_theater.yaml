@@ -1,0 +1,8 @@
+alias: Select Downstairs Hallway Home Theater Scene
+sequence:
+  # Check if lights are on
+  - condition: state
+    entity_id: light.downstairs_hallway
+    state: 'on'
+  - service: scene.turn_on
+    entity_id: scene.downstairs_hallway_home_theater_fade_out

@@ -1,0 +1,7 @@
+alias: Select Home Theater Mode Off Scene
+sequence:
+  # Set Lighting Scenes
+  - service: script.turn_on
+    entity_id:
+      - script.scene_select_living_room_home_theater_restore
+      - script.scene_select_kitchen_home_theater_restore

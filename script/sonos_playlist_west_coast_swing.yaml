@@ -1,0 +1,8 @@
+alias: Sonos Playlist West Coast Swing
+sequence:
+  - service: media_player.select_source
+    data_template:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+      source: 'West Coast Swing'
+  - service: script.turn_on
+    entity_id: script.sonos_playlist_toggle_play

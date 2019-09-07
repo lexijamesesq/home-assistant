@@ -1,0 +1,486 @@
+##############################################################
+# Garage Stairs
+##############################################################
+# Triggers all the time because the stairs are always dark
+# Top of stairs, only triggers Garage Stairs Lighting
+- alias: Garage Stairs Lighting on Motion
+  trigger:
+    - platform: state
+      entity_id: input_boolean.motion_garage_stairs
+      to: 'on'
+#    - platform: event
+#      event_type: event_garage_stairs_lighting_on_motion
+  condition:
+    condition: state
+    entity_id: light.garage_stairs
+    state: 'off'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'garage_stairs'
+          trigger: motion
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_trigger_garage_stairs_lights
+#  condition:
+#    condition: state
+#    entity_id: script.update_scene
+#    state: 'on'
+#  action:
+#    - delay: '00:00:02'
+#    - event: event_garage_stairs_lighting_on_motion
+# Bottom of stairs, triggers Garage Stairs and Downstairs
+# Hallway Lighting to create a more seamless entry
+- alias: Garage Stairs Lighting on Door Open
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.garage_door
+      to: 'on'
+#    - platform: event
+#      event_type: event_garage_stairs_lighting_on_door_open
+  condition:
+    condition: state
+    entity_id: light.garage_stairs
+    state: 'off'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data_template:
+        variables:
+          lights: >
+            {% if states.sensor.downstairs_hallway_multisensor_luminance.state | int < 5.0 -%}
+              garage_stairs,downstairs_hallway
+            {%- else -%}
+              garage_stairs
+            {%- endif %}
+          trigger: door
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.door_trigger_garage_stairs_lights
+    - condition: numeric_state
+      entity_id: sensor.downstairs_hallway_multisensor_luminance
+      below: 5.0
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+#  condition:
+#    condition: state
+#    entity_id: script.update_scene
+#    state: 'on'
+#  action:
+#    - delay: '00:00:02'
+#    - event: event_garage_stairs_lighting_on_door_open
+# Transitions from a door to a motion trigger, so lights
+# do not turn out if someone stays in the motion zone.
+- alias: Garage Stairs Lighting Door to Motion Transition
+  trigger:
+    platform: state
+    entity_id: input_boolean.motion_garage_stairs
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: input_boolean.door_trigger_garage_stairs_lights
+    state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_trigger_garage_stairs_lights
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.door_trigger_garage_stairs_lights
+- alias: Garage Stairs Lighting Timed Out
+  trigger:
+    - platform: state
+      entity_id: input_boolean.motion_garage_stairs
+      to: 'off'
+      for:
+        seconds: 5
+    - platform: state
+      entity_id: binary_sensor.garage_door
+      to: 'off'
+      for:
+        minutes: 2
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.motion_garage_stairs
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.garage_door
+        state: 'off'
+        for:
+          minutes: 2
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.motion_trigger_garage_stairs_lights
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.door_trigger_garage_stairs_lights
+            state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.garage_stairs
+    - service: homeassistant.turn_off
+      entity_id:
+        - input_boolean.motion_trigger_garage_stairs_lights
+        - input_boolean.door_trigger_garage_stairs_lights
+
+
+##############################################################
+# Downstairs Hallway
+##############################################################
+# Triggers when LX is below X, or when Night Mode is on
+- alias: Downstairs Hallway Lighting on Motion
+  trigger:
+    - platform: state
+      entity_id: input_boolean.motion_downstairs_hallway
+      to: 'on'
+#    - platform: event
+#      event_type: event_downstairs_hallway_lighting_on_motion
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.downstairs_hallway
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.trigger_sunset_mode
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.trigger_night_mode
+            state: 'on'
+          - condition: numeric_state
+            entity_id: sensor.downstairs_hallway_multisensor_luminance
+            below: 5.0
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'downstairs_hallway'
+          trigger: motion
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
+#  condition:
+#    condition: state
+#    entity_id: script.update_scene
+#    state: 'on'
+#  action:
+#    - delay: '00:00:02'
+#    - event: event_downstairs_hallway_lighting_on_motion
+# Front Door triggers Downstairs Hallway Lighting
+- alias: Downstairs Hallway Lighting on Door Open
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door
+      to: 'on'
+#    - platform: event
+#      event_type: event_downstairs_hallway_lighting_on_door_open
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.downstairs_hallway
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.trigger_sunset_mode
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.trigger_night_mode
+            state: 'on'
+          - condition: numeric_state
+            entity_id: sensor.downstairs_hallway_multisensor_luminance
+            below: 5.0
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'downstairs_hallway'
+          trigger: door
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+#  condition:
+#    condition: state
+#    entity_id: script.update_scene
+#    state: 'on'
+#  action:
+#    - delay: '00:00:02'
+#    - event: event_downstairs_hallway_lighting_on_door_open
+# Transitions from a door to a motion trigger, so lights
+# do not turn out if someone stays in the motion zone.
+- alias: Downstairs Hallway Lighting Door to Motion Transition
+  trigger:
+    platform: state
+    entity_id: input_boolean.motion_downstairs_hallway
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+    state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+- alias: Downstairs Hallway Lighting Timed Out
+  trigger:
+    - platform: state
+      entity_id: input_boolean.motion_downstairs_hallway
+      to: 'off'
+      for:
+        seconds: 5
+    - platform: state
+      entity_id: binary_sensor.garage_door
+      to: 'off'
+      for:
+        minutes: 2
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.motion_downstairs_hallway
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+            state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.downstairs_hallway
+    - service: homeassistant.turn_off
+      entity_id:
+        - input_boolean.motion_trigger_downstairs_hallway_lights
+        - input_boolean.door_trigger_downstairs_hallway_lights
+
+
+##############################################################
+# Upstairs Hallway Group
+##############################################################
+# Triggers when LX is below X, or when Night Mode is on
+- alias: Upstairs Hallway Group Lighting on Motion
+  trigger:
+    - platform: state
+      entity_id: group.motion_upstairs_hallway_group_areas
+      to: 'on'
+#    - platform: event
+#      event_type: event_upstairs_hallway_group_lighting_on_motion
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.upstairs_hallway_group_lights
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.trigger_sunset_mode
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.trigger_night_mode
+            state: 'on'
+          - condition: numeric_state
+            entity_id: sensor.main_stairs_multisensor_luminance
+            below: 70.0
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
+          trigger: motion
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+#  condition:
+#    condition: state
+#    entity_id: script.update_scene
+#    state: 'on'
+#  action:
+#    - delay: '00:00:02'
+#    - event: event_upstairs_hallway_group_lighting_on_motion
+- alias: Upstairs Hallway Group Lighting Timed Out
+  trigger:
+    - platform: state
+      entity_id: group.motion_upstairs_hallway_group_areas
+      to: 'off'
+      for:
+        seconds: 5
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.motion_upstairs_hallway_group_areas
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+        state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.upstairs_hallway_group_lights
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+
+
+##############################################################
+# Den Hallway
+##############################################################
+# Triggers when LX is below X, or when Night Mode is on
+- alias: Den Hallway Lighting on Motion
+  trigger:
+    - platform: state
+      entity_id: input_boolean.motion_den_hallway
+      to: 'on'
+    - platform: state
+      entity_id: input_boolean.motion_den
+      to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.den_hallway
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.trigger_sunset_mode
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.trigger_night_mode
+            state: 'on'
+          - condition: numeric_state
+            entity_id: sensor.den_multisensor_luminance
+            below: 20.0
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'den_hallway'
+          trigger: motion
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_trigger_den_hallway_lights
+- alias: Den Hallway Lighting Timed Out
+  trigger:
+    - platform: state
+      entity_id: input_boolean.motion_den_hallway
+      to: 'off'
+      for:
+        seconds: 5
+    - platform: state
+      entity_id: input_boolean.motion_den
+      to: 'off'
+      for:
+        minutes: 10
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.motion_den_hallway
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.motion_den_hallway
+        state: 'off'
+      - condition: template
+        value_template: '{{ (as_timestamp(states.input_boolean.motion_den.last_changed)) | int >= (10 * 60) | int }}'
+      - condition: state
+        entity_id: input_boolean.motion_trigger_den_hallway_lights
+        state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.den_hallway
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motion_trigger_den_hallway_lights
+
+
+##############################################################
+# Laundry
+##############################################################
+- alias: Laundry Lighting on Door Open
+  trigger:
+    platform: state
+    entity_id: group.laundry_door_sensor
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.laundry_lights
+    state: 'off'
+  action:
+    - service: light.turn_on
+      entity_id: light.laundry_lights
+- alias: Laundry Lighting on Door Close
+  trigger:
+    platform: state
+    entity_id: group.laundry_door_sensor
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: light.laundry_lights
+    state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.laundry_lights
+
+
+##############################################################
+# Bedroom
+##############################################################
+- alias: Bedroom Closet Lighting on Door Open
+  trigger:
+    platform: state
+    entity_id: binary_sensor.bedroom_closet_door_sensor
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.bedroom_closet_lights
+    state: 'off'
+  action:
+    - service: light.turn_on
+      entity_id: light.bedroom_closet_lights
+- alias: Bedroom Closet Lighting on Door Close
+  trigger:
+    platform: state
+    entity_id: binary_sensor.bedroom_closet_door_sensor
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: light.bedroom_closet_lights
+    state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.bedroom_closet_lights
+
+
+##############################################################
+# Guest Bedroom
+##############################################################
+- alias: Guest Bedroom Closet Lighting on Door Open
+  trigger:
+    platform: state
+    entity_id: binary_sensor.guest_bedroom_closet_door_sensor
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.guest_bedroom_closet_lights
+    state: 'off'
+  action:
+    - service: light.turn_on
+      entity_id: light.guest_bedroom_closet_lights
+- alias: Guest Bedroom Closet Lighting on Door Close
+  trigger:
+    platform: state
+    entity_id: binary_sensor.guest_bedroom_closet_door_sensor
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: light.guest_bedroom_closet_lights
+    state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.guest_bedroom_closet_lights

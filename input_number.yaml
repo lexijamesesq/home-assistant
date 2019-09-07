@@ -6,14 +6,14 @@ bedroom_prefer_dim_after_weekday:
   name: Dim After (Weekday)
   min: 1
   max: 11
-  initial: 9
+  initial: 8
   step: 1
 
 bedroom_prefer_dim_after_weekend:
   name: Dim After (Weekend)
   min: 1
   max: 11
-  initial: 11
+  initial: 10
   step: 1
 
 
@@ -44,14 +44,14 @@ kitchen_prefer_dim_after_weekday:
   name: Dim After (Weekday)
   min: 1
   max: 11
-  initial: 9
+  initial: 8
   step: 1
 
 kitchen_prefer_dim_after_weekend:
   name: Dim After (Weekend)
   min: 1
   max: 11
-  initial: 11
+  initial: 10
   step: 1
 
 
@@ -63,14 +63,14 @@ living_room_prefer_dim_after_weekday:
   name: Dim After (Weekday)
   min: 1
   max: 11
-  initial: 9
+  initial: 8
   step: 1
 
 living_room_prefer_dim_after_weekend:
   name: Dim After (Weekend)
   min: 1
   max: 11
-  initial: 11
+  initial: 10
   step: 1
 
 

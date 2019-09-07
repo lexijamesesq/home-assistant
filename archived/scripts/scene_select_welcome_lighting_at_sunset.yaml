@@ -1,0 +1,14 @@
+alias: Select Welcome Lighting at Sunset Scene
+sequence:
+  # Cancel lighting scripts containing delays
+  - service: script.turn_off
+    entity_id: script.scene_select_away_lighting
+  - service: script.turn_off
+    entity_id: script.cycle_nest_fan
+  # Turn on scenes
+  - service: scene.turn_on
+    entity_id:
+      - scene.kitchen_bright_at_sunset
+      - scene.living_room_bright_at_sunset
+  - service: scene.turn_on
+    entity_id: scene.den_cabinet_ambient

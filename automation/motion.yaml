@@ -1,94 +1,222 @@
 ##############################################################
-# Kitchen
+# Garage
 ##############################################################
 
-- alias: Kitchen Motion Started
+- alias: Motion Started in Garage
   trigger:
     platform: state
-    entity_id: binary_sensor.kitchen_multisensor_sensor
+    entity_id: binary_sensor.garage_motion_sensor
     from: "off"
     to: "on"
   action:
     service: homeassistant.turn_on
-    entity_id: input_boolean.motion_kitchen
-- alias: Kitchen Motion Ended
+    entity_id: input_boolean.motion_garage
+- alias: Motion Ended in Garage
   trigger:
     platform: state
-    entity_id: binary_sensor.kitchen_multisensor_sensor
+    entity_id: binary_sensor.garage_motion_sensor
     from: "on"
     to: "off"
   action:
     service: homeassistant.turn_off
-    entity_id: input_boolean.motion_kitchen
+    entity_id: input_boolean.motion_garage
+
+
+##############################################################
+# Garage Stairs
+##############################################################
+
+- alias: Motion Started in Garage Stairs
+  trigger:
+    platform: state
+    entity_id: binary_sensor.garage_stairs_multisensor_sensor
+    from: "off"
+    to: "on"
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.motion_garage_stairs
+- alias: Motion Ended in Garage Stairs
+  trigger:
+    platform: state
+    entity_id: binary_sensor.garage_stairs_multisensor_sensor
+    from: "on"
+    to: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.motion_garage_stairs
+
+
+##############################################################
+# Front Door
+##############################################################
+
+- alias: Motion Started at Front Door
+  trigger:
+    platform: state
+    entity_id: binary_sensor.ring_front_door_motion
+    from: "off"
+    to: "on"
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.motion_front_door
+- alias: Motion Ended at Front Door Motion Ended
+  trigger:
+    platform: state
+    entity_id: binary_sensor.ring_front_door_motion
+    from: "on"
+    to: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.motion_front_door
+
+
+##############################################################
+# Downstairs Hallway
+##############################################################
+
+- alias: Motion Started in Downstairs Hallway
+  trigger:
+    platform: state
+    entity_id: binary_sensor.downstairs_hallway_multisensor_sensor
+    from: "off"
+    to: "on"
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.motion_downstairs_hallway
+- alias: Motion Ended in Downstairs Hallway
+  trigger:
+    platform: state
+    entity_id: binary_sensor.downstairs_hallway_multisensor_sensor
+    from: "on"
+    to: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.motion_downstairs_hallway
+
+
+##############################################################
+# Den Hallway
+##############################################################
+
+- alias: Motion Started in Den Hallway
+  trigger:
+    platform: state
+    entity_id: binary_sensor.den_multisensor_sensor
+    from: "off"
+    to: "on"
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.motion_den_hallway
+- alias: Motion Ended in Den Hallway
+  trigger:
+    platform: state
+    entity_id: binary_sensor.den_multisensor_sensor
+    from: "on"
+    to: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.motion_den_hallway
+
+
+##############################################################
+# Den
+##############################################################
+
+- alias: Motion Started in Den
+  trigger:
+    platform: state
+    entity_id: binary_sensor.den_trisensor_sensor
+    from: "off"
+    to: "on"
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.motion_den
+- alias: Motion Ended in Den
+  trigger:
+    platform: state
+    entity_id: binary_sensor.den_trisensor_sensor
+    from: "on"
+    to: "off"
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.motion_den
 
 
 ##############################################################
 # Living Room
 ##############################################################
 
-- alias: Living Room Motion Started
+- alias: Motion Started in Living Room
   trigger:
     platform: state
-    entity_id: binary_sensor.living_room_multisensor_sensor
+    entity_id: binary_sensor.living_room_motion_sensor
     from: "off"
     to: "on"
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.motion_living_room
-- alias: Living Room Motion Ended
+- alias: Motion Ended in Living Room
   trigger:
     platform: state
-    entity_id: binary_sensor.living_room_multisensor_sensor
+    entity_id: binary_sensor.living_room_motion_sensor
     from: "on"
     to: "off"
+    for:
+      minutes: 2
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.motion_living_room
 
 
 ##############################################################
-# Bedroom
+# Main Stairs
 ##############################################################
 
-- alias: Bedroom Motion Started
+- alias: Motion Started in Main Stairs
   trigger:
     platform: state
-    entity_id: binary_sensor.bedroom_multisensor_sensor
+    entity_id: binary_sensor.main_stairs_multisensor_sensor
     from: "off"
     to: "on"
   action:
     service: homeassistant.turn_on
-    entity_id: input_boolean.motion_bedroom
-- alias: Bedroom Motion Ended
+    entity_id: input_boolean.motion_main_stairs
+- alias: Motion Ended in Main Stairs
   trigger:
     platform: state
-    entity_id: binary_sensor.bedroom_multisensor_sensor
+    entity_id: binary_sensor.main_stairs_multisensor_sensor
     from: "on"
     to: "off"
   action:
     service: homeassistant.turn_off
-    entity_id: input_boolean.motion_bedroom
+    entity_id: input_boolean.motion_main_stairs
 
 
 ##############################################################
-# Bathroom
+# Upstairs Hallway
 ##############################################################
 
-- alias: Bathroom Motion Started
+- alias: Motion Started in Upstairs Hallway
   trigger:
     platform: state
-    entity_id: binary_sensor.bathroom_multisensor_sensor
+    entity_id: binary_sensor.upstairs_hallway_motion_sensor
     from: "off"
     to: "on"
+  condition:
+    condition: state
+    entity_id: input_boolean.motion_upstairs_hallway
+    state: "off"
   action:
     service: homeassistant.turn_on
-    entity_id: input_boolean.motion_bathroom
-- alias: Bathroom Motion Ended
+    entity_id: input_boolean.motion_upstairs_hallway
+- alias: Motion Ended in Main Stairs
   trigger:
     platform: state
-    entity_id: binary_sensor.bathroom_multisensor_sensor
+    entity_id: binary_sensor.upstairs_hallway_motion_sensor
     from: "on"
     to: "off"
+    for:
+      minutes: 2
   action:
     service: homeassistant.turn_off
-    entity_id: input_boolean.motion_bathroom
+    entity_id: input_boolean.motion_upstairs_hallway

@@ -1,0 +1,17 @@
+alias: Select Den Hallway Dim Scene
+sequence:
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+          scene.den_hallway_dim_at_night
+        {% else %}
+          scene.den_hallway_dim
+        {% endif %}
+  - service_template: >
+      {% if trigger is defined and trigger == 'motion' %}
+        homeassistant.turn_on
+      {% else %}
+        homeassistant.turn_off
+      {% endif %}
+    entity_id: input_boolean.motion_trigger_den_hallway_lights

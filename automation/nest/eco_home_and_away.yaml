@@ -1,0 +1,74 @@
+##############################################################
+# Leaving Home
+##############################################################
+# Residents ##################################################
+# Nest still seems to be doing this part correctly.
+
+# Guests #####################################################
+- alias: Nest Eco - Turn on Eco When Guests Leave
+  trigger:
+    platform: state
+    entity_id: input_boolean.trigger_guest_mode
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: group.residents
+    state: 'not_home'
+  action:
+    - service: climate.set_preset_mode
+      data:
+        entity_id:
+          - climate.downstairs
+          - climate.upstairs
+        preset_mode: 'Away and Eco'
+
+
+##############################################################
+# Returning Home
+##############################################################
+# Covers residents leaving work, residents approaching home,
+# and guests entering the home
+- alias: Nest Eco - Restore Thermostat Mode When Returning Home
+  trigger:
+    - platform: state
+      entity_id: device_tracker.alexs_iphone_geofency
+      from: 'integrate'
+      to: 'not_home'
+    - platform: state
+      entity_id: device_tracker.alexs_iphone_geofency
+      from: 'not_home'
+      to: 'extended_home'
+    - platform: state
+      entity_id: device_tracker.alexs_iphone_geofency
+      from: 'not_home'
+      to: 'home'
+    - platform: state
+      entity_id: input_boolean.trigger_guest_mode
+      to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.all_windows
+        state: 'off'
+      - condition: template
+        value_template: '{{ state_attr("climate.downstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.downstairs", "preset_mode") | lower == "eco" }}'
+      - condition: template
+        value_template: '{{ state_attr("climate.upstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.upstairs", "preset_mode") | lower == "eco" }}'
+  action:
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.downstairs
+        preset_mode: 'none'
+    - service: climate.set_hvac_mode
+      data_template:
+        entity_id: climate.downstairs
+        hvac_mode: '{{ states("sensor.climate_downstairs_restore_mode") }}'
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.upstairs
+        preset_mode: 'none'
+    - service: climate.set_hvac_mode
+      data_template:
+        entity_id: climate.upstairs
+        hvac_mode: '{{ states("sensor.climate_upstairs_restore_mode") }}'

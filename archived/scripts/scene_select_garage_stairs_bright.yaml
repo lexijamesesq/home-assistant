@@ -1,0 +1,17 @@
+alias: Select Garage Stairs Bright Scene
+sequence:
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+          scene.garage_stairs_bright_at_night
+        {% else %}
+          scene.garage_stairs_bright
+        {% endif %}
+  - service_template: >
+      {% if trigger is defined and trigger == 'motion' %}
+        homeassistant.turn_on
+      {% else %}
+        homeassistant.turn_off
+      {% endif %}
+    entity_id: input_boolean.motion_trigger_garage_stairs_lights

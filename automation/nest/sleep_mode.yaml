@@ -1,0 +1,35 @@
+##############################################################
+# Update Temperature
+##############################################################
+- alias: Nest Temperature Sleep Mode Started
+  trigger:
+    - platform: state
+      entity_id: input_boolean.trigger_sleep_mode
+      to: 'on'
+      for:
+        minutes: 2
+  action:
+    - service: climate.set_temperature
+      entity_id: climate.downstairs
+      data:
+        temperature: 80
+    - service: climate.set_temperature
+      entity_id: climate.upstairs
+      data:
+        temperature: 74
+- alias: Nest Temperature Sleep Mode Ended
+  trigger:
+    - platform: state
+      entity_id: input_boolean.trigger_sleep_mode
+      to: 'off'
+      for:
+        minutes: 2
+  action:
+    - service: climate.set_temperature
+      entity_id: climate.downstairs
+      data:
+        temperature: 78
+    - service: climate.set_temperature
+      entity_id: climate.upstairs
+      data:
+        temperature: 76
