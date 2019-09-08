@@ -2,7 +2,8 @@
 # Octavia
 ##############################################################
 
-- alias: Octavia Event Ignition On
+# Automatic Events ###########################################
+- alias: Automatic Event - Octavia Ignition On
   trigger:
     platform: event
     event_type: automatic_update
@@ -19,7 +20,7 @@
       data_template:
         entity_id: input_select.octavia_state
         option: 'Driving'
-- alias: Octavia Event Ignition Off
+- alias: Automatic Event - Octavia Ignition Off
   trigger:
     platform: event
     event_type: automatic_update
@@ -27,6 +28,43 @@
       type: "ignition:off"
       vehicle:
         id: !secret automatic_vehicle_id
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.octavia_driver
+        option: 'Unoccupied'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.octavia_state
+        option: 'Parked'
+
+# Lack of Reliability Fix ####################################
+- alias: Automatic Fix - Octavia Parked In Zone
+  trigger:
+    - platform: state
+      entity_id: device_tracker.alexs_iphone_geofency
+      to: 'home'
+      for:
+        minutes: 5
+    - platform: state
+      entity_id: device_tracker.alexs_iphone_geofency
+      to: 'integrate'
+      for:
+        minutes: 5
+    - platform: state
+      entity_id: device_tracker.alexs_iphone_geofency
+      to: 'dance_fx'
+      for:
+        minutes: 5
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_select.octavia_driver
+        state: 'Alex'
+      - condition: state
+        entity_id: input_select.octavia_state
+        state: 'Driving'
   action:
     - service: input_select.select_option
       data_template:
