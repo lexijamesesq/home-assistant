@@ -1,0 +1,24 @@
+##############################################################
+# Save Trash & Recycling Pickup Dates
+##############################################################
+# Calendar feeds for trash and recycling pickups start/stop at
+# 6:00am. Automations create dates that mirror full-day events
+- alias: Calendar - Save Next Trash Pickup Date
+  trigger:
+    - platform: template
+      value_template: '{{ states.sensor.date.state != states.input_text.next_pickup_trash.state }}'
+  action:
+    - service: input_text.set_value
+      data_template:
+        entity_id: input_text.next_pickup_trash
+        value: '{{ as_timestamp(states.calendar.trash.attributes.start_time) | timestamp_custom("%Y-%m-%d") }}'
+
+- alias: Calendar - Save Next Recycling Pickup Date
+  trigger:
+    - platform: template
+      value_template: '{{ states.sensor.date.state != states.input_text.next_pickup_recycling.state }}'
+  action:
+    - service: input_text.set_value
+      data_template:
+        entity_id: input_text.next_pickup_recycling
+        value: '{{ as_timestamp(states.calendar.recycling.attributes.start_time) | timestamp_custom("%Y-%m-%d") }}'

@@ -788,7 +788,7 @@
       friendly_name: Water Delivery
       entity_id: sensor.time
       value_template: >-
-        {% set nextdelivery =  as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+        {% set nextdelivery = as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
         {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.readyrefresh.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
         {% set dayof = states.sensor.date.state == nextdelivery %}
         {% if daybefore or dayof %}
@@ -803,7 +803,7 @@
         - sensor.date
         - calendar.readyrefresh
       value_template: >-
-        {% set nextdelivery =  as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+        {% set nextdelivery = as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
         {% set fivedaysbefore = as_timestamp(now()) > (as_timestamp(states.calendar.readyrefresh.attributes.start_time) - (24*60*60*5)) and as_timestamp(now()) < as_timestamp(states.calendar.readyrefresh.attributes.start_time) %}
         {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.readyrefresh.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
         {% set dayof = states.sensor.date.state == nextdelivery %}
@@ -819,12 +819,10 @@
       icon_template: 'mdi:cup-water'
     dashboard_trash_pickup:
       friendly_name: Trash Pickup
-      entity_id:
-        - sensor.time
-        - calendar.trash
+      entity_id: sensor.time
       value_template: >-
-        {% set nextpickup =  as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.trash.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set nextpickup = states.input_text.next_pickup_trash.state %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
         {% set dayof = states.sensor.date.state == nextpickup %}
         {% if daybefore or dayof %}
           on
@@ -832,8 +830,8 @@
           off
         {% endif %}
       icon_template: >-
-        {% set nextpickup =  as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.trash.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set nextpickup = states.input_text.next_pickup_trash.state %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
         {% set dayof = states.sensor.date.state == nextpickup %}
         {% if daybefore or dayof %}
           mdi:delete-empty
@@ -842,23 +840,21 @@
         {% endif %}
     dashboard_trash_pickup_title:
       friendly_name: Trash Pickup Title
-      entity_id:
-        - sensor.date
-        - sensor.dashboard_trash_pickup
+      entity_id: sensor.time
       value_template: >-
-        {% set nextpickup =  as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.trash.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set nextpickup = states.input_text.next_pickup_trash.state %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
         {% set dayof = states.sensor.date.state == nextpickup %}
         {% if daybefore %}
           Tomorrow
         {% elif dayof %}
           Today
         {% else %}
-          {{ as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%A') }}
+          {{ as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00')|timestamp_custom('%A') }}
         {% endif %}
       icon_template: >-
-        {% set nextpickup =  as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.trash.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set nextpickup = states.input_text.next_pickup_trash.state %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
         {% set dayof = states.sensor.date.state == nextpickup %}
         {% if daybefore or dayof %}
           mdi:delete-empty
@@ -869,8 +865,8 @@
       friendly_name: Recycling Pickup
       entity_id: sensor.time
       value_template: >-
-        {% set nextpickup =  as_timestamp(states.calendar.recycling.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.recycling.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set nextpickup = states.input_text.next_pickup_recycling.state %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_recycling.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
         {% set dayof = states.sensor.date.state == nextpickup %}
         {% if daybefore or dayof %}
           on
@@ -880,19 +876,17 @@
       icon_template: 'mdi:recycle'
     dashboard_recycling_pickup_title:
       friendly_name: Recycling Pickup Title
-      entity_id:
-        - sensor.date
-        - sensor.dashboard_recycling_pickup
+      entity_id: sensor.time
       value_template: >-
-        {% set nextpickup =  as_timestamp(states.calendar.recycling.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.recycling.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set nextpickup = states.input_text.next_pickup_recycling.state %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_recycling.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
         {% set dayof = states.sensor.date.state == nextpickup %}
         {% if daybefore %}
           Tomorrow
         {% elif dayof %}
           Today
         {% else %}
-          {{ as_timestamp(states.calendar.recycling.attributes.start_time)|timestamp_custom('%A') }}
+          {{ as_timestamp(states.input_text.next_pickup_recycling.state + ' 00:00:00')|timestamp_custom('%A') }}
         {% endif %}
       icon_template: 'mdi:recycle'
     dashboard_bedroom_fan_hepa_filter:
