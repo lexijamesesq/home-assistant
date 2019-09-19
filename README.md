@@ -35,7 +35,7 @@
 * [Ubiquiti Networks - UniFi AP AC PRO](https://www.amazon.com/gp/product/B015PRO512/) x2
 * [Ubiquiti Networks - UniFi Switch 16-150W](https://www.amazon.com/gp/product/B01E46ATQ0/)
 * [Ubiquiti Networks - UniFi Switch 8-150W](https://www.amazon.com/gp/product/B01DKXT4CI/) x2
-* [Ubiquity Networks - Unifi UVC-G3](https://www.amazon.com/gp/product/B01EZYTYLC/)
+* [Ubiquiti Networks - Unifi UVC-G3](https://www.amazon.com/gp/product/B01EZYTYLC/)
 * [Ubiquiti Networks - UniFi Video G3 Camera](https://www.amazon.com/gp/product/B077QCR56S/) x3
 * [Ubiquiti Networks - UniFi Video G3-Micro Wireless Camera](https://www.amazon.com/gp/product/B077H91CM7/)
 * [Ring Video Doorbell Pro](https://www.amazon.com/gp/product/B01DM6BDA4/)
