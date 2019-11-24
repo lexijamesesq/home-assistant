@@ -1,0 +1,120 @@
+type: vertical-stack
+cards:
+  - type: conditional
+    conditions:
+      - entity: sensor.dashboard_home_state
+        state: "Secure"
+    card:
+      type: entities
+      entities:
+        - entity: sensor.dashboard_home_state
+          name: Home
+      show_header_toggle: false
+  - type: conditional
+    conditions:
+      - entity: binary_sensor.garage_actual
+        state: "on"
+    card:
+      type: entities
+      entities:
+        - entity: script.trigger_garage_door_opener
+          name: Garage Actual Door Opener
+  - type: conditional
+    conditions:
+      - entity: lock.august_smart_lock_pro_front_door
+        state: "unlocked"
+      - entity: lock.august_smart_lock_pro_garage_door
+        state: "unlocked"
+    card:
+      type: entities
+      entities:
+        - entity: lock.august_smart_lock_pro_front_door
+          name: Front Door
+        - entity: lock.august_smart_lock_pro_garage_door
+          name: Garage Door
+  - type: conditional
+    conditions:
+      - entity: lock.august_smart_lock_pro_front_door
+        state: "unlocked"
+      - entity: lock.august_smart_lock_pro_garage_door
+        state: "locked"
+    card:
+      type: entities
+      entities:
+        - entity: lock.august_smart_lock_pro_front_door
+          name: Front Door
+  - type: conditional
+    conditions:
+      - entity: lock.august_smart_lock_pro_front_door
+        state: "locked"
+      - entity: lock.august_smart_lock_pro_garage_door
+        state: "unlocked"
+    card:
+      type: entities
+      entities:
+        - entity: lock.august_smart_lock_pro_garage_door
+          name: Garage Door
+  - type: conditional
+    conditions:
+      - entity: group.all_doors
+        state: "on"
+    card:
+      type: entity-filter
+      entities:
+        - entity: binary_sensor.garage_door
+        - entity: binary_sensor.front_door
+        - entity: binary_sensor.patio_door
+        - entity: binary_sensor.den_door
+      state_filter:
+        - "on"
+      card:
+        type: entities
+        show_header_toggle: false
+  - type: conditional
+    conditions:
+      - entity: group.all_windows
+        state: "on"
+    card:
+      type: entity-filter
+      entities:
+        - entity: binary_sensor.kitchen_windows
+        - entity: binary_sensor.living_room_windows
+        - entity: binary_sensor.rec_room_windows
+        - entity: binary_sensor.bedroom_windows
+        - entity: binary_sensor.den_windows
+        - entity: binary_sensor.guest_bedroom_windows
+      state_filter:
+        - "on"
+      card:
+        type: entities
+        show_header_toggle: false
+  - type: conditional
+    conditions:
+      - entity: sensor.state_all_services_up
+        state: "off"
+    card:
+      type: entity-filter
+      entities:
+        - entity: sensor.service_status_home_assistant
+          name: Home Assistant
+        - entity: sensor.service_status_dashboard
+          name: Dashboard Server
+        - entity: sensor.service_status_plex
+          name: Plex
+        - entity: sensor.service_status_sonarr
+          name: Sonarr
+        - entity: sensor.service_status_sabnzbd
+          name: SABnzbd
+        - entity: sensor.service_status_tautulli
+          name: Tautulli
+        - entity: sensor.service_status_grafana
+          name: Grafana
+        - entity: sensor.service_status_unifi_network
+          name: UniFi Network
+        - entity: sensor.service_status_unifi_protect
+          name: UniFi Protect
+      state_filter:
+        - "Down"
+      card:
+        type: entities
+        show_header_toggle: false

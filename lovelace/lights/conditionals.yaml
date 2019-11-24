@@ -1,0 +1,42 @@
+type: vertical-stack
+cards:
+  - type: conditional
+    conditions:
+      - entity: sensor.simulate_presence_mode
+        state: "Lights On"
+    card:
+      type: entities
+      entities:
+        - entity: sensor.simulate_presence_mode
+          name: Simulating Presence
+      show_header_toggle: false
+  - type: conditional
+    conditions:
+      - entity: sensor.simulate_presence_mode
+        state: "Lights Off"
+    card:
+      type: entities
+      entities:
+        - entity: sensor.simulate_presence_mode
+          name: Simulating Presence
+      show_header_toggle: false
+  - type: conditional
+    conditions:
+      - entity: sensor.simulate_presence_mode
+        state: "Delay"
+    card:
+      type: entities
+      entities:
+        - entity: sensor.simulate_presence_mode
+          name: Simulating Presence
+      show_header_toggle: false
+  - type: conditional
+    conditions:
+      - entity: sensor.simulate_presence_mode
+        state: "Error"
+    card:
+      type: entities
+      entities:
+        - entity: sensor.simulate_presence_mode
+          name: Simulating Presence
+      show_header_toggle: false

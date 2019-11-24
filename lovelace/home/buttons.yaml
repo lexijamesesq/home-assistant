@@ -1,0 +1,36 @@
+type: horizontal-stack
+cards:
+  - type: "custom:button-card"
+    entity: input_boolean.trigger_guest_mode
+    show_name: false
+    state:
+      - value: "off"
+        color: var(--disabled-text-color)
+    tap_action:
+        action: toggle
+    hold_action:
+        action: none
+  - type: "custom:button-card"
+    entity: input_boolean.trigger_home_theater_mode
+    show_name: false
+    state:
+      - value: "on"
+        color: var(--paper-orange-400)
+      - value: "off"
+        color: var(--disabled-text-color)
+    tap_action:
+        action: toggle
+    hold_action:
+        action: none
+  - type: "custom:button-card"
+    entity: input_boolean.trigger_sleep_mode
+    show_name: false
+    state:
+      - value: "on"
+        color: var(--paper-blue-400)
+      - value: "off"
+        color: var(--disabled-text-color)
+    tap_action:
+        action: toggle
+    hold_action:
+        action: none

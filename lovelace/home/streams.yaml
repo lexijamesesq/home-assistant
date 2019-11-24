@@ -1,0 +1,14 @@
+type: conditional
+conditions:
+  - entity: sensor.tautulli_total_streams
+    state_not: "0"
+card:
+  type: entities
+  entities:
+    - entity: sensor.tautulli_total_streams
+      name: Plex Streams
+      icon: mdi:plex
+      tap_action:
+        action: navigate
+        navigation_path: /lovelace/home_theater
+  show_header_toggle: false

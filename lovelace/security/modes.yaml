@@ -1,0 +1,10 @@
+type: entities
+title: Active Mode Monitoring
+show_header_toggle: false
+entities:
+  - sensor.sunset_mode
+  - sensor.night_mode
+  - sensor.guest_mode
+  - sensor.home_theater_mode
+  - sensor.sleep_mode
+  - sensor.simulate_presence_mode

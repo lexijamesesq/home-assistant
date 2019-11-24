@@ -1,0 +1,38 @@
+type: entities
+title: Network
+show_header_toggle: false
+entities:
+  - type: section
+    label: External
+  - entity: sensor.network_status_cox_wan
+    name: Cox WAN
+  - entity: sensor.network_status_vpn_wan
+    name: VPN WAN
+  - entity: sensor.network_status_vpn2_wan
+    name: VPN2 WAN
+  - entity: sensor.network_status_vpn3_wan
+    name: VPN3 WAN
+  - type: section
+    label: Internal
+  - entity: sensor.network_status_lan
+    name: LAN
+  - entity: sensor.network_status_vl40_iot
+    name: VL40 IoT
+  - entity: sensor.network_status_vl50_guest
+    name: VL50 Guest
+  - type: section
+    label: Hardware
+  - entity: sensor.network_pfsense
+    name: pfSense
+  - entity: sensor.network_unifi_cloudkey
+    name: UniFi Cloud Key Plus
+  - entity: sensor.network_unifi_switch_16
+    name: UniFi Switch 16
+  - entity: sensor.network_unifi_switch_8_downstairs
+    name: UniFi Switch 8 - Downstairs
+  - entity: sensor.network_unifi_switch_8_upstairs
+    name: UniFi Switch 8 - Upstairs
+  - entity: sensor.network_unifi_ap_downstairs
+    name: UniFi AP - Downstairs
+  - entity: sensor.network_unifi_ap_upstairs
+    name: UniFi AP - Upstairs

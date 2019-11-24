@@ -1,0 +1,22 @@
+type: entities
+title: Servers
+show_header_toggle: false
+entities:
+  - type: section
+    label: Overwatch
+  - entity: sensor.overwatch_cpu_load
+    name: Load
+  - entity: sensor.overwatch_cpu_temp
+    name: CPU Temp
+  - entity: sensor.overwatch_ram_used
+    name: RAM Used
+  - type: section
+    label: Woodhouse
+  - entity: sensor.woodhouse_cpu_load
+    name: Load
+  - entity: sensor.woodhouse_cpu1_temp
+    name: CPU1 Temp
+  - entity: sensor.woodhouse_cpu2_temp
+    name: CPU2 Temp
+  - entity: sensor.woodhouse_ram_used
+    name: RAM Used
