@@ -51,10 +51,47 @@
   scan_interval:
     minutes: 5
 
-# - platform: srp_energy
-#   username: !secret srp_username
-#   password: !secret srp_password
-#   id: !secret srp_account_id
+- platform: waze_travel_time
+  name: Time to Work
+  origin: zone.home
+  destination: !secret work_name
+  incl_filter: 'I-17'
+  region: 'US'
+  scan_interval: 300
+
+- platform: template
+  sensors:
+    time_to_work_padded:
+      friendly_name: 'Time to Work - Padded'
+      entity_id: sensor.time_to_work
+      value_template: >-
+        {%- if is_state("sensor.time_to_work", "unknown") -%}
+          unknown
+        {%- else -%}
+          {{- states("sensor.time_to_work") | int + 15 -}}
+        {%- endif %}
+      unit_of_measurement: 'min'
+    time_to_work_display:
+      friendly_name: 'Time to Work - Display'
+      entity_id: sensor.time
+      value_template: >-
+        {%- set now = as_timestamp(states("sensor.date") + ' ' + states("sensor.time")) -%}
+        {%- set padding = states("sensor.time_to_work_padded") | int * 60 -%}
+        {%- if is_state("sensor.time_to_work", "unknown") -%}
+          unknown
+        {%- else -%}
+          {{- (now + padding) | timestamp_custom('%-I:%M %p') }}
+        {% endif %}
+    time_to_work_hidden:
+      friendly_name: 'Time to Work'
+      entity_id: sensor.time
+      value_template: >-
+        {%- set weekday = ["monday", "tuesday", "wednesday", "thursday", "friday"] -%}
+        {%- if now().strftime("%A") | lower in weekday and now().strftime("%H")|int <= 10 -%}
+          on
+        {%- else -%}
+          off
+        {%- endif %}
 
 # Ring
 - platform: ring
