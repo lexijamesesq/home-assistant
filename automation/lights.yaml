@@ -10,26 +10,20 @@
     - platform: state
       entity_id: input_boolean.trigger_guest_mode
       to: 'on'
-  condition:
-    condition: and
-    conditions:
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: input_boolean.trigger_sunset_mode
-            state: 'on'
-          - condition: state
-            entity_id: input_boolean.trigger_night_mode
-            state: 'on'
   action:
     - service: homeassistant.turn_off
       entity_id: input_boolean.trigger_simulate_presence_mode
     - delay: '00:00:05'
     - service: script.turn_on
       entity_id: script.update_scene
-      data:
+      data_template:
         variables:
-          lights: 'kitchen,living_room,den_cabinets'
+          lights: >-
+            {%- if is_state('input_boolean.trigger_sunset_mode', 'on') or is_state('input_boolean.trigger_night_mode', 'on') -%}
+              kitchen,living_room,bedroom_ambient,den_cabinets
+            {%- else -%}
+              bedroom_ambient
+            {%- endif %}
 
 # Empty Home Lighting ########################################
 # All residents have left the premises, but are there guests?

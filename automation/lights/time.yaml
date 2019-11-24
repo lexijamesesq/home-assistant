@@ -29,13 +29,13 @@
 - alias: Update Lights at Night Progressive Dimming
   trigger:
     - platform: template
-      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states.sensor.prefer_weekday_lighting_mid.state }}'
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states("sensor.prefer_weekday_lighting_mid") }}'
     - platform: template
-      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states.sensor.prefer_weekdat_lighting_low.state }}'
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states("sensor.prefer_weekdat_lighting_low") }}'
     - platform: template
-      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states.sensor.prefer_weekend_lighting_mid.state }}'
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states("sensor.prefer_weekend_lighting_mid") }}'
     - platform: template
-      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states.sensor.prefer_weekend_lighting_low.state }}'
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states("sensor.prefer_weekend_lighting_low") }}'
   condition:
     condition: and
     conditions:
@@ -70,6 +70,29 @@
                 ,
               {%- endif %}
             {%- endfor %}
+
+
+##############################################################
+# Alexa Alarm Wakeup Light
+##############################################################
+- alias: Bedroom Wakeup Light
+  trigger:
+    platform: state
+    entity_id: sensor.alexa_wakeup_light
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'home'
+      - condition: state
+        entity_id: light.bedroom_ambient
+        state: 'off'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.bedroom_ambient_day_wakeup
+
 
 ##############################################################
 # Timed Turn Off

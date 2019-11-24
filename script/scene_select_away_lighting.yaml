@@ -1,8 +1,5 @@
 alias: Select Away Scene
 sequence:
-  # Cancel lighting scripts containing delays
-  - service: script.turn_off
-    entity_id: script.scene_select_welcome_lighting_at_night
   # Turn Off All Lights
   - service: light.turn_off
     entity_id:
@@ -17,6 +14,7 @@ sequence:
       - light.main_stairs
       - light.upstairs_hallway
       - light.bedroom_hallway
+      - light.bedroom_ambient
       - light.bedroom_closet_lights
       - light.laundry_lights
       - light.den_hallway

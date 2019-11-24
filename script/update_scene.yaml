@@ -5,11 +5,14 @@ sequence:
   - service: scene.turn_on
     data_template:
       entity_id: >
-        {% set time   = as_timestamp(now()) | timestamp_custom("%H:%M") %}
-        {% set prefer_weekday_low = states.sensor.prefer_weekday_lighting_low.state %}
-        {% set prefer_weekday_mid = states.sensor.prefer_weekday_lighting_mid.state %}
-        {% set prefer_weekend_low = states.sensor.prefer_weekend_lighting_low.state %}
-        {% set prefer_weekend_mid = states.sensor.prefer_weekend_lighting_mid.state %}
+        {% set time                = as_timestamp(now()) | timestamp_custom("%H:%M") %}
+        {% set sleep_mode          = is_state("input_boolean.trigger_sleep_mode", "on") %}
+        {% set prefer_weekday_low  = states.sensor.prefer_weekday_lighting_low.state %}
+        {% set prefer_weekday_mid  = states.sensor.prefer_weekday_lighting_mid.state %}
+        {% set prefer_weekday_high = states.sensor.prefer_weekday_lighting_high.state %}
+        {% set prefer_weekend_low  = states.sensor.prefer_weekend_lighting_low.state %}
+        {% set prefer_weekend_mid  = states.sensor.prefer_weekend_lighting_mid.state %}
+        {% set prefer_weekend_high = states.sensor.prefer_weekend_lighting_high.state %}
 
         {% set ht_lights = ["kitchen", "living_room", "tv_ambient"] %}
 
@@ -32,17 +35,17 @@ sequence:
         {% endif %}
 
         {% if now().strftime("%A")|lower in weekday %}
-          {% if time >= prefer_weekday_low %}
+          {% if time >= prefer_weekday_low or (time <= prefer_weekday_high and sleep_mode) %}
             {% set brightness = "_low" %}
-          {% elif time >= prefer_weekday_mid %}
+          {% elif time >= prefer_weekday_mid or time <= prefer_weekday_high %}
             {% set brightness = "_mid" %}
           {% else %}
             {% set brightness = "_mid" if trigger is defined else "_high" %}
           {% endif %}
         {% else %}
-          {% if time >= prefer_weekend_low %}
+          {% if time >= prefer_weekend_low or (time <= prefer_weekend_high and sleep_mode) %}
             {% set brightness = "_low" %}
-          {% elif time >= prefer_weekend_mid %}
+          {% elif time >= prefer_weekend_mid or time <= prefer_weekend_high %}
             {% set brightness = "_mid" %}
           {% else %}
             {% set brightness = "_mid" if trigger is defined else "_high" %}
@@ -52,7 +55,7 @@ sequence:
         {% set list = lights.split(',') %}
 
         {% for light in list -%}
-          scene.{{ light }}{{ mode if light == "tv_ambient" else mode | replace("sunset", "night") }}{{ ht if light in ht_lights }}{{ brightness if light != 'tv_ambient' }}
+          scene.{{ light }}{{ mode if light == "tv_ambient" else mode | replace("sunset", "night") }}{{ ht if light in ht_lights }}{{ brightness if "_ambient" not in light }}
           {%- if not loop.last -%}
             ,
           {%- endif %}

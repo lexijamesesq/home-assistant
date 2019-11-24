@@ -302,7 +302,7 @@
         scene_data: 7800
   action: 
   - service: input_boolean.turn_off
-    entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+    entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
     
 # Off - Single ###############################################
 # - alias: Main Stairs Physical Switch Off Single
@@ -315,7 +315,7 @@
 #         scene_data: 7800
 #   action: 
 #   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
 # On - Hold ##################################################
 - alias: Main Stairs Physical Switch On Hold
@@ -328,7 +328,7 @@
         scene_data: 7740
   action: 
   - service: input_boolean.turn_off
-    entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+    entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
     
 # Off - Hold #################################################
 # - alias: Main Stairs Physical Switch Off Hold
@@ -341,7 +341,7 @@
 #         scene_data: 7740
 #   action: 
 #   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
 
 ##############################################################
@@ -359,7 +359,7 @@
         scene_data: 7800
   action: 
   - service: input_boolean.turn_off
-    entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+    entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
     
 # Off - Single ###############################################
 # - alias: Upstairs Hallway Physical Switch Off Single
@@ -372,7 +372,7 @@
 #         scene_data: 7800
 #   action: 
 #   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
 # On - Hold ##################################################
 - alias: Upstairs Hallway Physical Switch On Hold
@@ -385,7 +385,7 @@
         scene_data: 7740
   action: 
   - service: input_boolean.turn_off
-    entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+    entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
     
 # Off - Hold #################################################
 # - alias: Upstairs Hallway Physical Switch Off Hold
@@ -398,7 +398,7 @@
 #         scene_data: 7740
 #   action: 
 #   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
 
 ##############################################################
@@ -500,7 +500,7 @@
         scene_data: 7800
   action: 
   - service: input_boolean.turn_off
-    entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+    entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
     
 # Off - Single ###############################################
 # - alias: Bedroom Hallway Physical Switch Off Single
@@ -513,7 +513,7 @@
 #         scene_data: 7800
 #   action: 
 #   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
 # On - Hold ##################################################
 - alias: Bedroom Hallway Physical Switch On Hold
@@ -526,7 +526,7 @@
         scene_data: 7740
   action: 
   - service: input_boolean.turn_off
-    entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+    entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
     
 # Off - Hold #################################################
 # - alias: Bedroom Hallway Physical Switch Off Hold
@@ -539,4 +539,4 @@
 #         scene_data: 7740
 #   action: 
 #   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_main_stairs_upstairs_hallway_lights
+#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights

@@ -26,48 +26,6 @@ light.bedroom_2:
 light.office_dimmer_switch_level:
   friendly_name: Office Overhead Light Bar
   icon: mdi:spotlight-beam
-script.scene_select_bathroom_bright:
-  friendly_name: Bathroom Bright
-  emulated_hue_hidden: false
-script.scene_select_bathroom_dim:
-  friendly_name: Bathroom Dim
-  emulated_hue_hidden: false
-script.scene_select_bedroom_bright:
-  friendly_name: Bedroom Bright
-  emulated_hue_hidden: false
-script.scene_select_bedroom_dim:
-  friendly_name: Bedroom Dim
-  emulated_hue_hidden: false
-script.scene_select_bedroom_ambient:
-  friendly_name: Bedroom Ambient
-  emulated_hue_hidden: false
-script.scene_select_kitchen_bright:
-  friendly_name: Kitchen Bright
-  emulated_hue_hidden: false
-script.scene_select_kitchen_dim:
-  friendly_name: Kitchen Dim
-  emulated_hue_hidden: false
-script.scene_select_kitchen_prep:
-  friendly_name: Kitchen Prep
-  emulated_hue_hidden: false
-script.scene_select_kitchen_overhead_ambient:
-  friendly_name: Kitchen Overhead Ambient
-  emulated_hue_hidden: false
-script.scene_select_living_room_bright:
-  friendly_name: Living Room Bright
-  emulated_hue_hidden: false
-script.scene_select_living_room_dim:
-  friendly_name: Living Room Dim
-  emulated_hue_hidden: false
-script.scene_select_living_room_ambient:
-  friendly_name: Living Room Ambient
-  emulated_hue_hidden: false
-script.scene_select_office_bright:
-  friendly_name: Office Bright
-  emulated_hue_hidden: false
-script.scene_select_office_dim:
-  friendly_name: Office Dim
-  emulated_hue_hidden: false
 binary_sensor.garage_actual:
   device_class: garage_door
 binary_sensor.garage_stairs_multisensor_sensor:
@@ -242,6 +200,7 @@ input_boolean.sonos_bathroom:
 input_boolean.sonos_den:
   icon: mdi:speaker
 input_boolean.trigger_guest_mode:
+  emulated_hue_hidden: false
   icon: mdi:human-greeting
 input_boolean.trigger_home_theater_mode:
   icon: mdi:theater
@@ -397,3 +356,40 @@ sensor.network_status_vpn2_wan:
   icon: mdi:lan-connect
 sensor.network_status_vpn3_wan:
   icon: mdi:lan-connect
+light.kitchen:
+  emulated_hue_hidden: false
+script.scene_select_bedroom_ambient: {}
+light.bedroom_ambient:
+  emulated_hue_hidden: false
+light.bedroom_closet_lights:
+  emulated_hue_hidden: false
+light.bedroom_hallway:
+  emulated_hue_hidden: false
+light.den_cabinets:
+  emulated_hue_hidden: false
+light.den_hallway:
+  emulated_hue_hidden: false
+light.downstairs_hallway:
+  emulated_hue_hidden: false
+light.garage_lights:
+  emulated_hue_hidden: false
+light.garage_stairs:
+  emulated_hue_hidden: false
+light.guest_bedroom_closet_lights:
+  emulated_hue_hidden: false
+light.laundry_lights:
+  emulated_hue_hidden: false
+light.living_room:
+  emulated_hue_hidden: false
+light.main_stairs:
+  emulated_hue_hidden: false
+light.patio_lights:
+  emulated_hue_hidden: false
+light.patio_string_lights:
+  emulated_hue_hidden: false
+light.tv_ambient:
+  emulated_hue_hidden: false
+light.upstairs_hallway_group_lights:
+  emulated_hue_hidden: false
+light.upstairs_hallway:
+  emulated_hue_hidden: false
