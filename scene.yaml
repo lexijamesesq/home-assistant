@@ -210,7 +210,7 @@
     light.tv_ambient:
       state: off
 
-# TV Ambient Day HT On - Comes from LIFX
+# TV Ambient Day HT On - Comes from LIFXLAN
 - name: TV Ambient Day HT On
   entities:
     script.scene_select_tv_ambient_ht_on:
@@ -233,7 +233,7 @@
     light.tv_ambient:
       state: off
 
-# TV Ambient Night HT On - Comes from LIFX
+# TV Ambient Night HT On - Comes from LIFXLAN
 - name: TV Ambient Night HT On
   entities:
     script.scene_select_tv_ambient_ht_on:
@@ -527,6 +527,26 @@
 
 
 ##############################################################
+# Bedroom
+##############################################################
+
+- name: Bedroom Ambient Day
+  entities:
+    script.scene_select_bedroom_ambient:
+      state: on
+
+- name: Bedroom Ambient Day Wakeup
+  entities:
+    script.scene_select_bedroom_ambient_wakeup:
+      state: on
+
+- name: Bedroom Ambient Night
+  entities:
+    script.scene_select_bedroom_ambient:
+      state: on
+
+
+##############################################################
 # Den Hallway
 ##############################################################
 
@@ -574,6 +594,7 @@
   entities:
     light.den_cabinets:
       state: on
+      transition: 5
       brightness: 75
       color_temp: 285
 
@@ -581,6 +602,7 @@
   entities:
     light.den_cabinets:
       state: on
+      transition: 5
       brightness: 75
       color_temp: 285
 
@@ -588,6 +610,7 @@
   entities:
     light.den_cabinets:
       state: on
+      transition: 5
       brightness: 75
       color_temp: 285
 
@@ -595,6 +618,7 @@
   entities:
     light.den_cabinets:
       state: on
+      transition: 5
       brightness: 75
       color_temp: 285
 
@@ -602,6 +626,7 @@
   entities:
     light.den_cabinets:
       state: on
+      transition: 5
       brightness: 75
       color_temp: 285
 

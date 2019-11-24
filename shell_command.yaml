@@ -3,5 +3,8 @@
 ##############################################################
 
 query_cox_data_usage: 'python /config/python/cox_usage.py'
-query_suncalc: 'python2 /config/python/query_suncalc.py'
+query_suncalc: 'python /config/python/query_suncalc.py'
 lifxlan_tv_ambient_ht_on: 'python /config/python/scenes/tv_ambient_ht_on.py'
+lifx_bedroom_ambient: !secret lifx_bedroom_ambient
+lifx_bedroom_ambient_zero: !secret lifx_bedroom_ambient_zero
+lifx_bedroom_ambient_wakeup: !secret lifx_bedroom_ambient_wakeup
