@@ -36,3 +36,6 @@ zwave_device_config.yaml
 !/.travis.yml
 
 /icloud/*
+*.pickle
+alexa_mediauser@example.comget.html
+alexa_mediauser@example.compost.html
