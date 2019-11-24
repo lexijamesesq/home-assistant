@@ -1,0 +1,7 @@
+alias: Select Bedroom Ambient Scene
+sequence:
+  - service: light.turn_on
+    data:
+      entity_id: light.bedroom_ambient
+      brightness: 77
+  - service: shell_command.lifx_bedroom_ambient
