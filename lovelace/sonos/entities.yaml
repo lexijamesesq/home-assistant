@@ -1,0 +1,104 @@
+type: vertical-stack
+cards:
+  - type: conditional
+    conditions:
+      - entity: sensor.sonos_group_master
+        state: "media_player.sonos_kitchen"
+    card:
+      type: custom:mini-media-player
+      entity: media_player.sonos_kitchen
+      source: icon
+      hide:
+        power: power
+        volume: true
+        mute: true
+        progress: true
+  - type: conditional
+    conditions:
+      - entity: sensor.sonos_group_master
+        state: "media_player.sonos_living_room"
+    card:
+      type: custom:mini-media-player
+      entity: media_player.sonos_living_room
+      source: icon
+      hide:
+        power: power
+        volume: true
+        mute: true
+        progress: true
+  - type: conditional
+    conditions:
+      - entity: sensor.sonos_group_master
+        state: "media_player.sonos_rec_room"
+    card:
+      type: custom:mini-media-player
+      entity: media_player.sonos_rec_room
+      source: icon
+      hide:
+        power: power
+        volume: true
+        mute: true
+        progress: true
+  - type: conditional
+    conditions:
+      - entity: sensor.sonos_group_master
+        state: "media_player.sonos_bedroom"
+    card:
+      type: custom:mini-media-player
+      entity: media_player.sonos_bedroom
+      source: icon
+      hide:
+        power: power
+        volume: true
+        mute: true
+        progress: true
+  - type: conditional
+    conditions:
+      - entity: sensor.sonos_group_master
+        state: "media_player.sonos_bathroom"
+    card:
+      type: custom:mini-media-player
+      entity: media_player.sonos_bathroom
+      source: icon
+      hide:
+        power: power
+        volume: true
+        mute: true
+        progress: true
+  - type: conditional
+    conditions:
+      - entity: sensor.sonos_group_master
+        state: "media_player.sonos_den"
+    card:
+      type: custom:mini-media-player
+      entity: media_player.sonos_den
+      name: Den
+      source: icon
+      hide:
+        power: power
+        volume: true
+        mute: true
+        progress: true
+  - type: entities
+    title: Sonos
+    show_header_toggle: false
+    entities:
+      - input_select.master_sonos
+      - entity: input_boolean.sonos_kitchen
+        type: "custom:secondaryinfo-entity-row"
+        secondary_info: 'Volume: [[ media_player.sonos_kitchen.attributes.volume_level ]]'
+      - entity: input_boolean.sonos_living_room
+        type: "custom:secondaryinfo-entity-row"
+        secondary_info: 'Volume: [[ media_player.sonos_living_room.attributes.volume_level ]]'
+      - entity: input_boolean.sonos_rec_room
+        type: "custom:secondaryinfo-entity-row"
+        secondary_info: 'Volume: [[ media_player.sonos_rec_room.attributes.volume_level ]]'
+      - entity: input_boolean.sonos_bedroom
+        type: "custom:secondaryinfo-entity-row"
+        secondary_info: 'Volume: [[ media_player.sonos_bedroom.attributes.volume_level ]]'
+      - entity: input_boolean.sonos_bathroom
+        type: "custom:secondaryinfo-entity-row"
+        secondary_info: 'Volume: [[ media_player.sonos_bathroom.attributes.volume_level ]]'
+      - entity: input_boolean.sonos_den
+        type: "custom:secondaryinfo-entity-row"
+        secondary_info: 'Volume: [[ media_player.sonos_den.attributes.volume_level ]]'

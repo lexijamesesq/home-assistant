@@ -1,0 +1,28 @@
+type: entities
+title: Motion
+show_header_toggle: false
+entities:
+  - type: section
+    label: Garage
+  - entity: binary_sensor.garage_motion_sensor
+    name: Garage
+  - entity: binary_sensor.garage_stairs_multisensor_sensor
+    name: Garage Stairs
+  - type: section
+    label: Downstairs
+  - entity: binary_sensor.ring_front_door_motion
+    name: Front Door
+  - entity: binary_sensor.downstairs_hallway_multisensor_sensor
+    name: Downstairs Hallway
+  - entity: binary_sensor.living_room_motion_sensor
+    name: Living Room
+  - entity: binary_sensor.main_stairs_multisensor_sensor
+    name: Main Stairs
+  - type: section
+    label: Upstairs
+  - entity: binary_sensor.upstairs_hallway_motion_sensor
+    name: Upstairs Hallway
+  - entity: binary_sensor.den_multisensor_sensor
+    name: Den Hallway
+  - entity: binary_sensor.den_trisensor_sensor
+    name: Den

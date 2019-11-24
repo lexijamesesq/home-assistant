@@ -1,0 +1,44 @@
+type: entities
+title: Lights
+show_header_toggle: false
+entities:
+  - type: section
+    label: Garage
+  - entity: light.garage_lights
+    name: Garage
+  - entity: light.garage_stairs
+    name: Garage Stairs
+  - type: section
+    label: Downstairs
+  - entity: light.downstairs_hallway
+    name: Downstairs Hallway
+  - entity: light.kitchen
+    name: Kitchen
+  - entity: light.patio_lights
+    name: Patio
+  - entity: light.patio_string_lights
+    name: Patio Ambient
+  - entity: light.living_room
+    name: Living Room
+  - entity: light.tv_ambient
+    name: TV Ambient
+  - type: section
+    label: Upstairs
+  - entity: light.main_stairs
+    name: Main Stairs
+  - entity: light.upstairs_hallway
+    name: Upstairs Hallway
+  - entity: light.bedroom_hallway
+    name: Bedroom Hallway
+  - entity: light.bedroom_ambient
+    name: Bedroom Ambient
+  - entity: light.bedroom_closet_lights
+    name: Bedroom Closet
+  - entity: light.laundry_lights
+    name: Laundry
+  - entity: light.den_hallway
+    name: Den Hallway
+  - entity: light.den_cabinets
+    name: Den Cabinets
+  - entity: light.guest_bedroom_closet_lights
+    name: Guest Bedroom Closet

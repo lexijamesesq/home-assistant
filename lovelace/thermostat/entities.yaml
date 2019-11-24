@@ -1,0 +1,10 @@
+type: entities
+title: Outside
+show_header_toggle: false
+entities:
+  - sensor.dark_sky_temperature
+  - sensor.dark_sky_daytime_high_temperature_0d
+  - sensor.dark_sky_overnight_low_temperature_0d
+  - sensor.dark_sky_humidity
+  - sensor.dark_sky_precip_probability
+  - sensor.golden_hour

@@ -1,0 +1,7 @@
+type: custom:mini-media-player
+entity: media_player.living_room_apple_tv
+hide:
+  power: power
+  source: true
+  volume: true
+  mute: true

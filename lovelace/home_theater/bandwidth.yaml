@@ -1,0 +1,20 @@
+type: horizontal-stack
+cards:
+  - type: gauge
+    name: WAN
+    entity: sensor.tautulli_wan_bandwidth
+    min: 0
+    max: 1000
+    severity:
+      green: 0
+      yellow: 45
+      red: 85
+  - type: gauge
+    name: LAN
+    entity: sensor.tautulli_lan_bandwidth
+    min: 0
+    max: 1000
+    severity:
+      green: 0
+      yellow: 45
+      red: 85

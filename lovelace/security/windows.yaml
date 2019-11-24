@@ -1,0 +1,14 @@
+type: entities
+title: Windows
+show_header_toggle: false
+entities:
+  - type: section
+    label: Downstairs
+  - binary_sensor.kitchen_windows
+  - binary_sensor.living_room_windows
+  - binary_sensor.rec_room_windows
+  - type: section
+    label: Upstairs
+  - binary_sensor.bedroom_windows
+  - binary_sensor.den_windows
+  - binary_sensor.guest_bedroom_windows

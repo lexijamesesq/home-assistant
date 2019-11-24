@@ -1,0 +1,16 @@
+type: entities
+show_header_toggle: false
+entities:
+#  - device_tracker.alexs_iphone_geofency
+#  - device_tracker.octavia
+  - entity: sensor.device_tracker_alex
+    type: "custom:secondaryinfo-entity-row"
+    secondary_info: '[[ if(input_select.octavia_driver == "Alex", sensor.octavia.attributes.City, "") ]]'
+  - entity: sensor.octavia
+    type: "custom:secondaryinfo-entity-row"
+    secondary_info: '[[ device_tracker.octavia.attributes.fuel_level ]]% Fuel Remaining'
+  - sensor.dashboard_current_mode
+  - sensor.dark_sky_temperature
+  - sensor.golden_hour
+  - entity: sensor.alexa_next_alarm
+    name: Next Alarm

@@ -1,0 +1,38 @@
+type: conditional
+conditions:
+  - entity: sensor.tautulli_total_streams
+    state_not: "0"
+card:
+  type: entity-filter
+  entities:
+    - entity: sensor.tautulli_user1
+      type: "custom:secondaryinfo-entity-row"
+      secondary_info: '[[ if(sensor.tautulli_user1_playing != "off", sensor.tautulli_user1_playing, "Nothing playing") ]]'
+    - entity: sensor.tautulli_user2
+      type: "custom:secondaryinfo-entity-row"
+      secondary_info: '[[ if(sensor.tautulli_user2_playing != "off", sensor.tautulli_user2_playing, "Nothing playing") ]]'
+    - entity: sensor.tautulli_user3
+      type: "custom:secondaryinfo-entity-row"
+      secondary_info: '[[ if(sensor.tautulli_user3_playing != "off", sensor.tautulli_user3_playing, "Nothing playing") ]]'
+    - entity: sensor.tautulli_user4
+      type: "custom:secondaryinfo-entity-row"
+      secondary_info: '[[ if(sensor.tautulli_user4_playing != "off", sensor.tautulli_user4_playing, "Nothing playing") ]]'
+    - entity: sensor.tautulli_user5
+      type: "custom:secondaryinfo-entity-row"
+      secondary_info: '[[ if(sensor.tautulli_user5_playing != "off", sensor.tautulli_user5_playing, "Nothing playing") ]]'
+    - entity: sensor.tautulli_user6
+      type: "custom:secondaryinfo-entity-row"
+      secondary_info: '[[ if(sensor.tautulli_user6_playing != "off", sensor.tautulli_user6_playing, "Nothing playing") ]]'
+    - entity: sensor.tautulli_user7
+      type: "custom:secondaryinfo-entity-row"
+      secondary_info: '[[ if(sensor.tautulli_user7_playing != "off", sensor.tautulli_user7_playing, "Nothing playing") ]]'
+    - entity: sensor.tautulli_user8
+      type: "custom:secondaryinfo-entity-row"
+      secondary_info: '[[ if(sensor.tautulli_user8_playing != "off", sensor.tautulli_user8_playing, "Nothing playing") ]]'
+  state_filter:
+    - "Playing"
+    - "Paused"
+    - "Buffering"
+  card:
+    type: entities
+    show_header_toggle: false
