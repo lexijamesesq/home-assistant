@@ -20,9 +20,9 @@
         variables:
           lights: >-
             {%- if is_state('input_boolean.trigger_sunset_mode', 'on') or is_state('input_boolean.trigger_night_mode', 'on') -%}
-              kitchen,living_room,bedroom_ambient,den_cabinets
+              kitchen,living_room,rec_room_ambient,bedroom_ambient,den_cabinets
             {%- else -%}
-              bedroom_ambient
+              bedroom_ambient,rec_room_ambient
             {%- endif %}
 
 # Empty Home Lighting ########################################
@@ -66,6 +66,7 @@
     - service: scene.turn_on
       data_template:
         entity_id: '{{ states.group.simulate_presence_scenes.attributes.entity_id | random }}'
+
 - alias: End Simulating Presence at Night
   trigger:
     - platform: state
@@ -80,7 +81,7 @@
 # Sleep Mode
 ##############################################################
 
-- alias: Sleep Mode Started Turn Den Cabinet Lights Off
+- alias: Sleep Mode Started Turn Off Den Cabinet Lights
   trigger:
     - platform: state
       entity_id: input_boolean.trigger_sleep_mode
@@ -91,6 +92,24 @@
     - service: light.turn_off
       entity_id:
         - light.den_cabinets
+
+- alias: Sleep Mode Ended Update Lights
+  trigger:
+    - platform: state
+      entity_id: input_boolean.trigger_sleep_mode
+      to: 'off'
+      for:
+        minutes: 2
+  condition:
+    - condition: state
+      entity_id: group.residents
+      state: 'home'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'rec_room_ambient'
 
 - alias: Sleep Mode Lights On When Patio Door Opens
   trigger:
@@ -107,4 +126,3 @@
       data:
         variables:
           lights: 'kitchen,living_room'
-

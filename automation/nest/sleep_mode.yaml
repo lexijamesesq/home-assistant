@@ -11,8 +11,8 @@
   action:
     - service: climate.set_temperature
       entity_id: climate.downstairs
-      data:
-        temperature: 80
+      data_template:
+        temperature: '{{ 76 if is_state("climate.downstairs", "heat") else 80 }}'
     - service: climate.set_temperature
       entity_id: climate.upstairs
       data:

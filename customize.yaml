@@ -358,7 +358,6 @@ sensor.network_status_vpn3_wan:
   icon: mdi:lan-connect
 light.kitchen:
   emulated_hue_hidden: false
-script.scene_select_bedroom_ambient: {}
 light.bedroom_ambient:
   emulated_hue_hidden: false
 light.bedroom_closet_lights:
@@ -392,4 +391,6 @@ light.tv_ambient:
 light.upstairs_hallway_group_lights:
   emulated_hue_hidden: false
 light.upstairs_hallway:
+  emulated_hue_hidden: false
+light.rec_room_ambient:
   emulated_hue_hidden: false

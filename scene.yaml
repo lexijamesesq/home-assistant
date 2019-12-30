@@ -248,6 +248,43 @@
 
 
 ##############################################################
+# Rec Room
+##############################################################
+
+- name: Rec Room Ambient Day
+  entities:
+    script.scene_select_rec_room_ambient:
+      state: on
+
+- name: Rec Room Ambient Day HT On
+  entities:
+    light.rec_room_ambient:
+      state: on
+
+- name: Rec Room Ambient Day HT Playing
+  entities:
+    light.rec_room_ambient:
+      state: on
+
+- name: Rec Room Ambient Night
+  entities:
+    script.scene_select_rec_room_ambient:
+      state: on
+
+- name: Rec Room Ambient Night HT On
+  entities:
+    light.rec_room_ambient:
+      state: on
+      transition: 5
+
+- name: Rec Room Ambient Night HT Playing
+  entities:
+    light.rec_room_ambient:
+      state: off
+      transition: 5
+
+
+##############################################################
 # Garage Stairs
 ##############################################################
 
