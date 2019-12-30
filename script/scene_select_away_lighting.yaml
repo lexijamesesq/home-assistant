@@ -11,6 +11,7 @@ sequence:
       - light.patio_string_lights
       - light.living_room
       - light.tv_ambient
+      - light.rec_room_ambient
       - light.main_stairs
       - light.upstairs_hallway
       - light.bedroom_hallway

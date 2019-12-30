@@ -21,6 +21,17 @@ cards:
           name: Garage Actual Door Opener
   - type: conditional
     conditions:
+      - entity: binary_sensor.garage_actual
+        state: "off"
+      - entity: sensor.device_tracker_alex_recently_home
+        state: "on"
+    card:
+      type: entities
+      entities:
+        - entity: script.trigger_garage_door_opener
+          name: Garage Actual Door Opener
+  - type: conditional
+    conditions:
       - entity: lock.august_smart_lock_pro_front_door
         state: "unlocked"
       - entity: lock.august_smart_lock_pro_garage_door

@@ -8,3 +8,4 @@ lifxlan_tv_ambient_ht_on: 'python /config/python/scenes/tv_ambient_ht_on.py'
 lifx_bedroom_ambient: !secret lifx_bedroom_ambient
 lifx_bedroom_ambient_zero: !secret lifx_bedroom_ambient_zero
 lifx_bedroom_ambient_wakeup: !secret lifx_bedroom_ambient_wakeup
+lifx_rec_room_ambient: !secret lifx_rec_room_ambient

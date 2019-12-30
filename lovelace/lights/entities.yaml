@@ -22,6 +22,8 @@ entities:
     name: Living Room
   - entity: light.tv_ambient
     name: TV Ambient
+  - entity: light.rec_room_ambient
+    name: Rec Room Ambient
   - type: section
     label: Upstairs
   - entity: light.main_stairs

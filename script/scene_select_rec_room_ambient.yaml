@@ -1,0 +1,7 @@
+alias: Select Rec Room Ambient Scene
+sequence:
+  - service: light.turn_on
+    data:
+      entity_id: light.rec_room_ambient
+      brightness: 77
+  - service: shell_command.lifx_rec_room_ambient

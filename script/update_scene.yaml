@@ -14,7 +14,7 @@ sequence:
         {% set prefer_weekend_mid  = states.sensor.prefer_weekend_lighting_mid.state %}
         {% set prefer_weekend_high = states.sensor.prefer_weekend_lighting_high.state %}
 
-        {% set ht_lights = ["kitchen", "living_room", "tv_ambient"] %}
+        {% set ht_lights = ["kitchen", "living_room", "tv_ambient", "rec_room_ambient"] %}
 
         {% set mode = '_night' if is_state('input_boolean.trigger_sunset_mode', 'on') or is_state('input_boolean.trigger_night_mode', 'on') else '_day' %}
 

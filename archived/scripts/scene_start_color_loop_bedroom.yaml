@@ -1,6 +1,6 @@
 alias: Scene Start Color Loop Bedroom
 sequence:
-  - service: light.lifx_effect_colorloop
+  - service: lifx.effect_colorloop
     data:
       entity_id: light.bedroom_lights
       brightness: 76

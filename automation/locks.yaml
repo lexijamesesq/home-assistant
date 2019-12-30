@@ -14,7 +14,7 @@
   action:
     - service: lock.lock
       entity_id: lock.august_smart_lock_pro_front_door
-      
+
 # Lock Garage Door When Away or Asleep #######################
 - alias: Lock Garage Door When Away or Asleep
   trigger:
@@ -48,6 +48,8 @@
     - platform: state
       entity_id: input_boolean.trigger_sleep_mode
       to: 'off'
+      for:
+        minutes: 2
     - platform: state
       entity_id: group.residents
       to: 'home'
