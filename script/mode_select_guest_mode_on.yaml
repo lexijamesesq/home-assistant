@@ -1,3 +1,0 @@
-alias: Mode Select Guest Mode On
-sequence:
-  - event: event_trigger_guest_mode

@@ -1,0 +1,20 @@
+##############################################################
+# Circulate Air
+##############################################################
+nest_circulate_stale_air:
+  alias: Nest Circulate Stale Air
+  sequence:
+    - service: climate.set_fan_mode
+      entity_id:
+        - climate.downstairs
+        - climate.upstairs
+      data:
+        fan_mode: 'on'
+    - delay:
+        minutes: '{{ minutes }}'
+    - service: climate.set_fan_mode
+      entity_id:
+        - climate.downstairs
+        - climate.upstairs
+      data:
+        fan_mode: 'auto'

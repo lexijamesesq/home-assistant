@@ -1,0 +1,66 @@
+##############################################################
+# Upstairs Hallway Group Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_scene
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+scene_upstairs_hallway_group_day_high:
+  alias: Scene Upstairs Hallway Group Day High
+  sequence:
+    - service: light.turn_on
+      entity_id:
+        - light.main_stairs
+        - light.upstairs_hallway
+        - light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 95
+
+scene_upstairs_hallway_group_day_mid:
+  alias: Scene Upstairs Hallway Group Day Mid
+  sequence:
+    - service: light.turn_on
+      entity_id:
+        - light.main_stairs
+        - light.upstairs_hallway
+        - light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 45
+
+scene_upstairs_hallway_group_night_high:
+  alias: Scene Upstairs Hallway Group Night High
+  sequence:
+    - service: light.turn_on
+      entity_id:
+        - light.main_stairs
+        - light.upstairs_hallway
+        - light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 75
+
+scene_upstairs_hallway_group_night_mid:
+  alias: Scene Upstairs Hallway Group Night Mid
+  sequence:
+    - service: light.turn_on
+      entity_id:
+        - light.main_stairs
+        - light.upstairs_hallway
+        - light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 50
+
+scene_upstairs_hallway_group_night_low:
+  alias: Scene Upstairs Hallway Group Night Low
+  sequence:
+    - service: light.turn_on
+      entity_id:
+        - light.main_stairs
+        - light.upstairs_hallway
+        - light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 25

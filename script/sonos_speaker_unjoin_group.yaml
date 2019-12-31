@@ -1,5 +1,6 @@
-alias: Sonos Speaker Unjoin Group
-sequence:
-  - service: sonos.unjoin
-    data_template:
-      entity_id: '{{ speaker }}'
+sonos_speaker_unjoin_group:
+  alias: Sonos Speaker Unjoin Group
+  sequence:
+    - service: sonos.unjoin
+      data_template:
+        entity_id: '{{ speaker }}'

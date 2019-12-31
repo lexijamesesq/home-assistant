@@ -1,3 +1,0 @@
-alias: Select TV Ambient HT On Scene
-sequence:
-  service: shell_command.lifxlan_tv_ambient_ht_on

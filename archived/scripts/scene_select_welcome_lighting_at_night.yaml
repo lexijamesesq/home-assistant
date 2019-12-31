@@ -2,11 +2,11 @@ alias: Select Welcome Lighting at Night Scene
 sequence:
   # Cancel lighting scripts containing delays
   - service: script.turn_off
-    entity_id: script.scene_select_away_lighting
+    entity_id: script.scene_empty_home
   - service: homeassistant.turn_off
     entity_id: input_boolean.trigger_simulate_presence_mode
   - service: script.turn_off
-    entity_id: script.cycle_nest_fan
+    entity_id: script.nest_circulate_stale_air
   - service: script.turn_on
     entity_id: script.scene_select_by_time
     data:

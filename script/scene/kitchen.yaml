@@ -1,0 +1,142 @@
+##############################################################
+# Kitchen Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_scene
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+# Conditions omitted where lights change scene without changing states
+scene_kitchen_day_high:
+  alias: Scene Kitchen Day High
+  sequence:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        transition: 2
+        brightness: 165
+
+scene_kitchen_day_mid:
+  alias: Scene Kitchen Day Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        transition: 2
+        brightness: 55
+
+scene_kitchen_day_ht_on_high:
+  alias: Scene Kitchen Day HT On High
+  sequence:
+    - condition: state
+      entity_id: light.kitchen
+      state: 'on'
+    - service: light.turn_off
+      entity_id: light.kitchen
+
+scene_kitchen_day_ht_on_mid:
+  alias: Scene Kitchen Day HT On Mid
+  sequence:
+    - condition: state
+      entity_id: light.kitchen
+      state: 'on'
+    - service: light.turn_off
+      entity_id: light.kitchen
+
+scene_kitchen_day_ht_playing_high:
+  alias: Scene Kitchen Day HT Playing High
+  sequence:
+    - condition: state
+      entity_id: light.kitchen
+      state: 'on'
+    - service: light.turn_off
+      entity_id: light.kitchen
+
+scene_kitchen_day_ht_playing_mid:
+  alias: Scene Kitchen Day HT Playing Mid
+  sequence:
+    - condition: state
+      entity_id: light.kitchen
+      state: 'on'
+    - service: light.turn_off
+      entity_id: light.kitchen
+
+scene_kitchen_night_high:
+  alias: Scene Kitchen Night High
+  sequence:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        transition: 2
+        brightness: 145
+
+scene_kitchen_night_mid:
+  alias: Scene Kitchen Night Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        transition: 2
+        brightness: 90
+
+scene_kitchen_night_low:
+  alias: Scene Kitchen Night Low
+  sequence:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        transition: 2
+        brightness: 35
+
+scene_kitchen_night_ht_on_high:
+  alias: Scene Kitchen Night HT On High
+  sequence:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        transition: 2
+        brightness: 145
+
+scene_kitchen_night_ht_on_mid:
+  alias: Scene Kitchen Night HT On Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        transition: 2
+        brightness: 90
+
+scene_kitchen_night_ht_on_low:
+  alias: Scene Kitchen Night HT On Low
+  sequence:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        transition: 2
+        brightness: 35
+
+scene_kitchen_night_ht_playing_high:
+  alias: Scene Kitchen Night HT Playing High
+  sequence:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        transition: 5
+        brightness: 75
+
+scene_kitchen_night_ht_playing_mid:
+  alias: Scene Kitchen Night HT Playing Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        transition: 5
+        brightness: 10
+
+scene_kitchen_night_ht_playing_low:
+  alias: Scene Kitchen Night HT Playing Low
+  sequence:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        transition: 5
+        brightness: 5

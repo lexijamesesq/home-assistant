@@ -394,7 +394,7 @@ homekit:
       - binary_sensor.patio_door
       - binary_sensor.rec_room_windows
       - binary_sensor.den_multisensor_sensor
-      -  binary_sensor.den_trisensor_sensor
+      - binary_sensor.den_trisensor_sensor
       - binary_sensor.downstairs_hallway_multisensor_sensor
       - binary_sensor.garage_motion_sensor
       - binary_sensor.garage_stairs_multisensor_sensor
@@ -443,7 +443,7 @@ input_text: !include input_text.yaml
 media_player: !include media_player.yaml
 rest_command: !include rest_command.yaml
 scene: !include scene.yaml
-script: !include_dir_named script/
+script: !include_dir_merge_named script/
 sensor: !include sensor.yaml
 shell_command: !include shell_command.yaml
 switch: !include switch.yaml

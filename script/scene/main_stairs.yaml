@@ -1,0 +1,51 @@
+##############################################################
+# Main Stairs Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_scene
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+scene_main_stairs_day_high:
+  alias: Scene Main Stairs Day High
+  sequence:
+    - service: light.turn_on
+      entity_id: light.main_stairs
+      data:
+        transition: 2
+        brightness: 95
+
+scene_main_stairs_day_mid:
+  alias: Scene Main Stairs Day Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.main_stairs
+      data:
+        transition: 2
+        brightness: 45
+
+scene_main_stairs_night_high:
+  alias: Scene Main Stairs Night High
+  sequence:
+    - service: light.turn_on
+      entity_id: light.main_stairs
+      data:
+        transition: 2
+        brightness: 75
+
+scene_main_stairs_night_mid:
+  alias: Scene Main Stairs Night Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.main_stairs
+      data:
+        transition: 2
+        brightness: 50
+
+scene_main_stairs_night_low:
+  alias: Scene Main Stairs Night Low
+  sequence:
+    - service: light.turn_on
+      entity_id: light.main_stairs
+      data:
+        transition: 2
+        brightness: 25

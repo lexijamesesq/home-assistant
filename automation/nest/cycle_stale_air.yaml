@@ -36,7 +36,7 @@
         value_template: '{{ state_attr("climate.upstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.upstairs", "preset_mode") | lower == "eco" }}'
   action:
     - service: script.turn_on
-      entity_id: script.cycle_nest_fan
+      entity_id: script.nest_circulate_stale_air
       data:
         variables:
           minutes: 15
@@ -52,13 +52,13 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: script.cycle_nest_fan
+        entity_id: script.nest_circulate_stale_air
         state: 'on'
   action:
     - service: script.turn_off
-      entity_id: script.cycle_nest_fan
+      entity_id: script.nest_circulate_stale_air
     - service: climate.set_fan_mode
-      entity_id: 
+      entity_id:
         - climate.downstairs
         - climate.upstairs
       data:

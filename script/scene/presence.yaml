@@ -1,0 +1,28 @@
+##############################################################
+# Home Scenes
+##############################################################
+
+# Empty Home #################################################
+scene_empty_home:
+  alias: Scene Empty Home
+  sequence:
+    - service: light.turn_off
+      entity_id:
+        - light.garage_lights
+        - light.garage_stairs
+        - light.downstairs_hallway
+        - light.kitchen
+        - light.patio_lights
+        - light.patio_string_lights
+        - light.living_room
+        - light.tv_ambient
+        - light.rec_room_ambient
+        - light.main_stairs
+        - light.upstairs_hallway
+        - light.bedroom_hallway
+        - light.bedroom_ambient
+        - light.bedroom_closet_lights
+        - light.laundry_lights
+        - light.den_hallway
+        - light.den_cabinets
+        - light.guest_bedroom_closet_lights

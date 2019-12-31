@@ -51,9 +51,9 @@
       data_template:
         entity_id: >
           {% if is_state('group.motion_guest_areas', 'on') or is_state('input_boolean.trigger_home_theater_mode', 'on') %}
-            script.mode_select_guest_mode_on
+            script.mode_turn_on_guest_mode
           {% else %}
-            script.scene_select_away_lighting
+            script.scene_empty_home
           {% endif %}
 
 # Simulate Presence ##########################################

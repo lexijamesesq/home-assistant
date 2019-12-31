@@ -1,8 +1,9 @@
-alias: Sonos Playlist Latin Pop
-sequence:
-  - service: media_player.select_source
-    data_template:
-      entity_id: '{{ states.sensor.sonos_group_master.state }}'
-      source: 'Latin Pop'
-  - service: script.turn_on
-    entity_id: script.sonos_playlist_toggle_play
+sonos_playlist_latin_pop:
+  alias: Sonos Playlist Latin Pop
+  sequence:
+    - service: media_player.select_source
+      data_template:
+        entity_id: '{{ states.sensor.sonos_group_master.state }}'
+        source: 'Latin Pop'
+    - service: script.turn_on
+      entity_id: script.sonos_playlist_toggle_play
