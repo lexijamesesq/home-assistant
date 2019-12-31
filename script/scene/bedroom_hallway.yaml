@@ -1,0 +1,51 @@
+##############################################################
+# Bedroom Hallway Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_scene
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+scene_bedroom_hallway_day_dim:
+  alias: Scene Bedroom Hallway Day High
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 95
+
+scene_bedroom_hallway_day_mid:
+  alias: Scene Bedroom Hallway Day Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 45
+
+scene_bedroom_hallway_night_high:
+  alias: Scene Bedroom Hallway Night High
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 75
+
+scene_bedroom_hallway_night_mid:
+  alias: Scene Bedroom Hallway Night Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 50
+
+scene_bedroom_hallway_night_low:
+  alias: Scene Bedroom Hallway Night Low
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 25

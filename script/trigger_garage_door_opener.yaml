@@ -1,4 +1,5 @@
-alias: Trigger Garage Door Opener
-sequence:
-  - service: switch.turn_on
-    entity_id: switch.garage_actual
+trigger_garage_door_opener:
+  alias: Trigger Garage Door Opener
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.garage_actual

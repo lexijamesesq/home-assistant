@@ -1,0 +1,51 @@
+##############################################################
+# Den Hallway Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_scene
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+scene_den_hallway_day_high:
+  alias: Scene Den Hallway Day High
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_hallway
+      data:
+        transition: 2
+        brightness: 95
+
+scene_den_hallway_day_mid:
+  alias: Scene Den Hallway Day Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_hallway
+      data:
+        transition: 2
+        brightness: 45
+
+scene_den_hallway_night_high:
+  alias: Scene Den Hallway Night High
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_hallway
+      data:
+        transition: 2
+        brightness: 75
+
+scene_den_hallway_night_mid:
+  alias: Scene Den Hallway Night Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_hallway
+      data:
+        transition: 2
+        brightness: 50
+
+scene_den_hallway_night_low:
+  alias: Scene Den Hallway Night Low
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_hallway
+      data:
+        transition: 2
+        brightness: 25

@@ -63,7 +63,7 @@
         variables:
           lights: >
             {% set lights = ["kitchen","living_room","tv_ambient","den_cabinets"] %}
-    
+
             {% for light in lights if is_state('light.'~light, 'on') -%}
                 {{ light }}
               {%- if not loop.last -%}
@@ -90,8 +90,8 @@
         entity_id: light.bedroom_ambient
         state: 'off'
   action:
-    - service: scene.turn_on
-      entity_id: scene.bedroom_ambient_day_wakeup
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_ambient_day_wakeup
 
 
 ##############################################################

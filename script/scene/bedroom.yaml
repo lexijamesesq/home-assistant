@@ -1,0 +1,59 @@
+##############################################################
+# Bedroom Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_scene
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+scene_bedroom_ambient_day:
+  alias: Scene Bedroom Ambient Day
+  sequence:
+    - condition: state
+      entity_id: light.bedroom_ambient
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_ambient
+
+scene_bedroom_ambient_night:
+  alias: Scene Bedroom Ambient Night
+  sequence:
+    - condition: state
+      entity_id: light.bedroom_ambient
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_ambient
+
+scene_bedroom_ambient_day_wakeup:
+  alias: Scene Bedroom Ambient Day Wakeup
+  sequence:
+    - condition: state
+      entity_id: light.bedroom_ambient
+      state: 'off'
+    - service: shell_command.lifx_bedroom_ambient_zero
+    - delay: '00:00:10'
+    - service: shell_command.lifx_bedroom_ambient_wakeup
+    - delay: '00:00:10'
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_ambient
+        brightness: 255
+        transition: 900
+    - delay: '00:20:00'
+    - service: light.turn_on
+      entity_id: light.bedroom_ambient
+      data:
+        brightness: 77
+        transition: 120
+    - delay: '00:2:00'
+    - service: shell_command.lifx_bedroom_ambient
+
+
+# Indirect Scenes ############################################
+scene_bedroom_ambient:
+  alias: Scene Bedroom Ambient
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_ambient
+      data:
+        brightness: 77
+    - service: shell_command.lifx_bedroom_ambient

@@ -1,0 +1,75 @@
+##############################################################
+# Rec Room Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_scene
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+# Conditions omitted where lights change scene without changing states
+scene_rec_room_ambient_day:
+  alias: Scene Rec Room Ambient Day
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_rec_room_ambient
+
+scene_rec_room_ambient_day_ht_on:
+  alias: Scene Rec Room Ambient Day HT On
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_ambient
+      state: 'off'
+    - service: light.turn_on
+      data:
+        entity_id: light.rec_room_ambient
+
+scene_rec_room_ambient_day_ht_playing:
+  alias: Scene Rec Room Ambient Day HT Playing
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_ambient
+      state: 'off'
+    - service: light.turn_on
+      data:
+        entity_id: light.rec_room_ambient
+
+scene_rec_room_ambient_night:
+  alias: Scene Rec Room Ambient Night
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_ambient
+      state: 'off'
+    - service: light.turn_on
+      data:
+        entity_id: light.rec_room_ambient
+
+scene_rec_room_ambient_night_ht_on:
+  alias: Scene Rec Room Ambient Night HT On
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_ambient
+      state: 'off'
+    - service: light.turn_on
+      data:
+        entity_id: light.rec_room_ambient
+        transition: 5
+
+scene_rec_room_ambient_night_ht_playing:
+  alias: Scene Rec Room Ambient Night HT Playing
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_ambient
+      state: 'on'
+    - service: light.turn_off
+      data:
+        entity_id: light.rec_room_ambient
+        transition: 5
+
+# Indirect Scenes ############################################
+scene_rec_room_ambient:
+  alias: Scene Rec Room Ambient
+  sequence:
+    - service: light.turn_on
+      entity_id: light.rec_room_ambient
+      data:
+        brightness: 77
+    - service: shell_command.lifx_rec_room_ambient
