@@ -18,7 +18,8 @@ cards:
       type: entities
       entities:
         - entity: script.trigger_garage_door_opener
-          name: Garage Actual Door Opener
+          name: Close Garage Actual
+          icon: mdi:garage-open
   - type: conditional
     conditions:
       - entity: binary_sensor.garage_actual
@@ -29,7 +30,8 @@ cards:
       type: entities
       entities:
         - entity: script.trigger_garage_door_opener
-          name: Garage Actual Door Opener
+          name: Open Garage Actual
+          icon: mdi:garage
   - type: conditional
     conditions:
       - entity: lock.august_smart_lock_pro_front_door
