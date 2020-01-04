@@ -19,8 +19,7 @@ scene_rec_room_ambient_day_ht_on:
       entity_id: light.rec_room_ambient
       state: 'off'
     - service: light.turn_on
-      data:
-        entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_ambient
 
 scene_rec_room_ambient_day_ht_playing:
   alias: Scene Rec Room Ambient Day HT Playing
@@ -29,8 +28,7 @@ scene_rec_room_ambient_day_ht_playing:
       entity_id: light.rec_room_ambient
       state: 'off'
     - service: light.turn_on
-      data:
-        entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_ambient
 
 scene_rec_room_ambient_night:
   alias: Scene Rec Room Ambient Night
@@ -39,8 +37,7 @@ scene_rec_room_ambient_night:
       entity_id: light.rec_room_ambient
       state: 'off'
     - service: light.turn_on
-      data:
-        entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_ambient
 
 scene_rec_room_ambient_night_ht_on:
   alias: Scene Rec Room Ambient Night HT On
@@ -49,9 +46,7 @@ scene_rec_room_ambient_night_ht_on:
       entity_id: light.rec_room_ambient
       state: 'off'
     - service: light.turn_on
-      data:
-        entity_id: light.rec_room_ambient
-        transition: 5
+      entity_id: light.rec_room_ambient
 
 scene_rec_room_ambient_night_ht_playing:
   alias: Scene Rec Room Ambient Night HT Playing
@@ -60,9 +55,7 @@ scene_rec_room_ambient_night_ht_playing:
       entity_id: light.rec_room_ambient
       state: 'on'
     - service: light.turn_off
-      data:
-        entity_id: light.rec_room_ambient
-        transition: 5
+      entity_id: light.rec_room_ambient
 
 # Indirect Scenes ############################################
 scene_rec_room_ambient:

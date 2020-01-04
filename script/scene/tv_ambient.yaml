@@ -51,7 +51,7 @@ scene_tv_ambient_sunset_ht_on:
 scene_tv_ambient_sunset_ht_playing:
   alias: Scene TV Ambient Sunset HT Playing
   sequence:
-    - service: light.turn_off
+    - service: light.turn_on
       entity_id: light.tv_ambient
       data:
         brightness: 45
@@ -75,7 +75,7 @@ scene_tv_ambient_night_ht_on:
 scene_tv_ambient_night_ht_playing:
   alias: Scene TV Ambient Night HT Playing
   sequence:
-    - service: light.turn_off
+    - service: light.turn_on
       entity_id: light.tv_ambient
       data:
         brightness: 25
