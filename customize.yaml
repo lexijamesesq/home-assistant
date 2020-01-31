@@ -2,17 +2,6 @@ media_player.denon_avrx1200w:
   hidden: true
 media_player.denon_avrx4300h:
   hidden: true
-group.all_automations:
-  friendly_name: Automations
-  control: hidden
-  hidden: false
-group.all_lights:
-  friendly_name: All Lights
-  emulated_hue_hidden: false
-group.all_scripts:
-  friendly_name: Scripts
-  control: hidden
-  hidden: false
 light.island_1:
   icon: mdi:ceiling-light
 light.island_2:
