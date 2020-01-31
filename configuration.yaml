@@ -219,9 +219,9 @@ nest:
   client_secret: !secret nest_client_secret
 
 
-# ring:
-#   username: !secret ring_username
-#   password: !secret ring_password
+ring:
+  username: !secret ring_username
+  password: !secret ring_password
 
 
 light:
