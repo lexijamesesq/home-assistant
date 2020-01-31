@@ -1759,7 +1759,7 @@
   file_path: /config/json/suncalc_data.json
   value_template: >
     {% if value_json is defined %}
-      {{ as_timestamp(value_json.goldenHourEnd) | timestamp_custom('%-I:%M %p') }}
+      {{ as_timestamp(value_json.sunriseEnd) | timestamp_custom('%-I:%M %p') }}
     {% else %}
       undefined
     {% endif %}
