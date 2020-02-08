@@ -4,11 +4,17 @@ show_header_toggle: false
 entities:
   - type: section
     label: Downstairs
-  - binary_sensor.kitchen_windows
-  - binary_sensor.living_room_windows
-  - binary_sensor.rec_room_windows
+  - entity: binary_sensor.kitchen_windows
+    state_color: true
+  - entity: binary_sensor.living_room_windows
+    state_color: true
+  - entity: binary_sensor.rec_room_windows
+    state_color: true
   - type: section
     label: Upstairs
-  - binary_sensor.bedroom_windows
-  - binary_sensor.den_windows
-  - binary_sensor.guest_bedroom_windows
+  - entity: binary_sensor.bedroom_windows
+    state_color: true
+  - entity: binary_sensor.den_windows
+    state_color: true
+  - entity: binary_sensor.guest_bedroom_windows
+    state_color: true

@@ -6,16 +6,23 @@ entities:
     label: Locks
   - entity: lock.august_smart_lock_pro_front_door
     name: Front Door
+    state_color: true
   - entity: lock.august_smart_lock_pro_garage_door
     name: Garage Door
+    state_color: true
   - type: section
     label: Garage
-  - binary_sensor.garage_actual
-  - binary_sensor.garage_door
+  - entity: binary_sensor.garage_actual
+    state_color: true
+  - entity: binary_sensor.garage_door
+    state_color: true
   - type: section
     label: Downstairs
-  - binary_sensor.front_door
-  - binary_sensor.patio_door
+  - entity: binary_sensor.front_door
+    state_color: true
+  - entity: binary_sensor.patio_door
+    state_color: true
   - type: section
     label: Upstairs
-  - binary_sensor.den_door
+  - entity: binary_sensor.den_door
+    state_color: true

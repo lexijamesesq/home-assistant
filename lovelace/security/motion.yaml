@@ -4,25 +4,37 @@ show_header_toggle: false
 entities:
   - type: section
     label: Garage
+    state_color: true
   - entity: binary_sensor.garage_motion_sensor
     name: Garage
+    state_color: true
   - entity: binary_sensor.garage_stairs_multisensor_sensor
     name: Garage Stairs
+    state_color: true
   - type: section
     label: Downstairs
+    state_color: true
   - entity: binary_sensor.ring_front_door_motion
     name: Front Door
+    state_color: true
   - entity: binary_sensor.downstairs_hallway_multisensor_sensor
     name: Downstairs Hallway
+    state_color: true
   - entity: binary_sensor.living_room_motion_sensor
     name: Living Room
+    state_color: true
   - entity: binary_sensor.main_stairs_multisensor_sensor
     name: Main Stairs
+    state_color: true
   - type: section
     label: Upstairs
+    state_color: true
   - entity: binary_sensor.upstairs_hallway_motion_sensor
     name: Upstairs Hallway
+    state_color: true
   - entity: binary_sensor.den_multisensor_sensor
     name: Den Hallway
+    state_color: true
   - entity: binary_sensor.den_trisensor_sensor
     name: Den
+    state_color: true
