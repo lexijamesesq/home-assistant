@@ -12,7 +12,7 @@ scene_bedroom_ambient_day:
       entity_id: light.bedroom_ambient
       state: 'off'
     - service: script.turn_on
-      entity_id: script.scene_bedroom_ambient
+      entity_id: script.scene_bedroom_ambient_lifx_mellow
 
 scene_bedroom_ambient_night:
   alias: Scene Bedroom Ambient Night
@@ -21,7 +21,7 @@ scene_bedroom_ambient_night:
       entity_id: light.bedroom_ambient
       state: 'off'
     - service: script.turn_on
-      entity_id: script.scene_bedroom_ambient
+      entity_id: script.scene_bedroom_ambient_lifx_mellow
 
 scene_bedroom_ambient_day_wakeup:
   alias: Scene Bedroom Ambient Day Wakeup
@@ -49,8 +49,17 @@ scene_bedroom_ambient_day_wakeup:
 
 
 # Indirect Scenes ############################################
-scene_bedroom_ambient:
-  alias: Scene Bedroom Ambient
+scene_bedroom_ambient_wakeup:
+  alias: Scene Bedroom Ambient - Wakeup
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_ambient
+      data:
+        brightness: 77
+    - service: shell_command.lifx_bedroom_ambient_wakeup
+
+scene_bedroom_ambient_lifx_mellow:
+  alias: Scene Bedroom Ambient - LIFX Mellow
   sequence:
     - service: light.turn_on
       entity_id: light.bedroom_ambient

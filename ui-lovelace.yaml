@@ -8,6 +8,8 @@ resources:
     type: module
   - url: /local/card-tools.js
     type: js
+  - url: /local/rgb-light-card.js?v=1.3.0
+    type: js
   - url: /local/secondaryinfo-entity-row.js
     type: module
 views:
@@ -49,7 +51,6 @@ views:
           - !include lovelace/home_theater/bandwidth.yaml
           - !include lovelace/home_theater/streams.yaml
           - !include lovelace/home_theater/users.yaml
-
   - icon: mdi:shield-home
     title: Security
     path: security

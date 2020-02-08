@@ -10,7 +10,7 @@ scene_rec_room_ambient_day:
   alias: Scene Rec Room Ambient Day
   sequence:
     - service: script.turn_on
-      entity_id: script.scene_rec_room_ambient
+      entity_id: script.scene_rec_room_ambient_lifx_intense
 
 scene_rec_room_ambient_day_ht_on:
   alias: Scene Rec Room Ambient Day HT On
@@ -58,7 +58,7 @@ scene_rec_room_ambient_night_ht_playing:
       entity_id: light.rec_room_ambient
 
 # Indirect Scenes ############################################
-scene_rec_room_ambient:
+scene_rec_room_ambient_lifx_intense:
   alias: Scene Rec Room Ambient
   sequence:
     - service: light.turn_on

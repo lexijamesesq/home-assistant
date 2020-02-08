@@ -22,8 +22,21 @@ entities:
     name: Living Room
   - entity: light.tv_ambient
     name: TV Ambient
+  - type: 'custom:rgb-light-card'
+    colors:
+      - type: script
+        entity_id: script.scene_tv_ambient
+        icon_color: 'linear-gradient(345deg, #0250c5, #d43f8d)'
+      - type: script
+        entity_id: script.scene_tv_ambient_night_ht_playing
+        icon_color: '#DCC58B'
   - entity: light.rec_room_ambient
     name: Rec Room Ambient
+  - type: 'custom:rgb-light-card'
+    colors:
+      - type: script
+        entity_id: script.scene_rec_room_ambient_lifx_intense
+        icon_color: 'linear-gradient(15deg, #E11FF6, #2DBDC8)'
   - type: section
     label: Upstairs
   - entity: light.main_stairs
@@ -34,6 +47,14 @@ entities:
     name: Bedroom Hallway
   - entity: light.bedroom_ambient
     name: Bedroom Ambient
+  - type: 'custom:rgb-light-card'
+    colors:
+      - type: script
+        entity_id: script.scene_bedroom_ambient_wakeup
+        icon_color: 'linear-gradient(15deg, #DCC58B, #FFF8E5)'
+      - type: script
+        entity_id: script.scene_bedroom_ambient_lifx_mellow
+        icon_color: 'linear-gradient(15deg, #2906F0, #E9CC6B)'
   - entity: light.bedroom_closet_lights
     name: Bedroom Closet
   - entity: light.laundry_lights
