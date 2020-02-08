@@ -2,9 +2,15 @@ type: entities
 title: Active Mode Monitoring
 show_header_toggle: false
 entities:
-  - sensor.sunset_mode
-  - sensor.night_mode
-  - sensor.guest_mode
-  - sensor.home_theater_mode
-  - sensor.sleep_mode
-  - sensor.simulate_presence_mode
+  - entity: sensor.sunset_mode
+    state_color: true
+  - entity: sensor.night_mode
+    state_color: true
+  - entity: sensor.guest_mode
+    state_color: true
+  - entity: sensor.home_theater_mode
+    state_color: true
+  - entity: sensor.sleep_mode
+    state_color: true
+  - entity: sensor.simulate_presence_mode
+    state_color: true
