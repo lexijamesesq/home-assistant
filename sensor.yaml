@@ -940,9 +940,7 @@
         {% endif %}
 
         {% if alarmset %}
-          {% if dayof %}
-            {{ as_timestamp(states("sensor.bedroom_sonos_one_next_alarm")) | timestamp_custom('%-I:%M %p') }}
-          {% elif ispast %}
+          {% if ispast %}
             Expired
           {% else %}
             {{ as_timestamp(states("sensor.bedroom_sonos_one_next_alarm")) | timestamp_custom('%a %-I:%M %p') }}
@@ -953,7 +951,16 @@
       icon_template: >-
         {% set alarmset = not is_state("sensor.bedroom_sonos_one_next_alarm", "") or not is_state("sensor.bedroom_sonos_one_next_alarm", none) %}
         {% if alarmset %}
-          mdi:alarm
+          {% set nextalarm = as_timestamp(states("sensor.bedroom_sonos_one_next_alarm")) %}
+          {% set ispast = nextalarm < as_timestamp(now()) %}
+        {% endif %}
+
+        {% if alarmset %}
+          {% if ispast %}
+            mdi:alarm-off
+          {% else %}
+            mdi:alarm
+          {% endif %}
         {% else %}
           mdi:alarm-off
         {% endif %}
