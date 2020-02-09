@@ -234,3 +234,21 @@
           {% endif %}
         variables:
           speaker: '{{ trigger.to_state.entity_id|replace("input_boolean", "media_player") }}'
+
+##############################################################
+# Mode Events
+##############################################################
+# Toggle Play State ##########################################
+- alias: Pause Sonos Speakers When HT Mode Starts
+  trigger:
+    - platform: state
+      entity_id: input_boolean.trigger_home_theater_mode
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: sensor.sonos_group_master_state
+      state: 'playing'
+  action:
+    - service: media_player.media_pause
+      data_template:
+        entity_id: '{{ states.sensor.sonos_group_master.state }}'
