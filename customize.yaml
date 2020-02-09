@@ -383,3 +383,5 @@ light.upstairs_hallway:
   emulated_hue_hidden: false
 light.rec_room_ambient:
   emulated_hue_hidden: false
+sensor.first_light:
+  icon: mdi:weather-sunset
