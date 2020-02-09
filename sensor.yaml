@@ -1722,6 +1722,21 @@
       undefined
     {% endif %}
 
+- platform: file
+  name: First Light - Show
+  file_path: /config/json/suncalc_data.json
+  value_template: >
+    {% if value_json is defined %}
+      {% if as_timestamp(now()) | timestamp_custom("%H:%M") <= as_timestamp(value_json.sunriseEnd) | timestamp_custom("%H:%M") or as_timestamp(now()) | timestamp_custom("%H:%M") > as_timestamp(value_json.goldenHour) | timestamp_custom("%H:%M") %}
+        on
+      {% else %}
+        off
+      {% endif %}
+    {% else %}
+      off
+    {% endif %}
+
+
 # nut sensors
 - platform: nut
   name: Server Rack UPS
