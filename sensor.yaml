@@ -716,38 +716,6 @@
       friendly_name: 'Humidity'
       value_template: '{{ states.sensor.dark_sky_humidity.state | round() }}'
       unit_of_measurement: '%'
-    dashboard_garage_stairs_motion:
-      friendly_name: 'Motion'
-      value_template: >-
-        {% if states.binary_sensor.garage_stairs_multisensor_sensor.state == 'on' %}
-          detected
-        {% else %}
-          clear
-        {% endif %}
-    dashboard_downstairs_hallway_motion:
-      friendly_name: 'Motion'
-      value_template: >-
-        {% if states.binary_sensor.downstairs_hallway_multisensor_sensor.state == 'on' %}
-          detected
-        {% else %}
-          clear
-        {% endif %}
-    dashboard_main_stairs_motion:
-      friendly_name: 'Motion'
-      value_template: >-
-        {% if states.binary_sensor.main_stairs_multisensor_sensor.state == 'on' %}
-          detected
-        {% else %}
-          clear
-        {% endif %}
-    dashboard_den_hallway_motion:
-      friendly_name: 'Motion'
-      value_template: >-
-        {% if states.binary_sensor.den_hallway_multisensor_sensor.state == 'on' %}
-          detected
-        {% else %}
-          clear
-        {% endif %}
     dashboard_current_mode:
       friendly_name: 'Current Mode'
       value_template: >-
