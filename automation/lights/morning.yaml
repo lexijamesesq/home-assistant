@@ -37,9 +37,8 @@
       entity_id: light.rec_room_ambient
 - alias: Downstairs Lights at Sunrise
   trigger:
-    - platform: state
-      entity_id: input_boolean.trigger_night_mode
-      to: 'off'
+    - platform: template
+      value_template: '{{ is_state("sensor.suncalc_sunriseend", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   condition:
     condition: and
     conditions:

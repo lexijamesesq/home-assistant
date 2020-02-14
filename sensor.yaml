@@ -1677,6 +1677,17 @@
       undefined
     {% endif %}
 
+# Used for "sun starts to rise" automations in the morning
+- platform: file
+  name: Suncalc sunriseEnd
+  file_path: /config/json/suncalc_data.json
+  value_template: >
+    {% if value_json is defined %}
+      {{ as_timestamp(value_json.sunriseEnd) | timestamp_custom('%H:%M') }}
+    {% else %}
+      undefined
+    {% endif %}
+
 - platform: file
   name: Golden Hour
   file_path: /config/json/suncalc_data.json
