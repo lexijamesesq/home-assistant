@@ -385,3 +385,9 @@ light.rec_room_ambient:
   emulated_hue_hidden: false
 sensor.first_light:
   icon: mdi:weather-sunset
+sensor.cox_data_resets:
+  icon: mdi:calendar-clock
+sensor.cox_data_plan:
+  icon: mdi:lan-connect
+sensor.cox_data_usage:
+  icon: mdi:elevator
