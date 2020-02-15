@@ -1564,67 +1564,67 @@
 
 
 # Cox Data Usage
-# - platform: file
-#   name: Data Plan
-#   file_path: /config/json/cox_usage.json
-#   value_template: >
-#     {% if value_json is defined %}
-#       {{ value_json.lpInternetSubscribed }}
-#     {% else %}
-#       undefined
-#     {% endif %}
-#   icon_template: >
-#     {% if value_json is defined %}
-#       mdi:lan-connect
-#     {% else %}
-#       mdi:lan-connect
-#     {% endif %}
+- platform: file
+  name: Data Plan
+  file_path: /config/json/cox_usage.json
+  value_template: >
+    {% if value_json is defined %}
+      {{ value_json.lpInternetSubscribed }}
+    {% else %}
+      undefined
+    {% endif %}
+  icon_template: >
+    {% if value_json is defined %}
+      mdi:lan-connect
+    {% else %}
+      mdi:lan-connect
+    {% endif %}
 
-# - platform: file
-#   name: Data Usage
-#   file_path: /config/json/cox_usage.json
-#   value_template: >
-#     {% if value_json is defined %}
-#       {% if value_json.dumUsage | int == 0 and value_json.dumLimit | int == 0 and value_json.dumUtilization | int == 0 %}
-#         stats unavailable
-#       {% else %}
-#         {{ value_json.dumUsage | int }} / {{ value_json.dumLimit | int }} GB ({{ value_json.dumUtilization | int }} %)
-#       {% endif %}
-#     {% else %}
-#       undefined
-#     {% endif %}
-#   icon_template: >
-#     {% if value_json is defined %}
-#       {% if value_json.dumUtilization | int < 90 %}
-#         mdi:alert
-#       {% else %}
-#         mdi:elevator
-#     {% else %}
-#       mdi:elevator
-#     {% endif %}
+- platform: file
+  name: Data Usage
+  file_path: /config/json/cox_usage.json
+  value_template: >
+    {% if value_json is defined %}
+      {% if value_json.dumUsage | int == 0 and value_json.dumLimit | int == 0 and value_json.dumUtilization | int == 0 %}
+        stats unavailable
+      {% else %}
+        {{ value_json.dumUsage | int }} / {{ value_json.dumLimit | int }} GB ({{ value_json.dumUtilization | int }} %)
+      {% endif %}
+    {% else %}
+      undefined
+    {% endif %}
+  icon_template: >
+    {% if value_json is defined %}
+      {% if value_json.dumUtilization | int < 90 %}
+        mdi:alert
+      {% else %}
+        mdi:elevator
+    {% else %}
+      mdi:elevator
+    {% endif %}
 
-# - platform: file
-#   name: Data Resets
-#   file_path: /config/json/cox_usage.json
-#   value_template: >
-#     {% if value_json is defined %}
-#       {% if value_json.dumDaysLeft is defined %}
-#         {{ value_json.dumDaysLeft | int }} days
-#       {% else %}
-#         unknown
-#       {% endif %}
-#     {% else %}
-#       undefined
-#     {% endif %}
-#   icon_template: >
-#     {% if value_json is defined %}
-#       {% if value_json.dumDaysLeft is defined %}
-#         mdi:calendar-clock
-#       {% else %}
-#         mdi:calendar-question
-#     {% else %}
-#       mdi:calendar-clock
-#     {% endif %}
+- platform: file
+  name: Data Resets
+  file_path: /config/json/cox_usage.json
+  value_template: >
+    {% if value_json is defined %}
+      {% if value_json.dumDaysLeft is defined %}
+        {{ value_json.dumDaysLeft | int }} days
+      {% else %}
+        unknown
+    {% endif %}
+    {% else %}
+      undefined
+    {% endif %}
+  icon_template: >
+    {% if value_json is defined %}
+      {% if value_json.dumDaysLeft is defined %}
+        mdi:calendar-clock
+      {% else %}
+        mdi:calendar-question
+    {% else %}
+      mdi:calendar-clock
+    {% endif %}
 
 
 # suncalc data sensors
