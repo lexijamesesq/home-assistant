@@ -1,16 +1,16 @@
 title: Home Assistant
 resources:
-  - url: /local/button-card.js?v=3.0.0
+  - url: /community_plugin/button-card/button-card.js
     type: module
-  - url: /local/mini-media-player-bundle.js?v=1.5.1
+  - url: /community_plugin/mini-media-player/mini-media-player-bundle.js
     type: module
-  - url: /local/bignumber-card.js
+  - url: /community_plugin/mini-media-player/mini-media-player-bundle.js
     type: module
-  - url: /local/card-tools.js
+  - url: /community_plugin/lovelace-card-tools/card-tools.js
+    type: module
+  - url: /community_plugin/rgb-light-card/card.js
     type: js
-  - url: /local/rgb-light-card.js?v=1.3.0
-    type: js
-  - url: /local/secondaryinfo-entity-row.js
+  - url: /community_plugin/secondaryinfo-entity-row/secondaryinfo-entity-row.js
     type: module
 views:
   - icon: mdi:home-assistant
