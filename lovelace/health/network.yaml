@@ -3,6 +3,14 @@ title: Network
 show_header_toggle: false
 entities:
   - type: section
+    label: Data
+  - entity: sensor.cox_data_plan
+    name: Plan
+  - entity: sensor.cox_data_usage
+    name: Usage
+  - entity: sensor.cox_data_resets
+    name: Resets
+  - type: section
     label: External
   - entity: sensor.network_status_cox_wan
     name: Cox WAN
