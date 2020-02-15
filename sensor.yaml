@@ -1565,7 +1565,7 @@
 
 # Cox Data Usage
 - platform: file
-  name: Data Plan
+  name: Cox Data Plan
   file_path: /config/json/cox_usage.json
   value_template: >
     {% if value_json is defined %}
@@ -1573,15 +1573,9 @@
     {% else %}
       undefined
     {% endif %}
-  icon_template: >
-    {% if value_json is defined %}
-      mdi:lan-connect
-    {% else %}
-      mdi:lan-connect
-    {% endif %}
 
 - platform: file
-  name: Data Usage
+  name: Cox Data Usage -
   file_path: /config/json/cox_usage.json
   value_template: >
     {% if value_json is defined %}
@@ -1593,18 +1587,9 @@
     {% else %}
       undefined
     {% endif %}
-  icon_template: >
-    {% if value_json is defined %}
-      {% if value_json.dumUtilization | int < 90 %}
-        mdi:alert
-      {% else %}
-        mdi:elevator
-    {% else %}
-      mdi:elevator
-    {% endif %}
 
 - platform: file
-  name: Data Resets
+  name: Cox Data Resets
   file_path: /config/json/cox_usage.json
   value_template: >
     {% if value_json is defined %}
@@ -1615,15 +1600,6 @@
     {% endif %}
     {% else %}
       undefined
-    {% endif %}
-  icon_template: >
-    {% if value_json is defined %}
-      {% if value_json.dumDaysLeft is defined %}
-        mdi:calendar-clock
-      {% else %}
-        mdi:calendar-question
-    {% else %}
-      mdi:calendar-clock
     {% endif %}
 
 
