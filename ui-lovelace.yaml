@@ -12,6 +12,9 @@ resources:
     type: js
   - url: /community_plugin/secondaryinfo-entity-row/secondaryinfo-entity-row.js
     type: module
+  - url: /community_plugin/lovelace-multiple-entity-row/multiple-entity-row.js
+    type: module
+
 views:
   - icon: mdi:home-assistant
     title: Home

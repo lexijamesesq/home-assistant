@@ -10,7 +10,17 @@ entities:
     type: "custom:secondaryinfo-entity-row"
     secondary_info: '[[ device_tracker.octavia.attributes.fuel_level ]]% Fuel Remaining'
   - sensor.dashboard_current_mode
-  - sensor.dark_sky_temperature
+  - entity: sensor.dashboard_outside_temperature
+    type: custom:multiple-entity-row
+    name: Temperature
+    show_state: false
+    entities:
+      - entity: sensor.dashboard_outside_temperature
+        name: Current
+      - entity: sensor.dashboard_outside_high_temperature
+        name: High
+      - entity: sensor.dashboard_outside_low_temperature
+        name: Low
   - type: conditional
     conditions:
       - entity: sensor.first_light_show

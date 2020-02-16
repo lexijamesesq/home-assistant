@@ -391,3 +391,5 @@ sensor.cox_data_plan:
   icon: mdi:lan-connect
 sensor.cox_data_usage:
   icon: mdi:elevator
+sensor.dashboard_outside_temperature:
+  icon: mdi:thermometer
