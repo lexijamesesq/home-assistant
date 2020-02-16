@@ -14,6 +14,8 @@ resources:
     type: module
   - url: /community_plugin/lovelace-multiple-entity-row/multiple-entity-row.js
     type: module
+  - url: /community_plugin/upcoming-media-card/upcoming-media-card.js
+    type: js
 
 views:
   - icon: mdi:home-assistant
@@ -47,13 +49,14 @@ views:
     title: Home Theater
     path: home_theater
     cards:
-      - !include lovelace/home_theater/player.yaml
-      - !include lovelace/home_theater/buttons.yaml
       - type: vertical-stack
         cards:
+          - !include lovelace/home_theater/player.yaml
+          - !include lovelace/home_theater/buttons.yaml
           - !include lovelace/home_theater/bandwidth.yaml
           - !include lovelace/home_theater/streams.yaml
           - !include lovelace/home_theater/users.yaml
+          - !include lovelace/home_theater/sonarr.yaml
   - icon: mdi:shield-home
     title: Security
     path: security
