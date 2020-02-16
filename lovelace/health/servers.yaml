@@ -4,19 +4,38 @@ show_header_toggle: false
 entities:
   - type: section
     label: Overwatch
-  - entity: sensor.overwatch_cpu_load
+  - entity: sensor.overwatch_cpu_load_15
+    type: custom:multiple-entity-row
     name: Load
+    state_header: 15 min
+    entities:
+      - entity: sensor.overwatch_cpu_load_1
+        name: 1 min
+      - entity: sensor.overwatch_cpu_load_5
+        name: 5 min
   - entity: sensor.overwatch_cpu_temp
     name: CPU Temp
   - entity: sensor.overwatch_ram_used
     name: RAM Used
   - type: section
     label: Woodhouse
-  - entity: sensor.woodhouse_cpu_load
+  - entity: sensor.woodhouse_cpu_load_15
+    type: custom:multiple-entity-row
     name: Load
+    state_header: 15 min
+    entities:
+      - entity: sensor.woodhouse_cpu_load_1
+        name: 1 min
+      - entity: sensor.woodhouse_cpu_load_5
+        name: 5 min
   - entity: sensor.woodhouse_cpu1_temp
-    name: CPU1 Temp
-  - entity: sensor.woodhouse_cpu2_temp
-    name: CPU2 Temp
+    type: custom:multiple-entity-row
+    name: CPU Temp
+    show_state: false
+    entities:
+      - entity: sensor.woodhouse_cpu1_temp
+        name: CPU 1
+      - entity: sensor.woodhouse_cpu2_temp
+        name: CPU 2
   - entity: sensor.woodhouse_ram_used
     name: RAM Used
