@@ -1,0 +1,14 @@
+type: custom:upcoming-media-card
+entity: sensor.sonarr_upcoming_media
+title: Upcoming TV
+max: 10
+image_style: poster
+hide_empty: true
+all_shadows: false
+title_color: var(--primary-text-color)
+line1_color: var(--primary-text-color)
+line2_color: var(--primary-text-color)
+line3_color: var(--primary-text-color)
+line4_color: var(--primary-text-color)
+border_color: none
+accent_color: '#fff'
