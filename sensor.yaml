@@ -1320,8 +1320,21 @@
   port: !secret influxdb_port
   queries:
     # Overwatch Server
-    - name: Overwatch CPU Load
-      unit_of_measurement: '15 min'
+    - name: Overwatch CPU Load 1
+      group_function: last
+      where: '"host" = ''overwatch'' and time > now() - 5m'
+      value_template: '{{ value | round(2) }}'
+      measurement: '"system"'
+      field: '"load1"'
+      database: telegraf
+    - name: Overwatch CPU Load 5
+      group_function: last
+      where: '"host" = ''overwatch'' and time > now() - 5m'
+      value_template: '{{ value | round(2) }}'
+      measurement: '"system"'
+      field: '"load5"'
+      database: telegraf
+    - name: Overwatch CPU Load 15
       group_function: last
       where: '"host" = ''overwatch'' and time > now() - 5m'
       value_template: '{{ value | round(2) }}'
@@ -1345,8 +1358,21 @@
       field: '"used_percent"'
       database: telegraf
     # Woodhouse Server
-    - name: Woodhouse CPU Load
-      unit_of_measurement: '15 min'
+    - name: Woodhouse CPU Load 1
+      group_function: last
+      where: '"host" = ''woodhouse'' and time > now() - 5m'
+      value_template: '{{ value | round(2) }}'
+      measurement: '"system"'
+      field: '"load1"'
+      database: telegraf
+    - name: Woodhouse CPU Load 5
+      group_function: last
+      where: '"host" = ''woodhouse'' and time > now() - 5m'
+      value_template: '{{ value | round(2) }}'
+      measurement: '"system"'
+      field: '"load5"'
+      database: telegraf
+    - name: Woodhouse CPU Load 15
       group_function: last
       where: '"host" = ''woodhouse'' and time > now() - 5m'
       value_template: '{{ value | round(2) }}'
@@ -1575,7 +1601,21 @@
     {% endif %}
 
 - platform: file
-  name: Cox Data Usage -
+  name: Cox Data Usage
+  file_path: /config/json/cox_usage.json
+  value_template: >
+    {% if value_json is defined %}
+      {% if value_json.dumUsage | int == 0 and value_json.dumLimit | int == 0 and value_json.dumUtilization | int == 0 %}
+        unavailable
+      {% else %}
+        {{ value_json.dumUtilization | int }} %
+      {% endif %}
+    {% else %}
+      undefined
+    {% endif %}
+
+- platform: file
+  name: Cox Data Usage - Long
   file_path: /config/json/cox_usage.json
   value_template: >
     {% if value_json is defined %}
