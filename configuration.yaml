@@ -219,11 +219,6 @@ nest:
   client_secret: !secret nest_client_secret
 
 
-ring:
-  username: !secret ring_username
-  password: !secret ring_password
-
-
 light:
   - platform: group
     name: Upstairs Hallway Group Lights
