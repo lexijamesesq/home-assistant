@@ -12,6 +12,10 @@
 - platform: version
   source: docker
 
+# Home Assistant Uptime
+- platform: uptime
+  unit_of_measurement: minutes
+
 # Sonarr
 - platform: sonarr_upcoming_media
   api_key: !secret sonarr_api_key
@@ -1158,8 +1162,12 @@
       friendly_name: Alex - Recently Home
       entity_id: sensor.time
       value_template: >-
-        {% if is_state('device_tracker.alexs_iphone_geofency', 'home') and as_timestamp(now()) < (as_timestamp(states.device_tracker.alexs_iphone_geofency.last_changed) + (60 * 5)) %}
-          on
+        {% if states('sensor.uptime') | int > 5 %}
+          {% if is_state('device_tracker.alexs_iphone_geofency', 'home') and as_timestamp(now()) < (as_timestamp(states.device_tracker.alexs_iphone_geofency.last_changed) + (60 * 5)) %}
+            on
+          {% else %}
+            off
+          {% endif %}
         {% else %}
           off
         {% endif %}
