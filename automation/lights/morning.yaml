@@ -16,7 +16,7 @@
       - condition: time
         after: '05:00:00'
       - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_goldenhourend.state | timestamp_custom("%H:%M") }}'
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states("sensor.sensor.suncalc_sunriseend") | timestamp_custom("%H:%M") }}'
       - condition: state
         entity_id: input_boolean.motion_upstairs_hallway
         state: 'on'
@@ -38,13 +38,21 @@
 - alias: Downstairs Lights at Sunrise
   trigger:
     - platform: template
-      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") == states("sensor.sensor.suncalc_sunriseend") }}'
   condition:
     condition: and
     conditions:
       - condition: state
         entity_id: group.residents
         state: 'home'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: light.kitchen
+            state: 'on'
+          - condition: state
+            entity_id: light.rec_room_ambient
+            state: 'on'
   action:
     - service: light.turn_off
       entity_id:
