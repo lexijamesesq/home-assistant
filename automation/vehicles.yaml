@@ -1,0 +1,33 @@
+##############################################################
+# Vehicle Events
+##############################################################
+# Octavia Low on Gas #########################################
+- alias: Notify Octavia - Low on Gas in the Morning
+  trigger:
+    - platform: state
+      entity_id: input_boolean.trigger_sleep_mode
+      to: 'off'
+      for:
+        minutes: 30
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'home'
+      - condition: time
+        after: '05:00:00'
+        before: '12:00:00'
+      - condition: state
+        entity_id: sensor.dashboard_octavia_fuel_remaining
+        state: 'off'
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data_template:
+      title: "Octavia"
+      message: >-
+        Let's get gas this morning. Only {{ states('device_tracker.octavia.attributes.fuel_level') }}% remaining.
+      data:
+        push:
+          thread-id: "ha-vehicle-group"
+          sound: 'gesture.wav'
