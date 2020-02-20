@@ -23,3 +23,10 @@ docker_restart_sonarr:
 docker_restart_plex:
   url: !secret docker_restart_plex
   method: POST
+
+##############################################################
+# Things Tasks
+##############################################################
+things_add_task:
+  url: !secret things_add_task
+  method: POST
