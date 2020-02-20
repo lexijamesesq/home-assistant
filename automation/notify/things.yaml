@@ -7,18 +7,15 @@
     - platform: template
       value_template: "{{ is_state_attr('vacuum.amelia', 'status', 'Dust bin full') }}"
   action:
-  action:
     - service_template: rest_command.things_add_task
       data_template:
         title: "Empty Amelia's Dust Bin"
         when: "Today"
         list: "Maintenance"
-
 - alias: Things Add Task to Empty Dust Bin - Rory
   trigger:
     - platform: template
       value_template: "{{ is_state_attr('vacuum.rory', 'status', 'Dust bin full') }}"
-  action:
   action:
     - service_template: rest_command.things_add_task
       data_template:
