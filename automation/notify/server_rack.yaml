@@ -11,7 +11,7 @@
         minutes: 30
   action:
     service: notify.mobile_app_alexs_iphone
-    data: 
+    data:
       title: "Overwatch"
       message: "Excessive CPU Load for 30 minutes."
       data:
@@ -28,7 +28,7 @@
         hours: 1
   action:
     service: notify.mobile_app_alexs_iphone
-    data: 
+    data:
       title: "Overwatch"
       message: "Excessive CPU Load for an hour."
       data:
@@ -61,7 +61,7 @@
         minutes: 60
   action:
     service: notify.mobile_app_alexs_iphone
-    data: 
+    data:
       title: "Overwatch"
       message: >-
         {%- set level = 'Critical' if states("sensor.overwatch_cpu_temp") | int > 79 else 'Warning' -%}
@@ -82,7 +82,7 @@
         minutes: 5
   action:
     service: notify.mobile_app_alexs_iphone
-    data: 
+    data:
       title: "Overwatch"
       message: >-
         The server has been restored to a normal operating temperature."
@@ -116,7 +116,7 @@
         minutes: 60
   action:
     service: notify.mobile_app_alexs_iphone
-    data: 
+    data:
       title: "Woodhouse"
       message: >-
         {%- set level = 'critical' if states("sensor.woodhouse_cpu1_temp") | int > 79 or states("sensor.woodhouse_cpu2_temp") | int > 79 else 'warning' -%}
@@ -137,7 +137,7 @@
         minutes: 5
   action:
     service: notify.mobile_app_alexs_iphone
-    data: 
+    data:
       title: "Woodhouse"
       message: >-
         The server has been restored to a normal operating temperature."
@@ -160,7 +160,7 @@
       from: 'OB DISCHRG'
   action:
     service: notify.mobile_app_alexs_iphone
-    data: 
+    data:
       title: "Server Rack"
       message: >-
         {% if is_state('sensor.server_rack_ups_status_data', 'OL') %}
@@ -200,7 +200,7 @@
         minutes: 20
   action:
     service: notify.mobile_app_alexs_iphone
-    data: 
+    data:
       title: "Server Rack"
       message: >-
         {%- if ((as_timestamp(now()) - as_timestamp(states.sensor.server_rack_ups_status_data.last_changed)) / 60) | int < 5 -%}
@@ -227,7 +227,7 @@
       event_type: event_zwave_network_ready
   action:
     service: notify.mobile_app_alexs_iphone
-    data: 
+    data:
       title: 'Home Assistant'
       message: 'Z-Wave network ready. Starting HomeKit.'
       data:
@@ -247,7 +247,7 @@
       event_type: event_service_restart_sonarr
   action:
     service: notify.mobile_app_alexs_iphone
-    data: 
+    data:
       title: 'Sonarr'
       message: 'The container has been down for 10 minutes and is being restarted.'
       data:
@@ -262,9 +262,39 @@
       event_type: event_service_upgrading_plex
   action:
     service: notify.mobile_app_alexs_iphone
-    data: 
+    data:
       title: 'Plex'
       message: 'Update available. The container is restarting to update to version {{ states("sensor.tautulli_plex_update_version") }}'
+      data:
+        push:
+          thread-id: 'ha-server-group'
+          sound: 'gesture.wav'
+
+
+##############################################################
+# Cox Events
+##############################################################
+
+# Sonarr #####################################################
+- alias: Notify Cox - Data Usage
+  trigger:
+    - platform: state
+      entity_id: sensor.cox_data_usage
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: '{{ not is_state("sensor.cox_data_usage", "unavailable") }}'
+      - condition: template
+        value_template: '{{ not is_state("sensor.cox_data_usage", "undefined") }}'
+      - condition: template
+        value_template: '{{ states("sensor.cox_data_usage")[:-2] | int > 75 }}'
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data_template:
+      title: 'Cox'
+      message: >-
+          Data usage is at {{ states('sensor.cox_data_usage')[:-2] }}%, resetting in {{ states('sensor.cox_data_resets') }}.
       data:
         push:
           thread-id: 'ha-server-group'
