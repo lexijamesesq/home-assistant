@@ -26,7 +26,7 @@
     data_template:
       title: "Octavia"
       message: >-
-        Let's get gas this morning. Only {{ states('device_tracker.octavia.attributes.fuel_level') }}% remaining.
+        Let's get gas this morning. Only {{ state_attr('device_tracker.octavia', 'fuel_level') | int }}% remaining.
       data:
         push:
           thread-id: "ha-vehicle-group"
