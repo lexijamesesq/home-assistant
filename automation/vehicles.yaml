@@ -20,7 +20,7 @@
         before: '12:00:00'
       - condition: state
         entity_id: sensor.dashboard_octavia_fuel_remaining
-        state: 'off'
+        state: 'on'
   action:
     service: notify.mobile_app_alexs_iphone
     data_template:
