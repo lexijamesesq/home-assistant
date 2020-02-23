@@ -2,6 +2,84 @@
 # HA Start Configuration
 ##############################################################
 
+# Manually Set Morning Mode State #############################
+# State is only changed if it is incorrect. Don't want to trigger mode changes on restart unnecessarily.
+- alias: Manually Reset Start Morning Mode
+  trigger:
+    platform: homeassistant
+    event: start
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.mode_morning
+        state: 'off'
+      - condition: template
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_nightEnd.state | timestamp_custom("%H:%M") }}'
+      - condition: template
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.mode_morning
+- alias: Manually Reset End Morning Mode
+  trigger:
+    platform: homeassistant
+    event: start
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.mode_morning
+        state: 'on'
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_nightEnd.state | timestamp_custom("%H:%M") }}'
+          - condition: template
+            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.mode_morning
+
+# Manually Set Day Mode State #############################
+# State is only changed if it is incorrect. Don't want to trigger mode changes on restart unnecessarily.
+- alias: Manually Reset Start Day Mode
+  trigger:
+    platform: homeassistant
+    event: start
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.mode_day
+        state: 'off'
+      - condition: template
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+      - condition: template
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_goldenHour.state | timestamp_custom("%H:%M") }}'
+  action:
+    service: homeassistant.turn_on
+    entity_id: input_boolean.mode_day
+- alias: Manually Reset End Day Mode
+  trigger:
+    platform: homeassistant
+    event: start
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.mode_day
+        state: 'on'
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+          - condition: template
+            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_goldenHour.state | timestamp_custom("%H:%M") }}'
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.mode_day
+
 # Manually Set Sunset Mode State #############################
 # State is only changed if it is incorrect. Don't want to trigger mode changes on restart unnecessarily.
 - alias: Manually Reset Start Sunset Mode
@@ -58,7 +136,7 @@
           - condition: template
             value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
           - condition: template
-            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_goldenhourend.state | timestamp_custom("%H:%M") }}'
+            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_nightEnd.state | timestamp_custom("%H:%M") }}'
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.mode_night
@@ -75,7 +153,7 @@
       - condition: template
         value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
       - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_goldenhourend.state | timestamp_custom("%H:%M") }}'
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_nightEnd.state | timestamp_custom("%H:%M") }}'
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.mode_night
