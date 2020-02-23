@@ -7,12 +7,17 @@ entities:
   - entity: sensor.overwatch_cpu_load_15
     type: custom:multiple-entity-row
     name: Load
-    state_header: 15 min
+    show_state: false
     entities:
       - entity: sensor.overwatch_cpu_load_1
         name: 1 min
+        unit: ' '
       - entity: sensor.overwatch_cpu_load_5
         name: 5 min
+        unit: ' '
+      - entity: sensor.overwatch_cpu_load_15
+        name: 15 min
+        unit: ' '
   - entity: sensor.overwatch_cpu_temp
     name: CPU Temp
   - entity: sensor.overwatch_ram_used
@@ -22,12 +27,17 @@ entities:
   - entity: sensor.woodhouse_cpu_load_15
     type: custom:multiple-entity-row
     name: Load
-    state_header: 15 min
+    show_state: false
     entities:
       - entity: sensor.woodhouse_cpu_load_1
         name: 1 min
+        unit: ' '
       - entity: sensor.woodhouse_cpu_load_5
         name: 5 min
+        unit: ' '
+      - entity: sensor.woodhouse_cpu_load_15
+        name: 15 min
+        unit: ' '
   - entity: sensor.woodhouse_cpu1_temp
     type: custom:multiple-entity-row
     name: CPU Temp
