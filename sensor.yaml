@@ -1357,6 +1357,7 @@
   queries:
     # Overwatch Server
     - name: Overwatch CPU Load 1
+      unit_of_measurement: '1 min'
       group_function: last
       where: '"host" = ''overwatch'' and time > now() - 5m'
       value_template: '{{ value | round(2) }}'
@@ -1364,6 +1365,7 @@
       field: '"load1"'
       database: telegraf
     - name: Overwatch CPU Load 5
+      unit_of_measurement: '5 min'
       group_function: last
       where: '"host" = ''overwatch'' and time > now() - 5m'
       value_template: '{{ value | round(2) }}'
@@ -1371,6 +1373,7 @@
       field: '"load5"'
       database: telegraf
     - name: Overwatch CPU Load 15
+      unit_of_measurement: '15 min'
       group_function: last
       where: '"host" = ''overwatch'' and time > now() - 5m'
       value_template: '{{ value | round(2) }}'
@@ -1395,6 +1398,7 @@
       database: telegraf
     # Woodhouse Server
     - name: Woodhouse CPU Load 1
+      unit_of_measurement: '1 min'
       group_function: last
       where: '"host" = ''woodhouse'' and time > now() - 5m'
       value_template: '{{ value | round(2) }}'
@@ -1402,6 +1406,7 @@
       field: '"load1"'
       database: telegraf
     - name: Woodhouse CPU Load 5
+      unit_of_measurement: '5 min'
       group_function: last
       where: '"host" = ''woodhouse'' and time > now() - 5m'
       value_template: '{{ value | round(2) }}'
@@ -1409,6 +1414,7 @@
       field: '"load5"'
       database: telegraf
     - name: Woodhouse CPU Load 15
+      unit_of_measurement: '15 min'
       group_function: last
       where: '"host" = ''woodhouse'' and time > now() - 5m'
       value_template: '{{ value | round(2) }}'

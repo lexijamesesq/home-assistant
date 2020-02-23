@@ -152,13 +152,21 @@ sensor.speedtest_download:
   icon: mdi:download-network
 sensor.speedtest_upload:
   icon: mdi:upload-network
-sensor.overwatch_cpu_load:
+sensor.overwatch_cpu_load_1:
+  icon: mdi:chart-line
+sensor.overwatch_cpu_load_5:
+  icon: mdi:chart-line
+sensor.overwatch_cpu_load_15:
   icon: mdi:chart-line
 sensor.overwatch_cpu_temp:
   icon: mdi:thermometer
 sensor.overwatch_ram_used:
   icon: mdi:memory
-sensor.woodhouse_cpu_load:
+sensor.woodhouse_cpu_load_1:
+  icon: mdi:chart-line
+sensor.woodhouse_cpu_load_5:
+  icon: mdi:chart-line
+sensor.woodhouse_cpu_load_15:
   icon: mdi:chart-line
 sensor.woodhouse_cpu1_temp:
   icon: mdi:thermometer
