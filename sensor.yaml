@@ -152,37 +152,49 @@
 # Custom sensors for mode monitoring
 - platform: template
   sensors:
-    sunset_mode:
+    mode_morning:
+      friendly_name: 'Morning Mode'
+      entity_id: input_boolean.mode_morning
+      value_template: >
+        {{ states('input_boolean.mode_morning') }}
+      icon_template: 'mdi:weather-sunset'
+    mode_sunset:
+      friendly_name: 'Day Mode'
+      entity_id: input_boolean.mode_day
+      value_template: >
+        {{ states('input_boolean.mode_day') }}
+      icon_template: 'mdi:weather-sunny'
+    mode_sunset:
       friendly_name: 'Sunset Mode'
       entity_id: input_boolean.mode_sunset
       value_template: >
-        {{ states.input_boolean.mode_sunset.state }}
+        {{ states('input_boolean.mode_sunset') }}
       icon_template: 'mdi:weather-sunset'
-    night_mode:
+    mode_night:
       friendly_name: 'Night Mode'
       entity_id: input_boolean.mode_night
       value_template: >
-        {{ states.input_boolean.mode_night.state }}
+        {{ states('input_boolean.mode_night') }}
       icon_template: 'mdi:weather-night'
-    guest_mode:
+    mode_guest:
       friendly_name: 'Guest Mode'
       entity_id: input_boolean.mode_guest
       value_template: >
-        {{ states.input_boolean.mode_guest.state }}
+        {{ states('input_boolean.mode_guest') }}
       icon_template: 'mdi:human-greeting'
-    home_theater_mode:
+    mode_home_theater:
       friendly_name: 'Home Theater Mode'
       entity_id: input_boolean.mode_home_theater
       value_template: >
-        {{ states.input_boolean.mode_home_theater.state }}
+        {{ states('input_boolean.mode_home_theater') }}
       icon_template: 'mdi:theater'
-    sleep_mode:
+    mode_sleep:
       friendly_name: 'Sleep Mode'
       entity_id: input_boolean.mode_sleep
       value_template: >
-        {{ states.input_boolean.mode_sleep.state }}
+        {{ states('input_boolean.mode_sleep') }}
       icon_template: 'mdi:sleep'
-    simulate_presence_mode:
+    mode_simulate_presence:
       friendly_name: 'Simulate Presence Mode'
       entity_id:
         - group.residents
@@ -731,20 +743,28 @@
     dashboard_current_mode:
       friendly_name: 'Current Mode'
       value_template: >-
-        {% if states.input_boolean.mode_sunset.state == 'on' %}
+        {% if states('input_boolean.mode_morning', 'on') %}
+          Morning
+        {% elif states('input_boolean.mode_day', 'on') %}
+          Day
+        {% elif states('input_boolean.mode_sunset', 'on') %}
           Sunset
-        {% elif states.input_boolean.mode_night.state == 'on' %}
+        {% elif states('input_boolean.mode_night', 'on') %}
           Night
         {% else %}
-          Day
+          Unknown
         {% endif %}
       icon_template: >-
-        {% if states.input_boolean.mode_sunset.state == 'on' %}
+        {% if states('input_boolean.mode_morning', 'on') %}
           mdi:weather-sunset
-        {% elif states.input_boolean.mode_night.state == 'on' %}
+        {% elif states('input_boolean.mode_day', 'on') %}
+          mdi:weather-sunny
+        {% elif states('input_boolean.mode_sunset', 'on') %}
+          mdi:weather-sunset
+        {% elif states('input_boolean.mode_night', 'on') %}
           mdi:weather-night
         {% else %}
-          mdi:weather-sunny
+          Unknown
         {% endif %}
     dashboard_home_state:
       friendly_name: Home State
@@ -1676,6 +1696,17 @@
 #   dawn          - dawn (morning nautical twilight ends, morning civil twilight starts)
 #   HH:MM         - timestamp_custom('%H:%M')
 
+# Used for "sun starts to rise" automations in the morning
+- platform: file
+  name: Suncalc sunriseEnd
+  file_path: /config/json/suncalc_data.json
+  value_template: >
+    {% if value_json is defined %}
+      {{ as_timestamp(value_json.sunriseEnd) | timestamp_custom('%H:%M') }}
+    {% else %}
+      undefined
+    {% endif %}
+
 # Used for "first light" automations in the morning
 - platform: file
   name: Suncalc goldenHourEnd
@@ -1709,17 +1740,18 @@
       undefined
     {% endif %}
 
-# Used for "sun starts to rise" automations in the morning
+# Used for "night ends" automations in the morning
 - platform: file
-  name: Suncalc sunriseEnd
+  name: Suncalc nightEnd
   file_path: /config/json/suncalc_data.json
   value_template: >
     {% if value_json is defined %}
-      {{ as_timestamp(value_json.sunriseEnd) | timestamp_custom('%H:%M') }}
+      {{ as_timestamp(value_json.nightEnd) | timestamp_custom('%H:%M') }}
     {% else %}
       undefined
     {% endif %}
 
+# Used for on screen display
 - platform: file
   name: Golden Hour
   file_path: /config/json/suncalc_data.json

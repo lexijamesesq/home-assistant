@@ -1,6 +1,10 @@
 ##############################################################
 # Modes
 ##############################################################
+mode_morning:
+  name: Morning Mode
+mode_day:
+  name: Day Mode
 mode_sunset:
   name: Sunset Mode
 mode_night:
