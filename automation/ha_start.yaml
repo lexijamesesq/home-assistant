@@ -56,7 +56,7 @@
       - condition: template
         value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
       - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_goldenHour.state | timestamp_custom("%H:%M") }}'
+        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.mode_day
@@ -75,7 +75,7 @@
           - condition: template
             value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
           - condition: template
-            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_goldenHour.state | timestamp_custom("%H:%M") }}'
+            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.mode_day
