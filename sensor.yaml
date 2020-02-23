@@ -157,8 +157,8 @@
       entity_id: input_boolean.mode_morning
       value_template: >
         {{ states('input_boolean.mode_morning') }}
-      icon_template: 'mdi:weather-sunset'
-    mode_sunset:
+      icon_template: 'mdi:weather-hazy'
+    mode_day:
       friendly_name: 'Day Mode'
       entity_id: input_boolean.mode_day
       value_template: >
@@ -743,28 +743,28 @@
     dashboard_current_mode:
       friendly_name: 'Current Mode'
       value_template: >-
-        {% if states('input_boolean.mode_morning', 'on') %}
+        {% if is_state('input_boolean.mode_morning', 'on') %}
           Morning
-        {% elif states('input_boolean.mode_day', 'on') %}
+        {% elif is_state('input_boolean.mode_day', 'on') %}
           Day
-        {% elif states('input_boolean.mode_sunset', 'on') %}
+        {% elif is_state('input_boolean.mode_sunset', 'on') %}
           Sunset
-        {% elif states('input_boolean.mode_night', 'on') %}
+        {% elif is_state('input_boolean.mode_night', 'on') %}
           Night
         {% else %}
           Unknown
         {% endif %}
       icon_template: >-
-        {% if states('input_boolean.mode_morning', 'on') %}
-          mdi:weather-sunset
-        {% elif states('input_boolean.mode_day', 'on') %}
+        {% if is_state('input_boolean.mode_morning', 'on') %}
+          mdi:weather-hazy
+        {% elif is_state('input_boolean.mode_day', 'on') %}
           mdi:weather-sunny
-        {% elif states('input_boolean.mode_sunset', 'on') %}
+        {% elif is_state('input_boolean.mode_sunset', 'on') %}
           mdi:weather-sunset
-        {% elif states('input_boolean.mode_night', 'on') %}
+        {% elif is_state('input_boolean.mode_night', 'on') %}
           mdi:weather-night
         {% else %}
-          Unknown
+          mdi:weather-cloudy-alert
         {% endif %}
     dashboard_home_state:
       friendly_name: Home State
