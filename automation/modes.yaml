@@ -9,14 +9,14 @@
     value_template: '{{ is_state("sensor.suncalc_goldenHour", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     service: homeassistant.turn_on
-    entity_id: input_boolean.trigger_sunset_mode
+    entity_id: input_boolean.mode_sunset
 - alias: End Sunset Mode
   trigger:
     platform: template
     value_template: '{{ is_state("sensor.suncalc_sunsetstart", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     service: homeassistant.turn_off
-    entity_id: input_boolean.trigger_sunset_mode
+    entity_id: input_boolean.mode_sunset
 
 # Night Mode #################################################
 - alias: Start Night Mode
@@ -25,14 +25,14 @@
     value_template: '{{ is_state("sensor.suncalc_sunsetstart", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     service: homeassistant.turn_on
-    entity_id: input_boolean.trigger_night_mode
+    entity_id: input_boolean.mode_night
 - alias: End Night Mode
   trigger:
     platform: template
     value_template: '{{ is_state("sensor.suncalc_goldenhourend", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     service: homeassistant.turn_off
-    entity_id: input_boolean.trigger_night_mode
+    entity_id: input_boolean.mode_night
 
 ##############################################################
 # Event Modes
@@ -47,14 +47,14 @@
         - binary_sensor.front_door
       to: 'on'
     - platform: event
-      event_type: event_trigger_guest_mode
-  condition: 
+      event_type: event_trigger_mode_guest
+  condition:
     condition: state
     entity_id: group.residents
     state: 'not_home'
   action:
     service: homeassistant.turn_on
-    entity_id: input_boolean.trigger_guest_mode
+    entity_id: input_boolean.mode_guest
 - alias: End Guest Mode
   trigger:
     - platform: state
@@ -67,11 +67,11 @@
         minutes: 30
   condition:
     condition: state
-    entity_id: input_boolean.trigger_home_theater_mode
+    entity_id: input_boolean.mode_home_theater
     state: 'off'
   action:
     service: homeassistant.turn_off
-    entity_id: input_boolean.trigger_guest_mode
+    entity_id: input_boolean.mode_guest
 
 # Simulate Presence Mode #####################################
 # Turns on between 5:00pm and 3:00am, Night Mode determines actual start time
@@ -87,12 +87,12 @@
       for:
         minutes: 10
     - platform: state
-      entity_id: input_boolean.trigger_guest_mode
+      entity_id: input_boolean.mode_guest
       to: 'off'
       for:
         minutes: 10
     - platform: state
-      entity_id: input_boolean.trigger_night_mode
+      entity_id: input_boolean.mode_night
       to: 'on'
     - platform: event
       event_type: event_simulate_presence
@@ -100,13 +100,13 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: input_boolean.trigger_night_mode
+        entity_id: input_boolean.mode_night
         state: 'on'
       - condition: state
         entity_id: group.residents
         state: 'not_home'
       - condition: state
-        entity_id: input_boolean.trigger_guest_mode
+        entity_id: input_boolean.mode_guest
         state: 'off'
       - condition: or
         conditions:
@@ -116,10 +116,10 @@
             before: '03:00:00'
   action:
     - service: homeassistant.turn_on
-      entity_id: input_boolean.trigger_simulate_presence_mode
+      entity_id: input_boolean.mode_simulate_presence
     - delay: '00:{{ (range(2, 10) | random) }}:00'
     - service: homeassistant.turn_off
-      entity_id: input_boolean.trigger_simulate_presence_mode
+      entity_id: input_boolean.mode_simulate_presence
     - delay: '00:{{ (range(35, 55) | random) }}:00'
     - event: event_simulate_presence
 
@@ -140,7 +140,7 @@
         after: '21:00:00'
       - condition: template
         value_template: >
-          {% set weekday = as_timestamp(states.sensor.date.state + " 06:00") %}
+          {% set weekday = as_timestamp(states.sensor.date.state + " 05:00") %}
           {% set weekend = as_timestamp(states.sensor.date.state + " " + states.sensor.suncalc_goldenhourend.state) %}
           {% set time    = as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) %}
           {% set today   = (now().strftime("%A") | lower) %}
@@ -153,7 +153,7 @@
           {% endif %}
   action:
     service: homeassistant.turn_on
-    entity_id: input_boolean.trigger_sleep_mode
+    entity_id: input_boolean.mode_sleep
 - alias: End Sleep Mode
   trigger:
     - platform: state
@@ -163,7 +163,7 @@
         minutes: 5
   action:
     service: homeassistant.turn_off
-    entity_id: input_boolean.trigger_sleep_mode
+    entity_id: input_boolean.mode_sleep
 
 
 # Home Theater Mode ##########################################
@@ -175,7 +175,7 @@
       to: 'on'
   action:
     service: homeassistant.turn_on
-    entity_id: input_boolean.trigger_home_theater_mode
+    entity_id: input_boolean.mode_home_theater
 - alias: End Home Theater Mode
   trigger:
     - platform: state
@@ -184,7 +184,7 @@
       to: 'off'
   action:
     service: homeassistant.turn_off
-    entity_id: input_boolean.trigger_home_theater_mode
+    entity_id: input_boolean.mode_home_theater
 
 
 ##############################################################
@@ -208,7 +208,7 @@
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.notify_overwatch_cpu_temp
-    
+
 # Woodhouse CPU Temp #########################################
 - alias: Mode Start Notify Woodhouse CPU Temp
   trigger:

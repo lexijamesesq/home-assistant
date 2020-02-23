@@ -154,45 +154,45 @@
   sensors:
     sunset_mode:
       friendly_name: 'Sunset Mode'
-      entity_id: input_boolean.trigger_sunset_mode
+      entity_id: input_boolean.mode_sunset
       value_template: >
-        {{ states.input_boolean.trigger_sunset_mode.state }}
+        {{ states.input_boolean.mode_sunset.state }}
       icon_template: 'mdi:weather-sunset'
     night_mode:
       friendly_name: 'Night Mode'
-      entity_id: input_boolean.trigger_night_mode
+      entity_id: input_boolean.mode_night
       value_template: >
-        {{ states.input_boolean.trigger_night_mode.state }}
+        {{ states.input_boolean.mode_night.state }}
       icon_template: 'mdi:weather-night'
     guest_mode:
       friendly_name: 'Guest Mode'
-      entity_id: input_boolean.trigger_guest_mode
+      entity_id: input_boolean.mode_guest
       value_template: >
-        {{ states.input_boolean.trigger_guest_mode.state }}
+        {{ states.input_boolean.mode_guest.state }}
       icon_template: 'mdi:human-greeting'
     home_theater_mode:
       friendly_name: 'Home Theater Mode'
-      entity_id: input_boolean.trigger_home_theater_mode
+      entity_id: input_boolean.mode_home_theater
       value_template: >
-        {{ states.input_boolean.trigger_home_theater_mode.state }}
+        {{ states.input_boolean.mode_home_theater.state }}
       icon_template: 'mdi:theater'
     sleep_mode:
       friendly_name: 'Sleep Mode'
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       value_template: >
-        {{ states.input_boolean.trigger_sleep_mode.state }}
+        {{ states.input_boolean.mode_sleep.state }}
       icon_template: 'mdi:sleep'
     simulate_presence_mode:
       friendly_name: 'Simulate Presence Mode'
       entity_id:
         - group.residents
-        - input_boolean.trigger_guest_mode
-        - input_boolean.trigger_simulate_presence_mode
+        - input_boolean.mode_guest
+        - input_boolean.mode_simulate_presence
       value_template: >
-        {% if is_state('group.residents', 'not_home') and is_state('input_boolean.trigger_guest_mode', 'off') and is_state('input_boolean.trigger_night_mode', 'on') %}
-          {% if is_state('input_boolean.trigger_simulate_presence_mode', 'on') %}
+        {% if is_state('group.residents', 'not_home') and is_state('input_boolean.mode_guest', 'off') and is_state('input_boolean.mode_night', 'on') %}
+          {% if is_state('input_boolean.mode_simulate_presence', 'on') %}
             Lights On
-          {% elif is_state('input_boolean.trigger_simulate_presence_mode', 'off') and ((as_timestamp(now()) - as_timestamp(states.group.residents.last_changed)) | int < (as_timestamp(now()) - as_timestamp(states.input_boolean.trigger_simulate_presence_mode.last_changed)) | int) %}
+          {% elif is_state('input_boolean.mode_simulate_presence', 'off') and ((as_timestamp(now()) - as_timestamp(states.group.residents.last_changed)) | int < (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_simulate_presence.last_changed)) | int) %}
             {% if as_timestamp(now()) < (as_timestamp(states.group.residents.last_changed) + 1200) %}
               Delay
             {% else %}
@@ -731,17 +731,17 @@
     dashboard_current_mode:
       friendly_name: 'Current Mode'
       value_template: >-
-        {% if states.input_boolean.trigger_sunset_mode.state == 'on' %}
+        {% if states.input_boolean.mode_sunset.state == 'on' %}
           Sunset
-        {% elif states.input_boolean.trigger_night_mode.state == 'on' %}
+        {% elif states.input_boolean.mode_night.state == 'on' %}
           Night
         {% else %}
           Day
         {% endif %}
       icon_template: >-
-        {% if states.input_boolean.trigger_sunset_mode.state == 'on' %}
+        {% if states.input_boolean.mode_sunset.state == 'on' %}
           mdi:weather-sunset
-        {% elif states.input_boolean.trigger_night_mode.state == 'on' %}
+        {% elif states.input_boolean.mode_night.state == 'on' %}
           mdi:weather-night
         {% else %}
           mdi:weather-sunny

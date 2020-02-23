@@ -7,7 +7,7 @@ update_scene:
       data_template:
         entity_id: >
           {% set time                = as_timestamp(now()) | timestamp_custom("%H:%M") %}
-          {% set sleep_mode          = is_state("input_boolean.trigger_sleep_mode", "on") %}
+          {% set sleep_mode          = is_state("input_boolean.mode_sleep", "on") %}
           {% set prefer_weekday_low  = states.sensor.prefer_weekday_lighting_low.state %}
           {% set prefer_weekday_mid  = states.sensor.prefer_weekday_lighting_mid.state %}
           {% set prefer_weekday_high = states.sensor.prefer_weekday_lighting_high.state %}
@@ -17,9 +17,9 @@ update_scene:
 
           {% set ht_lights = ["kitchen", "living_room", "tv_ambient", "rec_room_ambient"] %}
 
-          {% set mode = '_night' if is_state('input_boolean.trigger_sunset_mode', 'on') or is_state('input_boolean.trigger_night_mode', 'on') else '_day' %}
+          {% set mode = '_night' if is_state('input_boolean.mode_sunset', 'on') or is_state('input_boolean.mode_night', 'on') else '_day' %}
 
-          {% if is_state('input_boolean.trigger_home_theater_mode', 'on') %}
+          {% if is_state('input_boolean.mode_home_theater', 'on') %}
             {% if is_state('media_player.living_room_apple_tv', 'playing') %}
               {% set ht = "_ht_playing" %}
             {% else %}
@@ -29,7 +29,7 @@ update_scene:
             {% set ht = "" %}
           {% endif %}
 
-          {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+          {% if is_state('input_boolean.mode_night', 'on') %}
             {% set weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday"] %}
           {% else %}
             {% set weekday = ["monday", "tuesday", "wednesday", "thursday", "friday"] %}

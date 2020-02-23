@@ -2,7 +2,7 @@
 - alias: Notify of Guest Motion Detected
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_guest_mode
+      entity_id: input_boolean.mode_guest
       to: 'on'
   action:
     - delay: '00:00:02'
@@ -19,11 +19,11 @@
           push:
             thread-id: "ha-condo-group"
             sound: "siren.wav"
-          
+
 - alias: Notify of Guest Mode Ended
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_guest_mode
+      entity_id: input_boolean.mode_guest
       to: 'off'
   condition:
     - condition: state

@@ -8,7 +8,7 @@
 - alias: Nest Eco - Turn on Eco When Guests Leave
   trigger:
     platform: state
-    entity_id: input_boolean.trigger_guest_mode
+    entity_id: input_boolean.mode_guest
     to: 'off'
   condition:
     condition: state
@@ -43,7 +43,7 @@
       from: 'not_home'
       to: 'home'
     - platform: state
-      entity_id: input_boolean.trigger_guest_mode
+      entity_id: input_boolean.mode_guest
       to: 'on'
   condition:
     condition: and

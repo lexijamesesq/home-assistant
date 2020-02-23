@@ -4,17 +4,17 @@
 - alias: Enable Home Theater On Lighting
   trigger:
     platform: state
-    entity_id: input_boolean.trigger_home_theater_mode
+    entity_id: input_boolean.mode_home_theater
     from: 'off'
     to: 'on'
   condition:
     condition: or
     conditions:
       - condition: state
-        entity_id: input_boolean.trigger_sunset_mode
+        entity_id: input_boolean.mode_sunset
         state: 'on'
       - condition: state
-        entity_id: input_boolean.trigger_night_mode
+        entity_id: input_boolean.mode_night
         state: 'on'
   action:
     - service: script.turn_on
@@ -25,17 +25,17 @@
 - alias: Restore Home Theater Off Lighting
   trigger:
     platform: state
-    entity_id: input_boolean.trigger_home_theater_mode
+    entity_id: input_boolean.mode_home_theater
     from: 'on'
     to: 'off'
   condition:
     condition: or
     conditions:
       - condition: state
-        entity_id: input_boolean.trigger_sunset_mode
+        entity_id: input_boolean.mode_sunset
         state: 'on'
       - condition: state
-        entity_id: input_boolean.trigger_night_mode
+        entity_id: input_boolean.mode_night
         state: 'on'
   action:
     - service: script.turn_on
@@ -63,10 +63,10 @@
     condition: or
     conditions:
       - condition: state
-        entity_id: input_boolean.trigger_sunset_mode
+        entity_id: input_boolean.mode_sunset
         state: 'on'
       - condition: state
-        entity_id: input_boolean.trigger_night_mode
+        entity_id: input_boolean.mode_night
         state: 'on'
   action:
     - service: script.turn_on
@@ -95,10 +95,10 @@
     condition: or
     conditions:
       - condition: state
-        entity_id: input_boolean.trigger_sunset_mode
+        entity_id: input_boolean.mode_sunset
         state: 'on'
       - condition: state
-        entity_id: input_boolean.trigger_night_mode
+        entity_id: input_boolean.mode_night
         state: 'on'
   action:
     - service: script.turn_on

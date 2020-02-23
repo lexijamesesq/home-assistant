@@ -3,7 +3,7 @@ sequence:
   - service: scene.turn_on
     data_template:
       entity_id: >
-        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+        {% if is_state('input_boolean.mode_night', 'on') %}
           scene.main_stairs_bright_at_night
         {% else %}
           scene.main_stairs_bright
@@ -11,7 +11,7 @@ sequence:
   - service: scene.turn_on
     data_template:
       entity_id: >
-        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+        {% if is_state('input_boolean.mode_night', 'on') %}
           scene.upstairs_hallway_bright_at_night
         {% else %}
           scene.upstairs_hallway_bright
@@ -19,7 +19,7 @@ sequence:
   - service: scene.turn_on
     data_template:
       entity_id: >
-        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+        {% if is_state('input_boolean.mode_night', 'on') %}
           scene.bedroom_hallway_bright_at_night
         {% else %}
           scene.bedroom_hallway_bright

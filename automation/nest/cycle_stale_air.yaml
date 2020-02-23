@@ -25,7 +25,7 @@
         entity_id: group.residents
         state: 'not_home'
       - condition: state
-        entity_id: input_boolean.trigger_guest_mode
+        entity_id: input_boolean.mode_guest
         state: 'off'
       - condition: state
         entity_id: group.all_windows
@@ -46,7 +46,7 @@
       entity_id: group.residents
       to: 'home'
     - platform: state
-      entity_id: input_boolean.trigger_guest_mode
+      entity_id: input_boolean.mode_guest
       to: 'on'
   condition:
     condition: and

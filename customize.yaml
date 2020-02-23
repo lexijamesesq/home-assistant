@@ -188,18 +188,18 @@ input_boolean.sonos_bathroom:
   icon: mdi:speaker
 input_boolean.sonos_den:
   icon: mdi:speaker
-input_boolean.trigger_guest_mode:
+input_boolean.mode_guest:
   emulated_hue_hidden: false
   icon: mdi:human-greeting
-input_boolean.trigger_home_theater_mode:
+input_boolean.mode_home_theater:
   icon: mdi:theater
   emulated_hue_hidden: false
-input_boolean.trigger_night_mode:
+input_boolean.mode_night:
   icon: mdi:weather-night
-input_boolean.trigger_sleep_mode:
+input_boolean.mode_sleep:
   icon: mdi:sleep
   emulated_hue_hidden: false
-input_boolean.trigger_sunset_mode:
+input_boolean.mode_sunset:
   icon: mdi:weather-sunset
 input_number.bathroom_prefer_dim_after_weekday:
   icon: mdi:theme-light-dark

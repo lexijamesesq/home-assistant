@@ -4,7 +4,7 @@
 - alias: Nest Temperature Sleep Mode Started
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       to: 'on'
       for:
         minutes: 2
@@ -20,7 +20,7 @@
 - alias: Nest Temperature Sleep Mode Ended
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       to: 'off'
       for:
         minutes: 2

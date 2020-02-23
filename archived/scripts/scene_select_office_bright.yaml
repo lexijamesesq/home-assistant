@@ -3,7 +3,7 @@ sequence:
   - service: scene.turn_on
     data_template:
       entity_id: >
-        {% if is_state('input_boolean.trigger_night_mode', 'on') %}
+        {% if is_state('input_boolean.mode_night', 'on') %}
           scene.office_bright_at_night
         {% else %}
           scene.office_bright

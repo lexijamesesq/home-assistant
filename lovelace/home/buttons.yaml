@@ -1,7 +1,7 @@
 type: horizontal-stack
 cards:
   - type: "custom:button-card"
-    entity: input_boolean.trigger_guest_mode
+    entity: input_boolean.mode_guest
     show_name: false
     state:
       - value: "off"
@@ -11,7 +11,7 @@ cards:
     hold_action:
         action: none
   - type: "custom:button-card"
-    entity: input_boolean.trigger_home_theater_mode
+    entity: input_boolean.mode_home_theater
     show_name: false
     state:
       - value: "on"
@@ -23,7 +23,7 @@ cards:
     hold_action:
         action: none
   - type: "custom:button-card"
-    entity: input_boolean.trigger_sleep_mode
+    entity: input_boolean.mode_sleep
     show_name: false
     state:
       - value: "on"

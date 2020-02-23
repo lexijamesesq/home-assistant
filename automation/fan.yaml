@@ -23,7 +23,7 @@
 - alias: Bedroom Fan Speed on Weekday Morning
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       to: 'off'
       for:
         hours: 3
@@ -48,7 +48,7 @@
 - alias: Bedroom Fan Speed on Weekend Morning
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       to: 'off'
       for:
         hours: 2
@@ -81,7 +81,7 @@
 - alias: Bedroom Fan Speed Sleep Mode Started
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       to: 'on'
       for:
         minutes: 2
@@ -96,7 +96,7 @@
 - alias: Bedroom Fan Speed Sleep Mode Ended
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       to: 'off'
       for:
         minutes: 10

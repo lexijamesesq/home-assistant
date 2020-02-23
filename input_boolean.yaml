@@ -1,17 +1,17 @@
 ##############################################################
 # Modes
 ##############################################################
-trigger_sunset_mode:
+mode_sunset:
   name: Sunset Mode
-trigger_night_mode:
+mode_night:
   name: Night Mode
-trigger_guest_mode:
+mode_guest:
   name: Guest Mode
-trigger_sleep_mode:
+mode_sleep:
   name: Sleep Mode
-trigger_home_theater_mode:
+mode_home_theater:
   name: Home Theater Mode
-trigger_simulate_presence_mode:
+mode_simulate_presence:
   name: Simulate Presence Mode
 
 ##############################################################

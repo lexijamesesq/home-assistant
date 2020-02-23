@@ -4,4 +4,4 @@
 mode_turn_on_guest_mode:
   alias: Mode Turn On Guest Mode
   sequence:
-    - event: event_trigger_guest_mode
+    - event: event_trigger_mode_guest

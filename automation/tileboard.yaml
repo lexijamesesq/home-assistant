@@ -23,7 +23,7 @@
 - alias: TileBoard Turn Screen Off
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       to: 'on'
       for:
         minutes: 20
@@ -35,7 +35,7 @@
 - alias: TileBoard Turn Screen On
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       to: 'off'
   action:
     - event: tileboard
