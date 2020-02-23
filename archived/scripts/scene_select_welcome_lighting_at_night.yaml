@@ -4,7 +4,7 @@ sequence:
   - service: script.turn_off
     entity_id: script.scene_empty_home
   - service: homeassistant.turn_off
-    entity_id: input_boolean.trigger_simulate_presence_mode
+    entity_id: input_boolean.mode_simulate_presence
   - service: script.turn_off
     entity_id: script.nest_circulate_stale_air
   - service: script.turn_on

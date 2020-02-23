@@ -396,9 +396,9 @@ homekit:
       - binary_sensor.living_room_motion_sensor
       - binary_sensor.main_stairs_multisensor_sensor
       - binary_sensor.upstairs_hallway_motion_sensor
-      - input_boolean.trigger_guest_mode
-      - input_boolean.trigger_home_theater_mode
-      - input_boolean.trigger_sleep_mode
+      - input_boolean.mode_guest
+      - input_boolean.mode_home_theater
+      - input_boolean.mode_sleep
       - remote.living_room_apple_tv
     exclude_entities:
       - light.bedroom_1

@@ -20,7 +20,7 @@
             entity_id: group.residents
             state: 'home'
           - condition: state
-            entity_id: input_boolean.trigger_guest_mode
+            entity_id: input_boolean.mode_guest
             state: 'on'
       - condition: or
         conditions:
@@ -62,7 +62,7 @@
             entity_id: group.residents
             state: 'home'
           - condition: state
-            entity_id: input_boolean.trigger_guest_mode
+            entity_id: input_boolean.mode_guest
             state: 'on'
       - condition: or
         conditions:
@@ -99,7 +99,7 @@
             entity_id: group.residents
             state: 'home'
           - condition: state
-            entity_id: input_boolean.trigger_guest_mode
+            entity_id: input_boolean.mode_guest
             state: 'on'
       - condition: template
         value_template: '{{ (not is_state("climate.downstairs", "eco")) or (not is_state("climate.upstairs", "eco")) }}'
@@ -135,7 +135,7 @@
         entity_id: group.residents
         state: 'home'
       - condition: state
-        entity_id: input_boolean.trigger_guest_mode
+        entity_id: input_boolean.mode_guest
         state: 'on'
   action:
     - service: climate.set_preset_mode

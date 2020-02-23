@@ -15,13 +15,13 @@
         entity_id: group.residents
         state: 'home'
       - condition: state
-        entity_id: input_boolean.trigger_guest_mode
+        entity_id: input_boolean.mode_guest
         state: 'on'
   action:
-    - service_template: "{{ 'rest_command.notify_sonos_kitchen' if is_state('input_boolean.trigger_home_theater_mode', 'on') else 'rest_command.notify_sonos_living_room' }}"
+    - service_template: "{{ 'rest_command.notify_sonos_kitchen' if is_state('input_boolean.mode_home_theater', 'on') else 'rest_command.notify_sonos_living_room' }}"
       data_template:
         message: >-
-          {%- if is_state('input_boolean.trigger_home_theater_mode', 'on') -%}
+          {%- if is_state('input_boolean.mode_home_theater', 'on') -%}
             Excuse the interruption... Someone is at the front door.
           {%- elif is_state('sensor.sonos_group_master_state', 'playing') -%}
             Excuse the interruption... Someone is at the front door.
@@ -29,7 +29,7 @@
             Someone is at the front door.
           {%- endif %}
         volume: >-
-          {%- if is_state('input_boolean.trigger_home_theater_mode', 'on') -%}
+          {%- if is_state('input_boolean.mode_home_theater', 'on') -%}
             35
           {%- elif is_state('sensor.sonos_group_master_state', 'playing') -%}
             45
@@ -107,7 +107,7 @@
       to: 'on'
   condition:
     - condition: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       state: 'on'
   action:
     - service: rest_command.notify_sonos_bedroom

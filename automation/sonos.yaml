@@ -214,7 +214,7 @@
 - alias: Pause Sonos Speakers When HT Mode Starts
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_home_theater_mode
+      entity_id: input_boolean.mode_home_theater
       to: 'on'
   condition:
     - condition: state

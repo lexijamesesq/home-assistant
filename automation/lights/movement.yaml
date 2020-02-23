@@ -145,10 +145,10 @@
       - condition: or
         conditions:
           - condition: state
-            entity_id: input_boolean.trigger_sunset_mode
+            entity_id: input_boolean.mode_sunset
             state: 'on'
           - condition: state
-            entity_id: input_boolean.trigger_night_mode
+            entity_id: input_boolean.mode_night
             state: 'on'
           - condition: numeric_state
             entity_id: sensor.downstairs_hallway_multisensor_luminance
@@ -186,10 +186,10 @@
       - condition: or
         conditions:
           - condition: state
-            entity_id: input_boolean.trigger_sunset_mode
+            entity_id: input_boolean.mode_sunset
             state: 'on'
           - condition: state
-            entity_id: input_boolean.trigger_night_mode
+            entity_id: input_boolean.mode_night
             state: 'on'
           - condition: numeric_state
             entity_id: sensor.downstairs_hallway_multisensor_luminance
@@ -281,10 +281,10 @@
       - condition: or
         conditions:
           - condition: state
-            entity_id: input_boolean.trigger_sunset_mode
+            entity_id: input_boolean.mode_sunset
             state: 'on'
           - condition: state
-            entity_id: input_boolean.trigger_night_mode
+            entity_id: input_boolean.mode_night
             state: 'on'
           - condition: numeric_state
             entity_id: sensor.main_stairs_multisensor_luminance
@@ -349,10 +349,10 @@
       - condition: or
         conditions:
           - condition: state
-            entity_id: input_boolean.trigger_sunset_mode
+            entity_id: input_boolean.mode_sunset
             state: 'on'
           - condition: state
-            entity_id: input_boolean.trigger_night_mode
+            entity_id: input_boolean.mode_night
             state: 'on'
           - condition: numeric_state
             entity_id: sensor.den_multisensor_luminance

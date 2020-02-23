@@ -4,10 +4,10 @@
 - alias: Update Lights Before and After Sunset
   trigger:
     - platform: state
-      entity_id: input_boolean.trigger_sunset_mode
+      entity_id: input_boolean.mode_sunset
       to: 'on'
     - platform: state
-      entity_id: input_boolean.trigger_sunset_mode
+      entity_id: input_boolean.mode_sunset
       to: 'off'
   condition:
     condition: and

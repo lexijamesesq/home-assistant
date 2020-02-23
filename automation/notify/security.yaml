@@ -87,7 +87,7 @@
       to: 'on'
   condition:
     - condition: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       state: 'off'
   action:
     service: notify.mobile_app_alexs_iphone
@@ -112,7 +112,7 @@
       to: 'closed'
   condition:
     - condition: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       state: 'off'
   action:
     service: notify.mobile_app_alexs_iphone
@@ -327,7 +327,7 @@
       to: 'on'
   condition:
     - condition: state
-      entity_id: input_boolean.trigger_sleep_mode
+      entity_id: input_boolean.mode_sleep
       state: 'on'
   action:
     service: notify.mobile_app_alexs_iphone
