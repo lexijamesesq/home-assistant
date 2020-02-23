@@ -2,15 +2,19 @@ type: entities
 title: Modes
 show_header_toggle: false
 entities:
-  - entity: sensor.sunset_mode
+  - entity: sensor.mode_morning
     state_color: true
-  - entity: sensor.night_mode
+  - entity: sensor.mode_day
     state_color: true
-  - entity: sensor.guest_mode
+  - entity: sensor.mode_sunset
     state_color: true
-  - entity: sensor.home_theater_mode
+  - entity: sensor.mode_night
     state_color: true
-  - entity: sensor.sleep_mode
+  - entity: sensor.mode_guest
     state_color: true
-  - entity: sensor.simulate_presence_mode
+  - entity: sensor.mode_home_theater
+    state_color: true
+  - entity: sensor.mode_sleep
+    state_color: true
+  - entity: sensor.mode_simulate_presence
     state_color: true
