@@ -19,7 +19,7 @@
       data_template:
         variables:
           lights: >-
-            {%- if is_state('input_boolean.mode_sunset', 'on') or is_state('input_boolean.mode_night', 'on') -%}
+            {%- if is_state('input_boolean.mode_morning', 'on') or is_state('input_boolean.mode_sunset', 'on') or is_state('input_boolean.mode_night', 'on') -%}
               kitchen,living_room,rec_room_ambient,bedroom_ambient,den_cabinets
             {%- else -%}
               bedroom_ambient,rec_room_ambient
@@ -109,7 +109,7 @@
       entity_id: script.update_scene
       data:
         variables:
-          lights: 'rec_room_ambient'
+          lights: 'rec_room_ambient,den_cabinets'
 
 - alias: Sleep Mode Lights On When Patio Door Opens
   trigger:
