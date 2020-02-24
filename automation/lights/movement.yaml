@@ -145,6 +145,9 @@
       - condition: or
         conditions:
           - condition: state
+            entity_id: input_boolean.mode_morning
+            state: 'on'
+          - condition: state
             entity_id: input_boolean.mode_sunset
             state: 'on'
           - condition: state
@@ -185,6 +188,9 @@
         state: 'off'
       - condition: or
         conditions:
+          - condition: state
+            entity_id: input_boolean.mode_morning
+            state: 'on'
           - condition: state
             entity_id: input_boolean.mode_sunset
             state: 'on'
@@ -281,6 +287,9 @@
       - condition: or
         conditions:
           - condition: state
+            entity_id: input_boolean.mode_morning
+            state: 'on'
+          - condition: state
             entity_id: input_boolean.mode_sunset
             state: 'on'
           - condition: state
@@ -348,6 +357,9 @@
         state: 'off'
       - condition: or
         conditions:
+          - condition: state
+            entity_id: input_boolean.mode_morning
+            state: 'on'
           - condition: state
             entity_id: input_boolean.mode_sunset
             state: 'on'
