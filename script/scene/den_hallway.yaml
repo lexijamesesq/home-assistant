@@ -5,6 +5,24 @@
 # Direct Scenes ##############################################
 # Called from script.update_scene
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
+scene_den_hallway_morning_mid:
+  alias: Scene Den Hallway Morning Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_hallway
+      data:
+        transition: 2
+        brightness: 50
+
+scene_den_hallway_morning_low:
+  alias: Scene Den Hallway Morning Low
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_hallway
+      data:
+        transition: 2
+        brightness: 25
+
 scene_den_hallway_day_high:
   alias: Scene Den Hallway Day High
   sequence:

@@ -6,6 +6,33 @@
 # Called from script.update_scene
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 # Conditions omitted where lights change scene without changing states
+scene_rec_room_ambient_morning:
+  alias: Scene Rec Room Ambient Morning
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_ambient
+      state: 'off'
+    - service: light.turn_on
+      entity_id: light.rec_room_ambient
+
+scene_rec_room_ambient_morning_ht_on:
+  alias: Scene Rec Room Ambient Morning HT On
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_ambient
+      state: 'off'
+    - service: light.turn_on
+      entity_id: light.rec_room_ambient
+
+scene_rec_room_ambient_morning_ht_playing:
+  alias: Scene Rec Room Ambient Morning HT Playing
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_ambient
+      state: 'on'
+    - service: light.turn_off
+      entity_id: light.rec_room_ambient
+
 scene_rec_room_ambient_day:
   alias: Scene Rec Room Ambient Day
   sequence:
