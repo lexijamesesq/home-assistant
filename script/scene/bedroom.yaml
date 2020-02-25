@@ -5,6 +5,15 @@
 # Direct Scenes ##############################################
 # Called from script.update_scene
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
+scene_bedroom_ambient_morning:
+  alias: Scene Bedroom Ambient Morning
+  sequence:
+    - condition: state
+      entity_id: light.bedroom_ambient
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_ambient_lifx_mellow
+
 scene_bedroom_ambient_day:
   alias: Scene Bedroom Ambient Day
   sequence:

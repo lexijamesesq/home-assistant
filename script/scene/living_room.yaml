@@ -6,6 +6,52 @@
 # Called from script.update_scene
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 # Conditions omitted where lights change scene without changing states
+scene_living_room_morning_mid:
+  alias: Scene Living Room Morning Mid
+  sequence:
+    - service: light.turn_off
+      entity_id: light.living_room
+
+scene_living_room_morning_low:
+  alias: Scene Living Room Morning Low
+  sequence:
+    - service: light.turn_off
+      entity_id: light.living_room
+
+scene_living_room_morning_ht_on_mid:
+  alias: Scene Living Room Morning HT On Mid
+  sequence:
+    - service: light.turn_off
+      entity_id: light.living_room
+
+scene_living_room_morning_ht_on_low:
+  alias: Scene Living Room Morning HT On Low
+  sequence:
+    - service: light.turn_off
+      entity_id: light.living_room
+
+scene_living_room_morning_ht_playing_mid:
+  alias: Scene Living Room Morning HT Playing Mid
+  sequence:
+    - service: light.turn_off
+      entity_id:
+        - light.downstairs_hallway
+        - light.main_stairs
+        - light.living_room
+      data:
+        transition: 5
+
+scene_living_room_morning_ht_playing_low:
+  alias: Scene Living Room Morning HT Playing Low
+  sequence:
+    - service: light.turn_off
+      entity_id:
+        - light.downstairs_hallway
+        - light.main_stairs
+        - light.living_room
+      data:
+        transition: 5
+
 scene_living_room_day_high:
   alias: Scene Living Room Day High
   sequence:

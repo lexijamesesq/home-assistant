@@ -5,6 +5,26 @@
 # Direct Scenes ##############################################
 # Called from script.update_scene
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
+scene_den_cabinets_morning_mid:
+  alias: Scene Den Cabinets Morning Mid
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_cabinets
+      data:
+        transition: 5
+        brightness: 75
+        color_temp: 285
+
+scene_den_cabinets_morning_low:
+  alias: Scene Den Cabinets Morning Low
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_cabinets
+      data:
+        transition: 5
+        brightness: 75
+        color_temp: 285
+
 scene_den_cabinets_day_high:
   alias: Scene Den Cabinets Day High
   sequence:

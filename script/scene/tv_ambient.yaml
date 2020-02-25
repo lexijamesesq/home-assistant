@@ -6,6 +6,30 @@
 # Called from script.update_scene
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 # Conditions omitted where lights change scene without changing states
+scene_tv_ambient_morning:
+  alias: Scene TV Ambient Morning
+  sequence:
+    - condition: state
+      entity_id: light.tv_ambient
+      state: 'on'
+    - service: light.turn_off
+      entity_id: light.tv_ambient
+
+scene_tv_ambient_morning_ht_on:
+  alias: Scene TV Ambient Morning HT On
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_tv_ambient
+
+scene_tv_ambient_morning_ht_playing:
+  alias: Scene TV Ambient Morning HT Playing
+  sequence:
+    - service: light.turn_on
+      entity_id: light.tv_ambient
+      data:
+        brightness: 25
+        color_temp: 285
+
 scene_tv_ambient_day:
   alias: Scene TV Ambient Day
   sequence:
