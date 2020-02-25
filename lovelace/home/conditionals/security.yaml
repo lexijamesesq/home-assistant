@@ -1,0 +1,15 @@
+type: conditional
+conditions:
+  - entity: sensor.dashboard_home_state
+    state: "Secure"
+card:
+  type: entities
+  entities:
+    - entity: sensor.dashboard_home_state
+      name: Home
+      type: "custom:secondaryinfo-entity-row"
+      secondary_info: '[[ if(group.all_windows == "on", sensor.dashboard_open_window_count, "") ]]'
+      tap_action:
+        action: navigate
+        navigation_path: /lovelace/security
+  show_header_toggle: false

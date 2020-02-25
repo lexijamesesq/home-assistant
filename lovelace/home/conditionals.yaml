@@ -1,15 +1,6 @@
 type: vertical-stack
 cards:
-  - type: conditional
-    conditions:
-      - entity: sensor.dashboard_home_state
-        state: "Secure"
-    card:
-      type: entities
-      entities:
-        - entity: sensor.dashboard_home_state
-          name: Home
-      show_header_toggle: false
+  - !include conditionals/security.yaml
   - type: conditional
     conditions:
       - entity: binary_sensor.garage_actual
