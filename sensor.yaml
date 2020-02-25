@@ -769,17 +769,27 @@
     dashboard_home_state:
       friendly_name: Home State
       value_template: >-
-        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_smart_lock_pro_front_door.state == 'locked' and states.lock.august_smart_lock_pro_garage_door.state == 'locked' and states.group.all_doors.state == 'off' and states.group.all_windows.state == 'off' %}
+        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_smart_lock_pro_front_door.state == 'locked' and states.lock.august_smart_lock_pro_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
           Secure
         {% else %}
           Insecure
         {% endif %}
       icon_template: >-
-        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_smart_lock_pro_front_door.state == 'locked' and states.lock.august_smart_lock_pro_garage_door.state == 'locked' and states.group.all_doors.state == 'off' and states.group.all_windows.state == 'off' %}
+        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_smart_lock_pro_front_door.state == 'locked' and states.lock.august_smart_lock_pro_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
           mdi:shield-home
         {% else %}
           mdi:shield
         {% endif %}
+    dashboard_open_window_count:
+      friendly_name: Open Window Count
+      value_template: >-
+        {% set num = states.binary_sensor
+          | selectattr('entity_id', 'in', states.group.all_windows.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+        {{ num ~ " Open Window" if num == 1 else num ~ " Open Windows" }}
     dashboard_water_delivery:
       friendly_name: Water Delivery
       entity_id: sensor.time
@@ -1591,7 +1601,7 @@
           "sensor.service_status_unifi_protect"
         ] %}
 
-        {{ 'on' if states.sensors
+        {{ 'on' if states.sensor
           | selectattr('entity_id', 'in', services)
           | selectattr('state', 'eq', 'Down')
           | list
@@ -1611,7 +1621,7 @@
           "sensor.network_status_vpn3_wan",
         ] %}
 
-        {{ 'on' if states.sensors
+        {{ 'on' if states.sensor
           | selectattr('entity_id', 'in', networks)
           | selectattr('state', 'eq', 'Down')
           | list
