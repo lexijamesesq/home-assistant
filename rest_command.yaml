@@ -29,4 +29,3 @@ docker_restart_plex:
 ##############################################################
 things_add_task:
   url: !secret things_add_task
-  method: POST
