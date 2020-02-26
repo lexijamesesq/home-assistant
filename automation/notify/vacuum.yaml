@@ -4,7 +4,11 @@
 # Add task to empty dust bin
 - alias: Things Add Task to Empty Dust Bin - Amelia
   trigger:
-    - platform: template
+    - platform: state
+      entity_id: vacuum.amelia
+      to: 'error'
+  condition:
+    - condition: template
       value_template: "{{ is_state_attr('vacuum.amelia', 'status', 'Dust bin full') }}"
   action:
     - service_template: rest_command.things_add_task
@@ -14,7 +18,11 @@
         list: "Maintenance"
 - alias: Things Add Task to Empty Dust Bin - Rory
   trigger:
-    - platform: template
+    - platform: state
+      entity_id: vacuum.rory
+      to: 'error'
+  condition:
+    - condition: template
       value_template: "{{ is_state_attr('vacuum.rory', 'status', 'Dust bin full') }}"
   action:
     - service_template: rest_command.things_add_task
