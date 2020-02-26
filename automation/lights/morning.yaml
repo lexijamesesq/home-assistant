@@ -40,6 +40,8 @@
     - platform: state
       entity_id: input_boolean.mode_morning
       to: 'off'
+      for:
+        minutes: 5
   condition:
     condition: and
     conditions:
@@ -59,3 +61,4 @@
       entity_id:
         - light.kitchen
         - light.living_room
+        - light.den_cabinets
