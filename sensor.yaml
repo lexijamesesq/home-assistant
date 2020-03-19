@@ -253,13 +253,13 @@
 
     battery_august_front_door_keypad:
       friendly_name: 'August - Front Door'
-      entity_id: sensor.front_door_keypad_battery
+      entity_id: sensor.august_web_front_door_keypad_battery
       unit_of_measurement: '%'
       value_template: >
-        {{ states.sensor.front_door_keypad_battery.state }}
+        {{ states.sensor.august_web_front_door_keypad_battery.state }}
       icon_template: >
-        {% if states.sensor.front_door_keypad_battery.state is defined %}
-          {% set level = states.sensor.front_door_keypad_battery.state %}
+        {% if states.sensor.august_web_front_door_keypad_battery.state is defined %}
+          {% set level = states.sensor.august_web_front_door_keypad_battery.state %}
           {% if level | float == 100 %}
             mdi:battery
           {% elif level | float < 10 %}
