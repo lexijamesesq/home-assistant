@@ -31,6 +31,18 @@
     entity_id: input_boolean.mode_home_theater
     from: 'on'
     to: 'off'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_boolean.mode_morning
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.mode_sunset
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.mode_night
+        state: 'on'
   action:
     - service: script.turn_on
       entity_id: script.update_scene
