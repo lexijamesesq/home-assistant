@@ -6,6 +6,8 @@ entities:
     label: Locks
   - entity: sensor.battery_august_front_door
     name: Front Door
+  - entity: sensor.battery_august_front_door_keypad
+    name: Front Door Keypad
   - entity: sensor.battery_august_garage_door
     name: Garage Door
   - type: section
