@@ -175,6 +175,12 @@ dyson:
       device_ip: !secret dyson_device_ip
 
 
+august:
+  login_method: !secret august_login_method
+  username: !secret august_username
+  password: !secret august_password
+
+
 neato:
   username: !secret neato_username
   password: !secret neato_password
