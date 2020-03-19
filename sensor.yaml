@@ -252,7 +252,7 @@
         {% endif %}
 
     battery_august_front_door_keypad:
-      friendly_name: 'August - Front Door'
+      friendly_name: 'August - Front Door Keypad'
       entity_id: sensor.august_web_front_door_keypad_battery
       unit_of_measurement: '%'
       value_template: >
@@ -272,7 +272,7 @@
           mdi:battery-alert
         {% endif %}
     dashboard_battery_august_front_door_keypad:
-      friendly_name: 'August - Front Door'
+      friendly_name: 'August - Front Door Keypad'
       entity_id: sensor.battery_august_front_door_keypad
       value_template: >-
         {% if states.battery_august_front_door_keypad.state | int <= 50 %}
