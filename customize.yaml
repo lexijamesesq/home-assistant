@@ -140,6 +140,7 @@ sensor.dark_sky_humidity:
   friendly_name: Humidity
 sensor.dark_sky_precip_probability:
   friendly_name: Chance of Rain
+  icon: mdi:weather-pouring
 sensor.golden_hour:
   icon: mdi:weather-sunset
 sensor.data_plan:
