@@ -8,6 +8,9 @@
       entity_id: sensor.battery_august_front_door
       below: 50
     - platform: numeric_state
+      entity_id: sensor.battery_august_front_door_keypad
+      below: 50
+    - platform: numeric_state
       entity_id: sensor.battery_august_front_door
       below: 50
     - platform: numeric_state
