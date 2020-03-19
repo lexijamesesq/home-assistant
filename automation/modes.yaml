@@ -75,6 +75,7 @@
   trigger:
     - platform: state
       entity_id:
+        - binary_sensor.garage_actual
         - binary_sensor.garage_door
         - binary_sensor.front_door
       to: 'on'
