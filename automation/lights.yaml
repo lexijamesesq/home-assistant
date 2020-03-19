@@ -33,7 +33,7 @@
       entity_id: group.residents
       to: 'not_home'
       for:
-        minutes: 3
+        minutes: 4
     - platform: state
       entity_id: input_boolean.mode_guest
       to: 'off'
