@@ -99,6 +99,33 @@
           thread-id: "ha-condo-group"
           sound: "gamelan.wav"
 
+# Lock Notifications #########################################
+- alias: Notify Security - Front Door Locked or Unlocked
+  trigger:
+    - platform: state
+      entity_id:  lock.august_web_front_door
+      from: 'locked'
+      to: 'unlocked'
+    - platform: state
+      entity_id:  lock.august_web_front_door
+      from: 'unlocked'
+      to: 'locked'
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data_template:
+      title: "Condo"
+      message: >-
+        {% if is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual Lock') %}
+          {% set message = 'manually ' ~ states('lock.august_web_front_door') %}
+        {% else %}
+          {% set message = states('lock.august_web_front_door') ~ ' by ' ~ state_attr('lock.august_web_front_door', 'changed_by') %}
+        {% endif %}
+        The front door was {{ message }}.
+      data:
+        push:
+          thread-id: "ha-condo-group"
+          sound: "gamelan.wav"
+
 # Garage Notifications #######################################
 - alias: Notify Security - Garage Actual Opened or Closed
   trigger:
@@ -340,4 +367,3 @@
           sound: "siren.wav"
           critical: 1
           volume: 1.0
-
