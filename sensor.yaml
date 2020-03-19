@@ -251,6 +251,36 @@
           off
         {% endif %}
 
+    battery_august_front_door_keypad:
+      friendly_name: 'August - Front Door'
+      entity_id: sensor.front_door_keypad_battery
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.sensor.front_door_keypad_battery.state }}
+      icon_template: >
+        {% if states.sensor.front_door_keypad_battery.state is defined %}
+          {% set level = states.sensor.front_door_keypad_battery.state %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_august_front_door_keypad:
+      friendly_name: 'August - Front Door'
+      entity_id: sensor.battery_august_front_door_keypad
+      value_template: >-
+        {% if states.battery_august_front_door_keypad.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
     battery_august_garage_door:
       friendly_name: 'August - Garage Door'
       entity_id: zwave.august_smart_lock_pro_garage_door
