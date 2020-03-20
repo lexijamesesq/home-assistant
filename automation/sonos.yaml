@@ -139,6 +139,7 @@
           {% elif "media_player.sonos_bedroom" in master%}Bedroom
           {% elif "media_player.sonos_bathroom" in master%}Bathroom
           {% elif "media_player.sonos_den" in master%}Den
+          {% elif "media_player.sonos_move" in master%}Move
           {% endif %}
 
 # Sync Input Booleans to Speaker Status ######################
@@ -184,6 +185,8 @@
       entity_id: input_boolean.sonos_living_room
     - platform: state
       entity_id: input_boolean.sonos_rec_room
+    - platform: state
+      entity_id: input_boolean.sonos_move
   condition:
     condition: template
     value_template: >-

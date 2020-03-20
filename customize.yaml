@@ -402,3 +402,5 @@ sensor.cox_data_usage:
   icon: mdi:elevator
 sensor.dashboard_outside_temperature:
   icon: mdi:thermometer
+input_boolean.sonos_move:
+  icon: mdi:speaker

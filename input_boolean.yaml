@@ -89,6 +89,8 @@ sonos_bathroom:
   name: Bathroom
 sonos_den:
   name: Den
+sonos_move:
+  name: Move
 
 ##############################################################
 # Color Loops
