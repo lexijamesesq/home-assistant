@@ -1231,6 +1231,19 @@
         {% else %}
           off
         {% endif %}
+    device_tracker_garage_actual_recently_closed:
+      friendly_name: Garage - Recently Closed
+      entity_id: sensor.time
+      value_template: >-
+        {% if states('sensor.uptime') | int > 5 %}
+          {% if is_state('binary_sensor.garage_actual', 'off') and as_timestamp(now()) < (as_timestamp(states.binary_sensor.garage_actual.last_changed) + (60 * 5)) %}
+            on
+          {% else %}
+            off
+          {% endif %}
+        {% else %}
+          off
+        {% endif %}
 - platform: google_geocode
   name: Octavia
   origin: device_tracker.octavia
