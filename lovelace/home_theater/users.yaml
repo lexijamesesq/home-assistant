@@ -29,6 +29,9 @@ card:
     - entity: sensor.tautulli_user8
       type: "custom:secondaryinfo-entity-row"
       secondary_info: '[[ if(sensor.tautulli_user8_playing != "off", sensor.tautulli_user8_playing, "Nothing playing") ]]'
+    - entity: sensor.tautulli_user9
+      type: "custom:secondaryinfo-entity-row"
+      secondary_info: '[[ if(sensor.tautulli_user9_playing != "off", sensor.tautulli_user9_playing, "Nothing playing") ]]'
   state_filter:
     - "Playing"
     - "Paused"
