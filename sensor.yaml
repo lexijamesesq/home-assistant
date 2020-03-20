@@ -1002,7 +1002,9 @@
         {% endif %}
     alexa_next_alarm:
       friendly_name: Alexa Next Alarm
-      entity_id: sensor.time
+      entity_id:
+        - sensor.time
+        - sensor.bedroom_sonos_one_next_alarm
       value_template: >-
         {% set alarmset = not is_state("sensor.bedroom_sonos_one_next_alarm", "") or not is_state("sensor.bedroom_sonos_one_next_alarm", none) %}
         {% if alarmset %}
@@ -1049,6 +1051,7 @@
         - media_player.sonos_bedroom
         - media_player.sonos_bathroom
         - media_player.sonos_den
+        - media_player.sonos_move
       value_template: >-
         {%- for player in states.media_player if player.attributes.sonos_group and player.state == 'playing' and player.attributes.sonos_group[0] == player.entity_id %}
           {% if loop.last %}
@@ -1067,6 +1070,7 @@
         - media_player.sonos_bedroom
         - media_player.sonos_bathroom
         - media_player.sonos_den
+        - media_player.sonos_move
       value_template: >-
         {% set master = states.sensor.sonos_group_master.state %}
         {%- if is_state(master, "playing") %}
@@ -1083,7 +1087,8 @@
         - input_boolean.sonos_rec_room
         - input_boolean.sonos_bedroom
         - input_boolean.sonos_bathroom
-        - input_boolean.sonos_den
+        - media_player.sonos_den
+        - media_player.sonos_move
       value_template: >-
         {% set master = states.sensor.sonos_group_master.state %}
         {% for switch in states.input_boolean if "sonos" in switch.entity_id and switch.state == "on" and switch.entity_id|replace("input_boolean", "media_player") != master -%}
@@ -1114,6 +1119,7 @@
         - media_player.sonos_bedroom
         - media_player.sonos_bathroom
         - media_player.sonos_den
+        - media_player.sonos_move
       value_template: >-
         {% set master = 'media_player.sonos_'+ states.input_select.master_sonos.state|lower|replace(" ", "_") %}
         {%- for player in states.media_player if player.attributes.sonos_group and player.entity_id == master %}
@@ -1132,6 +1138,74 @@
             ,
           {%- endif -%}
         {%- endfor %}
+
+
+# Sonos Volume Sensors
+- platform: template
+  sensors:
+    sonos_kitchen_volume:
+      friendly_name: Sonos Kitchen Volume
+      entity_id: media_player.sonos_kitchen
+      value_template: >-
+        {%- if state_attr('media_player.sonos_kitchen', 'volume_level') is defined -%}
+          {{ (state_attr('media_player.sonos_kitchen', 'volume_level') * 100) | int ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+    sonos_living_room_volume:
+      friendly_name: Sonos Living Room Volume
+      entity_id: media_player.sonos_living_room
+      value_template: >-
+        {%- if state_attr('media_player.sonos_living_room', 'volume_level') is defined -%}
+          {{ (state_attr('media_player.sonos_living_room', 'volume_level') * 100) | int ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+    sonos_rec_room_volume:
+      friendly_name: Sonos Rec Room Volume
+      entity_id: media_player.sonos_rec_room
+      value_template: >-
+        {%- if state_attr('media_player.sonos_rec_room', 'volume_level') is defined -%}
+          {{ (state_attr('media_player.sonos_rec_room', 'volume_level') * 100) | int ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+    sonos_bedroom_volume:
+      friendly_name: Sonos Bedroom Volume
+      entity_id: media_player.sonos_bedroom
+      value_template: >-
+        {%- if state_attr('media_player.sonos_bedroom', 'volume_level') is defined -%}
+          {{ (state_attr('media_player.sonos_bedroom', 'volume_level') * 100) | int ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+    sonos_bathroom_volume:
+      friendly_name: Sonos Bathroom Volume
+      entity_id: media_player.sonos_bathroom
+      value_template: >-
+        {%- if state_attr('media_player.sonos_bathroom', 'volume_level') is defined -%}
+          {{ (state_attr('media_player.sonos_bathroom', 'volume_level') * 100) | int ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+    sonos_den_volume:
+      friendly_name: Sonos Den Volume
+      entity_id: media_player.sonos_den
+      value_template: >-
+        {%- if state_attr('media_player.sonos_den', 'volume_level') is defined -%}
+          {{ (state_attr('media_player.sonos_den', 'volume_level') * 100) | int ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+    sonos_move_volume:
+      friendly_name: Sonos Move Volume
+      entity_id: media_player.sonos_move
+      value_template: >-
+        {%- if state_attr('media_player.sonos_move', 'volume_level') is defined -%}
+          {{ (state_attr('media_player.sonos_move', 'volume_level') * 100) | int ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
 
 
 # Preferred Lighting Time Sensors

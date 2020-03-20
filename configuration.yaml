@@ -159,7 +159,7 @@ sonos:
       - !secret media_player_sonos_amp_living_room
       - !secret media_player_sonos_amp_rec_room
       - !secret media_player_sonos_one_den
-      - !secret media_player_sonos_boost
+      - !secret media_player_sonos_move
 
 dyson:
   username: !secret dyson_username

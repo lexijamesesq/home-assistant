@@ -9,6 +9,7 @@ sonos_group_morning_settings:
         - media_player.sonos_bedroom
         - media_player.sonos_bathroom
         - media_player.sonos_den
+        - media_player.sonos_move
     - service: sonos.unjoin
       entity_id:
         - media_player.sonos_living_room
@@ -30,3 +31,8 @@ sonos_group_morning_settings:
         - media_player.sonos_den
       data:
         volume_level: 0.20
+    - service: media_player.volume_set
+      entity_id:
+        - media_player.sonos_move
+      data:
+        volume_level: 0.12
