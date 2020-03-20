@@ -112,7 +112,7 @@ cards:
         secondary_info: 'Volume: [[ sensor.sonos_bedroom_volume ]]'
       - entity: input_boolean.sonos_bathroom
         type: "custom:secondaryinfo-entity-row"
-        secondary_info: 'Volume: [[ sensor.sonos_bathrom_volume ]]'
+        secondary_info: 'Volume: [[ sensor.sonos_bathroom_volume ]]'
       - entity: input_boolean.sonos_den
         type: "custom:secondaryinfo-entity-row"
         secondary_info: 'Volume: [[ sensor.sonos_den_volume ]]'
