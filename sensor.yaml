@@ -1463,13 +1463,13 @@
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user8")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user8")).full_title }}'
     # Tautulli User 9
-    tautulli_user8:
+    tautulli_user9:
       friendly_name: !secret tautulli_user9_friendly_name
       entity_id:
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity | title }}'
       entity_picture_template: !secret tautulli_user9_picture
-    tautulli_user8_playing:
+    tautulli_user9_playing:
       friendly_name: !secret tautulli_user9_friendly_name_playing
       entity_id:
         - sensor.tautulli
