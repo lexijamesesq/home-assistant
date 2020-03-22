@@ -120,7 +120,7 @@
         {% else %}
           {% set message = states('lock.august_web_front_door') ~ ' by ' ~ state_attr('lock.august_web_front_door', 'changed_by') %}
         {% endif %}
-        The front door was {{ message }}.
+        The Front Door was {{ message }}.
       data:
         push:
           thread-id: "ha-condo-group"
