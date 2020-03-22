@@ -21,9 +21,9 @@ residents:
 simulate_presence_scenes:
   name: Simulate Presence Scenes
   entities:
-    - scene.den_hallway_night_mid
-    - scene.kitchen_night_mid
-    - scene.living_room_night_mid
+    - script.den_hallway_night_mid
+    - script.kitchen_night_mid
+    - script.living_room_night_mid
 
 
 ##############################################################
