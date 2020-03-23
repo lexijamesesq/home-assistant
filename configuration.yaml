@@ -249,6 +249,11 @@ light:
     entities:
       - light.den_cabinet_1
       - light.den_cabinet_2
+  - platform: group
+    name: Den Lights
+    entities:
+      - light.den_1
+      - light.den_2
   - platform: switch
     name: Garage Lights
     entity_id: switch.garage_lights
