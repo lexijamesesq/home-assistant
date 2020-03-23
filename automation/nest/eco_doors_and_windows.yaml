@@ -34,10 +34,6 @@
       data:
         entity_id: climate.downstairs
         preset_mode: 'eco'
-    - service: climate.set_hvac_mode
-      data:
-        entity_id: climate.downstairs
-        hvac_mode: 'auto'
 
 
 ##############################################################
@@ -101,8 +97,6 @@
           - condition: state
             entity_id: input_boolean.mode_guest
             state: 'on'
-      - condition: template
-        value_template: '{{ (not is_state("climate.downstairs", "eco")) or (not is_state("climate.upstairs", "eco")) }}'
       - condition: or
         conditions:
           - condition: template
@@ -154,4 +148,3 @@
       data_template:
         entity_id: climate.upstairs
         hvac_mode: '{{ states("sensor.climate_upstairs_restore_mode") }}'
-        
