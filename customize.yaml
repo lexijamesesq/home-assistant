@@ -366,6 +366,9 @@ light.den_cabinets:
   emulated_hue_hidden: false
 light.den_hallway:
   emulated_hue_hidden: false
+light.den_lights:
+  emulated_hue_hidden: false
+  hidden: false
 light.downstairs_hallway:
   emulated_hue_hidden: false
 light.garage_lights:

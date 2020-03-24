@@ -1,0 +1,168 @@
+##############################################################
+# Den Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_scene
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+scene_den_morning_mid:
+  alias: Scene Den Morning Mid
+  sequence:
+    - condition: state
+      entity_id: light.den_lights
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_pink_blue
+
+scene_den_morning_low:
+  alias: Scene Den Morning Low
+  sequence:
+    - condition: state
+      entity_id: light.den_lights
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_pink_blue
+
+scene_den_day_high:
+  alias: Scene Den Day High
+  sequence:
+    - condition: state
+      entity_id: light.den_lights
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_pink_blue
+
+scene_den_day_mid:
+  alias: Scene Den Day Mid
+  sequence:
+    - condition: state
+      entity_id: light.den_lights
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_pink_blue
+
+scene_den_night_high:
+  alias: Scene Den Night High
+  sequence:
+    - condition: state
+      entity_id: light.den_lights
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_pink_blue
+
+scene_den_night_mid:
+  alias: Scene Den Night Mid
+  sequence:
+    - condition: state
+      entity_id: light.den_lights
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_pink_blue
+
+scene_den_night_low:
+  alias: Scene Den Night Low
+  sequence:
+    - condition: state
+      entity_id: light.den_lights
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_pink_blue
+
+# Indirect Scenes ############################################
+scene_den_pink_blue:
+  alias: Scene Den Pink & Blue
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_1
+      data:
+        transition: 2
+        brightness: 188
+        rgb_color: [254,0,255]
+    - service: light.turn_on
+      entity_id: light.den_2
+      data:
+        transition: 2
+        brightness: 188
+        rgb_color: [33,0,255]
+
+
+##############################################################
+# Den Cabinets Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_scene
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+scene_den_cabinets_morning_mid:
+  alias: Scene Den Cabinets Morning Mid
+  sequence:
+    - condition: state
+      entity_id: light.den_cabinets
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_cabinets_neutral
+
+scene_den_cabinets_morning_low:
+  alias: Scene Den Cabinets Morning Low
+  sequence:
+    - condition: state
+      entity_id: light.den_cabinets
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_cabinets_neutral
+
+scene_den_cabinets_day_high:
+  alias: Scene Den Cabinets Day High
+  sequence:
+    - condition: state
+      entity_id: light.den_cabinets
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_cabinets_neutral
+
+scene_den_cabinets_day_mid:
+  alias: Scene Den Cabinets Day Mid
+  sequence:
+    - condition: state
+      entity_id: light.den_cabinets
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_cabinets_neutral
+
+scene_den_cabinets_night_high:
+  alias: Scene Den Cabinets Night High
+  sequence:
+    - condition: state
+      entity_id: light.den_cabinets
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_cabinets_neutral
+
+scene_den_cabinets_night_mid:
+  alias: Scene Den Cabinets Night Mid
+  sequence:
+    - condition: state
+      entity_id: light.den_cabinets
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_cabinets_neutral
+
+scene_den_cabinets_night_low:
+  alias: Scene Den Cabinets Night Low
+  sequence:
+    - condition: state
+      entity_id: light.den_cabinets
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_den_cabinets_neutral
+
+# Indirect Scenes ############################################
+scene_den_cabinets_neutral:
+  alias: Scene Den Pink & Blue
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_cabinets
+      data:
+        transition: 5
+        brightness: 75
+        color_temp: 285

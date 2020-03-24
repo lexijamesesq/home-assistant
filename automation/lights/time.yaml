@@ -20,7 +20,7 @@
       entity_id: script.update_scene
       data:
         variables:
-          lights: 'kitchen,living_room,tv_ambient,den_cabinets'
+          lights: 'kitchen,living_room,tv_ambient,den,den_cabinets'
 
 
 ##############################################################
@@ -62,7 +62,7 @@
       data_template:
         variables:
           lights: >
-            {% set lights = ["kitchen","living_room","tv_ambient","den_cabinets"] %}
+            {% set lights = ["kitchen","living_room","tv_ambient","den","den_cabinets"] %}
 
             {% for light in lights if is_state('light.'~light, 'on') -%}
                 {{ light }}

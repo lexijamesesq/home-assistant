@@ -20,9 +20,9 @@
         variables:
           lights: >-
             {%- if is_state('input_boolean.mode_morning', 'on') or is_state('input_boolean.mode_sunset', 'on') or is_state('input_boolean.mode_night', 'on') -%}
-              kitchen,living_room,rec_room_ambient,bedroom_ambient,den_cabinets
+              kitchen,living_room,rec_room_ambient,bedroom_ambient,den,den_cabinets
             {%- else -%}
-              bedroom_ambient,rec_room_ambient
+              bedroom_ambient,den,rec_room_ambient
             {%- endif %}
 
 # Empty Home Lighting ########################################
@@ -87,10 +87,11 @@
       entity_id: input_boolean.mode_sleep
       to: 'on'
       for:
-        minutes: 2
+        minutes: 5
   action:
     - service: light.turn_off
       entity_id:
+        - light.den_lights
         - light.den_cabinets
 
 - alias: Sleep Mode Ended Update Lights
@@ -99,7 +100,7 @@
       entity_id: input_boolean.mode_sleep
       to: 'off'
       for:
-        minutes: 2
+        minutes: 5
   condition:
     - condition: state
       entity_id: group.residents
@@ -109,7 +110,7 @@
       entity_id: script.update_scene
       data:
         variables:
-          lights: 'rec_room_ambient,den_cabinets'
+          lights: 'rec_room_ambient,den,den_cabinets'
 
 - alias: Sleep Mode Lights On When Patio Door Opens
   trigger:
