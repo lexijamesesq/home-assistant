@@ -2,7 +2,7 @@
 # Morning
 ##############################################################
 # Triggers downstairs lights when waking up before sunrise
-- alias: Downstairs Lights in the Morning - Turn On When Motion
+- alias: Morning Lighting - Turn On When Motion
   trigger:
     - platform: state
       entity_id: input_boolean.motion_living_room
@@ -15,8 +15,9 @@
         state: 'home'
       - condition: time
         after: '05:00:00'
-      - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states("sensor.suncalc_sunriseend") | timestamp_custom("%H:%M") }}'
+      - condition: state
+        entity_id: input_boolean.mode_morning
+        state: 'on'
       - condition: state
         entity_id: input_boolean.motion_upstairs_hallway
         state: 'on'
@@ -28,13 +29,19 @@
           - condition: state
             entity_id: light.rec_room_ambient
             state: 'off'
+          - condition: state
+            entity_id: light.den_lights
+            state: 'off'
+          - condition: state
+            entity_id: light.den_cabinets
+            state: 'off'
   action:
-    - service: light.turn_on
-      entity_id: light.kitchen
+    - service: script.turn_on
+      entity_id: script.update_scene
       data:
-        brightness: 3
-    - service: light.turn_on
-      entity_id: light.rec_room_ambient
+        variables:
+          lights: 'kitchen,rec_room_ambient,den,den_cabinets'
+
 - alias: Downstairs Lights in the Morning - Turn Off at Sunrise
   trigger:
     - platform: state
@@ -54,7 +61,10 @@
             entity_id: light.kitchen
             state: 'on'
           - condition: state
-            entity_id: light.rec_room_ambient
+            entity_id: light.living_room
+            state: 'on'
+          - condition: state
+            entity_id: light.den_cabinets
             state: 'on'
   action:
     - service: light.turn_off

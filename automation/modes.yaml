@@ -13,7 +13,7 @@
 - alias: End Morning Mode
   trigger:
     platform: template
-    value_template: '{{ is_state("sensor.suncalc_sunriseend", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
+    value_template: '{{ is_state("sensor.suncalc_goldenhourend", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.mode_morning
@@ -22,7 +22,7 @@
 - alias: Start Day Mode
   trigger:
     platform: template
-    value_template: '{{ is_state("sensor.suncalc_sunriseend", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
+    value_template: '{{ is_state("sensor.suncalc_goldenhourend", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.mode_day

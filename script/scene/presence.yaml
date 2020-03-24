@@ -24,5 +24,6 @@ scene_empty_home:
         - light.bedroom_closet_lights
         - light.laundry_lights
         - light.den_hallway
+        - light.den_lights
         - light.den_cabinets
         - light.guest_bedroom_closet_lights
