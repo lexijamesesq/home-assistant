@@ -61,6 +61,8 @@ entities:
     name: Laundry
   - entity: light.den_hallway
     name: Den Hallway
+  - entity: light.den_lights
+    name: Den
   - entity: light.den_cabinets
     name: Den Cabinets
   - entity: light.guest_bedroom_closet_lights
