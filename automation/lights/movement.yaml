@@ -346,9 +346,6 @@
     - platform: state
       entity_id: input_boolean.motion_den_hallway
       to: 'on'
-    - platform: state
-      entity_id: input_boolean.motion_den
-      to: 'on'
   condition:
     condition: and
     conditions:
@@ -385,22 +382,12 @@
       to: 'off'
       for:
         seconds: 5
-    - platform: state
-      entity_id: input_boolean.motion_den
-      to: 'off'
-      for:
-        minutes: 10
   condition:
     condition: and
     conditions:
       - condition: state
         entity_id: input_boolean.motion_den_hallway
         state: 'off'
-      - condition: state
-        entity_id: input_boolean.motion_den_hallway
-        state: 'off'
-      - condition: template
-        value_template: '{{ (as_timestamp(states.input_boolean.motion_den.last_changed)) | int >= (10 * 60) | int }}'
       - condition: state
         entity_id: input_boolean.motion_trigger_den_hallway_lights
         state: 'on'
