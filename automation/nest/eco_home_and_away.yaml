@@ -15,6 +15,12 @@
     entity_id: group.residents
     state: 'not_home'
   action:
+    - service: climate.set_hvac_mode
+      data:
+        entity_id:
+          - climate.downstairs
+          - climate.upstairs
+        hvac_mode: 'auto'
     - service: climate.set_preset_mode
       data:
         entity_id:

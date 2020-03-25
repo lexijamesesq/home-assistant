@@ -30,11 +30,14 @@
           - condition: template
             value_template: '{{ is_state("group.all_windows", "on") and (as_timestamp(now()) < (as_timestamp(states.group.all_windows.last_changed) + 300)) }}'
   action:
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.downstairs
+        hvac_mode: 'auto'
     - service: climate.set_preset_mode
       data:
         entity_id: climate.downstairs
         preset_mode: 'eco'
-
 
 ##############################################################
 # Upstairs Windows
@@ -68,6 +71,10 @@
           - condition: template
             value_template: '{{ is_state("group.all_windows", "on") and (as_timestamp(now()) < (as_timestamp(states.group.all_windows.last_changed) + 300)) }}'
   action:
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.upstairs
+        hvac_mode: 'auto'
     - service: climate.set_preset_mode
       data:
         entity_id: climate.upstairs
@@ -104,6 +111,12 @@
           - condition: template
             value_template: '{{ state_attr("climate.upstairs", "preset_mode") | lower != "away and eco" and state_attr("climate.upstairs", "preset_mode") | lower != "eco" }}'
   action:
+    - service: climate.set_hvac_mode
+      data:
+        entity_id:
+          - climate.downstairs
+          - climate.upstairs
+        hvac_mode: 'auto'
     - service: climate.set_preset_mode
       data:
         entity_id:
