@@ -76,13 +76,13 @@ scene_den_pink_blue:
       entity_id: light.den_1
       data:
         transition: 2
-        brightness: 188
-        rgb_color: [254,0,255]
+        brightness: 206
+        rgb_color: [255,0,185]
     - service: light.turn_on
       entity_id: light.den_2
       data:
         transition: 2
-        brightness: 188
+        brightness: 206
         rgb_color: [33,0,255]
 
 scene_den_neutral_low:
