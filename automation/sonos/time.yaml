@@ -53,7 +53,7 @@
               - fri
           - condition: time
             after: '03:00:00'
-            before: '12:00:00'
+            before: '11:00:00'
             weekday:
               - sat
               - sun
