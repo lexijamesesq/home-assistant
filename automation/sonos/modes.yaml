@@ -1,0 +1,17 @@
+##############################################################
+# Mode Events
+##############################################################
+# Home Theater Mode ##########################################
+- alias: Pause Sonos Speakers When HT Mode Starts
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_home_theater
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: sensor.sonos_group_master_state
+      state: 'playing'
+  action:
+    - service: media_player.media_pause
+      data_template:
+        entity_id: '{{ states.sensor.sonos_group_master.state }}'
