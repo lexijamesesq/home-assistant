@@ -1765,8 +1765,11 @@
   file_path: /config/json/cox_usage.json
   value_template: >
     {% if value_json is defined %}
-      {{ value_json.lpInternetSubscribed }}
-    {% else %}
+      {% if value_json.visitorLoginStatus == 'loggedin' %}
+        {{ value_json.lpInternetSubscribed }}
+      {% else %}
+        Update Error
+      {% endif %}
       undefined
     {% endif %}
 
@@ -1775,14 +1778,18 @@
   file_path: /config/json/cox_usage.json
   value_template: >
     {% if value_json is defined %}
-      {% if value_json.dumUsage | int == 0 and value_json.dumLimit | int == 0 and value_json.dumUtilization | int == 0 %}
-        unavailable
+      {% if value_json.visitorLoginStatus == 'loggedin' %}
+        {% if value_json.dumUsage | int == 0 and value_json.dumLimit | int == 0 and value_json.dumUtilization | int == 0 %}
+          {{ sensor.cox_data_usage }}
+        {% else %}
+          {{ value_json.dumUtilization | int }}
+        {% endif %}
       {% else %}
-        {{ value_json.dumUtilization | int }} %
+        unknown
       {% endif %}
-    {% else %}
       undefined
     {% endif %}
+  unit_of_measurement: '%'
 
 - platform: file
   name: Cox Data Usage - Long
@@ -1803,14 +1810,18 @@
   file_path: /config/json/cox_usage.json
   value_template: >
     {% if value_json is defined %}
-      {% if value_json.dumDaysLeft is defined %}
-        {{ value_json.dumDaysLeft | int }} days
+      {% if value_json.visitorLoginStatus == 'loggedin' %}
+        {% if value_json.dumDaysLeft is defined %}
+          {{ value_json.dumDaysLeft | int }} days
+        {% else %}
+          {{ sensor.cox_data_resets }}
+      {% endif %}
       {% else %}
         unknown
-    {% endif %}
-    {% else %}
+      {% endif %}
       undefined
     {% endif %}
+  unit_of_measurement: 'days'
 
 
 # suncalc data sensors
