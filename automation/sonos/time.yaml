@@ -98,8 +98,8 @@
 - alias: Sonos Group Restore Default Settings - Weekend
   trigger:
     platform: time
-    # Military time format. This trigger will fire at 12:00 PM
-    at: '12:00:00'
+    # Military time format. This trigger will fire at 11:00 PM
+    at: '11:00:00'
   condition:
     condition: time
     weekday:
@@ -108,3 +108,34 @@
   action:
     - service: script.turn_on
       entity_id: script.sonos_group_default_settings
+
+- alias: Sonos Group Restore Night Settings - Weekday
+  trigger:
+    platform: time
+    # Military time format. This trigger will fire at 9:00 PM
+    at: '21:00:00'
+  condition:
+    condition: time
+    weekday:
+      - sun
+      - mon
+      - tue
+      - wed
+      - thu
+  action:
+    - service: script.turn_on
+      entity_id: script.sonos_group_night_settings
+
+- alias: Sonos Group Restore Night Settings - Weekend
+  trigger:
+    platform: time
+    # Military time format. This trigger will fire at 10:00 PM
+    at: '22:00:00'
+  condition:
+    condition: time
+    weekday:
+      - fri
+      - sat
+  action:
+    - service: script.turn_on
+      entity_id: script.sonos_group_night_settings
