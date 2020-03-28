@@ -424,16 +424,9 @@ homekit:
       - input_boolean.mode_sleep
       - remote.living_room_apple_tv
     exclude_entities:
-      - light.bedroom_1
-      - light.bedroom_2
-      - light.den_cabinet_1
-      - light.den_cabinet_2
+      - light.den_lights
       - light.den_cabinets
-      - light.living_room_1
       - light.main_stairs_and_upstairs_hallway
-      - light.tv_ambient
-      - light.bedroom_ambient
-      - light.rec_room_ambient
 
 
 ios:

@@ -12,7 +12,7 @@ scene_den_morning_mid:
       entity_id: light.den_lights
       state: 'off'
     - service: script.turn_on
-      entity_id: script.scene_den_pink_blue
+      entity_id: script.scene_den_neutral_low
 
 scene_den_morning_low:
   alias: Scene Den Morning Low
@@ -21,7 +21,7 @@ scene_den_morning_low:
       entity_id: light.den_lights
       state: 'off'
     - service: script.turn_on
-      entity_id: script.scene_den_pink_blue
+      entity_id: script.scene_den_neutral_low
 
 scene_den_day_high:
   alias: Scene Den Day High
@@ -84,6 +84,16 @@ scene_den_pink_blue:
         transition: 2
         brightness: 188
         rgb_color: [33,0,255]
+
+scene_den_neutral_low:
+  alias: Scene Den Neutral Low
+  sequence:
+    - service: light.turn_on
+      entity_id: light.den_lights
+      data:
+        transition: 2
+        brightness: 75
+        color_temp: 285
 
 
 ##############################################################

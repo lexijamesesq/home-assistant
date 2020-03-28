@@ -100,7 +100,7 @@
       entity_id: input_boolean.mode_sleep
       to: 'off'
       for:
-        minutes: 5
+        minutes: 10
   condition:
     - condition: state
       entity_id: group.residents
