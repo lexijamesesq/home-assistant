@@ -426,6 +426,7 @@ homekit:
     exclude_entities:
       - light.den_lights
       - light.den_cabinets
+      - light.living_room_1
       - light.main_stairs_and_upstairs_hallway
 
 
