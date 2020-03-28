@@ -63,6 +63,14 @@ entities:
     name: Den Hallway
   - entity: light.den_lights
     name: Den
+  - type: 'custom:rgb-light-card'
+    colors:
+      - type: script
+        entity_id: script.scene_den_pink_blue
+        icon_color: 'linear-gradient(345deg, #2100FF, #FE00FF)'
+      - type: script
+        entity_id: script.scene_den_neutral_low
+        icon_color: '#DCC58B'
   - entity: light.den_cabinets
     name: Den Cabinets
   - entity: light.guest_bedroom_closet_lights
