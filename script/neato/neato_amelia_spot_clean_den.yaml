@@ -1,0 +1,10 @@
+neato_amelia_spot_clean_den:
+  alias: Neato Amelia Spot Clean - Den
+  sequence:
+    - service: neato.custom_cleaning
+      data_template:
+        entity_id: vacuum.amelia
+        mode: 1
+        navigation: 1
+        category: 4
+        zone: 'Den'

@@ -1,0 +1,10 @@
+neato_rory_spot_clean_downstairs_hallway:
+  alias: Neato Rory Spot Clean - Downstairs Hallway
+  sequence:
+    - service: neato.custom_cleaning
+      data_template:
+        entity_id: vacuum.rory
+        mode: 1
+        navigation: 1
+        category: 4
+        zone: 'Downstairs Hallway'
