@@ -1,0 +1,10 @@
+neato_rory_spot_clean_kitchen:
+  alias: Neato Rory Spot Clean - Kitchen
+  sequence:
+    - service: neato.custom_cleaning
+      data_template:
+        entity_id: vacuum.rory
+        mode: 1
+        navigation: 1
+        category: 4
+        zone: 'Kitchen'
