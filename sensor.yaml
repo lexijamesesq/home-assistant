@@ -1770,6 +1770,7 @@
       {% else %}
         Update Error
       {% endif %}
+    {% else %}
       undefined
     {% endif %}
 
@@ -1787,6 +1788,7 @@
       {% else %}
         unknown
       {% endif %}
+    {% else %}
       undefined
     {% endif %}
   unit_of_measurement: '%'
@@ -1812,13 +1814,14 @@
     {% if value_json is defined %}
       {% if value_json.visitorLoginStatus == 'loggedin' %}
         {% if value_json.dumDaysLeft is defined %}
-          {{ value_json.dumDaysLeft | int }} days
+          {{ value_json.dumDaysLeft | int }}
         {% else %}
           {{ sensor.cox_data_resets }}
       {% endif %}
       {% else %}
         unknown
       {% endif %}
+    {% else %}
       undefined
     {% endif %}
   unit_of_measurement: 'days'
