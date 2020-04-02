@@ -290,12 +290,13 @@
       - condition: template
         value_template: '{{ states("sensor.cox_data_usage")[:-2] | int > 75 }}'
   action:
-    service: notify.mobile_app_alexs_iphone
-    data_template:
-      title: 'Cox'
-      message: >-
-          Data usage is at {{ states('sensor.cox_data_usage')[:-2] }}%, resetting in {{ states('sensor.cox_data_resets') }}.
-      data:
-        push:
-          thread-id: 'ha-server-group'
-          sound: 'gesture.wav'
+    - delay: '00:00:05'
+    - service: notify.mobile_app_alexs_iphone
+      data_template:
+        title: 'Cox'
+        message: >-
+            Data usage is at {{ states('sensor.cox_data_usage') }}%, resetting in {{ states('sensor.cox_data_resets') }} days.
+        data:
+          push:
+            thread-id: 'ha-server-group'
+            sound: 'gesture.wav'
