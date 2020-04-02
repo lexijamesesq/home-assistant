@@ -666,66 +666,79 @@
   sensors:
     network_overwatch:
       friendly_name: Overwatch
+      entity_id: device_tracker.overwatch
       value_template: >
         {{ ('online' if is_state('device_tracker.overwatch', 'home') else 'offline') | title }}
       icon_template: 'mdi:server'
     network_pfsense:
       friendly_name: pfSense
+      entity_id: device_tracker.pfsense
       value_template: >
         {{ ('online' if is_state('device_tracker.pfsense', 'home') else 'offline') | title }}
       icon_template: 'mdi:server'
     network_unifi_ap_downstairs:
       friendly_name: UniFi AP Downstairs
+      entity_id: device_tracker.unifi_ap_downstairs
       value_template: >
         {{ ('online' if is_state('device_tracker.unifi_ap_downstairs', 'home') else 'offline') | title }}
       icon_template: 'mdi:access-point-network'
     network_unifi_ap_upstairs:
       friendly_name: UniFi AP Upstairs
+      entity_id: device_tracker.unifi_ap_upstairs
       value_template: >
         {{ ('online' if is_state('device_tracker.unifi_ap_upstairs', 'home') else 'offline') | title }}
       icon_template: 'mdi:access-point-network'
     network_unifi_cloudkey:
       friendly_name: UniFi Cloud Key Plus
+      entity_id: device_tracker.unifi_cloudkey
       value_template: >
         {{ ('online' if is_state('device_tracker.unifi_cloudkey', 'home') else 'offline') | title }}
       icon_template: 'mdi:mixcloud'
     network_unifi_switch_16:
       friendly_name: UniFi Switch 16
+      entity_id: device_tracker.unifi_switch_16
       value_template: >
         {{ ('online' if is_state('device_tracker.unifi_switch_16', 'home') else 'offline') | title }}
       icon_template: 'mdi:switch'
     network_unifi_switch_8_downstairs:
       friendly_name: UniFi Switch 8 - Downstairs
+      entity_id: device_tracker.unifi_switch_8_downstairs
       value_template: >
         {{ ('online' if is_state('device_tracker.unifi_switch_8_downstairs', 'home') else 'offline') | title }}
       icon_template: 'mdi:switch'
     network_unifi_switch_8_upstairs:
       friendly_name: UniFi Switch 8 - Upstairs
+      entity_id: device_tracker.unifi_switch_8_upstairs
       value_template: >
         {{ ('online' if is_state('device_tracker.unifi_switch_8_upstairs', 'home') else 'offline') | title }}
       icon_template: 'mdi:switch'
     network_woodhouse:
       friendly_name: Woodhouse
+      entity_id: group.device_tracker_woodhouse
       value_template: >
         {{ ('online' if is_state('group.device_tracker_woodhouse', 'home') else 'offline') | title }}
       icon_template: 'mdi:server'
     network_uvc_front_door:
       friendly_name: UVC Front Door
+      entity_id: device_tracker.uvc_front_door
       value_template: >
         {{ ('online' if is_state('device_tracker.uvc_front_door', 'home') else 'offline') | title }}
       icon_template: 'mdi:cctv'
     network_uvc_garage:
       friendly_name: UVC Garage
+      entity_id: device_tracker.uvc_garage
       value_template: >
         {{ ('online' if is_state('device_tracker.uvc_garage', 'home') else 'offline') | title }}
       icon_template: 'mdi:cctv'
     network_uvc_main_floor:
       friendly_name: UVC Main Floor
+      entity_id: device_tracker.uvc_main_floor
       value_template: >
         {{ ('online' if is_state('device_tracker.uvc_main_floor', 'home') else 'offline') | title }}
       icon_template: 'mdi:cctv'
     network_uvc_main_patio:
       friendly_name: UVC Main Patio
+      entity_id: device_tracker.uvc_main_patio
       value_template: >
         {{ ('online' if is_state('device_tracker.uvc_main_patio', 'home') else 'offline') | title }}
       icon_template: 'mdi:cctv'
@@ -737,30 +750,41 @@
   sensors:
     dashboard_inside_average_temperature:
       friendly_name: 'Average Temperature'
+      entity_id: sensor.average_temperature
       value_template: '{{ states.sensor.average_temperature.state | round() }}'
       unit_of_measurement: 'ºF'
     dashboard_inside_average_humidity:
       friendly_name: 'Average Humidity'
+      entity_id: sensor.average_humidity
       value_template: '{{ states.sensor.average_humidity.state | round() }}'
       unit_of_measurement: '%'
     dashboard_outside_temperature:
       friendly_name: 'Temperature'
+      entity_id: sensor.dark_sky_temperature
       value_template: '{{ states.sensor.dark_sky_temperature.state | round() }}'
       unit_of_measurement: 'ºF'
     dashboard_outside_high_temperature:
       friendly_name: 'High'
+      entity_id: sensor.dark_sky_daytime_high_temperature_0d
       value_template: '{{ states.sensor.dark_sky_daytime_high_temperature_0d.state | round() }}'
       unit_of_measurement: 'ºF'
     dashboard_outside_low_temperature:
       friendly_name: 'Low'
+      entity_id: sensor.dark_sky_overnight_low_temperature_0d
       value_template: '{{ states.sensor.dark_sky_overnight_low_temperature_0d.state | round() }}'
       unit_of_measurement: 'ºF'
     dashboard_outside_humidity:
       friendly_name: 'Humidity'
+      entity_id: sensor.dark_sky_humidity_0d
       value_template: '{{ states.sensor.dark_sky_humidity_0d.state | round() }}'
       unit_of_measurement: '%'
     dashboard_current_mode:
       friendly_name: 'Current Mode'
+      entity_id:
+        - input_boolean.mode_morning
+        - input_boolean.mode_day
+        - input_boolean.mode_sunset
+        - input_boolean.mode_night
       value_template: >-
         {% if is_state('input_boolean.mode_morning', 'on') %}
           Morning
@@ -787,6 +811,11 @@
         {% endif %}
     dashboard_home_state:
       friendly_name: Home State
+      entity_id:
+        - binary_sensor.garage_actual
+        - lock.august_smart_lock_pro_front_door
+        - lock.august_smart_lock_pro_garage_door
+        - group.all_doors
       value_template: >-
         {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_smart_lock_pro_front_door.state == 'locked' and states.lock.august_smart_lock_pro_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
           Secure
@@ -801,6 +830,7 @@
         {% endif %}
     dashboard_open_window_count:
       friendly_name: Open Window Count
+      entity_id: group.all_windows
       value_template: >-
         {% set num = states.binary_sensor
           | selectattr('entity_id', 'in', states.group.all_windows.attributes.entity_id)
