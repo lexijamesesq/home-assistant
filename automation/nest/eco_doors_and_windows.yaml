@@ -27,8 +27,6 @@
       - condition: state
         entity_id: group.all_windows
         state: 'on'
-      - condition: template
-        value_template: '{{ as_timestamp(now()) < (as_timestamp(states.group.downstairs_windows.last_changed) + 300) }}'
   action:
     - service: climate.set_hvac_mode
       data:
@@ -71,8 +69,6 @@
       - condition: state
         entity_id: group.all_windows
         state: 'on'
-      - condition: template
-        value_template: '{{ as_timestamp(now()) < (as_timestamp(states.group.upstairs_windows.last_changed) + 300) }}'
   action:
     - service: climate.set_hvac_mode
       data:
