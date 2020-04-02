@@ -984,6 +984,23 @@
           off
         {% endif %}
       icon_template: 'mdi:robot-vacuum-variant'
+    dashboard_neato_rory_last_cleaned:
+      friendly_name: Rory - Last Cleaned
+      entity_id: vacuum.rory
+      value_template: >-
+        {% set lastcleaned = as_timestamp(states.vacuum.rory.attributes.clean_stop) %}
+        {% set fivedaysbefore = (as_timestamp(now()) - (24*60*60*5)) < lastcleaned and as_timestamp(now()) > lastcleaned %}
+        {% set daybefore = (as_timestamp(now()) - (24*60*60))|timestamp_custom('%Y-%m-%d') == lastcleaned|timestamp_custom('%Y-%m-%d') %}
+        {% set dayof = states.sensor.date.state == lastcleaned|timestamp_custom('%Y-%m-%d') %}
+        {% if daybefore %}
+          Yesterday
+        {% elif dayof %}
+          Today
+        {% elif fivedaysbefore %}
+          {{ lastcleaned|timestamp_custom('%A') }}
+        {% else %}
+          {{ lastcleaned|timestamp_custom('%B %-d') }}
+        {% endif %}
     dashboard_neato_amelia_status:
       friendly_name: Amelia
       entity_id: vacuum.amelia
@@ -994,6 +1011,24 @@
           off
         {% endif %}
       icon_template: 'mdi:robot-vacuum-variant'
+    dashboard_neato_amelia_last_cleaned:
+      friendly_name: Amelia - Last Cleaned
+      entity_id: vacuum.amelia
+      value_template: >-
+        {% set lastcleaned = as_timestamp(states.vacuum.amelia.attributes.clean_stop) %}
+        {% set fivedaysbefore = (as_timestamp(now()) - (24*60*60*5)) < lastcleaned and as_timestamp(now()) > lastcleaned %}
+        {% set daybefore = (as_timestamp(now()) - (24*60*60))|timestamp_custom('%Y-%m-%d') == lastcleaned|timestamp_custom('%Y-%m-%d') %}
+        {% set dayof = states.sensor.date.state == lastcleaned|timestamp_custom('%Y-%m-%d') %}
+        {% if daybefore %}
+          Yesterday
+        {% elif dayof %}
+          Today
+        {% elif fivedaysbefore %}
+          {{ lastcleaned|timestamp_custom('%A') }}
+        {% else %}
+          {{ lastcleaned|timestamp_custom('%B %-d') }}
+        {% endif %}
+
 
 # Alexa Wakeup Light
 - platform: template
