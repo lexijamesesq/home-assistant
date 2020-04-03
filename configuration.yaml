@@ -237,6 +237,13 @@ nest:
   client_secret: !secret nest_client_secret
 
 
+airvisual:
+  api_key: !secret airvisual_api_key
+  geographies:
+    latitude: !secret home_latitude
+    longitude: !secret home_longitude
+
+
 light:
   - platform: group
     name: Upstairs Hallway Group Lights
