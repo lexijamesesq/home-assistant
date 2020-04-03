@@ -264,7 +264,7 @@
       friendly_name: 'August - Front Door Keypad'
       entity_id: sensor.battery_august_front_door_keypad
       value_template: >-
-        {% if states.battery_august_front_door_keypad.state | int <= 50 %}
+        {% if states.sensor.battery_august_front_door_keypad.state | int <= 50 %}
           on
         {% else %}
           off
