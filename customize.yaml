@@ -407,3 +407,5 @@ sensor.dashboard_outside_temperature:
   icon: mdi:thermometer
 input_boolean.sonos_move:
   icon: mdi:speaker
+sensor.u_s_air_quality_index:
+  icon: mdi:chemical-weapon
