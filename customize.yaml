@@ -9,9 +9,11 @@ light.island_2:
 light.living_room_1:
   icon: mdi:ceiling-light
 light.bedroom_1:
-  icon: mdi:ceiling-light
+  emulated_hue_hidden: false
+  hidden: false
 light.bedroom_2:
-  icon: mdi:ceiling-light
+  emulated_hue_hidden: false
+  hidden: false
 light.office_dimmer_switch_level:
   friendly_name: Office Overhead Light Bar
   icon: mdi:spotlight-beam
