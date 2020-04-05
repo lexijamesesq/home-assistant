@@ -110,7 +110,12 @@
       entity_id: script.update_scene
       data:
         variables:
-          lights: 'rec_room_ambient,den,den_cabinets'
+          lights: >-
+            {%- if is_state('input_boolean.mode_day', 'on') -%}
+              rec_room_ambient
+            {%- else -%}
+              rec_room_ambient,den,den_cabinets
+            {%- endif %}
 
 - alias: Sleep Mode Lights On When Patio Door Opens
   trigger:
