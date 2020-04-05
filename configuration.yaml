@@ -252,6 +252,11 @@ light:
       - light.upstairs_hallway
       - light.bedroom_hallway
   - platform: group
+    name: Bedroom Lights
+    entities:
+      - light.bedroom_1
+      - light.bedroom_2
+  - platform: group
     name: Den Cabinets
     entities:
       - light.den_cabinet_1
