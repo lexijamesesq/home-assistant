@@ -2,21 +2,6 @@ media_player.denon_avrx1200w:
   hidden: true
 media_player.denon_avrx4300h:
   hidden: true
-light.island_1:
-  icon: mdi:ceiling-light
-light.island_2:
-  icon: mdi:ceiling-light
-light.living_room_1:
-  icon: mdi:ceiling-light
-light.bedroom_1:
-  emulated_hue_hidden: false
-  hidden: false
-light.bedroom_2:
-  emulated_hue_hidden: false
-  hidden: false
-light.office_dimmer_switch_level:
-  friendly_name: Office Overhead Light Bar
-  icon: mdi:spotlight-beam
 binary_sensor.garage_actual:
   device_class: garage_door
 binary_sensor.garage_stairs_multisensor_sensor:
@@ -31,18 +16,6 @@ binary_sensor.garage_motion_sensor:
   device_class: motion
 binary_sensor.garage_stairs_motion_sensor:
   device_class: motion
-binary_sensor.flic_80e4da71a9a9:
-  friendly_name: Flic Bedroom
-  hidden: true
-binary_sensor.flic_80e4da719608:
-  friendly_name: Flic Kitchen
-  hidden: true
-binary_sensor.flic_80e4da71960a:
-  friendly_name: Flic Bathroom
-  hidden: true
-binary_sensor.flic_80e4da71a98e:
-  friendly_name: Flic Shower
-  hidden: true
 device_tracker.alexs_iphone_geofency:
   friendly_name: Alex
   entity_picture: /local/calvin.png
@@ -212,22 +185,6 @@ input_boolean.mode_sleep:
   emulated_hue_hidden: false
 input_boolean.mode_sunset:
   icon: mdi:weather-sunset
-input_number.bathroom_prefer_dim_after_weekday:
-  icon: mdi:theme-light-dark
-input_number.bathroom_prefer_dim_after_weekend:
-  icon: mdi:theme-light-dark
-input_number.bedroom_prefer_dim_after_weekday:
-  icon: mdi:theme-light-dark
-input_number.bedroom_prefer_dim_after_weekend:
-  icon: mdi:theme-light-dark
-input_number.kitchen_prefer_dim_after_weekday:
-  icon: mdi:theme-light-dark
-input_number.kitchen_prefer_dim_after_weekend:
-  icon: mdi:theme-light-dark
-input_number.living_room_prefer_dim_after_weekday:
-  icon: mdi:theme-light-dark
-input_number.living_room_prefer_dim_after_weekend:
-  icon: mdi:theme-light-dark
 switch.pfsense:
   hidden: true
 switch.woodhouse:
@@ -356,47 +313,69 @@ sensor.network_status_vpn2_wan:
   icon: mdi:lan-connect
 sensor.network_status_vpn3_wan:
   icon: mdi:lan-connect
+light.bedroom_lights:
+  emulated_hue_hidden: false
+  hidden: false
 light.kitchen:
   emulated_hue_hidden: false
+  hidden: false
 light.bedroom_ambient:
   emulated_hue_hidden: false
+  hidden: false
 light.bedroom_closet_lights:
   emulated_hue_hidden: false
+  hidden: false
 light.bedroom_hallway:
   emulated_hue_hidden: false
+  hidden: false
 light.den_cabinets:
   emulated_hue_hidden: false
+  hidden: false
 light.den_hallway:
   emulated_hue_hidden: false
+  hidden: false
 light.den_lights:
   emulated_hue_hidden: false
   hidden: false
 light.downstairs_hallway:
   emulated_hue_hidden: false
+  hidden: false
 light.garage_lights:
   emulated_hue_hidden: false
+  hidden: false
 light.garage_stairs:
   emulated_hue_hidden: false
+  hidden: false
 light.guest_bedroom_closet_lights:
   emulated_hue_hidden: false
+  hidden: false
 light.laundry_lights:
   emulated_hue_hidden: false
+  hidden: false
 light.living_room:
   emulated_hue_hidden: false
+  hidden: false
 light.main_stairs:
   emulated_hue_hidden: false
+  hidden: false
 light.patio_lights:
   emulated_hue_hidden: false
+  hidden: false
 light.patio_string_lights:
   emulated_hue_hidden: false
+  hidden: false
 light.tv_ambient:
   emulated_hue_hidden: false
+  hidden: false
 light.upstairs_hallway_group_lights:
   emulated_hue_hidden: false
+  hidden: false
 light.upstairs_hallway:
   emulated_hue_hidden: false
+  hidden: false
 light.rec_room_ambient:
   emulated_hue_hidden: false
+  hidden: false
 sensor.first_light:
   icon: mdi:weather-sunset
 sensor.cox_data_resets:
