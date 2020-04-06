@@ -27,7 +27,7 @@
             entity_id: light.kitchen
             state: 'off'
           - condition: state
-            entity_id: light.rec_room_ambient
+            entity_id: light.rec_room_tiles
             state: 'off'
           - condition: state
             entity_id: light.den_lights
@@ -40,7 +40,7 @@
       entity_id: script.update_scene
       data:
         variables:
-          lights: 'kitchen,rec_room_ambient,den,den_cabinets'
+          lights: 'kitchen,rec_room_tiles,den,den_cabinets'
 
 - alias: Downstairs Lights in the Morning - Turn Off at Sunrise
   trigger:

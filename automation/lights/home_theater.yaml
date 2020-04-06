@@ -24,7 +24,7 @@
       entity_id: script.update_scene
       data:
         variables:
-          lights: 'living_room,tv_ambient,rec_room_ambient'
+          lights: 'living_room,living_room_tv,rec_room_tiles'
 - alias: Restore Home Theater Off Lighting
   trigger:
     platform: state
@@ -48,7 +48,7 @@
       entity_id: script.update_scene
       data:
         variables:
-          lights: 'living_room,tv_ambient,rec_room_ambient'
+          lights: 'living_room,living_room_tv,rec_room_tiles'
 
 
 ##############################################################
@@ -82,7 +82,7 @@
       entity_id: script.update_scene
       data:
         variables:
-          lights: 'kitchen,rec_room_ambient,living_room,tv_ambient'
+          lights: 'kitchen,rec_room_tiles,living_room,living_room_tv'
 # Enhance with "restore" input_boolean for kitchen & living room
 - alias: Restore Home Theater On Lighting
   trigger:
@@ -105,4 +105,4 @@
       entity_id: script.update_scene
       data:
         variables:
-          lights: 'living_room,tv_ambient,rec_room_ambient,kitchen'
+          lights: 'living_room,living_room_tv,rec_room_tiles,kitchen'

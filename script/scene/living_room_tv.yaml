@@ -6,108 +6,108 @@
 # Called from script.update_scene
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 # Conditions omitted where lights change scene without changing states
-scene_tv_ambient_morning:
+scene_living_room_tv_morning:
   alias: Scene TV Ambient Morning
   sequence:
     - condition: state
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
       state: 'on'
     - service: light.turn_off
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
 
-scene_tv_ambient_morning_ht_on:
+scene_living_room_tv_morning_ht_on:
   alias: Scene TV Ambient Morning HT On
   sequence:
     - service: script.turn_on
-      entity_id: script.scene_tv_ambient
+      entity_id: script.scene_living_room_tv
 
-scene_tv_ambient_morning_ht_playing:
+scene_living_room_tv_morning_ht_playing:
   alias: Scene TV Ambient Morning HT Playing
   sequence:
     - service: light.turn_on
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
       data:
         brightness: 25
         color_temp: 285
 
-scene_tv_ambient_day:
+scene_living_room_tv_day:
   alias: Scene TV Ambient Day
   sequence:
     - condition: state
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
       state: 'on'
     - service: light.turn_off
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
 
-scene_tv_ambient_day_ht_on:
+scene_living_room_tv_day_ht_on:
   alias: Scene TV Ambient Day HT On
   sequence:
     - condition: state
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
       state: 'on'
     - service: light.turn_off
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
 
-scene_tv_ambient_day_ht_playing:
+scene_living_room_tv_day_ht_playing:
   alias: Scene TV Ambient Day HT Playing
   sequence:
     - condition: state
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
       state: 'on'
     - service: light.turn_off
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
 
-scene_tv_ambient_sunset:
+scene_living_room_tv_sunset:
   alias: Scene TV Ambient Sunset
   sequence:
     - condition: state
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
       state: 'on'
     - service: light.turn_off
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
 
-scene_tv_ambient_sunset_ht_on:
+scene_living_room_tv_sunset_ht_on:
   alias: Scene TV Ambient Sunset HT On
   sequence:
     - service: script.turn_on
-      entity_id: script.scene_tv_ambient
+      entity_id: script.scene_living_room_tv
 
-scene_tv_ambient_sunset_ht_playing:
+scene_living_room_tv_sunset_ht_playing:
   alias: Scene TV Ambient Sunset HT Playing
   sequence:
     - service: light.turn_on
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
       data:
         brightness: 45
         color_temp: 285
 
-scene_tv_ambient_night:
+scene_living_room_tv_night:
   alias: Scene TV Ambient Night
   sequence:
     - condition: state
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
       state: 'on'
     - service: light.turn_off
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
 
-scene_tv_ambient_night_ht_on:
+scene_living_room_tv_night_ht_on:
   alias: Scene TV Ambient Night HT On
   sequence:
     - service: script.turn_on
-      entity_id: script.scene_tv_ambient
+      entity_id: script.scene_living_room_tv
 
-scene_tv_ambient_night_ht_playing:
+scene_living_room_tv_night_ht_playing:
   alias: Scene TV Ambient Night HT Playing
   sequence:
     - service: light.turn_on
-      entity_id: light.tv_ambient
+      entity_id: light.living_room_tv
       data:
         brightness: 25
         color_temp: 285
 
 
 # Indirect Scenes ############################################
-scene_tv_ambient:
+scene_living_room_tv:
   alias: Scene TV Ambient
   sequence:
-    - service: shell_command.lifxlan_tv_ambient_ht_on
+    - service: shell_command.lifxlan_living_room_tv_ht_on

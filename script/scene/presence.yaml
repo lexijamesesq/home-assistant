@@ -15,12 +15,13 @@ scene_empty_home:
         - light.patio_lights
         - light.patio_string_lights
         - light.living_room
-        - light.tv_ambient
-        - light.rec_room_ambient
+        - light.living_room_tv
+        - light.rec_room_tiles
         - light.main_stairs
         - light.upstairs_hallway
         - light.bedroom_hallway
-        - light.bedroom_ambient
+        - light.bedroom_lights
+        - light.bedroom_tiles
         - light.bedroom_closet_lights
         - light.laundry_lights
         - light.den_hallway

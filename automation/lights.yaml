@@ -20,9 +20,9 @@
         variables:
           lights: >-
             {%- if is_state('input_boolean.mode_morning', 'on') or is_state('input_boolean.mode_sunset', 'on') or is_state('input_boolean.mode_night', 'on') -%}
-              kitchen,living_room,rec_room_ambient,bedroom_ambient,den,den_cabinets
+              kitchen,living_room,rec_room_tiles,bedroom,bedroom_tiles,den,den_cabinets
             {%- else -%}
-              bedroom_ambient,den,rec_room_ambient
+              bedroom_tiles,den,rec_room_tiles
             {%- endif %}
 
 # Empty Home Lighting ########################################
@@ -112,9 +112,9 @@
         variables:
           lights: >-
             {%- if is_state('input_boolean.mode_day', 'on') -%}
-              rec_room_ambient
+              rec_room_tiles
             {%- else -%}
-              rec_room_ambient,den,den_cabinets
+              rec_room_tiles,den,den_cabinets
             {%- endif %}
 
 - alias: Sleep Mode Lights On When Patio Door Opens

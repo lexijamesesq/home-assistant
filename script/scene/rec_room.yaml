@@ -6,90 +6,90 @@
 # Called from script.update_scene
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 # Conditions omitted where lights change scene without changing states
-scene_rec_room_ambient_morning:
-  alias: Scene Rec Room Ambient Morning
+scene_rec_room_tiles_morning:
+  alias: Scene Rec Room Tiles Morning
   sequence:
     - condition: state
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
       state: 'off'
     - service: light.turn_on
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
 
-scene_rec_room_ambient_morning_ht_on:
-  alias: Scene Rec Room Ambient Morning HT On
+scene_rec_room_tiles_morning_ht_on:
+  alias: Scene Rec Room Tiles Morning HT On
   sequence:
     - condition: state
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
       state: 'off'
     - service: light.turn_on
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
 
-scene_rec_room_ambient_morning_ht_playing:
-  alias: Scene Rec Room Ambient Morning HT Playing
+scene_rec_room_tiles_morning_ht_playing:
+  alias: Scene Rec Room Tiles Morning HT Playing
   sequence:
     - condition: state
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
       state: 'on'
     - service: light.turn_off
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
 
-scene_rec_room_ambient_day:
-  alias: Scene Rec Room Ambient Day
+scene_rec_room_tiles_day:
+  alias: Scene Rec Room Tiles Day
   sequence:
     - service: script.turn_on
-      entity_id: script.scene_rec_room_ambient_lifx_intense
+      entity_id: script.scene_rec_room_tiles_lifx_intense
 
-scene_rec_room_ambient_day_ht_on:
-  alias: Scene Rec Room Ambient Day HT On
+scene_rec_room_tiles_day_ht_on:
+  alias: Scene Rec Room Tiles Day HT On
   sequence:
     - condition: state
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
       state: 'off'
     - service: light.turn_on
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
 
-scene_rec_room_ambient_day_ht_playing:
-  alias: Scene Rec Room Ambient Day HT Playing
+scene_rec_room_tiles_day_ht_playing:
+  alias: Scene Rec Room Tiles Day HT Playing
   sequence:
     - condition: state
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
       state: 'off'
     - service: light.turn_on
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
 
-scene_rec_room_ambient_night:
-  alias: Scene Rec Room Ambient Night
+scene_rec_room_tiles_night:
+  alias: Scene Rec Room Tiles Night
   sequence:
     - condition: state
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
       state: 'off'
     - service: light.turn_on
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
 
-scene_rec_room_ambient_night_ht_on:
-  alias: Scene Rec Room Ambient Night HT On
+scene_rec_room_tiles_night_ht_on:
+  alias: Scene Rec Room Tiles Night HT On
   sequence:
     - condition: state
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
       state: 'off'
     - service: light.turn_on
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
 
-scene_rec_room_ambient_night_ht_playing:
-  alias: Scene Rec Room Ambient Night HT Playing
+scene_rec_room_tiles_night_ht_playing:
+  alias: Scene Rec Room Tiles Night HT Playing
   sequence:
     - condition: state
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
       state: 'on'
     - service: light.turn_off
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
 
 # Indirect Scenes ############################################
-scene_rec_room_ambient_lifx_intense:
-  alias: Scene Rec Room Ambient
+scene_rec_room_tiles_lifx_intense:
+  alias: Scene Rec Room Tiles
   sequence:
     - service: light.turn_on
-      entity_id: light.rec_room_ambient
+      entity_id: light.rec_room_tiles
       data:
         brightness: 77
-    - service: shell_command.lifx_rec_room_ambient
+    - service: shell_command.lifx_rec_room_tiles

@@ -7,6 +7,6 @@ sequence:
   - service: scene.turn_on
     entity_id: 
       - scene.living_room_dim_at_night
-      - scene.tv_ambient
+      - scene.living_room_tv
   - service: homeassistant.turn_off
     entity_id: input_boolean.home_theater_restore_living_room_lights
