@@ -45,6 +45,8 @@ entities:
     name: Upstairs Hallway
   - entity: light.bedroom_hallway
     name: Bedroom Hallway
+  - entity: light.bedroom_lights
+    name: Bedroom Lights
   - entity: light.bedroom_ambient
     name: Bedroom Ambient
   - type: 'custom:rgb-light-card'
