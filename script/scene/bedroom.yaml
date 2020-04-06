@@ -5,73 +5,172 @@
 # Direct Scenes ##############################################
 # Called from script.update_scene
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
-scene_bedroom_ambient_morning:
-  alias: Scene Bedroom Ambient Morning
+scene_bedroom_morning_mid:
+  alias: Scene Den Morning Mid
   sequence:
     - condition: state
-      entity_id: light.bedroom_ambient
+      entity_id: light.den_lights
       state: 'off'
     - service: script.turn_on
-      entity_id: script.scene_bedroom_ambient_lifx_mellow
+      entity_id: script.scene_bedroom_neutral_low
 
-scene_bedroom_ambient_day:
-  alias: Scene Bedroom Ambient Day
+scene_bedroom_morning_low:
+  alias: Scene Den Morning Low
   sequence:
     - condition: state
-      entity_id: light.bedroom_ambient
+      entity_id: light.den_lights
       state: 'off'
     - service: script.turn_on
-      entity_id: script.scene_bedroom_ambient_lifx_mellow
+      entity_id: script.scene_bedroom_neutral_low
 
-scene_bedroom_ambient_night:
-  alias: Scene Bedroom Ambient Night
+scene_bedroom_day_high:
+  alias: Scene Den Day High
   sequence:
     - condition: state
-      entity_id: light.bedroom_ambient
+      entity_id: light.den_lights
       state: 'off'
     - service: script.turn_on
-      entity_id: script.scene_bedroom_ambient_lifx_mellow
+      entity_id: script.scene_bedroom_purple_blue
 
-scene_bedroom_ambient_day_wakeup:
-  alias: Scene Bedroom Ambient Day Wakeup
+scene_bedroom_day_mid:
+  alias: Scene Den Day Mid
   sequence:
     - condition: state
-      entity_id: light.bedroom_ambient
+      entity_id: light.den_lights
       state: 'off'
-    - service: shell_command.lifx_bedroom_ambient_zero
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_purple_blue
+
+scene_bedroom_night_high:
+  alias: Scene Den Night High
+  sequence:
+    - condition: state
+      entity_id: light.den_lights
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_purple_blue
+
+scene_bedroom_night_mid:
+  alias: Scene Den Night Mid
+  sequence:
+    - condition: state
+      entity_id: light.den_lights
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_purple_blue
+
+scene_bedroom_night_low:
+  alias: Scene Den Night Low
+  sequence:
+    - condition: state
+      entity_id: light.den_lights
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_purple_blue
+
+
+# Indirect Scenes ############################################
+scene_bedroom_purple_blue:
+  alias: Scene Bedroom Purple & Blue
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_1
+      data:
+        transition: 2
+        brightness: 100
+        rgb_color: [65,102,255]
+    - service: light.turn_on
+      entity_id: light.bedroom_2
+      data:
+        transition: 2
+        brightness: 100
+        rgb_color: [15,163,255]
+
+scene_bedroom_neutral_low:
+  alias: Scene Bedroom Neutral Low
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_lights
+      data:
+        transition: 2
+        brightness: 75
+        color_temp: 285
+
+
+##############################################################
+# Bedroom Tiles Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_scene
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+scene_bedroom_tiles_morning:
+  alias: Scene Bedroom Tiles Morning
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_tiles_day
+
+scene_bedroom_tiles_day:
+  alias: Scene Bedroom Tiles Day
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_tiles_day
+
+scene_bedroom_tiles_night:
+  alias: Scene Bedroom Tiles Night
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_tiles_night
+
+scene_bedroom_tiles_day_wakeup:
+  alias: Scene Bedroom Tiles Day Wakeup
+  sequence:
+    - condition: state
+      entity_id: light.bedroom_tiles
+      state: 'off'
+    - service: shell_command.lifx_bedroom_tiles_zero
     - delay: '00:00:10'
-    - service: shell_command.lifx_bedroom_ambient_wakeup
+    - service: shell_command.lifx_bedroom_tiles_wakeup
     - delay: '00:00:10'
     - service: light.turn_on
       data:
-        entity_id: light.bedroom_ambient
+        entity_id: light.bedroom_tiles
         brightness: 255
         transition: 900
     - delay: '00:20:00'
     - service: light.turn_on
-      entity_id: light.bedroom_ambient
+      entity_id: light.bedroom_tiles
       data:
         brightness: 77
         transition: 120
     - delay: '00:2:00'
-    - service: shell_command.lifx_bedroom_ambient
+    - service: shell_command.lifx_bedroom_tiles_day
 
 
 # Indirect Scenes ############################################
-scene_bedroom_ambient_wakeup:
-  alias: Scene Bedroom Ambient - Wakeup
+scene_bedroom_tiles_wakeup:
+  alias: Scene Bedroom Tiles - Wakeup
   sequence:
     - service: light.turn_on
-      entity_id: light.bedroom_ambient
+      entity_id: light.bedroom_tiles
       data:
         brightness: 77
-    - service: shell_command.lifx_bedroom_ambient_wakeup
+    - service: shell_command.lifx_bedroom_tiles_wakeup
 
-scene_bedroom_ambient_lifx_mellow:
-  alias: Scene Bedroom Ambient - LIFX Mellow
+scene_bedroom_tiles_day:
+  alias: Scene Bedroom Tiles - Day
   sequence:
     - service: light.turn_on
-      entity_id: light.bedroom_ambient
+      entity_id: light.bedroom_tiles
       data:
         brightness: 77
-    - service: shell_command.lifx_bedroom_ambient
+    - service: shell_command.lifx_bedroom_tiles_day
+
+scene_bedroom_tiles_night:
+  alias: Scene Bedroom Tiles - Night
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_tiles
+      data:
+        brightness: 77
+    - service: shell_command.lifx_bedroom_tiles_night

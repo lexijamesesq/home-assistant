@@ -11,9 +11,9 @@ sequence:
     data_template:
       entity_id: >
         {% if is_state('input_boolean.mode_night', 'on') %}
-          scene.tv_ambient_home_theater_playing_at_night
+          scene.living_room_tv_home_theater_playing_at_night
         {% else %}
-          scene.tv_ambient_home_theater_playing
+          scene.living_room_tv_home_theater_playing
         {% endif %}
   - service: homeassistant.turn_on
     entity_id: input_boolean.home_theater_restore_living_room_lights

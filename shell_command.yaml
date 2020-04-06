@@ -4,8 +4,8 @@
 
 query_cox_data_usage: 'python /config/python/cox_usage.py'
 query_suncalc: 'python /config/python/query_suncalc.py'
-lifxlan_tv_ambient_ht_on: 'python /config/python/scenes/tv_ambient_ht_on.py'
-lifx_bedroom_ambient: !secret lifx_bedroom_ambient
-lifx_bedroom_ambient_zero: !secret lifx_bedroom_ambient_zero
-lifx_bedroom_ambient_wakeup: !secret lifx_bedroom_ambient_wakeup
-lifx_rec_room_ambient: !secret lifx_rec_room_ambient
+lifxlan_living_room_tv_ht_on: 'python /config/python/scenes/living_room_tv_ht_on.py'
+lifx_bedroom_tiles_day: !secret lifx_bedroom_tiles_day
+lifx_bedroom_tiles_zero: !secret lifx_bedroom_tiles_zero
+lifx_bedroom_tiles_wakeup: !secret lifx_bedroom_tiles_wakeup
+lifx_rec_room_tiles: !secret lifx_rec_room_tiles

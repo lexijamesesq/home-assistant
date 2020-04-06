@@ -10,7 +10,7 @@
       data_template:
         entity_id: >
           {% if is_state('input_select.select_scene_bedroom', 'Ambient') %}
-            script.scene_select_bedroom_ambient
+            script.scene_select_bedroom_tiles
           {%-elif is_state('input_select.select_scene_bedroom', 'Auto') %}
             script.scene_select_by_time
           {%-elif is_state('input_select.select_scene_bedroom', 'Bright') %}

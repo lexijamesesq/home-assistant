@@ -319,7 +319,7 @@ light.bedroom_lights:
 light.kitchen:
   emulated_hue_hidden: false
   hidden: false
-light.bedroom_ambient:
+light.bedroom_tiles:
   emulated_hue_hidden: false
   hidden: false
 light.bedroom_closet_lights:
@@ -364,7 +364,7 @@ light.patio_lights:
 light.patio_string_lights:
   emulated_hue_hidden: false
   hidden: false
-light.tv_ambient:
+light.living_room_tv:
   emulated_hue_hidden: false
   hidden: false
 light.upstairs_hallway_group_lights:
@@ -373,7 +373,7 @@ light.upstairs_hallway_group_lights:
 light.upstairs_hallway:
   emulated_hue_hidden: false
   hidden: false
-light.rec_room_ambient:
+light.rec_room_tiles:
   emulated_hue_hidden: false
   hidden: false
 sensor.first_light:
