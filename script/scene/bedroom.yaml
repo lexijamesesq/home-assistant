@@ -6,64 +6,64 @@
 # Called from script.update_scene
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 scene_bedroom_morning_mid:
-  alias: Scene Den Morning Mid
+  alias: Scene Bedroom Morning Mid
   sequence:
     - condition: state
-      entity_id: light.den_lights
+      entity_id: light.bedroom_lights
       state: 'off'
     - service: script.turn_on
       entity_id: script.scene_bedroom_neutral_low
 
 scene_bedroom_morning_low:
-  alias: Scene Den Morning Low
+  alias: Scene Bedroom Morning Low
   sequence:
     - condition: state
-      entity_id: light.den_lights
+      entity_id: light.bedroom_lights
       state: 'off'
     - service: script.turn_on
       entity_id: script.scene_bedroom_neutral_low
 
 scene_bedroom_day_high:
-  alias: Scene Den Day High
+  alias: Scene Bedroom Day High
   sequence:
     - condition: state
-      entity_id: light.den_lights
+      entity_id: light.bedroom_lights
       state: 'off'
     - service: script.turn_on
       entity_id: script.scene_bedroom_purple_blue
 
 scene_bedroom_day_mid:
-  alias: Scene Den Day Mid
+  alias: Scene Bedroom Day Mid
   sequence:
     - condition: state
-      entity_id: light.den_lights
+      entity_id: light.bedroom_lights
       state: 'off'
     - service: script.turn_on
       entity_id: script.scene_bedroom_purple_blue
 
 scene_bedroom_night_high:
-  alias: Scene Den Night High
+  alias: Scene Bedroom Night High
   sequence:
     - condition: state
-      entity_id: light.den_lights
+      entity_id: light.bedroom_lights
       state: 'off'
     - service: script.turn_on
       entity_id: script.scene_bedroom_purple_blue
 
 scene_bedroom_night_mid:
-  alias: Scene Den Night Mid
+  alias: Scene Bedroom Night Mid
   sequence:
     - condition: state
-      entity_id: light.den_lights
+      entity_id: light.bedroom_lights
       state: 'off'
     - service: script.turn_on
       entity_id: script.scene_bedroom_purple_blue
 
 scene_bedroom_night_low:
-  alias: Scene Den Night Low
+  alias: Scene Bedroom Night Low
   sequence:
     - condition: state
-      entity_id: light.den_lights
+      entity_id: light.bedroom_lights
       state: 'off'
     - service: script.turn_on
       entity_id: script.scene_bedroom_purple_blue

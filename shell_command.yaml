@@ -6,6 +6,7 @@ query_cox_data_usage: 'python /config/python/cox_usage.py'
 query_suncalc: 'python /config/python/query_suncalc.py'
 lifxlan_living_room_tv_ht_on: 'python /config/python/scenes/living_room_tv_ht_on.py'
 lifx_bedroom_tiles_day: !secret lifx_bedroom_tiles_day
+lifx_bedroom_tiles_night: !secret lifx_bedroom_tiles_night
 lifx_bedroom_tiles_zero: !secret lifx_bedroom_tiles_zero
 lifx_bedroom_tiles_wakeup: !secret lifx_bedroom_tiles_wakeup
 lifx_rec_room_tiles: !secret lifx_rec_room_tiles
