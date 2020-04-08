@@ -65,14 +65,14 @@ scene_bedroom_morning_low:
 scene_bedroom_day_high:
   alias: Scene Bedroom Day High
   sequence:
-    - service: script.turn_on
-      entity_id: script.scene_bedroom_purple_blue
+    - service: light.turn_off
+      entity_id: light.bedroom_lights
 
 scene_bedroom_day_mid:
   alias: Scene Bedroom Day Mid
   sequence:
-    - service: script.turn_on
-      entity_id: script.scene_bedroom_purple_blue
+    - service: light.turn_off
+      entity_id: light.bedroom_lights
 
 scene_bedroom_night_high:
   alias: Scene Bedroom Night High
