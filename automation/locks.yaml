@@ -48,8 +48,6 @@
     - platform: state
       entity_id: input_boolean.mode_sleep
       to: 'off'
-      for:
-        minutes: 2
     - platform: state
       entity_id: group.residents
       to: 'home'

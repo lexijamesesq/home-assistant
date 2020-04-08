@@ -107,11 +107,11 @@
         state: 'on'
   action:
     - service: shell_command.lifx_bedroom_tiles_wakeup
-    - delay: '00:00:10'
     - service: light.turn_on
       entity_id: light.bedroom_tiles
       data:
-        brightness: 77
+        transition: 4
+        brightness: 45
     - service: script.turn_on
       entity_id: script.scene_bedroom_sleep_mode_on
 
@@ -137,7 +137,7 @@
       entity_id: script.update_scene
       data:
         variables:
-          lights: 'bedroom,bedroom_tiles'
+          lights: 'bedroom_tiles,bedroom'
 
 
 ##############################################################
