@@ -6,8 +6,6 @@
     - platform: state
       entity_id: input_boolean.mode_sleep
       to: 'on'
-      for:
-        minutes: 2
   action:
     - service: climate.set_temperature
       entity_id: climate.downstairs
@@ -22,8 +20,6 @@
     - platform: state
       entity_id: input_boolean.mode_sleep
       to: 'off'
-      for:
-        minutes: 2
   action:
     - service: climate.set_temperature
       entity_id: climate.downstairs

@@ -18,7 +18,7 @@ update_scene:
           {% set ht_lights = ["kitchen", "living_room", "living_room_tv", "rec_room_tiles"] %}
           {% set ambient_lights = ["living_room_tv", "rec_room_tiles", "bedroom_tiles"] %}
 
-          {% set mode = '_night' if is_state('input_boolean.mode_sunset', 'on') else '_' + states('sensor.dashboard_current_mode') %}
+          {% set mode = '_night' if is_state('input_boolean.mode_sunset', 'on') else '_' + states('sensor.dashboard_current_mode') | lower %}
 
           {% if is_state('input_boolean.mode_home_theater', 'on') %}
             {% if is_state('media_player.living_room_apple_tv', 'playing') %}
