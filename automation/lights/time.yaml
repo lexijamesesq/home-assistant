@@ -102,9 +102,12 @@
       - condition: state
         entity_id: light.bedroom_tiles
         state: 'off'
+      - condition: state
+        entity_id: light.bedroom_lights
+        state: 'off'
   action:
     - service: script.turn_on
-      entity_id: script.scene_bedroom_tiles_day_wakeup
+      entity_id: script.scene_bedroom_wakeup
 
 
 ##############################################################

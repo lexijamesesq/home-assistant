@@ -1,5 +1,5 @@
 ##############################################################
-# Morning
+# Everywhere
 ##############################################################
 # Triggers downstairs lights when waking up before sunrise
 - alias: Morning Lighting - Turn On When Motion
@@ -76,3 +76,22 @@
         - light.living_room
         - light.den_lights
         - light.den_cabinets
+
+
+##############################################################
+# Bedroom
+##############################################################
+- alias: Bedroom Lights - Morning
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'off'
+      for:
+        hours: 2
+  condition:
+    - condition: state
+      entity_id: light.bedroom_lights
+      state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.bedroom_lights
