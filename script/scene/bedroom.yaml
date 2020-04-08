@@ -141,6 +141,16 @@ scene_bedroom_neutral_low:
         brightness: 75
         color_temp: 285
 
+scene_bedroom_sleep_mode_on:
+  alias: Scene Bedroom Sleep Mode On
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_lights
+      data:
+        transition: 2
+        brightness: 75
+        color_temp: 333
+
 
 ##############################################################
 # Bedroom Tiles Scenes
