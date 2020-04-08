@@ -27,6 +27,8 @@
       - condition: state
         entity_id: group.all_windows
         state: 'on'
+      - condition: template
+        value_template: '{{ state_attr("climate.downstairs", "preset_mode") | lower != "eco" and states("climate.downstairs") | lower != "off" }}'
   action:
     - service: climate.set_hvac_mode
       data:
@@ -69,6 +71,8 @@
       - condition: state
         entity_id: group.all_windows
         state: 'on'
+      - condition: template
+        value_template: '{{ state_attr("climate.upstairs", "preset_mode") | lower != "eco" and states("climate.upstairs") | lower != "off" }}'
   action:
     - service: climate.set_hvac_mode
       data:
