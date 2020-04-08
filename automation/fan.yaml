@@ -1,51 +1,7 @@
 ##############################################################
 # Bedroom
 ##############################################################
-- alias: Bedroom Fan Speed Away on Weekday Morning
-  trigger:
-    - platform: state
-      entity_id: group.residents
-      to: 'not_home'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: fan.bedroom
-        state: 'on'
-      - condition: template
-        value_template: '{{ now().strftime("%A") | lower in ["monday", "tuesday", "wednesday", "thursday", "friday"] }}'
-      - condition: time
-        before: '10:00:00'
-  action:
-    - service: fan.turn_off
-      entity_id: fan.bedroom
-
-- alias: Bedroom Fan Speed on Weekday Morning
-  trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'off'
-      for:
-        hours: 3
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: group.residents
-        state: 'home'
-      - condition: state
-        entity_id: fan.bedroom
-        state: 'on'
-      - condition: template
-        value_template: '{{ now().strftime("%A") | lower in ["monday", "tuesday", "wednesday", "thursday", "friday"] }}'
-  action:
-    - service: dyson.set_speed
-      data:
-        entity_id: fan.bedroom
-        dyson_speed: 4
-
-
-- alias: Bedroom Fan Speed on Weekend Morning
+- alias: Bedroom Fan Speed - Morning
   trigger:
     - platform: state
       entity_id: input_boolean.mode_sleep
@@ -53,20 +9,14 @@
       for:
         hours: 2
   condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: fan.bedroom
-        state: 'on'
-      - condition: template
-        value_template: '{{ now().strftime("%A") | lower in ["saturday", "sunday"] }}'
+    - condition: state
+      entity_id: fan.bedroom
+      state: 'on'
   action:
-    - service: dyson.set_speed
-      data:
-        entity_id: fan.bedroom
-        dyson_speed: 4
+    - service: fan.turn_off
+      entity_id: fan.bedroom
 
-- alias: Bedroom Fan Speed Before Bed
+- alias: Bedroom Fan Speed - Before Bed
   trigger:
     - platform: time
       at: '19:00:00'
@@ -78,32 +28,74 @@
         entity_id: fan.bedroom
         dyson_speed: 8
 
-- alias: Bedroom Fan Speed Sleep Mode Started
+- alias: Bedroom Fan Speed - Sleep Mode Started
   trigger:
     - platform: state
       entity_id: input_boolean.mode_sleep
       to: 'on'
-      for:
-        minutes: 2
-  action:
-    - service: fan.turn_on
+  condition:
+    - condition: state
       entity_id: fan.bedroom
+      state: 'on'
+  action:
     - service: dyson.set_night_mode
       data:
         entity_id: fan.bedroom
         night_mode: true
 
-- alias: Bedroom Fan Speed Sleep Mode Ended
+- alias: Bedroom Fan Speed - Sleep Mode Ended
   trigger:
     - platform: state
       entity_id: input_boolean.mode_sleep
       to: 'off'
       for:
-        minutes: 10
+        minutes: 20
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: fan.bedroom
+        state: 'on'
+      - condition: time
+        after: '05:00:00'
   action:
-    - service: fan.turn_on
-      entity_id: fan.bedroom
     - service: dyson.set_night_mode
       data:
         entity_id: fan.bedroom
         night_mode: false
+
+- alias: Bedroom Fan Speed - Bedroom Window Open
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.bedroom_windows
+      to: 'on'
+      for:
+        seconds: 30
+  condition:
+    - condition: state
+      entity_id: fan.bedroom
+      state: 'on'
+  action:
+    - service: fan.turn_off
+      entity_id: fan.bedroom
+
+- alias: Bedroom Fan Speed - Bedroom Window Closed
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.bedroom_windows
+      to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: fan.bedroom
+        state: 'off'
+      - condition: time
+        after: '19:00:00'
+  action:
+    - service: fan.turn_on
+      entity_id: fan.bedroom
+    - service: dyson.set_speed
+      data:
+        entity_id: fan.bedroom
+        dyson_speed: 8
