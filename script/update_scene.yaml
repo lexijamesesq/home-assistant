@@ -37,7 +37,7 @@ update_scene:
           {% endif %}
 
           {% if now().strftime("%A")|lower in weekday %}
-            {% if time >= prefer_weekday_low or (time <= prefer_weekday_high and sleep_mode) %}
+            {% if time >= prefer_weekday_low or time <= prefer_weekday_high %}
               {% set brightness = "_low" %}
             {% elif time >= prefer_weekday_mid or time <= prefer_weekday_high %}
               {% set brightness = "_mid" %}
@@ -45,7 +45,7 @@ update_scene:
               {% set brightness = "_mid" if trigger is defined else "_high" %}
             {% endif %}
           {% else %}
-            {% if time >= prefer_weekend_low or (time <= prefer_weekend_high and sleep_mode) %}
+            {% if time >= prefer_weekend_low or time <= prefer_weekend_high %}
               {% set brightness = "_low" %}
             {% elif time >= prefer_weekend_mid or time <= prefer_weekend_high %}
               {% set brightness = "_mid" %}
