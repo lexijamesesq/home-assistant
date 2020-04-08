@@ -165,7 +165,7 @@
     entity_id: sensor.bedroom_presence
     to: 'occupied'
     for:
-      seconds: 30
+      minutes: 2
   condition:
     condition: or
     conditions:
@@ -193,7 +193,7 @@
       entity_id: sensor.bedroom_presence
       to: 'unoccupied'
       for:
-        minutes: 5
+        minutes: 20
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.mode_sleep
