@@ -1,4 +1,49 @@
 ##############################################################
+# Wakeup Scenes
+##############################################################
+scene_bedroom_wakeup:
+  alias: Scene Bedroom Tiles Day Wakeup
+  sequence:
+    - condition: state
+      entity_id: light.bedroom_tiles
+      state: 'off'
+    - service: shell_command.lifx_bedroom_tiles_zero
+    - delay: '00:00:10'
+    - service: shell_command.lifx_bedroom_tiles_wakeup
+    - service: light.turn_on
+      entity_id: light.bedroom_lights
+      data:
+        brightness: 5
+        color_temp: 500
+    - delay: '00:00:10'
+    - service: light.turn_on
+      entity_id: light.bedroom_tiles
+      data:
+        transition: 900
+        brightness: 255
+    - service: light.turn_on
+      entity_id: light.bedroom_lights
+      data:
+        transition: 900
+        brightness: 255
+        color_temp: 333
+    - delay: '00:20:00'
+    - service: light.turn_on
+      entity_id: light.bedroom_tiles
+      data:
+        transition: 120
+        brightness: 77
+    - service: light.turn_on
+      entity_id: light.bedroom_lights
+      data:
+        transition: 120
+        brightness: 75
+        color_temp: 285
+    - delay: '00:2:00'
+    - service: shell_command.lifx_bedroom_tiles_day
+
+
+##############################################################
 # Bedroom Scenes
 ##############################################################
 
@@ -121,30 +166,6 @@ scene_bedroom_tiles_night:
   sequence:
     - service: script.turn_on
       entity_id: script.scene_bedroom_tiles_night
-
-scene_bedroom_tiles_day_wakeup:
-  alias: Scene Bedroom Tiles Day Wakeup
-  sequence:
-    - condition: state
-      entity_id: light.bedroom_tiles
-      state: 'off'
-    - service: shell_command.lifx_bedroom_tiles_zero
-    - delay: '00:00:10'
-    - service: shell_command.lifx_bedroom_tiles_wakeup
-    - delay: '00:00:10'
-    - service: light.turn_on
-      data:
-        entity_id: light.bedroom_tiles
-        brightness: 255
-        transition: 900
-    - delay: '00:20:00'
-    - service: light.turn_on
-      entity_id: light.bedroom_tiles
-      data:
-        brightness: 77
-        transition: 120
-    - delay: '00:2:00'
-    - service: shell_command.lifx_bedroom_tiles_day
 
 
 # Indirect Scenes ############################################
