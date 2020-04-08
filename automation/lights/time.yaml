@@ -86,6 +86,61 @@
 
 
 ##############################################################
+# Sleep Mode - Reduce Blue Light
+##############################################################
+- alias: Bedroom Lights at Night - Sleep Mode On
+  trigger:
+    platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'home'
+      - condition: state
+        entity_id: light.bedroom_tiles
+        state: 'on'
+      - condition: state
+        entity_id: light.bedroom_lights
+        state: 'on'
+  action:
+    - service: shell_command.lifx_bedroom_tiles_wakeup
+    - delay: '00:00:10'
+    - service: light.turn_on
+      entity_id: light.bedroom_tiles
+      data:
+        brightness: 77
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_sleep_mode_on
+
+- alias: Bedroom Lights at Night - Sleep Mode off
+  trigger:
+    platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'home'
+      - condition: state
+        entity_id: light.bedroom_tiles
+        state: 'on'
+      - condition: state
+        entity_id: light.bedroom_lights
+        state: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'bedroom,bedroom_tiles'
+
+
+##############################################################
 # Alexa Alarm Wakeup Light
 ##############################################################
 - alias: Bedroom Wakeup Light
@@ -124,6 +179,7 @@
   action:
     - service: light.turn_off
       entity_id: light.bedroom_closet_lights
+
 # Guest Bedroom Closet Lights Timed Out ######################
 - alias: Guest Bedroom Closet Lights Timed Out
   trigger:
