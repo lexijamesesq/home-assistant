@@ -1,0 +1,29 @@
+type: entities
+title: Thermostat
+show_header_toggle: false
+entities:
+  - type: section
+    label: Settings
+  - entity: sensor.climate_downstairs_sleep_mode_cool
+    type: custom:multiple-entity-row
+    name: Downstairs Sleep Mode Temperatures
+    show_state: false
+    entities:
+      - entity: sensor.climate_downstairs_sleep_mode_cool
+        name: Cool
+      - entity: sensor.climate_downstairs_sleep_mode_heat
+        name: Heat
+  - entity: sensor.climate_upstairs_sleep_mode_cool
+    type: custom:multiple-entity-row
+    name: Upstairs Sleep Mode Temperatures
+    show_state: false
+    entities:
+      - entity: sensor.climate_upstairs_sleep_mode_cool
+        name: Cool
+      - entity: sensor.climate_upstairs_sleep_mode_heat
+        name: Heat
+  - type: section
+    label: Automation
+  - entity: automation.cycle_stale_air_when_away
+  - entity: automation.nest_temperature_sleep_mode_started
+    name: Bedroom Temperature During Sleep Mode

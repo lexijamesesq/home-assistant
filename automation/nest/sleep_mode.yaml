@@ -10,11 +10,11 @@
     - service: climate.set_temperature
       entity_id: climate.downstairs
       data_template:
-        temperature: '{{ 76 if is_state("climate.downstairs", "heat") else 80 }}'
+        temperature: '{{ states("sensor.climate_downstairs_sleep_mode_heat") if is_state("climate.downstairs", "heat") else states("sensor.climate_downstairs_sleep_mode_cool") }}'
     - service: climate.set_temperature
       entity_id: climate.upstairs
       data:
-        temperature: 74
+        temperature: '{{ states("sensor.climate_upstairs_sleep_mode_heat") if is_state("climate.downstairs", "heat") else states("sensor.climate_upstairs_sleep_mode_cool") }}'
 - alias: Nest Temperature Sleep Mode Ended
   trigger:
     - platform: state

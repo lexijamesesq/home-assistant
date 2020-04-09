@@ -1305,6 +1305,47 @@
       value_template: '{{ states("sensor.suncalc_goldenhourend") }}'
 
 
+# Preferred Lighting Time Sensors - Display
+- platform: template
+  sensors:
+    dashboard_prefer_lighting_low:
+      friendly_name: Prefer Lighting Low Time
+      value_template: >-
+        {% set day = "weekday" if now().strftime("%A")|lower in ["sunday", "monday", "tuesday", "wednesday", "thursday"] else "weekend" %}
+        {{ as_timestamp(states("sensor.date") + " " + states("sensor.prefer_" ~ day ~ "_lighting_low")) | timestamp_custom("%-I:%M %p") }}
+    dashboard_prefer_lighting_mid:
+      friendly_name: Prefer Lighting Mid Time
+      value_template: >-
+        {% set day = "weekday" if now().strftime("%A")|lower in ["sunday", "monday", "tuesday", "wednesday", "thursday"] else "weekend" %}
+        {{ as_timestamp(states("sensor.date") + " " + states("sensor.prefer_" ~ day ~ "_lighting_mid")) | timestamp_custom("%-I:%M %p") }}
+    dashboard_prefer_lighting_high:
+      friendly_name: Prefer Lighting High Time
+      value_template: >-
+        {% set day = "weekday" if now().strftime("%A")|lower in ["sunday", "monday", "tuesday", "wednesday", "thursday"] else "weekend" %}
+        {{ as_timestamp(states("sensor.date") + " " + states("sensor.prefer_" ~ day ~ "_lighting_high")) | timestamp_custom("%-I:%M %p") }}
+
+
+# Nest Sleep Mode Temperatures
+- platform: template
+  sensors:
+    climate_downstairs_sleep_mode_cool:
+      friendly_name: Downstairs Nest Sleep Mode - Cool
+      value_template: 80
+      unit_of_measurement: "ºF"
+    climate_downstairs_sleep_mode_heat:
+      friendly_name: Downstairs Nest Sleep Mode - Heat
+      value_template: 76
+      unit_of_measurement: "ºF"
+    climate_upstairs_sleep_mode_cool:
+      friendly_name: Upstairs Nest Sleep Mode - Cool
+      value_template: 74
+      unit_of_measurement: "ºF"
+    climate_upstairs_sleep_mode_heat:
+      friendly_name: Upstairs Nest Sleep Mode - Heat
+      value_template: 74
+      unit_of_measurement: "ºF"
+
+
 # Nest Restore Modes
 - platform: template
   sensors:
