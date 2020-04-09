@@ -26,4 +26,4 @@ entities:
     label: Automation
   - entity: automation.cycle_stale_air_when_away
   - entity: automation.nest_temperature_sleep_mode_started
-    name: Bedroom Temperature During Sleep Mode
+    name: Adjust Temperature During Sleep Mode
