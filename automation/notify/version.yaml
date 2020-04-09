@@ -1,4 +1,22 @@
 ##############################################################
+# Home Assistant
+##############################################################
+# New Major Version ##########################################
+- alias: Notify HA - New Majory Version
+  trigger:
+    platform: state
+    entity_id: sensor.state_ha_new_major_version
+    to: 'on'
+  action:
+    service: persistent_notification.create
+    data_template:
+      title: Major Version Update Available
+      message: >-
+        {% set version = states('sensor.latest_version') %}
+        An update to {{ version }} was just released for Home Assistant.
+
+
+##############################################################
 # HACS Events
 ##############################################################
 # New Repository Added #######################################

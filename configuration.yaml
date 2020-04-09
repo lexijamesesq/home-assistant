@@ -41,7 +41,7 @@ frontend:
 system_health:
 
 
-updater:
+# updater:
 
 
 http:

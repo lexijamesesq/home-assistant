@@ -10,6 +10,8 @@
 
 # Home Assistant Version
 - platform: version
+  source: local
+- platform: version
   source: docker
 
 # Home Assistant Uptime
@@ -1814,11 +1816,11 @@
     state_ha_new_major_version:
       friendly_name: State - HA New Major Version
       entity_id:
-        - sensor.version
-        - binary_sensor.updater
+        - sensor.current_version
+        - sensor.latest_version
       value_template: >-
-        {%- if not is_state("binary_sensor.updater", "unavailable") -%}
-          {{- "on" if state_attr("binary_sensor.updater", "newest_version").rsplit(".", 1)[0] > states("sensor.current_version").rsplit(".", 1)[0] else "off" -}}
+        {%- if states.sensor.current_version.state is defined and states.sensor.latest_version.state is defined -%}
+          {{- "on" if states("sensor.latest_version").rsplit(".", 1)[0] > states("sensor.current_version").rsplit(".", 1)[0] else "off" -}}
         {%- else -%}
           unknown
         {%- endif %}
