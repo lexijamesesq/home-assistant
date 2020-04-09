@@ -2,7 +2,7 @@
 # Home Assistant
 ##############################################################
 # New Major Version ##########################################
-- alias: Notify HA - New Majory Version
+- alias: Notify HA - New Major Version
   trigger:
     platform: state
     entity_id: sensor.state_ha_new_major_version
@@ -10,10 +10,10 @@
   action:
     service: persistent_notification.create
     data_template:
-      title: Major Version Update Available
+      title: New Major Version Available
       message: >-
         {% set version = states('sensor.latest_version') %}
-        An update to {{ version }} was just released for Home Assistant.
+        An update to {{ version }} is available for Home Assistant. View the [release notes](https://www.home-assistant.io/latest-release-notes/).
 
 
 ##############################################################
