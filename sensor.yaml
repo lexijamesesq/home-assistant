@@ -1039,7 +1039,7 @@
       friendly_name: Alexa Wakeup Light
       entity_id: sensor.time
       value_template: >-
-        {% set alarmset = not is_state("sensor.bedroom_sonos_one_next_alarm", "") or not is_state("sensor.bedroom_sonos_one_next_alarm", none) %}
+        {% set alarmset = not is_state("sensor.bedroom_sonos_one_next_alarm", "") and not is_state("sensor.bedroom_sonos_one_next_alarm", none) and not is_state("sensor.bedroom_sonos_one_next_alarm", "unavailable") %}
         {% if alarmset %}
           {% set fifteenbefore = (as_timestamp(states("sensor.bedroom_sonos_one_next_alarm")) - (20*60)) %}
           {% set nextalarm = fifteenbefore | timestamp_custom('%Y-%m-%d') %}
@@ -1062,7 +1062,7 @@
         - sensor.time
         - sensor.bedroom_sonos_one_next_alarm
       value_template: >-
-        {% set alarmset = not is_state("sensor.bedroom_sonos_one_next_alarm", "") or not is_state("sensor.bedroom_sonos_one_next_alarm", none) %}
+        {% set alarmset = not is_state("sensor.bedroom_sonos_one_next_alarm", "") and not is_state("sensor.bedroom_sonos_one_next_alarm", none) and not is_state("sensor.bedroom_sonos_one_next_alarm", "unavailable") %}
         {% if alarmset %}
           {% set nextalarm = as_timestamp(states("sensor.bedroom_sonos_one_next_alarm")) %}
           {% set dayof = states("sensor.date") == nextalarm | timestamp_custom('%Y-%m-%d') %}
@@ -1079,7 +1079,7 @@
           None
         {% endif %}
       icon_template: >-
-        {% set alarmset = not is_state("sensor.bedroom_sonos_one_next_alarm", "") or not is_state("sensor.bedroom_sonos_one_next_alarm", none) %}
+        {% set alarmset = not is_state("sensor.bedroom_sonos_one_next_alarm", "") and not is_state("sensor.bedroom_sonos_one_next_alarm", none) and not is_state("sensor.bedroom_sonos_one_next_alarm", "unavailable") %}
         {% if alarmset %}
           {% set nextalarm = as_timestamp(states("sensor.bedroom_sonos_one_next_alarm")) %}
           {% set ispast = nextalarm < as_timestamp(now()) %}
