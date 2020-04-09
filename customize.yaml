@@ -390,3 +390,28 @@ input_boolean.sonos_move:
   icon: mdi:speaker
 sensor.u_s_air_quality_index:
   icon: mdi:chemical-weapon
+automation.garage_lighting_on_motion:
+  icon: mdi:walk
+automation.garage_stairs_lighting_on_motion:
+  icon: mdi:walk
+automation.downstairs_hallway_lighting_on_motion:
+  icon: mdi:walk
+automation.den_hallway_lighting_on_motion:
+  icon: mdi:walk
+automation.upstairs_hallway_group_lighting_on_motion:
+  icon: mdi:walk
+sensor.dashboard_prefer_lighting_high:
+  icon: mdi:clock-outline
+sensor.dashboard_prefer_lighting_low:
+  icon: mdi:clock-outline
+sensor.dashboard_prefer_lighting_mid:
+  icon: mdi:clock-outline
+sensor.climate_downstairs_sleep_mode_cool:
+  icon: mdi:thermostat
+sensor.climate_downstairs_sleep_mode_heat:
+  friendly_name: Downstairs Nest Sleep Mode - Heat
+  icon: mdi:thermostat
+sensor.climate_upstairs_sleep_mode_cool:
+  icon: mdi:thermostat
+sensor.climate_upstairs_sleep_mode_heat:
+  icon: mdi:thermostat

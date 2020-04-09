@@ -1,0 +1,31 @@
+type: entities
+title: Lights
+show_header_toggle: false
+entities:
+  - type: section
+    label: Settings
+  - entity: sensor.dashboard_prefer_lighting_high
+    name: Prefer Bright Scenes After
+  - entity: sensor.dashboard_prefer_lighting_mid
+    name: Prefer Intermediate Scenes After
+  - entity: sensor.dashboard_prefer_lighting_low
+    name: Prefer Dim Scenes After
+  - type: section
+    label: Automation
+  - entity: automation.bedroom_wakeup_light
+  - entity: automation.update_lights_at_night_progressive_dimming
+    name: Progressive Dimming at Night
+  - entity: automation.start_simulating_presence_at_night
+    name: Simulate Presence at Night
+  - type: section
+    label: Motion
+  - entity: automation.garage_lighting_on_motion
+    name: Garage
+  - entity: automation.garage_stairs_lighting_on_motion
+    name: Garage Stairs
+  - entity: automation.downstairs_hallway_lighting_on_motion
+    name: Downstairs Hallway
+  - entity: automation.upstairs_hallway_group_lighting_on_motion
+    name: Upstairs Hallway Group
+  - entity: automation.den_hallway_lighting_on_motion
+    name: Den Hallway
