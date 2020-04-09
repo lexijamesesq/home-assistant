@@ -6,7 +6,7 @@ entities:
     label: Settings
   - entity: sensor.climate_downstairs_sleep_mode_cool
     type: custom:multiple-entity-row
-    name: Downstairs Sleep Mode Temperatures
+    name: Downstairs Sleep Mode
     show_state: false
     entities:
       - entity: sensor.climate_downstairs_sleep_mode_cool
@@ -15,7 +15,7 @@ entities:
         name: Heat
   - entity: sensor.climate_upstairs_sleep_mode_cool
     type: custom:multiple-entity-row
-    name: Upstairs Sleep Mode Temperatures
+    name: Upstairs Sleep Mode
     show_state: false
     entities:
       - entity: sensor.climate_upstairs_sleep_mode_cool
@@ -26,4 +26,4 @@ entities:
     label: Automation
   - entity: automation.cycle_stale_air_when_away
   - entity: automation.nest_temperature_sleep_mode_started
-    name: Adjust Temperature During Sleep Mode
+    name: Sleep Mode Temperatures
