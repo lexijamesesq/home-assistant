@@ -1,0 +1,57 @@
+type: custom:mod-card
+style: |
+  ha-card {
+    padding: 0px;
+    background-color: var(--app-header-background-color);
+    --ha-card-background: transparent;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+  }
+card:
+  type: custom:dwains-flexbox-card
+  padding: true
+  cards:
+    - type: custom:dwains-flexbox-card
+      item_classes: 'col-xs-9'
+      cards:
+        - type: markdown
+          style: |
+            ha-card {
+              padding-left: 0.5rem;
+              color: var(--app-header-text-color);
+              box-shadow: none;
+            }
+            ha-markdown {
+              padding: 0 !important;
+            }
+            h1 {
+              font-size: 1.75em;
+              margin-bottom: 0.1em;
+            }
+            p {
+              margin: 0;
+            }
+            strong {
+              font-size: 0.9em;
+            }
+          content: >-
+            # Home Theater
+
+            {% if states("media_player.living_room_apple_tv") != "idle" %}
+              **{{ state_attr("media_player.living_room_apple_tv", "friendly_name") }}**
+              {{ state_attr("media_player.living_room_apple_tv", "media_title") | replace("No title", "Nothing is playing.") }}
+            {% else %}
+              **{{ state_attr("media_player.living_room_apple_tv", "friendly_name") }}**
+              Nothing is playing.
+            {% endif %}
+    - type: custom:dwains-flexbox-card
+      item_classes: 'col-xs-3 end-xs d-inline-flex'
+      style: |
+        button-card {
+          margin-top: 5px;
+        }
+      cards:
+        - type: custom:button-card
+          template: header_state_home_theater
+          entity: sensor.tautulli
+          name: Streams

@@ -33,7 +33,10 @@
   monitored_conditions:
     - friendly_name
     - full_title
+    - progress_percent
     - stream_video_resolution
+    - transcode_decision
+    - user_thumb
     - video_resolution
 
 # Time & Date
@@ -51,6 +54,7 @@
     - 0
   monitored_conditions:
     - summary
+    - icon
     - precip_probability
     - temperature
     - humidity
@@ -188,26 +192,19 @@
     mode_simulate_presence:
       friendly_name: 'Simulate Presence Mode'
       entity_id:
-        - group.residents
-        - input_boolean.mode_guest
         - input_boolean.mode_simulate_presence
+        - group.all_lights
       value_template: >
-        {% if is_state('group.residents', 'not_home') and is_state('input_boolean.mode_guest', 'off') and is_state('input_boolean.mode_night', 'on') %}
-          {% if is_state('input_boolean.mode_simulate_presence', 'on') %}
+        {% if is_state('input_boolean.mode_simulate_presence', 'on') %}
+          {% if is_state("group.all_lights", "on") %}
             Lights On
-          {% elif is_state('input_boolean.mode_simulate_presence', 'off') and ((as_timestamp(now()) - as_timestamp(states.group.residents.last_changed)) | int < (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_simulate_presence.last_changed)) | int) %}
-            {% if as_timestamp(now()) < (as_timestamp(states.group.residents.last_changed) + 1200) %}
-              Delay
-            {% else %}
-              Error
-            {% endif %}
           {% else %}
             Lights Off
           {% endif %}
         {% else %}
           off
         {% endif %}
-      icon_template: 'mdi:shield-home'
+
 
 # Battery sensors
 - platform: template
@@ -783,12 +780,21 @@
     dashboard_current_mode:
       friendly_name: 'Current Mode'
       entity_id:
+        - input_boolean.mode_guest
+        - input_boolean.mode_home_theater
+        - input_boolean.mode_sleep
         - input_boolean.mode_morning
         - input_boolean.mode_day
         - input_boolean.mode_sunset
         - input_boolean.mode_night
       value_template: >-
-        {% if is_state('input_boolean.mode_morning', 'on') %}
+        {% if is_state('input_boolean.mode_sleep', 'on') %}
+          Sleep
+        {% elif is_state('input_boolean.mode_home_theater', 'on') %}
+          Theater
+        {% elif is_state('input_boolean.mode_guest', 'on') %}
+          Guest
+        {% elif is_state('input_boolean.mode_morning', 'on') %}
           Morning
         {% elif is_state('input_boolean.mode_day', 'on') %}
           Day
@@ -800,7 +806,13 @@
           Unknown
         {% endif %}
       icon_template: >-
-        {% if is_state('input_boolean.mode_morning', 'on') %}
+        {% if is_state('input_boolean.mode_sleep', 'on') %}
+          mdi:sleep
+        {% elif is_state('input_boolean.mode_home_theater', 'on') %}
+          mdi:theater
+        {% elif is_state('input_boolean.mode_guest', 'on') %}
+          mdi:human-greeting
+        {% elif is_state('input_boolean.mode_morning', 'on') %}
           mdi:weather-hazy
         {% elif is_state('input_boolean.mode_day', 'on') %}
           mdi:weather-sunny
@@ -828,19 +840,229 @@
         {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_smart_lock_pro_front_door.state == 'locked' and states.lock.august_smart_lock_pro_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
           mdi:shield-home
         {% else %}
-          mdi:shield
+          mdi:shield-off
         {% endif %}
-    dashboard_open_window_count:
-      friendly_name: Open Window Count
-      entity_id: group.all_windows
+    dashboard_occupancy_state:
+      friendly_name: Occupancy State
+      entity_id:
+        - group.residents
+        - sensor.mode_guest
       value_template: >-
-        {% set num = states.binary_sensor
+        {% if is_state("group.residents", "home") %}
+          Resident
+        {% elif is_state("sensor.mode_guest", "on") %}
+          Guest
+        {% else %}
+          Cats
+        {% endif %}
+      icon_template: >-
+        {% if is_state("group.residents", "home") %}
+          mdi:account-multiple
+        {% elif is_state("sensor.mode_guest", "on") %}
+          mdi:human-greeting
+        {% else %}
+          mdi:cat
+        {% endif %}
+    dashboard_simulate_presence_status:
+      friendly_name: Simulate Presence Status
+      entity_id: input_boolean.mode_simulate_presence
+      value_template: >
+        {% if is_state('input_boolean.mode_simulate_presence', 'on') %}
+          Simulating presence.
+        {% else %}
+          off
+        {% endif %}
+    dashboard_garage_actual_status:
+      friendly_name: Garage Actual Status
+      entity_id: cover.garage_actual
+      value_template: >-
+        {{ off if is_state("cover.garage_actual", "closed") else "Garage Actual is open." }}
+    dashboard_open_window_status:
+      friendly_name: Open Window Status
+      entity_id:
+        - binary_sensor.kitchen_windows
+        - binary_sensor.kitchen_windows
+        - binary_sensor.living_room_windows
+        - binary_sensor.living_room_windows
+        - binary_sensor.rec_room_windows
+        - binary_sensor.rec_room_windows
+        - binary_sensor.bedroom_windows
+        - binary_sensor.bedroom_windows
+        - binary_sensor.den_windows
+        - binary_sensor.den_windows
+        - binary_sensor.guest_bedroom_windows
+        - binary_sensor.guest_bedroom_windows
+      value_template: >-
+        {% set num_windows = states.binary_sensor
           | selectattr('entity_id', 'in', states.group.all_windows.attributes.entity_id)
           | selectattr('state', 'eq', 'on')
           | list
           | length
         %}
-        {{ num ~ " Open Window" if num == 1 else num ~ " Open Windows" }}
+        {% set num_downstairs = states.binary_sensor
+          | selectattr('entity_id', 'in', states.group.downstairs_windows.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+        {% set num_upstairs = states.binary_sensor
+          | selectattr('entity_id', 'in', states.group.upstairs_windows.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+
+        {% if num_windows > 1 %}
+          {% if num_downstairs == 0 %}
+            {{ num_windows}} upstairs windows are open.
+          {% elif num_upstairs == 0 %}
+            {{ num_windows}} downstairs windows are open.
+          {% else %}
+            {{ num_windows}} windows are open.
+          {% endif %}
+        {% elif num_windows == 1 %}
+          {% set open_window = states.binary_sensor
+            | selectattr('entity_id', 'in', states.group.all_windows.attributes.entity_id)
+            | selectattr('state', 'eq', 'on')
+            | first
+          %}
+          {{ open_window.attributes.friendly_name }} are open.
+        {% else %}
+          off
+        {% endif %}
+    dashboard_open_door_status:
+      friendly_name: Open Door Status
+      entity_id:
+        - binary_sensor.garage_door
+        - binary_sensor.front_door
+        - binary_sensor.patio_door
+        - binary_sensor.den_door
+      value_template: >-
+        {% set num_doors = states.binary_sensor
+          | selectattr('entity_id', 'in', states.group.all_doors.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+
+        {% if num_doors > 1 %}
+          {{ num_doors}} doors are open.
+        {% elif num_doors == 1 %}
+          {% set open_door = states.binary_sensor
+            | selectattr('entity_id', 'in', states.group.all_doors.attributes.entity_id)
+            | selectattr('state', 'eq', 'on')
+            | first
+          %}
+          {{ open_door.attributes.friendly_name }} is open.
+        {% else %}
+          off
+        {% endif %}
+    dashboard_unlocked_door_status:
+      friendly_name: Unlocked Door Status
+      entity_id:
+        - lock.august_smart_lock_pro_front_door
+        - lock.august_smart_lock_pro_garage_door
+      value_template: >-
+        {% set num = states.lock
+          | selectattr('state', 'eq', 'unlocked')
+          | list
+          | length
+        %}
+
+        {% if num == 2 %}
+          Front Door and Garage Door are unlocked.
+        {% elif num ==1 and is_state("lock.august_smart_lock_pro_front_door", "unlocked") %}
+          Front Door is unlocked.
+        {% elif num ==1 and is_state("lock.august_smart_lock_pro_garage_door", "unlocked") %}
+          Garage Door is unlocked.
+        {% else %}
+          off
+        {% endif %}
+    dashboard_lights_on_status:
+      friendly_name: Lights On Status
+      entity_id:
+        - light.garage_lights
+        - light.garage_stairs
+        - light.downstairs_hallway
+        - light.kitchen
+        - light.patio_lights
+        - light.patio_string_lights
+        - light.living_room
+        - light.living_room_tv
+        - light.rec_room_lights
+        - light.rec_room_tiles
+        - light.main_stairs
+        - light.upstairs_hallway
+        - light.bedroom_hallway
+        - light.bedroom_lights
+        - light.bedroom_tiles
+        - light.bedroom_closet_lights
+        - light.laundry_lights
+        - light.den_hallway
+        - light.den_lights
+        - light.den_cabinets
+        - light.guest_bedroom_closet_lights
+      value_template: >-
+        {% set num_lights = states.light
+          | selectattr('entity_id', 'in', states.group.all_lights.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+
+        {% if num_lights > 1 %}
+          {{ num_lights}} lights are on.
+        {% elif num_lights == 1 %}
+          {% set lights_on = states.light
+            | selectattr('entity_id', 'in', states.group.all_lights.attributes.entity_id)
+            | selectattr('state', 'eq', 'on')
+            | first
+          %}
+          {{ lights_on.attributes.friendly_name }} are on.
+        {% else %}
+          off
+        {% endif %}
+    dashboard_sonos_song_status:
+      friendly_name: Sonos Song Status
+      entity_id:
+        - media_player.sonos_kitchen
+        - media_player.sonos_living_room
+        - media_player.sonos_rec_room
+        - media_player.sonos_bedroom
+        - media_player.sonos_bathroom
+        - media_player.sonos_den
+        - media_player.sonos_move
+        - sensor.sonos_speakers_join
+      value_template: >-
+        {% set group_master = states("sensor.sonos_group_master") %}
+
+        {% if group_master != none %}
+          {% if is_state("sensor.sonos_group_master_state", "playing") %}
+            {{ state_attr(group_master, "media_artist") }} – {{ state_attr(group_master, "media_title") }}
+          {% else %}
+            Nothing is playing.
+          {% endif %}
+        {% else %}
+          off
+        {% endif %}
+    dashboard_sonos_speaker_status:
+      friendly_name: Sonos Speaker Status
+      entity_id:
+        - media_player.sonos_kitchen
+        - media_player.sonos_living_room
+        - media_player.sonos_rec_room
+        - media_player.sonos_bedroom
+        - media_player.sonos_bathroom
+        - media_player.sonos_den
+        - media_player.sonos_move
+        - sensor.sonos_speakers_join
+      value_template: >-
+        {% if group_master != none %}
+          {{ state_attr(states("sensor.sonos_group_master"), "friendly_name") }} + {{ states("sensor.sonos_speakers_join").split(',') | length }}
+        {% else %}
+          off
+        {% endif %}
+
     dashboard_water_delivery:
       friendly_name: Water Delivery
       entity_id: sensor.time
@@ -946,8 +1168,8 @@
           {{ as_timestamp(states.input_text.next_pickup_recycling.state + ' 00:00:00')|timestamp_custom('%A') }}
         {% endif %}
       icon_template: 'mdi:recycle'
-    dashboard_bedroom_fan_hepa_filter:
-      friendly_name: Bedroom Fan HEPA Filter
+    dashboard_bedroom_fan_filter:
+      friendly_name: Bedroom Fan Filter
       entity_id: fan.bedroom
       value_template: >-
         {% if states.fan.bedroom.attributes["hepa_filter"] <= 33 %}
@@ -956,11 +1178,21 @@
           off
         {% endif %}
       icon_template: 'mdi:air-filter'
-    dashboard_bedroom_fan_carbon_filter:
-      friendly_name: Bedroom Fan Carbon Filter
-      entity_id: fan.bedroom
+    dashboard_kitchen_fan_hepa_filter:
+      friendly_name: Kitchen Fan HEPA Filter
+      entity_id: fan.kitchen
       value_template: >-
-        {% if states.fan.bedroom.attributes["carbon_filter"] <= 33 %}
+        {% if states.fan.kitchen.attributes["hepa_filter"] <= 33 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: 'mdi:air-filter'
+    dashboard_kitchen_fan_carbon_filter:
+      friendly_name: Kitchen Fan Carbon Filter
+      entity_id: fan.kitchen
+      value_template: >-
+        {% if states.fan.kitchen.attributes["carbon_filter"] <= 33 %}
           on
         {% else %}
           off
@@ -1109,7 +1341,7 @@
         - media_player.sonos_den
         - media_player.sonos_move
       value_template: >-
-        {%- for player in states.media_player if player.attributes.sonos_group and player.state == 'playing' and player.attributes.sonos_group[0] == player.entity_id %}
+        {%- for player in states.media_player if player.attributes.sonos_group and player.state == 'playing' and player.attributes.sonos_group[0] == player.entity_id and player.attributes.source is not defined %}
           {% if loop.last %}
             {{ player.entity_id }}
           {% endif %}
@@ -1284,6 +1516,7 @@
         {{ (((as_timestamp(today ~ " " ~ prefer_weekday_low) - sunset) / 2) + sunset) | timestamp_custom("%H:%M") }}
     prefer_weekday_lighting_high:
       friendly_name: Prefer Weekday Lighting High Time
+      entity_id: sensor.suncalc_goldenhourend
       value_template: '{{ states("sensor.suncalc_goldenhourend") }}'
     prefer_weekend_lighting_low:
       friendly_name: Prefer Weekend Lighting Low Time
@@ -1302,6 +1535,7 @@
         {{ (((as_timestamp(today ~ " " ~ prefer_weekend_low) - sunset) / 2) + sunset) | timestamp_custom("%H:%M") }}
     prefer_weekend_lighting_high:
       friendly_name: Prefer Weekend Lighting High Time
+      entity_id: sensor.suncalc_goldenhourend
       value_template: '{{ states("sensor.suncalc_goldenhourend") }}'
 
 
@@ -1310,16 +1544,25 @@
   sensors:
     dashboard_prefer_lighting_low:
       friendly_name: Prefer Lighting Low Time
+      entity_id:
+        - sensor.prefer_weekday_lighting_low
+        - sensor.prefer_weekend_lighting_low
       value_template: >-
         {% set day = "weekday" if now().strftime("%A")|lower in ["sunday", "monday", "tuesday", "wednesday", "thursday"] else "weekend" %}
         {{ as_timestamp(states("sensor.date") + " " + states("sensor.prefer_" ~ day ~ "_lighting_low")) | timestamp_custom("%-I:%M %p") }}
     dashboard_prefer_lighting_mid:
       friendly_name: Prefer Lighting Mid Time
+      entity_id:
+        - sensor.prefer_weekday_lighting_mid
+        - sensor.prefer_weekend_lighting_mid
       value_template: >-
         {% set day = "weekday" if now().strftime("%A")|lower in ["sunday", "monday", "tuesday", "wednesday", "thursday"] else "weekend" %}
         {{ as_timestamp(states("sensor.date") + " " + states("sensor.prefer_" ~ day ~ "_lighting_mid")) | timestamp_custom("%-I:%M %p") }}
     dashboard_prefer_lighting_high:
       friendly_name: Prefer Lighting High Time
+      entity_id:
+        - sensor.prefer_weekday_lighting_high
+        - sensor.prefer_weekend_lighting_high
       value_template: >-
         {% set day = "weekday" if now().strftime("%A")|lower in ["sunday", "monday", "tuesday", "wednesday", "thursday"] else "weekend" %}
         {{ as_timestamp(states("sensor.date") + " " + states("sensor.prefer_" ~ day ~ "_lighting_high")) | timestamp_custom("%-I:%M %p") }}
@@ -1470,11 +1713,6 @@
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity | title }}'
       entity_picture_template: !secret tautulli_user1_picture
-    tautulli_user1_playing:
-      friendly_name: !secret tautulli_user1_friendly_name_playing
-      entity_id:
-        - sensor.tautulli
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user1")).full_title }}'
     # Tautulli User 2
     tautulli_user2:
       friendly_name: !secret tautulli_user2_friendly_name
@@ -1482,11 +1720,6 @@
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity | title }}'
       entity_picture_template: !secret tautulli_user2_picture
-    tautulli_user2_playing:
-      friendly_name: !secret tautulli_user2_friendly_name_playing
-      entity_id:
-        - sensor.tautulli
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user2")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user2")).full_title }}'
     # Tautulli User 3
     tautulli_user3:
       friendly_name: !secret tautulli_user3_friendly_name
@@ -1494,11 +1727,6 @@
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity | title }}'
       entity_picture_template: !secret tautulli_user3_picture
-    tautulli_user3_playing:
-      friendly_name: !secret tautulli_user3_friendly_name_playing
-      entity_id:
-        - sensor.tautulli
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user3")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user3")).full_title }}'
     # Tautulli User 4
     tautulli_user4:
       friendly_name: !secret tautulli_user4_friendly_name
@@ -1506,11 +1734,6 @@
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity | title }}'
       entity_picture_template: !secret tautulli_user4_picture
-    tautulli_user4_playing:
-      friendly_name: !secret tautulli_user4_friendly_name_playing
-      entity_id:
-        - sensor.tautulli
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user4")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user4")).full_title }}'
     # Tautulli User 5
     tautulli_user5:
       friendly_name: !secret tautulli_user5_friendly_name
@@ -1518,11 +1741,6 @@
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity | title }}'
       entity_picture_template: !secret tautulli_user5_picture
-    tautulli_user5_playing:
-      friendly_name: !secret tautulli_user5_friendly_name_playing
-      entity_id:
-        - sensor.tautulli
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user5")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user5")).full_title }}'
     # Tautulli User 6
     tautulli_user6:
       friendly_name: !secret tautulli_user6_friendly_name
@@ -1530,11 +1748,6 @@
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity | title }}'
       entity_picture_template: !secret tautulli_user6_picture
-    tautulli_user6_playing:
-      friendly_name: !secret tautulli_user6_friendly_name_playing
-      entity_id:
-        - sensor.tautulli
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user6")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user6")).full_title }}'
     # Tautulli User 7
     tautulli_user7:
       friendly_name: !secret tautulli_user7_friendly_name
@@ -1542,11 +1755,6 @@
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity | title }}'
       entity_picture_template: !secret tautulli_user7_picture
-    tautulli_user7_playing:
-      friendly_name: !secret tautulli_user7_friendly_name_playing
-      entity_id:
-        - sensor.tautulli
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user7")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user7")).full_title }}'
     # Tautulli User 8
     tautulli_user8:
       friendly_name: !secret tautulli_user8_friendly_name
@@ -1554,11 +1762,6 @@
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity | title }}'
       entity_picture_template: !secret tautulli_user8_picture
-    tautulli_user8_playing:
-      friendly_name: !secret tautulli_user8_friendly_name_playing
-      entity_id:
-        - sensor.tautulli
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user8")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user8")).full_title }}'
     # Tautulli User 9
     tautulli_user9:
       friendly_name: !secret tautulli_user9_friendly_name
@@ -1566,11 +1769,6 @@
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity | title }}'
       entity_picture_template: !secret tautulli_user9_picture
-    tautulli_user9_playing:
-      friendly_name: !secret tautulli_user9_friendly_name_playing
-      entity_id:
-        - sensor.tautulli
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user9")).full_title == "" else state_attr("sensor.tautulli", states("input_text.tautulli_user9")).full_title }}'
 
 - platform: rest
   name: Tautulli Plex Update Available

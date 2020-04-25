@@ -1,0 +1,37 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Bedroom Tiles
+  - type: custom:button-card
+    template: scene
+    entity: script.scene_bedroom_tiles_wakeup
+    styles:
+      card:
+        - background: 'linear-gradient(15deg, #DCC58B, #FFF8E5)'
+  - type: custom:button-card
+    template: scene
+    entity: script.scene_bedroom_tiles_day
+    styles:
+      card:
+        - background: 'linear-gradient(15deg, #2906F0, #E9CC6B)'
+  - type: custom:button-card
+    template: scene
+    entity: script.scene_bedroom_tiles_night
+    styles:
+      card:
+        - background: 'linear-gradient(345deg, #36B2FF, #FFC4FA)'

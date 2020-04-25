@@ -1,0 +1,16 @@
+type: custom:state-switch
+entity: hash
+default: all
+states:
+  all:
+    !include all_scenes.yaml
+  living_room_tv:
+    !include living_room_tv.yaml
+  rec_room_tiles:
+    !include rec_room_tiles.yaml
+  bedroom:
+    !include bedroom.yaml
+  bedroom_tiles:
+    !include bedroom_tiles.yaml
+  den:
+    !include den.yaml

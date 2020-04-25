@@ -1,0 +1,26 @@
+type: conditional
+conditions:
+  - entity: binary_sensor.garage_actual
+    state: "on"
+card:
+  type: custom:dwains-flexbox-card
+  items_classes: 'col-xs-12'
+  padding: true
+  cards:
+    - type: custom:button-card
+      template: row_icon_status
+      entity: script.trigger_garage_door_opener
+      show_state: false
+      show_label: false
+      name: Close Garage Actual
+      icon: 'mdi:remote'
+      tap_action:
+        action: call-service
+        service: script.trigger_garage_door_opener
+      styles:
+        grid:
+          - grid-template-areas: '"i n"'
+          - grid-template-columns: min-content 1fr
+          - grid-template-rows: min-content
+        name:
+          - margin-left: 12px

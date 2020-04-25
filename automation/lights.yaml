@@ -56,26 +56,6 @@
             script.scene_empty_home
           {% endif %}
 
-# Simulate Presence ##########################################
-- alias: Start Simulating Presence at Night
-  trigger:
-    - platform: state
-      entity_id: input_boolean.mode_simulate_presence
-      to: 'on'
-  action:
-    - service: scene.turn_on
-      data_template:
-        entity_id: '{{ states.group.simulate_presence_scenes.attributes.entity_id | random }}'
-
-- alias: End Simulating Presence at Night
-  trigger:
-    - platform: state
-      entity_id: input_boolean.mode_simulate_presence
-      to: 'off'
-  action:
-    - service: light.turn_off
-      entity_id: all
-
 
 ##############################################################
 # Sleep Mode

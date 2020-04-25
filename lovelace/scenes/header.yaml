@@ -1,0 +1,75 @@
+type: custom:mod-card
+style: |
+  ha-card {
+    padding: 0px;
+    background-color: var(--app-header-background-color);
+    --ha-card-background: transparent;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+  }
+card:
+  type: custom:dwains-flexbox-card
+  padding: true
+  cards:
+    - type: custom:state-switch
+      item_classes: 'col-xs-12'
+      entity: hash
+      default: default
+      states:
+        default:
+          type: custom:dwains-flexbox-card
+          item_classes: 'col-xs-12'
+          cards:
+            - type: markdown
+              style: |
+                ha-card {
+                  padding-left: 0.5rem;
+                  color: var(--app-header-text-color);
+                  box-shadow: none;
+                  --iron-icon-width: 36px;
+                  --iron-icon-height: 36px;
+                }
+                ha-icon {
+                  margin-top: -8px;
+                  margin-bottom: -4px;
+                  margin-left: -12px;
+                }
+                ha-markdown {
+                  padding: 0 !important;
+                }
+                h1 {
+                  font-size: 1.75em;
+                  margin-bottom: 0.1em;
+                }
+                a {
+                  color: #ffffff !important;
+                  text-decoration: none;
+                }
+                p {
+                  margin: 0;
+                }
+              content: >-
+                # [<ha-icon icon="mdi:chevron-left"></ha-icon>Scenes](/lovelace/lights)
+        all:
+          type: custom:dwains-flexbox-card
+          item_classes: 'col-xs-12'
+          cards:
+            - type: markdown
+              style: |
+                ha-card {
+                  padding-left: 0.5rem;
+                  color: var(--app-header-text-color);
+                  box-shadow: none;
+                }
+                ha-markdown {
+                  padding: 0 !important;
+                }
+                h1 {
+                  font-size: 1.75em;
+                  margin-bottom: 0.1em;
+                }
+                p {
+                  margin: 0;
+                }
+              content: >-
+                # Scenes

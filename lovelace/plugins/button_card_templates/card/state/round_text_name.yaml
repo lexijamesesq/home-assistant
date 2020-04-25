@@ -1,0 +1,31 @@
+round_text_name:
+  show_name: true
+  show_state: true
+  show_label: false
+  show_icon: false
+  state_display: '[[[ return `${entity.state}` ]]]'
+  tap_action:
+    action: more-info
+  styles:
+    grid:
+      - grid-template-areas: '"s" "n"'
+    card:
+      - box-shadow: none
+      - margin-top: 4px
+      - padding: 0
+      - width: 60px
+      - height: 54.5px
+    state:
+      - width: 40px
+      - height: 40px
+      - font-size: 0.9em
+      - font-weight: bold
+      - line-height: 40px
+      - background: rgba(0, 0, 0, 0.1)
+      - color: var(--primary-text-color)
+      - border-radius: 100%
+    name:
+      - color: rgba(0, 0, 0, 0.87)
+      - justify-self: center
+      - font-size: 12px
+      - width: 55px

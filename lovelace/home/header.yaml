@@ -1,0 +1,88 @@
+type: custom:mod-card
+style: |
+  ha-card {
+    padding: 0px;
+    background-color: var(--app-header-background-color);
+    --ha-card-background: transparent;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+  }
+card:
+  type: custom:dwains-flexbox-card
+  padding: true
+  cards:
+    - type: custom:dwains-flexbox-card
+      item_classes: 'col-xs-7'
+      cards:
+        - type: markdown
+          style: |
+            ha-card {
+              padding-left: 0.5rem;
+              color: var(--app-header-text-color);
+              box-shadow: none;
+              --iron-icon-width: 15px;
+              --iron-icon-height: 15px;
+            }
+            ha-icon {
+              margin-top: -4px;
+              margin-right: 4px;
+            }
+            ha-markdown {
+              padding: 0 !important;
+            }
+            h1 {
+              font-size: 1.75em;
+              margin-bottom: 0.1em;
+            }
+            p {
+              margin: 0;
+            }
+          content: >-
+            {% if is_state("sensor.mode_morning", "on") %}
+              # Good Morning
+            {% elif is_state("sensor.mode_day", "on") %}
+              {% if states("sensor.time") < "12:00" %}
+                # Good Morning
+              {% else %}
+                # Good Afternoon
+              {% endif %}
+            {% elif is_state("sensor.mode_sunset", "on") %}
+              # Good Evening
+            {% elif is_state("sensor.mode_night", "on") %}
+              {% if is_state("sensor.mode_sleep", "off") %}
+                # Good Evening
+              {% else %}
+                # Good Night
+              {% endif %}
+            {% endif %}
+
+            {% if is_state("sensor.dashboard_home_state", "Secure") and is_state("group.all_windows", "off") %}
+              Everything is locked down.
+            {% else %}
+              {{ states("sensor.dashboard_garage_actual_status") | replace("off", "") }}
+              {{ states("sensor.dashboard_open_door_status") | replace("off", "") }}
+              {{ states("sensor.dashboard_unlocked_door_status") | replace("off", "") }}
+              {{ states("sensor.dashboard_open_window_status") | replace("off", "") }}
+            {% endif %}
+            {% if is_state("sensor.mode_sleep", "on") %}
+              <ha-icon icon="{{ state_attr('sensor.alexa_next_alarm', 'icon') }}"></ha-icon>{{ states("sensor.alexa_next_alarm") | replace("None", "Not set") }}
+            {% endif %}
+    - type: custom:dwains-flexbox-card
+      item_classes: 'col-xs-5 end-xs d-inline-flex'
+      style: |
+        button-card {
+          margin-top: 5px;
+        }
+      cards:
+        - type: custom:button-card
+          template: header_state_home
+          entity: sensor.dashboard_current_mode
+          tap_action:
+            action: navigate
+            navigation_path: modes
+        - type: custom:button-card
+          template: header_state_home
+          entity: sensor.dashboard_home_state
+          tap_action:
+            action: navigate
+            navigation_path: security

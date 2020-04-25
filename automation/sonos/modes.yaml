@@ -15,3 +15,24 @@
     - service: media_player.media_pause
       data_template:
         entity_id: '{{ states.sensor.sonos_group_master.state }}'
+
+
+# Peloton Mode ###############################################
+- alias: Sonos Group Enable Peloton Settings
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_peloton
+      to: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.sonos_group_peloton_settings
+- alias: Sonos Group Restore After Peloton Settings
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_peloton
+      to: 'off'
+  action:
+    - service: media_player.media_pause
+      entity_id: media_player.sonos_rec_room
+    - service: script.turn_on
+      entity_id: script.sonos_group_update_settings

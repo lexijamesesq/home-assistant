@@ -1,0 +1,67 @@
+type: custom:mod-card
+style: |
+  ha-card {
+    padding: 0px;
+    background-color: var(--app-header-background-color);
+    --ha-card-background: transparent;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+  }
+card:
+  type: custom:dwains-flexbox-card
+  padding: true
+  cards:
+    - type: custom:dwains-flexbox-card
+      item_classes: 'col-xs-7'
+      cards:
+        - type: markdown
+          style: |
+            ha-card {
+              padding-left: 0.5rem;
+              color: var(--app-header-text-color);
+              box-shadow: none;
+            }
+            ha-markdown {
+              padding: 0 !important;
+            }
+            h1 {
+              font-size: 1.75em;
+              margin-bottom: 0.1em;
+            }
+            p {
+              margin: 0;
+            }
+          content: >-
+            # Security
+
+            {% if is_state("sensor.dashboard_home_state", "Secure") and is_state("group.all_windows", "off") %}
+              Everything is locked down.
+            {% else %}
+              {{ states("sensor.dashboard_garage_actual_status") | replace("off", "") }}
+              {{ states("sensor.dashboard_open_door_status") | replace("off", "") }}
+              {{ states("sensor.dashboard_unlocked_door_status") | replace("off", "") }}
+              {{ states("sensor.dashboard_open_window_status") | replace("off", "") }}
+            {% endif %}
+    - type: custom:dwains-flexbox-card
+      item_classes: 'col-xs-5 end-xs d-inline-flex'
+      style: |
+        button-card {
+          margin-top: 5px;
+        }
+      cards:
+        - type: custom:state-switch
+          entity: input_boolean.mode_simulate_presence
+          default: off
+          states:
+            "off":
+              type: custom:button-card
+              template: header_state_security
+              entity: sensor.dashboard_occupancy_state
+            "on":
+              type: custom:button-card
+              template: header_state_security
+              entity: sensor.mode_simulate_presence
+              name: Presence
+        - type: custom:button-card
+          template: header_state_security
+          entity: sensor.dashboard_home_state

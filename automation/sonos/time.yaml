@@ -44,7 +44,7 @@
         conditions:
           - condition: time
             after: '03:00:00'
-            before: '09:00:00'
+            before: '11:00:00'
             weekday:
               - mon
               - tue
@@ -82,7 +82,7 @@
   trigger:
     platform: time
     # Military time format. This trigger will fire at 9:00 AM
-    at: '09:00:00'
+    at: '11:00:00'
   condition:
     condition: time
     weekday:

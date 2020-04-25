@@ -1,0 +1,7 @@
+type: vertical-stack
+cards:
+  - !include living_room_tv.yaml
+  - !include rec_room_tiles.yaml
+  - !include bedroom.yaml
+  - !include bedroom_tiles.yaml
+  - !include den.yaml

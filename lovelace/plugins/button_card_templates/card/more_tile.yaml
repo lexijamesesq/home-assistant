@@ -1,0 +1,15 @@
+more_tile:
+  template: square_icon_status
+  show_label: false
+  show_state: false
+  styles:
+    grid:
+      - grid-template-areas: '"i" "n"'
+      - grid-template-rows: 1fr min-content
+      - grid-template-columns: 1fr
+    img_cell:
+      - height: 90px
+    icon:
+      - color: var(--paper-item-icon-color)
+    name:
+      - justify-self: center

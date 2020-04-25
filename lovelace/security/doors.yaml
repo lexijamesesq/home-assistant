@@ -1,28 +1,42 @@
-type: entities
-title: Doors
-show_header_toggle: false
-entities:
-  - type: section
-    label: Locks
-  - entity: lock.august_smart_lock_pro_front_door
-    name: Front Door
-    state_color: true
-  - entity: lock.august_smart_lock_pro_garage_door
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Doors
+  - type: custom:button-card
+    template: security_door_window
+    entity: cover.garage_actual
+    tap_action:
+      action: toggle
+  - type: custom:button-card
+    template: security_door_lock
+    entity: lock.august_smart_lock_pro_garage_door
     name: Garage Door
-    state_color: true
-  - type: section
-    label: Garage
-  - entity: binary_sensor.garage_actual
-    state_color: true
-  - entity: binary_sensor.garage_door
-    state_color: true
-  - type: section
-    label: Downstairs
-  - entity: binary_sensor.front_door
-    state_color: true
-  - entity: binary_sensor.patio_door
-    state_color: true
-  - type: section
-    label: Upstairs
-  - entity: binary_sensor.den_door
-    state_color: true
+    variables:
+      door: '[[[ return states["binary_sensor.garage_door"].state ]]]'
+  - type: custom:button-card
+    template: security_door_lock
+    entity: lock.august_smart_lock_pro_front_door
+    name: Front Door
+    variables:
+      door: '[[[ return states["binary_sensor.front_door"].state ]]]'
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.patio_door
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.den_door

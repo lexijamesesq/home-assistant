@@ -3,62 +3,203 @@ views:
   - icon: mdi:home-assistant
     title: Home
     path: home
+    panel: true
     cards:
-      - !include lovelace/home/conditionals.yaml
-      - !include lovelace/home/entities.yaml
-      - !include lovelace/home/buttons.yaml
-      - !include lovelace/home/streams.yaml
-
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            max-width: 1465px;
+            margin: 0 auto;
+          }
+        card:
+          type: vertical-stack
+          cards:
+            - !include lovelace/home/header.yaml
+            - !include lovelace/home/conditional/open_garage.yaml
+            - !include lovelace/home/conditional/close_garage.yaml
+            - !include lovelace/home/entities.yaml
+            - !include lovelace/home/outside.yaml
+            - !include lovelace/home/inside.yaml
   - icon: mdi:lightbulb
     title: Lights
     path: lights
+    panel: true
     cards:
-      - !include lovelace/lights/conditionals.yaml
-      - !include lovelace/lights/entities.yaml
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            max-width: 1465px;
+            margin: 0 auto;
+          }
+        card:
+          type: vertical-stack
+          cards:
+            - !include lovelace/lights/header.yaml
+            - !include lovelace/lights/conditionals.yaml
+            - !include lovelace/lights/garage.yaml
+            - !include lovelace/lights/downstairs.yaml
+            - !include lovelace/lights/upstairs.yaml
   - icon: mdi:thermostat
     title: Thermostat
     path: thermostat
+    panel: true
     cards:
-      - !include lovelace/thermostat/downstairs.yaml
-      - !include lovelace/thermostat/upstairs.yaml
-      - !include lovelace/thermostat/entities.yaml
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            max-width: 1465px;
+            margin: 0 auto;
+          }
+        card:
+          type: vertical-stack
+          cards:
+            - !include lovelace/thermostat/header.yaml
+            - !include lovelace/thermostat/thermostats.yaml
   - icon: mdi:music
     title: Sonos
     path: sonos
+    panel: true
     cards:
-      - !include lovelace/sonos/entities.yaml
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            max-width: 1465px;
+            margin: 0 auto;
+          }
+        card:
+          type: vertical-stack
+          cards:
+            - !include lovelace/sonos/header.yaml
+            - !include lovelace/sonos/speakers.yaml
+            - !include lovelace/sonos/modes.yaml
+            - !include lovelace/sonos/playlists.yaml
   - icon: mdi:television
     title: Home Theater
     path: home_theater
+    panel: true
     cards:
-      - type: vertical-stack
-        cards:
-          - !include lovelace/home_theater/player.yaml
-          - !include lovelace/home_theater/buttons.yaml
-          - !include lovelace/home_theater/bandwidth.yaml
-          - !include lovelace/home_theater/streams.yaml
-          - !include lovelace/home_theater/users.yaml
-          - !include lovelace/home_theater/sonarr.yaml
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            max-width: 1465px;
+            margin: 0 auto;
+          }
+        card:
+          type: vertical-stack
+          cards:
+            - !include lovelace/home_theater/header.yaml
+            - !include lovelace/home_theater/living_room.yaml
+            - !include lovelace/home_theater/bandwidth.yaml
+#            - !include lovelace/home_theater/streams.yaml
+            - !include lovelace/home_theater/users.yaml
+#            - !include lovelace/home_theater/sonarr.yaml
   - icon: mdi:shield-home
     title: Security
     path: security
+    panel: true
     cards:
-      - !include lovelace/security/doors.yaml
-      - !include lovelace/security/windows.yaml
-      - !include lovelace/security/motion.yaml
-      - !include lovelace/security/modes.yaml
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            max-width: 1465px;
+            margin: 0 auto;
+          }
+        card:
+          type: vertical-stack
+          cards:
+            - !include lovelace/security/header.yaml
+            - !include lovelace/security/doors.yaml
+            - !include lovelace/security/windows.yaml
+            - !include lovelace/security/motion.yaml
   - icon: mdi:heart-pulse
     title: Health
     path: health
+    panel: true
     cards:
-      - !include lovelace/health/servers.yaml
-      - !include lovelace/health/services.yaml
-      - !include lovelace/health/network.yaml
-      - !include lovelace/health/battery.yaml
-      - !include lovelace/health/zwave.yaml
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            max-width: 1465px;
+            margin: 0 auto;
+          }
+        card:
+          type: vertical-stack
+          cards:
+            - !include lovelace/health/header.yaml
+            - !include lovelace/health/servers.yaml
+            - !include lovelace/health/services.yaml
+            - !include lovelace/health/network.yaml
+            - !include lovelace/health/battery.yaml
+            - !include lovelace/health/zwave.yaml
   - icon: mdi:account-cog
     title: Preferences
-    path: Preferences
+    path: preferences
+    panel: true
     cards:
-      - !include lovelace/preferences/lights.yaml
-      - !include lovelace/preferences/thermostat.yaml
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            max-width: 1465px;
+            margin: 0 auto;
+          }
+        card:
+          type: vertical-stack
+          cards:
+            - !include lovelace/preferences/header.yaml
+            - !include lovelace/preferences/lights.yaml
+            - !include lovelace/preferences/thermostat.yaml
+  - icon: mdi:dots-horizontal
+    title: More
+    path: more
+    panel: true
+    cards:
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            max-width: 1465px;
+            margin: 0 auto;
+          }
+        card:
+          type: vertical-stack
+          cards:
+            - !include lovelace/more/header.yaml
+            - !include lovelace/more/pages.yaml
+
+  # Always Hidden ##############################################
+  - title: Scenes
+    path: scenes
+    panel: true
+    visible: false
+    cards:
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            max-width: 1465px;
+            margin: 0 auto;
+          }
+        card:
+          type: vertical-stack
+          cards:
+            - !include lovelace/scenes/header.yaml
+            - !include lovelace/scenes/scenes.yaml
+  - title: Modes
+    path: modes
+    panel: true
+    visible: false
+    cards:
+      - type: custom:mod-card
+        style: |
+          ha-card {
+            max-width: 1465px;
+            margin: 0 auto;
+          }
+        card:
+          type: vertical-stack
+          cards:
+            - !include lovelace/modes/header.yaml
+            - !include lovelace/modes/user.yaml
+            - !include lovelace/modes/security.yaml
+            - !include lovelace/modes/home.yaml
+
+custom_header: !include lovelace/plugins/custom_header.yaml
+button_card_templates: !include_dir_merge_named lovelace/plugins/button_card_templates

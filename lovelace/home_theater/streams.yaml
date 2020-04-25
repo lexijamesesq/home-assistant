@@ -5,10 +5,10 @@ cards:
     scale: 25px
     entity: sensor.tautulli_count_transcode
   - type: custom:bignumber-card
-    title: Direct Plays
-    scale: 25px
-    entity: sensor.tautulli_direct_plays
-  - type: custom:bignumber-card
     title: Direct Streams
     scale: 25px
     entity: sensor.tautulli_direct_streams
+  - type: custom:bignumber-card
+    title: Direct Plays
+    scale: 25px
+    entity: sensor.tautulli_direct_plays

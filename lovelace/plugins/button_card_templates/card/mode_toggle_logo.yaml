@@ -1,0 +1,28 @@
+mode_toggle_logo:
+  template: row_icon_status
+  size: inherit
+  show_state: false
+  show_label: false
+  show_name: false
+  show_icon: false
+  show_entity_picture: true
+  tap_action:
+    action: toggle
+  hold_action:
+    action: more-info
+  styles:
+    grid:
+      - grid-template-areas: '"i"'
+      - grid-template-columns: 1fr
+      - grid-template-rows: min-content
+    img_cell:
+      - height: 45px
+  state:
+    - value: "on"
+      styles:
+        icon:
+          - opacity: 1
+    - value: "off"
+      styles:
+        icon:
+          - opacity: 0.3

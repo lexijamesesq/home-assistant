@@ -1,0 +1,31 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Living Room TV
+  - type: custom:button-card
+    template: scene
+    entity: script.scene_living_room_tv
+    styles:
+      card:
+        - background: 'linear-gradient(345deg, #0250c5, #d43f8d)'
+  - type: custom:button-card
+    template: scene
+    entity: script.scene_living_room_tv_night_ht_playing
+    styles:
+      card:
+        - background: '#DCC58B'

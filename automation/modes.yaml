@@ -108,27 +108,21 @@
 
 # Simulate Presence Mode #####################################
 # Turns on between 5:00pm and 3:00am, Night Mode determines actual start time
-# Used for triggering scenes when no one is home, to simulate presence
-# Mode turns on a random time after no one is home
-# Mode stays on for a random length of time
-# Mode will turn on again after a random delay
-- alias: Simulate Presence Mode
+- alias: Start Simulate Presence Mode
   trigger:
     - platform: state
       entity_id: group.residents
       to: 'not_home'
       for:
-        minutes: 10
+        minutes: 5
     - platform: state
       entity_id: input_boolean.mode_guest
       to: 'off'
       for:
-        minutes: 10
+        minutes: 5
     - platform: state
       entity_id: input_boolean.mode_night
       to: 'on'
-    - platform: event
-      event_type: event_simulate_presence
   condition:
     condition: and
     conditions:
@@ -150,11 +144,19 @@
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.mode_simulate_presence
-    - delay: '00:{{ (range(2, 10) | random) }}:00'
+- alias: End Simulate Presence Mode
+  trigger:
+    - platform: state
+      entity_id: group.residents
+      to: 'home'
+    - platform: state
+      entity_id: input_boolean.mode_guest
+      to: 'on'
+    - platform: time
+      at: "03:00:00"
+  action:
     - service: homeassistant.turn_off
       entity_id: input_boolean.mode_simulate_presence
-    - delay: '00:{{ (range(35, 55) | random) }}:00'
-    - event: event_simulate_presence
 
 # Sleep Mode #################################################
 # Starts when bedroom beacon is detected during bedtime.

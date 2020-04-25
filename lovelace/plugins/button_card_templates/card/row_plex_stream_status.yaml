@@ -1,0 +1,88 @@
+plex_stream_status:
+  size: 40px
+  show_name: true
+  show_label: true
+  show_state: false
+  show_icon: false
+  show_entity_picture: true
+  tap_action:
+    action: more-info
+  name: >
+    [[[
+      if(states["sensor.tautulli"].attributes[variables.user].friendly_name != "")
+        return states["sensor.tautulli"].attributes[variables.user].friendly_name;
+      else
+        return variables.user
+    ]]]
+  label: >
+    [[[
+      if(states["sensor.tautulli"].attributes[variables.user].Activity != null)
+        if(states["sensor.tautulli"].attributes[variables.user].Activity == "paused")
+          return `<ha-icon
+            icon="mdi:pause"
+            style="width: 24px; height: 24px; margin-right: 4px; margin-bottom: 2px;">
+            </ha-icon><span>${states["sensor.tautulli"].attributes[variables.user].full_title}</span>`;
+        else
+          return `<ha-icon
+            icon="mdi:play"
+            style="width: 24px; height: 24px; margin-right: 4px; margin-bottom: 2px;">
+            </ha-icon><span>${states["sensor.tautulli"].attributes[variables.user].full_title}</span>`
+    ]]]
+  entity_picture: '[[[ return states["sensor.tautulli"].attributes[variables.user].user_thumb ]]]'
+  custom_fields:
+    quality: '[[[ return states["sensor.tautulli"].attributes[variables.user].stream_video_resolution.replace("1080", "1080p").replace("720", "720p").replace("480", "480p").replace("sd", "SD") ]]]'
+    transcode: '[[[ return states["sensor.tautulli"].attributes[variables.user].transcode_decision ]]]'
+    progress: >
+      [[[
+        if(states["sensor.tautulli"].attributes[variables.user].progress_percent != "")
+          return `<div class="progress-bar" style="width: ${states["sensor.tautulli"].attributes[variables.user].progress_percent}%"></div>`;
+        else
+          return `<div class="progress-bar" style="width: 0%"></div>`
+      ]]]
+  styles:
+    grid:
+      - grid-template-areas: '"i n quality" "i n transcode" "l l l" "progress progress progress"'
+      - grid-template-rows: max-content max-content max-content
+      - grid-template-columns: min-content 1fr min-content
+    card:
+      - padding: 12px 12px 0 12px
+      - border-radius: 4px
+    state:
+      - justify-self: right
+      - padding-bottom: 12px
+      - font-size: 13px
+      - color: rgba(0, 0, 0, 0.87)
+    entity_picture:
+      - border-radius: 100%
+    img_cell:
+      - margin-bottom: 6px
+      - width: 40px
+      - height: 40px
+    name:
+      - justify-self: left
+      - font-size: 14px
+      - font-weight: 500
+      - color: rgba(0, 0, 0, 0.87)
+      - margin-left: 16px
+      - margin-bottom: 6px
+    label:
+      - justify-self: left
+      - margin-left: -8px
+      - font-size: 14px
+      - color: rgba(0, 0, 0, 0.87)
+    custom_fields:
+      quality:
+        - justify-self: right
+        - margin-bottom: -3px
+        - font-size: 12.5px
+        - color: rgba(0, 0, 0, 0.54)
+      transcode:
+        - justify-self: right
+        - margin-top: -3px
+        - font-size: 12.5px
+        - color: rgba(0, 0, 0, 0.54)
+        - text-transform: capitalize
+      progress:
+        - margin: 6px -12px 0 -12px
+        - height: 6px
+        - background: rgba(100, 100, 100, 0.15)

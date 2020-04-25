@@ -1,0 +1,57 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Downstairs
+  - type: custom:button-card
+    template: light
+    entity: light.downstairs_hallway
+    name: Downstairs Hallway
+  - type: custom:button-card
+    template: light
+    entity: light.kitchen
+    name: Kitchen
+  - type: custom:button-card
+    template: light
+    entity: light.patio_lights
+    name: Patio
+  - type: custom:button-card
+    template: light
+    entity: light.patio_string_lights
+    name: Patio Ambient
+  - type: custom:button-card
+    template: light
+    entity: light.living_room
+    name: Living Room
+  - type: custom:button-card
+    template: light
+    entity: light.living_room_tv
+    name: Living Room TV
+    double_tap_action:
+      action: navigate
+      navigation_path: scenes#living_room_tv
+  - type: custom:button-card
+    template: light
+    entity: light.rec_room_lights
+    name: Rec Room
+  - type: custom:button-card
+    template: light
+    entity: light.rec_room_tiles
+    name: Rec Room Tiles
+    double_tap_action:
+      action: navigate
+      navigation_path: scenes#rec_room_tiles

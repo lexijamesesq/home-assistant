@@ -1,0 +1,36 @@
+header_state_lights:
+  show_name: false
+  show_state: false
+  show_label: true
+  icon: '[[[ if (entity.state == "on") return "mdi:lightbulb-on"; else return "mdi:lightbulb-off" ]]]'
+  tap_action:
+    action: toggle
+  styles:
+    grid:
+      - grid-template-areas: '"i" "l"'
+    icon:
+      - width: 55%
+    img_cell:
+      - width: 40px
+      - height: 40px
+      - background: rgba(0, 0, 0, 0.2)
+      - color: var(--app-header-text-color)
+      - border-radius: 100%
+    card:
+      - box-shadow: none
+      - margin-top: 4px
+      - padding: 0
+      - width: 60px
+    label:
+      - color: var(--app-header-text-color)
+      - justify-self: center
+      - font-size: 12px
+  state:
+    - value: 'on'
+      styles:
+        icon:
+          - color: rgba(255, 255, 255, 1)
+    - value: 'off'
+      styles:
+        icon:
+          - color: rgba(255, 255, 255, 0.5)

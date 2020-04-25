@@ -1,0 +1,25 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: custom:button-card
+    template: more_tile
+    icon: 'mdi:home-lightbulb'
+    name: Scenes
+    tap_action:
+      action: navigate
+      navigation_path: scenes#all
+  - type: custom:button-card
+    template: more_tile
+    icon: 'mdi:heart-pulse'
+    name: System Health
+    tap_action:
+      action: navigate
+      navigation_path: health
+  - type: custom:button-card
+    template: more_tile
+    icon: 'mdi:account-cog'
+    name: Preferences
+    tap_action:
+      action: navigate
+      navigation_path: preferences
