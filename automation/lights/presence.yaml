@@ -1,0 +1,35 @@
+##############################################################
+# Simulate Presence Mode
+##############################################################
+# Used for triggering scenes when no one is home, to simulate presence
+# Mode turns on a random time after no one is home
+# Mode stays on for a random length of time
+# Mode will turn on again after a random delay
+- alias: Simulate Presence Mode - Update Lights
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_simulate_presence
+      to: 'on'
+    - platform: event
+      event_type: event_simulate_presence
+  condition:
+    - condition: state
+      entity_id: input_boolean.mode_simulate_presence
+      state: 'on'
+  action:
+    - service: script.turn_on
+      data_template:
+        entity_id: '{{ states.group.simulate_presence_scenes.attributes.entity_id | random }}'
+    - delay: '00:{{ (range(35, 55) | random) }}:00'
+    - service: light.turn_off
+      entity_id: all
+    - delay: '00:{{ (range(2, 10) | random) }}:00'
+    - event: event_simulate_presence
+- alias: Simulate Presence Mode - Turn Lights Off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_simulate_presence
+      to: 'off'
+  action:
+    - service: light.turn_off
+      entity_id: all

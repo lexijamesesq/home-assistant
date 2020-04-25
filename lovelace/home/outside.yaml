@@ -1,0 +1,141 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Outside
+  - type: custom:button-card
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      .temp-large {
+        font-size: 48px;
+        line-height: 48px;
+        color: rgba(0, 0, 0, 0.87);
+      }
+      .temp-unit {
+        font-size: 0.5em;
+        line-height: 30px;
+      }
+      .temp-small {
+        vertical-align: top;
+        line-height: 22px;
+        margin-left: 12px;
+      }
+    template: square_icon_status
+    entity: sensor.dashboard_outside_temperature
+    triggers_update:
+      - sensor.dark_sky_icon_0d
+      - sensor.dashboard_outside_high_temperature
+      - sensor.dashboard_outside_low_temperature
+      - sensor.first_light_show
+      - sensor.first_light
+      - sensor.golden_hour
+      - sensor.u_s_air_quality_index
+      - sensor.dark_sky_precip_probability_0d
+    show_icon: false
+    show_state: false
+    show_name: false
+    show_entity_picture: true
+    entity_picture: '[[[ return `/local/icons/weather/${states["sensor.dark_sky_icon_0d"].state}.svg` ]]]'
+    label: >
+      [[[
+        return `<span class="temp-large">${states["sensor.dashboard_outside_temperature"].state}<sup class="temp-unit">${states["sensor.dashboard_outside_temperature"].attributes.unit_of_measurement}</sup></span><span class="temp-small">
+          ${states["sensor.dashboard_outside_high_temperature"].state}° /
+          ${states["sensor.dashboard_outside_low_temperature"].state}°
+          </span>`
+      ]]]
+    styles:
+      grid:
+        - grid-template-areas: '"l l i" "summary summary summary" "divider divider divider" "sunevent airquality rain"'
+        - grid-template-rows: min-content min-content max-content min-content
+        - grid-template-columns: 1fr 1fr 1fr
+      card:
+        - padding-bottom: 12px
+      label:
+        - padding-top: 0
+      img_cell:
+        - width: 55px
+        - justify-self: right
+        - margin-top: 5px
+      entity_picture:
+        - justify-self: right
+      custom_fields:
+        summary:
+          - justify-self: left
+          - font-size: 16px;
+          - font-weight: 500
+        divider:
+          - background: rgba(0, 0, 0, 0.36)
+          - height: 1px
+          - margin: 12px 0
+        sunevent:
+          - justify-self: left
+          - font-size: 13px
+          - font-weight: 500
+          - color: rgba(0, 0, 0, 0.54)
+        airquality:
+          - font-size: 13px
+          - font-weight: 500
+          - color: >
+              [[[
+                if(states["sensor.u_s_air_quality_index"].state <= 50)
+                  return "rgba(0, 0, 0, 0.54)";
+                if(states["sensor.u_s_air_quality_index"].state > 50 && states["sensor.u_s_air_quality_index"].state <= 100)
+                  return "rgb(207, 174, 66)";
+                else
+                  return "rgb(247, 107, 94)"
+              ]]]
+        rain:
+          - justify-self: right
+          - font-size: 13px
+          - font-weight: 500
+          - color: >
+              [[[
+                if(states["sensor.dark_sky_precip_probability_0d"].state < 10)
+                  return "rgba(0, 0, 0, 0.54)";
+                else
+                  return "rgb(51, 144, 225)"
+              ]]]
+    custom_fields:
+      summary: '[[[ return states["sensor.dark_sky_minutely_summary"].state ]]]'
+      divider: ''
+      sunevent: >
+        [[[
+          if (states["sensor.first_light_show"].state == "on")
+            return `<ha-icon
+              icon="mdi:weather-sunset-up"
+              style="width: 15px; height: 15px; margin-right: 4px; margin-bottom: 2px;">
+              </ha-icon><span>${states["sensor.first_light"].state}</span>`
+          else
+            return `<ha-icon
+              icon="mdi:weather-sunset-down"
+              style="width: 15px; height: 15px; margin-right: 4px; margin-bottom: 2px;">
+              </ha-icon><span>${states["sensor.golden_hour"].state}</span>`
+        ]]]
+      airquality: >
+        [[[
+          return `<ha-icon
+            icon="mdi:chemical-weapon"
+            style="width: 15px; height: 15px; margin-right: 4px; margin-bottom: 2px;">
+            </ha-icon><span>${states["sensor.u_s_air_quality_index"].state} ${states["sensor.u_s_air_quality_index"].attributes.unit_of_measurement}</span>`
+        ]]]
+      rain: >
+        [[[
+          return `<ha-icon
+            icon="mdi:weather-pouring"
+            style="width: 15px; height: 15px; margin-right: 4px; margin-bottom: 2px;">
+            </ha-icon><span>${states["sensor.dark_sky_precip_probability_0d"].state} ${states["sensor.dark_sky_precip_probability_0d"].attributes.unit_of_measurement}</span>`
+        ]]]

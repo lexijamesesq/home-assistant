@@ -1,37 +1,17 @@
-type: entities
-show_header_toggle: false
-entities:
-#  - device_tracker.alexs_iphone_geofency
-#  - device_tracker.octavia
-  - entity: sensor.device_tracker_alex
-    type: "custom:secondaryinfo-entity-row"
-    secondary_info: '[[ if(input_select.octavia_driver == "Alex", sensor.octavia.attributes.City, "") ]]'
-  - entity: sensor.octavia
-    type: "custom:secondaryinfo-entity-row"
-    secondary_info: '[[ device_tracker.octavia.attributes.fuel_level ]]% Fuel Remaining'
-  - sensor.dashboard_current_mode
-  - entity: sensor.dashboard_outside_temperature
-    type: custom:multiple-entity-row
-    name: Temperature
-    show_state: false
-    entities:
-      - entity: sensor.dashboard_outside_temperature
-        name: Current
-      - entity: sensor.dashboard_outside_high_temperature
-        name: High
-      - entity: sensor.dashboard_outside_low_temperature
-        name: Low
-  - type: conditional
-    conditions:
-      - entity: sensor.first_light_show
-        state: "on"
-    row:
-      entity: sensor.first_light
-  - type: conditional
-    conditions:
-      - entity: sensor.first_light_show
-        state: "off"
-    row:
-      entity: sensor.golden_hour
-  - entity: sensor.alexa_next_alarm
-    name: Next Alarm
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: custom:button-card
+    template: home_tracker
+    entity: sensor.device_tracker_alex
+    triggers_update:
+      - input_select.octavia_driver
+      - sensor.octavia
+    label: '[[[ if(states["input_select.octavia_driver"].state == "Alex") return states["sensor.octavia"].attributes.City; else return entity.state ]]]'
+  - type: custom:button-card
+    template: home_tracker
+    entity: sensor.octavia
+    triggers_update:
+      - device_tracker.octavia
+    label: '[[[ return "Fuel: " + states["device_tracker.octavia"].attributes.fuel_level + "%" ]]]'

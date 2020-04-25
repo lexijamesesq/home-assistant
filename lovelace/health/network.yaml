@@ -1,66 +1,71 @@
-type: entities
-title: Network
-show_header_toggle: false
-entities:
-  - type: section
-    label: Data
-  - entity: sensor.cox_data_plan
-    name: Plan
-  - entity: sensor.cox_data_usage
-    type: custom:multiple-entity-row
-    name: Usage
-    show_state: false
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: entities
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    title: Network
+    show_header_toggle: false
     entities:
+      - type: section
+        label: Data
+      - entity: sensor.cox_data_plan
+        name: Plan
       - entity: sensor.cox_data_usage
+        type: custom:multiple-entity-row
         name: Usage
-      - entity: sensor.cox_data_resets
-        name: Resets
-  - type: section
-    label: External
-  - entity: sensor.network_status_cox_wan
-    type: custom:multiple-entity-row
-    name: ISP WAN
-    show_state: false
-    entities:
+        show_state: false
+        entities:
+          - entity: sensor.cox_data_usage
+            name: Usage
+          - entity: sensor.cox_data_resets
+            name: Resets
+      - type: section
+        label: External
       - entity: sensor.network_status_cox_wan
-        name: Cox
-  - entity: sensor.network_status_cox_wan
-    type: custom:multiple-entity-row
-    name: VPN WAN
-    show_state: false
-    entities:
-      - entity: sensor.network_status_vpn_wan
-        name: VPN
-      - entity: sensor.network_status_vpn2_wan
-        name: VPN2
-      - entity: sensor.network_status_vpn3_wan
-        name: VPN3
-  - type: section
-    label: Internal
-  - entity: sensor.network_status_lan
-    name: LAN
-  - entity: sensor.network_status_lan
-    type: custom:multiple-entity-row
-    name: VLAN
-    show_state: false
-    entities:
-      - entity: sensor.network_status_vl40_iot
-        name: IoT
-      - entity: sensor.network_status_vl50_guest
-        name: Guest
-  - type: section
-    label: Hardware
-  - entity: sensor.network_pfsense
-    name: pfSense
-  - entity: sensor.network_unifi_cloudkey
-    name: UniFi Cloud Key Plus
-  - entity: sensor.network_unifi_switch_16
-    name: UniFi Switch 16
-  - entity: sensor.network_unifi_switch_8_downstairs
-    name: UniFi Switch 8 - Downstairs
-  - entity: sensor.network_unifi_switch_8_upstairs
-    name: UniFi Switch 8 - Upstairs
-  - entity: sensor.network_unifi_ap_downstairs
-    name: UniFi AP - Downstairs
-  - entity: sensor.network_unifi_ap_upstairs
-    name: UniFi AP - Upstairs
+        type: custom:multiple-entity-row
+        name: ISP WAN
+        show_state: false
+        entities:
+          - entity: sensor.network_status_cox_wan
+            name: Cox
+      - entity: sensor.network_status_cox_wan
+        type: custom:multiple-entity-row
+        name: VPN WAN
+        show_state: false
+        entities:
+          - entity: sensor.network_status_vpn_wan
+            name: VPN
+          - entity: sensor.network_status_vpn2_wan
+            name: VPN2
+          - entity: sensor.network_status_vpn3_wan
+            name: VPN3
+      - type: section
+        label: Internal
+      - entity: sensor.network_status_lan
+        name: LAN
+      - entity: sensor.network_status_lan
+        type: custom:multiple-entity-row
+        name: VLAN
+        show_state: false
+        entities:
+          - entity: sensor.network_status_vl40_iot
+            name: IoT
+          - entity: sensor.network_status_vl50_guest
+            name: Guest
+      - type: section
+        label: Hardware
+      - entity: sensor.network_pfsense
+        name: pfSense
+      - entity: sensor.network_unifi_cloudkey
+        name: UniFi Cloud Key Plus
+      - entity: sensor.network_unifi_switch_16
+        name: UniFi Switch 16
+      - entity: sensor.network_unifi_switch_8_downstairs
+        name: UniFi Switch 8 - Downstairs
+      - entity: sensor.network_unifi_switch_8_upstairs
+        name: UniFi Switch 8 - Upstairs
+      - entity: sensor.network_unifi_ap_downstairs
+        name: UniFi AP - Downstairs
+      - entity: sensor.network_unifi_ap_upstairs
+        name: UniFi AP - Upstairs

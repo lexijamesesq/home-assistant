@@ -1,0 +1,85 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Speakers
+  - type: custom:button-card
+    template: sonos_speaker
+    entity: input_boolean.sonos_kitchen
+    triggers_update:
+      - sensor.sonos_kitchen_volume
+    variables:
+      volume: 'sensor.sonos_kitchen_volume'
+  - type: custom:button-card
+    template: sonos_speaker
+    entity: input_boolean.sonos_living_room
+    triggers_update:
+      - sensor.sonos_living_room_volume
+    variables:
+      volume: 'sensor.sonos_living_room_volume'
+  - type: custom:button-card
+    template: sonos_speaker
+    entity: input_boolean.sonos_rec_room
+    label: >
+      [[[
+        if(entity.state == "on")
+          return "Volume: " + states[variables.volume].state;
+        if(entity.state == "off" && states['media_player.sonos_rec_room'].attributes.source && states['media_player.sonos_rec_room'].attributes.source == "Line-in")
+          return "Peloton";
+        else
+          return "Off"
+      ]]]
+    icon: >
+      [[[
+        if(entity.state == "off" && states['media_player.sonos_rec_room'].attributes.source && states['media_player.sonos_rec_room'].attributes.source == "Line-in")
+          return 'mdi:bluetooth-audio';
+        else
+          return entity.attributes.icon
+      ]]]
+    triggers_update:
+      - media_player.sonos_rec_room
+      - sensor.sonos_rec_room_volume
+    variables:
+      volume: 'sensor.sonos_rec_room_volume'
+  - type: custom:button-card
+    template: sonos_speaker
+    entity: input_boolean.sonos_bedroom
+    triggers_update:
+      - sensor.sonos_bedroom_volume
+    variables:
+      volume: 'sensor.sonos_bedroom_volume'
+  - type: custom:button-card
+    template: sonos_speaker
+    entity: input_boolean.sonos_bathroom
+    triggers_update:
+      - sensor.sonos_bathroom_volume
+    variables:
+      volume: 'sensor.sonos_bathroom_volume'
+  - type: custom:button-card
+    template: sonos_speaker
+    entity: input_boolean.sonos_den
+    triggers_update:
+      - sensor.sonos_den_volume
+    variables:
+      volume: 'sensor.sonos_den_volume'
+  - type: custom:button-card
+    template: sonos_speaker
+    entity: input_boolean.sonos_move
+    triggers_update:
+      - sensor.sonos_move_volume
+    variables:
+      volume: 'sensor.sonos_move_volume'

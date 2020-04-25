@@ -1,14 +1,33 @@
-type: custom:upcoming-media-card
-entity: sensor.sonarr_upcoming_media
-title: Upcoming TV
-max: 10
-image_style: poster
-hide_empty: true
-all_shadows: false
-title_color: var(--primary-text-color)
-line1_color: var(--primary-text-color)
-line2_color: var(--primary-text-color)
-line3_color: var(--primary-text-color)
-line4_color: var(--primary-text-color)
-border_color: none
-accent_color: '#fff'
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Upcoming TV
+  - type: custom:upcoming-media-card
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    entity: sensor.sonarr_upcoming_media
+    max: 10
+    image_style: poster
+    hide_empty: true
+    all_shadows: false
+    title_color: var(--primary-text-color)
+    line1_color: var(--primary-text-color)
+    line2_color: var(--primary-text-color)
+    line3_color: var(--primary-text-color)
+    line4_color: var(--primary-text-color)
+    border_color: none
+    accent_color: '#fff'

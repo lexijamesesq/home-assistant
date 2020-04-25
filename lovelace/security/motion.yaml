@@ -1,40 +1,55 @@
-type: entities
-title: Motion
-show_header_toggle: false
-entities:
-  - type: section
-    label: Garage
-    state_color: true
-  - entity: binary_sensor.garage_motion_sensor
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Motion
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.garage_motion_sensor
     name: Garage
-    state_color: true
-  - entity: binary_sensor.garage_stairs_multisensor_sensor
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.garage_stairs_multisensor_sensor
     name: Garage Stairs
-    state_color: true
-  - type: section
-    label: Downstairs
-    state_color: true
-  - entity: binary_sensor.ring_front_door_motion
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.ring_front_door_motion
     name: Front Door
-    state_color: true
-  - entity: binary_sensor.downstairs_hallway_multisensor_sensor
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.downstairs_hallway_multisensor_sensor
     name: Downstairs Hallway
-    state_color: true
-  - entity: binary_sensor.living_room_motion_sensor
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.living_room_motion_sensor
     name: Living Room
-    state_color: true
-  - entity: binary_sensor.main_stairs_multisensor_sensor
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.main_stairs_multisensor_sensor
     name: Main Stairs
-    state_color: true
-  - type: section
-    label: Upstairs
-    state_color: true
-  - entity: binary_sensor.upstairs_hallway_motion_sensor
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.upstairs_hallway_motion_sensor
     name: Upstairs Hallway
-    state_color: true
-  - entity: binary_sensor.den_multisensor_sensor
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.den_multisensor_sensor
     name: Den Hallway
-    state_color: true
-  - entity: binary_sensor.den_trisensor_sensor
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.den_trisensor_sensor
     name: Den
-    state_color: true

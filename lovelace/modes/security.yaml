@@ -1,0 +1,23 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Security
+  - type: custom:button-card
+    template: mode_display
+    entity: sensor.mode_simulate_presence
+    name: Presence

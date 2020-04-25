@@ -1,0 +1,36 @@
+# main
+compact_mode: true
+
+# buttons
+voice_hide: true
+options_hide: false
+
+# tabs
+hidden_tab_redirect: false
+hide_tabs: 'scenes, more'
+
+# styling
+shadow: true
+
+#exceptions
+exceptions:
+  - conditions:
+      user_agent: Mobile
+    config:
+      # main
+      compact_mode: true
+      footer_mode: true
+      disable_sidebar: false
+
+      # buttons
+      menu_hide: true
+      voice_hide: true
+      options_hide: true
+
+      # tabs
+      chevrons: false
+      indicator_top: true
+      hide_tabs: 'scenes, health, preferences'
+
+      # styling
+      tab_container_css: 'margin-bottom: 30px;'

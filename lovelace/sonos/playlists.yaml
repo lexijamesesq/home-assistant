@@ -1,0 +1,39 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Playlists
+  - type: custom:button-card
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    template: sonos_playlist
+    entity: script.sonos_playlist_currently_listening_to
+    name: Currently Listening To
+  - type: custom:button-card
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    template: sonos_playlist
+    entity: script.sonos_playlist_two_step_music
+    name: Two-Step Music
+  - type: custom:button-card
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    template: sonos_playlist
+    entity: script.sonos_playlist_west_coast_swing
+    name: West Coast Swing
+  - type: custom:button-card
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    template: sonos_playlist
+    entity: script.sonos_playlist_latin_pop
+    name: Latin Pop

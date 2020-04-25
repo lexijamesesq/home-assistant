@@ -1,20 +1,61 @@
-type: horizontal-stack
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
 cards:
-  - type: gauge
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Bandwidth
+  - type: custom:mini-graph-card
+    style: |
+      ha-card[fill] .header {
+        padding: 0 12px;
+      }
+      ha-card[fill] .states {
+        padding: 0 12px;
+      }
+      ha-card[fill] .info {
+        display: none;
+      }
     name: WAN
-    entity: sensor.tautulli_wan_bandwidth
-    min: 0
-    max: 1000
-    severity:
-      green: 0
-      yellow: 45
-      red: 85
-  - type: gauge
+    entities:
+      - entity: sensor.tautulli_wan_bandwidth
+        name: WAN
+    show:
+      labels: false
+      icon: false
+      points: false
+    line_color: var(--paper-item-icon-color)
+    height: 200
+  - type: custom:mini-graph-card
+    style: |
+      ha-card[fill] .header {
+        padding: 0 12px;
+      }
+      ha-card[fill] .states {
+        padding: 0 12px;
+      }
+      ha-card[fill] .info {
+        display: none;
+      }
     name: LAN
-    entity: sensor.tautulli_lan_bandwidth
-    min: 0
-    max: 1000
-    severity:
-      green: 0
-      yellow: 45
-      red: 85
+    entities:
+      - entity: sensor.tautulli_lan_bandwidth
+        name: LAN
+    show:
+      labels: false
+      icon: false
+      points: false
+    line_color: var(--paper-item-icon-color)
+    height: 200

@@ -87,13 +87,23 @@ logbook:
 lovelace:
   mode: yaml
   resources:
+#    - url: /browser_mod.js
+#      type: module
+    - url: /hacsfiles/custom-header/custom-header.js
+      type: module
+    - url: /hacsfiles/lovelace-state-switch/state-switch.js
+      type: module
     - url: /hacsfiles/button-card/button-card.js
       type: module
-    - url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
-      type: module
-    - url: /hacsfiles/bignumber-card/bignumber-card.js
-      type: module
+#    - url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
+#      type: module
+#    - url: /hacsfiles/bignumber-card/bignumber-card.js
+#      type: module
     - url: /hacsfiles/lovelace-card-tools/card-tools.js
+      type: module
+    - url: /hacsfiles/lovelace-card-mod/card-mod.js
+      type: module
+    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
       type: module
     - url: /hacsfiles/rgb-light-card/card.js
       type: js
@@ -101,8 +111,14 @@ lovelace:
       type: module
     - url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
       type: module
-    - url: /hacsfiles/upcoming-media-card/upcoming-media-card.js
-      type: js
+#    - url: /hacsfiles/upcoming-media-card/upcoming-media-card.js
+#      type: js
+    - type: module
+      url: /local/dwains-theme/plugins/dwains-flexbox-card/dwains-flexbox-card.js?v=0.1.2
+
+
+#Load browser_mod (https://github.com/thomasloven/hass-browser_mod)
+# browser_mod:
 
 
 influxdb:
@@ -166,8 +182,10 @@ dyson:
   password: !secret dyson_password
   language: GB
   devices:
-    - device_id: !secret dyson_device_id
-      device_ip: !secret dyson_device_ip
+    - device_id: !secret dyson_kitchen_device_id
+      device_ip: !secret dyson_kitchen_device_ip
+    - device_id: !secret dyson_bedroom_device_id
+      device_ip: !secret dyson_bedroom_device_ip
 
 
 august:
@@ -246,6 +264,11 @@ airvisual:
 
 light:
   - platform: group
+    name: Rec Room Lights
+    entities:
+      - light.rec_room_1
+      - light.rec_room_2
+  - platform: group
     name: Upstairs Hallway Group Lights
     entities:
       - light.main_stairs
@@ -305,6 +328,14 @@ device_tracker:
 #   keepalive: 60
 #   username: !secret mqtt_remote_username
 #   password: !secret mqtt_remote_password
+
+
+sensor places_octavia:
+  - platform: places
+    name: Octavia
+    devicetracker_id: device_tracker.octavia
+    home_zone: zone.home
+    api_key: alex@alexbussa.com
 
 
 notify:
@@ -398,9 +429,9 @@ cover:
             entity_id: switch.garage_actual
         icon_template: >-
           {% if is_state('binary_sensor.garage_actual', 'on') %}
-            mdi:garage-open
+            mdi:garage-open-variant
           {% else %}
-            mdi:garage
+            mdi:garage-variant
           {% endif %}
 
 
@@ -436,6 +467,7 @@ homekit:
       - input_boolean.mode_sleep
       - remote.living_room_apple_tv
     exclude_entities:
+      - light.rec_room_lights
       - light.den_lights
       - light.den_cabinets
       - light.bedroom_lights

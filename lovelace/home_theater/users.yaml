@@ -3,39 +3,204 @@ conditions:
   - entity: sensor.tautulli_total_streams
     state_not: "0"
 card:
-  type: entity-filter
-  entities:
-    - entity: sensor.tautulli_user1
-      type: "custom:secondaryinfo-entity-row"
-      secondary_info: '[[ if(sensor.tautulli_user1_playing != "off", sensor.tautulli_user1_playing, "Nothing playing") ]]'
-    - entity: sensor.tautulli_user2
-      type: "custom:secondaryinfo-entity-row"
-      secondary_info: '[[ if(sensor.tautulli_user2_playing != "off", sensor.tautulli_user2_playing, "Nothing playing") ]]'
-    - entity: sensor.tautulli_user3
-      type: "custom:secondaryinfo-entity-row"
-      secondary_info: '[[ if(sensor.tautulli_user3_playing != "off", sensor.tautulli_user3_playing, "Nothing playing") ]]'
-    - entity: sensor.tautulli_user4
-      type: "custom:secondaryinfo-entity-row"
-      secondary_info: '[[ if(sensor.tautulli_user4_playing != "off", sensor.tautulli_user4_playing, "Nothing playing") ]]'
-    - entity: sensor.tautulli_user5
-      type: "custom:secondaryinfo-entity-row"
-      secondary_info: '[[ if(sensor.tautulli_user5_playing != "off", sensor.tautulli_user5_playing, "Nothing playing") ]]'
-    - entity: sensor.tautulli_user6
-      type: "custom:secondaryinfo-entity-row"
-      secondary_info: '[[ if(sensor.tautulli_user6_playing != "off", sensor.tautulli_user6_playing, "Nothing playing") ]]'
-    - entity: sensor.tautulli_user7
-      type: "custom:secondaryinfo-entity-row"
-      secondary_info: '[[ if(sensor.tautulli_user7_playing != "off", sensor.tautulli_user7_playing, "Nothing playing") ]]'
-    - entity: sensor.tautulli_user8
-      type: "custom:secondaryinfo-entity-row"
-      secondary_info: '[[ if(sensor.tautulli_user8_playing != "off", sensor.tautulli_user8_playing, "Nothing playing") ]]'
-    - entity: sensor.tautulli_user9
-      type: "custom:secondaryinfo-entity-row"
-      secondary_info: '[[ if(sensor.tautulli_user9_playing != "off", sensor.tautulli_user9_playing, "Nothing playing") ]]'
-  state_filter:
-    - "Playing"
-    - "Paused"
-    - "Buffering"
-  card:
-    type: entities
-    show_header_toggle: false
+  type: vertical-stack
+  cards:
+    - type: custom:dwains-flexbox-card
+      items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+      padding: true
+      cards:
+        - type: markdown
+          item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+          style: |
+            ha-card {
+              height: 16.5px;
+              box-shadow: none;
+              background: none;
+              color: rgba(0, 0, 0, 0.54);
+              font-weight: bold;
+              font-size: 14px;
+            }
+            .markdown {
+              padding: 0px !important;
+            }
+          content: Streams
+        # Tautulli User 1
+        - type: conditional
+          item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+          conditions:
+            - entity: sensor.tautulli_user1
+              state_not: "off"
+          card:
+            type: custom:button-card
+            style: |
+              .progress-bar {
+                height: 100%;
+                background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+              }
+            template: plex_stream_status
+            entity: sensor.tautulli_user1
+            triggers_update:
+              - sensor.tautulli
+              - input_text.tautulli_user1
+            variables:
+              user: '[[[ return states["input_text.tautulli_user1"].state ]]]'
+        # Tautulli User 2
+        - type: conditional
+          item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+          conditions:
+            - entity: sensor.tautulli_user2
+              state_not: "off"
+          card:
+            type: custom:button-card
+            style: |
+              .progress-bar {
+                height: 100%;
+                background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+              }
+            template: plex_stream_status
+            entity: sensor.tautulli_user2
+            triggers_update:
+              - sensor.tautulli
+              - input_text.tautulli_user2
+            variables:
+              user: '[[[ return states["input_text.tautulli_user2"].state ]]]'
+        # Tautulli User 3
+        - type: conditional
+          item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+          conditions:
+            - entity: sensor.tautulli_user3
+              state_not: "off"
+          card:
+            type: custom:button-card
+            style: |
+              .progress-bar {
+                height: 100%;
+                background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+              }
+            template: plex_stream_status
+            entity: sensor.tautulli_user3
+            triggers_update:
+              - sensor.tautulli
+              - input_text.tautulli_user3
+            variables:
+              user: '[[[ return states["input_text.tautulli_user3"].state ]]]'
+        # Tautulli User 4
+        - type: conditional
+          item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+          conditions:
+            - entity: sensor.tautulli_user4
+              state_not: "off"
+          card:
+            type: custom:button-card
+            style: |
+              .progress-bar {
+                height: 100%;
+                background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+              }
+            template: plex_stream_status
+            entity: sensor.tautulli_user4
+            triggers_update:
+              - sensor.tautulli
+              - input_text.tautulli_user4
+            variables:
+              user: '[[[ return states["input_text.tautulli_user4"].state ]]]'
+        # Tautulli User 5
+        - type: conditional
+          item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+          conditions:
+            - entity: sensor.tautulli_user5
+              state_not: "off"
+          card:
+            type: custom:button-card
+            style: |
+              .progress-bar {
+                height: 100%;
+                background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+              }
+            template: plex_stream_status
+            entity: sensor.tautulli_user5
+            triggers_update:
+              - sensor.tautulli
+              - input_text.tautulli_user5
+            variables:
+              user: '[[[ return states["input_text.tautulli_user5"].state ]]]'
+        # Tautulli User 6
+        - type: conditional
+          item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+          conditions:
+            - entity: sensor.tautulli_user6
+              state_not: "off"
+          card:
+            type: custom:button-card
+            style: |
+              .progress-bar {
+                height: 100%;
+                background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+              }
+            template: plex_stream_status
+            entity: sensor.tautulli_user6
+            triggers_update:
+              - sensor.tautulli
+              - input_text.tautulli_user6
+            variables:
+              user: '[[[ return states["input_text.tautulli_user6"].state ]]]'
+        # Tautulli User 7
+        - type: conditional
+          item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+          conditions:
+            - entity: sensor.tautulli_user7
+              state_not: "off"
+          card:
+            type: custom:button-card
+            style: |
+              .progress-bar {
+                height: 100%;
+                background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+              }
+            template: plex_stream_status
+            entity: sensor.tautulli_user7
+            triggers_update:
+              - sensor.tautulli
+              - input_text.tautulli_user7
+            variables:
+              user: '[[[ return states["input_text.tautulli_user7"].state ]]]'
+        # Tautulli User 8
+        - type: conditional
+          item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+          conditions:
+            - entity: sensor.tautulli_user8
+              state_not: "off"
+          card:
+            type: custom:button-card
+            style: |
+              .progress-bar {
+                height: 100%;
+                background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+              }
+            template: plex_stream_status
+            entity: sensor.tautulli_user8
+            triggers_update:
+              - sensor.tautulli
+              - input_text.tautulli_user8
+            variables:
+              user: '[[[ return states["input_text.tautulli_user8"].state ]]]'
+        # Tautulli User 9
+        - type: conditional
+          item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+          conditions:
+            - entity: sensor.tautulli_user9
+              state_not: "off"
+          card:
+            type: custom:button-card
+            style: |
+              .progress-bar {
+                height: 100%;
+                background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+              }
+            template: plex_stream_status
+            entity: sensor.tautulli_user9
+            triggers_update:
+              - sensor.tautulli
+              - input_text.tautulli_user9
+            variables:
+              user: '[[[ return states["input_text.tautulli_user9"].state ]]]'

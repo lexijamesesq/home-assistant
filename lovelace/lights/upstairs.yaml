@@ -1,0 +1,72 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Upstairs
+  - type: custom:button-card
+    template: light
+    entity: light.main_stairs
+    name: Main Stairs
+  - type: custom:button-card
+    template: light
+    entity: light.upstairs_hallway
+    name: Upstairs Hallway
+  - type: custom:button-card
+    template: light
+    entity: light.bedroom_hallway
+    name: 'Bedroom Hallway'
+  - type: custom:button-card
+    template: light
+    entity: light.bedroom_lights
+    name: Bedroom
+    double_tap_action:
+      action: navigate
+      navigation_path: scenes#bedroom
+  - type: custom:button-card
+    template: light
+    entity: light.bedroom_tiles
+    name: Bedroom Tiles
+    double_tap_action:
+      action: navigate
+      navigation_path: scenes#bedroom_tiles
+  - type: custom:button-card
+    template: light
+    entity: light.bedroom_closet_lights
+    name: Bedroom Closet
+  - type: custom:button-card
+    template: light
+    entity: light.laundry_lights
+    name: Laundry
+  - type: custom:button-card
+    template: light
+    entity: light.den_hallway
+    name: Den Hallway
+  - type: custom:button-card
+    template: light
+    entity: light.den_lights
+    name: Den
+    double_tap_action:
+      action: navigate
+      navigation_path: scenes#den
+  - type: custom:button-card
+    template: light
+    entity: light.den_cabinets
+    name: Den Cabinets
+  - type: custom:button-card
+    template: light
+    entity: light.guest_bedroom_closet_lights
+    name: Guest Bedroom Closet

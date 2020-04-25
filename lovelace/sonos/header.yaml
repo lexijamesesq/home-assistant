@@ -1,0 +1,72 @@
+type: custom:mod-card
+style: |
+  ha-card {
+    padding: 0px;
+    background-color: var(--app-header-background-color);
+    --ha-card-background: transparent;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+  }
+card:
+  type: custom:dwains-flexbox-card
+  padding: true
+  cards:
+    - type: custom:dwains-flexbox-card
+      item_classes: 'col-xs-7'
+      cards:
+        - type: markdown
+          style: |
+            ha-card {
+              padding-left: 0.5rem;
+              color: var(--app-header-text-color);
+              box-shadow: none;
+            }
+            ha-markdown {
+              padding: 0 !important;
+            }
+            h1 {
+              font-size: 1.75em;
+              margin-bottom: 0.1em;
+            }
+            p {
+              margin: 0;
+            }
+            strong {
+              font-size: 0.9em;
+            }
+          content: >-
+            # Sonos
+
+            {% if states("sensor.sonos_switches_on") == "" %}
+              All speakers are off.
+            {% else %}
+              **{{ states("sensor.dashboard_sonos_speaker_status") | replace("off", "") }}**
+              {{ states("sensor.dashboard_sonos_song_status") | replace("off", "") }}
+            {% endif %}
+    - type: custom:dwains-flexbox-card
+      item_classes: 'col-xs-5 end-xs d-inline-flex'
+      style: |
+        button-card {
+          margin-top: 5px;
+        }
+      cards:
+        - type: custom:button-card
+          template: header_state_sonos
+          triggers_update:
+            - sensor.sonos_group_master_state
+          icon: '[[[ if (states[states["sensor.sonos_group_master"].state].state == "playing") return "mdi:pause"; else return "mdi:play" ]]]'
+          label: '[[[ if (states[states["sensor.sonos_group_master"].state].state == "playing") return "Pause"; else return "Play" ]]]'
+          tap_action:
+            action: call-service
+            service: media_player.media_play_pause
+            service_data:
+              entity_id: '[[[ return states["sensor.sonos_group_master"].state ]]]'
+        - type: custom:button-card
+          template: header_state_sonos
+          icon: 'mdi:skip-next'
+          label: Next
+          tap_action:
+            action: call-service
+            service: media_player.media_next_track
+            service_data:
+              entity_id: '[[[ return states["sensor.sonos_group_master"].state ]]]'

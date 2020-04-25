@@ -313,6 +313,9 @@ sensor.network_status_vpn2_wan:
   icon: mdi:lan-connect
 sensor.network_status_vpn3_wan:
   icon: mdi:lan-connect
+light.rec_room_lights:
+  emulated_hue_hidden: false
+  hidden: false
 light.bedroom_lights:
   emulated_hue_hidden: false
   hidden: false
@@ -415,3 +418,11 @@ sensor.climate_upstairs_sleep_mode_cool:
   icon: mdi:thermostat
 sensor.climate_upstairs_sleep_mode_heat:
   icon: mdi:thermostat
+media_player.denon_avr_x4300h:
+  icon: mdi:audio-video
+sensor.tautulli_wan_bandwidth:
+  icon: mdi:speedometer
+sensor.tautulli_lan_bandwidth:
+  icon: mdi:speedometer
+sensor.mode_simulate_presence:
+  icon: mdi:home-lightbulb

@@ -1,0 +1,51 @@
+security_door_window:
+  template: row_icon_status
+  size: 45px
+  show_state: false
+  label: >
+    [[[
+      if(entity.attributes.device_class == "motion")
+        return entity.state.replace("on", "detected").replace("off", "clear")
+      else
+        return entity.state.replace("on", "open").replace("off", "closed")
+    ]]]
+  styles:
+    grid:
+      - grid-template-areas: '"i n" "i l"'
+      - grid-template-columns: min-content 1fr
+      - grid-template-rows: min-content
+    img_cell:
+      - width: 45px
+      - height: 45px
+      - margin-left: -4px
+      - margin-right: 8px
+    label:
+      - align-self: start
+      - text-transform: capitalize
+    name:
+      - align-self: end
+  state:
+    - value: "on"
+      styles:
+        icon:
+          - color: var(--paper-item-icon-color)
+    - value: "open"
+      styles:
+        icon:
+          - color: var(--paper-item-icon-color)
+    - value: "detected"
+      styles:
+        icon:
+          - color: var(--paper-item-icon-color)
+    - value: "off"
+      styles:
+        icon:
+          - color: var(--disabled-text-color)
+    - value: "closed"
+      styles:
+        icon:
+          - color: var(--disabled-text-color)
+    - value: "clear"
+      styles:
+        icon:
+          - color: var(--disabled-text-color)

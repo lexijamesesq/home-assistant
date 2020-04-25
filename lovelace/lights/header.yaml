@@ -1,0 +1,60 @@
+type: custom:mod-card
+style: |
+  ha-card {
+    padding: 0px;
+    background-color: var(--app-header-background-color);
+    --ha-card-background: transparent;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+  }
+card:
+  type: custom:dwains-flexbox-card
+  padding: true
+  cards:
+    - type: custom:dwains-flexbox-card
+      item_classes: 'col-xs-6'
+      cards:
+        - type: markdown
+          style: |
+            ha-card {
+              padding-left: 0.5rem;
+              color: var(--app-header-text-color);
+              box-shadow: none;
+            }
+            ha-markdown {
+              padding: 0 !important;
+            }
+            h1 {
+              font-size: 1.75em;
+              margin-bottom: 0.1em;
+            }
+            p {
+              margin: 0;
+            }
+          content: >-
+            # Lights
+
+            {% if is_state("group.all_lights", "off") %}
+              All lights are off.
+            {% else %}
+              {{ states("sensor.dashboard_lights_on_status") | replace("off", "") }}
+            {% endif %}
+    - type: custom:dwains-flexbox-card
+      item_classes: 'col-xs-6 end-xs d-inline-flex'
+      style: |
+        button-card {
+          margin-top: 5px;
+        }
+      cards:
+        - type: custom:button-card
+          template: header_state_lights
+          entity: group.garage_lights
+          label: Garage
+        - type: custom:button-card
+          template: header_state_lights
+          entity: group.downstairs_lights
+          label: Downstairs
+        - type: custom:button-card
+          template: header_state_lights
+          entity: group.upstairs_lights
+          label: Upstairs

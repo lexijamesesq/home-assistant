@@ -1,0 +1,69 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: rgba(0, 0, 0, 0.54);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .markdown {
+        padding: 0px !important;
+      }
+    content: Inside
+  - type: horizontal-stack
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    cards:
+      - type: "custom:button-card"
+        template: square_icon
+        entity: input_boolean.mode_guest
+      - type: "custom:button-card"
+        template: square_icon
+        entity: input_boolean.mode_home_theater
+      - type: "custom:button-card"
+        template: square_icon
+        entity: input_boolean.mode_sleep
+  - type: custom:button-card
+    template: row_icon_status
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    entity: sensor.tautulli
+    size: 45px
+    show_icon: false
+    show_state: false
+    show_label: false
+    show_name: true
+    show_entity_picture: true
+    tap_action:
+      action: navigate
+      navigation_path: home_theater
+    name: Plex Streams
+    entity_picture: '/local/icons/plex.svg'
+    styles:
+      grid:
+        - grid-template-areas: '"i n watching"'
+        - grid-template-columns: min-content 1fr min-content
+        - grid-template-rows: min-content
+      img_cell:
+        - filter: '[[[ if(entity.state > 0) return "grayscale(0)"; else return "grayscale(1)" ]]]'
+      entity_picture:
+        - border-radius: 0
+      name:
+        - margin-left: 12px
+    custom_fields:
+      watching:
+        card:
+          type: custom:button-card
+          template: round_text_name
+          style: |
+            ha-card {
+              box-shadow: none;
+              margin-top: 0 !important;
+            }
+          entity: sensor.tautulli
+          name: Streams

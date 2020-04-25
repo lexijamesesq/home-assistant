@@ -17,6 +17,8 @@ mode_home_theater:
   name: Home Theater Mode
 mode_simulate_presence:
   name: Simulate Presence Mode
+mode_peloton:
+  name: Peloton Mode
 
 ##############################################################
 # Motion
