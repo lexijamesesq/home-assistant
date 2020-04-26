@@ -8,7 +8,6 @@ cards:
     show_header_toggle: false
     entities:
       - type: section
-        label: Data
       - entity: sensor.cox_data_plan
         name: Plan
       - entity: sensor.cox_data_usage
@@ -21,7 +20,6 @@ cards:
           - entity: sensor.cox_data_resets
             name: Resets
       - type: section
-        label: External
       - entity: sensor.network_status_cox_wan
         type: custom:multiple-entity-row
         name: ISP WAN
@@ -41,7 +39,6 @@ cards:
           - entity: sensor.network_status_vpn3_wan
             name: VPN3
       - type: section
-        label: Internal
       - entity: sensor.network_status_lan
         name: LAN
       - entity: sensor.network_status_lan
@@ -54,7 +51,6 @@ cards:
           - entity: sensor.network_status_vl50_guest
             name: Guest
       - type: section
-        label: Hardware
       - entity: sensor.network_pfsense
         name: pfSense
       - entity: sensor.network_unifi_cloudkey

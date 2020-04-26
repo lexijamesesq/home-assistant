@@ -8,7 +8,7 @@ card:
   padding: true
   cards:
     - type: custom:button-card
-      template: row_icon_status
+      template: row_icon_name_label
       entity: script.trigger_garage_door_opener
       show_state: false
       show_label: false

@@ -9,7 +9,7 @@ cards:
         height: 16.5px;
         box-shadow: none;
         background: none;
-        color: rgba(0, 0, 0, 0.54);
+        color: var(--theme-title-color);
         font-weight: bold;
         font-size: 14px;
       }

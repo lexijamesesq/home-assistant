@@ -1,4 +1,4 @@
-mode_toggle_logo:
+row_logo:
   template: base
   size: inherit
   show_name: false
@@ -20,10 +20,8 @@ mode_toggle_logo:
     - value: "on"
       styles:
         img:
-          - color: inherit
           - opacity: 1
     - value: "off"
       styles:
         icon:
-          - color: inherit
           - opacity: 0.3

@@ -777,6 +777,37 @@
       entity_id: sensor.dark_sky_humidity_0d
       value_template: '{{ states.sensor.dark_sky_humidity_0d.state | round() }}'
       unit_of_measurement: '%'
+    dashboard_current_home_mode:
+      friendly_name: 'Current Home Mode'
+      entity_id:
+        - input_boolean.mode_morning
+        - input_boolean.mode_day
+        - input_boolean.mode_sunset
+        - input_boolean.mode_night
+      value_template: >-
+        {% if is_state('input_boolean.mode_morning', 'on') %}
+          Morning
+        {% elif is_state('input_boolean.mode_day', 'on') %}
+          Day
+        {% elif is_state('input_boolean.mode_sunset', 'on') %}
+          Sunset
+        {% elif is_state('input_boolean.mode_night', 'on') %}
+          Night
+        {% else %}
+          Unknown
+        {% endif %}
+      icon_template: >-
+        {% if is_state('input_boolean.mode_morning', 'on') %}
+          mdi:weather-hazy
+        {% elif is_state('input_boolean.mode_day', 'on') %}
+          mdi:weather-sunny
+        {% elif is_state('input_boolean.mode_sunset', 'on') %}
+          mdi:weather-sunset
+        {% elif is_state('input_boolean.mode_night', 'on') %}
+          mdi:weather-night
+        {% else %}
+          mdi:weather-cloudy-alert
+        {% endif %}
     dashboard_current_mode:
       friendly_name: 'Current Mode'
       entity_id:
@@ -1712,63 +1743,63 @@
       entity_id:
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity | title }}'
-      entity_picture_template: !secret tautulli_user1_picture
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user1")).user_thumb }}'
     # Tautulli User 2
     tautulli_user2:
       friendly_name: !secret tautulli_user2_friendly_name
       entity_id:
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity | title }}'
-      entity_picture_template: !secret tautulli_user2_picture
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user2")).user_thumb }}'
     # Tautulli User 3
     tautulli_user3:
       friendly_name: !secret tautulli_user3_friendly_name
       entity_id:
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity | title }}'
-      entity_picture_template: !secret tautulli_user3_picture
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user3")).user_thumb }}'
     # Tautulli User 4
     tautulli_user4:
       friendly_name: !secret tautulli_user4_friendly_name
       entity_id:
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity | title }}'
-      entity_picture_template: !secret tautulli_user4_picture
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user4")).user_thumb }}'
     # Tautulli User 5
     tautulli_user5:
       friendly_name: !secret tautulli_user5_friendly_name
       entity_id:
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity | title }}'
-      entity_picture_template: !secret tautulli_user5_picture
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user5")).user_thumb }}'
     # Tautulli User 6
     tautulli_user6:
       friendly_name: !secret tautulli_user6_friendly_name
       entity_id:
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity | title }}'
-      entity_picture_template: !secret tautulli_user6_picture
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user6")).user_thumb }}'
     # Tautulli User 7
     tautulli_user7:
       friendly_name: !secret tautulli_user7_friendly_name
       entity_id:
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity | title }}'
-      entity_picture_template: !secret tautulli_user7_picture
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user7")).user_thumb }}'
     # Tautulli User 8
     tautulli_user8:
       friendly_name: !secret tautulli_user8_friendly_name
       entity_id:
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity | title }}'
-      entity_picture_template: !secret tautulli_user8_picture
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user8")).user_thumb }}'
     # Tautulli User 9
     tautulli_user9:
       friendly_name: !secret tautulli_user9_friendly_name
       entity_id:
         - sensor.tautulli
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity | title }}'
-      entity_picture_template: !secret tautulli_user9_picture
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user9")).user_thumb }}'
 
 - platform: rest
   name: Tautulli Plex Update Available

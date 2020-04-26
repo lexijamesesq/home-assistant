@@ -9,7 +9,7 @@ cards:
         height: 16.5px;
         box-shadow: none;
         background: none;
-        color: rgba(0, 0, 0, 0.54);
+        color: var(--theme-title-color);
         font-weight: bold;
         font-size: 14px;
       }
@@ -23,7 +23,7 @@ cards:
       .temp-large {
         font-size: 48px;
         line-height: 48px;
-        color: rgba(0, 0, 0, 0.87);
+        color: var(--primary-text-color);
       }
       .temp-unit {
         font-size: 0.5em;
@@ -34,7 +34,7 @@ cards:
         line-height: 22px;
         margin-left: 12px;
       }
-    template: square_icon_status
+    template: base
     entity: sensor.dashboard_outside_temperature
     triggers_update:
       - sensor.dark_sky_icon_0d
@@ -49,7 +49,7 @@ cards:
     show_state: false
     show_name: false
     show_entity_picture: true
-    entity_picture: '[[[ return `/local/icons/weather/${states["sensor.dark_sky_icon_0d"].state}.svg` ]]]'
+    entity_picture: '[[[ return `/local/icons/weather/${states["sensor.dark_sky_icon"].state}.svg` ]]]'
     label: >
       [[[
         return `<span class="temp-large">${states["sensor.dashboard_outside_temperature"].state}<sup class="temp-unit">${states["sensor.dashboard_outside_temperature"].attributes.unit_of_measurement}</sup></span><span class="temp-small">
@@ -78,21 +78,21 @@ cards:
           - font-size: 16px;
           - font-weight: 500
         divider:
-          - background: rgba(0, 0, 0, 0.36)
+          - background: var(--disabled-text-color)
           - height: 1px
           - margin: 12px 0
         sunevent:
           - justify-self: left
           - font-size: 13px
           - font-weight: 500
-          - color: rgba(0, 0, 0, 0.54)
+          - color: var(--secondary-text-color)
         airquality:
           - font-size: 13px
           - font-weight: 500
           - color: >
               [[[
                 if(states["sensor.u_s_air_quality_index"].state <= 50)
-                  return "rgba(0, 0, 0, 0.54)";
+                  return "var(--secondary-text-color)";
                 if(states["sensor.u_s_air_quality_index"].state > 50 && states["sensor.u_s_air_quality_index"].state <= 100)
                   return "rgb(207, 174, 66)";
                 else
@@ -105,7 +105,7 @@ cards:
           - color: >
               [[[
                 if(states["sensor.dark_sky_precip_probability_0d"].state < 10)
-                  return "rgba(0, 0, 0, 0.54)";
+                  return "var(--secondary-text-color)";
                 else
                   return "rgb(51, 144, 225)"
               ]]]

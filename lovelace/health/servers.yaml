@@ -8,7 +8,6 @@ cards:
     show_header_toggle: false
     entities:
       - type: section
-        label: Overwatch
       - entity: sensor.overwatch_cpu_load_15
         type: custom:multiple-entity-row
         name: Load
@@ -28,7 +27,6 @@ cards:
       - entity: sensor.overwatch_ram_used
         name: RAM Used
       - type: section
-        label: Woodhouse
       - entity: sensor.woodhouse_cpu_load_15
         type: custom:multiple-entity-row
         name: Load

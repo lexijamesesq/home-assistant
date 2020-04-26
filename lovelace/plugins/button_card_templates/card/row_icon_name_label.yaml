@@ -1,0 +1,27 @@
+row_icon_name_label:
+  template: base
+  size: 45px
+  show_state: false
+  styles:
+    grid:
+      - grid-template-areas: '"i n" "i l"'
+      - grid-template-columns: min-content 1fr
+      - grid-template-rows: min-content
+    img_cell:
+      - width: 45px
+      - height: 45px
+      - background: var(--theme-state-icon-background)
+      - border-radius: 100%
+      - margin-right: 12px
+    icon:
+      - width: 65%
+      - color: var(--paper-item-icon-active-color)
+    entity_picture:
+      - border-radius: 100%
+    label:
+      - align-self: start
+      - justify-self: start
+    name:
+      - align-self: end
+      - justify-self: start
+      - text-align: left

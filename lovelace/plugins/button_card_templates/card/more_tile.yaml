@@ -1,5 +1,6 @@
 more_tile:
-  template: square_icon_status
+  size: 55px
+  template: base
   show_label: false
   show_state: false
   styles:
@@ -7,9 +8,9 @@ more_tile:
       - grid-template-areas: '"i" "n"'
       - grid-template-rows: 1fr min-content
       - grid-template-columns: 1fr
+    card:
+      - padding-top: 0
     img_cell:
       - height: 90px
     icon:
       - color: var(--paper-item-icon-color)
-    name:
-      - justify-self: center

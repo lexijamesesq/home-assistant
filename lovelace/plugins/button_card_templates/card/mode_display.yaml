@@ -1,7 +1,5 @@
 mode_display:
-  template: row_icon_status
-  size: 45px
-  show_state: false
+  template: row_icon_name_label
   show_label: false
   tap_action:
     action: more-info
@@ -13,25 +11,22 @@ mode_display:
       - grid-template-areas: '"i n"'
       - grid-template-columns: min-content 1fr
       - grid-template-rows: min-content
-    img_cell:
-      - width: 45px
-      - height: 45px
     name:
-      - margin-left: 8px
+      - align-self: center
   state:
     - value: "on"
       styles:
         icon:
-          - color: var(--paper-item-icon-color)
+          - color: var(--paper-item-icon-active-color)
     - value: "Lights On"
       styles:
         icon:
-          - color: var(--paper-item-icon-color)
+          - color: var(--paper-item-icon-active-color)
     - value: "Lights Off"
       styles:
         icon:
-          - color: var(--paper-item-icon-color)
+          - color: var(--paper-item-icon-active-color)
     - value: "off"
       styles:
         icon:
-          - color: var(--disabled-text-color)
+          - color: var(--paper-item-icon-disabled-color)
