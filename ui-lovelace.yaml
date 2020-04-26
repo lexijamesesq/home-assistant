@@ -1,4 +1,5 @@
 title: Home Assistant
+background: var(--primary-background-color)
 views:
   - icon: mdi:home-assistant
     title: Home

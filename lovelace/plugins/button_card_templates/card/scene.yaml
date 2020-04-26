@@ -1,5 +1,5 @@
 scene:
-  template: row_icon_status
+  template: row_icon_name_label
   show_label: false
   show_name: false
   show_state: false

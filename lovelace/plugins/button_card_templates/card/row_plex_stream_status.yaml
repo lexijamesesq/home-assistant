@@ -51,7 +51,6 @@ plex_stream_status:
       - justify-self: right
       - padding-bottom: 12px
       - font-size: 13px
-      - color: rgba(0, 0, 0, 0.87)
     entity_picture:
       - border-radius: 100%
     img_cell:
@@ -62,27 +61,25 @@ plex_stream_status:
       - justify-self: left
       - font-size: 14px
       - font-weight: 500
-      - color: rgba(0, 0, 0, 0.87)
       - margin-left: 16px
       - margin-bottom: 6px
     label:
       - justify-self: left
       - margin-left: -8px
       - font-size: 14px
-      - color: rgba(0, 0, 0, 0.87)
     custom_fields:
       quality:
         - justify-self: right
         - margin-bottom: -3px
         - font-size: 12.5px
-        - color: rgba(0, 0, 0, 0.54)
+        - color: var(--secondary-text-color)
       transcode:
         - justify-self: right
         - margin-top: -3px
         - font-size: 12.5px
-        - color: rgba(0, 0, 0, 0.54)
+        - color: var(--secondary-text-color)
         - text-transform: capitalize
       progress:
         - margin: 6px -12px 0 -12px
         - height: 6px
-        - background: rgba(100, 100, 100, 0.15)
+        - background: rgba(100, 100, 100, 0.18)

@@ -1,7 +1,5 @@
 security_door_lock:
-  template: row_icon_status
-  size: 45px
-  show_state: false
+  template: row_icon_name_label
   tap_action:
     action: toggle
   hold_action:
@@ -25,26 +23,14 @@ security_door_lock:
         return "mdi:door-closed"
     ]]]
   styles:
-    grid:
-      - grid-template-areas: '"i n" "i l"'
-      - grid-template-columns: min-content 1fr
-      - grid-template-rows: min-content
-    img_cell:
-      - width: 45px
-      - height: 45px
-      - margin-left: -4px
-      - margin-right: 8px
     label:
-      - align-self: start
       - text-transform: capitalize
-    name:
-      - align-self: end
   state:
     - value: "unlocked"
       styles:
         icon:
-          - color: var(--paper-item-icon-color)
+          - color: var(--paper-item-icon-active-color)
     - value: "locked"
       styles:
         icon:
-          - color: '[[[ if(variables.door == "on") return "var(--paper-item-icon-color)"; else return "var(--disabled-text-color)" ]]]'
+          - color: '[[[ if(variables.door == "on") return "var(--paper-item-icon-active-color)"; else return "var(--paper-item-icon-disabled-color)" ]]]'

@@ -11,7 +11,7 @@ header_state_sonos:
     img_cell:
       - width: 40px
       - height: 40px
-      - background: rgba(0, 0, 0, 0.2)
+      - background: var(--theme-state-icon-background)
       - color: var(--app-header-text-color)
       - border-radius: 100%
     card:

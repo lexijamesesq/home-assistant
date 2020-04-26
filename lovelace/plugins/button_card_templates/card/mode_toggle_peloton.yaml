@@ -1,10 +1,13 @@
-mode_toggle:
+mode_toggle_peloton:
   template: row_icon_name_label
   show_label: false
   tap_action:
     action: toggle
   hold_action:
     action: more-info
+  show_icon: false
+  show_entity_picture: true
+  entity_picture: '/local/icons/peloton-p.svg'
   styles:
     grid:
       - grid-template-areas: '"i n"'
@@ -12,12 +15,17 @@ mode_toggle:
       - grid-template-rows: min-content
     name:
       - align-self: center
+    icon:
+      - width: inherit
+      - height: 65%
+      - border-radius: inherit
   state:
     - value: "on"
       styles:
         icon:
-          - color: var(--paper-item-icon-active-color)
+          - opacity: 1
+          - filter: brightness(0) saturate(100%) invert(13%) sepia(100%) saturate(4461%) hue-rotate(347deg) brightness(84%) contrast(90%)
     - value: "off"
       styles:
         icon:
-          - color: var(--paper-item-icon-disabled-color)
+          - opacity: 0.3

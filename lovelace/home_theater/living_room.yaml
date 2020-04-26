@@ -9,7 +9,7 @@ cards:
         height: 16.5px;
         box-shadow: none;
         background: none;
-        color: rgba(0, 0, 0, 0.54);
+        color: var(--theme-title-color);
         font-weight: bold;
         font-size: 14px;
       }
@@ -33,11 +33,11 @@ cards:
     item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
     cards:
       - type: "custom:button-card"
-        template: square_icon
+        template: icon
         entity: remote.living_room_apple_tv
       - type: "custom:button-card"
-        template: square_icon
+        template: icon
         entity: input_boolean.mode_home_theater
       - type: "custom:button-card"
-        template: square_icon
+        template: icon
         entity: media_player.denon_avr_x4300h

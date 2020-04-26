@@ -38,6 +38,7 @@ zone:
 config:
 conversation:
 frontend:
+  themes: !include_dir_merge_named themes/
 system_health:
 
 
@@ -118,7 +119,7 @@ lovelace:
 
 
 #Load browser_mod (https://github.com/thomasloven/hass-browser_mod)
-# browser_mod:
+browser_mod:
 
 
 influxdb:

@@ -33,4 +33,5 @@ exceptions:
       hide_tabs: 'scenes, health, preferences'
 
       # styling
+      header_css: 'background: #1E1E21;'
       tab_container_css: 'margin-bottom: 30px;'

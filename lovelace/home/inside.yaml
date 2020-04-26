@@ -9,7 +9,7 @@ cards:
         height: 16.5px;
         box-shadow: none;
         background: none;
-        color: rgba(0, 0, 0, 0.54);
+        color: var(--theme-title-color);
         font-weight: bold;
         font-size: 14px;
       }
@@ -17,27 +17,24 @@ cards:
         padding: 0px !important;
       }
     content: Inside
-  - type: horizontal-stack
-    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
-    cards:
-      - type: "custom:button-card"
-        template: square_icon
-        entity: input_boolean.mode_guest
-      - type: "custom:button-card"
-        template: square_icon
-        entity: input_boolean.mode_home_theater
-      - type: "custom:button-card"
-        template: square_icon
-        entity: input_boolean.mode_sleep
+#  - type: horizontal-stack
+#    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+#    cards:
+#      - type: "custom:button-card"
+#        template: icon
+#        entity: input_boolean.mode_guest
+#      - type: "custom:button-card"
+#        template: icon
+#        entity: input_boolean.mode_home_theater
+#      - type: "custom:button-card"
+#        template: icon
+#        entity: input_boolean.mode_sleep
   - type: custom:button-card
-    template: row_icon_status
+    template: row_picture_name_label
     item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
     entity: sensor.tautulli
     size: 45px
-    show_icon: false
-    show_state: false
     show_label: false
-    show_name: true
     show_entity_picture: true
     tap_action:
       action: navigate
@@ -51,10 +48,13 @@ cards:
         - grid-template-rows: min-content
       img_cell:
         - filter: '[[[ if(entity.state > 0) return "grayscale(0)"; else return "grayscale(1)" ]]]'
-      entity_picture:
-        - border-radius: 0
+        - margin-right: inherit
+      icon:
+        - width: 65%
+        - height: inherit
+        - border-radius: inherit
       name:
-        - margin-left: 12px
+        - align-self: center
     custom_fields:
       watching:
         card:

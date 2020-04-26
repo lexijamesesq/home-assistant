@@ -171,3 +171,13 @@
   action:
     - service: homekit.start
     - event: event_zwave_network_ready
+
+# Manually Set Theme #########################################
+- alias: Manually Set Lovelace Theme
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    service: frontend.set_theme
+    data:
+      name: dark
