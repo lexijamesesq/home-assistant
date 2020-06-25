@@ -247,7 +247,7 @@
         {{ states.sensor.august_web_front_door_keypad_battery.state }}
       icon_template: >
         {% if states.sensor.august_web_front_door_keypad_battery.state is defined %}
-          {% set level = states.sensor.august_web_front_door_keypad_battery.state %}
+          {% set level = states.sensor.august_web_front_door_keypad_battery.state | int %}
           {% if level | float == 100 %}
             mdi:battery
           {% elif level | float < 10 %}
