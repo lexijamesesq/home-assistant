@@ -364,7 +364,7 @@ light:
 sensor places_octavia:
   - platform: places
     name: Octavia
-    devicetracker_id: device_tracker.octavia
+    devicetracker_id: device_tracker.beacon_octavia
     home_zone: zone.home
     api_key: alex@alexbussa.com
 
