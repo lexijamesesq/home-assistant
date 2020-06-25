@@ -5,6 +5,8 @@ homeassistant:
   elevation: !secret home_elevation
   unit_system: imperial
   time_zone: !secret home_timezone
+  internal_url: !secret internal_url
+  external_url: !secret external_url
   customize: !include customize.yaml
   whitelist_external_dirs:
      - /config/json/
@@ -49,19 +51,17 @@ http:
   # Uncomment this to add a password (recommended!)
   # api_password: !secret api_password
   # Uncomment this if you are using SSL or running in Docker etc
-  base_url: !secret base_url
   # ssl_certificate: !secret ssl_certificate
   # ssl_key: !secret ssl_key
   use_x_forwarded_for: true
   trusted_proxies:
     - !secret trusted_proxy_ip_lan
     - !secret trusted_proxy_ip_iot
-  ip_ban_enabled: true
-  login_attempts_threshold: 3
+#  ip_ban_enabled: true
+#  login_attempts_threshold: 3
 
 
 recorder:
-  purge_interval: 1
   purge_keep_days: 5
   db_url: !secret recorder_db_url
 
@@ -88,18 +88,14 @@ logbook:
 lovelace:
   mode: yaml
   resources:
-#    - url: /browser_mod.js
-#      type: module
+    - url: /local/style.css
+      type: css
     - url: /hacsfiles/custom-header/custom-header.js
       type: module
     - url: /hacsfiles/lovelace-state-switch/state-switch.js
       type: module
     - url: /hacsfiles/button-card/button-card.js
       type: module
-#    - url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
-#      type: module
-#    - url: /hacsfiles/bignumber-card/bignumber-card.js
-#      type: module
     - url: /hacsfiles/lovelace-card-tools/card-tools.js
       type: module
     - url: /hacsfiles/lovelace-card-mod/card-mod.js
@@ -112,14 +108,9 @@ lovelace:
       type: module
     - url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
       type: module
-#    - url: /hacsfiles/upcoming-media-card/upcoming-media-card.js
-#      type: js
-    - type: module
-      url: /local/dwains-theme/plugins/dwains-flexbox-card/dwains-flexbox-card.js?v=0.1.2
+    - url: /local/dwains-theme/plugins/dwains-flexbox-card/dwains-flexbox-card.js
+      type: module
 
-
-#Load browser_mod (https://github.com/thomasloven/hass-browser_mod)
-browser_mod:
 
 
 influxdb:
@@ -160,11 +151,11 @@ influxdb:
 sun:
 
 
-apple_tv:
-  host: !secret media_player_apple_tv_host
-  login_id: !secret media_player_apple_tv_login_id
-  name: !secret media_player_apple_tv_name
-  credentials: !secret media_player_apple_tv_credentials
+# apple_tv:
+#   host: !secret media_player_apple_tv_host
+#   login_id: !secret media_player_apple_tv_login_id
+#   name: !secret media_player_apple_tv_name
+#   credentials: !secret media_player_apple_tv_credentials
 
 
 sonos:
@@ -177,6 +168,7 @@ sonos:
       - !secret media_player_sonos_amp_rec_room
       - !secret media_player_sonos_one_den
       - !secret media_player_sonos_move
+
 
 dyson:
   username: !secret dyson_username
@@ -204,10 +196,57 @@ emulated_hue:
   host_ip: !secret emulated_hue_host
   listen_port: !secret emulated_hue_port
   expose_by_default: false
-  exposed_domains:
-    - group
-    - script
-    - switch
+  entities:
+    light.rec_room_lights:
+      hidden: false
+    light.bedroom_lights:
+      hidden: false
+    light.kitchen:
+      hidden: false
+    light.bedroom_tiles:
+      hidden: false
+    light.bedroom_closet_lights:
+      hidden: false
+    light.bedroom_hallway:
+      hidden: false
+    light.den_cabinets:
+      hidden: false
+    light.den_hallway:
+      hidden: false
+    light.den_lights:
+      hidden: false
+    light.downstairs_hallway:
+      hidden: false
+    light.garage_lights:
+      hidden: false
+    light.garage_stairs:
+      hidden: false
+    light.guest_bedroom_closet_lights:
+      hidden: false
+    light.laundry_lights:
+      hidden: false
+    light.living_room:
+      hidden: false
+    light.main_stairs:
+      hidden: false
+    light.patio_lights:
+      hidden: false
+    light.patio_string_lights:
+      hidden: false
+    light.living_room_tv:
+      hidden: false
+    light.upstairs_hallway_group_lights:
+      hidden: false
+    light.upstairs_hallway:
+      hidden: false
+    light.rec_room_tiles:
+      hidden: false
+    input_boolean.mode_guest:
+      hidden: false
+    input_boolean.mode_home_theater:
+      hidden: false
+    input_boolean.mode_sleep:
+      hidden: false
 
 
 zwave:
@@ -256,19 +295,13 @@ nest:
   client_secret: !secret nest_client_secret
 
 
-airvisual:
-  api_key: !secret airvisual_api_key
-  geographies:
-    latitude: !secret home_latitude
-    longitude: !secret home_longitude
-
-
 light:
   - platform: group
-    name: Rec Room Lights
+    name: Patio Lights
     entities:
-      - light.rec_room_1
-      - light.rec_room_2
+      - light.patio_1
+      - light.patio_2
+      - light.patio_3
   - platform: group
     name: Upstairs Hallway Group Lights
     entities:
@@ -294,9 +327,6 @@ light:
     name: Garage Lights
     entity_id: switch.garage_lights
   - platform: switch
-    name: Patio Lights
-    entity_id: switch.patio_lights
-  - platform: switch
     name: Patio String Lights
     entity_id: switch.patio_string_lights
   - platform: switch
@@ -310,11 +340,11 @@ light:
     entity_id: switch.guest_bedroom_closet_lights
 
 
-device_tracker:
-  - platform: automatic
-    client_id: !secret automatic_client_id
-    secret: !secret automatic_secret
-    current_location: true
+# device_tracker:
+#   - platform: automatic
+#     client_id: !secret automatic_client_id
+#     secret: !secret automatic_secret
+#     current_location: true
 #     devices:
 #       - 2007 Honda Element
 #  - platform: owntracks
@@ -468,6 +498,7 @@ homekit:
       - input_boolean.mode_sleep
       - remote.living_room_apple_tv
     exclude_entities:
+      - light.patio_lights
       - light.rec_room_lights
       - light.den_lights
       - light.den_cabinets
@@ -476,6 +507,35 @@ homekit:
 
 
 ios:
+  push:
+    categories:
+      - name: Start Sleep Mode
+        identifier: 'mode_sleep_start'
+        actions:
+          - identifier: 'MODE_SLEEP_ON'
+            title: 'Turn On'
+            activationMode: 'background'
+            authenticationRequired: false
+            destructive: false
+            behavior: 'default'
+      - name: End Sleep Mode
+        identifier: 'mode_sleep_end'
+        actions:
+          - identifier: 'MODE_SLEEP_OFF'
+            title: 'Turn Off'
+            activationMode: 'background'
+            authenticationRequired: false
+            destructive: false
+            behavior: 'default'
+      - name: Close Garage Actual
+        identifier: 'garage_actual_close'
+        actions:
+          - identifier: 'GARAGE_ACTUAL_CLOSE'
+            title: 'Close'
+            activationMode: 'background'
+            authenticationRequired: false
+            destructive: false
+            behavior: 'default'
 mobile_app:
 
 

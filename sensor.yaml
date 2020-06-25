@@ -995,6 +995,7 @@
         - lock.august_smart_lock_pro_garage_door
       value_template: >-
         {% set num = states.lock
+          | selectattr('entity_id', 'in', states.group.all_locks.attributes.entity_id)
           | selectattr('state', 'eq', 'unlocked')
           | list
           | length
@@ -1689,11 +1690,6 @@
         {% else %}
           off
         {% endif %}
-- platform: google_geocode
-  name: Octavia
-  origin: device_tracker.octavia
-  options: city
-  api_key: !secret google_geocode_api_key
 
 
 # Tautulli Sensors

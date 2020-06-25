@@ -87,7 +87,7 @@
       entity_id: input_boolean.mode_sleep
       to: 'off'
       for:
-        hours: 2
+        hours: 3
   condition:
     - condition: state
       entity_id: light.bedroom_lights

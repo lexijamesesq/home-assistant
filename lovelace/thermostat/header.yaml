@@ -15,22 +15,27 @@ card:
       item_classes: 'col-xs-7'
       cards:
         - type: markdown
-          style: |
-            ha-card {
-              padding-left: 0.5rem;
-              color: var(--app-header-text-color);
-              box-shadow: none;
-            }
-            ha-markdown {
-              padding: 0 !important;
-            }
-            h1 {
-              font-size: 1.75em;
-              margin-bottom: 0.1em;
-            }
-            p {
-              margin: 0;
-            }
+          style:
+            .: |
+              ha-card {
+                padding-left: 0.5rem;
+                color: var(--app-header-text-color);
+                box-shadow: none;
+              }
+            "ha-markdown":
+              $: |
+                :host {
+                  padding: 0 !important;
+                }
+                ha-markdown-element h1 {
+                  font-size: 24.5px;
+                  padding-top: 4px;
+                  margin-bottom: 0.2em;
+                }
+                ha-markdown-element p {
+                  margin: 0;
+                  line-height: 18px;
+                }
           content: >-
             # Thermostat
 

@@ -13,7 +13,7 @@ cards:
         font-weight: bold;
         font-size: 14px;
       }
-      .markdown {
+      ha-markdown {
         padding: 0px !important;
       }
     content: Inside
@@ -29,6 +29,152 @@ cards:
 #      - type: "custom:button-card"
 #        template: icon
 #        entity: input_boolean.mode_sleep
+
+  - type: custom:button-card
+    style: |
+      .temp-large {
+        font-size: 35px;
+        line-height: 35px;
+        color: var(--primary-text-color);
+      }
+      .temp-unit {
+        font-size: 0.5em;
+        line-height: 30px;
+      }
+    template: base
+    entity: climate.downstairs
+    show_icon: false
+    show_state: false
+    tap_action:
+      action: navigate
+      navigation_path: thermostat
+    hold_action:
+      action: more-info
+    label: >
+      [[[
+        return `<span class="temp-large">${entity.attributes.current_temperature}<sup class="temp-unit">${states["sensor.downstairs_thermostat_temperature"].attributes.unit_of_measurement}</sup></span>`
+      ]]]
+    name: Downstairs
+    styles:
+      grid:
+        - grid-template-areas: '"l hvac" "n n" "graph graph"'
+        - grid-template-rows: min-content min-content min-content
+        - grid-template-columns: min-content 1fr
+      card:
+        - padding-top: 8px
+        - padding-right: 0
+        - padding-bottom: 0
+        - padding-left: 0
+      label:
+        - padding-left: 12px
+      name:
+        - justify-self: start
+        - padding-right: 12px
+        - padding-left: 12px
+      custom_fields:
+        hvac:
+          - align-self: start
+          - justify-self: end
+          - padding-right: 12px
+          - font-size: 12.5px
+          - line-height: 26px
+          - color: var(--secondary-text-color)
+          - text-transform: capitalize
+    custom_fields:
+      hvac: >
+        [[[
+          if(entity.attributes.preset_mode.toLowerCase() == 'away and eco' || entity.attributes.preset_mode.toLowerCase() == 'eco')
+            return 'eco';
+          else
+            return (entity.attributes.hvac_action != 'idle') ? entity.attributes.hvac_action : entity.state
+        ]]]
+      graph:
+        card:
+          type: custom:state-switch
+          entity: climate.downstairs
+          default: "off"
+          states:
+            "off":
+              !include partial/downstairs_off.yaml
+            "auto":
+              !include partial/downstairs_auto.yaml
+            "heat":
+              !include partial/downstairs_heat.yaml
+            "cool":
+              !include partial/downstairs_cool.yaml
+
+  - type: custom:button-card
+    style: |
+      .temp-large {
+        font-size: 35px;
+        line-height: 35px;
+        color: var(--primary-text-color);
+      }
+      .temp-unit {
+        font-size: 0.5em;
+        line-height: 30px;
+      }
+    template: base
+    entity: climate.upstairs
+    show_icon: false
+    show_state: false
+    tap_action:
+      action: navigate
+      navigation_path: thermostat
+    hold_action:
+      action: more-info
+    label: >
+      [[[
+        return `<span class="temp-large">${entity.attributes.current_temperature}<sup class="temp-unit">${states["sensor.upstairs_thermostat_temperature"].attributes.unit_of_measurement}</sup></span>`
+      ]]]
+    name: Upstairs
+    styles:
+      grid:
+        - grid-template-areas: '"l hvac" "n n" "graph graph"'
+        - grid-template-rows: min-content min-content min-content
+        - grid-template-columns: min-content 1fr
+      card:
+        - padding-top: 8px
+        - padding-right: 0
+        - padding-bottom: 0
+        - padding-left: 0
+      label:
+        - padding-left: 12px
+      name:
+        - justify-self: start
+        - padding-right: 12px
+        - padding-left: 12px
+      custom_fields:
+        hvac:
+          - align-self: start
+          - justify-self: end
+          - padding-right: 12px
+          - font-size: 12.5px
+          - line-height: 26px
+          - color: var(--secondary-text-color)
+          - text-transform: capitalize
+    custom_fields:
+      hvac: >
+        [[[
+          if(entity.attributes.preset_mode.toLowerCase() == 'away and eco' || entity.attributes.preset_mode.toLowerCase() == 'eco')
+            return 'eco';
+          else
+            return (entity.attributes.hvac_action != 'idle') ? entity.attributes.hvac_action : entity.state
+        ]]]
+      graph:
+        card:
+          type: custom:state-switch
+          entity: climate.upstairs
+          default: "off"
+          states:
+            "off":
+              !include partial/upstairs_off.yaml
+            "auto":
+              !include partial/upstairs_auto.yaml
+            "heat":
+              !include partial/upstairs_heat.yaml
+            "cool":
+              !include partial/upstairs_cool.yaml
   - type: custom:button-card
     template: row_picture_name_label
     item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
@@ -48,7 +194,7 @@ cards:
         - grid-template-rows: min-content
       img_cell:
         - filter: '[[[ if(entity.state > 0) return "grayscale(0)"; else return "grayscale(1)" ]]]'
-        - margin-right: inherit
+        - margin-right: 4px
       icon:
         - width: 65%
         - height: inherit

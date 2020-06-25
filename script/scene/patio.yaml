@@ -1,0 +1,31 @@
+##############################################################
+# Patio Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_scene
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+
+
+# Indirect Scenes ############################################
+scene_patio_blue_purple:
+  alias: Scene Patio Blue & Purple
+  sequence:
+    - service: light.turn_on
+      entity_id: light.patio_1
+      data:
+        transition: 2
+        brightness: 100
+        rgb_color: [69,63,255]
+    - service: light.turn_on
+      entity_id: light.bedroom_2
+      data:
+        transition: 2
+        brightness: 100
+        rgb_color: [193,0,255]
+    - service: light.turn_on
+      entity_id: light.patio_3
+      data:
+        transition: 2
+        brightness: 100
+        rgb_color: [69,63,255]

@@ -13,7 +13,7 @@ cards:
         font-weight: bold;
         font-size: 14px;
       }
-      .markdown {
+      ha-markdown {
         padding: 0px !important;
       }
     content: Garage

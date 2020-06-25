@@ -1,9 +1,10 @@
 dark:
   # Main colors
-  primary-color: '#2B2B2D'
-  accent-color: 'rgba(255, 255, 255, 0.54)'
+  primary-color: '#0DA3E5'
+  accent-color: '#ff9800'
   dark-primary-color: '#0DA3E5'
   light-primary-color: '#0DA3E5'
+  app-header-background-color: '#2B2B2D'
   # Text colors
   primary-text-color: 'rgba(255, 255, 255, 0.96)'
   text-primary-color: 'var(--primary-text-color)'
@@ -31,6 +32,11 @@ dark:
   ch-elements-color: 'var(--disabled-text-color)'
   ch-tab-indicator-color: 'var(--paper-item-icon-active-color)'
   ch-active-tab-color: 'var(--paper-item-icon-active-color)'
+  # Climate
+  theme-climate-off: '#8a8a8a'
+  theme-climate-auto: '#008000'
+  theme-climate-heat: '#ff8100'
+  theme-climate-cool: '#2b9af9'
   # Paper card
   paper-card-header-color: '#2B2B2D'
   paper-card-background-color: '#2B2B2D'
@@ -99,3 +105,6 @@ dark:
   material-background-color: "var(--paper-listbox-background-color)"
   material-secondary-background-color: '#222222'
   material-body-text-color: '#FFFFFF'
+
+  # Material Design
+  mdc-theme-primary: 'var(--light-primary-color)'

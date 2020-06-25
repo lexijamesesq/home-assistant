@@ -1,0 +1,17 @@
+simulate_presence:
+  alias: Simulate Presence
+  sequence:
+    - service: script.turn_on
+      data_template:
+        entity_id: '{{ states.group.simulate_presence_scenes.attributes.entity_id | random }}'
+    - delay: '00:{{ (range(35, 55) | random) }}:00'
+    - condition: state
+      entity_id: input_boolean.mode_simulate_presence
+      state: 'on'
+    - service: light.turn_off
+      entity_id: all
+    - delay: '00:{{ (range(2, 10) | random) }}:00'
+    - condition: state
+      entity_id: input_boolean.mode_simulate_presence
+      state: 'on'
+    - event: event_simulate_presence

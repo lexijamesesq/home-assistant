@@ -13,7 +13,7 @@ cards:
         font-weight: bold;
         font-size: 14px;
       }
-      .markdown {
+      ha-markdown {
         padding: 0px !important;
       }
     content: Outside
@@ -21,8 +21,8 @@ cards:
     item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
     style: |
       .temp-large {
-        font-size: 48px;
-        line-height: 48px;
+        font-size: 35px;
+        line-height: 35px;
         color: var(--primary-text-color);
       }
       .temp-unit {
@@ -59,56 +59,36 @@ cards:
       ]]]
     styles:
       grid:
-        - grid-template-areas: '"l l i" "summary summary summary" "divider divider divider" "sunevent airquality rain"'
+        - grid-template-areas: '"l l i" "summary summary i" "divider divider divider" "sunevent airquality rain"'
         - grid-template-rows: min-content min-content max-content min-content
         - grid-template-columns: 1fr 1fr 1fr
       card:
-        - padding-bottom: 12px
+        - padding-bottom: 0
       label:
         - padding-top: 0
       img_cell:
         - width: 55px
         - justify-self: right
         - margin-top: 5px
+      icon:
+        - width: 50px
+        - height: 50px
       entity_picture:
         - justify-self: right
       custom_fields:
         summary:
           - justify-self: left
-          - font-size: 16px;
+          - font-size: 14px
           - font-weight: 500
         divider:
           - background: var(--disabled-text-color)
           - height: 1px
-          - margin: 12px 0
+          - margin: 12px 0 0 0
         sunevent:
           - justify-self: left
           - font-size: 13px
           - font-weight: 500
           - color: var(--secondary-text-color)
-        airquality:
-          - font-size: 13px
-          - font-weight: 500
-          - color: >
-              [[[
-                if(states["sensor.u_s_air_quality_index"].state <= 50)
-                  return "var(--secondary-text-color)";
-                if(states["sensor.u_s_air_quality_index"].state > 50 && states["sensor.u_s_air_quality_index"].state <= 100)
-                  return "rgb(207, 174, 66)";
-                else
-                  return "rgb(247, 107, 94)"
-              ]]]
-        rain:
-          - justify-self: right
-          - font-size: 13px
-          - font-weight: 500
-          - color: >
-              [[[
-                if(states["sensor.dark_sky_precip_probability_0d"].state < 10)
-                  return "var(--secondary-text-color)";
-                else
-                  return "rgb(51, 144, 225)"
-              ]]]
     custom_fields:
       summary: '[[[ return states["sensor.dark_sky_minutely_summary"].state ]]]'
       divider: ''
@@ -125,17 +105,58 @@ cards:
               style="width: 15px; height: 15px; margin-right: 4px; margin-bottom: 2px;">
               </ha-icon><span>${states["sensor.golden_hour"].state}</span>`
         ]]]
-      airquality: >
-        [[[
-          return `<ha-icon
-            icon="mdi:chemical-weapon"
-            style="width: 15px; height: 15px; margin-right: 4px; margin-bottom: 2px;">
-            </ha-icon><span>${states["sensor.u_s_air_quality_index"].state} ${states["sensor.u_s_air_quality_index"].attributes.unit_of_measurement}</span>`
-        ]]]
-      rain: >
-        [[[
-          return `<ha-icon
-            icon="mdi:weather-pouring"
-            style="width: 15px; height: 15px; margin-right: 4px; margin-bottom: 2px;">
-            </ha-icon><span>${states["sensor.dark_sky_precip_probability_0d"].state} ${states["sensor.dark_sky_precip_probability_0d"].attributes.unit_of_measurement}</span>`
-        ]]]
+      airquality:
+        card:
+          type: custom:button-card
+          template: outside_metric
+          style: |
+            ha-card {
+              box-shadow: none;
+              margin-top: 0 !important;
+            }
+          entity: sensor.u_s_air_quality_index
+          label: >
+            [[[
+              return `<ha-icon
+                icon="mdi:chemical-weapon"
+                style="width: 15px; height: 15px; margin-right: 4px; margin-bottom: 2px;">
+                </ha-icon><span>${states["sensor.u_s_air_quality_index"].state} ${states["sensor.u_s_air_quality_index"].attributes.unit_of_measurement}</span>`
+            ]]]
+          styles:
+            label:
+              - color: >
+                  [[[
+                    if(states["sensor.u_s_air_quality_index"].state <= 50 || states["sensor.u_s_air_quality_index"].state == "unavailable")
+                      return "var(--secondary-text-color)";
+                    if(states["sensor.u_s_air_quality_index"].state > 50 && states["sensor.u_s_air_quality_index"].state <= 100)
+                      return "rgb(207, 174, 66)";
+                    else
+                      return "rgb(247, 107, 94)"
+                  ]]]
+      rain:
+        card:
+          type: custom:button-card
+          template: outside_metric
+          style: |
+            ha-card {
+              box-shadow: none;
+              margin-top: 0 !important;
+            }
+          entity: sensor.dark_sky_precip_probability_0d
+          label: >
+            [[[
+              return `<ha-icon
+                icon="mdi:weather-pouring"
+                style="width: 15px; height: 15px; margin-right: 4px; margin-bottom: 2px;">
+                </ha-icon><span>${states["sensor.dark_sky_precip_probability_0d"].state} ${states["sensor.dark_sky_precip_probability_0d"].attributes.unit_of_measurement}</span>`
+            ]]]
+          styles:
+            label:
+              - justify-self: right
+              - color: >
+                  [[[
+                    if(states["sensor.dark_sky_precip_probability_0d"].state < 10)
+                      return "var(--secondary-text-color)";
+                    else
+                      return "rgb(51, 144, 225)"
+                  ]]]

@@ -1,0 +1,77 @@
+##############################################################
+# Sleep Mode
+##############################################################
+# Prompt to disable sleep mode in the morning
+- alias: Notify Sleep Mode - Still On
+  trigger:
+    - platform: state
+      entity_id: sensor.bedroom_presence
+      to: 'unoccupied'
+      for:
+        minutes: 20
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.mode_sleep
+        state: 'on'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.mode_morning
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.mode_day
+            state: 'on'
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data:
+      title: "Condo"
+      message: "Sleep mode is still on, but your phone seems to think you're awake."
+      data:
+        push:
+          thread-id: "ha-condo-group"
+          sound: "gesture.wav"
+          category: "mode_sleep_end"
+
+# Prompt to enable sleep mode at night
+- alias: Notify Sleep Mode - Still Off
+  trigger:
+    - platform: state
+      entity_id: sensor.bedroom_presence
+      to: 'occupied'
+      for:
+        minutes: 2
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.mode_sleep
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: time
+            after: '21:00:00'
+          - condition: template
+            value_template: >
+              {% set weekday = as_timestamp(states.sensor.date.state + " 05:00") %}
+              {% set weekend = as_timestamp(states.sensor.date.state + " " + states.sensor.suncalc_goldenhourend.state) %}
+              {% set time    = as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) %}
+              {% set today   = (now().strftime("%A") | lower) %}
+              {% if today in ["monday", "tuesday", "wednesday", "thursday", "friday"] and time < weekday %}
+                true
+              {% elif today in ["saturday", "sunday"] and time < weekend %}
+                true
+              {% else %}
+                false
+              {% endif %}
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data:
+      title: "Condo"
+      message: "Sleep mode is off, but your phone seems to think you're headed to bed."
+      data:
+        push:
+          thread-id: "ha-condo-group"
+          sound: "gesture.wav"
+          category: "mode_sleep_start"
