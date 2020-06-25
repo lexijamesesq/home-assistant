@@ -1230,16 +1230,16 @@
           off
         {% endif %}
       icon_template: 'mdi:air-filter'
-    dashboard_octavia_fuel_remaining:
-      friendly_name: Octavia Fuel Remaining
-      entity_id: device_tracker.octavia
-      value_template: >-
-        {% if states.device_tracker.octavia.attributes["fuel_level"] <= 33 %}
-          on
-        {% else %}
-          off
-        {% endif %}
-      icon_template: 'mdi:gas-station'
+#    dashboard_octavia_fuel_remaining:
+#      friendly_name: Octavia Fuel Remaining
+#      entity_id: device_tracker.octavia
+#      value_template: >-
+#        {% if states.device_tracker.octavia.attributes["fuel_level"] <= 33 %}
+#          on
+#        {% else %}
+#          off
+#        {% endif %}
+#      icon_template: 'mdi:gas-station'
     dashboard_neato_rory_status:
       friendly_name: Rory
       entity_id: vacuum.rory
