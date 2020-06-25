@@ -163,39 +163,19 @@
 # Lognger delay before exiting mode, beacon detection is spotty.
 - alias: Start Sleep Mode
   trigger:
-    platform: state
-    entity_id: sensor.bedroom_presence
-    to: 'occupied'
-    for:
-      minutes: 2
-  condition:
-    condition: or
-    conditions:
-      - condition: time
-        after: '21:00:00'
-      - condition: template
-        value_template: >
-          {% set weekday = as_timestamp(states.sensor.date.state + " 05:00") %}
-          {% set weekend = as_timestamp(states.sensor.date.state + " " + states.sensor.suncalc_goldenhourend.state) %}
-          {% set time    = as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) %}
-          {% set today   = (now().strftime("%A") | lower) %}
-          {% if today in ["monday", "tuesday", "wednesday", "thursday", "friday"] and time < weekday %}
-            true
-          {% elif today in ["saturday", "sunday"] and time < weekend %}
-            true
-          {% else %}
-            false
-          {% endif %}
+    - platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: MODE_SLEEP_ON
   action:
     service: homeassistant.turn_on
     entity_id: input_boolean.mode_sleep
 - alias: End Sleep Mode
   trigger:
-    - platform: state
-      entity_id: sensor.bedroom_presence
-      to: 'unoccupied'
-      for:
-        minutes: 20
+    - platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: MODE_SLEEP_OFF
   action:
     service: homeassistant.turn_off
     entity_id: input_boolean.mode_sleep

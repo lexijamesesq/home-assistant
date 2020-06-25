@@ -8,7 +8,7 @@ cards:
     triggers_update:
       - input_select.octavia_driver
       - sensor.octavia
-    label: '[[[ if(states["input_select.octavia_driver"].state == "Alex") return states["sensor.octavia"].attributes.City; else return entity.state ]]]'
+    label: '[[[ if(states["input_select.octavia_driver"].state == "Alex") return states["sensor.octavia"].attributes.city; else return entity.state ]]]'
   - type: custom:button-card
     template: home_tracker
     entity: sensor.octavia

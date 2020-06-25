@@ -7,14 +7,16 @@
       entity_id: input_boolean.mode_sleep
       to: 'off'
       for:
-        hours: 2
+        hours: 3
   condition:
     - condition: state
       entity_id: fan.bedroom
       state: 'on'
   action:
-    - service: fan.turn_off
-      entity_id: fan.bedroom
+    - service: dyson.set_speed
+      data:
+        entity_id: fan.bedroom
+        dyson_speed: 5
 
 - alias: Bedroom Fan Speed - Before Bed
   trigger:
@@ -42,6 +44,10 @@
       data:
         entity_id: fan.bedroom
         night_mode: true
+    - service: dyson.set_speed
+      data:
+        entity_id: fan.bedroom
+        dyson_speed: 5
 
 - alias: Bedroom Fan Speed - Sleep Mode Ended
   trigger:
@@ -63,6 +69,10 @@
       data:
         entity_id: fan.bedroom
         night_mode: false
+    - service: dyson.set_speed
+      data:
+        entity_id: fan.bedroom
+        dyson_speed: 8
 
 - alias: Bedroom Fan Speed - Bedroom Window Open
   trigger:

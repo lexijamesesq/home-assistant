@@ -31,7 +31,7 @@ plex_stream_status:
   entity_picture: '[[[ return states["sensor.tautulli"].attributes[variables.user].user_thumb ]]]'
   custom_fields:
     quality: '[[[ return states["sensor.tautulli"].attributes[variables.user].stream_video_resolution.replace("1080", "1080p").replace("720", "720p").replace("480", "480p").replace("sd", "SD") ]]]'
-    transcode: '[[[ return states["sensor.tautulli"].attributes[variables.user].transcode_decision ]]]'
+    transcode: '[[[ return states["sensor.tautulli"].attributes[variables.user].transcode_decision.replace("copy", "Direct Stream") ]]]'
     progress: >
       [[[
         if(states["sensor.tautulli"].attributes[variables.user].progress_percent != "")

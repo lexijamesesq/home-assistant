@@ -13,7 +13,7 @@ cards:
         font-weight: bold;
         font-size: 14px;
       }
-      .markdown {
+      ha-markdown {
         padding: 0px !important;
       }
     content: Bandwidth
@@ -32,6 +32,8 @@ cards:
     entities:
       - entity: sensor.tautulli_wan_bandwidth
         name: WAN
+    upper_bound: 20
+    lower_bound: 0
     show:
       labels: false
       icon: false
@@ -53,6 +55,8 @@ cards:
     entities:
       - entity: sensor.tautulli_lan_bandwidth
         name: LAN
+    upper_bound: 20
+    lower_bound: 0
     show:
       labels: false
       icon: false

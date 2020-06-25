@@ -15,7 +15,7 @@ shadow: true
 #exceptions
 exceptions:
   - conditions:
-      user_agent: Mobile
+      user_agent: 'Home Assistant'
     config:
       # main
       compact_mode: true
@@ -33,5 +33,6 @@ exceptions:
       hide_tabs: 'scenes, health, preferences'
 
       # styling
-      header_css: 'background: #1E1E21;'
-      tab_container_css: 'margin-bottom: 30px;'
+      header_css: 'background: #1E1E21; margin-top: 28px !important; margin-bottom: inherit !important; padding-bottom: inherit !important;'
+      tab_container_css: 'margin-bottom: 24px;'
+      panel_view_css: 'padding-top: inherit; padding-bottom: inherit; margin-top: inherit; margin-bottom: inherit; min-height: inherit;'

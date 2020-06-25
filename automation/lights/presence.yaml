@@ -18,13 +18,7 @@
       state: 'on'
   action:
     - service: script.turn_on
-      data_template:
-        entity_id: '{{ states.group.simulate_presence_scenes.attributes.entity_id | random }}'
-    - delay: '00:{{ (range(35, 55) | random) }}:00'
-    - service: light.turn_off
-      entity_id: all
-    - delay: '00:{{ (range(2, 10) | random) }}:00'
-    - event: event_simulate_presence
+      entity_id: script.simulate_presence
 - alias: Simulate Presence Mode - Turn Lights Off
   trigger:
     - platform: state
