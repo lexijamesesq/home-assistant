@@ -29,4 +29,6 @@ cards:
       - type: section
       - entity: automation.cycle_stale_air_when_away
       - entity: automation.nest_temperature_sleep_mode_started
-        name: Sleep Mode Temperatures
+        name: Sleep Mode Started Temperatures
+      - entity: automation.nest_temperature_sleep_mode_ended
+        name: Sleep Mode Ended Temperatures
