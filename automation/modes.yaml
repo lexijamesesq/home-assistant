@@ -181,6 +181,18 @@
     entity_id: input_boolean.mode_sleep
 
 
+# Peloton Mode #################################################
+- alias: End Peloton Mode
+  trigger:
+    - platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: MODE_PELOTON_OFF
+  action:
+    service: homeassistant.turn_off
+    entity_id: input_boolean.mode_peloton
+
+
 # Home Theater Mode ##########################################
 - alias: Start Home Theater Mode
   trigger:
