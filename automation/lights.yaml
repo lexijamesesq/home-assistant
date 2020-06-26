@@ -67,7 +67,7 @@
       entity_id: input_boolean.mode_sleep
       to: 'on'
       for:
-        minutes: 5
+        minutes: 2
   action:
     - service: light.turn_off
       entity_id:
@@ -90,9 +90,9 @@
         variables:
           lights: >-
             {%- if is_state('input_boolean.mode_day', 'on') -%}
-              rec_room_tiles,bedroom_tiles
+              rec_room_tiles,bedroom_tiles,bedroom_lights
             {%- else -%}
-              rec_room_tiles,bedroom_tiles,den,den_cabinets
+              rec_room_tiles,bedroom_tiles,bedroom_lights,den,den_cabinets
             {%- endif %}
 
 - alias: Sleep Mode Lights On When Patio Door Opens
