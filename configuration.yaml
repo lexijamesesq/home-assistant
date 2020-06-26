@@ -96,15 +96,9 @@ lovelace:
       type: module
     - url: /hacsfiles/button-card/button-card.js
       type: module
-    - url: /hacsfiles/lovelace-card-tools/card-tools.js
-      type: module
     - url: /hacsfiles/lovelace-card-mod/card-mod.js
       type: module
     - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
-      type: module
-    - url: /hacsfiles/rgb-light-card/card.js
-      type: js
-    - url: /hacsfiles/secondaryinfo-entity-row/secondaryinfo-entity-row.js
       type: module
     - url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
       type: module
