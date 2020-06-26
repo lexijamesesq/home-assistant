@@ -8,6 +8,7 @@ cards:
     show_header_toggle: false
     entities:
       - type: section
+        label: Temperatures
       - entity: sensor.climate_downstairs_sleep_mode_cool
         type: custom:multiple-entity-row
         name: Downstairs Sleep Mode
@@ -27,6 +28,7 @@ cards:
           - entity: sensor.climate_upstairs_sleep_mode_heat
             name: Heat
       - type: section
+        label: Automations
       - entity: automation.cycle_stale_air_when_away
       - entity: automation.nest_temperature_sleep_mode_started
         name: Sleep Mode Started Temperatures
