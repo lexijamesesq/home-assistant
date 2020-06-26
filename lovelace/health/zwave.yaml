@@ -8,11 +8,13 @@ cards:
     show_header_toggle: false
     entities:
       - type: section
+        labels: Locks
       - entity: zwave.august_smart_lock_pro_front_door
         name: Front Door
       - entity: zwave.august_smart_lock_pro_garage_door
         name: Garage Door
       - type: section
+        label: Sensors
       - zwave.bedroom_closet_door_sensor
       - zwave.den_multisensor
       - zwave.downstairs_hallway_multisensor
@@ -24,6 +26,7 @@ cards:
       - zwave.laundry_door_right_sensor
       - zwave.main_stairs_multisensor
       - type: section
+        label: Switches
       - zwave.bedroom_closet_switch
       - zwave.bedroom_hallway_dimmer
       - zwave.den_hallway_dimmer
@@ -40,4 +43,5 @@ cards:
       - zwave.patio_string_lights_outlet
       - zwave.upstairs_hallway_dimmer
       - type: section
+        label: Hubs
       - zwave.zstick

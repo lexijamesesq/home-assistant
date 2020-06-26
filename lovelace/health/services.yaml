@@ -8,11 +8,13 @@ cards:
     show_header_toggle: false
     entities:
       - type: section
+        label: Overwatch
       - entity: sensor.service_status_home_assistant
         name: Home Assistant
       - entity: sensor.service_status_dashboard
         name: Dashboard Server
       - type: section
+        label: Woodhouse
       - entity: sensor.service_status_plex
         name: Plex
       - entity: sensor.service_status_sonarr
@@ -24,6 +26,7 @@ cards:
       - entity: sensor.service_status_grafana
         name: Grafana
       - type: section
+        label: UniFi
       - entity: sensor.service_status_unifi_network
         name: Network
       - entity: sensor.service_status_unifi_protect
