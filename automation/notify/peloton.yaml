@@ -1,0 +1,21 @@
+##############################################################
+# Peloton Mode
+##############################################################
+# Prompt to disable Peloton mode if left on
+- alias: Notify Peloton Mode - Still On
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_peloton
+      to: 'on'
+      for:
+        minutes: 40
+  action:
+    service: notify.mobile_app_alexs_iphone
+    data:
+      title: "Condo"
+      message: "Peloton mode is still on, are you still working out?"
+      data:
+        push:
+          thread-id: "ha-condo-group"
+          sound: "gesture.wav"
+          category: "mode_peloton_end"

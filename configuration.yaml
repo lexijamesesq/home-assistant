@@ -527,6 +527,15 @@ ios:
             authenticationRequired: false
             destructive: false
             behavior: 'default'
+      - name: End Peloton Mode
+        identifier: 'mode_peloton_end'
+        actions:
+          - identifier: 'MODE_PELOTON_OFF'
+            title: 'Turn Off'
+            activationMode: 'background'
+            authenticationRequired: false
+            destructive: false
+            behavior: 'default'
       - name: Close Garage Actual
         identifier: 'garage_actual_close'
         actions:
