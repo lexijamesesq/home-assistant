@@ -355,14 +355,6 @@ light:
 #   password: !secret mqtt_remote_password
 
 
-sensor places_octavia:
-  - platform: places
-    name: Octavia
-    devicetracker_id: device_tracker.beacon_octavia
-    home_zone: zone.home
-    api_key: alex@alexbussa.com
-
-
 notify:
   - name: Pushover
     platform: pushover

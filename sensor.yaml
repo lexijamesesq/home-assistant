@@ -74,6 +74,19 @@
   username: !secret peloton_username
   password: !secret peloton_password
 
+# Places
+- platform: places
+  name: Octavia
+  devicetracker_id: device_tracker.beacon_octavia
+  home_zone: zone.home
+  api_key: !secret places_api_key
+
+- platform: places
+  name: Alex
+  devicetracker_id: device_tracker.alexs_iphone_geofency
+  home_zone: zone.home
+  api_key: !secret places_api_key
+
 # Custom sensors for UI display
 - platform: min_max
   name: 'Average Temperature'
@@ -1658,15 +1671,13 @@
       friendly_name: Alex
       entity_id:
         - device_tracker.alexs_iphone_geofency
-        - input_select.octavia_driver
-        - input_select.octavia_state
       value_template: >-
-        {%- if is_state('input_select.octavia_driver', 'Alex') -%}
-          {{ states.input_select.octavia_state.state | title }}
-        {%- elif is_state('device_tracker.alexs_iphone_geofency', 'home_extended') or is_state('device_tracker.alexs_iphone_geofency', 'work_extended') -%}
-          Away
+        {%- if is_state('device_tracker.alexs_iphone_geofency', 'not_home') -%}
+          {{ state_attr('sensor.alex', 'city') }}
+        {%- elif 'extended' in states('device_tracker.alexs_iphone_geofency') -%}
+          {{ state_attr('sensor.alex', 'city') }}
         {%- else -%}
-          {{ states.device_tracker.alexs_iphone_geofency.state | replace("not_home", "away") | title }}
+          {{ states('device_tracker.alexs_iphone_geofency') | replace("not_home", "away") | title }}
         {%- endif %}
       entity_picture_template: '/local/calvin.png'
     device_tracker_alex_recently_home:
@@ -1682,6 +1693,19 @@
         {% else %}
           off
         {% endif %}
+    device_tracker_octavia:
+      friendly_name: Octavia
+      entity_id:
+        - device_tracker.beacon_octavia
+      value_template: >-
+        {%- if is_state('device_tracker.beacon_octavia', 'not_home') -%}
+          {{ state_attr('sensor.octavia', 'city') }}
+        {%- elif 'extended' in states('device_tracker.beacon_octavia') -%}
+          {{ state_attr('sensor.octavia', 'city') }}
+        {%- else -%}
+          {{ states('device_tracker.beacon_octavia') | replace("not_home", "away") | title }}
+        {%- endif %}
+      entity_picture_template: /local/jeep.png
     device_tracker_garage_actual_recently_closed:
       friendly_name: Garage - Recently Closed
       entity_id: sensor.time

@@ -5,13 +5,8 @@ cards:
   - type: custom:button-card
     template: home_tracker
     entity: sensor.device_tracker_alex
-    triggers_update:
-      - input_select.octavia_driver
-      - sensor.octavia
-    label: '[[[ if(states["input_select.octavia_driver"].state == "Alex") return states["sensor.octavia"].attributes.city; else return entity.state ]]]'
+    label: '[[[ return entity.state ]]]'
   - type: custom:button-card
     template: home_tracker
-    entity: sensor.octavia
-    triggers_update:
-      - device_tracker.octavia
-    label: '[[[ return "Fuel: " + states["device_tracker.octavia"].attributes.fuel_level + "%" ]]]'
+    entity: sensor.device_tracker_octavia
+    label: '[[[ return entity.state ]]]'
