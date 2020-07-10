@@ -16,7 +16,17 @@
       entity_id: sensor.sonos_group_master_state
       to: 'playing'
       for:
+        minutes: 1
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
+      for:
         minutes: 2
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
+      for:
+        minutes: 3
     - platform: state
       entity_id: sensor.sonos_group_master_state
       to: 'playing'
@@ -26,17 +36,22 @@
       entity_id: sensor.sonos_group_master_state
       to: 'playing'
       for:
+        minutes: 5
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
+      for:
         minutes: 6
     - platform: state
       entity_id: sensor.sonos_group_master_state
       to: 'playing'
       for:
-        minutes: 8
+        minutes: 7
     - platform: state
       entity_id: sensor.sonos_group_master_state
       to: 'playing'
       for:
-        minutes: 10
+        minutes: 8
   condition:
     condition: and
     conditions:
@@ -64,7 +79,7 @@
     data_template:
       entity_id: >-
         {% set players = ["sonos_kitchen", "sonos_bedroom", "sonos_bathroom"] %}
-        {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.30 -%}
+        {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.28 -%}
           {{ 'media_player.' ~ player }}
           {%- if not loop.last -%}
             ,
@@ -72,7 +87,7 @@
         {%- endfor %}
       volume_level: >-
         {% set players = ["sonos_kitchen", "sonos_bedroom", "sonos_bathroom"] %}
-        {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.30 -%}
+        {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.28 -%}
           {%- if loop.first -%}
             {{ state_attr('media_player.' ~ player, 'volume_level') + 0.02 }}
           {%- endif %}
