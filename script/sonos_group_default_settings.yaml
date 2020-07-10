@@ -15,19 +15,19 @@ sonos_group_default_settings:
       entity_id:
         - media_player.sonos_rec_room
       data:
-        volume_level: 0.35
+        volume_level: 0.30
     - service: media_player.volume_set
       entity_id:
         - media_player.sonos_kitchen
         - media_player.sonos_bedroom
         - media_player.sonos_bathroom
       data:
-        volume_level: 0.30
+        volume_level: 0.28
     - service: media_player.volume_set
       entity_id:
         - media_player.sonos_living_room
       data:
-        volume_level: 0.25
+        volume_level: 0.23
     - service: media_player.volume_set
       entity_id:
         - media_player.sonos_den
