@@ -2,10 +2,8 @@ type: conditional
 conditions:
   - entity: binary_sensor.garage_actual
     state: "off"
-  - entity: sensor.device_tracker_garage_actual_recently_closed
-    state: "off"
-  - entity: sensor.device_tracker_alex_recently_home
-    state: "on"
+  - entity: device_tracker.beacon_garage
+    state: "garage"
 card:
   type: custom:dwains-flexbox-card
   items_classes: 'col-xs-12'
@@ -13,9 +11,8 @@ card:
   cards:
     - type: custom:button-card
       template: row_icon_name_label
-      entity: script.trigger_garage_door_opener
-      show_state: false
       show_label: false
+      entity: script.trigger_garage_door_opener
       name: Open Garage Actual
       icon: 'mdi:remote'
       tap_action:
@@ -27,4 +24,4 @@ card:
           - grid-template-columns: min-content 1fr
           - grid-template-rows: min-content
         name:
-          - margin-left: 12px
+          - align-self: center
