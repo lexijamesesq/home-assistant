@@ -26,7 +26,7 @@ cards:
       - sensor.battery_laundry_door_left_sensor
       - sensor.battery_laundry_door_right_sensor
       - sensor.battery_den_multisensor
-      - sensor.battery_den_trisensor
+      - sensor.battery_bedroom_closet_trisensor
       - sensor.battery_guest_bedroom_closet_door_sensor
       - type: section
         label: UPS

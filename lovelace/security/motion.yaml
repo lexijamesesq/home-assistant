@@ -47,9 +47,9 @@ cards:
     name: Upstairs Hallway
   - type: custom:button-card
     template: security_door_window
-    entity: binary_sensor.den_multisensor_sensor
-    name: Den Hallway
+    entity: binary_sensor.bedroom_closet_trisensor_sensor
+    name: Bedroom Closet
   - type: custom:button-card
     template: security_door_window
-    entity: binary_sensor.den_trisensor_sensor
-    name: Den
+    entity: binary_sensor.den_multisensor_sensor
+    name: Den Hallway

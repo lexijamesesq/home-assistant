@@ -37,8 +37,8 @@ motion_main_stairs:
   name: Main Motion
 motion_upstairs_hallway:
   name: Upstairs Hallway Motion
-motion_den:
-  name: Den Motion
+motion_bedroom_closet:
+  name: Bedroom Closet Motion
 motion_den_hallway:
   name: Den Hallway Motion
 

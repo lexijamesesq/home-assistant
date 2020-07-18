@@ -41,7 +41,7 @@
       entity_id: sensor.battery_den_multisensor
       below: 50
     - platform: numeric_state
-      entity_id: sensor.battery_den_trisensor
+      entity_id: sensor.battery_bedroom_closet_trisensor
       below: 50
     - platform: numeric_state
       entity_id: sensor.battery_guest_bedroom_closet_door_sensor
