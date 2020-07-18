@@ -119,27 +119,27 @@
 
 
 ##############################################################
-# Den
+# Bedroom
 ##############################################################
 
-- alias: Motion Started in Den
+- alias: Motion Started in Bedroom
   trigger:
     platform: state
-    entity_id: binary_sensor.den_trisensor_sensor
+    entity_id: binary_sensor.bedroom_closet_trisensor_sensor
     from: "off"
     to: "on"
   action:
     service: homeassistant.turn_on
-    entity_id: input_boolean.motion_den
+    entity_id: input_boolean.motion_bedroom_closet
 - alias: Motion Ended in Den
   trigger:
     platform: state
-    entity_id: binary_sensor.den_trisensor_sensor
+    entity_id: binary_sensor.bedroom_closet_trisensor_sensor
     from: "on"
     to: "off"
   action:
     service: homeassistant.turn_off
-    entity_id: input_boolean.motion_den
+    entity_id: input_boolean.motion_bedroom_closet
 
 
 ##############################################################

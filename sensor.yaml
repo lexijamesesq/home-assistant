@@ -377,15 +377,15 @@
           off
         {% endif %}
 
-    battery_den_trisensor:
-      friendly_name: 'Den TriSensor'
-      entity_id: zwave.den_trisensor
+    battery_bedroom_closet_trisensor:
+      friendly_name: 'Bedroom Closet TriSensor'
+      entity_id: zwave.bedroom_closet_trisensor
       unit_of_measurement: '%'
       value_template: >
-        {{ states.zwave.den_trisensor.attributes.battery_level }}
+        {{ states.zwave.bedroom_closet_trisensor.attributes.battery_level }}
       icon_template: >
-        {% if states.zwave.den_trisensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.den_trisensor.attributes.battery_level %}
+        {% if states.zwave.bedroom_closet_trisensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.bedroom_closet_trisensor.attributes.battery_level %}
           {% if level | float == 100 %}
             mdi:battery
           {% elif level | float < 10 %}
@@ -397,11 +397,11 @@
         {% else %}
           mdi:battery-alert
         {% endif %}
-    dashboard_battery_den_trisensor:
-      friendly_name: 'Den TriSensor'
-      entity_id: sensor.battery_den_trisensor
+    dashboard_battery_bedroom_closet_trisensor:
+      friendly_name: 'Bedroom Closet TriSensor'
+      entity_id: sensor.battery_bedroom_closet_trisensor
       value_template: >-
-        {% if states.sensor.battery_den_trisensor.state | int <= 50 %}
+        {% if states.sensor.battery_bedroom_closet_trisensor.state | int <= 50 %}
           on
         {% else %}
           off

@@ -260,13 +260,13 @@ binary_sensor.downstairs_thermostat_is_locked:
   hidden: true
 binary_sensor.downstairs_thermostat_has_leaf:
   hidden: true
-sensor.den_trisensor_burglar:
+sensor.bedroom_closet_trisensor_burglar:
   hidden: true
-sensor.den_trisensor_alarm_type:
+sensor.bedroom_closet_trisensor_alarm_type:
   hidden: true
-sensor.den_trisensor_alarm_level:
+sensor.bedroom_closet_trisensor_alarm_level:
   hidden: true
-sensor.den_trisensor_sourcenodeid:
+sensor.bedroom_closet_trisensor_sourcenodeid:
   hidden: true
 switch.clara:
   hidden: true
@@ -292,7 +292,7 @@ sensor.service_status_grafana:
   icon: mdi:desktop-mac-dashboard
 sensor.service_status_tautulli:
   icon: mdi:account-details
-binary_sensor.den_trisensor_sensor:
+binary_sensor.bedroom_closet_trisensor_sensor:
   device_class: motion
 cover.garage_actual:
   device_class: garage
