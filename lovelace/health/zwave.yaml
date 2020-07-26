@@ -16,6 +16,7 @@ cards:
       - type: section
         label: Sensors
       - zwave.bedroom_closet_door_sensor
+      - zwave.bedroom_closet_trisensor
       - zwave.den_multisensor
       - zwave.downstairs_hallway_multisensor
       - zwave.garage_actual

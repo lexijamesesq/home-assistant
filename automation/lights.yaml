@@ -90,9 +90,9 @@
         variables:
           lights: >-
             {%- if is_state('input_boolean.mode_day', 'on') -%}
-              rec_room_tiles,bedroom_tiles,bedroom_lights
+              rec_room_tiles,bedroom_tiles,bedroom
             {%- else -%}
-              rec_room_tiles,bedroom_tiles,bedroom_lights,den,den_cabinets
+              rec_room_tiles,bedroom_tiles,bedroom,den,den_cabinets
             {%- endif %}
 
 - alias: Sleep Mode Lights On When Patio Door Opens
