@@ -19,7 +19,6 @@ cards:
         label: Sensors
       - sensor.battery_garage_stairs_multisensor
       - sensor.battery_garage_motion_sensor
-      - sensor.battery_front_door_ring_pro
       - sensor.battery_downstairs_hallway_multisensor
       - sensor.battery_main_stairs_multisensor
       - sensor.battery_bedroom_closet_door_sensor

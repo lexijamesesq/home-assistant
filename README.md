@@ -27,7 +27,6 @@
 * [Sonos Amp](https://www.amazon.com/gp/product/B07LD8NN37/)
 * [Neato Robotics Botvac Connected D7](https://www.amazon.com/gp/product/B07KGMCLPX/)
 * [Automatic Connected Car Assistant](https://www.amazon.com/gp/product/B07P37K3VG/)
-* [Ring Video Doorbell Pro](https://www.amazon.com/gp/product/B01DM6BDA4/)
 * [Samsung Electronics Galaxy Tab A, 10.5"](https://www.amazon.com/gp/product/B07FM86283/) *TileBoard Dashboard Displays*
 
 # Hardware
