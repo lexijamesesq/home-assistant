@@ -274,29 +274,27 @@
 ##############################################################
 # Cox Events
 ##############################################################
-
-# Sonarr #####################################################
-- alias: Notify Cox - Data Usage
-  trigger:
-    - platform: state
-      entity_id: sensor.cox_data_usage
-  condition:
-    condition: and
-    conditions:
-      - condition: template
-        value_template: '{{ not is_state("sensor.cox_data_usage", "unavailable") }}'
-      - condition: template
-        value_template: '{{ not is_state("sensor.cox_data_usage", "undefined") }}'
-      - condition: template
-        value_template: '{{ states("sensor.cox_data_usage")[:-2] | int > 75 }}'
-  action:
-    - delay: '00:00:05'
-    - service: notify.mobile_app_alexs_iphone
-      data_template:
-        title: 'Cox'
-        message: >-
-            Data usage is at {{ states('sensor.cox_data_usage') }}%, resetting in {{ states('sensor.cox_data_resets') }} days.
-        data:
-          push:
-            thread-id: 'ha-server-group'
-            sound: 'gesture.wav'
+# - alias: Notify Cox - Data Usage
+#   trigger:
+#     - platform: state
+#       entity_id: sensor.cox_data_usage
+#   condition:
+#     condition: and
+#     conditions:
+#       - condition: template
+#         value_template: '{{ not is_state("sensor.cox_data_usage", "unavailable") }}'
+#       - condition: template
+#         value_template: '{{ not is_state("sensor.cox_data_usage", "undefined") }}'
+#       - condition: template
+#         value_template: '{{ states("sensor.cox_data_usage")[:-2] | int > 75 }}'
+#   action:
+#     - delay: '00:00:05'
+#     - service: notify.mobile_app_alexs_iphone
+#       data_template:
+#         title: 'Cox'
+#         message: >-
+#             Data usage is at {{ states('sensor.cox_data_usage') }}%, resetting in {{ states('sensor.cox_data_resets') }} days.
+#         data:
+#           push:
+#             thread-id: 'ha-server-group'
+#             sound: 'gesture.wav'

@@ -7,19 +7,19 @@ cards:
     title: Network
     show_header_toggle: false
     entities:
-      - type: section
-        label: Internet
-      - entity: sensor.cox_data_plan
-        name: Plan
-      - entity: sensor.cox_data_usage
-        type: custom:multiple-entity-row
-        name: Usage
-        show_state: false
-        entities:
-          - entity: sensor.cox_data_usage
-            name: Usage
-          - entity: sensor.cox_data_resets
-            name: Resets
+#       - type: section
+#         label: Internet
+#       - entity: sensor.cox_data_plan
+#         name: Plan
+#       - entity: sensor.cox_data_usage
+#         type: custom:multiple-entity-row
+#         name: Usage
+#         show_state: false
+#         entities:
+#           - entity: sensor.cox_data_usage
+#             name: Usage
+#           - entity: sensor.cox_data_resets
+#             name: Resets
       - type: section
         label: External
       - entity: sensor.network_status_cox_wan
