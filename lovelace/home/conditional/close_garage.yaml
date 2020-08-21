@@ -1,6 +1,8 @@
 type: conditional
 conditions:
-  - entity: binary_sensor.garage_actual
+  - entity: sensor.device_tracker_garage_actual_recently_closed
+    state: "off"
+  - entity: sensor.device_tracker_alex_recently_home
     state: "on"
 card:
   type: custom:dwains-flexbox-card
