@@ -94,6 +94,22 @@
             {%- else -%}
               rec_room_tiles,bedroom_tiles,bedroom,den,den_cabinets
             {%- endif %}
+          trigger: sleep_mode
+
+- alias: Sleep Mode Wake Up Time Ended Update Lights
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'off'
+      for:
+        hours: 3
+  condition:
+    - condition: state
+      entity_id: light.bedroom_lights
+      state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.bedroom_lights
 
 - alias: Sleep Mode Lights On When Patio Door Opens
   trigger:

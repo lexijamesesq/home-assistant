@@ -1,4 +1,43 @@
 ##############################################################
+# Day
+##############################################################
+- alias: Update Lights After Sunrise
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_morning
+      to: 'off'
+      for:
+        minutes: 5
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'home'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: light.kitchen
+            state: 'on'
+          - condition: state
+            entity_id: light.living_room
+            state: 'on'
+          - condition: state
+            entity_id: light.den_lights
+            state: 'on'
+          - condition: state
+            entity_id: light.den_cabinets
+            state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id:
+        - light.kitchen
+        - light.living_room
+        - light.den_lights
+        - light.den_cabinets
+
+
+##############################################################
 # Sunset
 ##############################################################
 - alias: Update Lights Before Sunset
