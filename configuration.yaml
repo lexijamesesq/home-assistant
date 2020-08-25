@@ -189,8 +189,6 @@ emulated_hue:
   listen_port: !secret emulated_hue_port
   expose_by_default: false
   entities:
-    light.rec_room_lights:
-      hidden: false
     light.bedroom_lights:
       hidden: false
     light.kitchen:
@@ -483,7 +481,6 @@ homekit:
       - remote.living_room_apple_tv
     exclude_entities:
       - light.patio_lights
-      - light.rec_room_lights
       - light.den_lights
       - light.den_cabinets
       - light.bedroom_lights

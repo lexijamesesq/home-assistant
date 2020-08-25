@@ -32,7 +32,7 @@ cards:
   - type: custom:button-card
     template: light
     entity: light.patio_string_lights
-    name: Patio Ambient
+    name: Patio String
   - type: custom:button-card
     template: light
     entity: light.living_room
@@ -40,7 +40,7 @@ cards:
   - type: custom:button-card
     template: light
     entity: light.living_room_tv
-    name: Living Room TV
+    name: TV Ambient
     double_tap_action:
       action: navigate
       navigation_path: scenes#living_room_tv
