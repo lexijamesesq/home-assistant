@@ -5,7 +5,7 @@ sonos_playlist:
     action: toggle
   hold_action:
     action: more-info
-  entity_picture: '/local/icons/spotify.svg'
+  entity_picture: '/local/icons/tidal.svg'
   styles:
     grid:
       - grid-template-areas: '"i n"'
