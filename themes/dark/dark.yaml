@@ -39,7 +39,7 @@ dark:
   theme-climate-cool: '#2b9af9'
   # Paper card
   paper-card-header-color: '#2B2B2D'
-  paper-card-background-color: '#2B2B2D'
+  card-background-color: '#2B2B2D'
   paper-dialog-background-color: '#2B2B2D'
   paper-item-icon-color: 'var(--primary-text-color)'
   paper-item-icon-active-color: '#0DA3E5'
@@ -99,8 +99,6 @@ dark:
   lumo-shade-10pct: 'rgba(34, 34, 34, .1)'
   lumo-shade-5pct: 'rgba(34, 34, 34, .05)'
   lumo-tint-5pct: '#222222'
-  # fix for device configuration screen
-  card-background-color: "var(--paper-card-background-color)"
   # Fix for Person Device Chooser - thanks to vajonam!
   material-background-color: "var(--paper-listbox-background-color)"
   material-secondary-background-color: '#222222'
