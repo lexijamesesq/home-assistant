@@ -680,7 +680,7 @@
       entity_id: device_tracker.unifi_cloudkey
       value_template: >
         {{ ('online' if is_state('device_tracker.unifi_cloudkey', 'home') else 'offline') | title }}
-      icon_template: 'mdi:mixcloud'
+      icon_template: 'mdi:folder-key-network'
     network_unifi_switch_16:
       friendly_name: UniFi Switch 16
       entity_id: device_tracker.unifi_switch_16
