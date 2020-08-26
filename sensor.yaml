@@ -2264,16 +2264,3 @@
     {% else %}
       off
     {% endif %}
-
-
-# nut sensors
-- platform: nut
-  name: Server Rack UPS
-  alias: rack
-  username: !secret nut_username
-  password: !secret nut_password
-  resources:
-    - battery.charge
-    - battery.runtime
-    - ups.status
-    - ups.status.display
