@@ -2,56 +2,56 @@
 # General Events
 ##############################################################
 # Doorbell Notifications ######################################
-# - alias: Notify Security - Sonos - Doorbell Pressed
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.ring_front_door_ding
-#       from: 'off'
-#       to: 'on'
-#   condition:
-#     condition: or
-#     conditions:
-#       - condition: state
-#         entity_id: group.residents
-#         state: 'home'
-#       - condition: state
-#         entity_id: input_boolean.mode_guest
-#         state: 'on'
-#   action:
-#     - service_template: rest_command.notify_sonos_kitchen
-#       data_template:
-#         message: >-
-#           {%- if is_state('input_boolean.mode_home_theater', 'on') -%}
-#             Excuse the interruption... Someone is at the front door.
-#           {%- elif is_state('sensor.sonos_group_master_state', 'playing') -%}
-#             Excuse the interruption... Someone is at the front door.
-#           {%- else -%}
-#             Someone is at the front door.
-#           {%- endif %}
-#         volume: >-
-#           {%- if is_state('sensor.sonos_group_master_state', 'playing') -%}
-#             45
-#           {%- else -%}
-#             40
-#           {%- endif %}
-#     - service: rest_command.notify_sonos_den
-#       data_template:
-#         message: >-
-#           {%- if is_state('sensor.sonos_group_master_state', 'playing') -%}
-#             Excuse the interruption... Someone is at the front door.
-#           {%- else -%}
-#             Someone is at the front door.
-#           {%- endif %}
-#         volume: 40
-#     - service_template: rest_command.notify_sonos_bedroom
-#       data_template:
-#         message: >-
-#           {%- if is_state('sensor.sonos_group_master_state', 'playing') -%}
-#             Excuse the interruption... Someone is at the front door.
-#           {%- else -%}
-#             Someone is at the front door.
-#           {%- endif %}
-#         volume: 40
+- alias: Notify Security - Sonos - Doorbell Pressed
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.doorbell_front_door
+      from: 'off'
+      to: 'on'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.mode_guest
+        state: 'on'
+  action:
+    - service_template: rest_command.notify_sonos_kitchen
+      data_template:
+        message: >-
+          {%- if is_state('input_boolean.mode_home_theater', 'on') -%}
+            Excuse the interruption... Someone is at the front door.
+          {%- elif is_state('sensor.sonos_group_master_state', 'playing') -%}
+            Excuse the interruption... Someone is at the front door.
+          {%- else -%}
+            Someone is at the front door.
+          {%- endif %}
+        volume: >-
+          {%- if is_state('sensor.sonos_group_master_state', 'playing') -%}
+            45
+          {%- else -%}
+            40
+          {%- endif %}
+    - service: rest_command.notify_sonos_den
+      data_template:
+        message: >-
+          {%- if is_state('sensor.sonos_group_master_state', 'playing') -%}
+            Excuse the interruption... Someone is at the front door.
+          {%- else -%}
+            Someone is at the front door.
+          {%- endif %}
+        volume: 40
+    - service_template: rest_command.notify_sonos_bedroom
+      data_template:
+        message: >-
+          {%- if is_state('sensor.sonos_group_master_state', 'playing') -%}
+            Excuse the interruption... Someone is at the front door.
+          {%- else -%}
+            Someone is at the front door.
+          {%- endif %}
+        volume: 40
 
 
 ##############################################################
