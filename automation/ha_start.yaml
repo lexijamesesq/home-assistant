@@ -6,25 +6,23 @@
 # State is only changed if it is incorrect. Don't want to trigger mode changes on restart unnecessarily.
 - alias: Manually Reset Start Morning Mode
   trigger:
-    platform: homeassistant
-    event: start
+    - platform: homeassistant
+      event: start
   condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.mode_morning
-        state: 'off'
-      - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
-      - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+    - condition: state
+      entity_id: input_boolean.mode_morning
+      state: 'off'
+    - condition: template
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
+    - condition: template
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.mode_morning
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.mode_morning
 - alias: Manually Reset End Morning Mode
   trigger:
-    platform: homeassistant
-    event: start
+    - platform: homeassistant
+      event: start
   condition:
     condition: and
     conditions:
@@ -38,32 +36,30 @@
           - condition: template
             value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.mode_morning
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.mode_morning
 
 # Manually Set Day Mode State #############################
 # State is only changed if it is incorrect. Don't want to trigger mode changes on restart unnecessarily.
 - alias: Manually Reset Start Day Mode
   trigger:
-    platform: homeassistant
-    event: start
+    - platform: homeassistant
+      event: start
   condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.mode_day
-        state: 'off'
-      - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
-      - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
+    - condition: state
+      entity_id: input_boolean.mode_day
+      state: 'off'
+    - condition: template
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+    - condition: template
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.mode_day
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.mode_day
 - alias: Manually Reset End Day Mode
   trigger:
-    platform: homeassistant
-    event: start
+    - platform: homeassistant
+      event: start
   condition:
     condition: and
     conditions:
@@ -77,32 +73,30 @@
           - condition: template
             value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.mode_day
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.mode_day
 
 # Manually Set Sunset Mode State #############################
 # State is only changed if it is incorrect. Don't want to trigger mode changes on restart unnecessarily.
 - alias: Manually Reset Start Sunset Mode
   trigger:
-    platform: homeassistant
-    event: start
+    - platform: homeassistant
+      event: start
   condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.mode_sunset
-        state: 'off'
-      - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
-      - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
+    - condition: state
+      entity_id: input_boolean.mode_sunset
+      state: 'off'
+    - condition: template
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
+    - condition: template
+      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.mode_sunset
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.mode_sunset
 - alias: Manually Reset End Sunset Mode
   trigger:
-    platform: homeassistant
-    event: start
+    - platform: homeassistant
+      event: start
   condition:
     condition: and
     conditions:
@@ -116,15 +110,15 @@
           - condition: template
             value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.mode_sunset
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.mode_sunset
 
 # Manually Set Night Mode State ##############################
 # State is only changed if it is incorrect. Don't want to trigger mode changes on restart unnecessarily.
 - alias: Manually Reset Start Night Mode
   trigger:
-    platform: homeassistant
-    event: start
+    - platform: homeassistant
+      event: start
   condition:
     condition: and
     conditions:
@@ -138,12 +132,12 @@
           - condition: template
             value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.mode_night
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.mode_night
 - alias: Manually Reset End Night Mode
   trigger:
-    platform: homeassistant
-    event: start
+    - platform: homeassistant
+      event: start
   condition:
     condition: and
     conditions:
@@ -155,8 +149,8 @@
       - condition: template
         value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.mode_night
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.mode_night
 
 # Manually Start HomeKit #####################################
 # Wait until the zwave network is ready
@@ -175,9 +169,9 @@
 # Manually Set Theme #########################################
 - alias: Manually Set Lovelace Theme
   trigger:
-    platform: homeassistant
-    event: start
+    - platform: homeassistant
+      event: start
   action:
-    service: frontend.set_theme
-    data:
-      name: dark
+    - service: frontend.set_theme
+      data:
+        name: dark

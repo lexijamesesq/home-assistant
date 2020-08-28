@@ -3,9 +3,9 @@
 ##############################################################
 - alias: Sonos Group Restore Morning Settings
   trigger:
-    platform: time
-    # Military time format. This trigger will fire at 3:00 AM
-    at: '03:00:00'
+    - platform: time
+      # Military time format. This trigger will fire at 3:00 AM
+      at: '03:00:00'
   action:
     - service: script.turn_on
       entity_id: script.sonos_group_morning_settings
@@ -75,82 +75,82 @@
       - condition: template
         value_template: '{{ state_attr("media_player.sonos_kitchen", "volume_level") < 0.30 or state_attr("media_player.sonos_bedroom", "volume_level") < 0.30 or state_attr("media_player.sonos_bathroom", "volume_level") < 0.30 }}'
   action:
-    service: media_player.volume_set
-    data_template:
-      entity_id: >-
-        {% set players = ["sonos_kitchen", "sonos_bedroom", "sonos_bathroom"] %}
-        {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.28 -%}
-          {{ 'media_player.' ~ player }}
-          {%- if not loop.last -%}
-            ,
-          {%- endif %}
-        {%- endfor %}
-      volume_level: >-
-        {% set players = ["sonos_kitchen", "sonos_bedroom", "sonos_bathroom"] %}
-        {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.28 -%}
-          {%- if loop.first -%}
-            {{ state_attr('media_player.' ~ player, 'volume_level') + 0.02 }}
-          {%- endif %}
-        {%- endfor %}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: >-
+          {% set players = ["sonos_kitchen", "sonos_bedroom", "sonos_bathroom"] %}
+          {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.28 -%}
+            {{ 'media_player.' ~ player }}
+            {%- if not loop.last -%}
+              ,
+            {%- endif %}
+          {%- endfor %}
+        volume_level: >-
+          {% set players = ["sonos_kitchen", "sonos_bedroom", "sonos_bathroom"] %}
+          {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.28 -%}
+            {%- if loop.first -%}
+              {{ state_attr('media_player.' ~ player, 'volume_level') + 0.02 }}
+            {%- endif %}
+          {%- endfor %}
 
 - alias: Sonos Group Restore Default Settings - Weekday
   trigger:
-    platform: time
-    # Military time format. This trigger will fire at 9:00 AM
-    at: '11:00:00'
+    - platform: time
+      # Military time format. This trigger will fire at 9:00 AM
+      at: '11:00:00'
   condition:
-    condition: time
-    weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
+    - condition: time
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
   action:
     - service: script.turn_on
       entity_id: script.sonos_group_default_settings
 
 - alias: Sonos Group Restore Default Settings - Weekend
   trigger:
-    platform: time
-    # Military time format. This trigger will fire at 11:00 PM
-    at: '11:00:00'
+    - platform: time
+      # Military time format. This trigger will fire at 11:00 PM
+      at: '11:00:00'
   condition:
-    condition: time
-    weekday:
-      - sat
-      - sun
+    - condition: time
+      weekday:
+        - sat
+        - sun
   action:
     - service: script.turn_on
       entity_id: script.sonos_group_default_settings
 
 - alias: Sonos Group Restore Night Settings - Weekday
   trigger:
-    platform: time
-    # Military time format. This trigger will fire at 9:00 PM
-    at: '21:00:00'
+    - platform: time
+      # Military time format. This trigger will fire at 9:00 PM
+      at: '21:00:00'
   condition:
-    condition: time
-    weekday:
-      - sun
-      - mon
-      - tue
-      - wed
-      - thu
+    - condition: time
+      weekday:
+        - sun
+        - mon
+        - tue
+        - wed
+        - thu
   action:
     - service: script.turn_on
       entity_id: script.sonos_group_night_settings
 
 - alias: Sonos Group Restore Night Settings - Weekend
   trigger:
-    platform: time
-    # Military time format. This trigger will fire at 10:00 PM
-    at: '22:00:00'
+    - platform: time
+      # Military time format. This trigger will fire at 10:00 PM
+      at: '22:00:00'
   condition:
-    condition: time
-    weekday:
-      - fri
-      - sat
+    - condition: time
+      weekday:
+        - fri
+        - sat
   action:
     - service: script.turn_on
       entity_id: script.sonos_group_night_settings

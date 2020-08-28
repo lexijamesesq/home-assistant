@@ -11,10 +11,8 @@
     - platform: homeassistant
       event: start
   condition:
-    condition: and
-    conditions:
-      - condition: template
-        value_template: '{{ states.sensor.sonos_group_master.state != "" }}'
+    - condition: template
+      value_template: '{{ states.sensor.sonos_group_master.state != "" }}'
   action:
     - service: input_select.select_option
       data_template:
@@ -38,8 +36,8 @@
     - platform: homeassistant
       event: start
   condition:
-    condition: template
-    value_template: '{{ states.sensor.sonos_switches_on.state != "" }}'
+    - condition: template
+      value_template: '{{ states.sensor.sonos_switches_on.state != "" }}'
   action:
     - service: input_boolean.turn_on
       data_template:
@@ -51,8 +49,8 @@
     - platform: homeassistant
       event: start
   condition:
-    condition: template
-    value_template: '{{ states.sensor.sonos_switches_off.state != "" }}'
+    - condition: template
+      value_template: '{{ states.sensor.sonos_switches_off.state != "" }}'
   action:
     - service: input_boolean.turn_off
       data_template:
@@ -62,29 +60,24 @@
 - alias: Toggle Sonos Speaker State
   trigger:
     - platform: state
-      entity_id: input_boolean.sonos_bathroom
-    - platform: state
-      entity_id: input_boolean.sonos_bedroom
-    - platform: state
-      entity_id: input_boolean.sonos_den
-    - platform: state
-      entity_id: input_boolean.sonos_kitchen
-    - platform: state
-      entity_id: input_boolean.sonos_living_room
-    - platform: state
-      entity_id: input_boolean.sonos_rec_room
-    - platform: state
-      entity_id: input_boolean.sonos_move
+      entity_id:
+        - input_boolean.sonos_bathroom
+        - input_boolean.sonos_bedroom
+        - input_boolean.sonos_den
+        - input_boolean.sonos_kitchen
+        - input_boolean.sonos_living_room
+        - input_boolean.sonos_rec_room
+        - input_boolean.sonos_move
   condition:
-    condition: template
-    value_template: >-
-      {% set switch  = trigger.to_state.entity_id %}
-      {% set speaker = trigger.to_state.entity_id|replace("input_boolean", "media_player") %}
-      {% if is_state(switch, "on") %}
-        {{ is_state(speaker, "paused") }}
-      {% else %}
-        {{ is_state(speaker, "playing") }}
-      {% endif %}
+    - condition: template
+      value_template: >-
+        {% set switch  = trigger.to_state.entity_id %}
+        {% set speaker = trigger.to_state.entity_id|replace("input_boolean", "media_player") %}
+        {% if is_state(switch, "on") %}
+          {{ is_state(speaker, "paused") }}
+        {% else %}
+          {{ is_state(speaker, "playing") }}
+        {% endif %}
   action:
     - service: script.turn_on
       data_template:

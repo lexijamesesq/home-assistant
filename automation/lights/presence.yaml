@@ -1,4 +1,61 @@
 ##############################################################
+# Residents & Guests
+##############################################################
+# Welcome Lighting ###########################################
+- alias: Start Welcome Lighting
+  trigger:
+    - platform: state
+      entity_id: group.residents
+      to: 'home'
+    - platform: state
+      entity_id: input_boolean.mode_guest
+      to: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.mode_simulate_presence
+    - delay: '00:00:05'
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data_template:
+        variables:
+          lights: >-
+            {%- if is_state('input_boolean.mode_morning', 'on') or is_state('input_boolean.mode_sunset', 'on') or is_state('input_boolean.mode_night', 'on') -%}
+              kitchen,living_room,rec_room_tiles,bedroom,bedroom_tiles,den,den_cabinets
+            {%- else -%}
+              bedroom_tiles,den,rec_room_tiles
+            {%- endif %}
+
+# Empty Home Lighting ########################################
+# All residents have left the premises, but are there guests?
+- alias: Start Away Lighting
+  trigger:
+    - platform: state
+      entity_id: group.residents
+      to: 'not_home'
+      for:
+        minutes: 4
+    - platform: state
+      entity_id: input_boolean.mode_guest
+      to: 'off'
+  condition:
+    - condition: state
+      entity_id: group.residents
+      state: 'not_home'
+    - condition: state
+      entity_id: input_boolean.mode_guest
+      state: 'off'
+  action:
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state('group.motion_guest_areas', 'on') or is_state('input_boolean.mode_home_theater', 'on') %}
+            script.mode_turn_on_guest_mode
+          {% else %}
+            script.scene_empty_home
+          {% endif %}
+
+
+##############################################################
 # Simulate Presence Mode
 ##############################################################
 # Used for triggering scenes when no one is home, to simulate presence

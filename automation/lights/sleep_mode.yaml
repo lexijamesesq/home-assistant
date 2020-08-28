@@ -1,0 +1,69 @@
+##############################################################
+# Sleep Mode
+##############################################################
+
+- alias: Sleep Mode Started Turn Off Den Cabinet Lights
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'on'
+      for:
+        minutes: 2
+  action:
+    - service: light.turn_off
+      entity_id:
+        - light.den_lights
+        - light.den_cabinets
+
+- alias: Sleep Mode Ended Update Lights
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'off'
+  condition:
+    - condition: state
+      entity_id: group.residents
+      state: 'home'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data_template:
+        variables:
+          lights: >-
+            {%- if is_state('input_boolean.mode_day', 'on') -%}
+              rec_room_tiles,bedroom_tiles,bedroom
+            {%- else -%}
+              rec_room_tiles,bedroom_tiles,bedroom,den,den_cabinets
+            {%- endif %}
+          trigger: sleep_mode
+
+- alias: Sleep Mode Wake Up Time Ended Update Lights
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'off'
+      for:
+        hours: 3
+  condition:
+    - condition: state
+      entity_id: light.bedroom_lights
+      state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.bedroom_lights
+
+- alias: Sleep Mode Lights On When Patio Door Opens
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.patio_door
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.mode_sleep
+      state: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.update_scene
+      data:
+        variables:
+          lights: 'kitchen,living_room'

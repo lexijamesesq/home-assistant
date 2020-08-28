@@ -61,47 +61,20 @@
 - alias: Notify Security - Sonos - Home Not Secure During Sleep Mode
   trigger:
     - platform: state
-      entity_id:  sensor.garage_actual
+      entity_id: sensor.garage_actual
       to: 'open'
     - platform: state
-      entity_id: binary_sensor.garage_door
-      from: 'off'
-      to: 'on'
-    - platform: state
-      entity_id: binary_sensor.front_door
-      from: 'off'
-      to: 'on'
-    - platform: state
-      entity_id: binary_sensor.patio_door
-      from: 'off'
-      to: 'on'
-    - platform: state
-      entity_id: binary_sensor.den_door
-      from: 'off'
-      to: 'on'
-    - platform: state
-      entity_id: binary_sensor.kitchen_windows
-      from: 'off'
-      to: 'on'
-    - platform: state
-      entity_id: binary_sensor.living_room_windows
-      from: 'off'
-      to: 'on'
-    - platform: state
-      entity_id: binary_sensor.rec_room_windows
-      from: 'off'
-      to: 'on'
-    - platform: state
-      entity_id: binary_sensor.bedroom_windows
-      from: 'off'
-      to: 'on'
-    - platform: state
-      entity_id: binary_sensor.den_windows
-      from: 'off'
-      to: 'on'
-    - platform: state
-      entity_id: binary_sensor.guest_bedroom_windows
-      from: 'off'
+      entity_id:
+        - binary_sensor.garage_door
+        - binary_sensor.front_door
+        - binary_sensor.patio_door
+        - binary_sensor.den_door
+        - binary_sensor.kitchen_windows
+        - binary_sensor.living_room_windows
+        - binary_sensor.rec_room_windows
+        - binary_sensor.bedroom_windows
+        - binary_sensor.den_windows
+        - binary_sensor.guest_bedroom_windows
       to: 'on'
   condition:
     - condition: state

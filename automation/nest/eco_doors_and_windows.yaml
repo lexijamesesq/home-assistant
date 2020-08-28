@@ -92,10 +92,10 @@
 # Checks to make sure at least one thermostat is not in eco mode
 - alias: Restore All Thermostats When Windows Close
   trigger:
-    platform: state
-    entity_id: group.all_windows
-    from: 'on'
-    to: 'off'
+    - platform: state
+      entity_id: group.all_windows
+      from: 'on'
+      to: 'off'
   condition:
     condition: or
     conditions:

@@ -21,637 +21,511 @@
 # Patio
 ##############################################################
 
-# On - Single ################################################
-# - alias: Patio Physical Switch On Single
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.patio_switch
-#         scene_id: 1
-#         scene_data: 7680
-#   action:
-#   - service: switch.turn_on
-#     entity_id: switch.living_room_lights
-
-# Off - Single ###############################################
-# - alias: Patio Physical Switch Off Single
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.patio_switch
-#         scene_id: 2
-#         scene_data: 7680
-#   action:
-#   - service: switch.turn_off
-#     entity_id: switch.living_room_lights
-
-# On - Double ################################################
-- alias: Patio Physical Switch On Double
+# On #########################################################
+- alias: Patio Physical Switch On
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.patio_switch
         scene_id: 1
-        scene_data: 7860
   action:
-    - service: switch.turn_on
-      entity_id: switch.patio_string_lights
+    choose:
+      # Double Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+        sequence:
+          - service: switch.turn_on
+            entity_id: switch.patio_string_lights
 
-# Off - Double ###############################################
-- alias: Patio Physical Switch Off Double
+# Off ########################################################
+- alias: Patio Physical Switch Off
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.patio_switch
         scene_id: 2
-        scene_data: 7860
   action:
-    - service: switch.turn_off
-      entity_id: switch.patio_string_lights
+    choose:
+      # Double Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+        sequence:
+          - service: switch.turn_off
+            entity_id: switch.patio_string_lights
 
-# On - Triple ################################################
-# - alias: Patio Physical Switch On Triple
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.patio_switch
-#         scene_id: 1
-#         scene_data: 7920
-#   action:
-#   - service: shell_command.hyperion_mood_blobs_blue
-
-# Off - Triple ###############################################
-# - alias: Patio Physical Switch Off Triple
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.patio_switch
-#         scene_id: 2
-#         scene_data: 7920
-#   action:
-#   - service: shell_command.hyperion_off
-
-# On - Hold ##################################################
-# - alias: Patio Physical Switch On Hold
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.patio_switch
-#         scene_id: 1
-#         scene_data: 7740
-#   action:
-#   - service: script.turn_on
-#     entity_id: script.scene_select_living_room_ambient
-
-# Off - Hold #################################################
-# - alias: Patio Physical Switch Off Hold
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.patio_switch
-#         scene_id: 2
-#         scene_data: 7740
-#   action:
-#   - service: script.turn_on
-#     entity_id: script.scene_empty_home
 
 ##############################################################
 # Garage
 ##############################################################
 
-# On - Single ################################################
-- alias: Garage Physical Switch On Single
+# On #########################################################
+- alias: Garage Physical Switch On
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.garage_switch
         scene_id: 1
-        scene_data: 0
   action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_garage_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_garage_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_garage_lights
 
-# Off - Single ###############################################
-- alias: Garage Physical Switch Off Single
+# Off ########################################################
+- alias: Garage Physical Switch Off
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.garage_switch
         scene_id: 2
-        scene_data: 0
   action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_garage_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_garage_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_garage_lights
 
-# On - Hold ##################################################
-- alias: Garage Physical Switch On Hold
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.garage_switch
-        scene_id: 1
-        scene_data: 2
-  action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_garage_lights
-
-# Off - Hold #################################################
-- alias: Garage Physical Switch Off Hold
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.garage_switch
-        scene_id: 2
-        scene_data: 2
-  action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_garage_lights
 
 ##############################################################
 # Garage Stairs
 ##############################################################
 
-# On - Single ################################################
-- alias: Garage Stairs Physical Switch On Single
+# On #########################################################
+- alias: Garage Stairs Physical Switch On
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.garage_stairs_dimmer
         scene_id: 1
-        scene_data: 7680
   action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_garage_stairs_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_garage_stairs_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_garage_stairs_lights
 
-# Off - Single ###############################################
-- alias: Garage Stairs Physical Switch Off Single
+# Off ########################################################
+- alias: Garage Stairs Physical Switch Off
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.garage_stairs_dimmer
         scene_id: 2
-        scene_data: 7680
   action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_garage_stairs_lights
-
-# On - Hold ##################################################
-- alias: Garage Stairs Physical Switch On Hold
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.garage_stairs_dimmer
-        scene_id: 1
-        scene_data: 7740
-  action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_garage_stairs_lights
-
-# Off - Hold #################################################
-- alias: Garage Stairs Physical Switch Off Hold
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.garage_stairs_dimmer
-        scene_id: 2
-        scene_data: 7740
-  action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_garage_stairs_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_garage_stairs_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_garage_stairs_lights
 
 
 ##############################################################
 # Downstairs Hallway
 ##############################################################
 
-# On - Single ################################################
-- alias: Downstairs Hallway Physical Switch On Single
+# On #########################################################
+- alias: Downstairs Hallway Physical Switch On
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.downstairs_hallway_dimmer
         scene_id: 1
-        scene_data: 7680
   action:
-    - service: input_boolean.turn_off
-      entity_id:
-        - input_boolean.motion_trigger_downstairs_hallway_lights
-        - input_boolean.door_trigger_downstairs_hallway_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id:
+              - input_boolean.motion_trigger_downstairs_hallway_lights
+              - input_boolean.door_trigger_downstairs_hallway_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id:
+              - input_boolean.motion_trigger_downstairs_hallway_lights
+              - input_boolean.door_trigger_downstairs_hallway_lights
 
-# Off - Single ###############################################
-- alias: Downstairs Hallway Physical Switch Off Single
+# Off ########################################################
+- alias: Downstairs Hallway Physical Switch Off
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.downstairs_hallway_dimmer
         scene_id: 2
-        scene_data: 7680
   action:
-    - service: input_boolean.turn_off
-      entity_id:
-        - input_boolean.motion_trigger_downstairs_hallway_lights
-        - input_boolean.door_trigger_downstairs_hallway_lights
-
-# On - Hold ##################################################
-- alias: Downstairs Hallway Physical Switch On Hold
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.downstairs_hallway_dimmer
-        scene_id: 1
-        scene_data: 7740
-  action:
-    - service: input_boolean.turn_off
-      entity_id:
-        - input_boolean.motion_trigger_downstairs_hallway_lights
-        - input_boolean.door_trigger_downstairs_hallway_lights
-
-# Off - Hold #################################################
-- alias: Downstairs Hallway Physical Switch Off Hold
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.downstairs_hallway_dimmer
-        scene_id: 2
-        scene_data: 7740
-  action:
-    - service: input_boolean.turn_off
-      entity_id:
-        - input_boolean.motion_trigger_downstairs_hallway_lights
-        - input_boolean.door_trigger_downstairs_hallway_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id:
+              - input_boolean.motion_trigger_downstairs_hallway_lights
+              - input_boolean.door_trigger_downstairs_hallway_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id:
+              - input_boolean.motion_trigger_downstairs_hallway_lights
+              - input_boolean.door_trigger_downstairs_hallway_lights
 
 
 ##############################################################
 # Main Stairs
 ##############################################################
 
-# On - Single ################################################
-- alias: Main Stairs Physical Switch On Single
+# On #########################################################
+- alias: Main Stairs Physical Switch On
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.main_stairs_dimmer
         scene_id: 1
-        scene_data: 7680
   action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Double Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+        sequence:
+          - service: script.turn_on
+            entity_id: script.update_scene
+            data:
+              variables:
+                lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
-# Off - Single ###############################################
-# - alias: Main Stairs Physical Switch Off Single
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.main_stairs_dimmer
-#         scene_id: 2
-#         scene_data: 7680
-#   action:
-#   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-
-# On - Double ################################################
-- alias: Main Stairs Physical Switch On Double
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.main_stairs_dimmer
-        scene_id: 1
-        scene_data: 7860
-  action:
-    - service: script.turn_on
-      entity_id: script.update_scene
-      data:
-        variables:
-          lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-
-# Off - Double ###############################################
-- alias: Main Stairs Physical Switch Off Double
+# Off ########################################################
+- alias: Main Stairs Physical Switch Off
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.main_stairs_dimmer
         scene_id: 2
-        scene_data: 7860
   action:
-    - service: light.turn_off
-      entity_id: light.upstairs_hallway_group_lights
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-
-# On - Hold ##################################################
-- alias: Main Stairs Physical Switch On Hold
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.main_stairs_dimmer
-        scene_id: 1
-        scene_data: 7740
-  action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-
-# Off - Hold #################################################
-# - alias: Main Stairs Physical Switch Off Hold
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.main_stairs_dimmer
-#         scene_id: 2
-#         scene_data: 7740
-#   action:
-#   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Double Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+        sequence:
+          - service: light.turn_off
+            entity_id: light.upstairs_hallway_group_lights
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
 
 ##############################################################
 # Upstairs Hallway
 ##############################################################
 
-# On - Single ################################################
-- alias: Upstairs Hallway Physical Switch On Single
+# On #########################################################
+- alias: Upstairs Hallway Physical Switch On
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.upstairs_hallway_dimmer
         scene_id: 1
-        scene_data: 7680
   action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Double Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+        sequence:
+          - service: script.turn_on
+            entity_id: script.update_scene
+            data:
+              variables:
+                lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
-# Off - Single ###############################################
-# - alias: Upstairs Hallway Physical Switch Off Single
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.upstairs_hallway_dimmer
-#         scene_id: 2
-#         scene_data: 7680
-#   action:
-#   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-
-# On - Double ################################################
-- alias: Upstairs Hallway Physical Switch On Double
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.upstairs_hallway_dimmer
-        scene_id: 1
-        scene_data: 7860
-  action:
-    - service: script.turn_on
-      entity_id: script.update_scene
-      data:
-        variables:
-          lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-
-# Off - Double ###############################################
-- alias: Upstairs Hallway Physical Switch Off Double
+# Off ########################################################
+- alias: Upstairs Hallway Physical Switch Off
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.upstairs_hallway_dimmer
         scene_id: 2
-        scene_data: 7860
   action:
-    - service: light.turn_off
-      entity_id: light.upstairs_hallway_group_lights
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-
-# On - Hold ##################################################
-- alias: Upstairs Hallway Physical Switch On Hold
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.upstairs_hallway_dimmer
-        scene_id: 1
-        scene_data: 7740
-  action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-
-# Off - Hold #################################################
-# - alias: Upstairs Hallway Physical Switch Off Hold
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.upstairs_hallway_dimmer
-#         scene_id: 2
-#         scene_data: 7740
-#   action:
-#   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-
-
-##############################################################
-# Den Hallway
-##############################################################
-
-# On - Single ################################################
-- alias: Den Hallway Physical Switch On Single
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.den_hallway_dimmer
-        scene_id: 1
-        scene_data: 7680
-  action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_den_hallway_lights
-
-# Off - Single ###############################################
-- alias: Den Hallway Physical Switch Off Single
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.den_hallway_dimmer
-        scene_id: 2
-        scene_data: 7680
-  action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_den_hallway_lights
-
-# On - Double ################################################
-- alias: Den Hallway Physical Switch On Double
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.den_hallway_dimmer
-        scene_id: 1
-        scene_data: 7860
-  action:
-    - service: script.turn_on
-      entity_id: script.update_scene
-      data:
-        variables:
-          lights: 'den_cabinets'
-
-# Off - Double ###############################################
-- alias: Den Hallway Physical Switch Off Double
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.den_hallway_dimmer
-        scene_id: 2
-        scene_data: 7860
-  action:
-    - service: light.turn_off
-      entity_id: light.den_cabinets
-
-# On - Hold ##################################################
-- alias: Den Hallway Physical Switch On Hold
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.den_hallway_dimmer
-        scene_id: 1
-        scene_data: 7740
-  action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_den_hallway_lights
-
-# Off - Hold #################################################
-- alias: Den Hallway Physical Switch Off Hold
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.den_hallway_dimmer
-        scene_id: 2
-        scene_data: 7740
-  action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_den_hallway_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Double Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+        sequence:
+          - service: light.turn_off
+            entity_id: light.upstairs_hallway_group_lights
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
 
 ##############################################################
 # Bedroom Hallway
 ##############################################################
 
-# On - Single ################################################
-- alias: Bedroom Hallway Physical Switch On Single
+# On #########################################################
+- alias: Bedroom Hallway Physical Switch On
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.bedroom_hallway_dimmer
         scene_id: 1
-        scene_data: 7680
   action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Double Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+        sequence:
+          - service: script.turn_on
+            entity_id: script.update_scene
+            data:
+              variables:
+                lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
-# Off - Single ###############################################
-# - alias: Bedroom Hallway Physical Switch Off Single
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.bedroom_hallway_dimmer
-#         scene_id: 2
-#         scene_data: 7680
-#   action:
-#   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-
-# On - Double ################################################
-- alias: Bedroom Hallway Physical Switch On Double
-  trigger:
-    - platform: event
-      event_type: zwave.scene_activated
-      event_data:
-        entity_id: zwave.bedroom_hallway_dimmer
-        scene_id: 1
-        scene_data: 7860
-  action:
-    - service: script.turn_on
-      entity_id: script.update_scene
-      data:
-        variables:
-          lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-
-# Off - Double ###############################################
-- alias: Bedroom Hallway Physical Switch Off Double
+# Off ########################################################
+- alias: Bedroom Hallway Physical Switch Off
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
         entity_id: zwave.bedroom_hallway_dimmer
         scene_id: 2
-        scene_data: 7860
   action:
-    - service: light.turn_off
-      entity_id: light.upstairs_hallway_group_lights
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Double Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+        sequence:
+          - service: light.turn_off
+            entity_id: light.upstairs_hallway_group_lights
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
-# On - Hold ##################################################
-- alias: Bedroom Hallway Physical Switch On Hold
+
+##############################################################
+# Den Hallway
+##############################################################
+
+# On #########################################################
+- alias: Den Hallway Physical Switch On
   trigger:
     - platform: event
       event_type: zwave.scene_activated
       event_data:
-        entity_id: zwave.bedroom_hallway_dimmer
+        entity_id: zwave.den_hallway_dimmer
         scene_id: 1
-        scene_data: 7740
   action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_den_hallway_lights
+      # Double Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+        sequence:
+          - service: script.turn_on
+            entity_id: script.update_scene
+            data:
+              variables:
+                lights: 'den_cabinets'
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_den_hallway_lights
 
-# Off - Hold #################################################
-# - alias: Bedroom Hallway Physical Switch Off Hold
-#   trigger:
-#     - platform: event
-#       event_type: zwave.scene_activated
-#       event_data:
-#         entity_id: zwave.bedroom_hallway_dimmer
-#         scene_id: 2
-#         scene_data: 7740
-#   action:
-#   - service: input_boolean.turn_off
-#     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+# Off ########################################################
+- alias: Den Hallway Physical Switch Off
+  trigger:
+    - platform: event
+      event_type: zwave.scene_activated
+      event_data:
+        entity_id: zwave.den_hallway_dimmer
+        scene_id: 2
+  action:
+    choose:
+      # Single Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_den_hallway_lights
+      # Double Tap
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+        sequence:
+          - service: light.turn_off
+            entity_id: light.den_cabinets
+      # Hold
+      - conditions:
+          - condition: template
+            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+        sequence:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.motion_trigger_den_hallway_lights
