@@ -24,15 +24,15 @@
             entity_id: input_boolean.mode_day
             state: 'on'
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: "Condo"
-      message: "Sleep mode is still on, but your phone seems to think you're awake."
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: "ha-condo-group"
-          sound: "gesture.wav"
-          category: "mode_sleep_end"
+        title: "Condo"
+        message: "Sleep mode is still on, but your phone seems to think you're awake."
+        data:
+          push:
+            thread-id: "ha-condo-group"
+            sound: "gesture.wav"
+            category: "mode_sleep_end"
 
 # Prompt to enable sleep mode at night
 - alias: Notify Sleep Mode - Still Off
@@ -66,12 +66,12 @@
                 false
               {% endif %}
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: "Condo"
-      message: "Sleep mode is off, but your phone seems to think you're headed to bed."
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: "ha-condo-group"
-          sound: "gesture.wav"
-          category: "mode_sleep_start"
+        title: "Condo"
+        message: "Sleep mode is off, but your phone seems to think you're headed to bed."
+        data:
+          push:
+            thread-id: "ha-condo-group"
+            sound: "gesture.wav"
+            category: "mode_sleep_start"

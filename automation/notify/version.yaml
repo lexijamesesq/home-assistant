@@ -4,16 +4,16 @@
 # New Major Version ##########################################
 - alias: Notify HA - New Major Version
   trigger:
-    platform: state
-    entity_id: sensor.state_ha_new_major_version
-    to: 'on'
+    - platform: state
+      entity_id: sensor.state_ha_new_major_version
+      to: 'on'
   action:
-    service: persistent_notification.create
-    data_template:
-      title: New Major Version Available
-      message: >-
-        {% set version = states('sensor.latest_version') %}
-        An update to {{ version }} is available for Home Assistant. View the [release notes](https://www.home-assistant.io/latest-release-notes/).
+    - service: persistent_notification.create
+      data_template:
+        title: New Major Version Available
+        message: >-
+          {% set version = states('sensor.latest_version') %}
+          An update to {{ version }} is available for Home Assistant. View the [release notes](https://www.home-assistant.io/latest-release-notes/).
 
 
 ##############################################################
@@ -42,18 +42,18 @@
 # Updates Available ##########################################
 - alias: Notify HACS - Updates Available
   trigger:
-    platform: state
-    entity_id: sensor.hacs
+    - platform: state
+      entity_id: sensor.hacs
   condition:
     - condition: template
       value_template: "{{ states(trigger.entity_id) != 'unknown'}}"
     - condition: template
       value_template: "{{ (states(trigger.entity_id) | float) != 0}}"
   action:
-    service: persistent_notification.create
-    data_template:
-      title: Updates pending in HACS
-      message: >-
-        {% for repo in state_attr(trigger.entity_id, 'repositories') %}
-          **{{ repo.display_name }}** _{{ repo["installed_version"] }}_ -> _{{ repo["available_version"] }}_
-        {% endfor %}
+    - service: persistent_notification.create
+      data_template:
+        title: Updates pending in HACS
+        message: >-
+          {% for repo in state_attr(trigger.entity_id, 'repositories') %}
+            **{{ repo.display_name }}** _{{ repo["installed_version"] }}_ -> _{{ repo["available_version"] }}_
+          {% endfor %}

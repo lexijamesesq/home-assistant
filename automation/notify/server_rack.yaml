@@ -10,14 +10,14 @@
       for:
         minutes: 30
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: "Overwatch"
-      message: "Excessive CPU Load for 30 minutes."
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: "ha-server-group"
-          sound: "siren.wav"
+        title: "Overwatch"
+        message: "Excessive CPU Load for 30 minutes."
+        data:
+          push:
+            thread-id: "ha-server-group"
+            sound: "siren.wav"
 
 - alias: Notify Overwatch - Excessive CPU Load for 1 Hour
   trigger:
@@ -27,14 +27,14 @@
       for:
         hours: 1
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: "Overwatch"
-      message: "Excessive CPU Load for an hour."
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: "ha-server-group"
-          sound: "siren.wav"
+        title: "Overwatch"
+        message: "Excessive CPU Load for an hour."
+        data:
+          push:
+            thread-id: "ha-server-group"
+            sound: "siren.wav"
 
 # Overwatch Excessive CPU Temp ###############################
 - alias: Notify Overwatch - Excessive CPU Temp
@@ -60,18 +60,19 @@
       for:
         minutes: 60
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: "Overwatch"
-      message: >-
-        {%- set level = 'Critical' if states("sensor.overwatch_cpu_temp") | int > 79 else 'Warning' -%}
-        {{- level | title }}. The server has been running hot for {{ ((as_timestamp(now()) - as_timestamp(states.input_boolean.notify_overwatch_cpu_temp.last_changed)) / 60) | int  }} minutes.
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: "ha-server-group"
-          sound: "siren.wav"
-          critical: 1
-          volume: 1.0
+        title: "Overwatch"
+        message: >-
+          {%- set level = 'Critical' if states("sensor.overwatch_cpu_temp") | int > 79 else 'Warning' -%}
+          {{- level | title }}. The server has been running hot for {{ ((as_timestamp(now()) - as_timestamp(states.input_boolean.notify_overwatch_cpu_temp.last_changed)) / 60) | int  }} minutes.
+        data:
+          push:
+            thread-id: "ha-server-group"
+            sound:
+              name: "siren.wav"
+              critical: 1
+              volume: 1.0
 
 - alias: Notify Overwatch - Normal CPU Temp
   trigger:
@@ -81,15 +82,15 @@
       for:
         minutes: 5
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: "Overwatch"
-      message: >-
-        The server has been restored to a normal operating temperature."
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: "ha-server-group"
-          sound: "siren.wav"
+        title: "Overwatch"
+        message: >-
+          The server has been restored to a normal operating temperature."
+        data:
+          push:
+            thread-id: "ha-server-group"
+            sound: "siren.wav"
 
 # Woodhouse Excessive CPU Temp ###############################
 - alias: Notify Woodhouse - Excessive CPU Temp
@@ -115,18 +116,19 @@
       for:
         minutes: 60
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: "Woodhouse"
-      message: >-
-        {%- set level = 'critical' if states("sensor.woodhouse_cpu1_temp") | int > 79 or states("sensor.woodhouse_cpu2_temp") | int > 79 else 'warning' -%}
-        {{- level | title }}. The server has been running hot for {{ ((as_timestamp(now()) - as_timestamp(states.input_boolean.notify_woodhouse_cpu_temp.last_changed)) / 60) | int  }} minutes.
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: "ha-server-group"
-          sound: "siren.wav"
-          critical: 1
-          volume: 1.0
+        title: "Woodhouse"
+        message: >-
+          {%- set level = 'critical' if states("sensor.woodhouse_cpu1_temp") | int > 79 or states("sensor.woodhouse_cpu2_temp") | int > 79 else 'warning' -%}
+          {{- level | title }}. The server has been running hot for {{ ((as_timestamp(now()) - as_timestamp(states.input_boolean.notify_woodhouse_cpu_temp.last_changed)) / 60) | int  }} minutes.
+        data:
+          push:
+            thread-id: "ha-server-group"
+            sound:
+              name: "siren.wav"
+              critical: 1
+              volume: 1.0
 
 - alias: Notify Woodhouse - Normal CPU Temp
   trigger:
@@ -136,15 +138,15 @@
       for:
         minutes: 5
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: "Woodhouse"
-      message: >-
-        The server has been restored to a normal operating temperature."
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: "ha-server-group"
-          sound: "siren.wav"
+        title: "Woodhouse"
+        message: >-
+          The server has been restored to a normal operating temperature."
+        data:
+          push:
+            thread-id: "ha-server-group"
+            sound: "siren.wav"
 
 
 ##############################################################
@@ -159,19 +161,19 @@
       to: 'OL CHRG'
       from: 'OB DISCHRG'
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: "Server Rack"
-      message: >-
-        {% if is_state('sensor.server_rack_ups_status_data', 'OL') %}
-          The UPS is online and fully charged.
-        {% elif is_state('sensor.server_rack_ups_status_data', 'OL CHRG') %}
-          The UPS is back online and charging.
-        {% endif %}
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: "ha-server-group"
-          sound: "gesture.wav"
+        title: "Server Rack"
+        message: >-
+          {% if is_state('sensor.server_rack_ups_status_data', 'OL') %}
+            The UPS is online and fully charged.
+          {% elif is_state('sensor.server_rack_ups_status_data', 'OL CHRG') %}
+            The UPS is back online and charging.
+          {% endif %}
+        data:
+          push:
+            thread-id: "ha-server-group"
+            sound: "gesture.wav"
 
 - alias: Notify Server Rack - UPS on Battery
   trigger:
@@ -199,21 +201,22 @@
       for:
         minutes: 20
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: "Server Rack"
-      message: >-
-        {%- if ((as_timestamp(now()) - as_timestamp(states.sensor.server_rack_ups_status_data.last_changed)) / 60) | int < 5 -%}
-          The UPS is running on battery power.
-        {%- else -%}
-          The UPS has been running on battery power for {{ ((as_timestamp(now()) - as_timestamp(states.input_boolean.notify_woodhouse_cpu_temp.last_changed)) / 60) | int  }} minutes. {{ states.sensor.server_rack_ups_battery_charge.state }}% remaining.
-        {%- endif %}
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: "ha-server-group"
-          sound: "siren.wav"
-          critical: 1
-          volume: 1.0
+        title: "Server Rack"
+        message: >-
+          {%- if ((as_timestamp(now()) - as_timestamp(states.sensor.server_rack_ups_status_data.last_changed)) / 60) | int < 5 -%}
+            The UPS is running on battery power.
+          {%- else -%}
+            The UPS has been running on battery power for {{ ((as_timestamp(now()) - as_timestamp(states.input_boolean.notify_woodhouse_cpu_temp.last_changed)) / 60) | int  }} minutes. {{ states.sensor.server_rack_ups_battery_charge.state }}% remaining.
+          {%- endif %}
+        data:
+          push:
+            thread-id: "ha-server-group"
+            sound:
+              name: "siren.wav"
+              critical: 1
+              volume: 1.0
 
 
 ##############################################################
@@ -226,14 +229,14 @@
     - platform: event
       event_type: event_zwave_network_ready
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: 'Home Assistant'
-      message: 'Z-Wave network ready. Starting HomeKit.'
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: 'ha-server-group'
-          sound: 'gesture.wav'
+        title: 'Home Assistant'
+        message: 'Z-Wave network ready. Starting HomeKit.'
+        data:
+          push:
+            thread-id: 'ha-server-group'
+            sound: 'gesture.wav'
 
 
 ##############################################################
@@ -246,14 +249,14 @@
     - platform: event
       event_type: event_service_restart_sonarr
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: 'Sonarr'
-      message: 'The container has been down for 10 minutes and is being restarted.'
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: 'ha-server-group'
-          sound: 'gesture.wav'
+        title: 'Sonarr'
+        message: 'The container has been down for 10 minutes and is being restarted.'
+        data:
+          push:
+            thread-id: 'ha-server-group'
+            sound: 'gesture.wav'
 
 # Plex #######################################################
 - alias: Notify Service Update - Plex
@@ -261,14 +264,14 @@
     - platform: event
       event_type: event_service_upgrading_plex
   action:
-    service: notify.mobile_app_alexs_iphone
-    data:
-      title: 'Plex'
-      message: 'Update available. The container is restarting to update to version {{ states("sensor.tautulli_plex_update_version") }}'
+    - service: notify.mobile_app_alexs_iphone
       data:
-        push:
-          thread-id: 'ha-server-group'
-          sound: 'gesture.wav'
+        title: 'Plex'
+        message: 'Update available. The container is restarting to update to version {{ states("sensor.tautulli_plex_update_version") }}'
+        data:
+          push:
+            thread-id: 'ha-server-group'
+            sound: 'gesture.wav'
 
 
 ##############################################################

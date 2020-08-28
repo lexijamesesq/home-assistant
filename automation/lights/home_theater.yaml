@@ -5,19 +5,12 @@
   trigger:
     platform: state
     entity_id: input_boolean.mode_home_theater
-    from: 'off'
     to: 'on'
   condition:
-    condition: or
+    condition: not
     conditions:
       - condition: state
-        entity_id: input_boolean.mode_morning
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_sunset
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_night
+        entity_id: input_boolean.mode_day
         state: 'on'
   action:
     - service: script.turn_on
@@ -29,19 +22,12 @@
   trigger:
     platform: state
     entity_id: input_boolean.mode_home_theater
-    from: 'on'
     to: 'off'
   condition:
-    condition: or
+    condition: not
     conditions:
       - condition: state
-        entity_id: input_boolean.mode_morning
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_sunset
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_night
+        entity_id: input_boolean.mode_day
         state: 'on'
   action:
     - service: script.turn_on
@@ -66,16 +52,10 @@
       from: 'paused'
       to: 'playing'
   condition:
-    condition: or
+    condition: not
     conditions:
       - condition: state
-        entity_id: input_boolean.mode_morning
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_sunset
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_night
+        entity_id: input_boolean.mode_day
         state: 'on'
   action:
     - service: script.turn_on

@@ -4,22 +4,20 @@
 
 - alias: Motion Started in Garage
   trigger:
-    platform: state
-    entity_id: binary_sensor.garage_motion_sensor
-    from: "off"
-    to: "on"
+    - platform: state
+      entity_id: binary_sensor.garage_motion_sensor
+      to: "on"
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.motion_garage
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_garage
 - alias: Motion Ended in Garage
   trigger:
-    platform: state
-    entity_id: binary_sensor.garage_motion_sensor
-    from: "on"
-    to: "off"
+    - platform: state
+      entity_id: binary_sensor.garage_motion_sensor
+      to: "off"
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.motion_garage
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motion_garage
 
 
 ##############################################################
@@ -28,22 +26,20 @@
 
 - alias: Motion Started in Garage Stairs
   trigger:
-    platform: state
-    entity_id: binary_sensor.garage_stairs_multisensor_sensor
-    from: "off"
-    to: "on"
+    - platform: state
+      entity_id: binary_sensor.garage_stairs_multisensor_sensor
+      to: "on"
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.motion_garage_stairs
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_garage_stairs
 - alias: Motion Ended in Garage Stairs
   trigger:
-    platform: state
-    entity_id: binary_sensor.garage_stairs_multisensor_sensor
-    from: "on"
-    to: "off"
+    - platform: state
+      entity_id: binary_sensor.garage_stairs_multisensor_sensor
+      to: "off"
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.motion_garage_stairs
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motion_garage_stairs
 
 
 ##############################################################
@@ -76,22 +72,20 @@
 
 - alias: Motion Started in Downstairs Hallway
   trigger:
-    platform: state
-    entity_id: binary_sensor.downstairs_hallway_multisensor_sensor
-    from: "off"
-    to: "on"
+    - platform: state
+      entity_id: binary_sensor.downstairs_hallway_multisensor_sensor
+      to: "on"
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.motion_downstairs_hallway
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_downstairs_hallway
 - alias: Motion Ended in Downstairs Hallway
   trigger:
-    platform: state
-    entity_id: binary_sensor.downstairs_hallway_multisensor_sensor
-    from: "on"
-    to: "off"
+    - platform: state
+      entity_id: binary_sensor.downstairs_hallway_multisensor_sensor
+      to: "off"
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.motion_downstairs_hallway
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motion_downstairs_hallway
 
 
 ##############################################################
@@ -100,22 +94,20 @@
 
 - alias: Motion Started in Den Hallway
   trigger:
-    platform: state
-    entity_id: binary_sensor.den_multisensor_sensor
-    from: "off"
-    to: "on"
+    - platform: state
+      entity_id: binary_sensor.den_multisensor_sensor
+      to: "on"
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.motion_den_hallway
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_den_hallway
 - alias: Motion Ended in Den Hallway
   trigger:
-    platform: state
-    entity_id: binary_sensor.den_multisensor_sensor
-    from: "on"
-    to: "off"
+    - platform: state
+      entity_id: binary_sensor.den_multisensor_sensor
+      to: "off"
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.motion_den_hallway
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motion_den_hallway
 
 
 ##############################################################
@@ -124,22 +116,20 @@
 
 - alias: Motion Started in Bedroom
   trigger:
-    platform: state
-    entity_id: binary_sensor.bedroom_closet_trisensor_sensor
-    from: "off"
-    to: "on"
+    - platform: state
+      entity_id: binary_sensor.bedroom_closet_trisensor_sensor
+      to: "on"
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.motion_bedroom_closet
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_bedroom_closet
 - alias: Motion Ended in Den
   trigger:
-    platform: state
-    entity_id: binary_sensor.bedroom_closet_trisensor_sensor
-    from: "on"
-    to: "off"
+    - platform: state
+      entity_id: binary_sensor.bedroom_closet_trisensor_sensor
+      to: "off"
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.motion_bedroom_closet
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motion_bedroom_closet
 
 
 ##############################################################
@@ -148,24 +138,22 @@
 
 - alias: Motion Started in Living Room
   trigger:
-    platform: state
-    entity_id: binary_sensor.living_room_motion_sensor
-    from: "off"
-    to: "on"
+    - platform: state
+      entity_id: binary_sensor.living_room_motion_sensor
+      to: "on"
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.motion_living_room
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_living_room
 - alias: Motion Ended in Living Room
   trigger:
-    platform: state
-    entity_id: binary_sensor.living_room_motion_sensor
-    from: "on"
-    to: "off"
-    for:
-      minutes: 2
+    - platform: state
+      entity_id: binary_sensor.living_room_motion_sensor
+      to: "off"
+      for:
+        minutes: 2
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.motion_living_room
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motion_living_room
 
 
 ##############################################################
@@ -174,22 +162,20 @@
 
 - alias: Motion Started in Main Stairs
   trigger:
-    platform: state
-    entity_id: binary_sensor.main_stairs_multisensor_sensor
-    from: "off"
-    to: "on"
+    - platform: state
+      entity_id: binary_sensor.main_stairs_multisensor_sensor
+      to: "on"
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.motion_main_stairs
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_main_stairs
 - alias: Motion Ended in Main Stairs
   trigger:
-    platform: state
-    entity_id: binary_sensor.main_stairs_multisensor_sensor
-    from: "on"
-    to: "off"
+    - platform: state
+      entity_id: binary_sensor.main_stairs_multisensor_sensor
+      to: "off"
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.motion_main_stairs
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motion_main_stairs
 
 
 ##############################################################
@@ -198,25 +184,23 @@
 
 - alias: Motion Started in Upstairs Hallway
   trigger:
-    platform: state
-    entity_id: binary_sensor.upstairs_hallway_motion_sensor
-    from: "off"
-    to: "on"
+    - platform: state
+      entity_id: binary_sensor.upstairs_hallway_motion_sensor
+      to: "on"
   condition:
-    condition: state
-    entity_id: input_boolean.motion_upstairs_hallway
-    state: "off"
+    - condition: state
+      entity_id: input_boolean.motion_upstairs_hallway
+      state: "off"
   action:
-    service: homeassistant.turn_on
-    entity_id: input_boolean.motion_upstairs_hallway
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_upstairs_hallway
 - alias: Motion Ended in Main Stairs
   trigger:
-    platform: state
-    entity_id: binary_sensor.upstairs_hallway_motion_sensor
-    from: "on"
-    to: "off"
-    for:
-      minutes: 2
+    - platform: state
+      entity_id: binary_sensor.upstairs_hallway_motion_sensor
+      to: "off"
+      for:
+        minutes: 2
   action:
-    service: homeassistant.turn_off
-    entity_id: input_boolean.motion_upstairs_hallway
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motion_upstairs_hallway

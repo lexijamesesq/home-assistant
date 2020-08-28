@@ -8,9 +8,9 @@
       entity_id: group.residents
       to: 'not_home'
   condition:
-    condition: state
-    entity_id: lock.august_smart_lock_pro_front_door
-    state: 'unlocked'
+    - condition: state
+      entity_id: lock.august_smart_lock_pro_front_door
+      state: 'unlocked'
   action:
     - service: lock.lock
       entity_id: lock.august_smart_lock_pro_front_door
@@ -22,22 +22,12 @@
       entity_id: input_boolean.mode_sleep
       to: 'on'
     - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'on'
-      for:
-        minutes: 2
-    - platform: state
       entity_id: group.residents
       to: 'not_home'
-    - platform: state
-      entity_id: group.residents
-      to: 'not_home'
-      for:
-        minutes: 2
   condition:
-    condition: state
-    entity_id: lock.august_smart_lock_pro_garage_door
-    state: 'unlocked'
+    - condition: state
+      entity_id: lock.august_smart_lock_pro_garage_door
+      state: 'unlocked'
   action:
     - service: lock.lock
       entity_id: lock.august_smart_lock_pro_garage_door
@@ -52,9 +42,9 @@
       entity_id: group.residents
       to: 'home'
   condition:
-    condition: state
-    entity_id: lock.august_smart_lock_pro_garage_door
-    state: 'locked'
+    - condition: state
+      entity_id: lock.august_smart_lock_pro_garage_door
+      state: 'locked'
   action:
     - service: lock.unlock
       entity_id: lock.august_smart_lock_pro_garage_door
