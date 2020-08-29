@@ -46,24 +46,24 @@
 # Front Door
 ##############################################################
 
-# - alias: Motion Started at Front Door
-#   trigger:
-#     platform: state
-#     entity_id: binary_sensor.ring_front_door_motion
-#     from: "off"
-#     to: "on"
-#   action:
-#     service: homeassistant.turn_on
-#     entity_id: input_boolean.motion_front_door
-# - alias: Motion Ended at Front Door Motion Ended
-#   trigger:
-#     platform: state
-#     entity_id: binary_sensor.ring_front_door_motion
-#     from: "on"
-#     to: "off"
-#   action:
-#     service: homeassistant.turn_off
-#     entity_id: input_boolean.motion_front_door
+- alias: Motion Started at Front Door
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_front_door
+      to: "on"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motion_front_door
+- alias: Motion Ended at Front Door Motion Ended
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_front_door
+      to: "off"
+      for:
+        minutes: 2
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motion_front_door
 
 
 ##############################################################
