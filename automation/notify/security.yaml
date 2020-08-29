@@ -86,7 +86,7 @@
 - alias: Notify Security - Garage Actual Opened or Closed
   trigger:
     - platform: state
-      entity_id:  sensor.garage_actual
+      entity_id: sensor.garage_actual
       from: 'closed'
       to: 'open'
     - platform: state
@@ -106,6 +106,26 @@
           push:
             thread-id: "ha-condo-group"
             sound: "gamelan.wav"
+
+# Motion Notifications #######################################
+# - alias: Notify Security - Front Door Motion
+#   trigger:
+#     - platform: state
+#       entity_id: input_boolean.motion_front_door
+#       to: 'on'
+#   condition:
+#     - condition: state
+#       entity_id: group.residents
+#       state: 'home'
+#   action:
+#     - service: notify.mobile_app_alexs_iphone
+#       data_template:
+#         title: "Condo"
+#         message: "Motion detected at the the Front Door."
+#         data:
+#           push:
+#             thread-id: "ha-condo-group"
+#             sound: "silent.wav"
 
 
 ##############################################################
