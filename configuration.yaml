@@ -169,6 +169,8 @@ dyson:
   password: !secret dyson_password
   language: GB
   devices:
+    - device_id: !secret dyson_kitchen_device_id
+      device_ip: !secret dyson_kitchen_device_ip
     - device_id: !secret dyson_bedroom_device_id
       device_ip: !secret dyson_bedroom_device_ip
 

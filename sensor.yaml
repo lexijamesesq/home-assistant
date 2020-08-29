@@ -1207,16 +1207,6 @@
           off
         {% endif %}
       icon_template: 'mdi:air-filter'
-    dashboard_kitchen_fan_carbon_filter:
-      friendly_name: Kitchen Fan Carbon Filter
-      entity_id: fan.kitchen
-      value_template: >-
-        {% if states.fan.kitchen.attributes["carbon_filter"] <= 33 %}
-          on
-        {% else %}
-          off
-        {% endif %}
-      icon_template: 'mdi:air-filter'
 #    dashboard_octavia_fuel_remaining:
 #      friendly_name: Octavia Fuel Remaining
 #      entity_id: device_tracker.octavia
