@@ -1197,8 +1197,8 @@
           off
         {% endif %}
       icon_template: 'mdi:air-filter'
-    dashboard_kitchen_fan_hepa_filter:
-      friendly_name: Kitchen Fan HEPA Filter
+    dashboard_kitchen_fan_filter:
+      friendly_name: Kitchen Fan Filter
       entity_id: fan.kitchen
       value_template: >-
         {% if states.fan.kitchen.attributes["hepa_filter"] <= 33 %}
