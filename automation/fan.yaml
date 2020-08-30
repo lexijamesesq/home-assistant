@@ -1,7 +1,7 @@
 ##############################################################
 # Bedroom
 ##############################################################
-- alias: Bedroom Fan Speed - Morning
+- alias: Bedroom Fan Speed - Sleep Mode Wake Up Time Ended
   trigger:
     - platform: state
       entity_id: input_boolean.mode_sleep
