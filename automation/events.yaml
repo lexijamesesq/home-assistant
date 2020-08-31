@@ -1,0 +1,159 @@
+##############################################################
+# Modes
+##############################################################
+
+# Sleep Mode ##################################################
+- alias: Event - Sleep Mode On
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'on'
+  action:
+    - event: mode_sleep_on
+
+- alias: Event - Sleep Mode Off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'off'
+  action:
+    - event: mode_sleep_off
+
+- alias: Event - Sleep Mode Off - Wakeup Short
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'off'
+      for:
+        minutes: 20
+  action:
+    - event: mode_sleep_off_wakeup_short
+
+- alias: Event - Sleep Mode Off - Wakeup Long
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'off'
+      for:
+        hours: 3
+  action:
+    - event: mode_sleep_off_wakeup_long
+
+# Morning Mode ################################################
+- alias: Event - Morning Mode - On
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_morning
+      to: 'on'
+  action:
+    - event: mode_morning_on
+
+- alias: Event - Morning Mode - Off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_morning
+      to: 'off'
+  action:
+    - event: mode_morning_off
+
+# Day Mode ################################################
+- alias: Event - Day Mode - On
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_day
+      to: 'on'
+  action:
+    - event: mode_day_on
+
+- alias: Event - Day Mode - Off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_day
+      to: 'off'
+  action:
+    - event: mode_day_off
+
+# Sunset Mode ################################################
+- alias: Event - Sunset Mode - On
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sunset
+      to: 'on'
+  action:
+    - event: mode_sunset_on
+
+- alias: Event - Sunset Mode - Off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sunset
+      to: 'off'
+  action:
+    - event: mode_sunset_off
+
+# Night Mode #################################################
+- alias: Event - Night Mode - On
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_night
+      to: 'on'
+  action:
+    - event: mode_night_on
+
+- alias: Event - Night Mode - Off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_night
+      to: 'off'
+  action:
+    - event: mode_night_off
+
+# Guest Mode #################################################
+- alias: Event - Guest Mode - On
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_guest
+      to: 'on'
+  action:
+    - event: mode_guest_on
+
+- alias: Event - Guest Mode - Off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_guest
+      to: 'off'
+  action:
+    - event: mode_guest_off
+
+# Home Theater Mode ##########################################
+- alias: Event - Home Theater Mode - On
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_home_theater
+      to: 'on'
+  action:
+    - event: mode_home_theater_on
+
+- alias: Event - Home Theater Mode - Off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_home_theater
+      to: 'off'
+  action:
+    - event: mode_home_theater_off
+
+# Peloton Mode #################################################
+- alias: Event - Peloton Mode - On
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_peloton
+      to: 'on'
+  action:
+    - event: mode_peloton_on
+
+- alias: Event - Peloton Mode - Off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_peloton
+      to: 'off'
+  action:
+    - event: mode_peloton_off
