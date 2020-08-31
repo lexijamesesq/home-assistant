@@ -1,6 +1,7 @@
 ##############################################################
 # Bedroom
 ##############################################################
+
 - alias: Bedroom Fan Speed - Sleep Mode Wake Up Time Ended
   trigger:
     - platform: state
@@ -105,3 +106,40 @@
       data:
         entity_id: fan.bedroom
         dyson_speed: 8
+
+
+##############################################################
+# Kitchen
+##############################################################
+
+- alias: Kitchen Fan Speed - Sleep Mode Started
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: fan.kitchen
+      state: 'on'
+  action:
+    - service: dyson.set_night_mode
+      data:
+        entity_id: fan.kitchen
+        night_mode: true
+
+- alias: Kitchen Fan Speed - Sleep Mode Ended
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'off'
+  condition:
+    - condition: state
+      entity_id: fan.kitchen
+      state: 'on'
+    - condition: time
+      after: '05:00:00'
+  action:
+    - service: dyson.set_night_mode
+      data:
+        entity_id: fan.kitchen
+        night_mode: false
