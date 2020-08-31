@@ -2,24 +2,7 @@
 # Bedroom
 ##############################################################
 
-- alias: Bedroom Fan Speed - Sleep Mode Wake Up Time Ended
-  trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'off'
-      for:
-        hours: 3
-  condition:
-    - condition: state
-      entity_id: fan.bedroom
-      state: 'on'
-  action:
-    - service: dyson.set_speed
-      data:
-        entity_id: fan.bedroom
-        dyson_speed: 5
-
-- alias: Bedroom Fan Speed - Before Bed
+- alias: Fan - Bedroom - Purify Before Bed
   trigger:
     - platform: time
       at: '19:00:00'
@@ -31,11 +14,10 @@
         entity_id: fan.bedroom
         dyson_speed: 8
 
-- alias: Bedroom Fan Speed - Sleep Mode Started
+- alias: Fan - Bedroom - Sleep Mode On
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'on'
+    - platform: event
+      event_type: mode_sleep_on
   condition:
     - condition: state
       entity_id: fan.bedroom
@@ -50,19 +32,14 @@
         entity_id: fan.bedroom
         dyson_speed: 5
 
-- alias: Bedroom Fan Speed - Sleep Mode Ended
+- alias: Fan - Bedroom - Sleep Mode Off - Wakeup Short
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'off'
-      for:
-        minutes: 20
+    - platform: event
+      event_type: mode_sleep_off_wakeup_short
   condition:
     - condition: state
       entity_id: fan.bedroom
       state: 'on'
-    - condition: time
-      after: '05:00:00'
   action:
     - service: dyson.set_night_mode
       data:
@@ -73,7 +50,21 @@
         entity_id: fan.bedroom
         dyson_speed: 8
 
-- alias: Bedroom Fan Speed - Bedroom Window Open
+- alias: Fan - Bedroom - Sleep Mode Off - Wakeup Long
+  trigger:
+    - platform: event
+      event_type: mode_sleep_off_wakeup_long
+  condition:
+    - condition: state
+      entity_id: fan.bedroom
+      state: 'on'
+  action:
+    - service: dyson.set_speed
+      data:
+        entity_id: fan.bedroom
+        dyson_speed: 5
+
+- alias: Fan - Bedroom - Bedroom Window Open
   trigger:
     - platform: state
       entity_id: binary_sensor.bedroom_windows
@@ -88,7 +79,7 @@
     - service: fan.turn_off
       entity_id: fan.bedroom
 
-- alias: Bedroom Fan Speed - Bedroom Window Closed
+- alias: Fan - Bedroom - Bedroom Window Closed
   trigger:
     - platform: state
       entity_id: binary_sensor.bedroom_windows
@@ -97,26 +88,34 @@
     - condition: state
       entity_id: fan.bedroom
       state: 'off'
-    - condition: time
-      after: '19:00:00'
   action:
     - service: fan.turn_on
       entity_id: fan.bedroom
-    - service: dyson.set_speed
-      data:
-        entity_id: fan.bedroom
-        dyson_speed: 8
+    - choose:
+        # After 7:00pm
+        - conditions:
+            - condition: time
+              after: '19:00:00'
+          sequence:
+            - service: dyson.set_speed
+              data:
+                entity_id: fan.bedroom
+                dyson_speed: 8
+      default:
+        - service: dyson.set_speed
+          data:
+            entity_id: fan.bedroom
+            dyson_speed: 5
 
 
 ##############################################################
 # Kitchen
 ##############################################################
 
-- alias: Kitchen Fan Speed - Sleep Mode Started
+- alias: Fan - Kitchen - Sleep Mode On
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'on'
+    - platform: event
+      event_type: mode_sleep_on
   condition:
     - condition: state
       entity_id: fan.kitchen
@@ -127,11 +126,10 @@
         entity_id: fan.kitchen
         night_mode: true
 
-- alias: Kitchen Fan Speed - Sleep Mode Ended
+- alias: Fan - Kitchen - Sleep Mode Off
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'off'
+    - platform: event
+      event_type: mode_sleep_off
   condition:
     - condition: state
       entity_id: fan.kitchen
