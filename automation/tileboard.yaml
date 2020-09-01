@@ -22,11 +22,8 @@
         command: 'open_page'
 - alias: TileBoard Turn Screen Off
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'on'
-      for:
-        minutes: 20
+    - platform: event
+      event_type: mode_sleep_on_delay_short
   action:
     - event: tileboard
       event_data:
@@ -34,9 +31,8 @@
         command: 'screen_off'
 - alias: TileBoard Turn Screen On
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'off'
+    - platform: event
+      event_type: mode_sleep_off
   action:
     - event: tileboard
       event_data:

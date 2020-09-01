@@ -1,9 +1,8 @@
 # Lock Front Door When Away or Asleep ########################
 - alias: Lock Front Door When Away or Asleep
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'on'
+    - platform: event
+      event_type: mode_sleep_on
     - platform: state
       entity_id: group.residents
       to: 'not_home'
@@ -18,9 +17,8 @@
 # Lock Garage Door When Away or Asleep #######################
 - alias: Lock Garage Door When Away or Asleep
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'on'
+    - platform: event
+      event_type: mode_sleep_on
     - platform: state
       entity_id: group.residents
       to: 'not_home'
@@ -35,9 +33,8 @@
 # Unlock Garage Door When Home and Awake #####################
 - alias: Unlock Garage Door When Home and Awake
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'off'
+    - platform: event
+      event_type: mode_sleep_off
     - platform: state
       entity_id: group.residents
       to: 'home'
