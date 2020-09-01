@@ -3,11 +3,8 @@
 ##############################################################
 - alias: Update Lights After Sunrise
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_morning
-      to: 'off'
-      for:
-        minutes: 5
+    - platform: event
+      event_type: mode_morning_off_delay_short
   condition:
     condition: and
     conditions:

@@ -4,11 +4,8 @@
 
 - alias: Sleep Mode Started Turn Off Den Cabinet Lights
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'on'
-      for:
-        minutes: 2
+    - platform: event
+      event_type: mode_sleep_on_delay_short
   action:
     - service: light.turn_off
       entity_id:
@@ -17,9 +14,8 @@
 
 - alias: Sleep Mode Ended Update Lights
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'off'
+    - platform: event
+      event_type: mode_sleep_off
   condition:
     - condition: state
       entity_id: group.residents
@@ -39,11 +35,8 @@
 
 - alias: Sleep Mode Wake Up Time Ended Update Lights
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_sleep
-      to: 'off'
-      for:
-        hours: 3
+    - platform: event
+      event_type: mode_sleep_off_wakeup_long
   condition:
     - condition: state
       entity_id: light.bedroom_lights
