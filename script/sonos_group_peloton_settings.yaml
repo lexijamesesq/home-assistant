@@ -10,11 +10,10 @@ sonos_group_peloton_settings:
       entity_id: media_player.sonos_rec_room
       data:
         volume_level: 0.65
-    - delay: '00:00:02'
     - service: media_player.select_source
       entity_id: media_player.sonos_rec_room
       data:
         source: 'Peloton: Rec Room Sonos Amp'
-    - delay: '00:00:02'
+    - wait_template: "{{ is_state_attr('media_player.sonos_rec_room', 'source', 'Line-in') }}"
     - service: media_player.media_play
       entity_id: media_player.sonos_rec_room
