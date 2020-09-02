@@ -93,7 +93,7 @@
     - service: script.turn_off
       entity_id: script.simulate_presence
     - choose:
-        # Guests Present
+        # Turn Lights Off After 3:00 AM
         - conditions:
             - condition: time
               after: '03:00:00'
