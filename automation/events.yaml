@@ -127,6 +127,23 @@
   action:
     - event: mode_night_off
 
+# Simulate Presence Mode #####################################
+- alias: Event - Simulate Presence Mode On
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_simulate_presence
+      to: 'on'
+  action:
+    - event: mode_simulate_presence_on
+
+- alias: Event - Simulate Presence Mode Off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_simulate_presence
+      to: 'off'
+  action:
+    - event: mode_simulate_presence_off
+
 # Guest Mode #################################################
 - alias: Event - Guest Mode On
   trigger:

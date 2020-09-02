@@ -3,14 +3,14 @@
 ##############################################################
 
 # Morning Mode ################################################
-- alias: Start Morning Mode
+- alias: Mode - Morning On
   trigger:
     - platform: template
       value_template: '{{ is_state("sensor.suncalc_nightend", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.mode_morning
-- alias: End Morning Mode
+- alias: Mode - Morning Off
   trigger:
     - platform: template
       value_template: '{{ is_state("sensor.suncalc_goldenhourend", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
@@ -19,14 +19,14 @@
       entity_id: input_boolean.mode_morning
 
 # Day Mode ################################################
-- alias: Start Day Mode
+- alias: Mode - Day On
   trigger:
     - platform: template
       value_template: '{{ is_state("sensor.suncalc_goldenhourend", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.mode_day
-- alias: End Day Mode
+- alias: Mode - Day Off
   trigger:
     - platform: template
       value_template: '{{ is_state("sensor.suncalc_goldenhour", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
@@ -35,14 +35,14 @@
       entity_id: input_boolean.mode_day
 
 # Sunset Mode ################################################
-- alias: Start Sunset Mode
+- alias: Mode - Sunset On
   trigger:
     - platform: template
       value_template: '{{ is_state("sensor.suncalc_goldenhour", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.mode_sunset
-- alias: End Sunset Mode
+- alias: Mode - Sunset Off
   trigger:
     - platform: template
       value_template: '{{ is_state("sensor.suncalc_sunsetstart", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
@@ -51,14 +51,14 @@
       entity_id: input_boolean.mode_sunset
 
 # Night Mode #################################################
-- alias: Start Night Mode
+- alias: Mode - Night On
   trigger:
     - platform: template
       value_template: '{{ is_state("sensor.suncalc_sunsetstart", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.mode_night
-- alias: End Night Mode
+- alias: Mode - Night Off
   trigger:
     - platform: template
       value_template: '{{ is_state("sensor.suncalc_nightend", as_timestamp(states.sensor.date.state + " " + states.sensor.time.state) | timestamp_custom("%H:%M")) }}'
@@ -71,7 +71,7 @@
 ##############################################################
 
 # Guest Mode #################################################
-- alias: Start Guest Mode
+- alias: Mode - Guest On
   trigger:
     - platform: state
       entity_id:
@@ -80,7 +80,7 @@
         - binary_sensor.front_door
       to: 'on'
     - platform: event
-      event_type: event_trigger_mode_guest
+      event_type: mode_guest_turn_on
   condition:
     - condition: state
       entity_id: group.residents
@@ -88,7 +88,7 @@
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.mode_guest
-- alias: End Guest Mode
+- alias: Mode - Guest Off
   trigger:
     - platform: state
       entity_id: group.residents
@@ -108,18 +108,17 @@
 
 # Simulate Presence Mode #####################################
 # Turns on between 5:00pm and 3:00am, Night Mode determines actual start time
-- alias: Start Simulate Presence Mode
+- alias: Mode - Simulate Presence On
   trigger:
     - platform: state
       entity_id: group.residents
       to: 'not_home'
+      # Motion Sensor Timeout
       for:
-        minutes: 5
+        minutes: 4
     - platform: state
       entity_id: input_boolean.mode_guest
       to: 'off'
-      for:
-        minutes: 5
     - platform: state
       entity_id: input_boolean.mode_night
       to: 'on'
@@ -144,7 +143,7 @@
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.mode_simulate_presence
-- alias: End Simulate Presence Mode
+- alias: Mode - Simulate Presence Off
   trigger:
     - platform: state
       entity_id: group.residents
@@ -154,6 +153,10 @@
       to: 'on'
     - platform: time
       at: "03:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.mode_simulate_presence
+      state: 'on'
   action:
     - service: homeassistant.turn_off
       entity_id: input_boolean.mode_simulate_presence
@@ -161,7 +164,7 @@
 # Sleep Mode #################################################
 # Starts when bedroom beacon is detected during bedtime.
 # Lognger delay before exiting mode, beacon detection is spotty.
-- alias: Start Sleep Mode
+- alias: Mode - Sleep On
   trigger:
     - platform: event
       event_type: ios.notification_action_fired
@@ -170,7 +173,7 @@
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.mode_sleep
-- alias: End Sleep Mode
+- alias: Mode - Sleep Off
   trigger:
     - platform: event
       event_type: ios.notification_action_fired
@@ -182,7 +185,7 @@
 
 
 # Peloton Mode #################################################
-- alias: End Peloton Mode
+- alias: Mode - Peloton Off
   trigger:
     - platform: event
       event_type: ios.notification_action_fired
@@ -194,7 +197,7 @@
 
 
 # Home Theater Mode ##########################################
-- alias: Start Home Theater Mode
+- alias: Mode - Home Theater On
   trigger:
     - platform: state
       entity_id: media_player.denon_avr_x4300h
@@ -203,7 +206,7 @@
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.mode_home_theater
-- alias: End Home Theater Mode
+- alias: Mode - Home Theater Off
   trigger:
     - platform: state
       entity_id: media_player.denon_avr_x4300h
@@ -218,7 +221,7 @@
 ##############################################################
 
 # Overwatch CPU Temp #########################################
-- alias: Mode Start Notify Overwatch CPU Temp
+- alias: Mode - Notify Overwatch CPU Temp On
   trigger:
     - platform: numeric_state
       entity_id: sensor.overwatch_cpu_temp
@@ -226,7 +229,7 @@
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.notify_overwatch_cpu_temp
-- alias: Mode End Notify Overwatch CPU Temp
+- alias: Mode - Notify Overwatch CPU Temp Off
   trigger:
     - platform: numeric_state
       entity_id: sensor.overwatch_cpu_temp
@@ -236,7 +239,7 @@
       entity_id: input_boolean.notify_overwatch_cpu_temp
 
 # Woodhouse CPU Temp #########################################
-- alias: Mode Start Notify Woodhouse CPU Temp
+- alias: Mode - Notify Woodhouse CPU Temp On
   trigger:
     - platform: numeric_state
       entity_id:
@@ -246,7 +249,7 @@
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.notify_woodhouse_cpu_temp
-- alias: Mode End Notify Woodhouse CPU Temp
+- alias: Mode - Notify Woodhouse CPU Temp Off
   trigger:
     - platform: numeric_state
       entity_id:
