@@ -11,19 +11,25 @@
       entity_id: input_boolean.mode_guest
       to: 'on'
   action:
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.mode_simulate_presence
-    - delay: '00:00:05'
-    - service: script.turn_on
-      entity_id: script.update_scene
-      data_template:
-        variables:
-          lights: >-
-            {%- if is_state('input_boolean.mode_morning', 'on') or is_state('input_boolean.mode_sunset', 'on') or is_state('input_boolean.mode_night', 'on') -%}
-              kitchen,living_room,rec_room_tiles,bedroom,bedroom_tiles,den,den_cabinets
-            {%- else -%}
-              bedroom_tiles,den,rec_room_tiles
-            {%- endif %}
+    - wait_template: "{{ is_state('group.all_lights', 'off') }}"
+    - choose:
+        # Day Mode
+        - conditions:
+            - condition: state
+              entity_id: input_boolean.mode_day
+              state: 'on'
+          sequence:
+            - service: script.turn_on
+              entity_id: script.update_scene
+              data_template:
+                variables:
+                  lights: 'bedroom_tiles,den,rec_room_tiles'
+      default:
+        - service: script.turn_on
+          entity_id: script.update_scene
+          data_template:
+            variables:
+              lights: 'kitchen,living_room,rec_room_tiles,bedroom,bedroom_tiles,den,den_cabinets'
 
 # Empty Home Lighting ########################################
 # All residents have left the premises, but are there guests?
@@ -32,6 +38,7 @@
     - platform: state
       entity_id: group.residents
       to: 'not_home'
+      # Motion Sensor Timeout
       for:
         minutes: 4
     - platform: state
@@ -45,14 +52,22 @@
       entity_id: input_boolean.mode_guest
       state: 'off'
   action:
-    - service: script.turn_on
-      data_template:
-        entity_id: >
-          {% if is_state('group.motion_guest_areas', 'on') or is_state('input_boolean.mode_home_theater', 'on') %}
-            script.mode_turn_on_guest_mode
-          {% else %}
-            script.scene_empty_home
-          {% endif %}
+    - choose:
+        # Guests Present
+        - conditions:
+            condition: or
+            conditions:
+              - condition: state
+                entity_id: group.motion_guest_areas
+                state: 'on'
+              - condition: state
+                entity_id: input_boolean.mode_home_theater
+                state: 'on'
+          sequence:
+            - event: mode_guest_turn_on
+      default:
+        - service: light.turn_off
+          entity_id: group.all_lights
 
 
 ##############################################################
@@ -64,23 +79,18 @@
 # Mode will turn on again after a random delay
 - alias: Simulate Presence Mode - Update Lights
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_simulate_presence
-      to: 'on'
     - platform: event
-      event_type: event_simulate_presence
-  condition:
-    - condition: state
-      entity_id: input_boolean.mode_simulate_presence
-      state: 'on'
+      event_type: mode_simulate_presence_on
   action:
     - service: script.turn_on
       entity_id: script.simulate_presence
+
 - alias: Simulate Presence Mode - Turn Lights Off
   trigger:
-    - platform: state
-      entity_id: input_boolean.mode_simulate_presence
-      to: 'off'
+    - platform: event
+      event_type: mode_simulate_presence_off
   action:
+    - service: script.turn_off
+      entity_id: script.simulate_presence
     - service: light.turn_off
-      entity_id: all
+      entity_id: group.all_lights
