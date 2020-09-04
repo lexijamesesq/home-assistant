@@ -72,8 +72,14 @@
             weekday:
               - sat
               - sun
-      - condition: template
-        value_template: '{{ state_attr("media_player.sonos_kitchen", "volume_level") < 0.30 or state_attr("media_player.sonos_bedroom", "volume_level") < 0.30 or state_attr("media_player.sonos_bathroom", "volume_level") < 0.30 }}'
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: '{{ state_attr("media_player.sonos_kitchen", "volume_level") < 0.28 }}'
+          - condition: template
+            value_template: '{{ state_attr("media_player.sonos_bedroom", "volume_level") < 0.28 }}'
+          - condition: template
+            value_template: '{{ state_attr("media_player.sonos_bathroom", "volume_level") < 0.28 }}'
   action:
     - service: media_player.volume_set
       data_template:
@@ -89,7 +95,9 @@
           {% set players = ["sonos_kitchen", "sonos_bedroom", "sonos_bathroom"] %}
           {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.28 -%}
             {%- if loop.first -%}
-              {{ state_attr('media_player.' ~ player, 'volume_level') + 0.02 }}
+              {{ state_attr('media_player.' ~ player, 'volume_level') + 0.01 }}
+            {%- else -%}
+              {{ state_attr('media_player.' ~ player, 'volume_level') }}
             {%- endif %}
           {%- endfor %}
 
