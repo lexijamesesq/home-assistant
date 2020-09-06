@@ -3,6 +3,7 @@
 ##############################################################
 # Windows Notifications ######################################
 - alias: Notify Security - Window Opened or Closed When Away
+  mode: queued
   trigger:
     - platform: state
       entity_id:
@@ -35,6 +36,7 @@
 
 # Door Notifications #########################################
 - alias: Notify Security - Door Opened
+  mode: queued
   trigger:
     - platform: state
       entity_id:
@@ -59,6 +61,7 @@
 
 # Lock Notifications #########################################
 - alias: Notify Security - Front Door Locked or Unlocked
+  mode: queued
   trigger:
     - platform: state
       entity_id:
@@ -84,6 +87,7 @@
 
 # Garage Notifications #######################################
 - alias: Notify Security - Garage Actual Opened or Closed
+  mode: queued
   trigger:
     - platform: state
       entity_id: sensor.garage_actual
@@ -133,6 +137,7 @@
 ##############################################################
 # Door Notifications #########################################
 - alias: Notify Security - Door Opened for Extended Period of Time
+  mode: queued
   trigger:
     - platform: state
       entity_id:
@@ -173,6 +178,7 @@
 
 # Garage Notifications #######################################
 - alias: Notify Security - Garage Actual Opened for Extended Period of Time
+  mode: queued
   trigger:
     - platform: state
       entity_id:  sensor.garage_actual
@@ -203,6 +209,7 @@
 # Guest Mode
 ##############################################################
 - alias: Notify of Guest Motion Detected
+  mode: queued
   trigger:
     - platform: state
       entity_id: input_boolean.mode_guest
@@ -224,6 +231,7 @@
             sound: "siren.wav"
 
 - alias: Notify of Guest Mode Ended
+  mode: queued
   trigger:
     - platform: state
       entity_id: input_boolean.mode_guest
@@ -248,6 +256,7 @@
 ##############################################################
 # Home Notifications #########################################
 - alias: Notify Security - Home Not Secure for Extended Period of Time When Away
+  mode: queued
   trigger:
     - platform: state
       entity_id: sensor.dashboard_home_state
@@ -283,6 +292,7 @@
 
 # Sleep Mode Notifications ###################################
 - alias: Notify Security - Home Not Secure During Sleep Mode
+  mode: queued
   trigger:
     - platform: state
       entity_id:  sensor.garage_actual
