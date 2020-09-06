@@ -63,20 +63,20 @@ scene_kitchen_morning_ht_playing_low:
 scene_kitchen_day_high:
   alias: Scene Kitchen Day High
   sequence:
-    - service: light.turn_on
+    - condition: state
       entity_id: light.kitchen
-      data:
-        transition: 2
-        brightness: 165
+      state: 'on'
+    - service: light.turn_off
+      entity_id: light.kitchen
 
 scene_kitchen_day_mid:
   alias: Scene Kitchen Day Mid
   sequence:
-    - service: light.turn_on
+    - condition: state
       entity_id: light.kitchen
-      data:
-        transition: 2
-        brightness: 55
+      state: 'on'
+    - service: light.turn_off
+      entity_id: light.kitchen
 
 scene_kitchen_day_ht_on_high:
   alias: Scene Kitchen Day HT On High
