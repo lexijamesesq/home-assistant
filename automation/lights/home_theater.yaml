@@ -5,12 +5,6 @@
   trigger:
     - platform: event
       event_type: mode_home_theater_on
-  condition:
-    condition: not
-    conditions:
-      - condition: state
-        entity_id: input_boolean.mode_day
-        state: 'on'
   action:
     - service: script.turn_on
       entity_id: script.update_lights
@@ -21,12 +15,6 @@
   trigger:
     - platform: event
       event_type: mode_home_theater_off
-  condition:
-    condition: not
-    conditions:
-      - condition: state
-        entity_id: input_boolean.mode_day
-        state: 'on'
   action:
     - service: script.turn_on
       entity_id: script.update_lights
@@ -49,12 +37,6 @@
       entity_id: media_player.living_room_apple_tv
       from: 'paused'
       to: 'playing'
-  condition:
-    condition: not
-    conditions:
-      - condition: state
-        entity_id: input_boolean.mode_day
-        state: 'on'
   action:
     - service: script.turn_on
       entity_id: script.update_lights
