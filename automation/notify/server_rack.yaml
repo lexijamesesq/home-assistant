@@ -86,7 +86,7 @@
       entity_id: automation.notify_overwatch_normal_cpu_temp
       state: 'on'
       for:
-        minutes: 6
+        minutes: 10
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
@@ -159,7 +159,7 @@
       entity_id: automation.notify_woodhouse_normal_cpu_temp
       state: 'on'
       for:
-        minutes: 6
+        minutes: 10
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
