@@ -1444,7 +1444,7 @@
       friendly_name: Sonos Kitchen Volume
       entity_id: media_player.sonos_kitchen
       value_template: >-
-        {%- if state_attr('media_player.sonos_kitchen', 'volume_level') is defined -%}
+        {%- if state_attr('media_player.sonos_kitchen', 'volume_level') is defined and state_attr('media_player.sonos_kitchen', 'volume_level') is number -%}
           {{ (state_attr('media_player.sonos_kitchen', 'volume_level') * 100) | int ~ '%' }}
         {%- else -%}
           Unavailable
@@ -1453,7 +1453,7 @@
       friendly_name: Sonos Living Room Volume
       entity_id: media_player.sonos_living_room
       value_template: >-
-        {%- if state_attr('media_player.sonos_living_room', 'volume_level') is defined -%}
+        {%- if state_attr('media_player.sonos_living_room', 'volume_level') is defined and state_attr('media_player.sonos_living_room', 'volume_level') is number -%}
           {{ (state_attr('media_player.sonos_living_room', 'volume_level') * 100) | int ~ '%' }}
         {%- else -%}
           Unavailable
@@ -1462,7 +1462,7 @@
       friendly_name: Sonos Rec Room Volume
       entity_id: media_player.sonos_rec_room
       value_template: >-
-        {%- if state_attr('media_player.sonos_rec_room', 'volume_level') is defined -%}
+        {%- if state_attr('media_player.sonos_rec_room', 'volume_level') is defined and state_attr('media_player.sonos_rec_room', 'volume_level') is number -%}
           {{ (state_attr('media_player.sonos_rec_room', 'volume_level') * 100) | int ~ '%' }}
         {%- else -%}
           Unavailable
@@ -1471,7 +1471,7 @@
       friendly_name: Sonos Bedroom Volume
       entity_id: media_player.sonos_bedroom
       value_template: >-
-        {%- if state_attr('media_player.sonos_bedroom', 'volume_level') is defined -%}
+        {%- if state_attr('media_player.sonos_bedroom', 'volume_level') is defined and state_attr('media_player.sonos_bedroom', 'volume_level') is number -%}
           {{ (state_attr('media_player.sonos_bedroom', 'volume_level') * 100) | int ~ '%' }}
         {%- else -%}
           Unavailable
@@ -1480,7 +1480,7 @@
       friendly_name: Sonos Bathroom Volume
       entity_id: media_player.sonos_bathroom
       value_template: >-
-        {%- if state_attr('media_player.sonos_bathroom', 'volume_level') is defined -%}
+        {%- if state_attr('media_player.sonos_bathroom', 'volume_level') is defined and state_attr('media_player.sonos_bathroom', 'volume_level') is number -%}
           {{ (state_attr('media_player.sonos_bathroom', 'volume_level') * 100) | int ~ '%' }}
         {%- else -%}
           Unavailable
@@ -1489,7 +1489,7 @@
       friendly_name: Sonos Den Volume
       entity_id: media_player.sonos_den
       value_template: >-
-        {%- if state_attr('media_player.sonos_den', 'volume_level') is defined -%}
+        {%- if state_attr('media_player.sonos_den', 'volume_level') is defined and state_attr('media_player.sonos_den', 'volume_level') is number -%}
           {{ (state_attr('media_player.sonos_den', 'volume_level') * 100) | int ~ '%' }}
         {%- else -%}
           Unavailable
@@ -1498,7 +1498,7 @@
       friendly_name: Sonos Move Volume
       entity_id: media_player.sonos_move
       value_template: >-
-        {%- if state_attr('media_player.sonos_move', 'volume_level') is defined -%}
+        {%- if state_attr('media_player.sonos_move', 'volume_level') is defined and state_attr('media_player.sonos_move', 'volume_level') is number -%}
           {{ (state_attr('media_player.sonos_move', 'volume_level') * 100) | int ~ '%' }}
         {%- else -%}
           Unavailable
