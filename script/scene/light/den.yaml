@@ -3,7 +3,7 @@
 ##############################################################
 
 # Direct Scenes ##############################################
-# Called from script.update_scene
+# Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 scene_den_morning_mid:
   alias: Scene Den Morning Mid
@@ -80,7 +80,7 @@ scene_den_neutral_low:
 ##############################################################
 
 # Direct Scenes ##############################################
-# Called from script.update_scene
+# Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 scene_den_cabinets_morning_mid:
   alias: Scene Den Cabinets Morning Mid
