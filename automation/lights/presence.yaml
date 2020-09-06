@@ -11,7 +11,6 @@
       entity_id: input_boolean.mode_guest
       to: 'on'
   action:
-    - wait_template: "{{ is_state('input_boolean.mode_simulate_presence', 'off') }}"
     - choose:
         # Day Mode
         - conditions:
@@ -85,7 +84,7 @@
     - service: script.turn_on
       entity_id: script.simulate_presence
 
-- alias: Simulate Presence Mode - Turn Lights Off
+- alias: Simulate Presence Mode - Off
   trigger:
     - platform: event
       event_type: mode_simulate_presence_off
@@ -93,10 +92,10 @@
     - service: script.turn_off
       entity_id: script.simulate_presence
     - choose:
-        # Turn Lights Off After 3:00 AM
+        # Guests Present
         - conditions:
             - condition: time
-              after: '03:00:00'
+              before: '03:00:00'
           sequence:
             - service: light.turn_off
               entity_id: group.all_lights
