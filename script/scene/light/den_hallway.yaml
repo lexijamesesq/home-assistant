@@ -1,69 +1,69 @@
 ##############################################################
-# Garage Stairs Scenes
+# Den Hallway Scenes
 ##############################################################
 
 # Direct Scenes ##############################################
-# Called from script.update_scene
+# Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
-scene_downstairs_hallway_morning_mid:
-  alias: Scene Downstairs Hallway Morning Mid
+scene_den_hallway_morning_mid:
+  alias: Scene Den Hallway Morning Mid
   sequence:
     - service: light.turn_on
-      entity_id: light.downstairs_hallway
+      entity_id: light.den_hallway
       data:
         transition: 2
         brightness: 50
 
-scene_downstairs_hallway_morning_low:
-  alias: Scene Downstairs Hallway Morning Low
+scene_den_hallway_morning_low:
+  alias: Scene Den Hallway Morning Low
   sequence:
     - service: light.turn_on
-      entity_id: light.downstairs_hallway
+      entity_id: light.den_hallway
       data:
         transition: 2
         brightness: 25
 
-scene_downstairs_hallway_day_high:
-  alias: Scene Downstairs Hallway Day High
+scene_den_hallway_day_high:
+  alias: Scene Den Hallway Day High
   sequence:
     - service: light.turn_on
-      entity_id: light.downstairs_hallway
+      entity_id: light.den_hallway
       data:
         transition: 2
         brightness: 95
 
-scene_downstairs_hallway_day_mid:
-  alias: Scene Downstairs Hallway Day Mid
+scene_den_hallway_day_mid:
+  alias: Scene Den Hallway Day Mid
   sequence:
     - service: light.turn_on
-      entity_id: light.downstairs_hallway
+      entity_id: light.den_hallway
       data:
         transition: 2
         brightness: 45
 
-scene_downstairs_hallway_night_high:
-  alias: Scene Downstairs Hallway Night High
+scene_den_hallway_night_high:
+  alias: Scene Den Hallway Night High
   sequence:
     - service: light.turn_on
-      entity_id: light.downstairs_hallway
+      entity_id: light.den_hallway
       data:
         transition: 2
         brightness: 75
 
-scene_downstairs_hallway_night_mid:
-  alias: Scene Downstairs Hallway Night Mid
+scene_den_hallway_night_mid:
+  alias: Scene Den Hallway Night Mid
   sequence:
     - service: light.turn_on
-      entity_id: light.downstairs_hallway
+      entity_id: light.den_hallway
       data:
         transition: 2
         brightness: 50
 
-scene_downstairs_hallway_night_low:
-  alias: Scene Downstairs Hallway Night Low
+scene_den_hallway_night_low:
+  alias: Scene Den Hallway Night Low
   sequence:
     - service: light.turn_on
-      entity_id: light.downstairs_hallway
+      entity_id: light.den_hallway
       data:
         transition: 2
         brightness: 25

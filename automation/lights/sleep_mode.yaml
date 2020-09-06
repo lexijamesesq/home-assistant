@@ -22,7 +22,7 @@
       state: 'home'
   action:
     - service: script.turn_on
-      entity_id: script.update_scene
+      entity_id: script.update_lights
       data_template:
         variables:
           lights: >-
@@ -56,7 +56,7 @@
       state: 'on'
   action:
     - service: script.turn_on
-      entity_id: script.update_scene
+      entity_id: script.update_lights
       data:
         variables:
           lights: 'kitchen,living_room'

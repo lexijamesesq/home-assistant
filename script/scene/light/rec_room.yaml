@@ -3,7 +3,7 @@
 ##############################################################
 
 # Direct Scenes ##############################################
-# Called from script.update_scene
+# Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 # Conditions omitted where lights change scene without changing states
 scene_rec_room_tiles_morning:

@@ -19,13 +19,13 @@
               state: 'on'
           sequence:
             - service: script.turn_on
-              entity_id: script.update_scene
+              entity_id: script.update_lights
               data_template:
                 variables:
                   lights: 'bedroom_tiles,den,rec_room_tiles'
       default:
         - service: script.turn_on
-          entity_id: script.update_scene
+          entity_id: script.update_lights
           data_template:
             variables:
               lights: 'kitchen,living_room,rec_room_tiles,bedroom,bedroom_tiles,den,den_cabinets'

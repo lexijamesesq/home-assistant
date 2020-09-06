@@ -258,7 +258,7 @@
             value_template: '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: script.turn_on
-            entity_id: script.update_scene
+            entity_id: script.update_lights
             data:
               variables:
                 lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
@@ -334,7 +334,7 @@
             value_template: '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: script.turn_on
-            entity_id: script.update_scene
+            entity_id: script.update_lights
             data:
               variables:
                 lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
@@ -410,7 +410,7 @@
             value_template: '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: script.turn_on
-            entity_id: script.update_scene
+            entity_id: script.update_lights
             data:
               variables:
                 lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
@@ -486,7 +486,7 @@
             value_template: '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: script.turn_on
-            entity_id: script.update_scene
+            entity_id: script.update_lights
             data:
               variables:
                 lights: 'den_cabinets'

@@ -14,7 +14,7 @@
     state: 'off'
   action:
     - service: script.turn_on
-      entity_id: script.update_scene
+      entity_id: script.update_lights
       data:
         variables:
           lights: 'garage_stairs'
@@ -34,7 +34,7 @@
     state: 'off'
   action:
     - service: script.turn_on
-      entity_id: script.update_scene
+      entity_id: script.update_lights
       data_template:
         variables:
           lights: >
@@ -138,7 +138,7 @@
             below: 5.0
   action:
     - service: script.turn_on
-      entity_id: script.update_scene
+      entity_id: script.update_lights
       data:
         variables:
           lights: 'downstairs_hallway'
@@ -173,7 +173,7 @@
             below: 5.0
   action:
     - service: script.turn_on
-      entity_id: script.update_scene
+      entity_id: script.update_lights
       data:
         variables:
           lights: 'downstairs_hallway'
@@ -270,7 +270,7 @@
             state: 'off'
   action:
     - service: script.turn_on
-      entity_id: script.update_scene
+      entity_id: script.update_lights
       data:
         variables:
           lights: 'kitchen,rec_room_tiles,den,den_cabinets'
@@ -307,7 +307,7 @@
             below: 70.0
   action:
     - service: script.turn_on
-      entity_id: script.update_scene
+      entity_id: script.update_lights
       data:
         variables:
           lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
@@ -368,7 +368,7 @@
             below: 20.0
   action:
     - service: script.turn_on
-      entity_id: script.update_scene
+      entity_id: script.update_lights
       data:
         variables:
           lights: 'den_hallway'

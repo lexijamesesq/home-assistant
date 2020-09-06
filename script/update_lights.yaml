@@ -1,5 +1,7 @@
-update_scene:
-  alias: Update Scene
+update_lights:
+  alias: Update Lights
+  icon: "mdi:lightbulb-on"
+  mode: parallel
   sequence:
     - condition: template
       value_template: "{{ lights is defined }}"

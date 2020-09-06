@@ -3,7 +3,7 @@
 ##############################################################
 
 # Direct Scenes ##############################################
-# Called from script.update_scene
+# Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 scene_upstairs_hallway_morning_mid:
   alias: Scene Upstairs Hallway Morning Mid

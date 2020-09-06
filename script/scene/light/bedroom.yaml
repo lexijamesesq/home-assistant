@@ -48,7 +48,7 @@ scene_bedroom_wakeup:
 ##############################################################
 
 # Direct Scenes ##############################################
-# Called from script.update_scene
+# Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 scene_bedroom_morning_mid:
   alias: Scene Bedroom Morning Mid
@@ -153,7 +153,7 @@ scene_bedroom_off:
 ##############################################################
 
 # Direct Scenes ##############################################
-# Called from script.update_scene
+# Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 scene_bedroom_tiles_morning:
   alias: Scene Bedroom Tiles Morning
