@@ -52,6 +52,7 @@
       data:
         variables:
           lights: 'kitchen,living_room,living_room_tv,den,den_cabinets'
+          seconds: 10
 
 
 ##############################################################
@@ -72,6 +73,7 @@
       data:
         variables:
           lights: 'kitchen,living_room,living_room_tv,bedroom,bedroom_tiles,den,den_cabinets'
+          seconds: 10
 
 
 ##############################################################
@@ -115,6 +117,7 @@
                 ,
               {%- endif %}
             {%- endfor %}
+          seconds: 10
 
 
 ##############################################################
