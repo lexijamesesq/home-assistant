@@ -26,12 +26,11 @@
             entity_id: light.den_cabinets
             state: 'on'
   action:
-    - service: light.turn_off
-      entity_id:
-        - light.kitchen
-        - light.living_room
-        - light.den_lights
-        - light.den_cabinets
+    - service: script.turn_on
+      entity_id: script.update_lights
+      data:
+        variables:
+          lights: 'kitchen,living_room,den,den_cabinets'
 
 
 ##############################################################
