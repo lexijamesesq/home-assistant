@@ -80,6 +80,13 @@
       below: 68
       for:
         minutes: 5
+  # Prevent trigger when loading automations
+  condition:
+    - condition: state
+      entity_id: automation.notify_overwatch_normal_cpu_temp
+      state: 'on'
+      for:
+        minutes: 6
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
@@ -146,6 +153,13 @@
       below: 69
       for:
         minutes: 5
+  # Prevent trigger when loading automations
+  condition:
+    - condition: state
+      entity_id: automation.notify_woodhouse_normal_cpu_temp
+      state: 'on'
+      for:
+        minutes: 6
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
