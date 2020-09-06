@@ -18,7 +18,7 @@ update_lights:
           {% set prefer_weekend_high = states.sensor.prefer_weekend_lighting_high.state %}
 
           {% set ht_lights = ["kitchen", "living_room", "living_room_tv", "rec_room_tiles"] %}
-          {% set ambient_lights = ["living_room_tv", "rec_room_tiles", "bedroom_tiles"] %}
+          {% set ambient_lights = ["living_room_tv", "rec_room_tiles", "bedroom_tiles", "den_cabinets"] %}
 
           {% set mode = '_night' if is_state('input_boolean.mode_sunset', 'on') else '_' + states('sensor.dashboard_current_home_mode') | lower %}
 
