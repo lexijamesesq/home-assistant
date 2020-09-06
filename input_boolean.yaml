@@ -109,11 +109,3 @@ color_loop_living_room:
 ##############################################################
 trigger_garage_opener:
   name: Garage Opener
-
-##############################################################
-# Notify States
-##############################################################
-notify_overwatch_cpu_temp:
-  name: Overwatch CPU Temp
-notify_woodhouse_cpu_temp:
-  name: Woodhouse CPU Temp

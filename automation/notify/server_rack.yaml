@@ -1,36 +1,35 @@
 ##############################################################
 # Server Events
 ##############################################################
+
 # Overwatch Excessive CPU Load ###############################
-- alias: Notify Overwatch - Excessive CPU Load for 30 Minutes
+- alias: Notify Overwatch - Excessive CPU Loads
   trigger:
+    - platform: numeric_state
+      entity_id: sensor.overwatch_cpu_load
+      above: 2
+      for:
+        minutes: 10
+    - platform: numeric_state
+      entity_id: sensor.overwatch_cpu_load
+      above: 2
+      for:
+        minutes: 20
     - platform: numeric_state
       entity_id: sensor.overwatch_cpu_load
       above: 2
       for:
         minutes: 30
-  action:
-    - service: notify.mobile_app_alexs_iphone
-      data:
-        title: "Overwatch"
-        message: "Excessive CPU Load for 30 minutes."
-        data:
-          push:
-            thread-id: "ha-server-group"
-            sound: "siren.wav"
-
-- alias: Notify Overwatch - Excessive CPU Load for 1 Hour
-  trigger:
     - platform: numeric_state
       entity_id: sensor.overwatch_cpu_load
       above: 2
       for:
-        hours: 1
+        minutes: 60
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
         title: "Overwatch"
-        message: "Excessive CPU Load for an hour."
+        message: "Excessive CPU Load for {{ trigger.for }} minutes."
         data:
           push:
             thread-id: "ha-server-group"
@@ -39,24 +38,24 @@
 # Overwatch Excessive CPU Temp ###############################
 - alias: Notify Overwatch - Excessive CPU Temp
   trigger:
-    - platform: state
-      entity_id: input_boolean.notify_overwatch_cpu_temp
-      to: 'on'
+    - platform: numeric_state
+      entity_id: sensor.overwatch_cpu_temp
+      above: 68
       for:
         minutes: 10
-    - platform: state
-      entity_id: input_boolean.notify_overwatch_cpu_temp
-      to: 'on'
+    - platform: numeric_state
+      entity_id: sensor.overwatch_cpu_temp
+      above: 68
       for:
         minutes: 20
-    - platform: state
-      entity_id: input_boolean.notify_overwatch_cpu_temp
-      to: 'on'
+    - platform: numeric_state
+      entity_id: sensor.overwatch_cpu_temp
+      above: 68
       for:
         minutes: 30
-    - platform: state
-      entity_id: input_boolean.notify_overwatch_cpu_temp
-      to: 'on'
+    - platform: numeric_state
+      entity_id: sensor.overwatch_cpu_temp
+      above: 68
       for:
         minutes: 60
   action:
@@ -65,7 +64,7 @@
         title: "Overwatch"
         message: >-
           {%- set level = 'Critical' if states("sensor.overwatch_cpu_temp") | int > 79 else 'Warning' -%}
-          {{- level | title }}. The server has been running hot for {{ ((as_timestamp(now()) - as_timestamp(states.input_boolean.notify_overwatch_cpu_temp.last_changed)) / 60) | int  }} minutes.
+          {{- level | title }}. The server has been running hot for {{ trigger.for }} minutes.
         data:
           push:
             thread-id: "ha-server-group"
@@ -76,9 +75,9 @@
 
 - alias: Notify Overwatch - Normal CPU Temp
   trigger:
-    - platform: state
-      entity_id: input_boolean.notify_overwatch_cpu_temp
-      to: 'off'
+    - platform: numeric_state
+      entity_id: sensor.overwatch_cpu_temp
+      below: 68
       for:
         minutes: 5
   action:
@@ -90,29 +89,37 @@
         data:
           push:
             thread-id: "ha-server-group"
-            sound: "siren.wav"
+            sound: "gesture.wav"
 
 # Woodhouse Excessive CPU Temp ###############################
 - alias: Notify Woodhouse - Excessive CPU Temp
   trigger:
-    - platform: state
-      entity_id: input_boolean.notify_woodhouse_cpu_temp
-      to: 'on'
+    - platform: numeric_state
+      entity_id:
+        - sensor.woodhouse_cpu1_temp
+        - sensor.woodhouse_cpu2_temp
+      above: 68
       for:
         minutes: 10
-    - platform: state
-      entity_id: input_boolean.notify_woodhouse_cpu_temp
-      to: 'on'
+    - platform: numeric_state
+      entity_id:
+        - sensor.woodhouse_cpu1_temp
+        - sensor.woodhouse_cpu2_temp
+      above: 68
       for:
         minutes: 20
-    - platform: state
-      entity_id: input_boolean.notify_woodhouse_cpu_temp
-      to: 'on'
+    - platform: numeric_state
+      entity_id:
+        - sensor.woodhouse_cpu1_temp
+        - sensor.woodhouse_cpu2_temp
+      above: 68
       for:
         minutes: 30
-    - platform: state
-      entity_id: input_boolean.notify_woodhouse_cpu_temp
-      to: 'on'
+    - platform: numeric_state
+      entity_id:
+        - sensor.woodhouse_cpu1_temp
+        - sensor.woodhouse_cpu2_temp
+      above: 68
       for:
         minutes: 60
   action:
@@ -121,7 +128,7 @@
         title: "Woodhouse"
         message: >-
           {%- set level = 'critical' if states("sensor.woodhouse_cpu1_temp") | int > 79 or states("sensor.woodhouse_cpu2_temp") | int > 79 else 'warning' -%}
-          {{- level | title }}. The server has been running hot for {{ ((as_timestamp(now()) - as_timestamp(states.input_boolean.notify_woodhouse_cpu_temp.last_changed)) / 60) | int  }} minutes.
+          {{- level | title }}. The server has been running hot for {{ trigger.for }} minutes.
         data:
           push:
             thread-id: "ha-server-group"
@@ -132,9 +139,11 @@
 
 - alias: Notify Woodhouse - Normal CPU Temp
   trigger:
-    - platform: state
-      entity_id: input_boolean.notify_woodhouse_cpu_temp
-      to: 'off'
+    - platform: numeric_state
+      entity_id:
+        - sensor.woodhouse_cpu1_temp
+        - sensor.woodhouse_cpu2_temp
+      below: 69
       for:
         minutes: 5
   action:
@@ -146,7 +155,7 @@
         data:
           push:
             thread-id: "ha-server-group"
-            sound: "siren.wav"
+            sound: "gesture.wav"
 
 
 ##############################################################
@@ -154,27 +163,6 @@
 ##############################################################
 
 # Server Rack UPS ############################################
-- alias: Notify Server Rack - UPS Online
-  trigger:
-    - platform: state
-      entity_id: sensor.server_rack_ups_status_data
-      to: 'OL CHRG'
-      from: 'OB DISCHRG'
-  action:
-    - service: notify.mobile_app_alexs_iphone
-      data:
-        title: "Server Rack"
-        message: >-
-          {% if is_state('sensor.server_rack_ups_status_data', 'OL') %}
-            The UPS is online and fully charged.
-          {% elif is_state('sensor.server_rack_ups_status_data', 'OL CHRG') %}
-            The UPS is back online and charging.
-          {% endif %}
-        data:
-          push:
-            thread-id: "ha-server-group"
-            sound: "gesture.wav"
-
 - alias: Notify Server Rack - UPS on Battery
   trigger:
     - platform: state
@@ -208,7 +196,7 @@
           {%- if ((as_timestamp(now()) - as_timestamp(states.sensor.server_rack_ups_status_data.last_changed)) / 60) | int < 5 -%}
             The UPS is running on battery power.
           {%- else -%}
-            The UPS has been running on battery power for {{ ((as_timestamp(now()) - as_timestamp(states.input_boolean.notify_woodhouse_cpu_temp.last_changed)) / 60) | int  }} minutes. {{ states.sensor.server_rack_ups_battery_charge.state }}% remaining.
+            The UPS has been running on battery power for {{ trigger.for }} minutes. {{ states.sensor.server_rack_ups_battery_charge.state }}% remaining.
           {%- endif %}
         data:
           push:
@@ -217,6 +205,27 @@
               name: "siren.wav"
               critical: 1
               volume: 1.0
+
+- alias: Notify Server Rack - UPS Online
+  trigger:
+    - platform: state
+      entity_id: sensor.server_rack_ups_status_data
+      to: 'OL CHRG'
+      from: 'OB DISCHRG'
+  action:
+    - service: notify.mobile_app_alexs_iphone
+      data:
+        title: "Server Rack"
+        message: >-
+          {% if is_state('sensor.server_rack_ups_status_data', 'OL') %}
+            The UPS is online and fully charged.
+          {% elif is_state('sensor.server_rack_ups_status_data', 'OL CHRG') %}
+            The UPS is back online and charging.
+          {% endif %}
+        data:
+          push:
+            thread-id: "ha-server-group"
+            sound: "gesture.wav"
 
 
 ##############################################################
