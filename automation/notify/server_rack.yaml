@@ -82,11 +82,10 @@
         minutes: 5
   # Prevent trigger when loading automations
   condition:
-    - condition: state
-      entity_id: automation.notify_overwatch_normal_cpu_temp
-      state: 'on'
-      for:
-        minutes: 10
+    - condition: template
+      value_template: "{{ trigger.from_state is not none }}"
+    - condition: template
+      value_template: "{{ trigger.from_state.state is number }}"
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
@@ -155,11 +154,10 @@
         minutes: 5
   # Prevent trigger when loading automations
   condition:
-    - condition: state
-      entity_id: automation.notify_woodhouse_normal_cpu_temp
-      state: 'on'
-      for:
-        minutes: 10
+    - condition: template
+      value_template: "{{ trigger.from_state is not none }}"
+    - condition: template
+      value_template: "{{ trigger.from_state.state is number }}"
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
