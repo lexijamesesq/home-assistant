@@ -5,12 +5,6 @@
 # Direct Scenes ##############################################
 # Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
-scene_den_morning_mid:
-  alias: Scene Den Morning Mid
-  sequence:
-    - service: script.turn_on
-      entity_id: script.scene_den_neutral_low
-
 scene_den_morning_low:
   alias: Scene Den Morning Low
   sequence:
@@ -19,12 +13,6 @@ scene_den_morning_low:
 
 scene_den_day_high:
   alias: Scene Den Day High
-  sequence:
-    - service: light.turn_off
-      entity_id: light.den_lights
-
-scene_den_day_mid:
-  alias: Scene Den Day Mid
   sequence:
     - service: light.turn_off
       entity_id: light.den_lights

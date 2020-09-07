@@ -8,14 +8,10 @@ update_lights:
     - service: script.turn_on
       data_template:
         entity_id: >
-          {% set time                = as_timestamp(now()) | timestamp_custom("%H:%M") %}
-          {% set sleep_mode          = is_state("input_boolean.mode_sleep", "on") %}
-          {% set prefer_weekday_low  = states.sensor.prefer_weekday_lighting_low.state %}
-          {% set prefer_weekday_mid  = states.sensor.prefer_weekday_lighting_mid.state %}
-          {% set prefer_weekday_high = states.sensor.prefer_weekday_lighting_high.state %}
-          {% set prefer_weekend_low  = states.sensor.prefer_weekend_lighting_low.state %}
-          {% set prefer_weekend_mid  = states.sensor.prefer_weekend_lighting_mid.state %}
-          {% set prefer_weekend_high = states.sensor.prefer_weekend_lighting_high.state %}
+          {% set time        = as_timestamp(now()) | timestamp_custom("%H:%M") %}
+          {% set prefer_low  = states.sensor.prefer_lighting_low.state %}
+          {% set prefer_mid  = states.sensor.prefer_lighting_mid.state %}
+          {% set prefer_high = states.sensor.prefer_lighting_high.state %}
 
           {% set ht_lights = ["kitchen", "living_room", "living_room_tv", "rec_room_tiles"] %}
           {% set ambient_lights = ["living_room_tv", "rec_room_tiles", "bedroom_tiles", "den_cabinets"] %}
@@ -32,28 +28,12 @@ update_lights:
             {% set ht = "" %}
           {% endif %}
 
-          {% if is_state('input_boolean.mode_night', 'on') %}
-            {% set weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday"] %}
+          {% if time >= prefer_low or time <= prefer_high %}
+            {% set brightness = "_low" %}
+          {% elif time >= prefer_mid %}
+            {% set brightness = "_mid" %}
           {% else %}
-            {% set weekday = ["monday", "tuesday", "wednesday", "thursday", "friday"] %}
-          {% endif %}
-
-          {% if now().strftime("%A")|lower in weekday %}
-            {% if time >= prefer_weekday_low or time <= prefer_weekday_high %}
-              {% set brightness = "_low" %}
-            {% elif time >= prefer_weekday_mid or time <= prefer_weekday_high %}
-              {% set brightness = "_mid" %}
-            {% else %}
-              {% set brightness = "_mid" if trigger is defined else "_high" %}
-            {% endif %}
-          {% else %}
-            {% if time >= prefer_weekend_low or time <= prefer_weekend_high %}
-              {% set brightness = "_low" %}
-            {% elif time >= prefer_weekend_mid or time <= prefer_weekend_high %}
-              {% set brightness = "_mid" %}
-            {% else %}
-              {% set brightness = "_mid" if trigger is defined else "_high" %}
-            {% endif %}
+            {% set brightness = "_mid" if trigger is defined else "_high" %}
           {% endif %}
 
           {% set list = lights.split(',') %}

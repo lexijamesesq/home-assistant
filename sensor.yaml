@@ -1508,44 +1508,28 @@
 # Preferred Lighting Time Sensors
 - platform: template
   sensors:
-    prefer_weekday_lighting_low:
-      friendly_name: Prefer Weekday Lighting Low Time
-      value_template: '21:00'
-    prefer_weekday_lighting_mid:
-      friendly_name: Prefer Weekday Lighting Mid Time
+    prefer_lighting_low:
+      friendly_name: Prefer Lighting Low Time
+      entity_id: sensor.date
+      # 9:00pm on weekdays, 10:00pm on weekends
+      value_template: "{{ '21:00' if now().strftime('%A')|lower in ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday'] else '22:00' }}"
+    prefer_lighting_mid:
+      friendly_name: Prefer Lighting Mid Time
       entity_id:
-       - sensor.date
-       - sensor.prefer_weekday_lighting_low
-       - sensor.suncalc_sunsetstart
+        - sensor.date
+        - sensor.prefer_lighting_low
+        - sensor.suncalc_sunsetstart
+      # Half way between Night Mode and Prefer Low
       value_template: >-
-        {% set time   = as_timestamp(now()) | timestamp_custom("%H:%M") %}
-        {% set today  = as_timestamp(now()) | timestamp_custom('%Y-%m-%d') %}
-        {% set sunset = as_timestamp(today ~ " " ~ states.sensor.suncalc_sunsetstart.state) %}
-        {% set prefer_weekday_low = states.sensor.prefer_weekday_lighting_low.state %}
-        {{ (((as_timestamp(today ~ " " ~ prefer_weekday_low) - sunset) / 2) + sunset) | timestamp_custom("%H:%M") }}
-    prefer_weekday_lighting_high:
-      friendly_name: Prefer Weekday Lighting High Time
+        {%- set today      = as_timestamp(now()) | timestamp_custom('%Y-%m-%d') -%}
+        {%- set sunset     = as_timestamp(today ~ " " ~ states('sensor.suncalc_sunsetstart')) -%}
+        {%- set prefer_low = states('sensor.prefer_lighting_low') -%}
+        {{- (((as_timestamp(today ~ " " ~ prefer_low) - sunset) / 2) + sunset) | timestamp_custom("%H:%M") }}
+    prefer_lighting_high:
+      friendly_name: Prefer Lighting High Time
       entity_id: sensor.suncalc_goldenhourend
-      value_template: '{{ states("sensor.suncalc_goldenhourend") }}'
-    prefer_weekend_lighting_low:
-      friendly_name: Prefer Weekend Lighting Low Time
-      value_template: '22:00'
-    prefer_weekend_lighting_mid:
-      friendly_name: Prefer Weekend Lighting Mid Time
-      entity_id:
-       - sensor.date
-       - sensor.prefer_weekend_lighting_low
-       - sensor.suncalc_sunsetstart
-      value_template: >-
-        {% set time   = as_timestamp(now()) | timestamp_custom("%H:%M") %}
-        {% set today  = as_timestamp(now()) | timestamp_custom('%Y-%m-%d') %}
-        {% set sunset = as_timestamp(today ~ " " ~ states.sensor.suncalc_sunsetstart.state) %}
-        {% set prefer_weekend_low = states.sensor.prefer_weekend_lighting_low.state %}
-        {{ (((as_timestamp(today ~ " " ~ prefer_weekend_low) - sunset) / 2) + sunset) | timestamp_custom("%H:%M") }}
-    prefer_weekend_lighting_high:
-      friendly_name: Prefer Weekend Lighting High Time
-      entity_id: sensor.suncalc_goldenhourend
-      value_template: '{{ states("sensor.suncalc_goldenhourend") }}'
+      # Same as Day Mode
+      value_template: "{{ states('sensor.suncalc_goldenhourend') }}"
 
 
 # Preferred Lighting Time Sensors - Display
@@ -1553,28 +1537,16 @@
   sensors:
     dashboard_prefer_lighting_low:
       friendly_name: Prefer Lighting Low Time
-      entity_id:
-        - sensor.prefer_weekday_lighting_low
-        - sensor.prefer_weekend_lighting_low
-      value_template: >-
-        {% set day = "weekday" if now().strftime("%A")|lower in ["sunday", "monday", "tuesday", "wednesday", "thursday"] else "weekend" %}
-        {{ as_timestamp(states("sensor.date") + " " + states("sensor.prefer_" ~ day ~ "_lighting_low")) | timestamp_custom("%-I:%M %p") }}
+      entity_id: sensor.prefer_lighting_low
+      value_template: "{{ as_timestamp(states('sensor.date') + ' ' + states('sensor.prefer_lighting_low')) | timestamp_custom('%-I:%M %p') }}"
     dashboard_prefer_lighting_mid:
       friendly_name: Prefer Lighting Mid Time
-      entity_id:
-        - sensor.prefer_weekday_lighting_mid
-        - sensor.prefer_weekend_lighting_mid
-      value_template: >-
-        {% set day = "weekday" if now().strftime("%A")|lower in ["sunday", "monday", "tuesday", "wednesday", "thursday"] else "weekend" %}
-        {{ as_timestamp(states("sensor.date") + " " + states("sensor.prefer_" ~ day ~ "_lighting_mid")) | timestamp_custom("%-I:%M %p") }}
+      entity_id: sensor.prefer_lighting_mid
+      value_template: "{{ as_timestamp(states('sensor.date') + ' ' + states('sensor.prefer_lighting_mid')) | timestamp_custom('%-I:%M %p') }}"
     dashboard_prefer_lighting_high:
       friendly_name: Prefer Lighting High Time
-      entity_id:
-        - sensor.prefer_weekday_lighting_high
-        - sensor.prefer_weekend_lighting_high
-      value_template: >-
-        {% set day = "weekday" if now().strftime("%A")|lower in ["sunday", "monday", "tuesday", "wednesday", "thursday"] else "weekend" %}
-        {{ as_timestamp(states("sensor.date") + " " + states("sensor.prefer_" ~ day ~ "_lighting_high")) | timestamp_custom("%-I:%M %p") }}
+      entity_id: sensor.prefer_lighting_high
+      value_template: "{{ as_timestamp(states('sensor.date') + ' ' + states('sensor.prefer_lighting_high')) | timestamp_custom('%-I:%M %p') }}"
 
 
 # Nest Sleep Mode Temperatures
