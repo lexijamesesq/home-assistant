@@ -436,7 +436,7 @@
       entity_id: input_boolean.motion_bedroom_closet
       to: 'on'
     - platform: state
-      entity_id: binary_sensor.bedroom_closet_door_sensor
+      entity_id: input_boolean.motion_bedroom_closet
       to: 'on'
   condition:
     condition: state
@@ -448,7 +448,7 @@
 - alias: Bedroom Closet Lighting on Door Close
   trigger:
     - platform: state
-      entity_id: binary_sensor.bedroom_closet_door_sensor
+      entity_id: input_boolean.motion_bedroom_closet
       to: 'off'
   condition:
     condition: state
