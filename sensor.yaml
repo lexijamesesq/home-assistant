@@ -1651,39 +1651,39 @@
       friendly_name: Stream Count (Transcode)
       entity_id:
         - sensor.tautulli
-      value_template: '{{ states.sensor.tautulli.attributes["stream_count_transcode"] }}'
+      value_template: '{{ state_attr("sensor.tautulli", "stream_count_transcode") }}'
     tautulli_direct_plays:
       friendly_name: Stream Count (Direct Play)
       entity_id:
         - sensor.tautulli
-      value_template: '{{ states.sensor.tautulli.attributes["stream_count_direct_play"] }}'
+      value_template: '{{ state_attr("sensor.tautulli", "stream_count_direct_play") }}'
     tautulli_direct_streams:
       friendly_name: Stream Count (Direct Stream)
       entity_id:
         - sensor.tautulli
-      value_template: '{{ states.sensor.tautulli.attributes["stream_count_direct_stream"] }}'
+      value_template: '{{ state_attr("sensor.tautulli", "stream_count_direct_stream") }}'
     tautulli_total_streams:
       friendly_name: Stream Count
       entity_id:
         - sensor.tautulli
-      value_template: '{{ states.sensor.tautulli.attributes["stream_count"] }}'
+      value_template: '{{ state_attr("sensor.tautulli", "stream_count") }}'
     tautulli_wan_bandwidth:
       friendly_name: WAN Bandwidth
       entity_id:
         - sensor.tautulli
-      value_template: '{{ ((states.sensor.tautulli.attributes["wan_bandwidth"] / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
+      value_template: '{{ ((state_attr("sensor.tautulli", "wan_bandwidth") / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
       unit_of_measurement: "Mbps"
     tautulli_lan_bandwidth:
       friendly_name: LAN Bandwidth
       entity_id:
         - sensor.tautulli
-      value_template: '{{ ((states.sensor.tautulli.attributes["lan_bandwidth"] / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
+      value_template: '{{ ((state_attr("sensor.tautulli", "lan_bandwidth") / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
       unit_of_measurement: "Mbps"
     tautulli_total_bandwidth:
       friendly_name: Total Bandwidth
       entity_id:
         - sensor.tautulli
-      value_template: '{{ ((states.sensor.tautulli.attributes["total_bandwidth"] / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
+      value_template: '{{ ((state_attr("sensor.tautulli", "total_bandwidth") / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
       unit_of_measurement: "Mbps"
     # Tautulli User 1
     tautulli_user1:
