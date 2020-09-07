@@ -6,20 +6,8 @@
 # Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 # Conditions omitted where lights change scene without changing states
-scene_living_room_morning_mid:
-  alias: Scene Living Room Morning Mid
-  sequence:
-    - service: light.turn_off
-      entity_id: light.living_room
-
 scene_living_room_morning_low:
   alias: Scene Living Room Morning Low
-  sequence:
-    - service: light.turn_off
-      entity_id: light.living_room
-
-scene_living_room_morning_ht_on_mid:
-  alias: Scene Living Room Morning HT On Mid
   sequence:
     - service: light.turn_off
       entity_id: light.living_room
@@ -29,17 +17,6 @@ scene_living_room_morning_ht_on_low:
   sequence:
     - service: light.turn_off
       entity_id: light.living_room
-
-scene_living_room_morning_ht_playing_mid:
-  alias: Scene Living Room Morning HT Playing Mid
-  sequence:
-    - service: light.turn_off
-      entity_id:
-        - light.downstairs_hallway
-        - light.main_stairs
-        - light.living_room
-      data:
-        transition: 5
 
 scene_living_room_morning_ht_playing_low:
   alias: Scene Living Room Morning HT Playing Low
@@ -61,26 +38,8 @@ scene_living_room_day_high:
     - service: light.turn_off
       entity_id: light.living_room
 
-scene_living_room_day_mid:
-  alias: Scene Living Room Day Mid
-  sequence:
-    - condition: state
-      entity_id: light.living_room
-      state: 'on'
-    - service: light.turn_off
-      entity_id: light.living_room
-
 scene_living_room_day_ht_on_high:
   alias: Scene Living Room Day HT On High
-  sequence:
-    - condition: state
-      entity_id: light.living_room
-      state: 'on'
-    - service: light.turn_off
-      entity_id: light.living_room
-
-scene_living_room_day_ht_on_mid:
-  alias: Scene Living Room Day HT On Mid
   sequence:
     - condition: state
       entity_id: light.living_room
@@ -97,21 +56,12 @@ scene_living_room_day_ht_playing_high:
     - service: light.turn_off
       entity_id: light.living_room
 
-scene_living_room_day_ht_playing_mid:
-  alias: Scene Living Room Day HT Playing Mid
-  sequence:
-    - condition: state
-      entity_id: light.living_room
-      state: 'on'
-    - service: light.turn_off
-      entity_id: light.living_room
-
 scene_living_room_night_high:
   alias: Scene Living Room Night High
   sequence:
     - service: light.turn_on
       entity_id: light.living_room
-      data:
+      data_template:
         transition: "{{ seconds | default(2) }}"
         brightness: 190
 
@@ -120,7 +70,7 @@ scene_living_room_night_mid:
   sequence:
     - service: light.turn_on
       entity_id: light.living_room
-      data:
+      data_template:
         transition: "{{ seconds | default(2) }}"
         brightness: 120
 
@@ -129,7 +79,7 @@ scene_living_room_night_low:
   sequence:
     - service: light.turn_on
       entity_id: light.living_room
-      data:
+      data_template:
         transition: "{{ seconds | default(2) }}"
         brightness: 50
 
@@ -138,7 +88,7 @@ scene_living_room_night_ht_on_high:
   sequence:
     - service: light.turn_on
       entity_id: light.living_room
-      data:
+      data_template:
         transition: "{{ seconds | default(5) }}"
         brightness: 100
 
@@ -147,7 +97,7 @@ scene_living_room_night_ht_on_mid:
   sequence:
     - service: light.turn_on
       entity_id: light.living_room
-      data:
+      data_template:
         transition: "{{ seconds | default(5) }}"
         brightness: 60
 
@@ -156,7 +106,7 @@ scene_living_room_night_ht_on_low:
   sequence:
     - service: light.turn_on
       entity_id: light.living_room
-      data:
+      data_template:
         transition: "{{ seconds | default(5) }}"
         brightness: 25
 

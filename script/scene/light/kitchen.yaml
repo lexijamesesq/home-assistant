@@ -6,15 +6,6 @@
 # Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 # Conditions omitted where lights change scene without changing states
-scene_kitchen_morning_mid:
-  alias: Scene Kitchen Morning Mid
-  sequence:
-    - service: light.turn_on
-      entity_id: light.kitchen
-      data:
-        transition: 2
-        brightness: 5
-
 scene_kitchen_morning_low:
   alias: Scene Kitchen Morning Low
   sequence:
@@ -24,15 +15,6 @@ scene_kitchen_morning_low:
         transition: 2
         brightness: 3
 
-scene_kitchen_morning_ht_on_mid:
-  alias: Scene Kitchen Morning HT On Mid
-  sequence:
-    - service: light.turn_on
-      entity_id: light.kitchen
-      data:
-        transition: 2
-        brightness: 5
-
 scene_kitchen_morning_ht_on_low:
   alias: Scene Kitchen Morning HT On Low
   sequence:
@@ -41,15 +23,6 @@ scene_kitchen_morning_ht_on_low:
       data:
         transition: 2
         brightness: 3
-
-scene_kitchen_morning_ht_playing_mid:
-  alias: Scene Kitchen Morning HT Playing Mid
-  sequence:
-    - service: light.turn_on
-      entity_id: light.kitchen
-      data:
-        transition: 5
-        brightness: 5
 
 scene_kitchen_morning_ht_playing_low:
   alias: Scene Kitchen Morning HT Playing Low
@@ -69,15 +42,6 @@ scene_kitchen_day_high:
     - service: light.turn_off
       entity_id: light.kitchen
 
-scene_kitchen_day_mid:
-  alias: Scene Kitchen Day Mid
-  sequence:
-    - condition: state
-      entity_id: light.kitchen
-      state: 'on'
-    - service: light.turn_off
-      entity_id: light.kitchen
-
 scene_kitchen_day_ht_on_high:
   alias: Scene Kitchen Day HT On High
   sequence:
@@ -87,26 +51,8 @@ scene_kitchen_day_ht_on_high:
     - service: light.turn_off
       entity_id: light.kitchen
 
-scene_kitchen_day_ht_on_mid:
-  alias: Scene Kitchen Day HT On Mid
-  sequence:
-    - condition: state
-      entity_id: light.kitchen
-      state: 'on'
-    - service: light.turn_off
-      entity_id: light.kitchen
-
 scene_kitchen_day_ht_playing_high:
   alias: Scene Kitchen Day HT Playing High
-  sequence:
-    - condition: state
-      entity_id: light.kitchen
-      state: 'on'
-    - service: light.turn_off
-      entity_id: light.kitchen
-
-scene_kitchen_day_ht_playing_mid:
-  alias: Scene Kitchen Day HT Playing Mid
   sequence:
     - condition: state
       entity_id: light.kitchen
@@ -128,7 +74,7 @@ scene_kitchen_night_mid:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data:
+      data_template:
         transition: "{{ seconds | default(2) }}"
         brightness: 90
 
@@ -137,7 +83,7 @@ scene_kitchen_night_low:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data:
+      data_template:
         transition: "{{ seconds | default(2) }}"
         brightness: 35
 
@@ -146,7 +92,7 @@ scene_kitchen_night_ht_on_high:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data:
+      data_template:
         transition: "{{ seconds | default(2) }}"
         brightness: 145
 
@@ -155,7 +101,7 @@ scene_kitchen_night_ht_on_mid:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data:
+      data_template:
         transition: "{{ seconds | default(2) }}"
         brightness: 90
 
@@ -164,7 +110,7 @@ scene_kitchen_night_ht_on_low:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data:
+      data_template:
         transition: "{{ seconds | default(2) }}"
         brightness: 35
 
@@ -173,7 +119,7 @@ scene_kitchen_night_ht_playing_high:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data:
+      data_template:
         transition: "{{ seconds | default(5) }}"
         brightness: 75
 
@@ -182,7 +128,7 @@ scene_kitchen_night_ht_playing_mid:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data:
+      data_template:
         transition: "{{ seconds | default(5) }}"
         brightness: 10
 
@@ -191,6 +137,6 @@ scene_kitchen_night_ht_playing_low:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data:
+      data_template:
         transition: "{{ seconds | default(5) }}"
         brightness: 5

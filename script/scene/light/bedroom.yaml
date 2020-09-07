@@ -50,12 +50,6 @@ scene_bedroom_wakeup:
 # Direct Scenes ##############################################
 # Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
-scene_bedroom_morning_mid:
-  alias: Scene Bedroom Morning Mid
-  sequence:
-    - service: script.turn_on
-      entity_id: script.scene_bedroom_neutral_low
-
 scene_bedroom_morning_low:
   alias: Scene Bedroom Morning Low
   sequence:
@@ -63,24 +57,6 @@ scene_bedroom_morning_low:
       entity_id: script.scene_bedroom_neutral_low
 
 scene_bedroom_day_high:
-  alias: Scene Bedroom Day High
-  sequence:
-    - choose:
-        # Late Wake Up
-        - conditions:
-            - condition: state
-              entity_id: input_boolean.mode_sleep
-              state: 'off'
-            - condition: template
-              value_template: "{{ as_timestamp(now()) < (as_timestamp(states.input_boolean.mode_sleep.last_changed) + (60 * 5)) }}"
-          sequence:
-            - service: script.turn_on
-              entity_id: script.scene_bedroom_neutral_low
-      default:
-        - service: script.turn_on
-          entity_id: script.scene_bedroom_off
-
-scene_bedroom_day_mid:
   alias: Scene Bedroom Day High
   sequence:
     - choose:
