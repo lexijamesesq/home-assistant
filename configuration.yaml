@@ -369,58 +369,6 @@ google:
   track_new_calendar: true
 
 
-konnected:
-  access_token: !secret konnected_access_token
-  api_host: !secret konnected_api_host
-  devices:
-    - id: !secret konnected_main_device_id
-      host: !secret konnected_main_host
-      port: !secret konnected_main_port
-      discovery: false
-      binary_sensors:
-        - zone: 1
-          type: motion
-          name: !secret konnected_main_zone1_name
-        - zone: 2
-          type: door
-          name: !secret konnected_main_zone2_name
-        - zone: 3
-          type: door
-          name: !secret konnected_main_zone3_name
-        - zone: 4
-          type: window
-          name: !secret konnected_main_zone4_name
-        - zone: 5
-          type: door
-          name: !secret konnected_main_zone5_name
-        - zone: 6
-          type: window
-          name: !secret konnected_main_zone6_name
-    - id: !secret konnected_addon_device_id
-      host: !secret konnected_addon_host
-      port: !secret konnected_addon_port
-      discovery: false
-      binary_sensors:
-        - zone: 1
-          type: motion
-          name: !secret konnected_addon_zone1_name
-        - zone: 2
-          type: window
-          name: !secret konnected_addon_zone2_name
-        - zone: 3
-          type: window
-          name: !secret konnected_addon_zone3_name
-        - zone: 4
-          type: door
-          name: !secret konnected_addon_zone4_name
-        - zone: 5
-          type: window
-          name: !secret konnected_addon_zone5_name
-        - zone: 6
-          type: window
-          name: !secret konnected_addon_zone6_name
-
-
 cover:
   - platform: template
     covers:
