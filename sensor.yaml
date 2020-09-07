@@ -18,14 +18,6 @@
 - platform: uptime
   unit_of_measurement: minutes
 
-# Sonarr
-- platform: sonarr_upcoming_media
-  api_key: !secret sonarr_api_key
-  host: !secret sonarr_host
-  port: !secret sonarr_port
-  days: 7
-  max: 10
-
 # Tautulli
 - platform: tautulli
   api_key: !secret tautulli_api_key
