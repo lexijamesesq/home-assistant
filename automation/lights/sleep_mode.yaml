@@ -23,7 +23,7 @@
   action:
     - service: script.turn_on
       entity_id: script.update_lights
-      data_template:
+      data:
         variables:
           lights: 'rec_room_tiles,bedroom_tiles,bedroom,den,den_cabinets'
 
@@ -36,8 +36,11 @@
       entity_id: light.bedroom_lights
       state: 'on'
   action:
-    - service: light.turn_off
-      entity_id: light.bedroom_lights
+    - service: script.turn_on
+      entity_id: script.update_lights
+      data:
+        variables:
+          lights: 'bedroom'
 
 - alias: Sleep Mode Lights On When Patio Door Opens
   trigger:
