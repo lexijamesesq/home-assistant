@@ -83,23 +83,16 @@
   action:
     - service: media_player.volume_set
       data_template:
-        entity_id: >-
-          {% set players = ["sonos_kitchen", "sonos_bedroom", "sonos_bathroom"] %}
-          {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.28 -%}
-            {{ 'media_player.' ~ player }}
-            {%- if not loop.last -%}
-              ,
-            {%- endif %}
-          {%- endfor %}
+        entity_id:
+          - media_player.sonos_kitchen
+          - media_player.sonos_bedroom
+          - media_player.sonos_bathroom
         volume_level: >-
-          {% set players = ["sonos_kitchen", "sonos_bedroom", "sonos_bathroom"] %}
-          {% for player in players if state_attr('media_player.' ~ player, 'volume_level') < 0.28 -%}
-            {%- if loop.first -%}
-              {{ state_attr('media_player.' ~ player, 'volume_level') + 0.01 }}
-            {%- else -%}
-              {{ state_attr('media_player.' ~ player, 'volume_level') }}
-            {%- endif %}
-          {%- endfor %}
+          {% if state_attr(states('sensor.sonos_group_master'), 'volume_level') < 0.28 -%}
+            {{ state_attr(states('sensor.sonos_group_master'), 'volume_level') + 0.01 }}
+          {%- else -%}
+            {{ state_attr(states('sensor.sonos_group_master'), 'volume_level') }}
+          {%- endif %}
 
 - alias: Sonos Group Restore Default Settings - Weekday
   trigger:
