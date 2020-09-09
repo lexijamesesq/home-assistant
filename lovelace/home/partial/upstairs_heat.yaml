@@ -16,7 +16,7 @@ tap_action:
   action: navigate
   navigation_path: thermostat
 upper_bound: 85
-lower_bound: 70
+lower_bound: 75
 show:
   name: false
   icon: false
