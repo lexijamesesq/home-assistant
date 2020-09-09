@@ -8,23 +8,29 @@
 scene_upstairs_hallway_group_morning_mid:
   alias: Scene Upstairs Hallway Group Morning Mid
   sequence:
-    - service: light.turn_on
-      entity_id:
-        - light.main_stairs
-        - light.upstairs_hallway
-        - light.bedroom_hallway
-      data:
-        transition: 2
-        brightness: 50
+    - choose:
+        # Just Woke Up
+        - conditions:
+            - condition: state
+              entity_id: input_boolean.mode_sleep
+              state: 'off'
+            - condition: template
+              value_template: "{{ as_timestamp(now()) < (as_timestamp(states.input_boolean.mode_sleep.last_changed) + (60 * 5)) }}"
+          sequence:
+            - service: script.turn_on
+              entity_id: script.scene_upstairs_hallway_group_morning_low
+      default:
+        - service: light.turn_on
+          entity_id: light.upstairs_hallway_group_lights
+          data:
+            transition: 2
+            brightness: 50
 
 scene_upstairs_hallway_group_morning_low:
   alias: Scene Upstairs Hallway Group Morning Low
   sequence:
     - service: light.turn_on
-      entity_id:
-        - light.main_stairs
-        - light.upstairs_hallway
-        - light.bedroom_hallway
+      entity_id: light.upstairs_hallway_group_lights
       data:
         transition: 2
         brightness: 25
@@ -33,10 +39,7 @@ scene_upstairs_hallway_group_day_high:
   alias: Scene Upstairs Hallway Group Day High
   sequence:
     - service: light.turn_on
-      entity_id:
-        - light.main_stairs
-        - light.upstairs_hallway
-        - light.bedroom_hallway
+      entity_id: light.upstairs_hallway_group_lights
       data:
         transition: 2
         brightness: 95
@@ -45,10 +48,7 @@ scene_upstairs_hallway_group_day_mid:
   alias: Scene Upstairs Hallway Group Day Mid
   sequence:
     - service: light.turn_on
-      entity_id:
-        - light.main_stairs
-        - light.upstairs_hallway
-        - light.bedroom_hallway
+      entity_id: light.upstairs_hallway_group_lights
       data:
         transition: 2
         brightness: 45
@@ -57,10 +57,7 @@ scene_upstairs_hallway_group_night_high:
   alias: Scene Upstairs Hallway Group Night High
   sequence:
     - service: light.turn_on
-      entity_id:
-        - light.main_stairs
-        - light.upstairs_hallway
-        - light.bedroom_hallway
+      entity_id: light.upstairs_hallway_group_lights
       data:
         transition: 2
         brightness: 75
@@ -69,10 +66,7 @@ scene_upstairs_hallway_group_night_mid:
   alias: Scene Upstairs Hallway Group Night Mid
   sequence:
     - service: light.turn_on
-      entity_id:
-        - light.main_stairs
-        - light.upstairs_hallway
-        - light.bedroom_hallway
+      entity_id: light.upstairs_hallway_group_lights
       data:
         transition: 2
         brightness: 50
@@ -81,10 +75,7 @@ scene_upstairs_hallway_group_night_low:
   alias: Scene Upstairs Hallway Group Night Low
   sequence:
     - service: light.turn_on
-      entity_id:
-        - light.main_stairs
-        - light.upstairs_hallway
-        - light.bedroom_hallway
+      entity_id: light.upstairs_hallway_group_lights
       data:
         transition: 2
         brightness: 25

@@ -432,7 +432,7 @@ homekit:
       - light.den_lights
       - light.den_cabinets
       - light.bedroom_lights
-      - light.main_stairs_and_upstairs_hallway
+      - light.upstairs_hallway_group_lights
 
 
 ios:

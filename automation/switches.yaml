@@ -261,7 +261,7 @@
             entity_id: script.update_lights
             data:
               variables:
-                lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
+                lights: 'upstairs_hallway_group'
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
@@ -337,7 +337,7 @@
             entity_id: script.update_lights
             data:
               variables:
-                lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
+                lights: 'upstairs_hallway_group'
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
@@ -413,7 +413,7 @@
             entity_id: script.update_lights
             data:
               variables:
-                lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
+                lights: 'upstairs_hallway_group'
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold

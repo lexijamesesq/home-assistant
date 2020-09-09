@@ -310,7 +310,7 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'main_stairs,upstairs_hallway,bedroom_hallway'
+          lights: 'upstairs_hallway_group'
           trigger: motion
     - service: homeassistant.turn_on
       entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
