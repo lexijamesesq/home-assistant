@@ -500,4 +500,3 @@ scene: !include scene.yaml
 script: !include_dir_merge_named script/
 sensor: !include sensor.yaml
 shell_command: !include shell_command.yaml
-switch: !include switch.yaml

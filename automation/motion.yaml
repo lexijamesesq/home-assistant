@@ -8,7 +8,7 @@
       entity_id: binary_sensor.garage_motion_sensor
       to: "on"
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_garage
 - alias: Motion Ended in Garage
   trigger:
@@ -16,7 +16,7 @@
       entity_id: binary_sensor.garage_motion_sensor
       to: "off"
   action:
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.motion_garage
 
 
@@ -30,7 +30,7 @@
       entity_id: binary_sensor.garage_stairs_multisensor_sensor
       to: "on"
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_garage_stairs
 - alias: Motion Ended in Garage Stairs
   trigger:
@@ -38,7 +38,7 @@
       entity_id: binary_sensor.garage_stairs_multisensor_sensor
       to: "off"
   action:
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.motion_garage_stairs
 
 
@@ -52,7 +52,7 @@
       entity_id: binary_sensor.motion_front_door
       to: "on"
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_front_door
 - alias: Motion Ended at Front Door Motion Ended
   trigger:
@@ -62,7 +62,7 @@
       for:
         minutes: 2
   action:
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.motion_front_door
 
 
@@ -76,7 +76,7 @@
       entity_id: binary_sensor.downstairs_hallway_multisensor_sensor
       to: "on"
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_downstairs_hallway
 - alias: Motion Ended in Downstairs Hallway
   trigger:
@@ -84,7 +84,7 @@
       entity_id: binary_sensor.downstairs_hallway_multisensor_sensor
       to: "off"
   action:
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.motion_downstairs_hallway
 
 
@@ -98,7 +98,7 @@
       entity_id: binary_sensor.den_multisensor_sensor
       to: "on"
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_den_hallway
 - alias: Motion Ended in Den Hallway
   trigger:
@@ -106,7 +106,7 @@
       entity_id: binary_sensor.den_multisensor_sensor
       to: "off"
   action:
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.motion_den_hallway
 
 
@@ -120,7 +120,7 @@
       entity_id: binary_sensor.bedroom_closet_trisensor_sensor
       to: "on"
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_bedroom_closet
 - alias: Motion Ended in Bedroom Closet
   trigger:
@@ -128,7 +128,7 @@
       entity_id: binary_sensor.bedroom_closet_trisensor_sensor
       to: "off"
   action:
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.motion_bedroom_closet
 
 
@@ -142,7 +142,7 @@
       entity_id: binary_sensor.living_room_motion_sensor
       to: "on"
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_living_room
 - alias: Motion Ended in Living Room
   trigger:
@@ -152,7 +152,7 @@
       for:
         minutes: 2
   action:
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.motion_living_room
 
 
@@ -166,7 +166,7 @@
       entity_id: binary_sensor.main_stairs_multisensor_sensor
       to: "on"
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_main_stairs
 - alias: Motion Ended in Main Stairs
   trigger:
@@ -174,7 +174,7 @@
       entity_id: binary_sensor.main_stairs_multisensor_sensor
       to: "off"
   action:
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.motion_main_stairs
 
 
@@ -192,7 +192,7 @@
       entity_id: input_boolean.motion_upstairs_hallway
       state: "off"
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_upstairs_hallway
 - alias: Motion Ended in Main Stairs
   trigger:
@@ -202,5 +202,5 @@
       for:
         minutes: 2
   action:
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.motion_upstairs_hallway
