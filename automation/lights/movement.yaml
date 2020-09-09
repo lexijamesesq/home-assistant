@@ -19,7 +19,7 @@
         variables:
           lights: 'garage_stairs'
           trigger: motion
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_garage_stairs_lights
 # Bottom of stairs, triggers Garage Stairs and Downstairs
 # Hallway Lighting to create a more seamless entry
@@ -44,12 +44,12 @@
               garage_stairs
             {%- endif %}
           trigger: door
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.door_trigger_garage_stairs_lights
     - condition: numeric_state
       entity_id: sensor.downstairs_hallway_multisensor_luminance
       below: 5.0
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.door_trigger_downstairs_hallway_lights
 # Transitions from a door to a motion trigger, so lights
 # do not turn out if someone stays in the motion zone.
@@ -63,9 +63,9 @@
     entity_id: input_boolean.door_trigger_garage_stairs_lights
     state: 'on'
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_garage_stairs_lights
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.door_trigger_garage_stairs_lights
 - alias: Garage Stairs Lighting Timed Out
   trigger:
@@ -101,7 +101,7 @@
   action:
     - service: light.turn_off
       entity_id: light.garage_stairs
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id:
         - input_boolean.motion_trigger_garage_stairs_lights
         - input_boolean.door_trigger_garage_stairs_lights
@@ -143,7 +143,7 @@
         variables:
           lights: 'downstairs_hallway'
           trigger: motion
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
 # Front Door triggers Downstairs Hallway Lighting
 - alias: Downstairs Hallway Lighting on Door Open
@@ -178,7 +178,7 @@
         variables:
           lights: 'downstairs_hallway'
           trigger: door
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.door_trigger_downstairs_hallway_lights
 # Transitions from a door to a motion trigger, so lights
 # do not turn out if someone stays in the motion zone.
@@ -192,9 +192,9 @@
     entity_id: input_boolean.door_trigger_downstairs_hallway_lights
     state: 'on'
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.door_trigger_downstairs_hallway_lights
 - alias: Downstairs Hallway Lighting Timed Out
   trigger:
@@ -225,7 +225,7 @@
   action:
     - service: light.turn_off
       entity_id: light.downstairs_hallway
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id:
         - input_boolean.motion_trigger_downstairs_hallway_lights
         - input_boolean.door_trigger_downstairs_hallway_lights
@@ -312,7 +312,7 @@
         variables:
           lights: 'upstairs_hallway_group'
           trigger: motion
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 - alias: Upstairs Hallway Group Lighting Timed Out
   trigger:
@@ -333,7 +333,7 @@
   action:
     - service: light.turn_off
       entity_id: light.upstairs_hallway_group_lights
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
 
@@ -373,7 +373,7 @@
         variables:
           lights: 'den_hallway'
           trigger: motion
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_den_hallway_lights
 - alias: Den Hallway Lighting Timed Out
   trigger:
@@ -394,7 +394,7 @@
   action:
     - service: light.turn_off
       entity_id: light.den_hallway
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.motion_trigger_den_hallway_lights
 
 

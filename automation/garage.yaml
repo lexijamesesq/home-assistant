@@ -15,7 +15,7 @@
   action:
     - service: light.turn_on
       entity_id: light.garage_lights
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_garage_lights
 
 # Garage Lighting on Door Open ###############################
@@ -31,7 +31,7 @@
   action:
     - service: light.turn_on
       entity_id: light.garage_lights
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.door_trigger_garage_lights
 # Separated to add delay on the Garage Door so they do not
 # immmediately turn back on if turned off before entering
@@ -49,7 +49,7 @@
   action:
     - service: light.turn_on
       entity_id: light.garage_lights
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.door_trigger_garage_lights
 
 # Garage Lighting Timed Out ##################################
@@ -65,9 +65,9 @@
       entity_id: input_boolean.door_trigger_garage_lights
       state: 'on'
   action:
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_garage_lights
-    - service: homeassistant.turn_off
+    - service: input_boolean.turn_off
       entity_id: input_boolean.door_trigger_garage_lights
 - alias: Garage Lighting on Gragage Actual Timed Out
   trigger:
@@ -90,7 +90,7 @@
   action:
     - service: light.turn_off
       entity_id: light.garage_lights
-    - service: homeassistant.turn_on
+    - service: input_boolean.turn_on
       entity_id:
         - input_boolean.door_trigger_garage_lights
         - input_boolean.motion_trigger_garage_lights
