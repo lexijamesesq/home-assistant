@@ -11,5 +11,9 @@ sonos_playlist:
       - grid-template-areas: '"i n"'
       - grid-template-columns: min-content 1fr
       - grid-template-rows: min-content
+    img_cell:
+      - background: var(--theme-state-icon-background)
+      - border-radius: 100%
+      - margin-right: 12px
     name:
       - align-self: center
