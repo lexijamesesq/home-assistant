@@ -27,7 +27,6 @@
   action:
     - event: tileboard
       event_data:
-        page: 0
         command: 'screen_off'
 - alias: TileBoard Turn Screen On
   trigger:
@@ -36,5 +35,4 @@
   action:
     - event: tileboard
       event_data:
-        page: 0
         command: 'screen_on'
