@@ -65,6 +65,8 @@ cards:
         name: UniFi Switch 8 - Downstairs
       - entity: sensor.network_unifi_switch_8_upstairs
         name: UniFi Switch 8 - Upstairs
+      - entity: sensor.network_unifi_switch_8_den
+        name: UniFi Switch 8 - Den
       - entity: sensor.network_unifi_ap_downstairs
         name: UniFi AP - Downstairs
       - entity: sensor.network_unifi_ap_upstairs
