@@ -2,7 +2,7 @@ sonos_playlist_two_step_music:
   alias: Sonos Playlist Two-Step Music
   sequence:
     - service: media_player.select_source
-      data_template:
+      data:
         entity_id: '{{ states.sensor.sonos_group_master.state }}'
         source: 'Two-Step Music'
     - service: script.turn_on

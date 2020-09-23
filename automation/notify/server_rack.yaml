@@ -27,7 +27,7 @@
         minutes: 60
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Overwatch"
         message: "Excessive CPU Load for {{ trigger.for }} minutes."
         data:
@@ -60,7 +60,7 @@
         minutes: 60
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Overwatch"
         message: >-
           {%- set level = 'Critical' if states("sensor.overwatch_cpu_temp") | int > 79 else 'Warning' -%}
@@ -130,7 +130,7 @@
         minutes: 60
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Woodhouse"
         message: >-
           {%- set level = 'critical' if states("sensor.woodhouse_cpu1_temp") | int > 79 or states("sensor.woodhouse_cpu2_temp") | int > 79 else 'warning' -%}
@@ -202,7 +202,7 @@
         minutes: 20
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Server Rack"
         message: >-
           {%- if ((as_timestamp(now()) - as_timestamp(states.sensor.server_rack_ups_status_data.last_changed)) / 60) | int < 5 -%}
@@ -314,7 +314,7 @@
 #   action:
 #     - delay: '00:00:05'
 #     - service: notify.mobile_app_alexs_iphone
-#       data_template:
+#       data:
 #         title: 'Cox'
 #         message: >-
 #             Data usage is at {{ states('sensor.cox_data_usage') }}%, resetting in {{ states('sensor.cox_data_resets') }} days.

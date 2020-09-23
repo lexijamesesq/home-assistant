@@ -7,7 +7,7 @@
     value_template: '{{ states.input_select.select_scene_bedroom.state != "Select a scene..." }}'
   action:
     - service: script.turn_on
-      data_template:
+      data:
         entity_id: >
           {% if is_state('input_select.select_scene_bedroom', 'Ambient') %}
             script.scene_select_bedroom_tiles
@@ -34,7 +34,7 @@
     value_template: '{{ states.input_select.select_scene_bathroom.state != "Select a scene..." }}'
   action:
     - service: script.turn_on
-      data_template:
+      data:
         entity_id: >
           {% if is_state('input_select.select_scene_bathroom', 'Auto') %}
             script.scene_select_by_time
@@ -61,7 +61,7 @@
     value_template: '{{ states.input_select.select_scene_kitchen.state != "Select a scene..." }}'
   action:
     - service: script.turn_on
-      data_template:
+      data:
         entity_id: >
           {% if is_state('input_select.select_scene_kitchen', 'Auto') %}
             script.scene_select_by_time
@@ -90,7 +90,7 @@
     value_template: '{{ states.input_select.select_scene_living_room.state != "Select a scene..." }}'
   action:
     - service: script.turn_on
-      data_template:
+      data:
         entity_id: >
           {% if is_state('input_select.select_scene_living_room', 'Ambient') %}
             script.scene_select_living_room_ambient
@@ -117,7 +117,7 @@
     value_template: '{{ states.input_select.select_scene_office.state != "Select a scene..." }}'
   action:
     - service: script.turn_on
-      data_template:
+      data:
         entity_id: >
           {% if is_state('input_select.select_scene_office', 'Auto') %}
             script.scene_select_by_time

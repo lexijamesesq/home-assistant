@@ -8,7 +8,7 @@ sequence:
     entity_id: scene.living_room_home_theater_fade_out
 #  - delay: '00:00:02'
   - service: scene.turn_on
-    data_template:
+    data:
       entity_id: >
         {% if is_state('input_boolean.mode_night', 'on') %}
           scene.living_room_tv_home_theater_playing_at_night

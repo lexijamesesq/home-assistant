@@ -1,7 +1,7 @@
 alias: Select Kitchen Prep Scene
 sequence:
   service: scene.turn_on
-  data_template:
+  data:
     entity_id: >
       {% if is_state('input_boolean.mode_night', 'on') %}
         scene.kitchen_prep_at_night

@@ -65,7 +65,7 @@ scene_kitchen_night_high:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data_template:
+      data:
         transition: "{{ seconds | default(2) }}"
         brightness: 145
 
@@ -74,7 +74,7 @@ scene_kitchen_night_mid:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data_template:
+      data:
         transition: "{{ seconds | default(2) }}"
         brightness: 90
 
@@ -83,7 +83,7 @@ scene_kitchen_night_low:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data_template:
+      data:
         transition: "{{ seconds | default(2) }}"
         brightness: 35
 
@@ -92,7 +92,7 @@ scene_kitchen_night_ht_on_high:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data_template:
+      data:
         transition: "{{ seconds | default(2) }}"
         brightness: 145
 
@@ -101,7 +101,7 @@ scene_kitchen_night_ht_on_mid:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data_template:
+      data:
         transition: "{{ seconds | default(2) }}"
         brightness: 90
 
@@ -110,7 +110,7 @@ scene_kitchen_night_ht_on_low:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data_template:
+      data:
         transition: "{{ seconds | default(2) }}"
         brightness: 35
 
@@ -119,7 +119,7 @@ scene_kitchen_night_ht_playing_high:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data_template:
+      data:
         transition: "{{ seconds | default(5) }}"
         brightness: 75
 
@@ -128,7 +128,7 @@ scene_kitchen_night_ht_playing_mid:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data_template:
+      data:
         transition: "{{ seconds | default(5) }}"
         brightness: 10
 
@@ -137,6 +137,6 @@ scene_kitchen_night_ht_playing_low:
   sequence:
     - service: light.turn_on
       entity_id: light.kitchen
-      data_template:
+      data:
         transition: "{{ seconds | default(5) }}"
         brightness: 5

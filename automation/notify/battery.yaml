@@ -23,15 +23,15 @@
       below: 50
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Condo"
         message: "The {{ trigger.to_state.attributes.friendly_name }} battery is at {{ trigger.to_state.state }}%. A task to replace it has been added to Things."
         data:
           push:
             thread-id: "ha-condo-group"
             sound: "gesture.wav"
-    - service_template: rest_command.things_add_task
-      data_template:
+    - service: rest_command.things_add_task
+      data:
         title: "Replace {{ trigger.to_state.attributes.friendly_name }} Battery"
         when: "Today"
         list: "Maintenance"

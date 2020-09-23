@@ -2,7 +2,7 @@ sonos_group_peloton_settings:
   alias: Sonos Group Settings - Peloton
   sequence:
     - service: media_player.media_pause
-      data_template:
+      data:
         entity_id: '{{ states.sensor.sonos_group_master.state }}'
     - service: sonos.unjoin
       entity_id: media_player.sonos_rec_room

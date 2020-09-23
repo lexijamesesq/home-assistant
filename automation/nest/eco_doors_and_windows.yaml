@@ -111,7 +111,7 @@
         entity_id: climate.downstairs
         preset_mode: 'none'
     - service: climate.set_hvac_mode
-      data_template:
+      data:
         entity_id: climate.downstairs
         hvac_mode: '{{ states("sensor.climate_downstairs_restore_mode") }}'
     - service: climate.set_preset_mode
@@ -119,6 +119,6 @@
         entity_id: climate.upstairs
         preset_mode: 'none'
     - service: climate.set_hvac_mode
-      data_template:
+      data:
         entity_id: climate.upstairs
         hvac_mode: '{{ states("sensor.climate_upstairs_restore_mode") }}'

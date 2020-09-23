@@ -2,7 +2,7 @@ neato_amelia_spot_clean_upstairs_hallway:
   alias: Neato Amelia Spot Clean - Upstairs Hallway
   sequence:
     - service: neato.custom_cleaning
-      data_template:
+      data:
         entity_id: vacuum.amelia
         mode: 1
         navigation: 1

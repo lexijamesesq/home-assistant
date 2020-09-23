@@ -2,7 +2,7 @@ sonos_playlist_west_coast_swing:
   alias: Sonos Playlist West Coast Swing
   sequence:
     - service: media_player.select_source
-      data_template:
+      data:
         entity_id: '{{ states.sensor.sonos_group_master.state }}'
         source: 'West Coast Swing'
     - service: script.turn_on

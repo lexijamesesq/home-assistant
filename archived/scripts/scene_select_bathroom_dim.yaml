@@ -1,14 +1,14 @@
 alias: Select Bathroom Dim Scene
 sequence:
   - service: scene.turn_on
-    data_template:
+    data:
       entity_id: >
         {% if is_state('input_boolean.mode_night', 'on') %}
           scene.bathroom_dim_at_night
         {% else %}
           scene.bathroom_dim
         {% endif %}
-  - service_template: >
+  - service: >
       {% if trigger is defined and trigger == 'motion' %}
         homeassistant.turn_on
       {% else %}

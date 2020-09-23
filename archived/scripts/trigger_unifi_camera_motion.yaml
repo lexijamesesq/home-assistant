@@ -1,12 +1,12 @@
 alias: Trigger UniFi Camera Motion
 sequence:
-  - service_template: >
+  - service: >
       {% if event == 'started' %}
         homeassistant.turn_on
       {% else %}
         homeassistant.turn_off
       {% endif %}
-    data_template:
+    data:
       entity_id: >
         {% if camera_id == 'F09FC2C024EB' %}
           input_boolean.motion_front_door

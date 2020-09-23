@@ -1,7 +1,7 @@
 alias: Select Scene by Time
 sequence:
   service: script.turn_on
-  data_template:
+  data:
     entity_id: >
       {% set weekday = (states('input_number.' ~ room ~ '_prefer_dim_after_weekday') | int) + 12 %}
       {% set weekend = (states('input_number.' ~ room ~ '_prefer_dim_after_weekend') | int) + 12 %}

@@ -6,7 +6,7 @@ update_lights:
     - condition: template
       value_template: "{{ lights is defined }}"
     - service: script.turn_on
-      data_template:
+      data:
         entity_id: >
           {% set time        = as_timestamp(now()) | timestamp_custom("%H:%M") %}
           {% set prefer_low  = states.sensor.prefer_lighting_low.state %}

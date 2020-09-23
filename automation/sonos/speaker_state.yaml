@@ -15,7 +15,7 @@
       value_template: '{{ states.sensor.sonos_group_master.state != "" }}'
   action:
     - service: input_select.select_option
-      data_template:
+      data:
         entity_id: input_select.master_sonos
         option: >-
           {% set master = states.sensor.sonos_group_master.state %}
@@ -40,7 +40,7 @@
       value_template: '{{ states.sensor.sonos_switches_on.state != "" }}'
   action:
     - service: input_boolean.turn_on
-      data_template:
+      data:
         entity_id: '{{states.sensor.sonos_switches_on.state}}'
 - alias: Set Sonos Switches Off
   trigger:
@@ -53,7 +53,7 @@
       value_template: '{{ states.sensor.sonos_switches_off.state != "" }}'
   action:
     - service: input_boolean.turn_off
-      data_template:
+      data:
         entity_id: '{{states.sensor.sonos_switches_off.state}}'
 
 # Toggle Speaker State #######################################
@@ -80,7 +80,7 @@
         {% endif %}
   action:
     - service: script.turn_on
-      data_template:
+      data:
         entity_id: >-
           {% set switch  = trigger.to_state.entity_id %}
           {% if is_state(switch, "on") %}

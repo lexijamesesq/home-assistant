@@ -13,7 +13,7 @@
       state: 'playing'
   action:
     - service: media_player.media_pause
-      data_template:
+      data:
         entity_id: '{{ states.sensor.sonos_group_master.state }}'
 
 

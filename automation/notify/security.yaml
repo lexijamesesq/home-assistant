@@ -26,7 +26,7 @@
       state: 'not_home'
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Condo"
         message: "The {{ trigger.to_state.attributes.friendly_name }} were {% if trigger.to_state.state == 'on' %}opened{% else %}closed{% endif %}."
         data:
@@ -51,7 +51,7 @@
       state: 'off'
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Condo"
         message: "The {{ trigger.to_state.attributes.friendly_name }} was {% if trigger.to_state.state == 'on' %}opened{% else %}closed{% endif %}."
         data:
@@ -71,7 +71,7 @@
       to: 'locked'
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Condo"
         message: >-
           {% if is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual Lock') or is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual Unlock') %}
@@ -103,7 +103,7 @@
       state: 'off'
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Condo"
         message: "The {{ trigger.to_state.attributes.friendly_name }} was {% if trigger.to_state.state == 'open' %}opened{% else %}closed{% endif %}."
         data:
@@ -123,7 +123,7 @@
 #       state: 'home'
 #   action:
 #     - service: notify.mobile_app_alexs_iphone
-#       data_template:
+#       data:
 #         title: "Condo"
 #         message: "Motion detected at the the Front Door."
 #         data:
@@ -168,7 +168,7 @@
         minutes: 10
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Condo"
         message: "The {{ trigger.to_state.attributes.friendly_name }} has been open for {{ trigger.for }} minutes."
         data:
@@ -197,7 +197,7 @@
         minutes: 30
   action:
     service: notify.mobile_app_alexs_iphone
-    data_template:
+    data:
       title: "Condo"
       message: "The {{ trigger.to_state.attributes.friendly_name }} has been open for {{ trigger.for }} minutes."
       data:
@@ -217,7 +217,7 @@
   action:
     - delay: '00:00:02'
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Condo"
         message: >-
           {%- if is_state("lock.august_smart_lock_pro_front_door", "unlocked") -%}
@@ -242,7 +242,7 @@
       state: 'not_home'
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Condo"
         message: "Motion in guest areas has not been detected for 30 minutes. Guest Mode has been turned off."
         data:
@@ -279,7 +279,7 @@
         state: 'not_home'
   action:
     service: notify.mobile_app_alexs_iphone
-    data_template:
+    data:
       title: "Condo"
       message: "The condo has not been secure for 10 minutes."
       data:
@@ -316,7 +316,7 @@
       state: 'on'
   action:
     - service: notify.mobile_app_alexs_iphone
-      data_template:
+      data:
         title: "Condo"
         message: "The {{ trigger.to_state.attributes.friendly_name }} was opened."
         data:

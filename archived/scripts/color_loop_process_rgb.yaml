@@ -2,7 +2,7 @@ alias: Color Loop Process RGB
 sequence:
   - service: script.turn_on
     entity_id: script.color_loop_update_light
-    data_template:
+    data:
       variables:
         light: "{{ light }}"
         brightness: "{{ value }}"

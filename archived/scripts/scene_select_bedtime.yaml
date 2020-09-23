@@ -15,13 +15,13 @@ sequence:
   - service: switch.turn_off
     entity_id: switch.bathroom_lights
   # Don't turn the lights on if they're already on, but if they're on, keep them on
-  - service_template: >
+  - service: >
       {% if is_state('light.bedroom_lights', 'on') %}
         homeassistant.turn_off
       {% else %}
         script.turn_on
       {% endif %}
-    data_template:
+    data:
       entity_id: >
         {% if is_state('light.bedroom_lights', 'on') %}
           input_boolean.motion_trigger_bedroom_lights

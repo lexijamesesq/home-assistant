@@ -1,14 +1,14 @@
 alias: Select Den Hallway Dim Scene
 sequence:
   - service: scene.turn_on
-    data_template:
+    data:
       entity_id: >
         {% if is_state('input_boolean.mode_night', 'on') %}
           scene.den_hallway_dim_at_night
         {% else %}
           scene.den_hallway_dim
         {% endif %}
-  - service_template: >
+  - service: >
       {% if trigger is defined and trigger == 'motion' %}
         homeassistant.turn_on
       {% else %}

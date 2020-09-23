@@ -1,7 +1,7 @@
 alias: Select Office Dim Scene
 sequence:
   - service: scene.turn_on
-    data_template:
+    data:
       entity_id: >
         {% if is_state('input_boolean.mode_night', 'on') %}
           scene.office_dim_at_night

@@ -9,7 +9,7 @@
       value_template: '{{ states.sensor.date.state != states.input_text.next_pickup_trash.state }}'
   action:
     - service: input_text.set_value
-      data_template:
+      data:
         entity_id: input_text.next_pickup_trash
         value: '{{ as_timestamp(states.calendar.trash.attributes.start_time) | timestamp_custom("%Y-%m-%d") }}'
 
@@ -19,6 +19,6 @@
       value_template: '{{ states.sensor.date.state != states.input_text.next_pickup_recycling.state }}'
   action:
     - service: input_text.set_value
-      data_template:
+      data:
         entity_id: input_text.next_pickup_recycling
         value: '{{ as_timestamp(states.calendar.recycling.attributes.start_time) | timestamp_custom("%Y-%m-%d") }}'

@@ -1,7 +1,7 @@
 alias: Color Loop Update Light
 sequence:
   - service: light.turn_on
-    data_template:
+    data:
       entity_id: "{{ light }}"
       rgb_color: ["{{ colors.split(',')[0]|int }}", "{{ colors.split(',')[1]|int }}", "{{ colors.split(',')[2]|int }}"]
       brightness: "{{ brightness }}"

@@ -6,7 +6,7 @@ sequence:
   - service: script.turn_off
     entity_id: script.scene_select_kitchen_home_theater_restore
   - service: scene.turn_on
-    data_template:
+    data:
       entity_id: >
         {% if is_state('input_boolean.mode_night', 'on') %}
           scene.kitchen_home_theater_at_night

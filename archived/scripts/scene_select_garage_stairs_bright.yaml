@@ -1,14 +1,14 @@
 alias: Select Garage Stairs Bright Scene
 sequence:
   - service: scene.turn_on
-    data_template:
+    data:
       entity_id: >
         {% if is_state('input_boolean.mode_night', 'on') %}
           scene.garage_stairs_bright_at_night
         {% else %}
           scene.garage_stairs_bright
         {% endif %}
-  - service_template: >
+  - service: >
       {% if trigger is defined and trigger == 'motion' %}
         homeassistant.turn_on
       {% else %}

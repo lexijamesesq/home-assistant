@@ -9,7 +9,7 @@
       to: 'on'
   action:
     - service: persistent_notification.create
-      data_template:
+      data:
         title: New Major Version Available
         message: >-
           {% set version = states('sensor.latest_version') %}
@@ -31,7 +31,7 @@
 #     value_template: "{{ trigger.event.data.repository is defined }}"
 #   action:
 #     service: persistent_notification.create
-#     data_template:
+#     data:
 #       title: New repository in HACS
 #       message: >-
 #         {% set repo = trigger.event.data.repository %}
@@ -51,7 +51,7 @@
       value_template: "{{ (states(trigger.entity_id) | float) != 0}}"
   action:
     - service: persistent_notification.create
-      data_template:
+      data:
         title: Updates pending in HACS
         message: >-
           {% for repo in state_attr(trigger.entity_id, 'repositories') %}

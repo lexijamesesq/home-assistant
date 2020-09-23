@@ -82,7 +82,7 @@
             value_template: '{{ state_attr("media_player.sonos_bathroom", "volume_level") < 0.28 }}'
   action:
     - service: media_player.volume_set
-      data_template:
+      data:
         entity_id:
           - media_player.sonos_kitchen
           - media_player.sonos_bedroom
