@@ -11,8 +11,7 @@
     - platform: homeassistant
       event: start
   condition:
-    - condition: template
-      value_template: '{{ states.sensor.sonos_group_master.state != "" }}'
+    - '{{ states.sensor.sonos_group_master.state != "" }}'
   action:
     - service: input_select.select_option
       data:
@@ -36,8 +35,7 @@
     - platform: homeassistant
       event: start
   condition:
-    - condition: template
-      value_template: '{{ states.sensor.sonos_switches_on.state != "" }}'
+    - '{{ states.sensor.sonos_switches_on.state != "" }}'
   action:
     - service: input_boolean.turn_on
       data:
@@ -49,8 +47,7 @@
     - platform: homeassistant
       event: start
   condition:
-    - condition: template
-      value_template: '{{ states.sensor.sonos_switches_off.state != "" }}'
+    - '{{ states.sensor.sonos_switches_off.state != "" }}'
   action:
     - service: input_boolean.turn_off
       data:

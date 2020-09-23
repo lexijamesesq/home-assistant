@@ -33,8 +33,7 @@
     choose:
       # Double Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: switch.turn_on
             entity_id: switch.patio_string_lights
@@ -51,8 +50,7 @@
     choose:
       # Double Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: switch.turn_off
             entity_id: switch.patio_string_lights
@@ -74,15 +72,13 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_lights
@@ -99,15 +95,13 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_lights
@@ -129,15 +123,13 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_stairs_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_stairs_lights
@@ -154,15 +146,13 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_stairs_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_stairs_lights
@@ -184,8 +174,7 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id:
@@ -193,8 +182,7 @@
               - input_boolean.door_trigger_downstairs_hallway_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id:
@@ -213,8 +201,7 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id:
@@ -222,8 +209,7 @@
               - input_boolean.door_trigger_downstairs_hallway_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id:
@@ -247,15 +233,13 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: script.turn_on
             entity_id: script.update_lights
@@ -266,8 +250,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -284,15 +267,13 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: light.turn_off
             entity_id: light.upstairs_hallway_group_lights
@@ -300,8 +281,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -323,15 +303,13 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: script.turn_on
             entity_id: script.update_lights
@@ -342,8 +320,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -360,15 +337,13 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: light.turn_off
             entity_id: light.upstairs_hallway_group_lights
@@ -376,8 +351,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -399,15 +373,13 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: script.turn_on
             entity_id: script.update_lights
@@ -418,8 +390,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -436,15 +407,13 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: light.turn_off
             entity_id: light.upstairs_hallway_group_lights
@@ -452,8 +421,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -475,15 +443,13 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_den_hallway_lights
       # Double Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: script.turn_on
             entity_id: script.update_lights
@@ -492,8 +458,7 @@
                 lights: 'den_cabinets'
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_den_hallway_lights
@@ -510,22 +475,19 @@
     choose:
       # Single Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.scene_data == 7680 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_den_hallway_lights
       # Double Tap
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.scene_data == 7860 }}'
         sequence:
           - service: light.turn_off
             entity_id: light.den_cabinets
       # Hold
       - conditions:
-          - condition: template
-            value_template: '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.scene_data == 7740 }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_den_hallway_lights

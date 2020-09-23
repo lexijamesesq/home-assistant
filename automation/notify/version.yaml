@@ -27,8 +27,7 @@
 #     event_data:
 #       action: registration
 #   condition:
-#     condition: template
-#     value_template: "{{ trigger.event.data.repository is defined }}"
+#     - '{{ trigger.event.data.repository is defined }}'
 #   action:
 #     service: persistent_notification.create
 #     data:
@@ -45,10 +44,8 @@
     - platform: state
       entity_id: sensor.hacs
   condition:
-    - condition: template
-      value_template: "{{ states(trigger.entity_id) != 'unknown'}}"
-    - condition: template
-      value_template: "{{ (states(trigger.entity_id) | float) != 0}}"
+    - '{{ states(trigger.entity_id) != "unknown"}}'
+    - '{{ (states(trigger.entity_id) | float) != 0}}'
   action:
     - service: persistent_notification.create
       data:

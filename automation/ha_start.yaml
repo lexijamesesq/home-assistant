@@ -12,10 +12,8 @@
     - condition: state
       entity_id: input_boolean.mode_morning
       state: 'off'
-    - condition: template
-      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
-    - condition: template
-      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
   action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.mode_morning
@@ -31,10 +29,8 @@
         state: 'on'
       - condition: or
         conditions:
-          - condition: template
-            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
-          - condition: template
-            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.mode_morning
@@ -49,10 +45,8 @@
     - condition: state
       entity_id: input_boolean.mode_day
       state: 'off'
-    - condition: template
-      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
-    - condition: template
-      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
   action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.mode_day
@@ -68,10 +62,8 @@
         state: 'on'
       - condition: or
         conditions:
-          - condition: template
-            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
-          - condition: template
-            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.mode_day
@@ -86,10 +78,8 @@
     - condition: state
       entity_id: input_boolean.mode_sunset
       state: 'off'
-    - condition: template
-      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
-    - condition: template
-      value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
   action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.mode_sunset
@@ -105,10 +95,8 @@
         state: 'on'
       - condition: or
         conditions:
-          - condition: template
-            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
-          - condition: template
-            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.mode_sunset
@@ -127,10 +115,8 @@
         state: 'off'
       - condition: or
         conditions:
-          - condition: template
-            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
-          - condition: template
-            value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
   action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.mode_night
@@ -144,10 +130,8 @@
       - condition: state
         entity_id: input_boolean.mode_night
         state: 'on'
-      - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
-      - condition: template
-        value_template: '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
+      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
+      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.mode_night
