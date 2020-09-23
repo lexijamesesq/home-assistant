@@ -82,10 +82,8 @@
         minutes: 5
   # Prevent trigger when loading automations
   condition:
-    - condition: template
-      value_template: "{{ trigger.from_state is not none }}"
-    - condition: template
-      value_template: "{{ trigger.from_state.state is number }}"
+    - '{{ trigger.from_state is not none }}'
+    - '{{ trigger.from_state.state is number }}'
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
@@ -154,10 +152,8 @@
         minutes: 5
   # Prevent trigger when loading automations
   condition:
-    - condition: template
-      value_template: "{{ trigger.from_state is not none }}"
-    - condition: template
-      value_template: "{{ trigger.from_state.state is number }}"
+    - '{{ trigger.from_state is not none }}'
+    - '{{ trigger.from_state.state is number }}'
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
@@ -305,12 +301,9 @@
 #   condition:
 #     condition: and
 #     conditions:
-#       - condition: template
-#         value_template: '{{ not is_state("sensor.cox_data_usage", "unavailable") }}'
-#       - condition: template
-#         value_template: '{{ not is_state("sensor.cox_data_usage", "undefined") }}'
-#       - condition: template
-#         value_template: '{{ states("sensor.cox_data_usage")[:-2] | int > 75 }}'
+#       - '{{ not is_state("sensor.cox_data_usage", "unavailable") }}'
+#       - '{{ not is_state("sensor.cox_data_usage", "undefined") }}'
+#       - '{{ states("sensor.cox_data_usage")[:-2] | int > 75 }}'
 #   action:
 #     - delay: '00:00:05'
 #     - service: notify.mobile_app_alexs_iphone

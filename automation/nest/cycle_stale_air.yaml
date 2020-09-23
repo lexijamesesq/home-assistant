@@ -27,10 +27,8 @@
         - input_boolean.mode_guest
         - group.all_windows
       state: 'off'
-    - condition: template
-      value_template: '{{ state_attr("climate.downstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.downstairs", "preset_mode") | lower == "eco" }}'
-    - condition: template
-      value_template: '{{ state_attr("climate.upstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.upstairs", "preset_mode") | lower == "eco" }}'
+    - '{{ state_attr("climate.downstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.downstairs", "preset_mode") | lower == "eco" }}'
+    - '{{ state_attr("climate.upstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.upstairs", "preset_mode") | lower == "eco" }}'
   action:
     - service: script.turn_on
       entity_id: script.nest_circulate_stale_air

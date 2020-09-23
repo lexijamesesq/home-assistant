@@ -74,12 +74,9 @@
               - sun
       - condition: or
         conditions:
-          - condition: template
-            value_template: '{{ state_attr("media_player.sonos_kitchen", "volume_level") < 0.28 }}'
-          - condition: template
-            value_template: '{{ state_attr("media_player.sonos_bedroom", "volume_level") < 0.28 }}'
-          - condition: template
-            value_template: '{{ state_attr("media_player.sonos_bathroom", "volume_level") < 0.28 }}'
+          - '{{ state_attr("media_player.sonos_kitchen", "volume_level") < 0.28 }}'
+          - '{{ state_attr("media_player.sonos_bedroom", "volume_level") < 0.28 }}'
+          - '{{ state_attr("media_player.sonos_bathroom", "volume_level") < 0.28 }}'
   action:
     - service: media_player.volume_set
       data:

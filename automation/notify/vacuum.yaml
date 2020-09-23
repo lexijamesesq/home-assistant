@@ -8,8 +8,7 @@
       entity_id: vacuum.amelia
       to: 'error'
   condition:
-    - condition: template
-      value_template: "{{ is_state_attr('vacuum.amelia', 'status', 'Dust bin full') }}"
+    - '{{ is_state_attr("vacuum.amelia", "status", "Dust bin full") }}'
   action:
     - service: rest_command.things_add_task
       data:
@@ -22,8 +21,7 @@
       entity_id: vacuum.rory
       to: 'error'
   condition:
-    - condition: template
-      value_template: "{{ is_state_attr('vacuum.rory', 'status', 'Dust bin full') }}"
+    - '{{ is_state_attr("vacuum.rory", "status", "Dust bin full") }}'
   action:
     - service: rest_command.things_add_task
       data:

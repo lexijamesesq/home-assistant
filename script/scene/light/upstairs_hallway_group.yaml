@@ -14,8 +14,7 @@ scene_upstairs_hallway_group_morning_mid:
             - condition: state
               entity_id: input_boolean.mode_sleep
               state: 'off'
-            - condition: template
-              value_template: "{{ as_timestamp(now()) < (as_timestamp(states.input_boolean.mode_sleep.last_changed) + (60 * 5)) }}"
+            - '{{ as_timestamp(now()) < (as_timestamp(states.input_boolean.mode_sleep.last_changed) + (60 * 5)) }}'
           sequence:
             - service: script.turn_on
               entity_id: script.scene_upstairs_hallway_group_morning_low
