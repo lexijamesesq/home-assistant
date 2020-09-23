@@ -61,7 +61,6 @@
 
 # Lock Notifications #########################################
 - alias: Notify Security - Front Door Locked or Unlocked
-  mode: queued
   trigger:
     - platform: state
       entity_id:
