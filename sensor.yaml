@@ -641,6 +641,11 @@
       value_template: >
         {{ ('online' if is_state('device_tracker.unifi_switch_8_upstairs', 'home') else 'offline') | title }}
       icon_template: 'mdi:switch'
+    network_unifi_switch_8_den:
+      friendly_name: UniFi Switch 8 - Den
+      value_template: >
+        {{ ('online' if is_state('device_tracker.unifi_switch_8_den', 'home') else 'offline') | title }}
+      icon_template: 'mdi:switch'
     network_woodhouse:
       friendly_name: Woodhouse
       value_template: >
