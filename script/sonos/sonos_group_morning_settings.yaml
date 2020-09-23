@@ -25,7 +25,7 @@ sonos_group_morning_settings:
       data:
         volume_level: 0.12
     - service: sonos.join
-      data_template:
+      data:
         master: media_player.sonos_kitchen
       entity_id:
         - media_player.sonos_rec_room

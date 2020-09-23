@@ -8,7 +8,7 @@ simulate_presence:
           state: 'on'
       sequence:
         - service: script.turn_on
-          data_template:
+          data:
             entity_id: '{{ states.group.simulate_presence_scenes.attributes.entity_id | random }}'
         - delay: '00:{{ (range(35, 55) | random) }}:00'
         - service: light.turn_off

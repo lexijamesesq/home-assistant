@@ -2,7 +2,7 @@ neato_amelia_spot_clean_bedroom:
   alias: Neato Amelia Spot Clean - Bedroom
   sequence:
     - service: neato.custom_cleaning
-      data_template:
+      data:
         entity_id: vacuum.amelia
         mode: 1
         navigation: 1

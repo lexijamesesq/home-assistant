@@ -2,7 +2,7 @@ neato_rory_spot_clean_rec_room:
   alias: Neato Rory Spot Clean - Rec Room
   sequence:
     - service: neato.custom_cleaning
-      data_template:
+      data:
         entity_id: vacuum.rory
         mode: 1
         navigation: 1

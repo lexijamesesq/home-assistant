@@ -35,7 +35,7 @@
   action:
     - service: script.turn_on
       entity_id: script.update_lights
-      data_template:
+      data:
         variables:
           lights: >
             {% if states.sensor.downstairs_hallway_multisensor_luminance.state | int < 5.0 -%}

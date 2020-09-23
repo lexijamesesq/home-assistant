@@ -101,7 +101,7 @@
   action:
     - service: script.turn_on
       entity_id: script.update_lights
-      data_template:
+      data:
         variables:
           lights: >
             {% set lights = ["kitchen","living_room"] %}

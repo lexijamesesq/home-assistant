@@ -9,7 +9,7 @@
   action:
     - service: climate.set_temperature
       entity_id: climate.downstairs
-      data_template:
+      data:
         temperature: '{{ states("sensor.climate_downstairs_sleep_mode_heat") if is_state("climate.downstairs", "heat") else states("sensor.climate_downstairs_sleep_mode_cool") }}'
     - service: climate.set_temperature
       entity_id: climate.upstairs

@@ -1,7 +1,7 @@
 alias: Select Main Stairs and Upstairs Hallway Bright Scene
 sequence:
   - service: scene.turn_on
-    data_template:
+    data:
       entity_id: >
         {% if is_state('input_boolean.mode_night', 'on') %}
           scene.main_stairs_bright_at_night
@@ -9,7 +9,7 @@ sequence:
           scene.main_stairs_bright
         {% endif %}
   - service: scene.turn_on
-    data_template:
+    data:
       entity_id: >
         {% if is_state('input_boolean.mode_night', 'on') %}
           scene.upstairs_hallway_bright_at_night
@@ -17,14 +17,14 @@ sequence:
           scene.upstairs_hallway_bright
         {% endif %}
   - service: scene.turn_on
-    data_template:
+    data:
       entity_id: >
         {% if is_state('input_boolean.mode_night', 'on') %}
           scene.bedroom_hallway_bright_at_night
         {% else %}
           scene.bedroom_hallway_bright
         {% endif %}
-  - service_template: >
+  - service: >
       {% if trigger is defined and trigger == 'motion' %}
         homeassistant.turn_on
       {% else %}

@@ -2,7 +2,7 @@ sonos_group_update_settings:
   alias: Sonos Group Update Settings
   sequence:
     - service: script.turn_on
-      data_template:
+      data:
         entity_id: >
           {% if as_timestamp(now()) | timestamp_custom("%H:%M") >= "03:00" and as_timestamp(now()) | timestamp_custom("%H:%M") < "11:00" %}
             script.sonos_group_morning_settings

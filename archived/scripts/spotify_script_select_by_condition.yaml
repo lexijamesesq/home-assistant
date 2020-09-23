@@ -1,13 +1,13 @@
 alias: Spotify Script Select by Condition
 sequence:
-  - service_template: >
+  - service: >
       {% if is_state('media_player.spotify', 'playing') %}
         homeassistant.turn_on
       {% else %}
         homeassistant.turn_off
       {% endif %}
     entity_id: input_boolean.spotify_playing
-  - service_template: >
+  - service: >
       {% if is_state_attr('media_player.spotify', 'source', source_requesting) %}
         homeassistant.turn_off
       {% else %}

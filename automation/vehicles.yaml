@@ -21,7 +21,7 @@
 #       state: 'on'
 #   action:
 #     - service: notify.mobile_app_alexs_iphone
-#       data_template:
+#       data:
 #         title: "Octavia"
 #         message: >-
 #           Let's get gas this morning. Only {{ state_attr('device_tracker.octavia', 'fuel_level') | int }}% remaining.

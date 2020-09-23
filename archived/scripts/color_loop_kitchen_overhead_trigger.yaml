@@ -2,7 +2,7 @@ alias: Color Loop Kitchen Overhead Trigger
 sequence:
   - service: script.turn_on
     entity_id: script.color_loop_process_rgb
-    data_template:
+    data:
       variables:
         saturation: 100
         value: 44
