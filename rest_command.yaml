@@ -29,3 +29,13 @@ docker_restart_plex:
 ##############################################################
 things_add_task:
   url: !secret things_add_task
+
+##############################################################
+# Dashboard Tablets
+##############################################################
+bedroom_hallway_dashboard_command:
+  url: !secret bedroom_hallway_dashboard_command
+downstairs_hallway_dashboard_command:
+  url: !secret downstairs_hallway_dashboard_command
+garage_entrance_dashboard_command:
+  url: !secret garage_entrance_dashboard_command

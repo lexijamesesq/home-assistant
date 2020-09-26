@@ -33,6 +33,12 @@
     - platform: event
       event_type: mode_sleep_off
   action:
-    - event: tileboard
-      event_data:
-        command: 'screen_on'
+    - service: rest_command.bedroom_hallway_dashboard_command
+      data:
+        cmd: screenOn
+    - service: rest_command.downstairs_hallway_dashboard_command
+      data:
+        cmd: screenOn
+    - service: rest_command.garage_entrance_dashboard_command
+      data:
+        cmd: screenOn

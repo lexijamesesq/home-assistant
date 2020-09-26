@@ -1964,3 +1964,33 @@
     {% else %}
       off
     {% endif %}
+
+- platform: rest
+  name: Bedroom Hallway Dashboard
+  resource: !secret bedroom_hallway_dashboard_device_info
+  json_attributes:
+  - isPlugged
+  - batteryLevel
+  - screenBrightness
+  - screenOn
+  value_template: 'OK'
+
+- platform: rest
+  name: Downstairs Hallway Dashboard
+  resource: !secret downstairs_hallway_dashboard_device_info
+  json_attributes:
+  - isPlugged
+  - batteryLevel
+  - screenBrightness
+  - screenOn
+  value_template: 'OK'
+
+- platform: rest
+  name: Garage Entrance Dashboard
+  resource: !secret garage_entrance_dashboard_device_info
+  json_attributes:
+  - isPlugged
+  - batteryLevel
+  - screenBrightness
+  - screenOn
+  value_template: 'OK'
