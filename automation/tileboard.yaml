@@ -35,10 +35,10 @@
   action:
     - service: rest_command.bedroom_hallway_dashboard_command
       data:
-        cmd: screenOn
+        cmd: triggerMotion
     - service: rest_command.downstairs_hallway_dashboard_command
       data:
-        cmd: screenOn
+        cmd: triggerMotion
     - service: rest_command.garage_entrance_dashboard_command
       data:
-        cmd: screenOn
+        cmd: triggerMotion
