@@ -169,7 +169,7 @@
     - service: notify.mobile_app_alexs_iphone
       data:
         title: "Condo"
-        message: "The {{ trigger.to_state.attributes.friendly_name }} has been open for {{ trigger.for }} minutes."
+        message: "The {{ trigger.to_state.attributes.friendly_name }} has been open for {{ (trigger.for.total_seconds() / 60) | int }} minutes."
         data:
           push:
             thread-id: "ha-condo-group"
@@ -198,7 +198,7 @@
     service: notify.mobile_app_alexs_iphone
     data:
       title: "Condo"
-      message: "The {{ trigger.to_state.attributes.friendly_name }} has been open for {{ trigger.for }} minutes."
+      message: "The {{ trigger.to_state.attributes.friendly_name }} has been open for {{ (trigger.for.total_seconds() / 60) | int }} minutes."
       data:
         push:
           thread-id: "ha-condo-group"
