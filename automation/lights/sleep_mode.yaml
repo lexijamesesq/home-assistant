@@ -25,7 +25,7 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'rec_room_tiles,bedroom_tiles,bedroom,den,den_cabinets'
+          lights: 'kitchen,rec_room_tiles,bedroom_tiles,bedroom,den,den_cabinets'
 
 - alias: Sleep Mode Wake Up Time Ended Update Lights
   trigger:

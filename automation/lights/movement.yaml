@@ -232,51 +232,6 @@
 
 
 ##############################################################
-# Living Room
-##############################################################
-# Triggers downstairs lights when waking up before sunrise
-- alias: Morning Lighting - Turn On When Motion
-  trigger:
-    - platform: state
-      entity_id: input_boolean.motion_living_room
-      to: 'on'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: group.residents
-        state: 'home'
-      - condition: time
-        after: '05:00:00'
-      - condition: state
-        entity_id: input_boolean.mode_morning
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.motion_upstairs_hallway
-        state: 'on'
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: light.kitchen
-            state: 'off'
-          - condition: state
-            entity_id: light.rec_room_tiles
-            state: 'off'
-          - condition: state
-            entity_id: light.den_lights
-            state: 'off'
-          - condition: state
-            entity_id: light.den_cabinets
-            state: 'off'
-  action:
-    - service: script.turn_on
-      entity_id: script.update_lights
-      data:
-        variables:
-          lights: 'kitchen,rec_room_tiles,den,den_cabinets'
-
-
-##############################################################
 # Upstairs Hallway Group
 ##############################################################
 # Triggers when LX is below X, or when Night Mode is on
