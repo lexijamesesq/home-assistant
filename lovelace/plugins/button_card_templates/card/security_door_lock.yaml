@@ -29,8 +29,8 @@ security_door_lock:
     - value: "unlocked"
       styles:
         icon:
-          - color: var(--paper-item-icon-active-color)
+          - color: var(--light-primary-color)
     - value: "locked"
       styles:
         icon:
-          - color: '[[[ if(variables.door == "on") return "var(--paper-item-icon-active-color)"; else return "var(--paper-item-icon-disabled-color)" ]]]'
+          - color: '[[[ if(variables.door == "on") return "var(--light-primary-color)"; else return "var(--disabled-text-color)" ]]]'

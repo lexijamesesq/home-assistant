@@ -1,0 +1,295 @@
+Custom Dark:
+  # Main colors
+  primary-color: '#0da3e5'
+  light-primary-color: '#0da3e5'
+  accent-color: '#ff9800'
+  light-accent-color: '#fdd835'
+  mdc-theme-secondary: var(--accent-color)
+  # More colors
+  success-color: "#77eb60"
+  info-color: var(--primary-color)
+  warning-color: "#ebeb60"
+  error-color: "#d18941"
+  # Background colors
+  primary-background-color: '#1e1E21'
+  secondary-background-color: '#2b2b2d'
+  state-background-color: 'rgba(0, 0, 0, 0.3)'
+  # Text colors
+  primary-text-color: 'rgba(255, 255, 255, 0.96)'
+  secondary-text-color: 'rgba(255, 255, 255, 0.54)'
+  text-primary-color: 'var(--primary-text-color)'
+  material-secondary-text-color: var(--secondary-text-color)
+  theme-title-color: 'var(--secondary-text-color)'
+  disabled-text-color: 'rgba(255, 255, 255, 0.26)'
+  # Sidebar
+  sidebar-icon-color: 'rgba(255, 255, 255, 0.54)'
+  sidebar-text-color: 'var(--primary-text-color)'
+  sidebar-selected-icon-color: 'rgba(255, 255, 255, 0.54)'
+  sidebar-selected-text-color: 'var(--primary-text-color)'
+  sidebar-background-color: var(--primary-background-color)
+  sidebar-selected-background-color: var(--primary-background-color)
+  divider-color: 'rgba(0, 0, 0, .12)'
+  # Header
+  app-header-background-color: 'var(--secondary-background-color)'
+  app-header-text-color: 'var(--primary-text-color)'
+  # Icons
+  state-icon-color: var(--primary-text-color)
+  state-icon-active-color: var(--light-primary-color)
+  state-icon-unavailable-color: var(--disabled-text-color)
+  # Sliders
+  paper-slider-knob-color: '#2980b9'
+  paper-slider-knob-start-color: '#2980b9'
+  paper-slider-pin-color: '#2980b9'
+  paper-slider-active-color: '#2980b9'
+  paper-slider-secondary-color: 'var(--secondary-background-color)'
+  paper-slider-container-color: 'linear-gradient(var(--primary-background-color), var(--secondary-background-color)) no-repeat'
+  paper-slider-disabled-active-color: 'var(--disabled-text-color)'
+  paper-slider-disabled-secondary-color: 'var(--disabled-text-color)'
+  # Labels
+  label-badge-background-color: var(--primary-background-color)
+  label-badge-text-color: var(--primary-text-color)
+  label-badge-red: "#eb6065"
+  label-badge-green: "#60eb67"
+  label-badge-blue: "#60b1eb"
+  label-badge-yellow: "#ebc860"
+  label-badge-gray: "#666f80"
+  # Cards
+  #ha-card-border-radius: "13.75px"
+  #ha-card-box-shadow: -5.25px -5.25px 5.25px 0 rgba(60, 60, 60, .6), 5.25px 5.25px 5.25px 0 rgba(0, 0, 0, .15)
+  ha-card-border-color: var(--primary-color)
+  #ha-card-border-width: 3px
+  card-background-color: var(--secondary-background-color)
+  paper-card-background-color: var(--secondary-background-color)
+  paper-card-header-color: var(--secondary-background-color)
+  paper-dialog-background-color: var(--secondary-background-color)
+  # Switches
+  switch-checked-button-color: var(--primary-color)
+  switch-checked-track-color: var(--primary-color)
+  switch-unchecked-button-color: var(--disabled-text-color)
+  switch-unchecked-track-color: var(--disabled-text-color)
+  paper-toggle-button-checked-button-color: var(--primary-color)
+  paper-toggle-button-checked-bar-color: var(--primary-color)
+  paper-toggle-button-unchecked-button-color: 'var(--disabled-text-color)'
+  paper-toggle-button-unchecked-bar-color: 'var(--disabled-text-color)'
+  # Tables
+  table-row-background-color: var(--secondary-background-color)
+  table-row-alternative-background-color: var(--secondary-background-color)
+  data-table-background-color: var(--primary-background-color)
+  # Dropdowns
+  material-background-color: var(--primary-background-color)
+  material-secondary-background-color: var(--secondary-background-color)
+  mdc-theme-surface: var(--primary-background-color)
+  # Custom Header
+  ch-elements-color: 'var(--disabled-text-color)'
+  ch-tab-indicator-color: 'var(--light-primary-color)'
+  ch-active-tab-color: 'var(--light-primary-color)'
+  # Climate
+  theme-climate-off: '#8a8a8a'
+  theme-climate-auto: '#008000'
+  theme-climate-heat: '#ff8100'
+  theme-climate-cool: '#2b9af9'
+
+  card-mod-theme: "Custom Dark"
+
+  # Header
+  card-mod-root-yaml: |
+    ha-tabs$: |
+      /* Remove unused space when chevrons are not needed in header. */
+      .not-visible {
+        display: none;
+      }
+      /* Remove chevrons even when visible */
+      paper-icon-button {
+        display: none;
+      }
+      /* Styles for mobile */
+      @media (orientation: portrait) and (max-width: 405px),
+             (orientation: landscape) and (max-width: 950px) {
+        /* Display the header on the bottom */
+        #selectionBar {
+          bottom: unset !important;
+        }
+      }
+    ha-app-layout$: |
+      /* This corrects top padding for the view. */
+      #contentContainer {
+        /* Change this to 0px if you want the header on the bottom */
+        padding-top: 48px !important;
+      }
+      /* Styles for mobile */
+      @media (orientation: portrait) and (max-width: 405px),
+             (orientation: landscape) and (max-width: 950px) {
+        /* Display the header on the bottom */
+        #contentContainer {
+          padding-top: 0px !important;
+          padding-bottom: 4px !important;
+        }
+      }
+    .: |
+      /* Let's change the background. */
+      app-header, app-toolbar {
+        background: var(--secondary-background-color) !important;
+        color: var(--secondary-text-color) !important;
+      }
+      /* We're still going to need a way to see that we're in edit mode. */
+      app-header.edit-mode {
+        padding-bottom: calc(var(--ha-card-border-width, 2px) * 2);
+        border-bottom: var(--ha-card-border-width, 2px) solid var(--primary-color);
+      }
+      app-toolbar {
+        height: 48px;
+      }
+      /* This changes the color of the currently selected tab. */
+      ha-tabs {
+        --paper-tabs-selection-bar-color: var(--primary-color) !important;
+        margin-left: 0px;
+      }
+      paper-tab[aria-selected=true] {
+        color: var(--primary-color) !important;
+      }
+      paper-tab[aria-label="More"] {
+        display: none;
+      }
+      /* This hides the help button. */
+      a.menu-link[target="_blank"] {
+        display: none;
+      }
+      /* This hides the voice button. */
+      ha-tabs + mwc-icon-button {
+        display: none !important;
+      }
+      /* This makes the plus color the same as the background. */
+      #add-view {
+        color: var(--primary-background-color);
+      }
+      /* This hides the title. */
+      [main-title] {
+        display: none;
+      }
+      /* This hides the app-toolbar in edit mode. */
+      app-toolbar.edit-mode {
+        height: 0;
+      }
+      /* This moves the edit mode buttons back in. */
+      app-toolbar.edit-mode > mwc-icon-button {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 1;
+      }
+      app-toolbar.edit-mode > ha-button-menu {
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 1;
+      }
+      /* This adds a bit more padding, mainly for unused entities. */
+      app-header.edit-mode > div {
+        padding-left: 5px;
+      }
+      /* Uncomment this for header on the bottom. You're 3/3 there.
+      app-header {
+        top: calc(100vh - 60px) !important;
+        bottom: 0 !important;
+        transform: unset !important;
+      }
+      */
+      /* Styles for mobile */
+      @media (orientation: portrait) and (max-width: 405px),
+             (orientation: landscape) and (max-width: 950px) {
+        /* Display the header on the bottom */
+        app-header {
+          top: calc(100vh - 72px) !important;
+          bottom: 0 !important;
+          transform: unset !important;
+        }
+        app-toolbar {
+          transform: unset !important;
+        }
+        hui-view {
+          padding-bottom: 72px !important;
+        }
+        /* Hide sidebar button */
+        ha-menu-button {
+          display: none !important;
+        }
+        /* Hide edit UI overflow menu */
+        ha-button-menu {
+          display: none;
+        }
+      }
+      @media (orientation: portrait) and (max-width: 405px) {
+        /* Hide tabs in portrait orientation on phones */
+        paper-tab[aria-label="Health"] {
+          display: none;
+        }
+        paper-tab[aria-label="Preferences"] {
+          display: none;
+        }
+        paper-tab[aria-label="More"] {
+          display: var(--layout-inline_-_display);
+        }
+      }
+  # Badges and columns
+  card-mod-view-yaml: |
+    hui-masonry-view$: |
+      #columns {
+        flex-direction: column !important;
+        margin: 0 auto;
+        max-width: 500px;
+      }
+      /*Uncomment this if you want the header on the bottom
+      mwc-fab[title="Add Card"] {
+        bottom: 96px !important;
+      }
+      */
+  card-mod-badge-yaml: |
+    .: |
+      :host {
+        border-radius: 5px;
+        padding: 11px 8px;
+        margin: 11px 12px 24px 12px;
+        display: inline-block;
+        --label-badge-blue: {% if not states(config.entity) %} var(--theme-blue);
+          {% elif is_state(config.entity, 'on') %} var(--theme-green);
+          {% elif is_state(config.entity, 'open') %} var(--theme-green);
+          {% elif is_state(config.entity, 'unlocked') %} var(--theme-green);
+          {% elif is_state(config.entity, 'off') %} var(--theme-red);
+          {% elif is_state(config.entity, 'closed') %} var(--theme-red);
+          {% elif is_state(config.entity, 'locked') %} var(--theme-red);
+          {% else %} var(--theme-blue); {% endif %}
+        --label-badge-red: teal;
+        box-shadow: var(--ha-card-box-shadow);
+      }
+    ha-state-label-badge$ha-label-badge$: |
+      .label-badge {
+        background: none;
+      }
+      .title {
+        -webkit-line-clamp: 1;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+      }
+  # Style more info
+  card-mod-more-info-yaml: |
+    $: |
+      .mdc-dialog {
+        backdrop-filter: blur(2px);
+      }
+  # Spin fans
+  card-mod-row-yaml: |
+    "*:first-child":
+      $: |
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(359deg);
+          }
+        }
+        state-badge {
+          {% if config.entity.startswith('fan.') and is_state(config.entity, 'on') %}
+          animation: spin 4s infinite linear;
+          {% endif %}
+        }

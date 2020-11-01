@@ -12,7 +12,7 @@ sonos_playlist:
       - grid-template-columns: min-content 1fr
       - grid-template-rows: min-content
     img_cell:
-      - background: var(--theme-state-icon-background)
+      - background: var(--state-background-color)
       - border-radius: 100%
       - margin-right: 12px
     name:

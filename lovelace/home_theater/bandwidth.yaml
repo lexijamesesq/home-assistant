@@ -38,7 +38,7 @@ cards:
       labels: false
       icon: false
       points: false
-    line_color: var(--paper-item-icon-active-color)
+    line_color: var(--light-primary-color)
     height: 200
   - type: custom:mini-graph-card
     style: |
@@ -61,5 +61,5 @@ cards:
       labels: false
       icon: false
       points: false
-    line_color: var(--paper-item-icon-active-color)
+    line_color: var(--light-primary-color)
     height: 200

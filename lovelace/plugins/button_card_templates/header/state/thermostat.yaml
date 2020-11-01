@@ -21,7 +21,7 @@ header_state_thermostat:
       - font-size: 0.9em
       - font-weight: bold
       - line-height: 40px
-      - background: var(--theme-state-icon-background)
+      - background: var(--state-background-color)
       - color: var(--app-header-text-color)
       - border-radius: 100%
     name:

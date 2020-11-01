@@ -21,7 +21,7 @@ round_text_name:
       - font-size: 0.9em
       - font-weight: bold
       - line-height: 40px
-      - background: var(--theme-state-icon-background)
+      - background: var(--state-background-color)
       - color: var(--primary-text-color)
       - border-radius: 100%
     name:

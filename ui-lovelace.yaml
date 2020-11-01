@@ -202,5 +202,5 @@ views:
             - !include lovelace/modes/security.yaml
             - !include lovelace/modes/home.yaml
 
-custom_header: !include lovelace/plugins/custom_header.yaml
+# custom_header: !include lovelace/plugins/custom_header.yaml
 button_card_templates: !include_dir_merge_named lovelace/plugins/button_card_templates
