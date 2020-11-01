@@ -1,18 +1,10 @@
 ##############################################################
 # Sonos Announcements
 ##############################################################
-notify_sonos_kitchen:
-  url: !secret notify_sonos_kitchen
-notify_sonos_living_room:
-  url: !secret notify_sonos_living_room
-notify_sonos_rec_room:
-  url: !secret notify_sonos_rec_room
-notify_sonos_bedroom:
-  url: !secret notify_sonos_bedroom
-notify_sonos_bathroom:
-  url: !secret notify_sonos_bathroom
-notify_sonos_den:
-  url: !secret notify_sonos_den
+notify_sonos_room:
+  url: !secret notify_sonos_room
+notify_sonos_all:
+  url: !secret notify_sonos_all
 
 ##############################################################
 # Docker Rest API
