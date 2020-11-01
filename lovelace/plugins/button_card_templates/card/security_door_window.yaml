@@ -14,24 +14,24 @@ security_door_window:
     - value: "on"
       styles:
         icon:
-          - color: var(--paper-item-icon-active-color)
+          - color: var(--light-primary-color)
     - value: "open"
       styles:
         icon:
-          - color: var(--paper-item-icon-active-color)
+          - color: var(--light-primary-color)
     - value: "detected"
       styles:
         icon:
-          - color: var(--paper-item-icon-active-color)
+          - color: var(--light-primary-color)
     - value: "off"
       styles:
         icon:
-          - color: var(--paper-item-icon-disabled-color)
+          - color: var(--disabled-text-color)
     - value: "closed"
       styles:
         icon:
-          - color: var(--paper-item-icon-disabled-color)
+          - color: var(--disabled-text-color)
     - value: "clear"
       styles:
         icon:
-          - color: var(--paper-item-icon-disabled-color)
+          - color: var(--disabled-text-color)

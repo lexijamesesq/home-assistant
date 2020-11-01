@@ -10,12 +10,12 @@ row_icon_name_label:
     img_cell:
       - width: 45px
       - height: 45px
-      - background: var(--theme-state-icon-background)
+      - background: var(--state-background-color)
       - border-radius: 100%
       - margin-right: 12px
     icon:
       - width: 65%
-      - color: var(--paper-item-icon-active-color)
+      - color: var(--light-primary-color)
     entity_picture:
       - border-radius: 100%
     label:

@@ -18,7 +18,7 @@ base:
       - font-size: 12.5px
       - color: var(--primary-text-color)
     icon:
-      - color: var(--paper-item-icon-active-color)
+      - color: var(--light-primary-color)
     entity_picture:
       - border-radius: 100%
     label:

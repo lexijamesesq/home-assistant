@@ -13,4 +13,4 @@ more_tile:
     img_cell:
       - height: 90px
     icon:
-      - color: var(--paper-item-icon-color)
+      - color: var(--primary-text-color)

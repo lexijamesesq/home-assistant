@@ -7,8 +7,8 @@ sonos_speaker:
     - value: "on"
       styles:
         icon:
-          - color: var(--paper-item-icon-active-color)
+          - color: var(--light-primary-color)
     - value: "off"
       styles:
         icon:
-          - color: var(--paper-item-icon-disabled-color)
+          - color: var(--disabled-text-color)

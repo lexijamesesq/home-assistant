@@ -88,8 +88,6 @@ logbook:
 lovelace:
   mode: yaml
   resources:
-    - url: /hacsfiles/custom-header/custom-header.js
-      type: module
     - url: /hacsfiles/lovelace-state-switch/state-switch.js
       type: module
     - url: /hacsfiles/button-card/button-card.js

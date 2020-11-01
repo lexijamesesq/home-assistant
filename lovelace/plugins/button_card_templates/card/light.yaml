@@ -18,8 +18,8 @@ light:
     - value: "on"
       styles:
         icon:
-          - color: var(--paper-item-icon-active-light)
+          - color: var(--light-accent-color)
     - value: "off"
       styles:
         icon:
-          - color: var(--paper-item-icon-disabled-color)
+          - color: var(--disabled-text-color)

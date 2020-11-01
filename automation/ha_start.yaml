@@ -158,4 +158,4 @@
   action:
     - service: frontend.set_theme
       data:
-        name: dark
+        name: Custom Dark
