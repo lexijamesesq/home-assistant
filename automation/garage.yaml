@@ -94,3 +94,14 @@
       entity_id:
         - input_boolean.door_trigger_garage_lights
         - input_boolean.motion_trigger_garage_lights
+
+##############################################################
+# NFC Events
+##############################################################
+- alias: Garage Actual Trigger from NFC Tag
+  trigger:
+    - platform: event
+      event_type: nfc_garage_actual_toggle
+  action:
+    - service: cover.toggle
+      entity_id: cover.garage_actual

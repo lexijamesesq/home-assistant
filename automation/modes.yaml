@@ -164,6 +164,13 @@
 # Sleep Mode #################################################
 # Starts when bedroom beacon is detected during bedtime.
 # Lognger delay before exiting mode, beacon detection is spotty.
+- alias: Mode - Sleep Toggle
+  trigger:
+    - platform: event
+      event_type: nfc_mode_sleep_toggle
+  action:
+    - service: input_boolean.toggle
+      entity_id: input_boolean.mode_sleep
 - alias: Mode - Sleep On
   trigger:
     - platform: event
@@ -185,6 +192,13 @@
 
 
 # Peloton Mode #################################################
+- alias: Mode - Peloton Toggle
+  trigger:
+    - platform: event
+      event_type: nfc_mode_peloton_toggle
+  action:
+    - service: input_boolean.toggle
+      entity_id: input_boolean.mode_peloton
 - alias: Mode - Peloton Off
   trigger:
     - platform: event
@@ -194,7 +208,6 @@
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.mode_peloton
-
 
 # Home Theater Mode ##########################################
 - alias: Mode - Home Theater On
