@@ -35,8 +35,8 @@ cards:
           - type: script
             entity_id: script.scene_living_room_tv_night_ht_playing
             icon_color: '#DCC58B'
-      - entity: light.rec_room_tiles
-        name: Rec Room Tiles
+      - entity: light.rec_room_canvas
+        name: Rec Room Canvas
       - type: 'custom:rgb-light-card'
         colors:
           - type: script

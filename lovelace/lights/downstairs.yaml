@@ -46,8 +46,8 @@ cards:
       navigation_path: scenes#living_room_tv
   - type: custom:button-card
     template: light
-    entity: light.rec_room_tiles
-    name: Rec Room Tiles
+    entity: light.rec_room_canvas
+    name: Rec Room Canvas
     double_tap_action:
       action: navigate
-      navigation_path: scenes#rec_room_tiles
+      navigation_path: scenes#rec_room_canvas

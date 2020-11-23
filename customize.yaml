@@ -357,3 +357,5 @@ sensor.tautulli_lan_bandwidth:
   icon: mdi:speedometer
 sensor.mode_simulate_presence:
   icon: mdi:home-lightbulb
+light.rec_room_canvas:
+  icon: mdi:lightbulb
