@@ -11,6 +11,7 @@
       entity_id: input_boolean.mode_guest
       to: 'on'
   action:
+    - wait_template: "{{ is_state('input_boolean.mode_simulate_presence', 'off') }}"
     - choose:
         # Day Mode
         - conditions:
@@ -19,16 +20,16 @@
               state: 'on'
           sequence:
             - service: script.turn_on
-              entity_id: script.update_lights
-              data:
+              entity_id: script.update_scene
+              data_template:
                 variables:
-                  lights: 'bedroom_tiles,den,rec_room_tiles'
+                  lights: 'bedroom_tiles,den,rec_room_canvas'
       default:
         - service: script.turn_on
-          entity_id: script.update_lights
-          data:
+          entity_id: script.update_scene
+          data_template:
             variables:
-              lights: 'kitchen,living_room,rec_room_tiles,bedroom,bedroom_tiles,den,den_cabinets'
+              lights: 'kitchen,living_room,rec_room_canvas,bedroom,bedroom_tiles,den,den_cabinets'
 
 # Empty Home Lighting ########################################
 # All residents have left the premises, but are there guests?
@@ -84,7 +85,7 @@
     - service: script.turn_on
       entity_id: script.simulate_presence
 
-- alias: Simulate Presence Mode - Off
+- alias: Simulate Presence Mode - Turn Lights Off
   trigger:
     - platform: event
       event_type: mode_simulate_presence_off
@@ -95,7 +96,7 @@
         # Guests Present
         - conditions:
             - condition: time
-              before: '03:00:00'
+              after: '03:00:00'
           sequence:
             - service: light.turn_off
               entity_id: group.all_lights

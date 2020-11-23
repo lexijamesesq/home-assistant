@@ -23,7 +23,7 @@ simulate_presence_scenes:
   entities:
     - script.scene_kitchen_night_mid
     - script.scene_living_room_night_mid
-    - script.scene_rec_room_tiles_night
+    - script.scene_rec_room_canvas_night
     - script.scene_bedroom_night_mid
     - script.scene_den_night_mid
 
@@ -37,7 +37,7 @@ all_lights:
     - light.patio_string_lights
     - light.living_room
     - light.living_room_tv
-    - light.rec_room_tiles
+    - light.rec_room_canvas
     - light.main_stairs
     - light.upstairs_hallway
     - light.bedroom_hallway
@@ -63,7 +63,7 @@ downstairs_lights:
     - light.patio_string_lights
     - light.living_room
     - light.living_room_tv
-    - light.rec_room_tiles
+    - light.rec_room_canvas
 
 upstairs_lights:
   entities:

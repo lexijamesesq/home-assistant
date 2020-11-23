@@ -227,7 +227,7 @@ emulated_hue:
       hidden: false
     light.upstairs_hallway:
       hidden: false
-    light.rec_room_tiles:
+    light.rec_room_canvas:
       hidden: false
     input_boolean.mode_guest:
       hidden: false
@@ -326,6 +326,10 @@ light:
   - platform: switch
     name: Guest Bedroom Closet Lights
     entity_id: switch.guest_bedroom_closet_lights
+  - platform: nanoleaf
+    host: !secret nanoleaf_rec_room_canvas_host
+    token: !secret nanoleaf_rec_room_canvas_token
+    name: Rec Room Canvas
 
 
 # device_tracker:

@@ -6,6 +6,87 @@
 # Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 # Conditions omitted where lights change scene without changing states
+
+# Canvas #####################################################
+scene_rec_room_canvas_morning:
+  alias: Scene Rec Room Canvas Morning
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_canvas
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_rec_room_canvas_mood
+
+scene_rec_room_canvas_morning_ht_on:
+  alias: Scene Rec Room Canvas Morning HT On
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_canvas
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_rec_room_canvas_mood
+
+scene_rec_room_canvas_morning_ht_playing:
+  alias: Scene Rec Room Canvas Morning HT Playing
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_canvas
+      state: 'on'
+    - service: light.turn_off
+      entity_id: light.rec_room_canvas
+
+scene_rec_room_canvas_day:
+  alias: Scene Rec Room Canvas Day
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_rec_room_canvas_mood
+
+scene_rec_room_canvas_day_ht_on:
+  alias: Scene Rec Room Canvas Day HT On
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_canvas
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_rec_room_canvas_mood
+
+scene_rec_room_canvas_day_ht_playing:
+  alias: Scene Rec Room Canvas Day HT Playing
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_canvas
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_rec_room_canvas_mood
+
+scene_rec_room_canvas_night:
+  alias: Scene Rec Room Canvas Night
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_canvas
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_rec_room_canvas_mood
+
+scene_rec_room_canvas_night_ht_on:
+  alias: Scene Rec Room Canvas Night HT On
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_canvas
+      state: 'off'
+    - service: script.turn_on
+      entity_id: script.scene_rec_room_canvas_mood
+
+scene_rec_room_canvas_night_ht_playing:
+  alias: Scene Rec Room Canvas Night HT Playing
+  sequence:
+    - condition: state
+      entity_id: light.rec_room_canvas
+      state: 'on'
+    - service: light.turn_off
+      entity_id: light.rec_room_canvas
+
+# Tiles ######################################################
 scene_rec_room_tiles_morning:
   alias: Scene Rec Room Tiles Morning
   sequence:
@@ -85,6 +166,14 @@ scene_rec_room_tiles_night_ht_playing:
       entity_id: light.rec_room_tiles
 
 # Indirect Scenes ############################################
+scene_rec_room_canvas_mood:
+  alias: Scene Rec Room Canvas - Mood
+  sequence:
+    - service: light.turn_on
+      entity_id: light.rec_room_canvas
+      data:
+        effect: Mood
+
 scene_rec_room_tiles_lifx_intense:
   alias: Scene Rec Room Tiles
   sequence:

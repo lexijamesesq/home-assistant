@@ -1,0 +1,25 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: markdown
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    style: |
+      ha-card {
+        height: 16.5px;
+        box-shadow: none;
+        background: none;
+        color: var(--theme-title-color);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      ha-markdown {
+        padding: 0px !important;
+      }
+    content: Rec Room
+  - type: custom:button-card
+    template: scene
+    entity: script.scene_rec_room_tiles_lifx_intense
+    styles:
+      card:
+        - background: 'linear-gradient(15deg, #E11FF6, #2DBDC8)'
