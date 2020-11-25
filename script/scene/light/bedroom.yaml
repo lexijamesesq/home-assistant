@@ -16,6 +16,9 @@ scene_bedroom_wakeup:
         brightness: 5
         color_temp: 500
     - delay: '00:00:10'
+    - condition: state
+      entity_id: light.bedroom_tiles
+      state: 'on'
     - service: light.turn_on
       entity_id: light.bedroom_tiles
       data:
@@ -28,6 +31,9 @@ scene_bedroom_wakeup:
         brightness: 255
         color_temp: 333
     - delay: '00:20:00'
+    - condition: state
+      entity_id: light.bedroom_tiles
+      state: 'on'
     - service: light.turn_on
       entity_id: light.bedroom_tiles
       data:
@@ -40,6 +46,9 @@ scene_bedroom_wakeup:
         brightness: 75
         color_temp: 285
     - delay: '00:2:00'
+    - condition: state
+      entity_id: light.bedroom_tiles
+      state: 'on'
     - service: shell_command.lifx_bedroom_tiles_day
 
 
