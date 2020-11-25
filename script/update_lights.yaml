@@ -45,4 +45,7 @@ update_lights:
             {%- endif %}
           {%- endfor %}
         variables:
-          seconds: "{{ seconds }}"
+          seconds: >
+            {% if seconds is defined %}
+              {{ seconds | int }}
+            {% endif %}
