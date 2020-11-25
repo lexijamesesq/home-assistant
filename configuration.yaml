@@ -186,6 +186,7 @@ emulated_hue:
   host_ip: !secret emulated_hue_host
   listen_port: !secret emulated_hue_port
   expose_by_default: false
+  lights_all_dimmable: true
   entities:
     light.bedroom_lights:
       hidden: false
