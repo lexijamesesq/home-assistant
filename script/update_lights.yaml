@@ -44,3 +44,4 @@ update_lights:
               ,
             {%- endif %}
           {%- endfor %}
+        seconds: {{ seconds }}
