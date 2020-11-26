@@ -28,7 +28,7 @@ update_lights:
             {% set ht = "" %}
           {% endif %}
 
-          {% if time >= prefer_low or time <= prefer_high %}
+          {% if time >= prefer_low or time < prefer_high %}
             {% set brightness = "_low" %}
           {% elif time >= prefer_mid %}
             {% set brightness = "_mid" %}
