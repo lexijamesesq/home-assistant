@@ -6,6 +6,8 @@
 # Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 # Conditions omitted where lights change scene without changing states
+
+# Morning: Low
 scene_kitchen_morning_low:
   alias: Scene Kitchen Morning Low
   sequence:
@@ -33,6 +35,7 @@ scene_kitchen_morning_ht_playing_low:
         transition: 5
         brightness: 3
 
+# Day: High
 scene_kitchen_day_high:
   alias: Scene Kitchen Day High
   sequence:
@@ -60,6 +63,26 @@ scene_kitchen_day_ht_playing_high:
     - service: light.turn_off
       entity_id: light.kitchen
 
+# Sunset: High
+scene_kitchen_sunset_high:
+  alias: Scene Kitchen Sunset High
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_kitchen_night_high
+
+scene_kitchen_sunset_ht_on_high:
+  alias: Scene Kitchen Sunset HT On High
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_kitchen_night_ht_on_high
+
+scene_kitchen_sunset_ht_playing_high:
+  alias: Scene Kitchen Sunset HT Playing High
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_kitchen_night_ht_playing_high
+
+# Night: High, Mid, Low
 scene_kitchen_night_high:
   alias: Scene Kitchen Night High
   sequence:

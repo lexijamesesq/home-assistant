@@ -59,12 +59,15 @@ scene_bedroom_wakeup:
 # Direct Scenes ##############################################
 # Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
+
+# Morning: Low
 scene_bedroom_morning_low:
   alias: Scene Bedroom Morning Low
   sequence:
     - service: script.turn_on
       entity_id: script.scene_bedroom_neutral_low
 
+# Day: High
 scene_bedroom_day_high:
   alias: Scene Bedroom Day High
   sequence:
@@ -82,6 +85,14 @@ scene_bedroom_day_high:
         - service: script.turn_on
           entity_id: script.scene_bedroom_off
 
+# Sunset: High
+scene_bedroom_sunset_high:
+  alias: Scene Bedroom Night High
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_neutral_low
+
+# Night: High, Mid, Low
 scene_bedroom_night_high:
   alias: Scene Bedroom Night High
   sequence:
@@ -99,7 +110,6 @@ scene_bedroom_night_low:
   sequence:
     - service: script.turn_on
       entity_id: script.scene_bedroom_purple_blue
-
 
 # Indirect Scenes ############################################
 scene_bedroom_purple_blue:
@@ -144,6 +154,7 @@ scene_bedroom_off:
     - service: light.turn_off
       entity_id: light.bedroom_lights
 
+
 ##############################################################
 # Bedroom Tiles Scenes
 ##############################################################
@@ -155,30 +166,47 @@ scene_bedroom_tiles_morning:
   alias: Scene Bedroom Tiles Morning
   sequence:
     - service: script.turn_on
-      entity_id: script.scene_bedroom_tiles_day
+      entity_id: script.scene_bedroom_tiles_light
 
 scene_bedroom_tiles_day:
   alias: Scene Bedroom Tiles Day
   sequence:
-    - service: shell_command.lifx_bedroom_tiles_day
-    - service: light.turn_on
-      entity_id: light.bedroom_tiles
-      data:
-        transition: 4
-        brightness: 77
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_tiles_light
+
+scene_bedroom_tiles_sunset:
+  alias: Scene Bedroom Tiles Sunset
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_tiles_light
 
 scene_bedroom_tiles_night:
   alias: Scene Bedroom Tiles Night
   sequence:
-    - service: shell_command.lifx_bedroom_tiles_night
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_tiles_dark
+
+# Indirect Scenes ############################################
+scene_bedroom_tiles_light:
+  alias: Scene Bedroom Tiles - Light
+  sequence:
     - service: light.turn_on
       entity_id: light.bedroom_tiles
       data:
-        transition: 4
         brightness: 77
+        transition: 4
+    - service: shell_command.lifx_bedroom_tiles_day
 
+scene_bedroom_tiles_dark:
+  alias: Scene Bedroom Tiles - Dark
+  sequence:
+    - service: light.turn_on
+      entity_id: light.bedroom_tiles
+      data:
+        brightness: 77
+        transition: 4
+    - service: shell_command.lifx_bedroom_tiles_night
 
-# Indirect Scenes ############################################
 scene_bedroom_tiles_wakeup:
   alias: Scene Bedroom Tiles - Wakeup
   sequence:

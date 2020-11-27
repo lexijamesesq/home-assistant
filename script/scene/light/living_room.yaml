@@ -6,6 +6,8 @@
 # Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 # Conditions omitted where lights change scene without changing states
+
+# Morning: Low
 scene_living_room_morning_low:
   alias: Scene Living Room Morning Low
   sequence:
@@ -29,6 +31,7 @@ scene_living_room_morning_ht_playing_low:
       data:
         transition: 5
 
+# Day: High
 scene_living_room_day_high:
   alias: Scene Living Room Day High
   sequence:
@@ -56,6 +59,26 @@ scene_living_room_day_ht_playing_high:
     - service: light.turn_off
       entity_id: light.living_room
 
+# Sunset: High
+scene_living_room_sunset_high:
+  alias: Scene Living Room Sunset High
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_living_room_night_high
+
+scene_living_room_sunset_ht_on_high:
+  alias: Scene Living Room Sunset HT On High
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_living_room_night_ht_on_high
+
+scene_living_room_sunset_ht_playing_high:
+  alias: Scene Living Room Sunset HT Playing High
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_living_room_night_ht_playing_high
+
+# Night: High, Mid, Low
 scene_living_room_night_high:
   alias: Scene Living Room Night High
   sequence:
