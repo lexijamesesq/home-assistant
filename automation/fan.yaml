@@ -30,7 +30,7 @@
     - service: dyson.set_speed
       data:
         entity_id: fan.bedroom
-        dyson_speed: 5
+        dyson_speed: 4
 
 - alias: Fan - Bedroom - Sleep Mode Off - Wakeup Short
   trigger:
@@ -62,7 +62,7 @@
     - service: dyson.set_speed
       data:
         entity_id: fan.bedroom
-        dyson_speed: 5
+        dyson_speed: 4
 
 - alias: Fan - Bedroom - Bedroom Window Open
   trigger:
@@ -105,7 +105,7 @@
         - service: dyson.set_speed
           data:
             entity_id: fan.bedroom
-            dyson_speed: 5
+            dyson_speed: 4
 
 
 ##############################################################
