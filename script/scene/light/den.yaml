@@ -5,18 +5,29 @@
 # Direct Scenes ##############################################
 # Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
+
+# Morning: Low
 scene_den_morning_low:
   alias: Scene Den Morning Low
   sequence:
     - service: script.turn_on
       entity_id: script.scene_den_neutral_low
 
+# Day: High
 scene_den_day_high:
   alias: Scene Den Day High
   sequence:
     - service: light.turn_off
       entity_id: light.den_lights
 
+# Sunset: High
+scene_den_sunset_high:
+  alias: Scene Den Sunset High
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_den_neutral_low
+
+# Night: High, Mid, Low
 scene_den_night_high:
   alias: Scene Den Night High
   sequence:
@@ -81,6 +92,12 @@ scene_den_cabinets_day:
   sequence:
     - service: light.turn_off
       entity_id: light.den_cabinets
+
+scene_den_cabinets_sunset:
+  alias: Scene Den Cabinets Sunset High
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_den_cabinets_neutral
 
 scene_den_cabinets_night:
   alias: Scene Den Cabinets Night High
