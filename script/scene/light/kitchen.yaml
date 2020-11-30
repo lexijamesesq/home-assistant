@@ -89,7 +89,7 @@ scene_kitchen_night_high:
     - service: light.turn_on
       entity_id: light.kitchen
       data:
-        transition: "{{ seconds | default(2) }}"
+        transition: "{{ seconds | default(2, true) }}"
         brightness: 145
 
 scene_kitchen_night_mid:
@@ -98,7 +98,7 @@ scene_kitchen_night_mid:
     - service: light.turn_on
       entity_id: light.kitchen
       data:
-        transition: "{{ seconds | default(2) }}"
+        transition: "{{ seconds | default(2, true) }}"
         brightness: 90
 
 scene_kitchen_night_low:
@@ -107,7 +107,7 @@ scene_kitchen_night_low:
     - service: light.turn_on
       entity_id: light.kitchen
       data:
-        transition: "{{ seconds | default(2) }}"
+        transition: "{{ seconds | default(2, true) }}"
         brightness: 35
 
 scene_kitchen_night_ht_on_high:
@@ -116,7 +116,7 @@ scene_kitchen_night_ht_on_high:
     - service: light.turn_on
       entity_id: light.kitchen
       data:
-        transition: "{{ seconds | default(2) }}"
+        transition: "{{ seconds | default(2, true) }}"
         brightness: 145
 
 scene_kitchen_night_ht_on_mid:
@@ -125,7 +125,7 @@ scene_kitchen_night_ht_on_mid:
     - service: light.turn_on
       entity_id: light.kitchen
       data:
-        transition: "{{ seconds | default(2) }}"
+        transition: "{{ seconds | default(2, true) }}"
         brightness: 90
 
 scene_kitchen_night_ht_on_low:
@@ -134,7 +134,7 @@ scene_kitchen_night_ht_on_low:
     - service: light.turn_on
       entity_id: light.kitchen
       data:
-        transition: "{{ seconds | default(2) }}"
+        transition: "{{ seconds | default(2, true) }}"
         brightness: 35
 
 scene_kitchen_night_ht_playing_high:
@@ -143,7 +143,7 @@ scene_kitchen_night_ht_playing_high:
     - service: light.turn_on
       entity_id: light.kitchen
       data:
-        transition: "{{ seconds | default(5) }}"
+        transition: "{{ seconds | default(5, true) }}"
         brightness: 75
 
 scene_kitchen_night_ht_playing_mid:
@@ -152,7 +152,7 @@ scene_kitchen_night_ht_playing_mid:
     - service: light.turn_on
       entity_id: light.kitchen
       data:
-        transition: "{{ seconds | default(5) }}"
+        transition: "{{ seconds | default(5, true) }}"
         brightness: 10
 
 scene_kitchen_night_ht_playing_low:
@@ -161,5 +161,5 @@ scene_kitchen_night_ht_playing_low:
     - service: light.turn_on
       entity_id: light.kitchen
       data:
-        transition: "{{ seconds | default(5) }}"
+        transition: "{{ seconds | default(5, true) }}"
         brightness: 5
