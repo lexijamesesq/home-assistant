@@ -29,6 +29,7 @@
 
 # Sync Input Booleans to Speaker Status ######################
 - alias: Set Sonos Switches On
+  mode: restart
   trigger:
     - platform: state
       entity_id: sensor.sonos_switches_on
@@ -41,6 +42,7 @@
       data:
         entity_id: '{{states.sensor.sonos_switches_on.state}}'
 - alias: Set Sonos Switches Off
+  mode: restart
   trigger:
     - platform: state
       entity_id: sensor.sonos_switches_off
@@ -55,6 +57,7 @@
 
 # Toggle Speaker State #######################################
 - alias: Toggle Sonos Speaker State
+  mode: restart
   trigger:
     - platform: state
       entity_id:
