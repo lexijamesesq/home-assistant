@@ -1372,19 +1372,19 @@
       friendly_name: Downstairs Nest Restore Mode
       value_template: >-
         {%- set previous_state = states('sensor.climate_downstairs_restore_mode') -%}
-        {%- if not is_state('climate.downstairs', 'auto') -%}
-          {{ states('climate.downstairs') }}
-        {%- else -%}
+        {%- if state_attr("climate.downstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.downstairs", "preset_mode") | lower == "eco" -%}
           {{ previous_state }}
+        {%- else -%}
+          {{ states('climate.downstairs') }}
         {%- endif %}
     climate_upstairs_restore_mode:
       friendly_name: Upstairs Nest Restore Mode
       value_template: >-
         {%- set previous_state = states('sensor.climate_upstairs_restore_mode') -%}
-        {%- if not is_state('climate.upstairs', 'auto') -%}
-          {{ states('climate.upstairs') }}
-        {%- else -%}
+        {%- if state_attr("climate.upstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.upstairs", "preset_mode") | lower == "eco" -%}
           {{ previous_state }}
+        {%- else -%}
+          {{ states('climate.upstairs') }}
         {%- endif %}
 
 
