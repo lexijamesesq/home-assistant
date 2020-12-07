@@ -5,7 +5,7 @@
 - alias: Fan - Bedroom - Purify Before Bed
   trigger:
     - platform: time
-      at: '19:00:00'
+      at: '20:00:00'
   action:
     - service: fan.turn_on
       entity_id: fan.bedroom
@@ -95,7 +95,7 @@
         # After 7:00pm
         - conditions:
             - condition: time
-              after: '19:00:00'
+              after: '20:00:00'
           sequence:
             - service: dyson.set_speed
               data:
