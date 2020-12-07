@@ -177,11 +177,6 @@ august:
   password: !secret august_password
 
 
-neato:
-  username: !secret neato_username
-  password: !secret neato_password
-
-
 emulated_hue:
   host_ip: !secret emulated_hue_host
   listen_port: !secret emulated_hue_port
