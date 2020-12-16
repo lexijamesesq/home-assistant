@@ -141,13 +141,6 @@ influxdb:
 sun:
 
 
-# apple_tv:
-#   host: !secret media_player_apple_tv_host
-#   login_id: !secret media_player_apple_tv_login_id
-#   name: !secret media_player_apple_tv_name
-#   credentials: !secret media_player_apple_tv_credentials
-
-
 sonos:
   media_player:
     hosts:
