@@ -25,7 +25,13 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'kitchen,rec_room_canvas,bedroom_tiles,bedroom,den,den_cabinets'
+          lights:
+            - kitchen
+            - rec_room_canvas
+            - bedroom_tiles
+            - bedroom
+            - den
+            - den_cabinets
 
 - alias: Sleep Mode Wake Up Time Ended Update Lights
   trigger:
@@ -40,7 +46,8 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'bedroom'
+          lights:
+            - bedroom
 
 - alias: Sleep Mode Lights On When Patio Door Opens
   trigger:
@@ -56,4 +63,6 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'kitchen,living_room'
+          lights:
+            - kitchen
+            - living_room

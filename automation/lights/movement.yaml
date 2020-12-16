@@ -17,7 +17,8 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'garage_stairs'
+          lights:
+            - garage_stairs
           trigger: motion
     - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_garage_stairs_lights
@@ -33,17 +34,28 @@
     entity_id: light.garage_stairs
     state: 'off'
   action:
-    - service: script.turn_on
-      entity_id: script.update_lights
-      data:
-        variables:
-          lights: >
-            {% if states.sensor.downstairs_hallway_multisensor_luminance.state | int < 5.0 -%}
-              garage_stairs,downstairs_hallway
-            {%- else -%}
-              garage_stairs
-            {%- endif %}
-          trigger: door
+    - choose:
+        - conditions:
+            - condition: numeric_state
+              entity_id: sensor.downstairs_hallway_multisensor_luminance
+              below: 5.0
+          sequence:
+            - service: script.turn_on
+              entity_id: script.update_lights
+              data:
+                variables:
+                  lights:
+                    - garage_stairs
+                    - downstairs_hallway
+                  trigger: door
+      default:
+        - service: script.turn_on
+          entity_id: script.update_lights
+          data:
+            variables:
+              lights:
+                - garage_stairs
+              trigger: door
     - service: input_boolean.turn_on
       entity_id: input_boolean.door_trigger_garage_stairs_lights
     - condition: numeric_state
@@ -141,7 +153,8 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'downstairs_hallway'
+          lights:
+            - downstairs_hallway
           trigger: motion
     - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
@@ -176,7 +189,8 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'downstairs_hallway'
+          lights:
+            - downstairs_hallway
           trigger: door
     - service: input_boolean.turn_on
       entity_id: input_boolean.door_trigger_downstairs_hallway_lights
@@ -265,7 +279,8 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'upstairs_hallway_group'
+          lights:
+            - upstairs_hallway_group
           trigger: motion
     - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -326,7 +341,8 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'den_hallway'
+          lights:
+            - den_hallway
           trigger: motion
     - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_den_hallway_lights
