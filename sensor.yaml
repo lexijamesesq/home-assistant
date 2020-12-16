@@ -16,7 +16,6 @@
 
 # Home Assistant Uptime
 - platform: uptime
-  unit_of_measurement: minutes
 
 # Tautulli
 - platform: tautulli
