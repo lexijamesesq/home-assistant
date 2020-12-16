@@ -30,7 +30,11 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'kitchen,living_room,den,den_cabinets'
+          lights:
+            - kitchen
+            - living_room
+            - den
+            - den_cabinets
 
 
 ##############################################################
@@ -50,7 +54,14 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'kitchen,living_room,living_room_tv,bedroom,bedroom_tiles,den,den_cabinets'
+          lights:
+            - kitchen
+            - living_room
+            - living_room_tv
+            - bedroom
+            - bedroom_tiles
+            - den
+            - den_cabinets
           seconds: 10
 
 
@@ -71,7 +82,14 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'kitchen,living_room,living_room_tv,bedroom,bedroom_tiles,den,den_cabinets'
+          lights:
+            - kitchen
+            - living_room
+            - living_room_tv
+            - bedroom
+            - bedroom_tiles
+            - den
+            - den_cabinets
           seconds: 10
 
 
@@ -103,15 +121,9 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: >
-            {% set lights = ["kitchen","living_room"] %}
-
-            {% for light in lights if is_state('light.'~light, 'on') -%}
-                {{ light }}
-              {%- if not loop.last -%}
-                ,
-              {%- endif %}
-            {%- endfor %}
+          lights:
+            - kitchen
+            - living_room
           seconds: 10
 
 
@@ -164,7 +176,9 @@
       entity_id: script.update_lights
       data:
         variables:
-          lights: 'bedroom_tiles,bedroom'
+          lights:
+            - bedroom_tiles
+            - bedroom
 
 
 ##############################################################

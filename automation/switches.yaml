@@ -245,7 +245,8 @@
             entity_id: script.update_lights
             data:
               variables:
-                lights: 'upstairs_hallway_group'
+                lights:
+                  - upstairs_hallway_group
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
@@ -315,7 +316,8 @@
             entity_id: script.update_lights
             data:
               variables:
-                lights: 'upstairs_hallway_group'
+                lights:
+                  - upstairs_hallway_group
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
@@ -385,7 +387,8 @@
             entity_id: script.update_lights
             data:
               variables:
-                lights: 'upstairs_hallway_group'
+                lights:
+                  - upstairs_hallway_group
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
@@ -455,7 +458,8 @@
             entity_id: script.update_lights
             data:
               variables:
-                lights: 'den_cabinets'
+                lights:
+                  - den_cabinets
       # Hold
       - conditions:
           - '{{ trigger.event.data.scene_data == 7740 }}'

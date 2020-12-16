@@ -36,9 +36,7 @@ update_lights:
             {% set brightness = "_mid" if trigger is defined else "_high" %}
           {% endif %}
 
-          {% set list = lights.split(',') %}
-
-          {% for light in list -%}
+          {% for light in lights -%}
             script.scene_{{ light }}{{ mode }}{{ ht if light in ht_lights }}{{ brightness if light not in ambient_lights }}
             {%- if not loop.last -%}
               ,
