@@ -92,7 +92,7 @@
     - service: fan.turn_on
       entity_id: fan.bedroom
     - choose:
-        # After 7:00pm
+        # After 8:00pm
         - conditions:
             - condition: time
               after: '20:00:00'
