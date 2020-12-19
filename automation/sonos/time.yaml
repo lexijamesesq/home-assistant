@@ -1,154 +1,157 @@
 ##############################################################
 # Timed Events
 ##############################################################
-- alias: Sonos Group Restore Morning Settings
+- alias: Sonos - Wakeup Volume
   trigger:
     - platform: time
       # Military time format. This trigger will fire at 3:00 AM
       at: '03:00:00'
-  action:
-    - service: script.turn_on
-      entity_id: script.sonos_group_morning_settings
-
-- alias: Sonos Kitchen Morning Volume Ramp Up
-  trigger:
-    - platform: state
-      entity_id: sensor.sonos_group_master_state
-      to: 'playing'
-      for:
-        minutes: 1
-    - platform: state
-      entity_id: sensor.sonos_group_master_state
-      to: 'playing'
-      for:
-        minutes: 2
-    - platform: state
-      entity_id: sensor.sonos_group_master_state
-      to: 'playing'
-      for:
-        minutes: 3
-    - platform: state
-      entity_id: sensor.sonos_group_master_state
-      to: 'playing'
-      for:
-        minutes: 4
-    - platform: state
-      entity_id: sensor.sonos_group_master_state
-      to: 'playing'
-      for:
-        minutes: 5
-    - platform: state
-      entity_id: sensor.sonos_group_master_state
-      to: 'playing'
-      for:
-        minutes: 6
-    - platform: state
-      entity_id: sensor.sonos_group_master_state
-      to: 'playing'
-      for:
-        minutes: 7
-    - platform: state
-      entity_id: sensor.sonos_group_master_state
-      to: 'playing'
-      for:
-        minutes: 8
-  condition:
-    condition: and
-    conditions:
-      - condition: or
-        conditions:
-          - condition: time
-            after: '03:00:00'
-            before: '11:00:00'
-            weekday:
-              - mon
-              - tue
-              - wed
-              - thu
-              - fri
-          - condition: time
-            after: '03:00:00'
-            before: '11:00:00'
-            weekday:
-              - sat
-              - sun
-      - condition: or
-        conditions:
-          - '{{ state_attr("media_player.sonos_kitchen", "volume_level") < 0.28 }}'
-          - '{{ state_attr("media_player.sonos_bedroom", "volume_level") < 0.28 }}'
-          - '{{ state_attr("media_player.sonos_bathroom", "volume_level") < 0.28 }}'
+  variables:
+    offset: 0.05
   action:
     - service: media_player.volume_set
       data:
+        entity_id: media_player.sonos_kitchen
+        volume_level: '{{ (states("input_number.sonos_kitchen_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_living_room
+        volume_level: '{{ (states("input_number.sonos_living_room_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_rec_room
+        volume_level: '{{ (states("input_number.sonos_rec_room_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_bedroom
+        volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_bathroom
+        volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset) | round(2, "floor") }}'
+
+
+- alias: Sonos - Morning Volume
+  trigger:
+    - platform: time
+      # Military time format. This trigger will fire at 11:00 AM
+      at: '11:00:00'
+  variables:
+    offset: 0.02
+  condition:
+    - condition: state
+      entity_id: sensor.sonos_group_master_state
+      state: 'paused'
+  action:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_kitchen
+        volume_level: '{{ (states("input_number.sonos_kitchen_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_living_room
+        volume_level: '{{ (states("input_number.sonos_living_room_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_rec_room
+        volume_level: '{{ (states("input_number.sonos_rec_room_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_bedroom
+        volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_bathroom
+        volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset) | round(2, "floor") }}'
+
+
+- alias: Sonos - Paused Reset
+  trigger:
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      from: 'playing'
+      to: 'paused'
+      for:
+        minutes: 30
+  variables:
+    offset: 0.02
+  condition:
+    - condition: state
+      entity_id: input_boolean.mode_peloton
+      state: 'off'
+  action:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_kitchen
+        volume_level: '{{ (states("input_number.sonos_kitchen_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_living_room
+        volume_level: '{{ (states("input_number.sonos_living_room_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_rec_room
+        volume_level: '{{ (states("input_number.sonos_rec_room_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_bedroom
+        volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_bathroom
+        volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_den
+        volume_level: '{{ states("input_number.sonos_den_volume") | float }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_move
+        volume_level: '{{ states("input_number.sonos_move_volume") | float }}'
+    - service: sonos.join
+      data:
+        master: media_player.sonos_kitchen
         entity_id:
-          - media_player.sonos_kitchen
           - media_player.sonos_bedroom
           - media_player.sonos_bathroom
-        volume_level: >-
-          {% if state_attr(states('sensor.sonos_group_master'), 'volume_level') < 0.28 -%}
-            {{ state_attr(states('sensor.sonos_group_master'), 'volume_level') + 0.01 }}
-          {%- else -%}
-            {{ state_attr(states('sensor.sonos_group_master'), 'volume_level') }}
-          {%- endif %}
+          - media_player.sonos_den
+          - media_player.sonos_living_room
+          - media_player.sonos_rec_room
+          - media_player.sonos_move
 
-- alias: Sonos Group Restore Default Settings - Weekday
+
+- alias: Sonos - Shuffle On
   trigger:
-    - platform: time
-      # Military time format. This trigger will fire at 9:00 AM
-      at: '11:00:00'
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
   condition:
-    - condition: time
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
+    - '{{ is_state_attr(states("sensor.sonos_group_master"), "shuffle", false) }}'
+  action:
+    - service: media_player.shuffle_set
+      data:
+        entity_id: '{{ states("sensor.sonos_group_master") }}'
+        shuffle: true
+
+
+- alias: Sonos - Volume Ramp Up
+  trigger:
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.mode_sleep
+        state: 'off'
+      - condition: or
+        conditions:
+          - '{{ state_attr("media_player.sonos_kitchen", "volume_level") < states("input_number.sonos_kitchen_volume") | float }}'
+          - '{{ state_attr("media_player.sonos_living_room", "volume_level") < states("input_number.sonos_living_room_volume") | float }}'
+          - '{{ state_attr("media_player.sonos_rec_room", "volume_level") < states("input_number.sonos_rec_room_volume") | float }}'
+          - '{{ state_attr("media_player.sonos_bedroom", "volume_level") < states("input_number.sonos_bedroom_volume") | float }}'
+          - '{{ state_attr("media_player.sonos_bathroom", "volume_level") < states("input_number.sonos_bathroom_volume") | float }}'
   action:
     - service: script.turn_on
-      entity_id: script.sonos_group_default_settings
-
-- alias: Sonos Group Restore Default Settings - Weekend
-  trigger:
-    - platform: time
-      # Military time format. This trigger will fire at 11:00 PM
-      at: '11:00:00'
-  condition:
-    - condition: time
-      weekday:
-        - sat
-        - sun
-  action:
-    - service: script.turn_on
-      entity_id: script.sonos_group_default_settings
-
-- alias: Sonos Group Restore Night Settings - Weekday
-  trigger:
-    - platform: time
-      # Military time format. This trigger will fire at 9:00 PM
-      at: '21:00:00'
-  condition:
-    - condition: time
-      weekday:
-        - sun
-        - mon
-        - tue
-        - wed
-        - thu
-  action:
-    - service: script.turn_on
-      entity_id: script.sonos_group_night_settings
-
-- alias: Sonos Group Restore Night Settings - Weekend
-  trigger:
-    - platform: time
-      # Military time format. This trigger will fire at 10:00 PM
-      at: '22:00:00'
-  condition:
-    - condition: time
-      weekday:
-        - fri
-        - sat
-  action:
-    - service: script.turn_on
-      entity_id: script.sonos_group_night_settings
+      entity_id: script.sonos_volume_ramp_up

@@ -1,0 +1,37 @@
+sonos_volume_ramp_up:
+  alias: Sonos Volume Ramp Up
+  variables:
+    increment: 0.01
+  sequence:
+    repeat:
+      while:
+        - condition: or
+          conditions:
+            - '{{ state_attr("media_player.sonos_kitchen", "volume_level") < states("input_number.sonos_kitchen_volume") | float }}'
+            - '{{ state_attr("media_player.sonos_living_room", "volume_level") < states("input_number.sonos_living_room_volume") | float }}'
+            - '{{ state_attr("media_player.sonos_rec_room", "volume_level") < states("input_number.sonos_rec_room_volume") | float }}'
+            - '{{ state_attr("media_player.sonos_bedroom", "volume_level") < states("input_number.sonos_bedroom_volume") | float }}'
+            - '{{ state_attr("media_player.sonos_bathroom", "volume_level") < states("input_number.sonos_bathroom_volume") | float }}'
+        - '{{ is_state("sensor.sonos_group_master_state", "playing") and repeat.index <= 5 }}'
+      sequence:
+        - delay: '00:01:00'
+        - service: media_player.volume_set
+          data:
+            entity_id: media_player.sonos_kitchen
+            volume_level: '{{ (state_attr("media_player.sonos_kitchen", "volume_level") + increment) | round(2, "floor") if state_attr("media_player.sonos_kitchen", "volume_level") < states("input_number.sonos_kitchen_volume") | float else states("input_number.sonos_kitchen_volume") | float }}'
+        - service: media_player.volume_set
+          data:
+            entity_id: media_player.sonos_living_room
+            volume_level: '{{ (state_attr("media_player.sonos_living_room", "volume_level") + increment) | round(2, "floor") if state_attr("media_player.sonos_living_room", "volume_level") < states("input_number.sonos_living_room_volume") | float else states("input_number.sonos_living_room_volume") | float }}'
+        - service: media_player.volume_set
+          data:
+            entity_id: media_player.sonos_rec_room
+            volume_level: '{{ (state_attr("media_player.sonos_rec_room", "volume_level") + increment) | round(2, "floor") if state_attr("media_player.sonos_rec_room", "volume_level") < states("input_number.sonos_rec_room_volume") | float else states("input_number.sonos_rec_room_volume") | float }}'
+        - service: media_player.volume_set
+          data:
+            entity_id: media_player.sonos_bedroom
+            volume_level: '{{ (state_attr("media_player.sonos_bedroom", "volume_level") + increment) | round(2, "floor") if state_attr("media_player.sonos_bedroom", "volume_level") < states("input_number.sonos_bedroom_volume") | float else states("input_number.sonos_bedroom_volume") | float }}'
+        - service: media_player.volume_set
+          data:
+            entity_id: media_player.sonos_bathroom
+            volume_level: '{{ (state_attr("media_player.sonos_bathroom", "volume_level") + increment) | round(2, "floor") if state_attr("media_player.sonos_bathroom", "volume_level") < states("input_number.sonos_bathroom_volume") | float else states("input_number.sonos_bathroom_volume") | float }}'
