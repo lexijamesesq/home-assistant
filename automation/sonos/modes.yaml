@@ -2,7 +2,7 @@
 # Mode Events
 ##############################################################
 # Home Theater Mode ##########################################
-- alias: Pause Sonos Speakers When HT Mode Starts
+- alias: Sonos - Pause Speakers When HT Mode Starts
   trigger:
     - platform: state
       entity_id: input_boolean.mode_home_theater
@@ -18,15 +18,31 @@
 
 
 # Peloton Mode ###############################################
-- alias: Sonos Group Enable Peloton Settings
+- alias: Sonos - Enable Peloton Settings
   trigger:
     - platform: state
       entity_id: input_boolean.mode_peloton
       to: 'on'
   action:
-    - service: script.turn_on
-      entity_id: script.sonos_group_peloton_settings
-- alias: Sonos Group Restore After Peloton Settings
+    - service: media_player.media_pause
+      data:
+        entity_id: '{{ states("sensor.sonos_group_master") }}'
+    - service: sonos.unjoin
+      entity_id: media_player.sonos_rec_room
+    - wait_template: '{{ is_state("input_boolean.sonos_rec_room", "off") }}'
+    - service: media_player.select_source
+      entity_id: media_player.sonos_rec_room
+      data:
+        source: 'Peloton: Rec Room Sonos Amp'
+    - wait_template: '{{ is_state("input_boolean.sonos_rec_room", "off") and states("media_player.sonos_rec_room") is defined and is_state_attr("media_player.sonos_rec_room", "source", "Line-in") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_rec_room
+        volume_level: 0.65
+    - service: media_player.media_play
+      entity_id: media_player.sonos_rec_room
+
+- alias: Sonos - Restore After Peloton Settings
   trigger:
     - platform: state
       entity_id: input_boolean.mode_peloton
@@ -34,5 +50,31 @@
   action:
     - service: media_player.media_pause
       entity_id: media_player.sonos_rec_room
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_rec_room
+        volume_level: '{{ states("input_number.sonos_rec_room_volume") | float }}'
     - service: script.turn_on
-      entity_id: script.sonos_group_update_settings
+      data:
+        entity_id: script.sonos_speaker_join_group
+        variables:
+          speaker: media_player.sonos_rec_room
+
+
+# Sleep Mode #################################################
+- alias: Sonos - Sleep Mode Volume
+  trigger:
+    - platform: state
+      entity_id: input_boolean.mode_sleep
+      to: 'on'
+  variables:
+    offset: 0.08
+  action:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_bedroom
+        volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset) | round(2, "floor") }}'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sonos_bathroom
+        volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset) | round(2, "floor") }}'
