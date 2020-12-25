@@ -81,6 +81,7 @@ logbook:
       - automation
       - cover
       - device_tracker
+      - logbook
       - script
       - switch
 
