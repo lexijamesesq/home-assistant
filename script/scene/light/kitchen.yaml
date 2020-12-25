@@ -144,7 +144,7 @@ scene_kitchen_night_ht_playing_high:
       entity_id: light.kitchen
       data:
         transition: "{{ seconds | default(5, true) }}"
-        brightness: 75
+        brightness: 3
 
 scene_kitchen_night_ht_playing_mid:
   alias: Scene Kitchen Night HT Playing Mid
@@ -153,7 +153,7 @@ scene_kitchen_night_ht_playing_mid:
       entity_id: light.kitchen
       data:
         transition: "{{ seconds | default(5, true) }}"
-        brightness: 10
+        brightness: 3
 
 scene_kitchen_night_ht_playing_low:
   alias: Scene Kitchen Night HT Playing Low
@@ -162,4 +162,4 @@ scene_kitchen_night_ht_playing_low:
       entity_id: light.kitchen
       data:
         transition: "{{ seconds | default(5, true) }}"
-        brightness: 5
+        brightness: 3
