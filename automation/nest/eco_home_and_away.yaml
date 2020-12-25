@@ -60,16 +60,15 @@
   action:
     - service: climate.set_preset_mode
       data:
-        entity_id: climate.downstairs
+        entity_id:
+          - climate.downstairs
+          - climate.upstairs
         preset_mode: 'none'
+    - wait_template: '{{ is_state_attr("climate.downstairs", "preset_mode", "none") and is_state_attr("climate.upstairs", "preset_mode", "none") }}'
     - service: climate.set_hvac_mode
       data:
         entity_id: climate.downstairs
         hvac_mode: '{{ states("sensor.climate_downstairs_restore_mode") }}'
-    - service: climate.set_preset_mode
-      data:
-        entity_id: climate.upstairs
-        preset_mode: 'none'
     - service: climate.set_hvac_mode
       data:
         entity_id: climate.upstairs
