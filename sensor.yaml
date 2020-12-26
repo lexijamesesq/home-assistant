@@ -400,6 +400,34 @@
           off
         {% endif %}
 
+    battery_downstairs_hallway_trisensor:
+      friendly_name: 'Downstairs Hallway TriSensor'
+      unit_of_measurement: '%'
+      value_template: >
+        {{ states.zwave.downstairs_hallway_trisensor.attributes.battery_level }}
+      icon_template: >
+        {% if states.zwave.downstairs_hallway_trisensor.attributes.battery_level is defined %}
+          {% set level = states.zwave.downstairs_hallway_trisensor.attributes.battery_level %}
+          {% if level | float == 100 %}
+            mdi:battery
+          {% elif level | float < 10 %}
+            mdi:battery-outline
+          {% else %}
+            {% set icon_level = (level / 10) | int * 10 %}
+            mdi:battery-{{ icon_level }}
+          {% endif %}
+        {% else %}
+          mdi:battery-alert
+        {% endif %}
+    dashboard_battery_downstairs_hallway_trisensor:
+      friendly_name: 'Downstairs Hallway TriSensor'
+      value_template: >-
+        {% if states.sensor.battery_downstairs_hallway_trisensor.state | int <= 50 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
     battery_garage_motion_sensor:
       friendly_name: 'Garage Motion Sensor'
       unit_of_measurement: '%'

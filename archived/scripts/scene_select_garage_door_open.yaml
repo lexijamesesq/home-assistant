@@ -6,8 +6,8 @@ sequence:
       variables:
         trigger: door
   - condition: numeric_state
-    entity_id: sensor.downstairs_hallway_multisensor_luminance
-    below: 5.0
+    entity_id: sensor.downstairs_hallway_trisensor_luminance
+    below: 20.0
   - service: script.turn_on
     entity_id: script.scene_select_downstairs_hallway_dim
     data:

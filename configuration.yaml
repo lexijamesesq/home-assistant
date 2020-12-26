@@ -121,9 +121,8 @@ influxdb:
        - sensor.bedroom_closet_trisensor_luminance
        - sensor.bedroom_closet_trtisensor_relative_humidity
        - sensor.bedroom_closet_trtisensor_temperature
-       - sensor.downstairs_hallway_multisensor_luminance
-       - sensor.downstairs_hallway_multisensor_relative_humidity
-       - sensor.downstairs_hallway_multisensor_temperature
+       - sensor.downstairs_hallway_trisensor_luminance
+       - sensor.downstairs_hallway_trisensor_temperature
        - sensor.garage_stairs_multisensor_luminance
        - sensor.garage_stairs_multisensor_relative_humidity
        - sensor.garage_stairs_multisensor_temperature
@@ -408,7 +407,7 @@ homekit:
       - binary_sensor.rec_room_windows
       - binary_sensor.den_multisensor_sensor
       - binary_sensor.bedroom_closet_trisensor_sensor
-      - binary_sensor.downstairs_hallway_multisensor_sensor
+      - binary_sensor.downstairs_hallway_trisensor_sensor
       - binary_sensor.garage_motion_sensor
       - binary_sensor.garage_stairs_multisensor_sensor
       - binary_sensor.living_room_motion_sensor

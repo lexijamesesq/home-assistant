@@ -12,7 +12,7 @@
         - sensor.battery_august_garage_door
         - sensor.battery_garage_stairs_multisensor
         - sensor.battery_garage_motion_sensor
-        - sensor.battery_downstairs_hallway_multisensor
+        - sensor.battery_downstairs_hallway_trisensor
         - sensor.battery_main_stairs_multisensor
         - sensor.battery_bedroom_closet_door_sensor
         - sensor.battery_laundry_door_left_sensor
