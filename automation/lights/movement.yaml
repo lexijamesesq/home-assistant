@@ -37,8 +37,8 @@
     - choose:
         - conditions:
             - condition: numeric_state
-              entity_id: sensor.downstairs_hallway_multisensor_luminance
-              below: 5.0
+              entity_id: sensor.downstairs_hallway_trisensor_luminance
+              below: 20.0
           sequence:
             - service: script.turn_on
               entity_id: script.update_lights
@@ -59,8 +59,8 @@
     - service: input_boolean.turn_on
       entity_id: input_boolean.door_trigger_garage_stairs_lights
     - condition: numeric_state
-      entity_id: sensor.downstairs_hallway_multisensor_luminance
-      below: 5.0
+      entity_id: sensor.downstairs_hallway_trisensor_luminance
+      below: 20.0
     - service: input_boolean.turn_on
       entity_id: input_boolean.door_trigger_downstairs_hallway_lights
 # Transitions from a door to a motion trigger, so lights
@@ -146,8 +146,8 @@
             entity_id: input_boolean.mode_night
             state: 'on'
           - condition: numeric_state
-            entity_id: sensor.downstairs_hallway_multisensor_luminance
-            below: 5.0
+            entity_id: sensor.downstairs_hallway_trisensor_luminance
+            below: 20.0
   action:
     - service: script.turn_on
       entity_id: script.update_lights
@@ -182,8 +182,8 @@
             entity_id: input_boolean.mode_night
             state: 'on'
           - condition: numeric_state
-            entity_id: sensor.downstairs_hallway_multisensor_luminance
-            below: 5.0
+            entity_id: sensor.downstairs_hallway_trisensor_luminance
+            below: 20.0
   action:
     - service: script.turn_on
       entity_id: script.update_lights

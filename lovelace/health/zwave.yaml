@@ -18,7 +18,7 @@ cards:
       - zwave.bedroom_closet_door_sensor
       - zwave.bedroom_closet_trisensor
       - zwave.den_multisensor
-      - zwave.downstairs_hallway_multisensor
+      - zwave.downstairs_hallway_trisensor
       - zwave.garage_actual
       - zwave.garage_motion_sensor
       - zwave.garage_stairs_multisensor

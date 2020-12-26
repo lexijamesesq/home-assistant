@@ -31,7 +31,7 @@ cards:
 #     name: Front Door
   - type: custom:button-card
     template: security_door_window
-    entity: binary_sensor.downstairs_hallway_multisensor_sensor
+    entity: binary_sensor.downstairs_hallway_trisensor_sensor
     name: Downstairs Hallway
   - type: custom:button-card
     template: security_door_window

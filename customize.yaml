@@ -6,8 +6,6 @@ binary_sensor.garage_actual:
   device_class: garage_door
 binary_sensor.garage_stairs_multisensor_sensor:
   device_class: motion
-binary_sensor.downstairs_hallway_multisensor_sensor:
-  device_class: motion
 binary_sensor.main_stairs_multisensor_sensor:
   device_class: motion
 binary_sensor.den_multisensor_sensor:
@@ -62,20 +60,6 @@ sensor.den_multisensor_sourcenodeid:
 sensor.den_multisensor_temperature:
   friendly_name: Den Temp
 sensor.den_multisensor_ultraviolet:
-  hidden: true
-sensor.downstairs_hallway_multisensor_alarm_level:
-  hidden: true
-sensor.downstairs_hallway_multisensor_alarm_type:
-  hidden: true
-sensor.downstairs_hallway_multisensor_burglar:
-  hidden: true
-sensor.downstairs_hallway_multisensor_luminance:
-  icon: mdi:weather-sunny
-sensor.downstairs_hallway_multisensor_relative_humidity:
-  icon: mdi:water-percent
-sensor.downstairs_hallway_multisensor_sourcenodeid:
-  hidden: true
-sensor.downstairs_hallway_multisensor_ultraviolet:
   hidden: true
 sensor.garage_motion_sensor_alarm_level:
   hidden: true
@@ -359,3 +343,5 @@ sensor.mode_simulate_presence:
   icon: mdi:home-lightbulb
 light.rec_room_canvas:
   icon: mdi:lightbulb
+binary_sensor.downstairs_hallway_trisensor_sensor:
+  device_class: motion
