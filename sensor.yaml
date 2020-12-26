@@ -1068,7 +1068,7 @@
     dashboard_bedroom_fan_filter:
       friendly_name: Bedroom Fan Filter
       value_template: >-
-        {% if states.fan.bedroom.attributes["hepa_filter"] <= 33 %}
+        {% if state_attr("fan.bedroom", "hepa_filter") <= 33 %}
           on
         {% else %}
           off
@@ -1077,7 +1077,7 @@
     dashboard_kitchen_fan_filter:
       friendly_name: Kitchen Fan Filter
       value_template: >-
-        {% if states.fan.kitchen.attributes["hepa_filter"] <= 33 %}
+        {% if state_attr("fan.kitchen", "hepa_filter") <= 33 %}
           on
         {% else %}
           off
@@ -1095,7 +1095,7 @@
     dashboard_neato_rory_status:
       friendly_name: Rory
       value_template: >-
-        {% if states.vacuum.rory.state != 'docked' %}
+        {% if states("vacuum.rory") != 'docked' %}
           on
         {% else %}
           off
@@ -1104,10 +1104,10 @@
     dashboard_neato_rory_last_cleaned:
       friendly_name: Rory - Last Cleaned
       value_template: >-
-        {% set lastcleaned = as_timestamp(states.vacuum.rory.attributes.clean_stop) %}
+        {% set lastcleaned = as_timestamp(state_attr("vacuum.rory", "clean_stop")) %}
         {% set fivedaysbefore = (as_timestamp(now()) - (24*60*60*5)) < lastcleaned and as_timestamp(now()) > lastcleaned %}
         {% set daybefore = (as_timestamp(now()) - (24*60*60))|timestamp_custom('%Y-%m-%d') == lastcleaned|timestamp_custom('%Y-%m-%d') %}
-        {% set dayof = states.sensor.date.state == lastcleaned|timestamp_custom('%Y-%m-%d') %}
+        {% set dayof = states("sensor.date") == lastcleaned|timestamp_custom('%Y-%m-%d') %}
         {% if daybefore %}
           Yesterday
         {% elif dayof %}
@@ -1120,7 +1120,7 @@
     dashboard_neato_amelia_status:
       friendly_name: Amelia
       value_template: >-
-        {% if states.vacuum.amelia.state != 'docked' %}
+        {% if states("vacuum.amelia") != 'docked' %}
           on
         {% else %}
           off
@@ -1129,10 +1129,10 @@
     dashboard_neato_amelia_last_cleaned:
       friendly_name: Amelia - Last Cleaned
       value_template: >-
-        {% set lastcleaned = as_timestamp(states.vacuum.amelia.attributes.clean_stop) %}
+        {% set lastcleaned = as_timestamp(state_attr("vacuum.amelia", "clean_stop")) %}
         {% set fivedaysbefore = (as_timestamp(now()) - (24*60*60*5)) < lastcleaned and as_timestamp(now()) > lastcleaned %}
         {% set daybefore = (as_timestamp(now()) - (24*60*60))|timestamp_custom('%Y-%m-%d') == lastcleaned|timestamp_custom('%Y-%m-%d') %}
-        {% set dayof = states.sensor.date.state == lastcleaned|timestamp_custom('%Y-%m-%d') %}
+        {% set dayof = states("sensor.date") == lastcleaned|timestamp_custom('%Y-%m-%d') %}
         {% if daybefore %}
           Yesterday
         {% elif dayof %}
