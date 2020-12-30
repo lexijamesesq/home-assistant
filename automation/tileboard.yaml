@@ -33,7 +33,7 @@
 ##############################################################
 # Screen Events
 ##############################################################
-- alias: TileBoard Turn Screen Off - Sleep Mode On
+- alias: TileBoard Turn Screen Off
   trigger:
     - platform: event
       event_type: mode_sleep_on_delay_short
@@ -49,15 +49,37 @@
       value_template: '{{ is_state("input_boolean.mode_sleep", "on") and as_timestamp(states("sensor.date") + " " + states("sensor.time")) > (as_timestamp(states.input_boolean.mode_sleep.last_changed) + (60 * 5)) and is_state_attr("sensor.garage_entrance_dashboard", "screenOn", true) }}'
       for:
         minutes: 2
+    - platform: state
+      entity_id: group.residents
+      to: 'not_home'
+      # Motion Sensor Timeout
+      for:
+        minutes: 4
+    - platform: state
+      entity_id: input_boolean.mode_guest
+      to: 'off'
+  condition:
+    - condition: state
+      entity_id: group.residents
+      state: 'not_home'
+    - condition: state
+      entity_id: input_boolean.mode_guest
+      state: 'off'
   action:
     - event: tileboard
       event_data:
         command: 'screen_off'
 
-- alias: TileBoard Turn Screen On - Sleep Mode Off
+- alias: TileBoard Turn Screen On
   trigger:
     - platform: event
       event_type: mode_sleep_off
+    - platform: state
+      entity_id: group.residents
+      to: 'home'
+    - platform: state
+      entity_id: input_boolean.mode_guest
+      to: 'on'
   action:
     - service: rest_command.bedroom_hallway_dashboard_command
       data:
