@@ -386,6 +386,9 @@ cover:
           {% endif %}
 
 
+stream:
+
+
 homekit:
   auto_start: false
   ip_address: !secret homekit_ip_address
