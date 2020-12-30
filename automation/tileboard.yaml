@@ -1,3 +1,11 @@
+##############################################################
+# On Load Events
+##############################################################
+
+
+##############################################################
+# Page Events
+##############################################################
 - alias: TileBoard Switch to Sonos Tab
   trigger:
     - platform: state
@@ -20,15 +28,33 @@
       event_data:
         page: 0
         command: 'open_page'
-- alias: TileBoard Turn Screen Off
+
+
+##############################################################
+# Screen Events
+##############################################################
+- alias: TileBoard Turn Screen Off - Sleep Mode On
   trigger:
     - platform: event
       event_type: mode_sleep_on_delay_short
+    - platform: template
+      value_template: '{{ is_state("input_boolean.mode_sleep", "on") and as_timestamp(states("sensor.date") + " " + states("sensor.time")) > (as_timestamp(states.input_boolean.mode_sleep.last_changed) + (60 * 5)) and is_state_attr("sensor.bedroom_hallway_dashboard", "screenOn", true) }}'
+      for:
+        minutes: 2
+    - platform: template
+      value_template: '{{ is_state("input_boolean.mode_sleep", "on") and as_timestamp(states("sensor.date") + " " + states("sensor.time")) > (as_timestamp(states.input_boolean.mode_sleep.last_changed) + (60 * 5)) and is_state_attr("sensor.downstairs_hallway_dashboard", "screenOn", true) }}'
+      for:
+        minutes: 2
+    - platform: template
+      value_template: '{{ is_state("input_boolean.mode_sleep", "on") and as_timestamp(states("sensor.date") + " " + states("sensor.time")) > (as_timestamp(states.input_boolean.mode_sleep.last_changed) + (60 * 5)) and is_state_attr("sensor.garage_entrance_dashboard", "screenOn", true) }}'
+      for:
+        minutes: 2
   action:
     - event: tileboard
       event_data:
         command: 'screen_off'
-- alias: TileBoard Turn Screen On
+
+- alias: TileBoard Turn Screen On - Sleep Mode Off
   trigger:
     - platform: event
       event_type: mode_sleep_off
