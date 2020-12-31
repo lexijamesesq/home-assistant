@@ -45,17 +45,16 @@
         camera: 0
         command: 'open_camera'
 
-- alias: TileBoard Open Camera
+- alias: TileBoard Close Camera
   trigger:
     - platform: state
       entity_id: binary_sensor.motion_front_door
-      to: 'of'
+      to: 'off'
       for:
         seconds: 30
   action:
     - event: tileboard
       event_data:
-        camera: 0
         command: 'close_camera'
 
 
