@@ -31,6 +31,8 @@ motion_garage_stairs:
   name: Garage Stairs Motion
 motion_downstairs_hallway:
   name: Downstairs Hallway Motion
+motion_kitchen:
+  name: Kitchen Motion
 motion_living_room:
   name: Living Room Motion
 motion_main_stairs:

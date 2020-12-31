@@ -91,6 +91,7 @@ motion_guest_areas:
     - input_boolean.motion_garage_stairs
     - input_boolean.motion_downstairs_hallway
     - input_boolean.motion_living_room
+    - input_boolean.motion_kitchen
     - input_boolean.motion_main_stairs
     - input_boolean.motion_upstairs_hallway
     - input_boolean.motion_den_hallway

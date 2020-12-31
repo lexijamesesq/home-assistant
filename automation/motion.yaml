@@ -89,6 +89,30 @@
 
 
 ##############################################################
+# Kitchen
+##############################################################
+
+- alias: Motion Started in Kitchen
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_main_floor
+      to: "on"
+  action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.motion_kitchen
+- alias: Motion Ended in Kitchen
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_main_floor
+      to: "off"
+      for:
+        minutes: 2
+  action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.motion_kitchen
+
+
+##############################################################
 # Den Hallway
 ##############################################################
 
