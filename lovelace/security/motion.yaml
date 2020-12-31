@@ -25,10 +25,10 @@ cards:
     template: security_door_window
     entity: binary_sensor.garage_stairs_multisensor_sensor
     name: Garage Stairs
-#   - type: custom:button-card
-#     template: security_door_window
-#     entity: binary_sensor.ring_front_door_motion
-#     name: Front Door
+  - type: custom:button-card
+    template: security_door_window
+    entity: binary_sensor.motion_front_door
+    name: Front Door
   - type: custom:button-card
     template: security_door_window
     entity: binary_sensor.downstairs_hallway_trisensor_sensor
