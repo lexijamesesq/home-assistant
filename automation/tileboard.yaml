@@ -16,6 +16,7 @@
       event_data:
         page: 2
         command: 'open_page'
+
 - alias: TileBoard Switch to Home Tab
   trigger:
     - platform: state
@@ -28,6 +29,34 @@
       event_data:
         page: 0
         command: 'open_page'
+
+
+##############################################################
+# Camera Events
+##############################################################
+- alias: TileBoard Open Camera - Front Door
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_front_door
+      to: 'on'
+  action:
+    - event: tileboard
+      event_data:
+        camera: 0
+        command: 'open_camera'
+
+- alias: TileBoard Open Camera
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_front_door
+      to: 'of'
+      for:
+        seconds: 30
+  action:
+    - event: tileboard
+      event_data:
+        camera: 0
+        command: 'close_camera'
 
 
 ##############################################################
