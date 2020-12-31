@@ -35,6 +35,10 @@ cards:
     name: Downstairs Hallway
   - type: custom:button-card
     template: security_door_window
+    entity: binary_sensor.motion_main_floor
+    name: Kitchen
+  - type: custom:button-card
+    template: security_door_window
     entity: binary_sensor.living_room_motion_sensor
     name: Living Room
   - type: custom:button-card
