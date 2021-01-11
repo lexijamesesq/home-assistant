@@ -103,6 +103,10 @@ lovelace:
       type: module
 
 
+# neato:
+#   client_id: neato_client_id
+#   client_secret: neato_client_secret
+
 
 influxdb:
   host: !secret influxdb_host
