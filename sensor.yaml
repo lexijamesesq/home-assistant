@@ -1092,56 +1092,56 @@
 #          off
 #        {% endif %}
 #      icon_template: 'mdi:gas-station'
-    dashboard_neato_rory_status:
-      friendly_name: Rory
-      value_template: >-
-        {% if states("vacuum.rory") != 'docked' %}
-          on
-        {% else %}
-          off
-        {% endif %}
-      icon_template: 'mdi:robot-vacuum-variant'
-    dashboard_neato_rory_last_cleaned:
-      friendly_name: Rory - Last Cleaned
-      value_template: >-
-        {% set lastcleaned = as_timestamp(state_attr("vacuum.rory", "clean_stop")) %}
-        {% set fivedaysbefore = (as_timestamp(now()) - (24*60*60*5)) < lastcleaned and as_timestamp(now()) > lastcleaned %}
-        {% set daybefore = (as_timestamp(now()) - (24*60*60))|timestamp_custom('%Y-%m-%d') == lastcleaned|timestamp_custom('%Y-%m-%d') %}
-        {% set dayof = states("sensor.date") == lastcleaned|timestamp_custom('%Y-%m-%d') %}
-        {% if daybefore %}
-          Yesterday
-        {% elif dayof %}
-          Today
-        {% elif fivedaysbefore %}
-          {{ lastcleaned|timestamp_custom('%A') }}
-        {% else %}
-          {{ lastcleaned|timestamp_custom('%B %-d') }}
-        {% endif %}
-    dashboard_neato_amelia_status:
-      friendly_name: Amelia
-      value_template: >-
-        {% if states("vacuum.amelia") != 'docked' %}
-          on
-        {% else %}
-          off
-        {% endif %}
-      icon_template: 'mdi:robot-vacuum-variant'
-    dashboard_neato_amelia_last_cleaned:
-      friendly_name: Amelia - Last Cleaned
-      value_template: >-
-        {% set lastcleaned = as_timestamp(state_attr("vacuum.amelia", "clean_stop")) %}
-        {% set fivedaysbefore = (as_timestamp(now()) - (24*60*60*5)) < lastcleaned and as_timestamp(now()) > lastcleaned %}
-        {% set daybefore = (as_timestamp(now()) - (24*60*60))|timestamp_custom('%Y-%m-%d') == lastcleaned|timestamp_custom('%Y-%m-%d') %}
-        {% set dayof = states("sensor.date") == lastcleaned|timestamp_custom('%Y-%m-%d') %}
-        {% if daybefore %}
-          Yesterday
-        {% elif dayof %}
-          Today
-        {% elif fivedaysbefore %}
-          {{ lastcleaned|timestamp_custom('%A') }}
-        {% else %}
-          {{ lastcleaned|timestamp_custom('%B %-d') }}
-        {% endif %}
+#     dashboard_neato_rory_status:
+#       friendly_name: Rory
+#       value_template: >-
+#         {% if states("vacuum.rory") != 'docked' %}
+#           on
+#         {% else %}
+#           off
+#         {% endif %}
+#       icon_template: 'mdi:robot-vacuum-variant'
+#     dashboard_neato_rory_last_cleaned:
+#       friendly_name: Rory - Last Cleaned
+#       value_template: >-
+#         {% set lastcleaned = as_timestamp(state_attr("vacuum.rory", "clean_stop")) %}
+#         {% set fivedaysbefore = (as_timestamp(now()) - (24*60*60*5)) < lastcleaned and as_timestamp(now()) > lastcleaned %}
+#         {% set daybefore = (as_timestamp(now()) - (24*60*60))|timestamp_custom('%Y-%m-%d') == lastcleaned|timestamp_custom('%Y-%m-%d') %}
+#         {% set dayof = states("sensor.date") == lastcleaned|timestamp_custom('%Y-%m-%d') %}
+#         {% if daybefore %}
+#           Yesterday
+#         {% elif dayof %}
+#           Today
+#         {% elif fivedaysbefore %}
+#           {{ lastcleaned|timestamp_custom('%A') }}
+#         {% else %}
+#           {{ lastcleaned|timestamp_custom('%B %-d') }}
+#         {% endif %}
+#     dashboard_neato_amelia_status:
+#       friendly_name: Amelia
+#       value_template: >-
+#         {% if states("vacuum.amelia") != 'docked' %}
+#           on
+#         {% else %}
+#           off
+#         {% endif %}
+#       icon_template: 'mdi:robot-vacuum-variant'
+#     dashboard_neato_amelia_last_cleaned:
+#       friendly_name: Amelia - Last Cleaned
+#       value_template: >-
+#         {% set lastcleaned = as_timestamp(state_attr("vacuum.amelia", "clean_stop")) %}
+#         {% set fivedaysbefore = (as_timestamp(now()) - (24*60*60*5)) < lastcleaned and as_timestamp(now()) > lastcleaned %}
+#         {% set daybefore = (as_timestamp(now()) - (24*60*60))|timestamp_custom('%Y-%m-%d') == lastcleaned|timestamp_custom('%Y-%m-%d') %}
+#         {% set dayof = states("sensor.date") == lastcleaned|timestamp_custom('%Y-%m-%d') %}
+#         {% if daybefore %}
+#           Yesterday
+#         {% elif dayof %}
+#           Today
+#         {% elif fivedaysbefore %}
+#           {{ lastcleaned|timestamp_custom('%A') }}
+#         {% else %}
+#           {{ lastcleaned|timestamp_custom('%B %-d') }}
+#         {% endif %}
 
 
 # Alexa Wakeup Light
