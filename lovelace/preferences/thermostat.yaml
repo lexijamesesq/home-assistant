@@ -31,6 +31,10 @@ cards:
         label: Automations
       - entity: automation.cycle_stale_air_when_away
       - entity: automation.nest_temperature_sleep_mode_started
-        name: Sleep Mode Started Temperatures
+        name: Bedroom Temp - Sleep Mode On
       - entity: automation.nest_temperature_sleep_mode_ended
-        name: Sleep Mode Ended Temperatures
+        name: Bedroom Temp - Sleep Mode Off
+      - entity: automation.fan_bedroom_sleep_mode_off_wakeup_short
+        name: Bedroom Fan Purify - Morning
+      - entity: automation.fan_bedroom_purify_before_bed
+        name: Bedroom Fan Purify - Night
