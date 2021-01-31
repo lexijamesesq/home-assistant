@@ -32,10 +32,10 @@
         entity_id: fan.bedroom
         dyson_speed: 4
 
-- alias: Fan - Bedroom - Sleep Mode Off - Wakeup Short
+- alias: Fan - Bedroom - Sleep Mode Off
   trigger:
     - platform: event
-      event_type: mode_sleep_off_wakeup_short
+      event_type: mode_sleep_off
   condition:
     - condition: state
       entity_id: fan.bedroom
@@ -45,6 +45,16 @@
       data:
         entity_id: fan.bedroom
         night_mode: false
+
+- alias: Fan - Bedroom - Sleep Mode Off - Wakeup Short
+  trigger:
+    - platform: event
+      event_type: mode_sleep_off_wakeup_short
+  condition:
+    - condition: state
+      entity_id: fan.bedroom
+      state: 'on'
+  action:
     - service: dyson.set_speed
       data:
         entity_id: fan.bedroom
