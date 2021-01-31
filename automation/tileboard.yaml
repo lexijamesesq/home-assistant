@@ -23,7 +23,7 @@
       entity_id: sensor.sonos_group_master_state
       to: 'paused'
       for:
-        seconds: 30
+        seconds: 10
   action:
     - event: tileboard
       event_data:
