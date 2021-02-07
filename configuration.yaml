@@ -168,12 +168,6 @@ dyson:
       device_ip: !secret dyson_bedroom_device_ip
 
 
-august:
-  login_method: !secret august_login_method
-  username: !secret august_username
-  password: !secret august_password
-
-
 emulated_hue:
   host_ip: !secret emulated_hue_host
   listen_port: !secret emulated_hue_port
