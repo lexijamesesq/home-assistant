@@ -191,7 +191,7 @@
       friendly_name: 'Simulate Presence Mode'
       value_template: >
         {% if is_state('input_boolean.mode_simulate_presence', 'on') %}
-          {% if is_state("group.all_lights", "on") %}
+          {% if is_state("group.inside_lights", "on") %}
             Lights On
           {% else %}
             Lights Off

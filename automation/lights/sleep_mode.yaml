@@ -11,6 +11,8 @@
       entity_id:
         - light.den_lights
         - light.den_cabinets
+        - light.patio_lights
+        - light.patio_string_lights
 
 - alias: Sleep Mode Ended Update Lights
   trigger:

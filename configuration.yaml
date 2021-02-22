@@ -278,6 +278,11 @@ light:
       - light.patio_2
       - light.patio_3
   - platform: group
+    name: Patio String Lights
+    entities:
+      - light.downstairs_patio_string_lights
+      - light.upstairs_patio_string_lights
+  - platform: group
     name: Upstairs Hallway Group Lights
     entities:
       - light.main_stairs
@@ -302,8 +307,8 @@ light:
     name: Garage Lights
     entity_id: switch.garage_lights
   - platform: switch
-    name: Patio String Lights
-    entity_id: switch.patio_string_lights
+    name: Downstairs Patio String Lights
+    entity_id: switch.downstairs_patio_string_lights
   - platform: switch
     name: Bedroom Closet Lights
     entity_id: switch.bedroom_closet_lights
@@ -313,6 +318,9 @@ light:
   - platform: switch
     name: Guest Bedroom Closet Lights
     entity_id: switch.guest_bedroom_closet_lights
+  - platform: switch
+    name: Upstairs Patio String Lights
+    entity_id: switch.upstairs_patio_string_lights
   - platform: nanoleaf
     host: !secret nanoleaf_rec_room_canvas_host
     token: !secret nanoleaf_rec_room_canvas_token
@@ -424,6 +432,7 @@ homekit:
       - light.den_cabinets
       - light.bedroom_lights
       - light.upstairs_hallway_group_lights
+      - light.patio_string_lights
 
 
 ios:

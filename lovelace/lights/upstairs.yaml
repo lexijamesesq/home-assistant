@@ -68,5 +68,9 @@ cards:
     name: Den Cabinets
   - type: custom:button-card
     template: light
+    entity: light.upstairs_patio_string_lights
+    name: Patio String
+  - type: custom:button-card
+    template: light
     entity: light.guest_bedroom_closet_lights
     name: Guest Bedroom Closet

@@ -34,7 +34,29 @@ all_lights:
     - light.downstairs_hallway
     - light.kitchen
     - light.patio_lights
-    - light.patio_string_lights
+    - light.downstairs_patio_string_lights
+    - light.living_room
+    - light.living_room_tv
+    - light.rec_room_canvas
+    - light.main_stairs
+    - light.upstairs_hallway
+    - light.bedroom_hallway
+    - light.bedroom_lights
+    - light.bedroom_tiles
+    - light.bedroom_closet_lights
+    - light.laundry_lights
+    - light.den_hallway
+    - light.den_lights
+    - light.den_cabinets
+    - light.upstairs_patio_string_lights
+    - light.guest_bedroom_closet_lights
+
+inside_lights:
+  entities:
+    - light.garage_lights
+    - light.garage_stairs
+    - light.downstairs_hallway
+    - light.kitchen
     - light.living_room
     - light.living_room_tv
     - light.rec_room_canvas
@@ -50,6 +72,12 @@ all_lights:
     - light.den_cabinets
     - light.guest_bedroom_closet_lights
 
+outside_lights:
+  entities:
+    - light.patio_lights
+    - light.downstairs_patio_string_lights
+    - light.upstairs_patio_string_lights
+
 garage_lights:
   entities:
     - light.garage_lights
@@ -60,7 +88,7 @@ downstairs_lights:
     - light.downstairs_hallway
     - light.kitchen
     - light.patio_lights
-    - light.patio_string_lights
+    - light.downstairs_patio_string_lights
     - light.living_room
     - light.living_room_tv
     - light.rec_room_canvas
@@ -77,6 +105,7 @@ upstairs_lights:
     - light.den_hallway
     - light.den_lights
     - light.den_cabinets
+    - light.upstairs_patio_string_lights
     - light.guest_bedroom_closet_lights
 
 ##############################################################

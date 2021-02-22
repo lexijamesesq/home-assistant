@@ -31,7 +31,7 @@ cards:
     name: Patio
   - type: custom:button-card
     template: light
-    entity: light.patio_string_lights
+    entity: light.downstairs_patio_string_lights
     name: Patio String
   - type: custom:button-card
     template: light

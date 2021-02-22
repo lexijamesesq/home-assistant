@@ -62,6 +62,7 @@
             - bedroom_tiles
             - den
             - den_cabinets
+            - patio_string_lights
           seconds: 10
 
 
@@ -91,6 +92,22 @@
             - den
             - den_cabinets
           seconds: 10
+
+
+##############################################################
+# Late Night
+##############################################################
+- alias: Update Lights at Late Night
+  trigger:
+    - platform: time
+      at: '03:00:00'
+  condition:
+    - condition: state
+      entity_id: group.residents
+      state: 'not_home'
+  action:
+    - service: light.turn_off
+      entity_id: group.outside_lights
 
 
 ##############################################################
