@@ -14,7 +14,7 @@ update_lights:
           {% set prefer_high = states.sensor.prefer_lighting_high.state %}
 
           {% set ht_lights = ["kitchen", "living_room", "living_room_tv", "rec_room_canvas"] %}
-          {% set ambient_lights = ["living_room_tv", "rec_room_canvas", "bedroom_tiles", "den_cabinets"] %}
+          {% set ambient_lights = ["living_room_tv", "rec_room_canvas", "bedroom_tiles", "den_cabinets", "patio_string_lights"] %}
 
           {% set mode = '_' + states('sensor.dashboard_current_home_mode') | lower %}
 
