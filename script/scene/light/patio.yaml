@@ -29,3 +29,36 @@ scene_patio_blue_purple:
         transition: 2
         brightness: 100
         rgb_color: [69,63,255]
+
+
+##############################################################
+# Patio String Light Scenes
+##############################################################
+
+# Direct Scenes ##############################################
+# Called from script.update_lights
+# Uses format: Scene {Light} {Mode} {HT} {Brightness}
+
+scene_patio_string_lights_morning:
+  alias: Scene Patio String Lights Morning
+  sequence:
+    - service: light.turn_off
+      entity_id: light.patio_string_lights
+
+scene_patio_string_lights_day:
+  alias: Scene Patio String Lights Day
+  sequence:
+    - service: light.turn_off
+      entity_id: light.patio_string_lights
+
+scene_patio_string_lights_sunset:
+  alias: Scene Patio String Lights Sunset
+  sequence:
+    - service: light.turn_on
+      entity_id: light.patio_string_lights
+
+scene_patio_string_lights_night:
+  alias: Scene Patio String Lights Night
+  sequence:
+    - service: light.turn_on
+      entity_id: light.patio_string_lights
