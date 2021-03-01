@@ -8,9 +8,14 @@
   condition:
     condition: and
     conditions:
-      - condition: state
-        entity_id: group.residents
-        state: 'home'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: group.residents
+            state: 'home'
+          - condition: state
+            entity_id: input_boolean.mode_guest
+            state: 'on'
       - condition: or
         conditions:
           - condition: state
@@ -46,24 +51,48 @@
       entity_id: input_boolean.mode_sunset
       to: 'on'
   condition:
-    - condition: state
-      entity_id: group.residents
-      state: 'home'
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.mode_guest
+        state: 'on'
   action:
-    - service: script.turn_on
-      entity_id: script.update_lights
-      data:
-        variables:
-          lights:
-            - kitchen
-            - living_room
-            - living_room_tv
-            - bedroom
-            - bedroom_tiles
-            - den
-            - den_cabinets
-            - patio_string_lights
-          seconds: 10
+    - choose:
+        # Someone's Home
+        - conditions:
+            - condition: or
+              conditions:
+                - condition: state
+                  entity_id: group.residents
+                  state: 'home'
+                - condition: state
+                  entity_id: input_boolean.mode_guest
+                  state: 'on'
+          sequence:
+            - service: script.turn_on
+              entity_id: script.update_lights
+              data:
+                variables:
+                  lights:
+                    - kitchen
+                    - living_room
+                    - living_room_tv
+                    - bedroom
+                    - bedroom_tiles
+                    - den
+                    - den_cabinets
+                    - patio_string_lights
+                  seconds: 10
+      default:
+        - service: script.turn_on
+          entity_id: script.update_lights
+          data:
+            variables:
+              lights:
+                - patio_string_lights
 
 
 ##############################################################
@@ -75,9 +104,14 @@
       entity_id: input_boolean.mode_night
       to: 'on'
   condition:
-    - condition: state
-      entity_id: group.residents
-      state: 'home'
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: group.residents
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.mode_guest
+        state: 'on'
   action:
     - service: script.turn_on
       entity_id: script.update_lights
@@ -105,6 +139,9 @@
     - condition: state
       entity_id: group.residents
       state: 'not_home'
+    - condition: state
+      entity_id: input_boolean.mode_guest
+      state: 'off'
   action:
     - service: light.turn_off
       entity_id: group.outside_lights
@@ -122,9 +159,14 @@
   condition:
     condition: and
     conditions:
-      - condition: state
-        entity_id: group.residents
-        state: 'home'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: group.residents
+            state: 'home'
+          - condition: state
+            entity_id: input_boolean.mode_guest
+            state: 'on'
       - condition: or
         conditions:
           - condition: state
