@@ -85,12 +85,12 @@
       entity_id: input_boolean.motion_garage_stairs
       to: 'off'
       for:
-        seconds: 5
+        seconds: 20
     - platform: state
       entity_id: binary_sensor.garage_door
       to: 'off'
       for:
-        minutes: 2
+        seconds: 140
   condition:
     condition: and
     conditions:
@@ -216,12 +216,12 @@
       entity_id: input_boolean.motion_downstairs_hallway
       to: 'off'
       for:
-        seconds: 5
+        seconds: 20
     - platform: state
       entity_id: binary_sensor.garage_door
       to: 'off'
       for:
-        minutes: 2
+        seconds: 140
   condition:
     condition: and
     conditions:
@@ -290,7 +290,7 @@
       entity_id: group.motion_upstairs_hallway_group_areas
       to: 'off'
       for:
-        seconds: 5
+        seconds: 20
   condition:
     condition: and
     conditions:
@@ -352,7 +352,7 @@
       entity_id: input_boolean.motion_den_hallway
       to: 'off'
       for:
-        seconds: 5
+        seconds: 20
   condition:
     condition: and
     conditions:
