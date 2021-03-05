@@ -50,15 +50,6 @@
     - platform: state
       entity_id: input_boolean.mode_sunset
       to: 'on'
-  condition:
-    condition: or
-    conditions:
-      - condition: state
-        entity_id: group.residents
-        state: 'home'
-      - condition: state
-        entity_id: input_boolean.mode_guest
-        state: 'on'
   action:
     - choose:
         # Someone's Home
