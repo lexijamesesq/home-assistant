@@ -2,18 +2,6 @@
 # Bedroom
 ##############################################################
 
-- alias: Fan - Bedroom - Purify Before Bed
-  trigger:
-    - platform: time
-      at: '20:00:00'
-  action:
-    - service: fan.turn_on
-      entity_id: fan.bedroom
-    - service: dyson.set_speed
-      data:
-        entity_id: fan.bedroom
-        dyson_speed: 8
-
 - alias: Fan - Bedroom - Sleep Mode On
   trigger:
     - platform: event
@@ -23,14 +11,12 @@
       entity_id: fan.bedroom
       state: 'on'
   action:
-    - service: dyson.set_night_mode
+    - service: switch.turn_on
+      entity_id: switch.bedroom_night_mode
+    - service: fan.set_percentage
       data:
         entity_id: fan.bedroom
-        night_mode: true
-    - service: dyson.set_speed
-      data:
-        entity_id: fan.bedroom
-        dyson_speed: 4
+        percentage: 40
 
 - alias: Fan - Bedroom - Sleep Mode Off
   trigger:
@@ -41,38 +27,12 @@
       entity_id: fan.bedroom
       state: 'on'
   action:
-    - service: dyson.set_night_mode
+    - service: switch.turn_off
+      entity_id: switch.bedroom_night_mode
+    - service: fan.set_percentage
       data:
         entity_id: fan.bedroom
-        night_mode: false
-
-- alias: Fan - Bedroom - Sleep Mode Off - Wakeup Short
-  trigger:
-    - platform: event
-      event_type: mode_sleep_off_wakeup_short
-  condition:
-    - condition: state
-      entity_id: fan.bedroom
-      state: 'on'
-  action:
-    - service: dyson.set_speed
-      data:
-        entity_id: fan.bedroom
-        dyson_speed: 8
-
-- alias: Fan - Bedroom - Sleep Mode Off - Wakeup Long
-  trigger:
-    - platform: event
-      event_type: mode_sleep_off_wakeup_long
-  condition:
-    - condition: state
-      entity_id: fan.bedroom
-      state: 'on'
-  action:
-    - service: dyson.set_speed
-      data:
-        entity_id: fan.bedroom
-        dyson_speed: 4
+        percentage: 40
 
 - alias: Fan - Bedroom - Bedroom Window Open
   trigger:
@@ -116,10 +76,8 @@
       entity_id: fan.kitchen
       state: 'on'
   action:
-    - service: dyson.set_night_mode
-      data:
-        entity_id: fan.kitchen
-        night_mode: true
+    - service: switch.turn_on
+      entity_id: switch.bedroom_night_mode
 
 - alias: Fan - Kitchen - Sleep Mode Off
   trigger:
@@ -129,10 +87,10 @@
     - condition: state
       entity_id: fan.kitchen
       state: 'on'
-    - condition: time
-      after: '05:00:00'
   action:
-    - service: dyson.set_night_mode
+    - service: switch.turn_off
+      entity_id: switch.bedroom_night_mode
+    - service: fan.set_percentage
       data:
         entity_id: fan.kitchen
-        night_mode: false
+        percentage: 50
