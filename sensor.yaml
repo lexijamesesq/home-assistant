@@ -1068,7 +1068,7 @@
     dashboard_bedroom_fan_filter:
       friendly_name: Bedroom Fan Filter
       value_template: >-
-        {% if state_attr("fan.bedroom", "hepa_filter") <= 33 %}
+        {% if states("sensor.bedroom_hepa_filter_remaining_life") <= 33 %}
           on
         {% else %}
           off
@@ -1077,7 +1077,7 @@
     dashboard_kitchen_fan_filter:
       friendly_name: Kitchen Fan Filter
       value_template: >-
-        {% if state_attr("fan.kitchen", "hepa_filter") <= 33 %}
+        {% if states("sensor.kitchen_combi_filter_remaining_life") <= 33 %}
           on
         {% else %}
           off
