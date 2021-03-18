@@ -101,21 +101,6 @@
   action:
     - service: fan.turn_on
       entity_id: fan.bedroom
-    - choose:
-        # After 8:00pm
-        - conditions:
-            - condition: time
-              after: '20:00:00'
-          sequence:
-            - service: dyson.set_speed
-              data:
-                entity_id: fan.bedroom
-                dyson_speed: 8
-      default:
-        - service: dyson.set_speed
-          data:
-            entity_id: fan.bedroom
-            dyson_speed: 4
 
 
 ##############################################################
