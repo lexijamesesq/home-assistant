@@ -131,7 +131,7 @@ views:
             - !include lovelace/health/services.yaml
             - !include lovelace/health/network.yaml
             - !include lovelace/health/battery.yaml
-            - !include lovelace/health/zwave.yaml
+#            - !include lovelace/health/zwave.yaml
   - icon: mdi:account-cog
     title: Preferences
     path: preferences

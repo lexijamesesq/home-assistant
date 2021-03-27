@@ -2,19 +2,19 @@
 # Homeseer
 # https://home-assistant.io/docs/z-wave/device-specific/
 # https://gist.github.com/dnschneid/7e36cac10a568a92562880844dbc2874
-# Button    scene_id
-# on        1
-# off       2
+# Button    scene_id     property_key
+# on        1            001
+# off       2            002
 #
 # scene_data
-# Action    v1    v2
-# single    0     7680
-# hold      2     7740
-# release   1     7400
-# double    3     7860
-# triple    4     7920
-# quad      N/A   7980
-# quint     N/A   8040
+# Action    v1    v2     zwavejs
+# single    0     7680   KeyPressed
+# hold      2     7740   KeyHeldDown
+# release   1     7400   KeyReleased
+# double    3     7860   KeyPressed2x
+# triple    4     7920   KeyPressed3x
+# quad      N/A   7980   KeyPressed4x
+# quint     N/A   8040   KeyPressed5x
 ##############################################################
 
 ##############################################################
@@ -25,15 +25,15 @@
 - alias: Patio Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.patio_switch
-        scene_id: 1
+        node_id: 46
+        property_key: "001"
   action:
     choose:
       # Double Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: switch.turn_on
             entity_id: switch.patio_string_lights
@@ -42,15 +42,15 @@
 - alias: Patio Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.patio_switch
-        scene_id: 2
+        node_id: 46
+        property_key: "002"
   action:
     choose:
       # Double Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: switch.turn_off
             entity_id: switch.patio_string_lights
@@ -64,21 +64,21 @@
 - alias: Garage Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.garage_switch
-        scene_id: 1
+        node_id: 65
+        property_key: "001"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_lights
@@ -87,21 +87,21 @@
 - alias: Garage Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.garage_switch
-        scene_id: 2
+        node_id: 65
+        property_key: "002"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_lights
@@ -115,21 +115,21 @@
 - alias: Garage Stairs Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.garage_stairs_dimmer
-        scene_id: 1
+        node_id: 35
+        property_key: "001"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_stairs_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_stairs_lights
@@ -138,21 +138,21 @@
 - alias: Garage Stairs Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.garage_stairs_dimmer
-        scene_id: 2
+        node_id: 35
+        property_key: "002"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_stairs_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_garage_stairs_lights
@@ -166,15 +166,15 @@
 - alias: Downstairs Hallway Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.downstairs_hallway_dimmer
-        scene_id: 1
+        node_id: 59
+        property_key: "001"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id:
@@ -182,7 +182,7 @@
               - input_boolean.door_trigger_downstairs_hallway_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id:
@@ -193,15 +193,15 @@
 - alias: Downstairs Hallway Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.downstairs_hallway_dimmer
-        scene_id: 2
+        node_id: 59
+        property_key: "002"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id:
@@ -209,7 +209,7 @@
               - input_boolean.door_trigger_downstairs_hallway_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id:
@@ -225,21 +225,21 @@
 - alias: Main Stairs Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.main_stairs_dimmer
-        scene_id: 1
+        node_id: 48
+        property_key: "001"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: script.turn_on
             entity_id: script.update_lights
@@ -251,7 +251,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -260,21 +260,21 @@
 - alias: Main Stairs Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.main_stairs_dimmer
-        scene_id: 2
+        node_id: 48
+        property_key: "002"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: light.turn_off
             entity_id: light.upstairs_hallway_group_lights
@@ -282,7 +282,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -296,21 +296,21 @@
 - alias: Upstairs Hallway Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.upstairs_hallway_dimmer
-        scene_id: 1
+        node_id: 38
+        property_key: "001"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: script.turn_on
             entity_id: script.update_lights
@@ -322,7 +322,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -331,21 +331,21 @@
 - alias: Upstairs Hallway Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.upstairs_hallway_dimmer
-        scene_id: 2
+        node_id: 38
+        property_key: "002"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: light.turn_off
             entity_id: light.upstairs_hallway_group_lights
@@ -353,7 +353,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -367,21 +367,21 @@
 - alias: Bedroom Hallway Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.bedroom_hallway_dimmer
-        scene_id: 1
+        node_id: 41
+        property_key: "001"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: script.turn_on
             entity_id: script.update_lights
@@ -393,7 +393,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -402,21 +402,21 @@
 - alias: Bedroom Hallway Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.bedroom_hallway_dimmer
-        scene_id: 2
+        node_id: 41
+        property_key: "002"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Double Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: light.turn_off
             entity_id: light.upstairs_hallway_group_lights
@@ -424,7 +424,7 @@
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
@@ -438,21 +438,21 @@
 - alias: Den Hallway Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.den_hallway_dimmer
-        scene_id: 1
+        node_id: 60
+        property_key: "001"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_den_hallway_lights
       # Double Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: script.turn_on
             entity_id: script.update_lights
@@ -462,7 +462,7 @@
                   - den_cabinets
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_den_hallway_lights
@@ -471,27 +471,28 @@
 - alias: Den Hallway Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave.scene_activated
+      event_type: zwave_js_event
       event_data:
-        entity_id: zwave.den_hallway_dimmer
-        scene_id: 2
+        type: value_notification
+        node_id: 60
+        property_key: "002"
   action:
     choose:
       # Single Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7680 }}'
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_den_hallway_lights
       # Double Tap
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7860 }}'
+          - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: light.turn_off
             entity_id: light.den_cabinets
       # Hold
       - conditions:
-          - '{{ trigger.event.data.scene_data == 7740 }}'
+          - '{{ trigger.event.data.value == "KeyHeldDown" }}'
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_den_hallway_lights

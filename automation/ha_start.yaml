@@ -138,17 +138,17 @@
 
 # Manually Start HomeKit #####################################
 # Wait until the zwave network is ready
-- alias: Manually Start HomeKit
-  trigger:
-    - platform: event
-      event_type: zwave.network_ready
-    - platform: event
-      event_type: zwave.network_complete
-    - platform: event
-      event_type: zwave.network_complete_some_dead
-  action:
-    - service: homekit.start
-    - event: event_zwave_network_ready
+# - alias: Manually Start HomeKit
+#   trigger:
+#     - platform: event
+#       event_type: zwave.network_ready
+#     - platform: event
+#       event_type: zwave.network_complete
+#     - platform: event
+#      event_type: zwave.network_complete_some_dead
+#   action:
+#     - service: homekit.start
+#     - event: event_zwave_network_ready
 
 # Manually Set Theme #########################################
 - alias: Manually Set Lovelace Theme
