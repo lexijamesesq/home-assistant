@@ -224,47 +224,6 @@ emulated_hue:
       hidden: false
 
 
-zwave:
-  usb_path: !secret zwave_usb_path
-  config_path: !secret zwave_config_path
-  polling_interval: 60000
-  device_config:
-    light.garage_stairs:
-      polling_intensity: 1
-      refresh_value: true
-      delay: 3
-    light.downstairs_hallway:
-      polling_intensity: 1
-      refresh_value: true
-      delay: 3
-    light.living_room:
-      polling_intensity: 1
-      refresh_value: true
-      delay: 3
-    light.kitchen:
-      polling_intensity: 1
-      refresh_value: true
-      delay: 3
-    light.main_stairs:
-      polling_intensity: 1
-      refresh_value: true
-      delay: 3
-    light.upstairs_hallway:
-      polling_intensity: 1
-      refresh_value: true
-      delay: 3
-    light.bedroom_hallway:
-      polling_intensity: 1
-      refresh_value: true
-      delay: 3
-    light.den_hallway:
-      polling_intensity: 1
-      refresh_value: true
-      delay: 3
-    zwave.unknown_node_45:
-      ignored: true
-
-
 nest:
   client_id: !secret nest_client_id
   client_secret: !secret nest_client_secret
@@ -396,7 +355,7 @@ stream:
 
 
 homekit:
-  auto_start: false
+#  auto_start: false
   ip_address: !secret homekit_ip_address
   filter:
     include_domains:

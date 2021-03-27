@@ -207,422 +207,128 @@
     battery_august_front_door:
       friendly_name: 'August - Front Door'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.august_smart_lock_pro_front_door.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.august_smart_lock_pro_front_door.attributes.battery_level is defined %}
-          {% set level = states.zwave.august_smart_lock_pro_front_door.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.august_smart_lock_pro_front_door_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_august_front_door:
       friendly_name: 'August - Front Door'
-      value_template: >-
-        {% if states.sensor.battery_august_front_door.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.august_smart_lock_pro_front_door_battery_level") | int <= 50 }}'
 
     battery_august_front_door_keypad:
       friendly_name: 'August - Front Door Keypad'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.sensor.august_web_front_door_keypad_battery.state }}
-      icon_template: >
-        {% if states.sensor.august_web_front_door_keypad_battery.state is defined %}
-          {% set level = states.sensor.august_web_front_door_keypad_battery.state | int %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.august_web_front_door_keypad_battery") | int }}'
+      device_class: battery
     dashboard_battery_august_front_door_keypad:
       friendly_name: 'August - Front Door Keypad'
-      value_template: >-
-        {% if states.sensor.battery_august_front_door_keypad.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.august_web_front_door_keypad_battery") | int <= 50 }}'
 
     battery_august_garage_door:
       friendly_name: 'August - Garage Door'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.august_smart_lock_pro_garage_door.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.august_smart_lock_pro_garage_door.attributes.battery_level is defined %}
-          {% set level = states.zwave.august_smart_lock_pro_garage_door.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.august_smart_lock_pro_garage_door_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_august_garage_door:
       friendly_name: 'August - Garage Door'
-      value_template: >-
-        {% if states.sensor.battery_august_garage_door.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.august_smart_lock_pro_garage_door_battery_level") | int <= 50 }}'
 
     battery_bedroom_closet_door_sensor:
       friendly_name: 'Bedroom Closet Door Sensor'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.bedroom_closet_door_sensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.bedroom_closet_door_sensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.bedroom_closet_door_sensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_bedroom_closet_door_sensor:
       friendly_name: 'Bedroom Closet Door Sensor'
-      value_template: >-
-        {% if states.sensor.battery_bedroom_closet_door_sensor.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int <= 50 }}'
 
     battery_den_multisensor:
       friendly_name: 'Den MultiSensor'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.den_multisensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.den_multisensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.den_multisensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.den_multisensor_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_den_multisensor:
       friendly_name: 'Den MultiSensor'
-      value_template: >-
-        {% if states.sensor.battery_den_multisensor.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.den_multisensor_battery_level") | int <= 50 }}'
 
     battery_bedroom_closet_trisensor:
       friendly_name: 'Bedroom Closet TriSensor'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.bedroom_closet_trisensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.bedroom_closet_trisensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.bedroom_closet_trisensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_bedroom_closet_trisensor:
       friendly_name: 'Bedroom Closet TriSensor'
-      value_template: >-
-        {% if states.sensor.battery_bedroom_closet_trisensor.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
-
-    battery_downstairs_hallway_multisensor:
-      friendly_name: 'Downstairs Hallway MultiSensor'
-      unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.downstairs_hallway_multisensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.downstairs_hallway_multisensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.downstairs_hallway_multisensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
-    dashboard_battery_downstairs_hallway_multisensor:
-      friendly_name: 'Downstairs Hallway MultiSensor'
-      value_template: >-
-        {% if states.sensor.battery_downstairs_hallway_multisensor.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int <= 50 }}'
 
     battery_downstairs_hallway_trisensor:
       friendly_name: 'Downstairs Hallway TriSensor'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.downstairs_hallway_trisensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.downstairs_hallway_trisensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.downstairs_hallway_trisensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.downstairs_hallway_trisensor_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_downstairs_hallway_trisensor:
       friendly_name: 'Downstairs Hallway TriSensor'
-      value_template: >-
-        {% if states.sensor.battery_downstairs_hallway_trisensor.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.downstairs_hallway_trisensor_battery_level") | int <= 50 }}'
 
     battery_garage_motion_sensor:
       friendly_name: 'Garage Motion Sensor'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.garage_motion_sensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.garage_motion_sensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.garage_motion_sensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.garage_motion_sensor_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_garage_motion_sensor:
       friendly_name: 'Garage Motion Sensor'
-      value_template: >-
-        {% if states.sensor.battery_garage_motion_sensor.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.garage_motion_sensor_battery_level") | int <= 50 }}'
 
     battery_garage_stairs_multisensor:
       friendly_name: 'Garage Stairs MultiSensor'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.garage_stairs_multisensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.garage_stairs_multisensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.garage_stairs_multisensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.garage_stairs_multisensor_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_garage_stairs_multisensor:
       friendly_name: 'Garage Stairs MultiSensor'
-      value_template: >-
-        {% if states.sensor.battery_garage_stairs_multisensor.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.garage_stairs_multisensor_battery_level") | int <= 50 }}'
 
     battery_guest_bedroom_closet_door_sensor:
       friendly_name: 'Guest Bedroom Closet Door Sensor'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.guest_bedroom_closet_door_sensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.guest_bedroom_closet_door_sensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.guest_bedroom_closet_door_sensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.guest_bedroom_closet_door_sensor_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_guest_bedroom_closet_door_sensor:
       friendly_name: 'Guest Bedroom Closet Door Sensor'
-      value_template: >-
-        {% if states.sensor.battery_guest_bedroom_closet_door_sensor.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.guest_bedroom_closet_door_sensor_battery_level") | int <= 50 }}'
 
     battery_laundry_door_left_sensor:
       friendly_name: 'Laundry Door Left Sensor'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.laundry_door_left_sensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.laundry_door_left_sensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.laundry_door_left_sensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.laundry_door_left_sensor_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_laundry_door_left_sensor:
       friendly_name: 'Laundry Door Left Sensor'
-      value_template: >-
-        {% if states.sensor.battery_laundry_door_left_sensor.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.laundry_door_left_sensor_battery_level") | int <= 50 }}'
 
     battery_laundry_door_right_sensor:
       friendly_name: 'Laundry Door Right Sensor'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.laundry_door_right_sensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.laundry_door_right_sensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.laundry_door_right_sensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.laundry_door_right_sensor_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_laundry_door_right_sensor:
       friendly_name: 'Laundry Door Right Sensor'
-      value_template: >-
-        {% if states.sensor.battery_laundry_door_right_sensor.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.laundry_door_right_sensor_battery_level") | int <= 50 }}'
 
     battery_main_stairs_multisensor:
       friendly_name: 'Main Stairs MultiSensor'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.zwave.main_stairs_multisensor.attributes.battery_level }}
-      icon_template: >
-        {% if states.zwave.main_stairs_multisensor.attributes.battery_level is defined %}
-          {% set level = states.zwave.main_stairs_multisensor.attributes.battery_level %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.main_stairs_multisensor_battery_level") | int }}'
+      device_class: battery
     dashboard_battery_main_stairs_multisensor:
       friendly_name: 'Main Stairs MultiSensor'
-      value_template: >-
-        {% if states.sensor.battery_main_stairs_multisensor.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.main_stairs_multisensor_battery_level") | int <= 50 }}'
 
     battery_server_rack_ups:
       friendly_name: 'Server Rack UPS'
       unit_of_measurement: '%'
-      value_template: >
-        {{ states.sensor.server_rack_ups_battery_charge.state }}
-      icon_template: >
-        {% if states.sensor.server_rack_ups_battery_charge.state is defined %}
-          {% set level = states.sensor.server_rack_ups_battery_charge.state | int %}
-          {% if level | float == 100 %}
-            mdi:battery
-          {% elif level | float < 10 %}
-            mdi:battery-outline
-          {% else %}
-            {% set icon_level = (level / 10) | int * 10 %}
-            mdi:battery-{{ icon_level }}
-          {% endif %}
-        {% else %}
-          mdi:battery-alert
-        {% endif %}
+      value_template: '{{ states("sensor.server_rack_ups_battery_charge") | int }}'
+      device_class: battery
     dashboard_battery_server_rack_ups:
       friendly_name: 'Server Rack UPS'
-      value_template: >-
-        {% if states.sensor.battery_server_rack_ups.state | int <= 50 %}
-          on
-        {% else %}
-          off
-        {% endif %}
+      value_template: '{{ states("sensor.server_rack_ups_battery_charge") | int <= 50 }}'
 
 
 # Networked Devices
