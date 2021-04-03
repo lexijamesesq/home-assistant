@@ -6,22 +6,22 @@
 - alias: Notify Overwatch - Excessive CPU Loads
   trigger:
     - platform: numeric_state
-      entity_id: sensor.overwatch_cpu_load
+      entity_id: sensor.overwatch_cpu_load_1
       above: 2
       for:
         minutes: 10
     - platform: numeric_state
-      entity_id: sensor.overwatch_cpu_load
+      entity_id: sensor.overwatch_cpu_load_1
       above: 2
       for:
         minutes: 20
     - platform: numeric_state
-      entity_id: sensor.overwatch_cpu_load
+      entity_id: sensor.overwatch_cpu_load_1
       above: 2
       for:
         minutes: 30
     - platform: numeric_state
-      entity_id: sensor.overwatch_cpu_load
+      entity_id: sensor.overwatch_cpu_load_1
       above: 2
       for:
         minutes: 60
