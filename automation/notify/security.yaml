@@ -65,7 +65,6 @@
     - platform: state
       entity_id:
         - lock.august_web_front_door
-        - lock.august_web_front_door
       from: 'unlocked'
       to: 'locked'
   action:
