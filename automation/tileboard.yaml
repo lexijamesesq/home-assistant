@@ -119,9 +119,11 @@
     - service: rest_command.bedroom_hallway_dashboard_command
       data:
         cmd: triggerMotion
+    - delay: '00:00:01'
     - service: rest_command.downstairs_hallway_dashboard_command
       data:
         cmd: triggerMotion
+    - delay: '00:00:01'
     - service: rest_command.garage_entrance_dashboard_command
       data:
         cmd: triggerMotion
