@@ -57,6 +57,7 @@ http:
   trusted_proxies:
     - !secret trusted_proxy_ip_lan
     - !secret trusted_proxy_ip_iot
+    - !secret trusted_proxy_ip_virtual_ip
 #  ip_ban_enabled: true
 #  login_attempts_threshold: 3
 
