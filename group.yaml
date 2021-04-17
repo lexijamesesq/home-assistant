@@ -1,7 +1,6 @@
 ##############################################################
 # People
 ##############################################################
-
 alex:
   name: Alex
   icon: mdi:human-male
@@ -108,10 +107,24 @@ upstairs_lights:
     - light.upstairs_patio_string_lights
     - light.guest_bedroom_closet_lights
 
+
+##############################################################
+# Media Players
+##############################################################
+sonos_players:
+  entities:
+    - media_player.sonos_bathroom
+    - media_player.sonos_bedroom
+    - media_player.sonos_den
+    - media_player.sonos_kitchen
+    - media_player.sonos_living_room
+    - media_player.sonos_move
+    - media_player.sonos_rec_room
+
+
 ##############################################################
 # Sensors
 ##############################################################
-
 motion_guest_areas:
   name: Guest Areas Motion
   icon: mdi:run-fast
