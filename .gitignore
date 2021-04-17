@@ -26,6 +26,7 @@ www
 .uuid
 entity_registry.yaml
 gitupdate.sh
+google_calendars.yaml
 ip_bans.yaml
 known_devices.yaml
 OZW_Log.txt
