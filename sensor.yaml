@@ -541,7 +541,7 @@
     dashboard_garage_actual_status:
       friendly_name: Garage Actual Status
       value_template: >-
-        {{ off if is_state("cover.garage_actual", "closed") else "Garage Actual is open." }}
+        {{ 'off' if is_state("cover.garage_actual", "closed") else "Garage Actual is open." }}
     dashboard_open_window_status:
       friendly_name: Open Window Status
       value_template: >-
@@ -917,28 +917,25 @@
     sonos_group_master:
       friendly_name: Sonos Group Master
       value_template: >-
-        {%- for player in states.media_player if player.attributes.sonos_group and player.state == 'playing' and player.attributes.sonos_group[0] == player.entity_id and player.attributes.source is not defined %}
+        {%- set players = expand('group.sonos_players') -%}
+        {%- for player in players if player.state == 'playing' and player.attributes.sonos_group[0] == player.entity_id %}
           {% if loop.last %}
             {{ player.entity_id }}
           {% endif %}
         {% else %}
-          {{ 'media_player.sonos_'+ states.input_select.master_sonos.state|lower|replace(" ", "_") }}
+          {{ 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") }}
         {% endfor -%}
 
     sonos_group_master_state:
       friendly_name: Sonos Group Master
       value_template: >-
-        {% set master = states.sensor.sonos_group_master.state %}
-        {%- if is_state(master, "playing") %}
-          playing
-        {% else %}
-          paused
-        {% endif -%}
+        {%- set master = states('sensor.sonos_group_master') -%}
+        {{- 'playing' if is_state(master, 'playing') else 'paused' -}}
 
     sonos_speakers_join:
       friendly_name: Sonos Join Speakers
       value_template: >-
-        {% set master = states.sensor.sonos_group_master.state %}
+        {% set master = states('sensor.sonos_group_master') %}
         {% for switch in states.input_boolean if "sonos" in switch.entity_id and switch.state == "on" and switch.entity_id|replace("input_boolean", "media_player") != master -%}
           {{ switch.entity_id|replace("input_boolean", "media_player") }}
           {%- if not loop.last -%}
@@ -949,7 +946,7 @@
     sonos_speakers_unjoin:
       friendly_name: Sonos Unjoin Speakers
       value_template: >-
-        {% set master = states.sensor.sonos_group_master.state %}
+        {% set master = states('sensor.sonos_group_master') %}
         {% for switch in states.input_boolean if "sonos" in switch.entity_id and switch.state == "off" and switch.entity_id|replace("input_boolean", "media_player") != master -%}
           {{ switch.entity_id|replace("input_boolean", "media_player") }}
           {%- if not loop.last -%}
@@ -960,8 +957,9 @@
     sonos_switches_on:
       friendly_name: Sonos Switches On
       value_template: >-
-        {% set master = 'media_player.sonos_'+ states.input_select.master_sonos.state|lower|replace(" ", "_") %}
-        {%- for player in states.media_player if player.attributes.sonos_group and player.entity_id == master %}
+        {%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%}
+        {%- set players = expand('group.sonos_players') -%}
+        {%- for player in players if player.entity_id == master %}
           {%- set slaves = player.attributes.sonos_group %}
           {{ slaves|join(",")|replace("media_player", "input_boolean") }}
         {%- endfor %}
@@ -969,8 +967,9 @@
     sonos_switches_off:
       friendly_name: Sonos Switches Off
       value_template: >-
-        {% set master = 'media_player.sonos_'+ states.input_select.master_sonos.state|lower|replace(" ", "_") %}
-        {% for player in states.media_player if player.attributes.sonos_group and player.attributes.sonos_group|length == 1 and player.entity_id != master -%}
+        {%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%}
+        {%- set players = expand('group.sonos_players') -%}
+        {%- for player in players if player.attributes.sonos_group | length == 1 and player.entity_id != master -%}
           {{ player.entity_id|replace("media_player", "input_boolean") }}
           {%- if not loop.last -%}
             ,

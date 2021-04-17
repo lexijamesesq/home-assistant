@@ -17,15 +17,14 @@
       data:
         entity_id: input_select.master_sonos
         option: >-
-          {% set master = states.sensor.sonos_group_master.state %}
-          {% if "media_player.sonos_kitchen" in master %}Kitchen
-          {% elif "media_player.sonos_living_room" in master%}Living Room
-          {% elif "media_player.sonos_rec_room" in master%}Rec Room
-          {% elif "media_player.sonos_bedroom" in master%}Bedroom
-          {% elif "media_player.sonos_bathroom" in master%}Bathroom
-          {% elif "media_player.sonos_den" in master%}Den
-          {% elif "media_player.sonos_move" in master%}Move
-          {% endif %}
+          {% set master = states('sensor.sonos_group_master') %}
+          {{ 'Kitchen' if 'media_player.sonos_kitchen' in master }}
+          {{ 'Living Room' if 'media_player.sonos_living_room' in master }}
+          {{ 'Rec Room' if 'media_player.sonos_rec_room' in master }}
+          {{ 'Bedroom' if 'media_player.sonos_bedroom' in master }}
+          {{ 'Bathroom' if 'media_player.sonos_bathroom' in master }}
+          {{ 'Den' if 'media_player.sonos_den' in master }}
+          {{ 'Move' if 'media_player.sonos_move' in master }}
 
 # Sync Input Booleans to Speaker Status ######################
 - alias: Set Sonos Switches On
@@ -36,11 +35,11 @@
     - platform: homeassistant
       event: start
   condition:
-    - '{{ states.sensor.sonos_switches_on.state != "" }}'
+    - '{{ states("sensor.sonos_switches_on") != "" }}'
   action:
     - service: input_boolean.turn_on
       data:
-        entity_id: '{{states.sensor.sonos_switches_on.state}}'
+        entity_id: '{{ states("sensor.sonos_switches_on") }}'
 - alias: Set Sonos Switches Off
   mode: restart
   trigger:
@@ -49,11 +48,11 @@
     - platform: homeassistant
       event: start
   condition:
-    - '{{ states.sensor.sonos_switches_off.state != "" }}'
+    - '{{ states("sensor.sonos_switches_off") != "" }}'
   action:
     - service: input_boolean.turn_off
       data:
-        entity_id: '{{states.sensor.sonos_switches_off.state}}'
+        entity_id: '{{ states("sensor.sonos_switches_off") }}'
 
 # Toggle Speaker State #######################################
 - alias: Toggle Sonos Speaker State
@@ -68,16 +67,6 @@
         - input_boolean.sonos_living_room
         - input_boolean.sonos_rec_room
         - input_boolean.sonos_move
-  condition:
-    - condition: template
-      value_template: >-
-        {% set switch  = trigger.to_state.entity_id %}
-        {% set speaker = trigger.to_state.entity_id|replace("input_boolean", "media_player") %}
-        {% if is_state(switch, "on") %}
-          {{ is_state(speaker, "paused") }}
-        {% else %}
-          {{ is_state(speaker, "playing") }}
-        {% endif %}
   action:
     - service: script.turn_on
       data:

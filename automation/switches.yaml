@@ -25,7 +25,7 @@
 - alias: Patio Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 46
         property_key: "001"
@@ -42,7 +42,7 @@
 - alias: Patio Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 46
         property_key: "002"
@@ -64,7 +64,7 @@
 - alias: Garage Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 65
         property_key: "001"
@@ -87,7 +87,7 @@
 - alias: Garage Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 65
         property_key: "002"
@@ -115,7 +115,7 @@
 - alias: Garage Stairs Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 35
         property_key: "001"
@@ -138,7 +138,7 @@
 - alias: Garage Stairs Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 35
         property_key: "002"
@@ -166,7 +166,7 @@
 - alias: Downstairs Hallway Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 59
         property_key: "001"
@@ -193,7 +193,7 @@
 - alias: Downstairs Hallway Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 59
         property_key: "002"
@@ -225,7 +225,7 @@
 - alias: Main Stairs Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 48
         property_key: "001"
@@ -260,7 +260,7 @@
 - alias: Main Stairs Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 48
         property_key: "002"
@@ -296,7 +296,7 @@
 - alias: Upstairs Hallway Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 38
         property_key: "001"
@@ -331,7 +331,7 @@
 - alias: Upstairs Hallway Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 38
         property_key: "002"
@@ -367,7 +367,7 @@
 - alias: Bedroom Hallway Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 41
         property_key: "001"
@@ -402,7 +402,7 @@
 - alias: Bedroom Hallway Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 41
         property_key: "002"
@@ -438,7 +438,7 @@
 - alias: Den Hallway Physical Switch On
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         node_id: 60
         property_key: "001"
@@ -471,7 +471,7 @@
 - alias: Den Hallway Physical Switch Off
   trigger:
     - platform: event
-      event_type: zwave_js_event
+      event_type: zwave_js_value_notification
       event_data:
         type: value_notification
         node_id: 60
