@@ -1247,15 +1247,11 @@
 - platform: rest
   name: Tautulli Plex Update Available
   resource: !secret tautulli_plex_update
+  json_attributes_path: "$.response.data"
+  json_attributes:
+    - version
   value_template: '{{ "on" if value_json.response.data.update_available else "off" }}'
   scan_interval: 3600
-- platform: rest
-  name: Tautulli Plex Update Version
-  resource: !secret tautulli_plex_update
-  value_template: '{{ value_json.response.data.version }}'
-  scan_interval: 3600
-
-
 
 
 # InfluxDB Sensors
@@ -1705,7 +1701,7 @@
   - batteryLevel
   - screenBrightness
   - screenOn
-  value_template: 'OK'
+  value_template: '{{ "Screen On" if value_json.screenOn else "Screen Off" }}'
 
 - platform: rest
   name: Downstairs Hallway Dashboard
@@ -1715,7 +1711,7 @@
   - batteryLevel
   - screenBrightness
   - screenOn
-  value_template: 'OK'
+  value_template: '{{ "Screen On" if value_json.screenOn else "Screen Off" }}'
 
 - platform: rest
   name: Garage Entrance Dashboard
@@ -1725,4 +1721,4 @@
   - batteryLevel
   - screenBrightness
   - screenOn
-  value_template: 'OK'
+  value_template: '{{ "Screen On" if value_json.screenOn else "Screen Off" }}'

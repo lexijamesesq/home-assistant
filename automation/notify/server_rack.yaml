@@ -284,7 +284,7 @@
     - service: notify.mobile_app_alexs_iphone
       data:
         title: 'Plex'
-        message: 'Update available. The container is restarting to update to version {{ states("sensor.tautulli_plex_update_version") }}'
+        message: 'Update available. The container is restarting to update to version {{ state_attr("sensor.tautulli_plex_update_available", "version") }}'
         data:
           push:
             thread-id: 'ha-server-group'
