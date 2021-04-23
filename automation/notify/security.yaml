@@ -63,19 +63,16 @@
 - alias: Notify Security - Front Door Locked or Unlocked
   trigger:
     - platform: state
-      entity_id:
-        - lock.august_web_front_door
-      from: 'unlocked'
-      to: 'locked'
+      entity_id: lock.august_web_front_door
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
         title: "Condo"
         message: >-
-          {% if is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual Lock') or is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual Unlock') %}
+          {% if is_state('sensor.august_web_front_door_operator', 'Manual Lock') or is_state('sensor.august_web_front_door_operator', 'Manual Unlock') %}
             {% set message = 'manually ' ~ states('lock.august_web_front_door') %}
           {% else %}
-            {% set message = states('lock.august_web_front_door') ~ ' by ' ~ state_attr('lock.august_web_front_door', 'changed_by') %}
+            {% set message = states('lock.august_web_front_door') ~ ' by ' ~ states('sensor.august_web_front_door_operator') %}
           {% endif %}
           The Front Door was {{ message }}.
         data:
