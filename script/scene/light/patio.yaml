@@ -6,6 +6,12 @@
 # Called from script.update_lights
 # Uses format: Scene {Light} {Mode} {HT} {Brightness}
 
+scene_patio_sunset_high:
+  alias: Scene Patio Sunset High
+  sequence:
+    - service: script.turn_on
+      entity_id: script.scene_patio_neutral
+
 
 # Indirect Scenes ############################################
 scene_patio_blue_purple:
@@ -29,6 +35,19 @@ scene_patio_blue_purple:
         transition: 2
         brightness: 100
         rgb_color: [69,63,255]
+
+scene_patio_neutral:
+  alias: Scene Patio Neutral
+  sequence:
+    - service: light.turn_on
+      entity_id:
+        - light.patio_1
+        - light.patio_2
+        - light.patio_3
+      data:
+        transition: 2
+        brightness: 35
+        color_temp: 363
 
 
 ##############################################################
