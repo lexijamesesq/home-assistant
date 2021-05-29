@@ -1,0 +1,18 @@
+##############################################################
+# Laundry Notifications
+##############################################################
+
+- alias: Notify Laundry - Washing Machine Completed
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.washing_machine_electric_consumed_w
+      below: 2
+  action:
+    - service: notify.mobile_app_alexs_iphone
+      data:
+        title: "Condo"
+        message: "The laundry in the washing machine is ready to be put in the dryer."
+        data:
+          push:
+            thread-id: "ha-condo-group"
+            sound: "gentle-alarm.wav"
