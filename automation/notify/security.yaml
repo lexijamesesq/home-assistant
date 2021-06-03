@@ -64,7 +64,18 @@
   trigger:
     - platform: state
       entity_id: lock.august_web_front_door
+      from: 'locked'
+      to: 'unlocked'
+    - platform: state
+      entity_id: lock.august_web_front_door
+      from: 'unlocked'
+      to: 'locked'
   action:
+    - wait_for_trigger:
+        - platform: state
+          entity_id: sensor.august_web_front_door_operator
+      timeout:
+        seconds: 20
     - service: notify.mobile_app_alexs_iphone
       data:
         title: "Condo"
