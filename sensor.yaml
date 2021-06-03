@@ -918,7 +918,7 @@
       friendly_name: Sonos Group Master
       value_template: >-
         {%- set players = expand('group.sonos_players') -%}
-        {%- for player in players if player.state == 'playing' and player.attributes.sonos_group[0] == player.entity_id %}
+        {%- for player in players if player.state == 'playing' and player.attributes.source is not defined and player.attributes.sonos_group[0] == player.entity_id %}
           {% if loop.last %}
             {{ player.entity_id }}
           {% endif %}
