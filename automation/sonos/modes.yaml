@@ -30,17 +30,17 @@
     - service: sonos.unjoin
       entity_id: media_player.sonos_rec_room
     - wait_template: '{{ is_state("input_boolean.sonos_rec_room", "off") }}'
-#    - service: media_player.select_source
-#      entity_id: media_player.sonos_rec_room
-#      data:
-#        source: 'Peloton: Rec Room Sonos Amp'
-#    - wait_template: '{{ is_state("input_boolean.sonos_rec_room", "off") and states("media_player.sonos_rec_room") is defined and is_state_attr("media_player.sonos_rec_room", "source", "Line-in") }}'
+    - service: media_player.select_source
+      entity_id: media_player.sonos_rec_room
+      data:
+        source: 'Peloton: Rec Room Sonos Amp'
+    - wait_template: '{{ is_state("input_boolean.sonos_rec_room", "off") and states("media_player.sonos_rec_room") is defined and is_state_attr("media_player.sonos_rec_room", "source", "Line-in") }}'
     - service: media_player.volume_set
       data:
         entity_id: media_player.sonos_rec_room
         volume_level: 0.65
-#    - service: media_player.media_play
-#      entity_id: media_player.sonos_rec_room
+    - service: media_player.media_play
+      entity_id: media_player.sonos_rec_room
 
 - alias: Sonos - Restore After Peloton Settings
   trigger:
