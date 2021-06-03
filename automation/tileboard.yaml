@@ -116,14 +116,6 @@
       entity_id: input_boolean.mode_guest
       to: 'on'
   action:
-    - service: rest_command.bedroom_hallway_dashboard_command
-      data:
-        cmd: triggerMotion
-    - delay: '00:00:01'
-    - service: rest_command.downstairs_hallway_dashboard_command
-      data:
-        cmd: triggerMotion
-    - delay: '00:00:01'
-    - service: rest_command.garage_entrance_dashboard_command
-      data:
-        cmd: triggerMotion
+    - service: rest_command.bedroom_hallway_dashboard_wake
+    - service: rest_command.downstairs_hallway_dashboard_wake
+    - service: rest_command.garage_entrance_dashboard_wake
