@@ -75,6 +75,7 @@
                     - bedroom_tiles
                     - den
                     - den_cabinets
+                    - patio
                     - patio_string_lights
                   seconds: 10
       default:
