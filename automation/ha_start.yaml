@@ -136,6 +136,55 @@
     - service: input_boolean.turn_off
       entity_id: input_boolean.mode_night
 
+# Manually Set Energy Tariff #################################
+# State is only changed if it is incorrect. Don't want to trigger mode changes on restart unnecessarily.
+- alias: Manually Reset Energy Off-Peak Tariff
+  trigger:
+    - platform: homeassistant
+      event: start
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: utility_meter.grid_consumption_hourly
+        state: 'peak'
+      - condition: or
+        conditions:
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < "16:00" }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= "19:00" }}'
+          - '{{ is_state("binary_sensor.srp_on_peak_day", "off") }}'
+  action:
+    - service: utility_meter.select_tariff
+      data:
+        tariff: offpeak
+        entity_id:
+          - utility_meter.grid_consumption_hourly
+          - utility_meter.grid_consumption_daily
+          - utility_meter.grid_consumption_monthly
+- alias: Manually Reset Energy Peak Tariff
+  trigger:
+    - platform: homeassistant
+      event: start
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: utility_meter.grid_consumption_hourly
+        state: 'offpeak'
+      - condition: state
+        entity_id: binary_sensor.srp_on_peak_day
+        state: 'on'
+      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= "16:00" }}'
+      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < "19:00" }}'
+  action:
+    - service: utility_meter.select_tariff
+      data:
+        tariff: peak
+        entity_id:
+          - utility_meter.grid_consumption_hourly
+          - utility_meter.grid_consumption_daily
+          - utility_meter.grid_consumption_monthly
+
 # Manually Start HomeKit #####################################
 # Wait until the zwave network is ready
 # - alias: Manually Start HomeKit

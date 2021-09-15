@@ -353,3 +353,14 @@ light.den_cabinets:
   icon: mdi:lightbulb
 light.den_lights:
   icon: mdi:lightbulb
+sensor.energy_usage:
+  device_class: energy
+sensor.grid_consumption_hourly_peak:
+  friendly_name: Grid Consumption Hourly Peak
+  unit_of_measurement: kWh
+sensor.grid_consumption_hourly_offpeak:
+  friendly_name: Grid Consumption Hourly Off-Peak
+sensor.grid_consumption_monthly_peak:
+  unit_of_measurement: kWh
+sensor.grid_consumption_daily_peak:
+  unit_of_measurement: kWh
