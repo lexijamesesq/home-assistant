@@ -36,6 +36,7 @@ all_lights:
     - light.downstairs_patio_string_lights
     - light.living_room
     - light.living_room_tv
+    - light.rec_room
     - light.rec_room_canvas
     - light.main_stairs
     - light.upstairs_hallway
@@ -58,6 +59,7 @@ inside_lights:
     - light.kitchen
     - light.living_room
     - light.living_room_tv
+    - light.rec_room
     - light.rec_room_canvas
     - light.main_stairs
     - light.upstairs_hallway
@@ -90,6 +92,7 @@ downstairs_lights:
     - light.downstairs_patio_string_lights
     - light.living_room
     - light.living_room_tv
+    - light.rec_room
     - light.rec_room_canvas
 
 upstairs_lights:

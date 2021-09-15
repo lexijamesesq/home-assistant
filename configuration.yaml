@@ -215,6 +215,8 @@ emulated_hue:
       hidden: false
     light.upstairs_hallway:
       hidden: false
+    light.rec_room:
+      hidden: false
     light.rec_room_canvas:
       hidden: false
     input_boolean.mode_guest:
