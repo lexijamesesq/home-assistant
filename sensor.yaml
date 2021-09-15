@@ -95,6 +95,12 @@
     - sensor.upstairs_thermostat_humidity
   round_digits: 1
 
+- platform: integration
+  source: sensor.energy_usage
+  name: Energy Usage kWh
+  unit_prefix: k
+  round: 2
+
 - platform: template
   sensors:
     bedroom_presence:

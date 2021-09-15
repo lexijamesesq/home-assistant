@@ -1,0 +1,36 @@
+##############################################################
+# Energy Usage & Metering
+##############################################################
+# Select Current Energy Tariff
+- alias: Energy Tariff - Select On-Peak
+  trigger:
+    - platform: time
+      at: "16:00:00"
+    - platform: time
+      at: "19:00:00"
+  condition:
+    - condition: state
+      entity_id: binary_sensor.srp_on_peak_day
+      state: 'on'
+  action:
+    - choose:
+        - conditions:
+            - condition: time
+              after: "16:00:00"
+              before: "19:00:00"
+          sequence:
+            - service: utility_meter.select_tariff
+              data:
+                tariff: peak
+                entity_id:
+                  - utility_meter.grid_consumption_hourly
+                  - utility_meter.grid_consumption_daily
+                  - utility_meter.grid_consumption_monthly
+      default:
+        - service: utility_meter.select_tariff
+          data:
+            tariff: offpeak
+            entity_id:
+              - utility_meter.grid_consumption_hourly
+              - utility_meter.grid_consumption_daily
+              - utility_meter.grid_consumption_monthly

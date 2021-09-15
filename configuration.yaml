@@ -146,6 +146,31 @@ influxdb:
 sun:
 
 
+energy:
+utility_meter:
+  grid_consumption_hourly:
+    source: sensor.energy_usage_kwh
+    name: Grid Consumption - Hourly
+    cycle: hourly
+    tariffs:
+      - peak
+      - offpeak
+  grid_consumption_daily:
+    source: sensor.energy_usage_kwh
+    name: Grid Consumption - Daily
+    cycle: daily
+    tariffs:
+      - peak
+      - offpeak
+  grid_consumption_monthly:
+    source: sensor.energy_usage_kwh
+    name: Grid Consumption - Monthly
+    cycle: monthly
+    tariffs:
+      - peak
+      - offpeak
+
+
 sonos:
   media_player:
     hosts:
