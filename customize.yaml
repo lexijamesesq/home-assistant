@@ -356,10 +356,10 @@ light.den_lights:
 sensor.energy_usage:
   device_class: energy
 sensor.grid_consumption_hourly_peak:
-  friendly_name: Grid Consumption Hourly Peak
+  friendly_name: Grid (Peak)
   unit_of_measurement: kWh
 sensor.grid_consumption_hourly_offpeak:
-  friendly_name: Grid Consumption Hourly Off-Peak
+  friendly_name: Grid (Off-Peak)
 sensor.grid_consumption_monthly_peak:
   unit_of_measurement: kWh
 sensor.grid_consumption_daily_peak:
