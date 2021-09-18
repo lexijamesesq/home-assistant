@@ -1,0 +1,9 @@
+##############################################################
+# Person
+##############################################################
+# Alex #######################################################
+- name: Alex
+  id: alex
+  device_trackers:
+    - device_tracker.alexs_iphone_geofency
+    - device_tracker.alexs_iphone_ios_app
