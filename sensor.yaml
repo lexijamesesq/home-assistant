@@ -74,7 +74,7 @@
 
 - platform: places
   name: Alex
-  devicetracker_id: device_tracker.alexs_iphone_geofency
+  devicetracker_id: person.alex
   home_zone: zone.home
   api_key: !secret places_api_key
 
