@@ -483,7 +483,6 @@ input_number: !include input_number.yaml
 input_select: !include input_select.yaml
 input_text: !include input_text.yaml
 media_player: !include media_player.yaml
-person: !include person.yaml
 rest_command: !include rest_command.yaml
 scene: !include scene.yaml
 script: !include_dir_merge_named script/
