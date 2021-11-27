@@ -1,0 +1,20 @@
+- unique_id: climate
+  sensor:
+    - name: Climate Downstairs Restore Mode
+      unique_id: downstairs_restore_mode
+      state: >-
+        {%- set previous_state = states('sensor.climate_downstairs_restore_mode') -%}
+        {%- if state_attr("climate.downstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.downstairs", "preset_mode") | lower == "eco" -%}
+          {{ previous_state }}
+        {%- else -%}
+          {{ states('climate.downstairs') }}
+        {%- endif %}
+    - name: Climate Upstairs Restore Mode
+      unique_id: upstairs_restore_mode
+      state: >-
+        {%- set previous_state = states('sensor.climate_upstairs_restore_mode') -%}
+        {%- if state_attr("climate.upstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.upstairs", "preset_mode") | lower == "eco" -%}
+          {{ previous_state }}
+        {%- else -%}
+          {{ states('climate.upstairs') }}
+        {%- endif %}
