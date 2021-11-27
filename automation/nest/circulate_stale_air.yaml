@@ -1,0 +1,23 @@
+##############################################################
+# Circulate Stale Air
+##############################################################
+- alias: Circulate Stale Air
+  trigger:
+    - platform: time
+      at: '03:00:00'
+    - platform: time
+      at: '09:00:00'
+    - platform: time
+      at: '15:00:00'
+    - platform: time
+      at: '21:00:00'
+  condition:
+    - condition: state
+      entity_id: group.all_windows
+      state: 'off'
+  action:
+    - service: script.turn_on
+      entity_id: script.nest_circulate_stale_air
+      data:
+        variables:
+          minutes: 30

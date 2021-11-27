@@ -5,16 +5,24 @@ nest_circulate_stale_air:
   alias: Nest Circulate Stale Air
   sequence:
     - service: climate.set_fan_mode
-      entity_id:
-        - climate.downstairs
-        - climate.upstairs
+      entity_id: climate.downstairs
       data:
         fan_mode: 'on'
     - delay:
-        minutes: '{{ minutes }}'
+        minutes: '{{ minutes / 2 }}'
     - service: climate.set_fan_mode
-      entity_id:
-        - climate.downstairs
-        - climate.upstairs
+      entity_id: climate.upstairs
+      data:
+        fan_mode: 'on'
+    - delay:
+        minutes: '{{ minutes / 2 }}'
+    - service: climate.set_fan_mode
+      entity_id: climate.downstairs
+      data:
+        fan_mode: 'auto'
+    - delay:
+        minutes: '{{ minutes / 2 }}'
+    - service: climate.set_fan_mode
+      entity_id: climate.upstairs
       data:
         fan_mode: 'auto'
