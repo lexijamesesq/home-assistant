@@ -928,10 +928,22 @@
         {% endfor -%}
 
     sonos_group_master_state:
-      friendly_name: Sonos Group Master
+      friendly_name: Sonos Group Master - State
       value_template: >-
         {%- set master = states('sensor.sonos_group_master') -%}
         {{- 'playing' if is_state(master, 'playing') else 'paused' -}}
+
+    sonos_group_master_shuffle:
+      friendly_name: Sonos Group Master - Shuffle
+      value_template: >-
+        {%- set master = states('sensor.sonos_group_master') -%}
+        {{- 'on' if is_state_attr(master, 'shuffle', true) else 'off' -}}
+
+    sonos_group_master_repeat:
+      friendly_name: Sonos Group Master - Shuffle
+      value_template: >-
+        {%- set master = states('sensor.sonos_group_master') -%}
+        {{- 'on' if is_state_attr(master, 'repeat', 'all') else 'off' -}}
 
     sonos_speakers_join:
       friendly_name: Sonos Join Speakers
@@ -1098,29 +1110,6 @@
       unit_of_measurement: "ºF"
 
 
-# Nest Restore Modes
-- platform: template
-  sensors:
-    climate_downstairs_restore_mode:
-      friendly_name: Downstairs Nest Restore Mode
-      value_template: >-
-        {%- set previous_state = states('sensor.climate_downstairs_restore_mode') -%}
-        {%- if state_attr("climate.downstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.downstairs", "preset_mode") | lower == "eco" -%}
-          {{ previous_state }}
-        {%- else -%}
-          {{ states('climate.downstairs') }}
-        {%- endif %}
-    climate_upstairs_restore_mode:
-      friendly_name: Upstairs Nest Restore Mode
-      value_template: >-
-        {%- set previous_state = states('sensor.climate_upstairs_restore_mode') -%}
-        {%- if state_attr("climate.upstairs", "preset_mode") | lower == "away and eco" or state_attr("climate.upstairs", "preset_mode") | lower == "eco" -%}
-          {{ previous_state }}
-        {%- else -%}
-          {{ states('climate.upstairs') }}
-        {%- endif %}
-
-
 # Resident & Vehicle Sensors
 - platform: template
   sensors:
@@ -1134,7 +1123,7 @@
         {%- else -%}
           {{ states('device_tracker.alexs_iphone_geofency') | replace("not_home", "away") | title }}
         {%- endif %}
-      entity_picture_template: '/local/calvin.png'
+      entity_picture_template: '{{ state_attr("person.alex", "entity_picture") }}'
     device_tracker_alex_recently_home:
       friendly_name: Alex - Recently Home
       value_template: >-
