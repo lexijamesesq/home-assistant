@@ -128,6 +128,24 @@ sonos_players:
 ##############################################################
 # Sensors
 ##############################################################
+motion_garage:
+  entities:
+    - input_boolean.motion_garage
+    - input_boolean.motion_garage_stairs
+
+motion_downstairs:
+  entities:
+    - input_boolean.motion_front_door
+    - input_boolean.motion_downstairs_hallway
+    - input_boolean.motion_kitchen
+    - input_boolean.motion_living_room
+
+motion_upstairs:
+  entities:
+    - input_boolean.motion_main_stairs
+    - input_boolean.motion_upstairs_hallway
+    - input_boolean.motion_den_hallway
+
 motion_guest_areas:
   name: Guest Areas Motion
   icon: mdi:run-fast
