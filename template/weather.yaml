@@ -1,0 +1,10 @@
+- unique_id: weather
+  sensor:
+    - name: Dashboard Weather
+      unique_id: dashboard_weather
+      state: 'template'
+      attributes:
+        outside_temp: '{{ states("sensor.dark_sky_temperature") | int(0) }}'
+        outside_temp_high: '{{ states("sensor.dark_sky_daytime_high_temperature_0d") | int(0) }}'
+        outside_temp_low: '{{ states("sensor.dark_sky_overnight_low_temperature_0d") | int(0) }}'
+        unit_of_measurement: 'ºF'

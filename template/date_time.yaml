@@ -1,0 +1,9 @@
+- unique_id: dashboard
+  sensor:
+    - name: Dashboard Date Time
+      unique_id: dashboard_date_time
+      state: 'template'
+      attributes:
+        time: >-
+          {{ as_timestamp(states.sensor.date.state + " " + states.sensor.time.state)  | timestamp_custom("%-I<span class='colon'>:</span>%M<span class='ampm'>%p</span>") }}
+        date: '{{ as_timestamp(states.sensor.date.state + " " + states.sensor.time.state)  | timestamp_custom("%A, %B %d") }}'

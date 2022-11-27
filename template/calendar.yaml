@@ -1,0 +1,91 @@
+- unique_id: calendar
+  sensor:
+    - name: Trash Pickup
+      unique_id: trash_pickup
+      state: >-
+        {% set forcerefresh = states("sensor.time") %}
+        {% set nextpickup = states.input_text.next_pickup_trash.state %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set dayof = states.sensor.date.state == nextpickup %}
+        {% if daybefore or dayof %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      attributes:
+        date: >-
+          {% set forcerefresh = states("sensor.time") %}
+          {% set nextpickup = states.input_text.next_pickup_trash.state %}
+          {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
+          {% set dayof = states.sensor.date.state == nextpickup %}
+          {% if daybefore %}
+            Tomorrow
+          {% elif dayof %}
+            Today
+          {% else %}
+            {{ as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00')|timestamp_custom('%A') }}
+          {% endif %}
+      icon: >-
+        {% set nextpickup = states.input_text.next_pickup_trash.state %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set dayof = states.sensor.date.state == nextpickup %}
+        {% if daybefore or dayof %}
+          mdi:delete-empty
+        {% else %}
+          mdi:delete
+        {% endif %}
+    - name: Recycling Pickup
+      unique_id: recycling_pickup
+      state: >-
+        {% set forcerefresh = states("sensor.time") %}
+        {% set nextpickup = states.input_text.next_pickup_recycling.state %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_recycling.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set dayof = states.sensor.date.state == nextpickup %}
+        {% if daybefore or dayof %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      attributes:
+        date: >-
+          {% set forcerefresh = states("sensor.time") %}
+          {% set nextpickup = states.input_text.next_pickup_recycling.state %}
+          {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_recycling.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
+          {% set dayof = states.sensor.date.state == nextpickup %}
+          {% if daybefore %}
+            Tomorrow
+          {% elif dayof %}
+            Today
+          {% else %}
+            {{ as_timestamp(states.input_text.next_pickup_recycling.state + ' 00:00:00')|timestamp_custom('%A') }}
+          {% endif %}
+      icon: 'mdi:recycle'
+    - name: House Cleaning
+      unique_id: house_cleaning
+      state: >-
+        {% set forcerefresh = states("sensor.time") %}
+        {% set nextcleaning = as_timestamp(states.calendar.house_cleaning.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.house_cleaning.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
+        {% set dayof = states.sensor.date.state == nextcleaning %}
+        {% if daybefore or dayof %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      attributes:
+        date: >-
+          {% set forcerefresh = states("sensor.time") %}
+          {% set nextcleaning = as_timestamp(states.calendar.house_cleaning.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
+          {% set fivedaysbefore = as_timestamp(now()) > (as_timestamp(states.calendar.house_cleaning.attributes.start_time) - (24*60*60*5)) and as_timestamp(now()) < as_timestamp(states.calendar.house_cleaning.attributes.start_time) %}
+          {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.house_cleaning.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
+          {% set dayof = states.sensor.date.state == nextcleaning %}
+          {% if daybefore %}
+            Tomorrow
+          {% elif dayof %}
+            Today
+          {% elif fivedaysbefore %}
+            {{ as_timestamp(states.calendar.house_cleaning.attributes.start_time)|timestamp_custom('%A') }}
+          {% else %}
+            {{ as_timestamp(states.calendar.house_cleaning.attributes.start_time)|timestamp_custom('%B %-d') }}
+          {% endif %}
+      icon: 'mdi:broom'
