@@ -11,23 +11,23 @@ sequence:
           {% set h = (range(170, 325) | random) %}
           {% set s = 100 / 100 %}
           {% set v = 44 / 100 %}
-  
+
           {% if s == 0 %}
             {% set r = v * 255 %}
             {% set g = v * 255 %}
             {% set b = v * 255 %}
           {% else %}
             {% set var_h = ((h / 60) % 6) %}
-  
+
             {% if var_h == 6 %}
               {% set var_h = 0 %}
             {% endif %}
-  
-            {% set var_i = var_h | int %}
+
+            {% set var_i = var_h | int(0) %}
             {% set var_1 = v * (1 - s) %}
             {% set var_2 = v * (1 - s * (var_h - var_i)) %}
             {% set var_3 = v * (1 - s * (1 - (var_h - var_i))) %}
-  
+
             {% if var_i == 0 %}
               {% set var_r = v %}
               {% set var_g = var_3 %}
@@ -53,9 +53,9 @@ sequence:
               {% set var_g = var_1 %}
               {% set var_b = var_2 %}
             {% endif %}
-  
-            {% set r = (var_r * 255) | int %}
-            {% set g = (var_g * 255) | int %}
-            {% set b = (var_b * 255) | int %}
+
+            {% set r = (var_r * 255) | int(0) %}
+            {% set g = (var_g * 255) | int(0) %}
+            {% set b = (var_b * 255) | int(0) %}
           {% endif %}
-          {{ r | int }},{{ g | int }},{{ b | int }}
+          {{ r | int(0) }},{{ g | int(0) }},{{ b | int(0) }}

@@ -1,0 +1,33 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: entities
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    title: Services
+    show_header_toggle: false
+    entities:
+      - type: section
+        label: Overwatch
+      - entity: sensor.service_status_home_assistant
+        name: Home Assistant
+      - entity: sensor.service_status_dashboard
+        name: Dashboard Server
+      - type: section
+        label: Woodhouse
+      - entity: sensor.service_status_plex
+        name: Plex
+      - entity: sensor.service_status_sonarr
+        name: Sonarr
+      - entity: sensor.service_status_sabnzbd
+        name: SABnzbd
+      - entity: sensor.service_status_tautulli
+        name: Tautulli
+      - entity: sensor.service_status_grafana
+        name: Grafana
+      - type: section
+        label: UniFi
+      - entity: sensor.service_status_unifi_network
+        name: Network
+      - entity: sensor.service_status_unifi_protect
+        name: Protect

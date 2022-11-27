@@ -1,0 +1,6 @@
+speaker:
+  template: base
+  state_display: '[[[ if(entity.state == "on") return "Volume: " + states[variables.volume].state; else return "Off" ]]]'
+  icon: '[[[ if(entity.state == "on") return "mdi:speaker-wireless"; else return "mdi:speaker" ]]]'
+  tap_action:
+    action: toggle

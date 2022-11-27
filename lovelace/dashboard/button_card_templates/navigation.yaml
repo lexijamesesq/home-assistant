@@ -1,0 +1,31 @@
+navigation:
+  variables:
+    path: >
+      [[[
+        var url = window.location.href;
+        return url.substr(url.lastIndexOf("/") + 1)
+      ]]]
+  size: 28px
+  styles:
+    grid:
+      - grid-template-areas: '"i n"'
+      - grid-template-columns: 52px 1fr
+      - grid-template-rows: 52px
+    card:
+      - background: '[[[ if(variables.view == variables.path) return "rgba(0, 0, 0, .38)"; else return "none" ]]]'
+      - border-radius: 12px
+      - padding: 0
+      - margin: 0
+
+    img_cell:
+      - width: 52px
+      - height: 52px
+    icon:
+      - color: '[[[ if(variables.view == variables.path) return "var(--primary-text-color)"; else return "var(--secondary-text-color)" ]]]'
+    name:
+      - font-family: var(--primary-font-family)
+      - font-size: 18px
+      - font-weight:  '[[[ if(variables.view == variables.path) return 600; else return 400 ]]]'
+      - color: '[[[ if(variables.view == variables.path) return "var(--primary-text-color)"; else return "var(--secondary-text-color)" ]]]'
+      - align-self: center
+      - justify-self: left

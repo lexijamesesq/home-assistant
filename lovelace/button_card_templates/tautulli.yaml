@@ -1,0 +1,26 @@
+tautulli:
+  template: base
+  tap_action:
+    action: none
+  state:
+    - value: 1
+      operator: ">="
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        icon:
+          - color: var(--card-on-icon-color)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)
+    - value: 0
+      styles:
+        card:
+          - background: var(--card-off-background-color)
+        icon:
+          - color: var(--card-off-icon-color)
+        name:
+          - color: var(--card-off-text-color)
+        state:
+          - color: var(--card-off-text-color)

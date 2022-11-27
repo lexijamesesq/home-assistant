@@ -1,0 +1,9 @@
+sonos_playlist_country_caffeine:
+  alias: Sonos Playlist Country Caffeine
+  sequence:
+    - service: media_player.select_source
+      data:
+        entity_id: '{{ states.sensor.sonos_group_master.state }}'
+        source: 'Country Caffeine'
+    - service: script.turn_on
+      entity_id: script.sonos_playlist_toggle_play

@@ -70,9 +70,6 @@ card:
               {{ states("sensor.dashboard_unlocked_door_status") | replace("off", "") }}
               {{ states("sensor.dashboard_open_window_status") | replace("off", "") }}
             {% endif %}
-            {% if is_state("sensor.mode_sleep", "on") %}
-              <ha-icon icon="{{ state_attr('sensor.alexa_next_alarm', 'icon') }}"></ha-icon>{{ states("sensor.alexa_next_alarm") | replace("None", "Not set") }}
-            {% endif %}
     - type: custom:dwains-flexbox-card
       item_classes: 'col-xs-5 end-xs d-inline-flex'
       style: |
@@ -81,13 +78,13 @@ card:
         }
       cards:
         - type: custom:button-card
-          template: header_state_home
+          template: badge_home
           entity: sensor.dashboard_current_mode
           tap_action:
             action: navigate
             navigation_path: modes
         - type: custom:button-card
-          template: header_state_home
+          template: badge_home
           entity: sensor.dashboard_home_state
           tap_action:
             action: navigate

@@ -369,7 +369,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 41
+        node_id: 72
         property_key: "001"
   action:
     choose:
@@ -404,7 +404,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 41
+        node_id: 72
         property_key: "002"
   action:
     choose:

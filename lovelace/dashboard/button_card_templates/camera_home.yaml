@@ -1,0 +1,52 @@
+camera_home:
+  show_name: false
+  show_state: false
+  entity_id: camera.front_door
+  custom_fields:
+    camera:
+      card:
+        type: custom:webrtc-camera
+        url: 'rtsp://10.0.1.5:7447/jgHdueMamxgQBo1O'
+        ui: true
+        background: true
+        mse: false
+        style: |
+          ha-card {
+            background: none;
+          }
+          webrtc-camera ha-card {
+            display: block;
+            width: 379px;
+            height: 284.25px;
+            background: rgba(135, 135, 135, 0.3);
+          }
+          .fix-safari video {
+            margin-top: -17px;
+          }
+          .box {
+            display: none !important;
+          }
+          .state {
+            display: none !important;
+          }
+          ha-circular-progress {
+            display: none !important;
+          }
+          .pause {
+            display: none !important;
+          }
+          .volume {
+            display: none !important;
+          }
+          .fullscreen {
+            display: none !important;
+          }
+  styles:
+    grid:
+      - grid-template-areas: '"camera"'
+      - grid-template-columns: 1fr
+      - grid-template-rows: 1fr
+    card:
+      - padding: 0
+      - border-radius: 0
+      - box-shadow: none

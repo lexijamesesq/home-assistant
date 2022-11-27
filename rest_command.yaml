@@ -32,6 +32,13 @@ downstairs_hallway_dashboard_command:
 garage_entrance_dashboard_command:
   url: !secret garage_entrance_dashboard_command
 
+bedroom_hallway_dashboard_sleep:
+  url: !secret bedroom_hallway_dashboard_sleep
+downstairs_hallway_dashboard_sleep:
+  url: !secret downstairs_hallway_dashboard_sleep
+garage_entrance_dashboard_sleep:
+  url: !secret garage_entrance_dashboard_sleep
+
 bedroom_hallway_dashboard_wake:
   url: !secret bedroom_hallway_dashboard_wake
 downstairs_hallway_dashboard_wake:

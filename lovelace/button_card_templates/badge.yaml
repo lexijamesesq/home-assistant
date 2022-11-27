@@ -1,0 +1,38 @@
+badge:
+  show_name: false
+  show_state: false
+  show_label: false
+  styles:
+    icon:
+      - color: white
+      - width: 28px
+      - height: 28px;
+    img_cell:
+      - width: 48px
+      - height: 48px
+      - background: var(--primary-background-color)
+      - color: var(--primary-text-color)
+      - border-radius: 100%
+    card:
+      - box-shadow: none
+      - padding: 4px 0
+      - width: 64px
+    state:
+      - font-family: var(--primary-font-family)
+      - color: var(--primary-text-color)
+      - justify-self: center
+      - font-size: 13px
+    name:
+      - font-family: var(--primary-font-family)
+      - color: var(--primary-text-color)
+      - justify-self: center
+      - font-size: 13px
+  state:
+    - value: 'on'
+      styles:
+        icon:
+          - color: rgba(255, 255, 255, 1)
+    - value: 'off'
+      styles:
+        icon:
+          - color: rgba(255, 255, 255, 0.5)

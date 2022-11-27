@@ -1,0 +1,47 @@
+air_quality:
+  template: base
+  name: Air Quality
+  state:
+    - value: 50
+      operator: "<="
+      styles:
+        card:
+          - background: var(--card-off-background-color)
+        icon:
+          - color: var(--card-off-icon-color)
+        name:
+          - color: var(--card-off-text-color)
+        state:
+          - color: var(--card-off-text-color)
+    - value: 50
+      operator: ">"
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        icon:
+          - color: rgb(207, 174, 66)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)
+    - value: 100
+      operator: "<"
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        icon:
+          - color: rgb(247, 107, 94)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)
+    - value: "unavailable"
+      styles:
+        card:
+          - background: var(--card-off-background-color)
+        icon:
+          - color: var(--card-off-icon-color)
+        name:
+          - color: var(--card-off-text-color)
+        state:
+          - color: var(--card-off-text-color)

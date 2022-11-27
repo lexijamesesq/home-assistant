@@ -1,0 +1,72 @@
+weather:
+  style: |
+    .ellipsis {
+      text-overflow: inherit !important;
+      white-space: inherit !important;
+      overflow: inherit !important;
+    }
+    .temp-large {
+      font-size: 40px;
+      font-weight: 300;
+      line-height: 48px;
+      color: var(--primary-text-color);
+    }
+    .temp-unit {
+      font-size: 0.5em;
+    }
+    .temp-small {
+      vertical-align: top;
+      font-size: 16px;
+      line-height: 45px;
+      color: var(--secondary-text-color);
+      margin-left: 8px;
+    }
+  entity: sensor.dashboard_weather
+  triggers_update:
+    - sensor.dark_sky_icon_0d
+    - sensor.dashboard_weather
+    - sensor.dark_sky_minutely_summary
+  show_name: false
+  show_state: false
+  show_icon: false
+  show_label: true
+  show_entity_picture: true
+  entity_picture: '[[[ return `/local/icons/weather/${states["sensor.dark_sky_icon"].state}.svg` ]]]'
+  label: >
+    [[[
+      return `<span class="temp-large">${states["sensor.dashboard_weather"].attributes.outside_temp}<sup class="temp-unit">${states["sensor.dashboard_weather"].attributes.unit_of_measurement}</sup></span><span class="temp-small">
+        ${states["sensor.dashboard_weather"].attributes.outside_temp_high}° /
+        ${states["sensor.dashboard_weather"].attributes.outside_temp_low}°
+        </span>`
+    ]]]
+  styles:
+    grid:
+      - grid-template-areas: '"l i" "summary summary"'
+      - grid-template-rows: auto
+      - grid-template-columns: 1fr 48px
+    card:
+      - padding: 0 32px
+    label:
+      - font-family: var(--primary-font-family)
+      - font-weight: 400
+      - padding-top: 0
+      - justify-self: left
+    img_cell:
+      - width: 48px
+      - justify-self: right
+      - margin-top: 3px
+    icon:
+      - width: 48px
+      - height: 48px
+    entity_picture:
+      - justify-self: right
+    custom_fields:
+      summary:
+        - font-family: var(--primary-font-family)
+        - color: var(--primary-text-color)
+        - justify-self: left
+        - text-align: left
+        - font-size: 16px
+        - font-weight: 400
+  custom_fields:
+    summary: '[[[ return states["sensor.dark_sky_minutely_summary"].state ]]]'

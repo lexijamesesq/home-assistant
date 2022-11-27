@@ -1,0 +1,56 @@
+type: custom:dwains-flexbox-card
+items_classes: 'col-xs-6 col-sm-3 col-md-2 col-lg-2'
+padding: true
+cards:
+  - type: entities
+    item_classes: 'col-xs-12 col-sm-12 col-md-12 col-lg-12'
+    title: Servers
+    show_header_toggle: false
+    entities:
+      - type: section
+        label: Overwatch
+      - entity: sensor.overwatch_cpu_load_15
+        type: custom:multiple-entity-row
+        name: Load
+        show_state: false
+        entities:
+          - entity: sensor.overwatch_cpu_load_1
+            name: 1 min
+            unit: ' '
+          - entity: sensor.overwatch_cpu_load_5
+            name: 5 min
+            unit: ' '
+          - entity: sensor.overwatch_cpu_load_15
+            name: 15 min
+            unit: ' '
+      - entity: sensor.overwatch_cpu_temp
+        name: CPU Temp
+      - entity: sensor.overwatch_ram_used
+        name: RAM Used
+      - type: section
+        label: Woodhouse
+      - entity: sensor.woodhouse_cpu_load_15
+        type: custom:multiple-entity-row
+        name: Load
+        show_state: false
+        entities:
+          - entity: sensor.woodhouse_cpu_load_1
+            name: 1 min
+            unit: ' '
+          - entity: sensor.woodhouse_cpu_load_5
+            name: 5 min
+            unit: ' '
+          - entity: sensor.woodhouse_cpu_load_15
+            name: 15 min
+            unit: ' '
+      - entity: sensor.woodhouse_cpu1_temp
+        type: custom:multiple-entity-row
+        name: CPU Temp
+        show_state: false
+        entities:
+          - entity: sensor.woodhouse_cpu1_temp
+            name: CPU 1
+          - entity: sensor.woodhouse_cpu2_temp
+            name: CPU 2
+      - entity: sensor.woodhouse_ram_used
+        name: RAM Used

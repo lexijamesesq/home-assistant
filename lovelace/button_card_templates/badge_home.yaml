@@ -1,0 +1,6 @@
+badge_home:
+  template: badge_smol
+  show_state: true
+  styles:
+    grid:
+      - grid-template-areas: '"i" "s"'

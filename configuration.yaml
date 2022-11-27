@@ -42,6 +42,8 @@ config:
 conversation:
 frontend:
   themes: !include_dir_merge_named themes/
+  extra_module_url:
+    - /hacsfiles/lovelace-card-mod/card-mod.js
 system_health:
 
 
@@ -95,7 +97,17 @@ lovelace:
       type: module
     - url: /hacsfiles/button-card/button-card.js
       type: module
-    - url: /hacsfiles/lovelace-card-mod/card-mod.js
+    - url: /browser_mod.js
+      type: module
+    - url: /hacsfiles/lovelace-layout-card/layout-card.js
+      type: module
+    - url: /hacsfiles/bar-card/bar-card.js
+      type: module
+    - url: /hacsfiles/Homekit-panel-card/homekit-panel-card.js
+      type: module
+    - url: /webrtc/webrtc-camera.js
+      type: module
+    - url: /hacsfiles/kiosk-mode/kiosk-mode.js
       type: module
     - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
       type: module
@@ -103,6 +115,42 @@ lovelace:
       type: module
     - url: /local/dwains-theme/plugins/dwains-flexbox-card/dwains-flexbox-card.js
       type: module
+    - url: /local/dashboard/fonts.css
+      type: css
+  dashboards:
+    lovelace-dashboard:
+      mode: yaml
+      filename: ui-dashboard.yaml
+      title: Dashboard
+      icon: mdi:tablet-dashboard
+      show_in_sidebar: true
+      require_admin: false
+
+
+browser_mod:
+  devices:
+    eeb5b969-b258d433:
+      name: mbp_firefox
+      disable:
+        - all
+    c8c83698-edd23149:
+      name: mbp_chrome
+      disable:
+        - all
+    900555a2_37d7d79f:
+      name: dashboard_bedroom_hallway
+      disable:
+        - all
+    d41f1a7_7b527b03:
+      name: dashboard_front_entrance
+      disable:
+        - all
+    d41f0ff_a82f86e:
+      name: dashboard_garage_entrance
+      disable:
+        - all
+  disable:
+    - all
 
 
 # neato:
@@ -182,17 +230,6 @@ sonos:
       - !secret media_player_sonos_amp_rec_room
       - !secret media_player_sonos_one_den
       - !secret media_player_sonos_move
-
-
-# dyson:
-#   username: !secret dyson_username
-#   password: !secret dyson_password
-#   language: GB
-#   devices:
-#     - device_id: !secret dyson_kitchen_device_id
-#       device_ip: !secret dyson_kitchen_device_ip
-#     - device_id: !secret dyson_bedroom_device_id
-#       device_ip: !secret dyson_bedroom_device_ip
 
 
 emulated_hue:
@@ -309,10 +346,6 @@ light:
   - platform: switch
     name: Upstairs Patio String Lights
     entity_id: switch.upstairs_patio_string_lights
-  - platform: nanoleaf
-    host: !secret nanoleaf_rec_room_canvas_host
-    token: !secret nanoleaf_rec_room_canvas_token
-    name: Rec Room Canvas
 
 
 # device_tracker:
@@ -380,9 +413,6 @@ cover:
           {% endif %}
 
 
-stream:
-
-
 homekit:
 #  auto_start: false
   ip_address: !secret homekit_ip_address
@@ -424,44 +454,6 @@ homekit:
 
 
 ios:
-  push:
-    categories:
-      - name: Start Sleep Mode
-        identifier: 'mode_sleep_start'
-        actions:
-          - identifier: 'MODE_SLEEP_ON'
-            title: 'Turn On'
-            activationMode: 'background'
-            authenticationRequired: false
-            destructive: false
-            behavior: 'default'
-      - name: End Sleep Mode
-        identifier: 'mode_sleep_end'
-        actions:
-          - identifier: 'MODE_SLEEP_OFF'
-            title: 'Turn Off'
-            activationMode: 'background'
-            authenticationRequired: false
-            destructive: false
-            behavior: 'default'
-      - name: End Peloton Mode
-        identifier: 'mode_peloton_end'
-        actions:
-          - identifier: 'MODE_PELOTON_OFF'
-            title: 'Turn Off'
-            activationMode: 'background'
-            authenticationRequired: false
-            destructive: false
-            behavior: 'default'
-      - name: Close Garage Actual
-        identifier: 'garage_actual_close'
-        actions:
-          - identifier: 'GARAGE_ACTUAL_CLOSE'
-            title: 'Close'
-            activationMode: 'background'
-            authenticationRequired: false
-            destructive: false
-            behavior: 'default'
 mobile_app:
 
 
@@ -489,3 +481,4 @@ scene: !include scene.yaml
 script: !include_dir_merge_named script/
 sensor: !include sensor.yaml
 shell_command: !include shell_command.yaml
+template: !include_dir_merge_list template/

@@ -1,0 +1,39 @@
+badge_smol:
+  show_name: false
+  show_state: false
+  show_label: false
+  styles:
+    grid:
+      - grid-template-areas: '"i" "s"'
+    icon:
+      - color: white
+      - width: 55%
+    img_cell:
+      - width: 40px
+      - height: 40px
+      - background: var(--primary-background-color)
+      - color: var(--primary-text-color)
+      - border-radius: 100%
+    card:
+      - box-shadow: none
+      - padding: 0
+      - width: 60px
+    state:
+      - font-family: var(--primary-font-family)
+      - color: var(--primary-text-color)
+      - justify-self: center
+      - font-size: 12px
+    name:
+      - font-family: var(--primary-font-family)
+      - color: var(--primary-text-color)
+      - justify-self: center
+      - font-size: 12px
+  state:
+    - value: 'on'
+      styles:
+        icon:
+          - color: rgba(255, 255, 255, 1)
+    - value: 'off'
+      styles:
+        icon:
+          - color: rgba(255, 255, 255, 0.5)

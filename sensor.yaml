@@ -18,17 +18,6 @@
 - platform: uptime
 
 # Tautulli
-- platform: tautulli
-  api_key: !secret tautulli_api_key
-  host: !secret tautulli_host
-  monitored_conditions:
-    - friendly_name
-    - full_title
-    - progress_percent
-    - stream_video_resolution
-    - transcode_decision
-    - user_thumb
-    - video_resolution
 
 # Time & Date
 - platform: time_date
@@ -60,35 +49,6 @@
   scan_interval:
     minutes: 5
 
-# Places
-- platform: places
-  name: Octavia
-  devicetracker_id: device_tracker.beacon_octavia
-  home_zone: zone.home
-  api_key: !secret places_api_key
-
-- platform: places
-  name: Alex
-  devicetracker_id: person.alex
-  home_zone: zone.home
-  api_key: !secret places_api_key
-
-# Custom sensors for UI display
-- platform: min_max
-  name: 'Average Temperature'
-  type: mean
-  entity_ids:
-    - sensor.downstairs_thermostat_temperature
-    - sensor.upstairs_thermostat_temperature
-  round_digits: 1
-
-- platform: min_max
-  name: 'Average Humidity'
-  type: mean
-  entity_ids:
-    - sensor.downstairs_thermostat_humidity
-    - sensor.upstairs_thermostat_humidity
-  round_digits: 1
 
 - platform: integration
   source: sensor.energy_usage
@@ -208,128 +168,128 @@
     battery_august_front_door:
       friendly_name: 'August - Front Door'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.august_smart_lock_pro_front_door_battery_level") | int }}'
+      value_template: '{{ states("sensor.august_smart_lock_pro_front_door_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_august_front_door:
       friendly_name: 'August - Front Door'
-      value_template: '{{ states("sensor.august_smart_lock_pro_front_door_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.august_smart_lock_pro_front_door_battery_level") | int(0) <= 50 }}'
 
     battery_august_front_door_keypad:
       friendly_name: 'August - Front Door Keypad'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.august_web_front_door_keypad_battery") | int }}'
+      value_template: '{{ states("sensor.august_web_front_door_keypad_battery") | int(0) }}'
       device_class: battery
     dashboard_battery_august_front_door_keypad:
       friendly_name: 'August - Front Door Keypad'
-      value_template: '{{ states("sensor.august_web_front_door_keypad_battery") | int <= 50 }}'
+      value_template: '{{ states("sensor.august_web_front_door_keypad_battery") | int(0) <= 50 }}'
 
     battery_august_garage_door:
       friendly_name: 'August - Garage Door'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.august_smart_lock_pro_garage_door_battery_level") | int }}'
+      value_template: '{{ states("sensor.august_smart_lock_pro_garage_door_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_august_garage_door:
       friendly_name: 'August - Garage Door'
-      value_template: '{{ states("sensor.august_smart_lock_pro_garage_door_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.august_smart_lock_pro_garage_door_battery_level") | int(0) <= 50 }}'
 
     battery_bedroom_closet_door_sensor:
       friendly_name: 'Bedroom Closet Door Sensor'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int }}'
+      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_bedroom_closet_door_sensor:
       friendly_name: 'Bedroom Closet Door Sensor'
-      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int(0) <= 50 }}'
 
     battery_den_multisensor:
       friendly_name: 'Den MultiSensor'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.den_multisensor_battery_level") | int }}'
+      value_template: '{{ states("sensor.den_multisensor_sensor_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_den_multisensor:
       friendly_name: 'Den MultiSensor'
-      value_template: '{{ states("sensor.den_multisensor_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.den_multisensor_sensor_battery_level") | int(0) <= 50 }}'
 
     battery_bedroom_closet_trisensor:
       friendly_name: 'Bedroom Closet TriSensor'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int }}'
+      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_bedroom_closet_trisensor:
       friendly_name: 'Bedroom Closet TriSensor'
-      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.bedroom_closet_door_sensor_battery_level") | int(0) <= 50 }}'
 
     battery_downstairs_hallway_trisensor:
       friendly_name: 'Downstairs Hallway TriSensor'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.downstairs_hallway_trisensor_battery_level") | int }}'
+      value_template: '{{ states("sensor.downstairs_hallway_trisensor_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_downstairs_hallway_trisensor:
       friendly_name: 'Downstairs Hallway TriSensor'
-      value_template: '{{ states("sensor.downstairs_hallway_trisensor_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.downstairs_hallway_trisensor_battery_level") | int(0) <= 50 }}'
 
     battery_garage_motion_sensor:
       friendly_name: 'Garage Motion Sensor'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.garage_motion_sensor_battery_level") | int }}'
+      value_template: '{{ states("sensor.garage_motion_sensor_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_garage_motion_sensor:
       friendly_name: 'Garage Motion Sensor'
-      value_template: '{{ states("sensor.garage_motion_sensor_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.garage_motion_sensor_battery_level") | int(0) <= 50 }}'
 
     battery_garage_stairs_multisensor:
       friendly_name: 'Garage Stairs MultiSensor'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.garage_stairs_multisensor_battery_level") | int }}'
+      value_template: '{{ states("sensor.garage_stairs_multisensor_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_garage_stairs_multisensor:
       friendly_name: 'Garage Stairs MultiSensor'
-      value_template: '{{ states("sensor.garage_stairs_multisensor_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.garage_stairs_multisensor_battery_level") | int(0) <= 50 }}'
 
     battery_guest_bedroom_closet_door_sensor:
       friendly_name: 'Guest Bedroom Closet Door Sensor'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.guest_bedroom_closet_door_sensor_battery_level") | int }}'
+      value_template: '{{ states("sensor.guest_bedroom_closet_door_sensor_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_guest_bedroom_closet_door_sensor:
       friendly_name: 'Guest Bedroom Closet Door Sensor'
-      value_template: '{{ states("sensor.guest_bedroom_closet_door_sensor_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.guest_bedroom_closet_door_sensor_battery_level") | int(0) <= 50 }}'
 
     battery_laundry_door_left_sensor:
       friendly_name: 'Laundry Door Left Sensor'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.laundry_door_left_sensor_battery_level") | int }}'
+      value_template: '{{ states("sensor.laundry_door_left_sensor_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_laundry_door_left_sensor:
       friendly_name: 'Laundry Door Left Sensor'
-      value_template: '{{ states("sensor.laundry_door_left_sensor_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.laundry_door_left_sensor_battery_level") | int(0) <= 50 }}'
 
     battery_laundry_door_right_sensor:
       friendly_name: 'Laundry Door Right Sensor'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.laundry_door_right_sensor_battery_level") | int }}'
+      value_template: '{{ states("sensor.laundry_door_right_sensor_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_laundry_door_right_sensor:
       friendly_name: 'Laundry Door Right Sensor'
-      value_template: '{{ states("sensor.laundry_door_right_sensor_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.laundry_door_right_sensor_battery_level") | int(0) <= 50 }}'
 
     battery_main_stairs_multisensor:
       friendly_name: 'Main Stairs MultiSensor'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.main_stairs_multisensor_battery_level") | int }}'
+      value_template: '{{ states("sensor.main_stairs_multisensor_battery_level") | int(0) }}'
       device_class: battery
     dashboard_battery_main_stairs_multisensor:
       friendly_name: 'Main Stairs MultiSensor'
-      value_template: '{{ states("sensor.main_stairs_multisensor_battery_level") | int <= 50 }}'
+      value_template: '{{ states("sensor.main_stairs_multisensor_battery_level") | int(0) <= 50 }}'
 
     battery_server_rack_ups:
       friendly_name: 'Server Rack UPS'
       unit_of_measurement: '%'
-      value_template: '{{ states("sensor.server_rack_ups_battery_charge") | int }}'
+      value_template: '{{ states("sensor.server_rack_ups_battery_charge") | int(0) }}'
       device_class: battery
     dashboard_battery_server_rack_ups:
       friendly_name: 'Server Rack UPS'
-      value_template: '{{ states("sensor.server_rack_ups_battery_charge") | int <= 50 }}'
+      value_template: '{{ states("sensor.server_rack_ups_battery_charge") | int(0) <= 50 }}'
 
 
 # Networked Devices
@@ -669,113 +629,10 @@
           off
         {% endif %}
 
-    dashboard_water_delivery:
-      friendly_name: Water Delivery
-      value_template: >-
-        {% set forcerefresh = states("sensor.time") %}
-        {% set nextdelivery = as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.readyrefresh.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
-        {% set dayof = states.sensor.date.state == nextdelivery %}
-        {% if daybefore or dayof %}
-          on
-        {% else %}
-          off
-        {% endif %}
-      icon_template: 'mdi:cup-water'
-    dashboard_water_delivery_title:
-      friendly_name: Water Delivery Title
-      value_template: >-
-        {% set forcerefresh = states("sensor.time") %}
-        {% set nextdelivery = as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-        {% set fivedaysbefore = as_timestamp(now()) > (as_timestamp(states.calendar.readyrefresh.attributes.start_time) - (24*60*60*5)) and as_timestamp(now()) < as_timestamp(states.calendar.readyrefresh.attributes.start_time) %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.readyrefresh.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
-        {% set dayof = states.sensor.date.state == nextdelivery %}
-        {% if daybefore %}
-          Tomorrow
-        {% elif dayof %}
-          Today
-        {% elif fivedaysbefore %}
-          {{ as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%A') }}
-        {% else %}
-          {{ as_timestamp(states.calendar.readyrefresh.attributes.start_time)|timestamp_custom('%B %-d') }}
-        {% endif %}
-      icon_template: 'mdi:cup-water'
-    dashboard_trash_pickup:
-      friendly_name: Trash Pickup
-      value_template: >-
-        {% set forcerefresh = states("sensor.time") %}
-        {% set nextpickup = states.input_text.next_pickup_trash.state %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
-        {% set dayof = states.sensor.date.state == nextpickup %}
-        {% if daybefore or dayof %}
-          on
-        {% else %}
-          off
-        {% endif %}
-      icon_template: >-
-        {% set nextpickup = states.input_text.next_pickup_trash.state %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
-        {% set dayof = states.sensor.date.state == nextpickup %}
-        {% if daybefore or dayof %}
-          mdi:delete-empty
-        {% else %}
-          mdi:delete
-        {% endif %}
-    dashboard_trash_pickup_title:
-      friendly_name: Trash Pickup Title
-      value_template: >-
-        {% set forcerefresh = states("sensor.time") %}
-        {% set nextpickup = states.input_text.next_pickup_trash.state %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
-        {% set dayof = states.sensor.date.state == nextpickup %}
-        {% if daybefore %}
-          Tomorrow
-        {% elif dayof %}
-          Today
-        {% else %}
-          {{ as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00')|timestamp_custom('%A') }}
-        {% endif %}
-      icon_template: >-
-        {% set nextpickup = states.input_text.next_pickup_trash.state %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_trash.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
-        {% set dayof = states.sensor.date.state == nextpickup %}
-        {% if daybefore or dayof %}
-          mdi:delete-empty
-        {% else %}
-          mdi:delete
-        {% endif %}
-    dashboard_recycling_pickup:
-      friendly_name: Recycling Pickup
-      value_template: >-
-        {% set forcerefresh = states("sensor.time") %}
-        {% set nextpickup = states.input_text.next_pickup_recycling.state %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_recycling.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
-        {% set dayof = states.sensor.date.state == nextpickup %}
-        {% if daybefore or dayof %}
-          on
-        {% else %}
-          off
-        {% endif %}
-      icon_template: 'mdi:recycle'
-    dashboard_recycling_pickup_title:
-      friendly_name: Recycling Pickup Title
-      value_template: >-
-        {% set forcerefresh = states("sensor.time") %}
-        {% set nextpickup = states.input_text.next_pickup_recycling.state %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.input_text.next_pickup_recycling.state + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
-        {% set dayof = states.sensor.date.state == nextpickup %}
-        {% if daybefore %}
-          Tomorrow
-        {% elif dayof %}
-          Today
-        {% else %}
-          {{ as_timestamp(states.input_text.next_pickup_recycling.state + ' 00:00:00')|timestamp_custom('%A') }}
-        {% endif %}
-      icon_template: 'mdi:recycle'
     dashboard_bedroom_fan_filter:
       friendly_name: Bedroom Fan Filter
       value_template: >-
-        {% if states("sensor.bedroom_hepa_filter_remaining_life") | int <= 33 %}
+        {% if states("sensor.bedroom_hepa_filter_remaining_life") | int(0) <= 33 %}
           on
         {% else %}
           off
@@ -784,12 +641,13 @@
     dashboard_kitchen_fan_filter:
       friendly_name: Kitchen Fan Filter
       value_template: >-
-        {% if states("sensor.kitchen_combi_filter_remaining_life") | int <= 33 %}
+        {% if states("sensor.kitchen_combi_filter_remaining_life") | int(0) <= 33 %}
           on
         {% else %}
           off
         {% endif %}
       icon_template: 'mdi:air-filter'
+
 #    dashboard_octavia_fuel_remaining:
 #      friendly_name: Octavia Fuel Remaining
 #      value_template: >-
@@ -850,68 +708,6 @@
 #           {{ lastcleaned|timestamp_custom('%B %-d') }}
 #         {% endif %}
 
-
-# Alexa Wakeup Light
-- platform: template
-  sensors:
-    alexa_wakeup_light:
-      friendly_name: Alexa Wakeup Light
-      value_template: >-
-        {% set forcerefresh = states("sensor.time") %}
-        {% set alarmset = not is_state("sensor.bedroom_sonos_one_next_alarm", "") and not is_state("sensor.bedroom_sonos_one_next_alarm", none) and not is_state("sensor.bedroom_sonos_one_next_alarm", "unavailable") %}
-        {% if alarmset %}
-          {% set fifteenbefore = (as_timestamp(states("sensor.bedroom_sonos_one_next_alarm")) - (20*60)) %}
-          {% set nextalarm = fifteenbefore | timestamp_custom('%Y-%m-%d') %}
-          {% set starttime = fifteenbefore | timestamp_custom('%H:%M') %}
-          {% set dayof = states('sensor.date') == nextalarm %}
-        {% endif %}
-
-        {% if alarmset %}
-          {% if dayof and starttime == as_timestamp(now()) | timestamp_custom('%H:%M') %}
-            on
-          {% else %}
-            off
-          {% endif %}
-        {% else %}
-          off
-        {% endif %}
-    alexa_next_alarm:
-      friendly_name: Alexa Next Alarm
-      value_template: >-
-        {% set forcerefresh = states("sensor.time") %}
-        {% set alarmset = not is_state("sensor.bedroom_sonos_one_next_alarm", "") and not is_state("sensor.bedroom_sonos_one_next_alarm", none) and not is_state("sensor.bedroom_sonos_one_next_alarm", "unavailable") %}
-        {% if alarmset %}
-          {% set nextalarm = as_timestamp(states("sensor.bedroom_sonos_one_next_alarm")) %}
-          {% set dayof = states("sensor.date") == nextalarm | timestamp_custom('%Y-%m-%d') %}
-          {% set ispast = nextalarm < as_timestamp(now()) %}
-        {% endif %}
-
-        {% if alarmset %}
-          {% if ispast %}
-            Expired
-          {% else %}
-            {{ as_timestamp(states("sensor.bedroom_sonos_one_next_alarm")) | timestamp_custom('%a %-I:%M %p') }}
-          {% endif %}
-        {% else %}
-          None
-        {% endif %}
-      icon_template: >-
-        {% set alarmset = not is_state("sensor.bedroom_sonos_one_next_alarm", "") and not is_state("sensor.bedroom_sonos_one_next_alarm", none) and not is_state("sensor.bedroom_sonos_one_next_alarm", "unavailable") %}
-        {% if alarmset %}
-          {% set nextalarm = as_timestamp(states("sensor.bedroom_sonos_one_next_alarm")) %}
-          {% set ispast = nextalarm < as_timestamp(now()) %}
-        {% endif %}
-
-        {% if alarmset %}
-          {% if ispast %}
-            mdi:alarm-off
-          {% else %}
-            mdi:alarm
-          {% endif %}
-        {% else %}
-          mdi:alarm-off
-        {% endif %}
-
 # Sonos Grouping Sensors
 - platform: template
   sensors:
@@ -919,7 +715,7 @@
       friendly_name: Sonos Group Master
       value_template: >-
         {%- set players = expand('group.sonos_players') -%}
-        {%- for player in players if player.state == 'playing' and player.attributes.source is not defined and player.attributes.sonos_group[0] == player.entity_id %}
+        {%- for player in players if player.state == 'playing' and player.attributes.source is not defined and player.attributes.group_members[0] == player.entity_id %}
           {% if loop.last %}
             {{ player.entity_id }}
           {% endif %}
@@ -973,7 +769,7 @@
         {%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%}
         {%- set players = expand('group.sonos_players') -%}
         {%- for player in players if player.entity_id == master %}
-          {%- set slaves = player.attributes.sonos_group %}
+          {%- set slaves = player.attributes.group_members %}
           {{ slaves|join(",")|replace("media_player", "input_boolean") }}
         {%- endfor %}
 
@@ -982,7 +778,7 @@
       value_template: >-
         {%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%}
         {%- set players = expand('group.sonos_players') -%}
-        {%- for player in players if player.attributes.sonos_group | length == 1 and player.entity_id != master -%}
+        {%- for player in players if player.attributes.group_members | length == 1 and player.entity_id != master -%}
           {{ player.entity_id|replace("media_player", "input_boolean") }}
           {%- if not loop.last -%}
             ,
@@ -997,7 +793,7 @@
       friendly_name: Sonos Kitchen Volume
       value_template: >-
         {%- if state_attr('media_player.sonos_kitchen', 'volume_level') is defined and state_attr('media_player.sonos_kitchen', 'volume_level') is number -%}
-          {{ (state_attr('media_player.sonos_kitchen', 'volume_level') * 100) | int ~ '%' }}
+          {{ (state_attr('media_player.sonos_kitchen', 'volume_level') * 100) | int(0) ~ '%' }}
         {%- else -%}
           Unavailable
         {%- endif %}
@@ -1005,7 +801,7 @@
       friendly_name: Sonos Living Room Volume
       value_template: >-
         {%- if state_attr('media_player.sonos_living_room', 'volume_level') is defined and state_attr('media_player.sonos_living_room', 'volume_level') is number -%}
-          {{ (state_attr('media_player.sonos_living_room', 'volume_level') * 100) | int ~ '%' }}
+          {{ (state_attr('media_player.sonos_living_room', 'volume_level') * 100) | int(0) ~ '%' }}
         {%- else -%}
           Unavailable
         {%- endif %}
@@ -1013,7 +809,7 @@
       friendly_name: Sonos Rec Room Volume
       value_template: >-
         {%- if state_attr('media_player.sonos_rec_room', 'volume_level') is defined and state_attr('media_player.sonos_rec_room', 'volume_level') is number -%}
-          {{ (state_attr('media_player.sonos_rec_room', 'volume_level') * 100) | int ~ '%' }}
+          {{ (state_attr('media_player.sonos_rec_room', 'volume_level') * 100) | int(0) ~ '%' }}
         {%- else -%}
           Unavailable
         {%- endif %}
@@ -1021,7 +817,7 @@
       friendly_name: Sonos Bedroom Volume
       value_template: >-
         {%- if state_attr('media_player.sonos_bedroom', 'volume_level') is defined and state_attr('media_player.sonos_bedroom', 'volume_level') is number -%}
-          {{ (state_attr('media_player.sonos_bedroom', 'volume_level') * 100) | int ~ '%' }}
+          {{ (state_attr('media_player.sonos_bedroom', 'volume_level') * 100) | int(0) ~ '%' }}
         {%- else -%}
           Unavailable
         {%- endif %}
@@ -1029,7 +825,7 @@
       friendly_name: Sonos Bathroom Volume
       value_template: >-
         {%- if state_attr('media_player.sonos_bathroom', 'volume_level') is defined and state_attr('media_player.sonos_bathroom', 'volume_level') is number -%}
-          {{ (state_attr('media_player.sonos_bathroom', 'volume_level') * 100) | int ~ '%' }}
+          {{ (state_attr('media_player.sonos_bathroom', 'volume_level') * 100) | int(0) ~ '%' }}
         {%- else -%}
           Unavailable
         {%- endif %}
@@ -1037,7 +833,7 @@
       friendly_name: Sonos Den Volume
       value_template: >-
         {%- if state_attr('media_player.sonos_den', 'volume_level') is defined and state_attr('media_player.sonos_den', 'volume_level') is number -%}
-          {{ (state_attr('media_player.sonos_den', 'volume_level') * 100) | int ~ '%' }}
+          {{ (state_attr('media_player.sonos_den', 'volume_level') * 100) | int(0) ~ '%' }}
         {%- else -%}
           Unavailable
         {%- endif %}
@@ -1045,7 +841,7 @@
       friendly_name: Sonos Move Volume
       value_template: >-
         {%- if state_attr('media_player.sonos_move', 'volume_level') is defined and state_attr('media_player.sonos_move', 'volume_level') is number -%}
-          {{ (state_attr('media_player.sonos_move', 'volume_level') * 100) | int ~ '%' }}
+          {{ (state_attr('media_player.sonos_move', 'volume_level') * 100) | int(0) ~ '%' }}
         {%- else -%}
           Unavailable
         {%- endif %}
@@ -1127,7 +923,7 @@
     device_tracker_alex_recently_home:
       friendly_name: Alex - Recently Home
       value_template: >-
-        {% if states('sensor.uptime') | int > 5 %}
+        {% if states('sensor.uptime') | int(0) > 5 %}
           {% if is_state('device_tracker.alexs_iphone_geofency', 'home') and as_timestamp(now()) < (as_timestamp(states.device_tracker.alexs_iphone_geofency.last_changed) + (60 * 5)) %}
             on
           {% else %}
@@ -1150,7 +946,7 @@
     device_tracker_garage_actual_recently_closed:
       friendly_name: Garage - Recently Closed
       value_template: >-
-        {% if states('sensor.uptime') | int > 5 %}
+        {% if states('sensor.uptime') | int(0) > 5 %}
           {% if is_state('binary_sensor.garage_actual', 'off') and as_timestamp(now()) < (as_timestamp(states.binary_sensor.garage_actual.last_changed) + (60 * 5)) %}
             on
           {% else %}
@@ -1184,55 +980,51 @@
       friendly_name: LAN Bandwidth
       value_template: '{{ ((state_attr("sensor.tautulli", "lan_bandwidth") / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
       unit_of_measurement: "Mbps"
-    tautulli_total_bandwidth:
-      friendly_name: Total Bandwidth
-      value_template: '{{ ((state_attr("sensor.tautulli", "total_bandwidth") / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
-      unit_of_measurement: "Mbps"
     # Tautulli User 1
     tautulli_user1:
       friendly_name: !secret tautulli_user1_friendly_name
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user1")).user_thumb }}'
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user1")).user_thumb | default("/local/none.png") }}'
     # Tautulli User 2
     tautulli_user2:
       friendly_name: !secret tautulli_user2_friendly_name
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user2")).user_thumb }}'
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user2")).user_thumb | default("/local/none.png") }}'
     # Tautulli User 3
     tautulli_user3:
       friendly_name: !secret tautulli_user3_friendly_name
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user3")).user_thumb }}'
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user3")).user_thumb | default("/local/none.png") }}'
     # Tautulli User 4
     tautulli_user4:
       friendly_name: !secret tautulli_user4_friendly_name
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user4")).user_thumb }}'
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user4")).user_thumb | default("/local/none.png") }}'
     # Tautulli User 5
     tautulli_user5:
       friendly_name: !secret tautulli_user5_friendly_name
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user5")).user_thumb }}'
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user5")).user_thumb | default("/local/none.png") }}'
     # Tautulli User 6
     tautulli_user6:
       friendly_name: !secret tautulli_user6_friendly_name
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user6")).user_thumb }}'
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user6")).user_thumb | default("/local/none.png") }}'
     # Tautulli User 7
     tautulli_user7:
       friendly_name: !secret tautulli_user7_friendly_name
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user7")).user_thumb }}'
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user7")).user_thumb | default("/local/none.png") }}'
     # Tautulli User 8
     tautulli_user8:
       friendly_name: !secret tautulli_user8_friendly_name
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user8")).user_thumb }}'
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user8")).user_thumb | default("/local/none.png") }}'
     # Tautulli User 9
     tautulli_user9:
       friendly_name: !secret tautulli_user9_friendly_name
       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user9")).user_thumb }}'
+      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user9")).user_thumb | default("/local/none.png") }}'
 
 - platform: rest
   name: Tautulli Plex Update Available
@@ -1529,10 +1321,10 @@
 #   value_template: >
 #     {% if value_json is defined %}
 #       {% if value_json.visitorLoginStatus == 'loggedin' %}
-#         {% if value_json.dumUsage | int == 0 and value_json.dumLimit | int == 0 and value_json.dumUtilization | int == 0 %}
+#         {% if value_json.dumUsage | int(0) == 0 and value_json.dumLimit | int(0) == 0 and value_json.dumUtilization | int(0) == 0 %}
 #           {{ sensor.cox_data_usage }}
 #         {% else %}
-#           {{ value_json.dumUtilization | int }}
+#           {{ value_json.dumUtilization | int(0) }}
 #         {% endif %}
 #       {% else %}
 #         unknown
@@ -1547,10 +1339,10 @@
 #   file_path: /config/json/cox_usage.json
 #   value_template: >
 #     {% if value_json is defined %}
-#       {% if value_json.dumUsage | int == 0 and value_json.dumLimit | int == 0 and value_json.dumUtilization | int == 0 %}
+#       {% if value_json.dumUsage | int(0) == 0 and value_json.dumLimit | int(0) == 0 and value_json.dumUtilization | int(0) == 0 %}
 #        stats unavailable
 #      {% else %}
-#         {{ value_json.dumUsage | int }} / {{ value_json.dumLimit | int }} GB ({{ value_json.dumUtilization | int }} %)
+#         {{ value_json.dumUsage | int(0) }} / {{ value_json.dumLimit | int(0) }} GB ({{ value_json.dumUtilization | int(0) }} %)
 #       {% endif %}
 #     {% else %}
 #       undefined
@@ -1563,7 +1355,7 @@
 #     {% if value_json is defined %}
 #       {% if value_json.visitorLoginStatus == 'loggedin' %}
 #         {% if value_json.dumDaysLeft is defined %}
-#           {{ value_json.dumDaysLeft | int }}
+#           {{ value_json.dumDaysLeft | int(0) }}
 #         {% else %}
 #           {{ sensor.cox_data_resets }}
 #       {% endif %}

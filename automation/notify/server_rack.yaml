@@ -29,7 +29,7 @@
     - service: notify.mobile_app_alexs_iphone
       data:
         title: "Overwatch"
-        message: "Excessive CPU Load for {{ (trigger.for.total_seconds() / 60) | int }} minutes."
+        message: "Excessive CPU Load for {{ (trigger.for.total_seconds() / 60) | int(0) }} minutes."
         data:
           push:
             thread-id: "ha-server-group"
@@ -63,8 +63,8 @@
       data:
         title: "Overwatch"
         message: >-
-          {%- set level = 'Critical' if states("sensor.overwatch_cpu_temp") | int > 79 else 'Warning' -%}
-          {{- level | title }}. The server has been running hot for {{ (trigger.for.total_seconds() / 60) | int }} minutes.
+          {%- set level = 'Critical' if states("sensor.overwatch_cpu_temp") | int(0) > 79 else 'Warning' -%}
+          {{- level | title }}. The server has been running hot for {{ (trigger.for.total_seconds() / 60) | int(0) }} minutes.
         data:
           push:
             thread-id: "ha-server-group"
@@ -131,8 +131,8 @@
       data:
         title: "Woodhouse"
         message: >-
-          {%- set level = 'critical' if states("sensor.woodhouse_cpu1_temp") | int > 79 or states("sensor.woodhouse_cpu2_temp") | int > 79 else 'warning' -%}
-          {{- level | title }}. The server has been running hot for {{ (trigger.for.total_seconds() / 60) | int }} minutes.
+          {%- set level = 'critical' if states("sensor.woodhouse_cpu1_temp") | int(0) > 79 or states("sensor.woodhouse_cpu2_temp") | int(0) > 79 else 'warning' -%}
+          {{- level | title }}. The server has been running hot for {{ (trigger.for.total_seconds() / 60) | int(0) }} minutes.
         data:
           push:
             thread-id: "ha-server-group"
@@ -201,10 +201,10 @@
       data:
         title: "Server Rack"
         message: >-
-          {%- if ((as_timestamp(now()) - as_timestamp(states.sensor.server_rack_ups_status_data.last_changed)) / 60) | int < 5 -%}
+          {%- if ((as_timestamp(now()) - as_timestamp(states.sensor.server_rack_ups_status_data.last_changed)) / 60) | int(0) < 5 -%}
             The UPS is running on battery power.
           {%- else -%}
-            The UPS has been running on battery power for {{ (trigger.for.total_seconds() / 60) | int }} minutes. {{ states.sensor.server_rack_ups_battery_charge.state }}% remaining.
+            The UPS has been running on battery power for {{ (trigger.for.total_seconds() / 60) | int(0) }} minutes. {{ states.sensor.server_rack_ups_battery_charge.state }}% remaining.
           {%- endif %}
         data:
           push:
@@ -303,7 +303,7 @@
 #     conditions:
 #       - '{{ not is_state("sensor.cox_data_usage", "unavailable") }}'
 #       - '{{ not is_state("sensor.cox_data_usage", "undefined") }}'
-#       - '{{ states("sensor.cox_data_usage")[:-2] | int > 75 }}'
+#       - '{{ states("sensor.cox_data_usage")[:-2] | int(0) > 75 }}'
 #   action:
 #     - delay: '00:00:05'
 #     - service: notify.mobile_app_alexs_iphone

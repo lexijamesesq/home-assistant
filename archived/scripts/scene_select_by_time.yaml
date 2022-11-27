@@ -3,8 +3,8 @@ sequence:
   service: script.turn_on
   data:
     entity_id: >
-      {% set weekday = (states('input_number.' ~ room ~ '_prefer_dim_after_weekday') | int) + 12 %}
-      {% set weekend = (states('input_number.' ~ room ~ '_prefer_dim_after_weekend') | int) + 12 %}
+      {% set weekday = (states('input_number.' ~ room ~ '_prefer_dim_after_weekday') | int(0)) + 12 %}
+      {% set weekend = (states('input_number.' ~ room ~ '_prefer_dim_after_weekend') | int(0)) + 12 %}
       {% if (now().strftime("%A") | lower) in ["sunday", "monday", "tuesday", "wednesday", "thursday"] and now().strftime("%H")|int >= weekday %}
         script.scene_select_{{ room }}_dim
       {% elif (now().strftime("%A") | lower) in ["friday", "saturday"] and now().strftime("%H")|int >= weekend %}

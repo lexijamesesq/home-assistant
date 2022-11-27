@@ -1,0 +1,241 @@
+type: custom:mod-card
+card_mod:
+  style: |
+    :host {
+      --masonry-view-card-margin: 0;
+    }
+card:
+  type: vertical-stack
+  cards:
+    - type: "custom:homekit-card"
+      style: |
+        :host {
+          --vertical-stack-card-margin: 0;
+          --tile-background: rgba(135, 135, 135, 0.3);
+          --tile-name-text-color: rgba(255, 255, 255, 0.6);
+          --tile-state-text-color: rgba(255, 255, 255, 0.6);
+          --tile-icon-color: rgba(255, 255, 255, 0.6);
+          --tile-on-icon-color: rgba(0, 0, 0, 0.6);
+        }
+        .container {
+          font-family: var(--primary-font-family);
+        }
+        homekit-button.custom-card {
+          background-color: inherit !important;
+        }
+        homekit-button.custom-card button-card {
+          margin: -10px;
+        }
+        homekit-button.custom-card.playlist button-card {
+          width: calc(100% + 20px);
+        }
+        homekit-button button-card {
+          max-width: inherit !important;
+        }
+        homekit-button .icon {
+          line-height: calc(var(--tile-icon-size, 30px) + 2px) !important;
+          text-align: inherit !important;
+        }
+        homekit-button .icon.climate {
+          line-height: calc(var(--tile-icon-size, 30px) + 15px) !important;
+          text-align: center !important;
+        }
+        homekit-button .name {
+          font-size: 15px !important;
+        }
+        homekit-button .state {
+          height: 20px;
+        }
+        .card-title {
+          font-size: 24px !important;
+          font-weight: 300 !important;
+          padding-top: 52px !important;
+          padding-bottom: 8px !important;
+        }
+        .card-title:first-child {
+          padding-top: 4px !important;
+        }
+        .col:first-child {
+          padding-left: 0 !important;
+        }
+        .button .button-inner .circle-state path {
+          stroke-width: 4;
+        }
+        .button .button-inner .circle-state text {
+          font-size: 26px;
+        }
+      useRGB: false
+      useBrightness: false
+      statePositionTop: true
+      entities:
+        - title: Doors
+          entities:
+            - card: custom:button-card
+              cardOptions:
+                template: cover
+                entity: cover.garage_actual
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: door_lock
+                entity: lock.august_smart_lock_pro_garage_door
+                name: Garage Door
+                variables:
+                  door: '[[[ return states["binary_sensor.garage_door"].state ]]]'
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: door_lock
+                entity: lock.august_smart_lock_pro_front_door
+                name: Front Door
+                variables:
+                  door: '[[[ return states["binary_sensor.front_door"].state ]]]'
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.patio_door
+                name: Patio Door
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.den_door
+                name: Den Door
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+        - title: Windows
+          entities:
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.kitchen_windows
+                name: Kitchen
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.living_room_windows
+                name: Living Room
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.rec_room_windows
+                name: Rec Room
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.bedroom_windows
+                name: Bedroom
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.den_windows
+                name: Den
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.guest_bedroom_windows
+                name: Guest Bedroom
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+        - title: Motion
+          entities:
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.garage_motion_sensor
+                name: Garage
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.garage_stairs_multisensor_sensor
+                name: Garage Stairs
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.front_door_motion
+                name: Front Door
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.downstairs_hallway_trisensor_sensor
+                name: Downstairs Hallway
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.main_floor_motion
+                name: Kitchen
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.living_room_motion_sensor
+                name: Living Room
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.main_stairs_multisensor_sensor
+                name: Main Stairs
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.upstairs_hallway_motion_sensor
+                name: Upstairs Hallway
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.bedroom_closet_trisensor_sensor
+                name: Bedroom Closet
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: binary_sensor.den_multisensor_sensor
+                name: Den Hallway
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              tap_action:
+                action: none

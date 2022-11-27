@@ -114,7 +114,7 @@ Custom Dark:
       /* This corrects top padding for the view. */
       #contentContainer {
         /* Change this to 0px if you want the header on the bottom */
-        padding-top: 48px !important;
+        /* padding-top: 48px !important; */
       }
       /* Styles for mobile */
       @media (orientation: portrait) and (max-width: 405px),
@@ -219,7 +219,7 @@ Custom Dark:
         }
       }
       @media (orientation: portrait) and (max-width: 405px) {
-        /* Hide tabs in portrait orientation on phones */
+        /* Hide tabs in portrait orientation on phones
         paper-tab[aria-label="Health"] {
           display: none;
         }
@@ -228,7 +228,7 @@ Custom Dark:
         }
         paper-tab[aria-label="More"] {
           display: var(--layout-inline_-_display);
-        }
+        } */
       }
   # Badges and columns
   card-mod-view-yaml: |

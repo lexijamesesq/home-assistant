@@ -1,0 +1,47 @@
+apple_tv:
+  template: base
+  state_display: '[[[ return entity.state.replace("standby", "off") ]]]'
+  tap_action:
+    haptic: medium
+    action: toggle
+  state:
+    - value: "idle"
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        icon:
+          - color: var(--card-on-icon-color)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)
+    - value: "playing"
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        icon:
+          - color: var(--card-on-icon-color)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)
+    - value: "paused"
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        icon:
+          - color: var(--card-on-icon-color)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)
+    - value: "standby"
+      styles:
+        card:
+          - background: var(--card-off-background-color)
+        icon:
+          - color: var(--card-off-icon-color)
+        name:
+          - color: var(--card-off-text-color)
+        state:
+          - color: var(--card-off-text-color)

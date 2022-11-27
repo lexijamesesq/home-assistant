@@ -1,0 +1,94 @@
+plex_stream_status:
+  show_name: true
+  show_label: true
+  show_state: false
+  show_icon: false
+  show_entity_picture: true
+  tap_action:
+    action: none
+  name: >
+    [[[
+      if(states["sensor.tautulli"].attributes[variables.user].friendly_name != "")
+        return states["sensor.tautulli"].attributes[variables.user].friendly_name;
+      else
+        return variables.user
+    ]]]
+  label: >
+    [[[
+      if(states["sensor.tautulli"].attributes[variables.user].Activity != null)
+        if(states["sensor.tautulli"].attributes[variables.user].Activity == "paused")
+          return `<ha-icon
+            icon="mdi:pause"
+            style="width: 24px; height: 24px; margin-right: 4px; margin-bottom: 2px;">
+            </ha-icon><span>${states["sensor.tautulli"].attributes[variables.user].full_title}</span>`;
+        else
+          return `<ha-icon
+            icon="mdi:play"
+            style="width: 24px; height: 24px; margin-right: 4px; margin-bottom: 2px;">
+            </ha-icon><span>${states["sensor.tautulli"].attributes[variables.user].full_title}</span>`
+    ]]]
+  entity_picture: '[[[ return states["sensor.tautulli"].attributes[variables.user].user_thumb ]]]'
+  custom_fields:
+    quality: >-
+      [[[
+        var quality = ``;
+        quality += `<div>${states["sensor.tautulli"].attributes[variables.user].stream_video_resolution.replace("4k", "4K").replace("1080", "1080p").replace("720", "720p").replace("480", "480p").replace("sd", "SD")}</div>`;
+        quality += `<div>${states["sensor.tautulli"].attributes[variables.user].transcode_decision.replace("copy", "Direct Stream")}</div>`;
+        return quality;
+      ]]]
+    progress: >
+      [[[
+        if(states["sensor.tautulli"].attributes[variables.user].progress_percent != "")
+          return `<div class="progress-bar" style="width: ${states["sensor.tautulli"].attributes[variables.user].progress_percent}%"></div>`;
+        else
+          return `<div class="progress-bar" style="width: 0%"></div>`
+      ]]]
+  aspect_ratio: 3/1
+  styles:
+    grid:
+      - grid-template-areas: '"i n quality" "l l l" "progress progress progress"'
+      - grid-template-rows: auto auto 6px
+      - grid-template-columns: min-content 1fr min-content
+    card:
+      - padding: 10px
+      - background: var(--card-off-background-color)
+    state:
+      - justify-self: right
+      - padding-bottom: 12px
+      - font-size: 13px
+    img_cell:
+      - width: 40px
+      - height: 40px
+      - place-self: start
+      - place-items: start
+      - place-content: start
+    entity_picture:
+      - width: 30px
+      - height: 30px
+      - border-radius: 100%
+    name:
+      - font-family: var(--primary-font-family)
+      - color: var(--card-off-text-color)
+      - place-self: start
+      - font-size: 15px
+      - font-weight: 500
+      - margin-top: 5px
+    label:
+      - font-family: var(--primary-font-family)
+      - color: var(--card-off-text-color)
+      - place-self: end start
+      - margin-left: -8px
+      - font-size: 14px
+    custom_fields:
+      quality:
+        - font-family: var(--primary-font-family)
+        - color: var(--card-off-text-color)
+        - place-self: start end
+        - font-size: 14px
+        - line-height: 16px
+        - text-align: right
+        - text-transform: capitalize
+      progress:
+        - margin: 6px -12px 0 -10px
+        - height: 6px
+        - background: rgba(100, 100, 100, 0.18)

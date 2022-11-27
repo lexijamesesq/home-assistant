@@ -1,0 +1,163 @@
+group.motion_downstairs:
+  title: "Modes"
+  style:
+    $: |
+      .mdc-dialog {
+        backdrop-filter: initial;
+      }
+      .mdc-dialog .mdc-dialog__container {
+        width: 100%;
+      }
+      .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+        width: 850px;
+        box-shadow: none;
+      }
+      .mdc-dialog__scrim {
+        backdrop-filter: blur(10px);
+      }
+    .: |
+      :host {
+        --mdc-theme-surface: rgba(0, 0, 0, 0);
+        --secondary-background-color: rgba(0, 0, 0, 0);
+        --ha-card-background: rgba(0, 0, 0, 0);
+        --mdc-dialog-scrim-color: rgba(0, 0, 0, .8);
+        --mdc-dialog-min-width: 100%;
+        --mdc-dialog-max-width: 100%;
+      }
+      app-toolbar {
+        display: none;
+      }
+      .content {
+        width: inherit !important;
+        margin: 0 !important;
+      }
+  card:
+    type: "custom:homekit-card"
+    style: |
+      :host {
+        --vertical-stack-card-margin: 0;
+        --tile-background: rgba(135, 135, 135, 0.3);
+        --tile-name-text-color: rgba(255, 255, 255, 0.6);
+        --tile-state-text-color: rgba(255, 255, 255, 0.6);
+        --tile-icon-color: rgba(255, 255, 255, 0.6);
+        --tile-on-icon-color: rgba(0, 0, 0, 0.6);
+      }
+      .container {
+        font-family: 'SF Pro Display';
+      }
+      homekit-button.custom-card {
+        background-color: inherit !important;
+      }
+      homekit-button.custom-card button-card {
+        margin: -10px;
+      }
+      homekit-button .icon {
+        line-height: calc(var(--tile-icon-size, 30px) + 2px) !important;
+        text-align: inherit !important;
+      }
+      homekit-button .name {
+        font-size: 15px !important;
+      }
+      homekit-button .state {
+        height: 20px;
+      }
+      .card-title {
+        font-size: 24px !important;
+        font-weight: 300 !important;
+        padding-top: 0 !important;
+        padding-bottom: 16px;
+      }
+      .row {
+        justify-content: center;
+      }
+    enableColumns: true
+    rows:
+      - row: 1
+        columns:
+          - column: 1
+            tileOnRow: 1
+            entities:
+              - title: Garage
+                entities:
+                  - card: custom:button-card
+                    cardOptions:
+                      template: motion
+                      entity: input_boolean.motion_garage
+                      name: Garage
+                    conditionalClass: '[[[ return "custom-card" ]]]'
+                    tap_action:
+                      action: none
+                  - card: custom:button-card
+                    cardOptions:
+                      template: motion
+                      entity: input_boolean.motion_garage_stairs
+                      name: Garage Stairs
+                    conditionalClass: '[[[ return "custom-card" ]]]'
+                    tap_action:
+                      action: none
+          - column: 2
+            tileOnRow: 2
+            entities:
+              - title: Downstairs
+                entities:
+                  - card: custom:button-card
+                    cardOptions:
+                      template: motion
+                      entity: input_boolean.motion_front_door
+                      name: Front Door
+                    conditionalClass: '[[[ return "custom-card" ]]]'
+                    tap_action:
+                      action: none
+                  - card: custom:button-card
+                    cardOptions:
+                      template: motion
+                      entity: input_boolean.motion_downstairs_hallway
+                      name: Downstairs Hallway
+                    conditionalClass: '[[[ return "custom-card" ]]]'
+                    tap_action:
+                      action: none
+                  - card: custom:button-card
+                    cardOptions:
+                      template: motion
+                      entity: input_boolean.motion_kitchen
+                      name: Kitchen
+                    conditionalClass: '[[[ return "custom-card" ]]]'
+                    tap_action:
+                      action: none
+                  - card: custom:button-card
+                    cardOptions:
+                      template: motion
+                      entity: input_boolean.motion_living_room
+                      name: Living Room
+                    conditionalClass: '[[[ return "custom-card" ]]]'
+                    tap_action:
+                      action: none
+          - column: 3
+            tileOnRow: 2
+            entities:
+              - title: Upstairs
+                entities:
+                  - card: custom:button-card
+                    cardOptions:
+                      template: motion
+                      entity: input_boolean.motion_main_stairs
+                      name: Main Stairs
+                    conditionalClass: '[[[ return "custom-card" ]]]'
+                    tap_action:
+                      action: none
+                  - card: custom:button-card
+                    cardOptions:
+                      template: motion
+                      entity: input_boolean.motion_upstairs_hallway
+                      name: Upstairs Hallway
+                    conditionalClass: '[[[ return "custom-card" ]]]'
+                    tap_action:
+                      action: none
+                  - card: custom:button-card
+                    cardOptions:
+                      template: motion
+                      entity: input_boolean.motion_den_hallway
+                      name: Den Hallway
+                    conditionalClass: '[[[ return "custom-card" ]]]'
+                    tap_action:
+                      action: none
