@@ -1,0 +1,298 @@
+type: custom:mod-card
+card_mod:
+  style: |
+    :host {
+      --masonry-view-card-margin: 0;
+    }
+card:
+  type: vertical-stack
+  cards:
+    - type: "custom:homekit-card"
+      style: |
+        :host {
+          --vertical-stack-card-margin: 0;
+          --tile-background: rgba(135, 135, 135, 0.3);
+          --tile-name-text-color: rgba(255, 255, 255, 0.6);
+          --tile-state-text-color: rgba(255, 255, 255, 0.6);
+          --tile-icon-color: rgba(255, 255, 255, 0.6);
+          --tile-on-icon-color: rgba(0, 0, 0, 0.6);
+        }
+        .container {
+          font-family: var(--primary-font-family);
+        }
+        homekit-button.custom-card {
+          background-color: inherit !important;
+        }
+        homekit-button.custom-card button-card {
+          margin: -10px;
+        }
+        homekit-button.custom-card.playlist button-card {
+          width: calc(100% + 20px);
+        }
+        homekit-button button-card {
+          max-width: inherit !important;
+        }
+        homekit-button .icon {
+          line-height: calc(var(--tile-icon-size, 30px) + 2px) !important;
+          text-align: inherit !important;
+        }
+        homekit-button .icon.climate {
+          line-height: calc(var(--tile-icon-size, 30px) + 15px) !important;
+          text-align: center !important;
+        }
+        homekit-button .name {
+          font-size: 15px !important;
+        }
+        homekit-button .state {
+          height: 20px;
+        }
+        .card-title {
+          font-size: 24px !important;
+          font-weight: 300 !important;
+          padding-top: 52px !important;
+          padding-bottom: 8px !important;
+        }
+        .card-title:first-child {
+          padding-top: 4px !important;
+        }
+        .col:first-child {
+          padding-left: 0 !important;
+        }
+        .button .button-inner .circle-state path {
+          stroke-width: 4;
+        }
+        .button .button-inner .circle-state text {
+          font-size: 26px;
+        }
+      useRGB: false
+      useBrightness: false
+      statePositionTop: true
+      entities:
+        - title: Devices
+          entities:
+            - card: custom:button-card
+              cardOptions:
+                template: apple_tv
+                entity: media_player.living_room_apple_tv
+                name: Apple TV
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: sony_bravia
+                entity: media_player.living_room_tv
+                name: Sony Bravia
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: media_player.denon_avr_x4300h
+                name: Denon AVR
+                tap_action:
+                  haptic: medium
+                  action: toggle
+              conditionalClass: '[[[ return "custom-card" ]]]'
+        - title: Bandwidth
+          entities:
+            - card: custom:button-card
+              cardOptions:
+                template: tautulli
+                entity: sensor.tautulli
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: sensor.tautulli_wan_bandwidth
+                tap_action:
+                  action: none
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: base
+                entity: sensor.tautulli_lan_bandwidth
+                tap_action:
+                  action: none
+              conditionalClass: '[[[ return "custom-card" ]]]'
+        - title: Streams
+          collapse: true
+          entities:
+            # Tautulli No Streams
+            - card: custom:button-card
+              cardOptions:
+                template: plex_no_streams
+                triggers_update:
+                  - sensor.tautulli
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              hide: '[[[ return states["sensor.tautulli"].state > 0 ]]]'
+            # Tautulli User 1
+            - card: custom:button-card
+              cardOptions:
+                style: |
+                  .progress-bar {
+                    height: 100%;
+                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+                  }
+                template: plex_stream_status
+                entity: sensor.tautulli_user1
+                triggers_update:
+                  - sensor.tautulli
+                  - input_text.tautulli_user1
+                variables:
+                  user: '[[[ return states["input_text.tautulli_user1"].state ]]]'
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user1"].state == "off" ]]]'
+            # Tautulli User 2
+            - card: custom:button-card
+              cardOptions:
+                style: |
+                  .progress-bar {
+                    height: 100%;
+                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+                  }
+                template: plex_stream_status
+                entity: sensor.tautulli_user2
+                triggers_update:
+                  - sensor.tautulli
+                  - input_text.tautulli_user2
+                variables:
+                  user: '[[[ return states["input_text.tautulli_user2"].state ]]]'
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user2"].state == "off" ]]]'
+            # Tautulli User 3
+            - card: custom:button-card
+              cardOptions:
+                style: |
+                  .progress-bar {
+                    height: 100%;
+                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+                  }
+                template: plex_stream_status
+                entity: sensor.tautulli_user3
+                triggers_update:
+                  - sensor.tautulli
+                  - input_text.tautulli_user3
+                variables:
+                  user: '[[[ return states["input_text.tautulli_user3"].state ]]]'
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user3"].state == "off" ]]]'
+            # Tautulli User 4
+            - card: custom:button-card
+              cardOptions:
+                style: |
+                  .progress-bar {
+                    height: 100%;
+                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+                  }
+                template: plex_stream_status
+                entity: sensor.tautulli_user4
+                triggers_update:
+                  - sensor.tautulli
+                  - input_text.tautulli_user4
+                variables:
+                  user: '[[[ return states["input_text.tautulli_user4"].state ]]]'
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user4"].state == "off" ]]]'
+            # Tautulli User 5
+            - card: custom:button-card
+              cardOptions:
+                style: |
+                  .progress-bar {
+                    height: 100%;
+                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+                  }
+                template: plex_stream_status
+                entity: sensor.tautulli_user5
+                triggers_update:
+                  - sensor.tautulli
+                  - input_text.tautulli_user5
+                variables:
+                  user: '[[[ return states["input_text.tautulli_user5"].state ]]]'
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user5"].state == "off" ]]]'
+            # Tautulli User 6
+            - card: custom:button-card
+              cardOptions:
+                style: |
+                  .progress-bar {
+                    height: 100%;
+                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+                  }
+                template: plex_stream_status
+                entity: sensor.tautulli_user6
+                triggers_update:
+                  - sensor.tautulli
+                  - input_text.tautulli_user6
+                variables:
+                  user: '[[[ return states["input_text.tautulli_user6"].state ]]]'
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user6"].state == "off" ]]]'
+            # Tautulli User 7
+            - card: custom:button-card
+              cardOptions:
+                style: |
+                  .progress-bar {
+                    height: 100%;
+                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+                  }
+                template: plex_stream_status
+                entity: sensor.tautulli_user7
+                triggers_update:
+                  - sensor.tautulli
+                  - input_text.tautulli_user7
+                variables:
+                  user: '[[[ return states["input_text.tautulli_user7"].state ]]]'
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user7"].state == "off" ]]]'
+            # Tautulli User 8
+            - card: custom:button-card
+              cardOptions:
+                style: |
+                  .progress-bar {
+                    height: 100%;
+                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+                  }
+                template: plex_stream_status
+                entity: sensor.tautulli_user8
+                triggers_update:
+                  - sensor.tautulli
+                  - input_text.tautulli_user8
+                variables:
+                  user: '[[[ return states["input_text.tautulli_user8"].state ]]]'
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user8"].state == "off" ]]]'
+            # Tautulli User 9
+            - card: custom:button-card
+              cardOptions:
+                style: |
+                  .progress-bar {
+                    height: 100%;
+                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+                  }
+                template: plex_stream_status
+                entity: sensor.tautulli_user9
+                triggers_update:
+                  - sensor.tautulli
+                  - input_text.tautulli_user9
+                variables:
+                  user: '[[[ return states["input_text.tautulli_user9"].state ]]]'
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user9"].state == "off" ]]]'

@@ -49,7 +49,7 @@
 - alias: Motion Started at Front Door
   trigger:
     - platform: state
-      entity_id: binary_sensor.motion_front_door
+      entity_id: binary_sensor.front_door_motion
       to: "on"
   action:
     - service: input_boolean.turn_on
@@ -57,7 +57,7 @@
 - alias: Motion Ended at Front Door Motion Ended
   trigger:
     - platform: state
-      entity_id: binary_sensor.motion_front_door
+      entity_id: binary_sensor.front_door_motion
       to: "off"
       for:
         minutes: 2
@@ -95,7 +95,7 @@
 - alias: Motion Started in Kitchen
   trigger:
     - platform: state
-      entity_id: binary_sensor.motion_main_floor
+      entity_id: binary_sensor.main_floor_motion
       to: "on"
   action:
     - service: input_boolean.turn_on
@@ -103,7 +103,7 @@
 - alias: Motion Ended in Kitchen
   trigger:
     - platform: state
-      entity_id: binary_sensor.motion_main_floor
+      entity_id: binary_sensor.main_floor_motion
       to: "off"
       for:
         minutes: 2

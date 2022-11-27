@@ -2,29 +2,29 @@
 # Send Tasks to Things
 ##############################################################
 # Add task to empty dust bin
-- alias: Things Add Task to Empty Dust Bin - Amelia
-  trigger:
-    - platform: state
-      entity_id: vacuum.amelia
-      to: 'error'
-  condition:
-    - '{{ is_state_attr("vacuum.amelia", "status", "Dust bin full") }}'
-  action:
-    - service: rest_command.things_add_task
-      data:
-        title: "Empty Amelia's Dust Bin"
-        when: "Today"
-        list: "Maintenance"
-- alias: Things Add Task to Empty Dust Bin - Rory
-  trigger:
-    - platform: state
-      entity_id: vacuum.rory
-      to: 'error'
-  condition:
-    - '{{ is_state_attr("vacuum.rory", "status", "Dust bin full") }}'
-  action:
-    - service: rest_command.things_add_task
-      data:
-        title: "Empty Rory's Dust Bin"
-        when: "Today"
-        list: "Maintenance"
+# - alias: Things Add Task to Empty Dust Bin - Amelia
+#   trigger:
+#     - platform: state
+#       entity_id: vacuum.amelia
+#       to: 'error'
+#   condition:
+#     - '{{ is_state_attr("vacuum.amelia", "status", "Dust bin full") }}'
+#   action:
+#     - service: rest_command.things_add_task
+#       data:
+#         title: "Empty Amelia's Dust Bin"
+#         when: "Today"
+#         list: "Maintenance"
+# - alias: Things Add Task to Empty Dust Bin - Rory
+#   trigger:
+#     - platform: state
+#       entity_id: vacuum.rory
+#       to: 'error'
+#   condition:
+#     - '{{ is_state_attr("vacuum.rory", "status", "Dust bin full") }}'
+#   action:
+#     - service: rest_command.things_add_task
+#       data:
+#         title: "Empty Rory's Dust Bin"
+#         when: "Today"
+#         list: "Maintenance"

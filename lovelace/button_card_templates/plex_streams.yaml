@@ -1,0 +1,27 @@
+plex_streams:
+  template: base
+  name: Plex Streams
+  show_entity_picture: true
+  entity_picture: '/local/icons/plex.svg'
+  state:
+    - value: 1
+      operator: ">="
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        img_cell:
+          - filter: grayscale(0)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)
+    - value: 0
+      styles:
+        card:
+          - background: var(--card-off-background-color)
+        img_cell:
+          - filter: grayscale(1)
+        name:
+          - color: var(--card-off-text-color)
+        state:
+          - color: var(--card-off-text-color)

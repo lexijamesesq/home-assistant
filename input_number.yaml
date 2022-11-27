@@ -11,7 +11,7 @@ sonos_living_room_volume:
   min: 0
   max: 1
 sonos_rec_room_volume:
-  initial: 0.32
+  initial: 0.46
   min: 0
   max: 1
 sonos_bedroom_volume:

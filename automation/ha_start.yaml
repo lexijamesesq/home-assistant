@@ -12,8 +12,8 @@
     - condition: state
       entity_id: input_boolean.mode_morning
       state: 'off'
-    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
-    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) >= states.sensor.suncalc_nightend.state }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) <= states.sensor.suncalc_sunriseend.state }}'
   action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.mode_morning
@@ -29,8 +29,8 @@
         state: 'on'
       - condition: or
         conditions:
-          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
-          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) < states.sensor.suncalc_nightend.state }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) > states.sensor.suncalc_sunriseend.state }}'
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.mode_morning
@@ -45,8 +45,8 @@
     - condition: state
       entity_id: input_boolean.mode_day
       state: 'off'
-    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
-    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) >= states.sensor.suncalc_sunriseend.state }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) <= states.sensor.suncalc_goldenhour.state }}'
   action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.mode_day
@@ -62,8 +62,8 @@
         state: 'on'
       - condition: or
         conditions:
-          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_sunriseend.state | timestamp_custom("%H:%M") }}'
-          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) < states.sensor.suncalc_sunriseend.state }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) > states.sensor.suncalc_goldenhour.state }}'
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.mode_day
@@ -78,8 +78,8 @@
     - condition: state
       entity_id: input_boolean.mode_sunset
       state: 'off'
-    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
-    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) >= states.sensor.suncalc_goldenhour.state }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) <= states.sensor.suncalc_sunsetstart.state }}'
   action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.mode_sunset
@@ -95,8 +95,8 @@
         state: 'on'
       - condition: or
         conditions:
-          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_goldenhour.state | timestamp_custom("%H:%M") }}'
-          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) < states.sensor.suncalc_goldenhour.state }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) > states.sensor.suncalc_sunsetstart.state }}'
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.mode_sunset
@@ -115,8 +115,8 @@
         state: 'off'
       - condition: or
         conditions:
-          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
-          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") <= states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) >= states.sensor.suncalc_sunsetstart.state }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) <= states.sensor.suncalc_nightend.state }}'
   action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.mode_night
@@ -130,8 +130,8 @@
       - condition: state
         entity_id: input_boolean.mode_night
         state: 'on'
-      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < states.sensor.suncalc_sunsetstart.state | timestamp_custom("%H:%M") }}'
-      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") > states.sensor.suncalc_nightend.state | timestamp_custom("%H:%M") }}'
+      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) < states.sensor.suncalc_sunsetstart.state }}'
+      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) > states.sensor.suncalc_nightend.state }}'
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.mode_night
@@ -150,8 +150,8 @@
         state: 'peak'
       - condition: or
         conditions:
-          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < "16:00" }}'
-          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= "19:00" }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) < "16:00" }}'
+          - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) >= "19:00" }}'
           - '{{ is_state("binary_sensor.srp_on_peak_day", "off") }}'
   action:
     - service: utility_meter.select_tariff
@@ -174,8 +174,8 @@
       - condition: state
         entity_id: binary_sensor.srp_on_peak_day
         state: 'on'
-      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") >= "16:00" }}'
-      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M") < "19:00" }}'
+      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) >= "16:00" }}'
+      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) < "19:00" }}'
   action:
     - service: utility_meter.select_tariff
       data:

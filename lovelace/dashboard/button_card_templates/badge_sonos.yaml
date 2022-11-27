@@ -1,0 +1,17 @@
+badge_sonos:
+  template: badge
+  show_name: true
+  tap_action:
+    action: more-info
+  styles:
+    grid:
+      - grid-template-areas: '"i" "n"'
+  state:
+    - value: 'playing'
+      styles:
+        icon:
+          - color: rgba(255, 255, 255, 1)
+    - value: 'paused'
+      styles:
+        icon:
+          - color: rgba(255, 255, 255, 0.5)

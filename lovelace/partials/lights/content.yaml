@@ -1,0 +1,120 @@
+type: custom:mod-card
+card_mod:
+  style: |
+    :host {
+      --masonry-view-card-margin: 0;
+    }
+card:
+  type: vertical-stack
+  cards:
+    - type: "custom:homekit-card"
+      style: |
+        :host {
+          --vertical-stack-card-margin: 0;
+          --tile-background: rgba(135, 135, 135, 0.3);
+          --tile-name-text-color: rgba(255, 255, 255, 0.6);
+          --tile-state-text-color: rgba(255, 255, 255, 0.6);
+          --tile-icon-color: rgba(255, 255, 255, 0.6);
+          --tile-on-icon-color: rgba(0, 0, 0, 0.6);
+        }
+        .container {
+          font-family: var(--primary-font-family);
+        }
+        homekit-button.custom-card {
+          background-color: inherit !important;
+        }
+        homekit-button.custom-card button-card {
+          margin: -10px;
+        }
+        homekit-button.custom-card.playlist button-card {
+          width: calc(100% + 20px);
+        }
+        homekit-button button-card {
+          max-width: inherit !important;
+        }
+        homekit-button .icon {
+          line-height: calc(var(--tile-icon-size, 30px) + 2px) !important;
+          text-align: inherit !important;
+        }
+        homekit-button .icon.climate {
+          line-height: calc(var(--tile-icon-size, 30px) + 15px) !important;
+          text-align: center !important;
+        }
+        homekit-button .name {
+          font-size: 15px !important;
+        }
+        homekit-button .state {
+          height: 20px;
+        }
+        .card-title {
+          font-size: 24px !important;
+          font-weight: 300 !important;
+          padding-top: 52px !important;
+          padding-bottom: 8px !important;
+        }
+        .card-title:first-child {
+          padding-top: 4px !important;
+        }
+        .col:first-child {
+          padding-left: 0 !important;
+        }
+        .button .button-inner .circle-state path {
+          stroke-width: 4;
+        }
+        .button .button-inner .circle-state text {
+          font-size: 26px;
+        }
+      useRGB: false
+      useBrightness: false
+      statePositionTop: true
+      entities:
+        - title: Garage
+          entities:
+            - entity: light.garage_lights
+              name: Garage
+            - entity: light.garage_stairs
+              name: Garage Stairs
+        - title: Downstairs
+          entities:
+            - entity: light.downstairs_hallway
+              name: Downstairs Hallway
+            - entity: light.kitchen
+              name: Kitchen
+            - entity: light.patio_lights
+              name: Patio
+            - entity: light.downstairs_patio_string_lights
+              name: Patio String
+            - entity: light.living_room
+              name: Living Room
+            - entity: light.living_room_tv
+              name: TV Ambient
+            - entity: light.rec_room
+              name: Rec Room
+            - entity: light.rec_room_canvas
+              name: Rec Room Canvas
+        - title: Upstairs
+          entities:
+            - entity: light.main_stairs
+              name: Main Stairs
+            - entity: light.upstairs_hallway
+              name: Upstairs Hallway
+            - entity: light.bedroom_hallway
+              name: Bedroom Hallway
+            - entity: light.bedroom_lights
+              name: Bedroom
+            - entity: light.bedroom_tiles
+              name: Bedroom Tiles
+            - entity: light.bedroom_closet_lights
+              name: Bedroom Closet
+            - entity: light.laundry_lights
+              name: Laundry
+            - entity: light.den_hallway
+              name: Den Hallway
+            - entity: light.den_lights
+              name: Den
+            - entity: light.den_cabinets
+              name: Den Cabinets
+            - entity: light.upstairs_patio_string_lights
+              name: Patio String
+            - entity: light.guest_bedroom_closet_lights
+              name: Guest Bed Closet

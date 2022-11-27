@@ -4,8 +4,8 @@ padding: true
 cards:
   - type: custom:button-card
     template: home_tracker
-    entity: sensor.device_tracker_alex
-    label: '[[[ return entity.state ]]]'
+    entity: sensor.alex
+    label: '[[[ return entity.attributes.location ]]]'
   - type: custom:button-card
     template: home_tracker
     entity: sensor.device_tracker_octavia

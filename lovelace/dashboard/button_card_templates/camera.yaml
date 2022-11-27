@@ -1,0 +1,44 @@
+camera:
+  show_name: true
+  show_state: true
+  show_label: false
+  show_live_stream: true
+  styles:
+    grid:
+      - grid-template-areas: '"i" "n" "s"'
+      - grid-template-columns: 1fr
+      - grid-template-rows: 1fr auto auto
+    card:
+      - width: inherit
+      - height: 100%
+      - padding: 0
+      - border-radius: none
+      - box-shadow: none
+    img_cell:
+      - width: inherit
+      - height: inherit
+      - max-width: inherit
+      - max-height: inherit
+    icon:
+      - width: inherit
+      - transform: scale(1.3)
+      - margin-top: -20px
+    name:
+      - position: absolute
+      - top: 151px
+      - left: 10px
+      - font-family: var(--primary-font-family)
+      - color: var(--primary-text-color)
+      - justify-self: left
+      - font-size: 15px
+      - line-height: 14px
+      - font-weight: 500
+    state:
+      - position: absolute
+      - top: 167px
+      - left: 10px
+      - font-family: var(--primary-font-family)
+      - color: var(--primary-text-color)
+      - justify-self: left
+      - font-size: 14px
+      - font-weight: 300

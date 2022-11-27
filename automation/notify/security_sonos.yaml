@@ -4,8 +4,10 @@
 # Doorbell Notifications ######################################
 - alias: Notify Security - Sonos - Doorbell Pressed
   trigger:
-    - platform: event
-      event_type: unifiprotect_doorbell
+    - platform: state
+      entity_id: binary_sensor.doorbell_front_door
+      from: 'off'
+      to: 'on'
   condition:
     condition: or
     conditions:

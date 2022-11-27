@@ -1,0 +1,39 @@
+playlist:
+  variables:
+    playlist: '[[[ return "Sonos Playlist " + states[states["sensor.sonos_group_master"].state].attributes.media_playlist ]]]'
+  size: 28px
+  show_name: true
+  show_state: false
+  show_label: false
+  show_entity_picture: true
+  entity_picture: >
+    [[[
+      if (states["sensor.sonos_group_master_state"].state == "playing" && entity.attributes.friendly_name == variables.playlist)
+        return "/local/icons/equalizer.gif";
+      else
+        return "/local/icons/playlist-music.svg"
+    ]]]
+  tap_action:
+    action: toggle
+  styles:
+    grid:
+      - grid-template-areas: '"i n"'
+      - grid-template-columns: 37px 1fr
+      - grid-template-rows: 37px
+    card:
+      - width: 249px
+      - height: 57px
+      - padding: 10px
+      - background: var(--card-off-background-color)
+    img_cell:
+      - width: 37px
+      - height: 37px
+      - opacity: '[[[ if (states["sensor.sonos_group_master_state"].state == "playing" && entity.attributes.friendly_name == variables.playlist) return 1; else return 0.6 ]]]'
+      - margin-top: '[[[ if (states["sensor.sonos_group_master_state"].state == "playing" && entity.attributes.friendly_name == variables.playlist) return "-5px"; else return "0" ]]]'
+    name:
+      - font-family: var(--primary-font-family)
+      - color: '[[[ if (states["sensor.sonos_group_master_state"].state == "playing" && entity.attributes.friendly_name == variables.playlist) return "var(--primary-text-color)"; else return "var(--card-off-text-color)" ]]]'
+      - font-size: 16px
+      - font-weight: 500
+      - justify-self: left
+      - padding-left: 8px

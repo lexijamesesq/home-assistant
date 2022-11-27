@@ -1,0 +1,107 @@
+type: custom:mod-card
+card_mod:
+  style: |
+    :host {
+      --masonry-view-card-margin: 0;
+    }
+    ha-card {
+      padding: 0 0 0 7px;
+      background: rgba(0, 0, 0, .1);
+      backdrop-filter: blur(2px);
+      --ha-card-background: transparent;
+      border-radius: 0 0 12px 12px;
+      overflow: hidden;
+    }
+card:
+  type: custom:layout-card
+  layout_type: custom:grid-layout
+  layout:
+    grid-template-columns: auto 120px
+    grid-template-rows: auto
+    grid-template-areas: |
+      "left  right"
+  cards:
+    - type: custom:button-card
+      style: |
+        .ellipsis {
+          text-overflow: inherit !important;
+          white-space: inherit !important;
+          overflow: inherit !important;
+        }
+        p {
+          line-height: 18px;
+          text-align: left;
+          margin: 0;
+        }
+        p:last-child {
+          margin: 0;
+        }
+        ha-icon {
+          margin-top: -4px !important;
+          margin-right: 4px !important;
+          display: inline-flex !important;
+          vertical-align: middle;
+          --mdc-icon-size: 15px !important;
+        }
+      view_layout:
+        grid-area: left
+        place-self: start
+      triggers_update:
+        - sensor.dashboard_header_status
+      show_icon: false
+      show_name: false
+      tap_action:
+        action: none
+      styles:
+        grid:
+          - grid-template-areas: '"heading" "status"'
+          - grid-template-rows: auto auto
+          - grid-template-columns: 1fr
+        card:
+          - font-family: var(--primary-font-family)
+          - color: var(--primary-text-color)
+          - padding: 0
+        custom_fields:
+          heading:
+            - font-size: 28px
+            - font-weight: 600
+            - place-self: start
+            - margin: 11px 0 0 0
+            - white-space: nowrap
+          status:
+            - font-size: 16px
+            - font-weight: 400
+            - place-self: start
+            - margin: 4px 0 12px 0
+      custom_fields:
+        heading: Security
+        status: '[[[ return states["sensor.dashboard_header_status"].attributes["security"] ]]]'
+    - type: custom:mod-card
+      card_mod:
+        style: |
+          :host {
+            padding: 14px 4px 18px 0;
+            --horizontal-stack-card-margin: 0;
+          }
+      view_layout:
+        grid-area: right
+        place-self: start end
+      card:
+        type: horizontal-stack
+        cards:
+          - type: custom:state-switch
+            entity: input_boolean.mode_simulate_presence
+            default: off
+            states:
+              "off":
+                type: custom:button-card
+                template: badge_security
+                entity: sensor.dashboard_occupancy_state
+              "on":
+                type: custom:button-card
+                template: badge_security
+                entity: sensor.mode_simulate_presence
+                name: Presence
+          - type: custom:button-card
+            template: badge_security
+            entity: sensor.dashboard_home_state

@@ -1,0 +1,199 @@
+type: custom:mod-card
+card_mod:
+  style: |
+    :host {
+      --masonry-view-card-margin: 0;
+      --vertical-stack-card-margin: 0;
+      background: rgba(0, 0, 0, .1);
+      width: 300px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      padding: 32px 0;
+      backdrop-filter: blur(2px);
+    }
+    ha-card {
+      height: 100%;
+    }
+view_layout:
+  grid-area: sidebar
+card:
+  type: vertical-stack
+  cards:
+    - type: custom:button-card
+      style: |
+        .colon {
+          animation: blink 2s step-start 0s infinite;
+        }
+        .ampm {
+          font-size: 32px;
+          font-weight: 300;
+          margin-left: 14px;
+        }
+        .ellipsis {
+          text-overflow: inherit !important;
+          white-space: inherit !important;
+          overflow: inherit !important;
+        }
+        p {
+          line-height: 20px;
+          text-align: left;
+          margin: 0 0 4px 0;
+        }
+        p:last-child {
+          margin: 0;
+        }
+      triggers_update:
+        - sensor.dashboard_date_time
+        - sensor.dashboard_garage_actual_status
+        - sensor.dashboard_open_door_status
+        - sensor.dashboard_unlocked_door_status
+        - sensor.dashboard_open_window_status
+        - sensor.dashboard_lights_on_status
+      show_icon: false
+      show_name: false
+      tap_action:
+        action: none
+      styles:
+        grid:
+          - grid-template-areas: '"time" "date" "status" "navigation"'
+          - grid-template-rows: auto auto auto auto
+          - grid-template-columns: 1fr
+        card:
+          - font-family: var(--primary-font-family)
+          - color: var(--primary-text-color)
+          - padding: 0
+        custom_fields:
+          time:
+            - font-size: 72px
+            - font-weight: 200
+            - justify-self: left
+            - margin: 0 32px
+          date:
+            - font-size: 18px
+            - font-weight: 400
+            - color: var(--secondary-text-color)
+            - justify-self: left
+            - margin: 0 32px
+          status:
+            - font-size: 16px
+            - font-weight: 400
+            - justify-self: left
+            - margin: 24px 32px 48px 32px
+      custom_fields:
+        time: '[[[ return states["sensor.dashboard_date_time"].attributes["time"] ]]]'
+        date: '[[[ return states["sensor.dashboard_date_time"].attributes["date"] ]]]'
+        status: >
+          [[[
+            var status = ``;
+            if (states["sensor.dashboard_garage_actual_status"].state != "off")
+              status += `<p>${states["sensor.dashboard_garage_actual_status"].state}</p>`;
+            if (states["sensor.dashboard_open_door_status"].state != "off")
+              status += `<p>${states["sensor.dashboard_open_door_status"].state}</p>`;
+            if (states["sensor.dashboard_unlocked_door_status"].state != "off")
+              status += `<p>${states["sensor.dashboard_unlocked_door_status"].state}</p>`;
+            if (states["sensor.dashboard_open_window_status"].state != "off")
+              status += `<p>${states["sensor.dashboard_open_window_status"].state}</p>`;
+            if (states["sensor.dashboard_lights_on_status"].state != "off")
+              status += `<p>${states["sensor.dashboard_lights_on_status"].state}</p>`;
+            return status;
+          ]]]
+    - type: custom:button-card
+      style: |
+        .ellipsis {
+          text-overflow: inherit !important;
+          white-space: inherit !important;
+          overflow: inherit !important;
+        }
+      show_icon: false
+      show_name: false
+      styles:
+        grid:
+          - grid-template-areas: '"home" "sonos" "lights" "cameras"'
+          - grid-template-rows: auto auto auto auto
+          - grid-template-columns: 1fr
+        card:
+          - padding: 0
+        custom_fields:
+          home:
+            - margin: 0 20px
+          sonos:
+            - margin: 0 20px
+          lights:
+            - margin: 0 20px
+          cameras:
+            - margin: 0 20px
+      custom_fields:
+        home:
+          card:
+            type: custom:button-card
+            template: navigation
+            icon: mdi:home
+            name: Home
+            variables:
+              view: home
+            tap_action:
+              action: navigate
+              navigation_path: home
+        sonos:
+          card:
+            type: custom:button-card
+            template: navigation
+            icon: mdi:music
+            name: Sonos
+            variables:
+              view: sonos
+            tap_action:
+              action: navigate
+              navigation_path: sonos
+        lights:
+          card:
+            type: custom:button-card
+            template: navigation
+            icon: mdi:lightbulb
+            name: Lights
+            variables:
+              view: lights
+            tap_action:
+              action: navigate
+              navigation_path: lights
+        cameras:
+          card:
+            type: custom:button-card
+            template: navigation
+            icon: mdi:cctv
+            name: Cameras
+            variables:
+              view: cameras
+            tap_action:
+              action: navigate
+              navigation_path: cameras
+    - type: custom:mod-card
+      card_mod:
+        style: |
+          :host {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+          }
+      card:
+        type: vertical-stack
+        cards:
+#          - type: custom:mod-card
+#            card_mod:
+#              style: |
+#                :host {
+#                  padding: 0 32px 48px 32px;
+#                }
+#            card:
+#              type: horizontal-stack
+#              cards:
+#                - type: custom:button-card
+#                  template: resident
+#                  entity: sensor.alex
+#                - type: custom:button-card
+#                  template: resident
+#                  entity: sensor.device_tracker_octavia
+          - type: custom:button-card
+            template: weather

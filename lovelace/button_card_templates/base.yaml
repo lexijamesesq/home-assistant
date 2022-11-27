@@ -1,0 +1,86 @@
+base:
+  show_name: true
+  show_state: true
+  show_label: false
+  aspect_ratio: 1/1
+  styles:
+    grid:
+      - grid-template-areas: '"i" "n" "s"'
+      - grid-template-columns: 1fr
+      - grid-template-rows: 40px 1fr auto
+    card:
+      - padding: 10px
+      - background: var(--card-off-background-color)
+    img_cell:
+      - width: 40px
+      - height: 40px
+      - justify-self: start
+      - place-items: start
+      - place-content: start
+    icon:
+      - width: 30px
+      - height: 30px
+      - color: var(--card-off-text-color)
+    name:
+      - font-family: var(--primary-font-family)
+      - color: var(--card-off-text-color)
+      - justify-self: start
+      - align-self: end
+      - text-align: left
+      - font-size: 15px
+      - line-height: 14px
+      - font-weight: 500
+      - width: 100%
+      - margin-top: auto
+      - margin-bottom: -5px
+      - padding-bottom: 5px
+      - display: -webkit-box
+      - -webkit-line-clamp: 2
+      - -webkit-box-orient: vertical
+      - word-wrap: break-word
+      - overflow: hidden
+      - white-space: normal
+      - pointer-events: none
+    state:
+      - position: relative
+      - font-family: var(--primary-font-family)
+      - justify-self: start
+      - text-align: left
+      - font-size: 14px
+      - line-height: 20px
+      - font-weight: 300
+      - color: var(--card-off-text-color)
+      - text-transform: capitalize
+      - white-space: nowrap
+      - pointer-events: none
+  state:
+    - value: "on"
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        icon:
+          - color: var(--card-on-icon-color)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)
+    - value: "off"
+      styles:
+        card:
+          - background: var(--card-off-background-color)
+        icon:
+          - color: var(--card-off-icon-color)
+        name:
+          - color: var(--card-off-text-color)
+        state:
+          - color: var(--card-off-text-color)
+    - value: "unavailable"
+      styles:
+        card:
+          - background: var(--card-off-background-color)
+        icon:
+          - color: var(--card-off-icon-color)
+        name:
+          - color: var(--card-off-text-color)
+        state:
+          - color: var(--card-off-text-color)

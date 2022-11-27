@@ -1,0 +1,20 @@
+plex_no_streams:
+  show_icon: false
+  tap_action:
+    action: none
+  name: "No Users are Streaming"
+  aspect_ratio: 3/1
+  styles:
+    grid:
+      - grid-template-areas: '"n"'
+      - grid-template-rows: 90px
+      - grid-template-columns: 1fr
+    card:
+      - padding: 10px
+      - background: var(--card-off-background-color)
+    name:
+      - font-family: var(--primary-font-family)
+      - color: var(--card-off-text-color)
+      - place-self: center
+      - font-size: 15px
+      - font-weight: 500

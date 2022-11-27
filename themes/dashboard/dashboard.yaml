@@ -1,0 +1,102 @@
+Tablet Dashboard:
+  # Main colors
+  primary-color: '#0da3e5'
+  light-primary-color: '#0da3e5'
+  accent-color: '#ff9800'
+  light-accent-color: '#fdd835'
+  mdc-theme-secondary: var(--accent-color)
+  # More colors
+  success-color: "#77eb60"
+  info-color: var(--primary-color)
+  warning-color: "#ebeb60"
+  error-color: "#d18941"
+  # Background colors
+  primary-background-color: 'rgba(0, 0, 0, .6)'
+  secondary-background-color: '#rgba(0, 0, 0, .38)'
+  # Text
+  primary-font-family: 'SF Pro Display'
+  # Text colors
+  primary-text-color: 'rgba(255, 255, 255, 0.96)'
+  secondary-text-color: 'rgba(255, 255, 255, 0.6)'
+  text-primary-color: 'var(--primary-text-color)'
+  material-secondary-text-color: var(--secondary-text-color)
+  theme-title-color: 'var(--secondary-text-color)'
+  disabled-text-color: 'rgba(255, 255, 255, 0.26)'
+  # HomeKit Cards
+  card-on-text-color: rgba(0, 0, 0, 1)
+  card-on-icon-color: rgba(0, 0, 0, 0.6)
+  card-on-background-color: rgba(255, 255, 255, 1)
+  card-off-text-color: rgba(255, 255, 255, 0.6)
+  card-off-icon-color: rgba(255, 255, 255, 0.6)
+  card-off-background-color: rgba(135, 135, 135, 0.3)
+  # Sidebar
+  sidebar-icon-color: 'rgba(255, 255, 255, 0.54)'
+  sidebar-text-color: 'var(--primary-text-color)'
+  sidebar-selected-icon-color: 'rgba(255, 255, 255, 0.54)'
+  sidebar-selected-text-color: 'var(--primary-text-color)'
+  sidebar-background-color: var(--primary-background-color)
+  sidebar-selected-background-color: var(--primary-background-color)
+  divider-color: 'rgba(0, 0, 0, .12)'
+  # Header
+  app-header-background-color: 'var(--secondary-background-color)'
+  app-header-text-color: 'var(--primary-text-color)'
+  # Icons
+  state-icon-color: var(--primary-text-color)
+  state-icon-active-color: var(--light-primary-color)
+  state-icon-unavailable-color: var(--disabled-text-color)
+  # Sliders
+  paper-slider-knob-color: '#2980b9'
+  paper-slider-knob-start-color: '#2980b9'
+  paper-slider-pin-color: '#2980b9'
+  paper-slider-active-color: '#2980b9'
+  paper-slider-secondary-color: 'var(--secondary-background-color)'
+  paper-slider-container-color: 'linear-gradient(var(--primary-background-color), var(--secondary-background-color)) no-repeat'
+  paper-slider-disabled-active-color: 'var(--disabled-text-color)'
+  paper-slider-disabled-secondary-color: 'var(--disabled-text-color)'
+  # Labels
+  label-badge-background-color: var(--primary-background-color)
+  label-badge-text-color: var(--primary-text-color)
+  label-badge-red: "#eb6065"
+  label-badge-green: "#60eb67"
+  label-badge-blue: "#60b1eb"
+  label-badge-yellow: "#ebc860"
+  label-badge-gray: "#666f80"
+  # Cards
+  masonry-view-card-margin: 0;
+  vertical-stack-card-margin: 0;
+  #ha-card-border-radius: "13.75px"
+  ha-card-box-shadow: none
+  ha-card-border-color: none
+  #ha-card-border-width: 3px
+  card-background-color: none
+  paper-card-background-color: none
+  paper-card-header-color: var(--secondary-background-color)
+  paper-dialog-background-color: var(--secondary-background-color)
+  # Switches
+  switch-checked-button-color: var(--primary-color)
+  switch-checked-track-color: var(--primary-color)
+  switch-unchecked-button-color: var(--disabled-text-color)
+  switch-unchecked-track-color: var(--disabled-text-color)
+  paper-toggle-button-checked-button-color: var(--primary-color)
+  paper-toggle-button-checked-bar-color: var(--primary-color)
+  paper-toggle-button-unchecked-button-color: 'var(--disabled-text-color)'
+  paper-toggle-button-unchecked-bar-color: 'var(--disabled-text-color)'
+  # Tables
+  table-row-background-color: var(--secondary-background-color)
+  table-row-alternative-background-color: var(--secondary-background-color)
+  data-table-background-color: var(--primary-background-color)
+  # Dropdowns
+  material-background-color: var(--primary-background-color)
+  material-secondary-background-color: var(--secondary-background-color)
+  mdc-theme-surface: var(--primary-background-color)
+  # Custom Header
+  ch-elements-color: 'var(--disabled-text-color)'
+  ch-tab-indicator-color: 'var(--light-primary-color)'
+  ch-active-tab-color: 'var(--light-primary-color)'
+  # Climate
+  theme-climate-off: '#8a8a8a'
+  theme-climate-auto: '#008000'
+  theme-climate-heat: '#ff8100'
+  theme-climate-cool: '#2b9af9'
+
+  card-mod-theme: "Tablet Dashboard"

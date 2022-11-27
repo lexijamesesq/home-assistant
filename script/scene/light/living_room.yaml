@@ -112,7 +112,8 @@ scene_living_room_night_ht_on_high:
     - service: light.turn_on
       entity_id: light.living_room
       data:
-        transition: "{{ seconds | default(5, true) }}"
+        transition: 5
+#        transition: "{{ seconds | default(5, true) }}"
         brightness: 100
 
 scene_living_room_night_ht_on_mid:
@@ -121,7 +122,8 @@ scene_living_room_night_ht_on_mid:
     - service: light.turn_on
       entity_id: light.living_room
       data:
-        transition: "{{ seconds | default(5, true) }}"
+        transition: 5
+#        transition: "{{ seconds | default(5, true) }}"
         brightness: 60
 
 scene_living_room_night_ht_on_low:
@@ -130,7 +132,8 @@ scene_living_room_night_ht_on_low:
     - service: light.turn_on
       entity_id: light.living_room
       data:
-        transition: "{{ seconds | default(5, true) }}"
+        transition: 5
+#        transition: "{{ seconds | default(5, true) }}"
         brightness: 25
 
 scene_living_room_night_ht_playing_high:

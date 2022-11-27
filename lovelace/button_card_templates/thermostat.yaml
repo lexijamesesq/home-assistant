@@ -1,0 +1,77 @@
+thermostat:
+  template: base
+  show_label: true
+  show_icon: false
+  label: '[[[ return states[variables.thermostat].attributes.current_temperature + "º" ]]]'
+  state_display: >
+    [[[
+      var isEco = (states[variables.thermostat].attributes.preset_mode.toLowerCase() == 'away and eco' || states[variables.thermostat].attributes.preset_mode.toLowerCase() == 'eco');
+      var hvac_action = (states[variables.thermostat].attributes.hvac_action != 'idle') ? states[variables.thermostat].attributes.hvac_action : states[variables.thermostat].state;
+      var cool_target = (states[variables.thermostat].attributes.temperature != null) ? ' to ' + states[variables.thermostat].attributes.temperature + 'º' : ' to ' + states[variables.thermostat].attributes.target_temp_high + 'º';
+      var heat_target = (states[variables.thermostat].attributes.temperature != null) ? ' to ' + states[variables.thermostat].attributes.temperature + 'º' : ' to ' + states[variables.thermostat].attributes.target_temp_low + 'º';
+
+      String.prototype.capitalize = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+      }
+
+      if (isEco) {
+        return states[variables.thermostat].attributes.preset_mode;
+      }
+      else if (hvac_action == "cool" || hvac_action == "cooling") {
+        return hvac_action.capitalize() + cool_target
+      }
+      else if (hvac_action == "heat" || hvac_action == "heating") {
+        return hvac_action.capitalize() + heat_target
+      }
+      else if (hvac_action == "auto") {
+        return hvac_action.capitalize() + ' ' + states[variables.thermostat].attributes.target_temp_low + '–' + states[variables.thermostat].attributes.target_temp_high + 'º'
+
+      }
+      else {
+        return entity.state.capitalize()
+      }
+    ]]]
+  styles:
+    grid:
+      - grid-template-areas: '"l" "n" "s"'
+      - grid-template-columns: 1fr
+      - grid-template-rows: 40px 1fr auto
+    label:
+      - width: 32px
+      - height: 35px
+      - padding-left: 3px
+      - justify-self: start
+      - place-items: start
+      - place-content: start
+      - background: var(--card-off-icon-color)
+      - color: var(--card-on-icon-color)
+      - border-radius: 50%
+      - font-size: 14px
+      - line-height: 37px
+      - font-weight: 600
+      - text-align: center
+    state:
+      - text-transform: inherit
+  state:
+    - value: "cool"
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        label:
+          - color: rgba(255, 255, 255, 0.96)
+          - background: rgb(0, 86, 255)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)
+    - value: "heat"
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        label:
+          - color: rgba(255, 255, 255, 0.96)
+          - background: rgb(235, 109, 0)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)

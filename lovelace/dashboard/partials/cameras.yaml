@@ -1,0 +1,134 @@
+type: custom:mod-card
+card_mod:
+  style: |
+    :host {
+      --masonry-view-card-margin: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 301px;
+    }
+view_layout:
+  grid-area: content
+card:
+  type: vertical-stack
+  cards:
+    - type: custom:mod-card
+      card_mod:
+        style: |
+          :host {
+            padding: 28px 28px 0 0;
+            align-self: end;
+            --vertical-stack-card-margin: 0;
+          }
+      card:
+        type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: badge_motion
+            entity: group.motion_garage
+            name: Garage
+          - type: custom:button-card
+            template: badge_motion
+            entity: group.motion_downstairs
+            name: Downstairs
+          - type: custom:button-card
+            template: badge_motion
+            entity: group.motion_upstairs
+            name: Upstairs
+    - type: "custom:homekit-card"
+      style: |
+        :host {
+          --vertical-stack-card-margin: 0;
+          --tile-background: rgba(135, 135, 135, 0.3);
+          --tile-on-background: rgba(255, 255, 255, 0);
+          --tile-name-text-color: rgba(255, 255, 255, 0.6);
+          --tile-state-text-color: rgba(255, 255, 255, 0.6);
+          --tile-icon-color: rgba(255, 255, 255, 0.6);
+          --tile-on-icon-color: rgba(0, 0, 0, 0.6);
+          --tile-width: 73px;
+          --tile-height: 73px;
+        }
+        .container {
+          padding: 5px 0 5px 32px !important;
+          font-family: var(--primary-font-family);
+        }
+        homekit-button.custom-card {
+          background-color: inherit !important;
+        }
+        homekit-button.custom-card button-card {
+          margin: -10px;
+          height: calc(100% + 20px);
+        }
+        homekit-button button-card {
+          max-width: inherit !important;
+        }
+        homekit-button .name {
+          font-size: 15px !important;
+        }
+        homekit-button .state {
+          height: 20px;
+        }
+        .card-title {
+          font-size: 24px !important;
+          font-weight: 300 !important;
+          padding-top: 52px !important;
+          padding-bottom: 16px;
+        }
+        .card-title:first-child {
+          padding-top: 4px !important;
+        }
+      entities:
+        - title: Cameras
+          entities:
+            - card: custom:button-card
+              cardOptions:
+                template: camera
+                entity: camera.front_door
+                styles:
+                  icon:
+                    - transform: initial
+                    - margin-top: 0
+                    - aspect-ratio: 4/3
+              wider: true
+              widerSize: 3
+              higher: true
+              higherSize: 2
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: camera
+                entity: camera.downstairs_hallway
+              wider: true
+              widerSize: 3
+              higher: true
+              higherSize: 2
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: camera
+                entity: camera.main_floor
+              wider: true
+              widerSize: 3
+              higher: true
+              higherSize: 2
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: camera
+                entity: camera.main_patio
+              wider: true
+              widerSize: 3
+              higher: true
+              higherSize: 2
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: camera
+                entity: camera.garage
+              wider: true
+              widerSize: 3
+              higher: true
+              higherSize: 2
+              conditionalClass: '[[[ return "custom-card" ]]]'

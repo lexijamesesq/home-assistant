@@ -1,0 +1,38 @@
+door_lock:
+  template: base
+  state_display: '[[[ if(variables.door == "on") return "Open"; else return entity.state ]]]'
+  icon: >
+    [[[
+      if(variables.door == "on")
+        return "mdi:door-open";
+      if(entity.state == "unlocked")
+        return "mdi:lock-open";
+      if(entity.state == "locked")
+        return "mdi:door-closed-lock";
+      else
+        return "mdi:door-closed"
+    ]]]
+  tap_action:
+    haptic: medium
+    action: toggle
+  state:
+    - value: "unlocked"
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        icon:
+          - color: var(--card-on-icon-color)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)
+    - value: "locked"
+      styles:
+        card:
+          - background: '[[[ if(variables.door == "on") return "var(--card-on-background-color)"; else return "var(--card-off-background-color)" ]]]'
+        icon:
+          - color: '[[[ if(variables.door == "on") return "var(--card-on-icon-color)"; else return "var(--card-off-icon-color)" ]]]'
+        name:
+          - color: '[[[ if(variables.door == "on") return "var(--card-on-text-color)"; else return "var(--card-off-text-color)" ]]]'
+        state:
+          - color: '[[[ if(variables.door == "on") return "var(--card-on-text-color)"; else return "var(--card-off-text-color)" ]]]'

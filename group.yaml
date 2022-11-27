@@ -5,7 +5,7 @@ alex:
   name: Alex
   icon: mdi:human-male
   entities:
-    - device_tracker.alexs_iphone_geofency
+    - sensor.alex
 
 residents:
   name: Residents

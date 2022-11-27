@@ -1,0 +1,27 @@
+sony_bravia:
+  template: base
+  state_display: '[[[ return entity.state.replace("playing", "on") ]]]'
+  tap_action:
+    haptic: medium
+    action: toggle
+  state:
+    - value: "playing"
+      styles:
+        card:
+          - background: var(--card-on-background-color)
+        icon:
+          - color: var(--card-on-icon-color)
+        name:
+          - color: var(--card-on-text-color)
+        state:
+          - color: var(--card-on-text-color)
+    - value: "off"
+      styles:
+        card:
+          - background: var(--card-off-background-color)
+        icon:
+          - color: var(--card-off-icon-color)
+        name:
+          - color: var(--card-off-text-color)
+        state:
+          - color: var(--card-off-text-color)

@@ -37,7 +37,7 @@
 - alias: TileBoard Open Camera - Front Door
   trigger:
     - platform: state
-      entity_id: binary_sensor.motion_front_door
+      entity_id: binary_sensor.front_door_motion
       to: 'on'
   action:
     - event: tileboard
@@ -48,7 +48,7 @@
 - alias: TileBoard Close Camera
   trigger:
     - platform: state
-      entity_id: binary_sensor.motion_front_door
+      entity_id: binary_sensor.front_door_motion
       to: 'off'
       for:
         seconds: 30

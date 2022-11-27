@@ -1,0 +1,200 @@
+type: custom:mod-card
+card_mod:
+  style: |
+    :host {
+      --masonry-view-card-margin: 0;
+    }
+card:
+  type: vertical-stack
+  cards:
+    - type: "custom:homekit-card"
+      style: |
+        :host {
+          --vertical-stack-card-margin: 0;
+          --tile-background: rgba(135, 135, 135, 0.3);
+          --tile-name-text-color: rgba(255, 255, 255, 0.6);
+          --tile-state-text-color: rgba(255, 255, 255, 0.6);
+          --tile-icon-color: rgba(255, 255, 255, 0.6);
+          --tile-on-icon-color: rgba(0, 0, 0, 0.6);
+        }
+        .container {
+          font-family: var(--primary-font-family);
+        }
+        homekit-button.custom-card {
+          background-color: inherit !important;
+        }
+        homekit-button.custom-card button-card {
+          margin: -10px;
+        }
+        homekit-button.custom-card.playlist button-card {
+          width: calc(100% + 20px);
+        }
+        homekit-button button-card {
+          max-width: inherit !important;
+        }
+        homekit-button .icon {
+          line-height: calc(var(--tile-icon-size, 30px) + 2px) !important;
+          text-align: inherit !important;
+        }
+        homekit-button .icon.climate {
+          line-height: calc(var(--tile-icon-size, 30px) + 15px) !important;
+          text-align: center !important;
+        }
+        homekit-button .name {
+          font-size: 15px !important;
+        }
+        homekit-button .state {
+          height: 20px;
+        }
+        .card-title {
+          font-size: 24px !important;
+          font-weight: 300 !important;
+          padding-top: 52px !important;
+          padding-bottom: 8px !important;
+        }
+        .card-title:first-child {
+          padding-top: 4px !important;
+        }
+        .col:first-child {
+          padding-left: 0 !important;
+        }
+        .button .button-inner .circle-state path {
+          stroke-width: 4;
+        }
+        .button .button-inner .circle-state text {
+          font-size: 26px;
+        }
+      useRGB: false
+      useBrightness: false
+      statePositionTop: true
+      entities:
+        - title: Media
+          entities:
+            - card: custom:button-card
+              cardOptions:
+                template: sonos_current_song
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+        - title: Speakers
+          entities:
+            - card: custom:button-card
+              cardOptions:
+                template: speaker
+                entity: input_boolean.sonos_kitchen
+                triggers_update:
+                  - sensor.sonos_kitchen_volume
+                variables:
+                  volume: 'sensor.sonos_kitchen_volume'
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: speaker
+                entity: input_boolean.sonos_living_room
+                triggers_update:
+                  - sensor.sonos_living_room_volume
+                variables:
+                  volume: 'sensor.sonos_living_room_volume'
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: speaker
+                entity: input_boolean.sonos_rec_room
+                triggers_update:
+                  - sensor.sonos_rec_room_volume
+                variables:
+                  volume: 'sensor.sonos_rec_room_volume'
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: speaker
+                entity: input_boolean.sonos_bedroom
+                triggers_update:
+                  - sensor.sonos_bedroom_volume
+                variables:
+                  volume: 'sensor.sonos_bedroom_volume'
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: speaker
+                entity: input_boolean.sonos_bathroom
+                triggers_update:
+                  - sensor.sonos_bathroom_volume
+                variables:
+                  volume: 'sensor.sonos_bathroom_volume'
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: speaker
+                entity: input_boolean.sonos_den
+                triggers_update:
+                  - sensor.sonos_den_volume
+                variables:
+                  volume: 'sensor.sonos_den_volume'
+              conditionalClass: '[[[ return "custom-card" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: speaker
+                entity: input_boolean.sonos_move
+                triggers_update:
+                  - sensor.sonos_move_volume
+                variables:
+                  volume: 'sensor.sonos_move_volume'
+              conditionalClass: '[[[ return "custom-card" ]]]'
+        - title: Playlists
+          horizontalScroll: true
+          entities:
+            - card: custom:button-card
+              cardOptions:
+                template: playlist
+                entity: script.sonos_playlist_currently_listening_to
+                name: Currently Listening To
+              wider: true
+              widerSize: 3
+              halfheight: true
+              conditionalClass: '[[[ return "custom-card playlist" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: playlist
+                entity: script.sonos_playlist_country_caffeine
+                name: Country Caffeine
+              wider: true
+              widerSize: 3
+              halfheight: true
+              conditionalClass: '[[[ return "custom-card playlist" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: playlist
+                entity: script.sonos_playlist_country_risers
+                name: Country Risers
+              wider: true
+              widerSize: 3
+              halfheight: true
+              conditionalClass: '[[[ return "custom-card playlist" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: playlist
+                entity: script.sonos_playlist_little_bit_country
+                name: Little Bit Country
+              wider: true
+              widerSize: 3
+              halfheight: true
+              conditionalClass: '[[[ return "custom-card playlist" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: playlist
+                entity: script.sonos_playlist_two_step_music
+                name: Two-Step Music
+              wider: true
+              widerSize: 3
+              halfheight: true
+              conditionalClass: '[[[ return "custom-card playlist" ]]]'
+            - card: custom:button-card
+              cardOptions:
+                template: playlist
+                entity: script.sonos_playlist_west_coast_swing
+                name: West Coast Swing
+              wider: true
+              widerSize: 3
+              halfheight: true
+              conditionalClass: '[[[ return "custom-card playlist" ]]]'

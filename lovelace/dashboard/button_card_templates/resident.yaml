@@ -1,0 +1,26 @@
+resident:
+  show_name: false
+  show_state: false
+  show_icon: false
+  show_entity_picture: true
+  styles:
+    grid:
+      - grid-template-areas: '"i"'
+      - grid-template-columns: min-content
+      - grid-template-rows: min-content
+    card:
+      - width: 52px
+      - height: 52px
+      - padding: 0
+      - margin: 0
+    img_cell:
+      - border-radius: 50%
+      - border: '[[[ if(entity.state == "Home") return "2px solid var(--primary-text-color)"; else return "2px dashed rgba(255, 255, 255, .38)" ]]]'
+      - width: 48px
+      - height: 48px
+    icon:
+      - border-radius: 50%
+      - width: '[[[ if(entity.state == "Home") return "100%"; else return "90%" ]]]'
+      - height: '[[[ if(entity.state == "Home") return "100%"; else return "90%" ]]]'
+      - opacity: '[[[ if(entity.state == "Home") return 1; else return .38 ]]]'
+      - filter: '[[[ if(entity.state == "Home") return "grayscale(0%)"; else return "grayscale(100%)" ]]]'

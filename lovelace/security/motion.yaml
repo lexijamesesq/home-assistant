@@ -27,7 +27,7 @@ cards:
     name: Garage Stairs
   - type: custom:button-card
     template: security_door_window
-    entity: binary_sensor.motion_front_door
+    entity: binary_sensor.front_door_motion
     name: Front Door
   - type: custom:button-card
     template: security_door_window
@@ -35,7 +35,7 @@ cards:
     name: Downstairs Hallway
   - type: custom:button-card
     template: security_door_window
-    entity: binary_sensor.motion_main_floor
+    entity: binary_sensor.main_floor_motion
     name: Kitchen
   - type: custom:button-card
     template: security_door_window

@@ -1,0 +1,9 @@
+badge_lights:
+  template: badge_smol
+  show_name: true
+  icon: '[[[ if (entity.state == "on") return "mdi:lightbulb-on"; else return "mdi:lightbulb-off" ]]]'
+  tap_action:
+    action: toggle
+  styles:
+    grid:
+      - grid-template-areas: '"i" "n"'

@@ -101,7 +101,7 @@ sensor.dark_sky_precip_probability:
   friendly_name: Chance of Rain
   icon: mdi:weather-pouring
 sensor.golden_hour:
-  icon: mdi:weather-sunset
+  icon: mdi:weather-sunset-down
 sensor.data_plan:
   icon: mdi:lan-connect
 sensor.data_usage:
@@ -140,8 +140,6 @@ sensor.airvpn_wan:
   icon: mdi:security-network
 sensor.nowhere_network_vpn:
   icon: mdi:security-network
-sensor.alex:
-  entity_picture: /local/calvin.png
 sensor.octavia:
   entity_picture: /local/jeep.png
 input_boolean.sonos_kitchen:
@@ -295,7 +293,7 @@ sensor.network_status_vpn2_wan:
 sensor.network_status_vpn3_wan:
   icon: mdi:lan-connect
 sensor.first_light:
-  icon: mdi:weather-sunset
+  icon: mdi:weather-sunset-up
 sensor.cox_data_resets:
   icon: mdi:calendar-clock
 sensor.cox_data_plan:
@@ -307,7 +305,7 @@ sensor.dashboard_outside_temperature:
 input_boolean.sonos_move:
   icon: mdi:speaker
 sensor.u_s_air_quality_index:
-  icon: mdi:chemical-weapon
+  icon: mdi:smog
 automation.garage_lighting_on_motion:
   icon: mdi:walk
 automation.garage_stairs_lighting_on_motion:

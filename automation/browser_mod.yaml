@@ -1,0 +1,131 @@
+##############################################################
+# On Load Events
+##############################################################
+
+
+##############################################################
+# Page Events
+##############################################################
+- alias: Browser Mod Switch to Sonos Tab
+  trigger:
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'playing'
+  action:
+    service: browser_mod.navigate
+    data:
+      navigation_path: /lovelace-dashboard/sonos
+      deviceID:
+        - dashboard_bedroom_hallway
+        - dashboard_front_entrance
+        - dashboard_garage_entrance
+        - mbp_firefox
+        - mbp_chrome
+
+- alias: Browser Mod Switch to Home Tab
+  trigger:
+    - platform: state
+      entity_id: sensor.sonos_group_master_state
+      to: 'paused'
+      for:
+        seconds: 10
+  action:
+    service: browser_mod.navigate
+    data:
+      navigation_path: /lovelace-dashboard/home
+      deviceID:
+        - dashboard_bedroom_hallway
+        - dashboard_front_entrance
+        - dashboard_garage_entrance
+        - mbp_firefox
+        - mbp_chrome
+
+
+##############################################################
+# Camera Events
+##############################################################
+- alias: TileBoard Open Camera - Front Door
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door_motion
+      to: 'on'
+  action:
+    - event: tileboard
+      event_data:
+        camera: 0
+        command: 'open_camera'
+
+- alias: TileBoard Close Camera
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door_motion
+      to: 'off'
+      for:
+        seconds: 30
+  action:
+    - event: tileboard
+      event_data:
+        command: 'close_camera'
+
+
+##############################################################
+# Screen Events
+##############################################################
+- alias: Browser Mod Turn Screen Off - Night
+  trigger:
+    - platform: event
+      event_type: mode_sleep_on_delay_short
+    - platform: template
+      value_template: '{{ is_state("input_boolean.mode_sleep", "on") and as_timestamp(states("sensor.date") + " " + states("sensor.time")) > (as_timestamp(states.input_boolean.mode_sleep.last_changed) + (60 * 5)) and is_state_attr("sensor.bedroom_hallway_dashboard", "screenOn", true) }}'
+      for:
+        minutes: 2
+    - platform: template
+      value_template: '{{ is_state("input_boolean.mode_sleep", "on") and as_timestamp(states("sensor.date") + " " + states("sensor.time")) > (as_timestamp(states.input_boolean.mode_sleep.last_changed) + (60 * 5)) and is_state_attr("sensor.downstairs_hallway_dashboard", "screenOn", true) }}'
+      for:
+        minutes: 2
+    - platform: template
+      value_template: '{{ is_state("input_boolean.mode_sleep", "on") and as_timestamp(states("sensor.date") + " " + states("sensor.time")) > (as_timestamp(states.input_boolean.mode_sleep.last_changed) + (60 * 5)) and is_state_attr("sensor.garage_entrance_dashboard", "screenOn", true) }}'
+      for:
+        minutes: 2
+  action:
+    - service: rest_command.bedroom_hallway_dashboard_sleep
+    - service: rest_command.downstairs_hallway_dashboard_sleep
+    - service: rest_command.garage_entrance_dashboard_sleep
+
+- alias: Browser Mod Turn Screen Off - Away
+  trigger:
+    - platform: state
+      entity_id: group.residents
+      to: 'not_home'
+      # Motion Sensor Timeout
+      for:
+        minutes: 4
+    - platform: state
+      entity_id: input_boolean.mode_guest
+      to: 'off'
+  condition:
+    - condition: state
+      entity_id: group.residents
+      state: 'not_home'
+    - condition: state
+      entity_id: input_boolean.mode_guest
+      state: 'off'
+  action:
+    - service: rest_command.bedroom_hallway_dashboard_sleep
+    - service: rest_command.downstairs_hallway_dashboard_sleep
+    - service: rest_command.garage_entrance_dashboard_sleep
+
+- alias: Browser Mod Turn Screen On
+  trigger:
+    - platform: event
+      event_type: mode_sleep_off
+    - platform: state
+      entity_id: group.residents
+      to: 'home'
+    - platform: state
+      entity_id: input_boolean.mode_guest
+      to: 'on'
+  action:
+    - service: rest_command.bedroom_hallway_dashboard_wake
+    - service: rest_command.downstairs_hallway_dashboard_wake
+    - service: rest_command.garage_entrance_dashboard_wake

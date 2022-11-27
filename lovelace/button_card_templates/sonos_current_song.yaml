@@ -1,0 +1,47 @@
+sonos_current_song:
+  show_name: true
+  show_state: false
+  show_icon: false
+  show_entity_picture: true
+  tap_action:
+    action: none
+  name: >
+    [[[
+      var group_master = states["sensor.sonos_group_master"].state;
+      var current_song = ``;
+
+      if(group_master != "none")
+        current_song += `<div>${states[group_master].attributes["media_artist"]}</div>`;
+        current_song += `<div style="font-weight: 300;">${states[group_master].attributes["media_title"]}</div>`;
+      return current_song;
+    ]]]
+  entity_picture: '[[[ return states[states["sensor.sonos_group_master"].state].attributes.entity_picture ]]]'
+  triggers_update:
+    - media_player.sonos_kitchen
+  aspect_ratio: 349/110
+  styles:
+    grid:
+      - grid-template-areas: '"i n"'
+      - grid-template-columns: 90px auto
+      - grid-template-rows: 1fr
+    card:
+      - padding: 10px
+      - background: var(--card-off-background-color)
+    img_cell:
+      - width: 100%
+      - height: 100%
+      - place-self: start
+      - place-items: start
+      - place-content: start
+      - grid-column: span 1
+    entity_picture:
+      - width: 90px
+      - height: 90px
+    name:
+      - font-family: var(--primary-font-family)
+      - color: var(--card-off-text-color)
+      - place-self: center start
+      - font-size: 15px
+      - font-weight: 500
+      - margin-left: 10px
+      - text-align: left
