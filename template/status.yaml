@@ -1,0 +1,60 @@
+- unique_id: dashboard
+  sensor:
+    - name: Dashboard Header Status
+      unique_id: dashboard_header_status
+      state: 'template'
+      attributes:
+        greeting: >-
+          {% if is_state("sensor.mode_morning", "on") %}
+            Good Morning
+          {% elif is_state("sensor.mode_day", "on") %}
+            {% if states("sensor.time") < "12:00" %}
+              Good Morning
+            {% else %}
+              Good Afternoon
+            {% endif %}
+          {% elif is_state("sensor.mode_sunset", "on") %}
+            Good Evening
+          {% elif is_state("sensor.mode_night", "on") %}
+            {% if is_state("sensor.mode_sleep", "off") %}
+              Good Evening
+            {% else %}
+              Good Night
+            {% endif %}
+          {% endif %}
+        home: >-
+          {% if is_state("sensor.dashboard_home_state", "Secure") and is_state("group.all_windows", "off") %}
+            Everything is locked down.
+          {% else %}
+            {{ states("sensor.dashboard_garage_actual_status") | replace("off", "") }}
+            {{ states("sensor.dashboard_open_door_status") | replace("off", "") }}
+            {{ states("sensor.dashboard_unlocked_door_status") | replace("off", "") }}
+            {{ states("sensor.dashboard_open_window_status") | replace("off", "") }}
+          {% endif %}
+        lights: >-
+          {% if is_state("group.all_lights", "off") %}
+            All lights are off.
+          {% else %}
+            {{ states("sensor.dashboard_lights_on_status") | replace("off", "") }}
+          {% endif %}
+        sonos: >-
+          {% if states("sensor.sonos_switches_on") == "" %}
+            All speakers are off.
+          {% else %}
+            {{ states("sensor.dashboard_sonos_song_status") | replace("off", "") }}
+          {% endif %}
+        home_theater: >-
+          {% if states("media_player.living_room_apple_tv") != "idle" %}
+            {{ state_attr("media_player.living_room_apple_tv", "media_title") | replace("No title", "Nothing is playing.") | replace("None", "Nothing is playing.") }}
+          {% else %}
+            Nothing is playing.
+          {% endif %}
+        security: >-
+          {% if is_state("sensor.dashboard_home_state", "Secure") and is_state("group.all_windows", "off") %}
+            Everything is locked down.
+          {% else %}
+            {{ states("sensor.dashboard_garage_actual_status") | replace("off", "") }}
+            {{ states("sensor.dashboard_open_door_status") | replace("off", "") }}
+            {{ states("sensor.dashboard_unlocked_door_status") | replace("off", "") }}
+            {{ states("sensor.dashboard_open_window_status") | replace("off", "") }}
+          {% endif %}
