@@ -51,15 +51,15 @@ sensor.den_multisensor_alarm_type:
   hidden: true
 sensor.den_multisensor_burglar:
   hidden: true
-sensor.den_multisensor_luminance:
+sensor.den_multisensor_sensor_luminance:
   icon: mdi:weather-sunny
-sensor.den_multisensor_relative_humidity:
+sensor.den_multisensor_sensor_humidity:
   icon: mdi:water-percent
 sensor.den_multisensor_sourcenodeid:
   hidden: true
-sensor.den_multisensor_temperature:
+sensor.den_multisensor_sensor_air_temperature:
   friendly_name: Den Temp
-sensor.den_multisensor_ultraviolet:
+sensor.den_multisensor_sensor_ultraviolet:
   hidden: true
 sensor.garage_motion_sensor_alarm_level:
   hidden: true
@@ -271,7 +271,7 @@ sensor.service_status_sabnzbd:
 sensor.service_status_sonarr:
   icon: mdi:cloud-search
 sensor.service_status_grafana:
-  icon: mdi:desktop-mac-dashboard
+  icon: mdi:monitor-dashboard
 sensor.service_status_tautulli:
   icon: mdi:account-details
 binary_sensor.bedroom_closet_trisensor_sensor:

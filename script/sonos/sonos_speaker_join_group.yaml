@@ -1,7 +1,7 @@
 sonos_speaker_join_group:
   alias: Sonos Speaker Join Group
   sequence:
-    - service: sonos.join
+    - service: media_player.join
       data:
-        master: '{{ "media_player.sonos_"+ states.input_select.master_sonos.state|lower|replace(" ", "_") }}'
-        entity_id: '{{ speaker }}'
+        entity_id: '{{ "media_player.sonos_"+ states.input_select.master_sonos.state|lower|replace(" ", "_") }}'
+        group_members: '{{ speaker }}'

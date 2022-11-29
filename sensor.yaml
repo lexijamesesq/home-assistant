@@ -366,14 +366,6 @@
 # Custom sensors for dashboard views
 - platform: template
   sensors:
-    dashboard_inside_average_temperature:
-      friendly_name: 'Average Temperature'
-      value_template: '{{ states.sensor.average_temperature.state | round() }}'
-      unit_of_measurement: 'ºF'
-    dashboard_inside_average_humidity:
-      friendly_name: 'Average Humidity'
-      value_template: '{{ states.sensor.average_humidity.state | round() }}'
-      unit_of_measurement: '%'
     dashboard_outside_temperature:
       friendly_name: 'Temperature'
       value_template: '{{ states.sensor.dark_sky_temperature.state | round() }}'
@@ -763,7 +755,7 @@
       value_template: >-
         {%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%}
         {%- set players = expand('group.sonos_players') -%}
-        {%- for player in players if player.entity_id == master %}
+        {%- for player in players if player.attributes.group_members | length > 0 and player.entity_id == master %}
           {%- set slaves = player.attributes.group_members %}
           {{ slaves|join(",")|replace("media_player", "input_boolean") }}
         {%- endfor %}

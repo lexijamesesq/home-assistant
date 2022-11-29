@@ -236,20 +236,20 @@
 ##############################################################
 # Alexa Alarm Wakeup Light
 ##############################################################
-- alias: Bedroom Wakeup Light
-  trigger:
-    - platform: state
-      entity_id: sensor.alexa_wakeup_light
-      to: 'on'
-  condition:
-    - condition: state
-      entity_id: group.residents
-      state: 'home'
-    - condition: state
-      entity_id:
-        - light.bedroom_tiles
-        - light.bedroom_lights
-      state: 'off'
-  action:
-    - service: script.turn_on
-      entity_id: script.scene_bedroom_wakeup
+# - alias: Bedroom Wakeup Light
+#   trigger:
+#     - platform: state
+#       entity_id: sensor.alexa_wakeup_light
+#       to: 'on'
+#   condition:
+#     - condition: state
+#       entity_id: group.residents
+#       state: 'home'
+#     - condition: state
+#       entity_id:
+#         - light.bedroom_tiles
+#         - light.bedroom_lights
+#       state: 'off'
+#   action:
+#     - service: script.turn_on
+#       entity_id: script.scene_bedroom_wakeup

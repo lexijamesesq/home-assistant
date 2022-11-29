@@ -108,7 +108,7 @@
       data:
         entity_id: media_player.sonos_move
         volume_level: '{{ states("input_number.sonos_move_volume") | float }}'
-    - service: sonos.join
+    - service: media_player.join
       data:
         master: media_player.sonos_kitchen
         entity_id:

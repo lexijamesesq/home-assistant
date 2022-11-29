@@ -1,0 +1,35 @@
+##############################################################
+# User Greetings
+##############################################################
+greet_user:
+  alias: Notify Greeting - Play Message
+  variables:
+    greetings:
+      - "At least we meet! ...for the first time! ...for the last time!"
+      - "I like your face. Are you an angel?"
+      - "Good day, young man!"
+      - "There's my pumpkin! I miiiissed you!"
+      - "You... smell... great!"
+      - "You are a gorgeous sculpture made by the hands of Zeus"
+      - "What's up, buttercup?"
+      - "I see you wore the sexy pants"
+      - "Lord... emperor... a king among ninjas"
+      - "I've been looking everywhere for you"
+      - "Well... look... at... you!"
+      - "I like that shirt... take it off"
+      - "You cheeky bastard!"
+      - "I’m chuffed to bits you're back!"
+      - "Beer is in the fridge. Let's get pissed!"
+      - "I quite fancy you... but keep that on the down low"
+      - "You're bright as a button today"
+  sequence:
+    - choose:
+        # Ray
+        - conditions:
+            - '{{ user == "Ray Tienswang" }}'
+          sequence:
+            - service: rest_command.notify_sonos_room
+              data:
+                message: 'Greetings... Lord Monkey Pirate... {{ greetings | random }}'
+                room: 'Sonos Move'
+                language: 'en-gb'
