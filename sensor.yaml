@@ -14,11 +14,6 @@
 - platform: version
   source: docker
 
-# Home Assistant Uptime
-- platform: uptime
-
-# Tautulli
-
 # Time & Date
 - platform: time_date
   display_options:

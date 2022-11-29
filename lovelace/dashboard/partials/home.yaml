@@ -3,6 +3,7 @@ card_mod:
   style: |
     :host {
       --masonry-view-card-margin: 0;
+      --ha-card-border-width: 0;
       position: absolute;
       top: 0;
       right: 0;
@@ -159,14 +160,6 @@ card:
               entities:
                 - title: Upcoming
                   entities:
-                    - card: custom:button-card
-                      cardOptions:
-                        template: base
-                        entity: sensor.water_delivery
-                        state_display: '[[[ return entity.attributes.date ]]]'
-                      conditionalClass: '[[[ return "custom-card" ]]]'
-                      tap_action:
-                        action: none
                     - card: custom:button-card
                       cardOptions:
                         template: base

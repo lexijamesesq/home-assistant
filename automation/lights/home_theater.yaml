@@ -66,6 +66,8 @@
       entity_id: media_player.living_room_apple_tv
       from: 'playing'
       to: 'idle'
+      for:
+        seconds: 1
     - platform: state
       entity_id: media_player.living_room_apple_tv
       from: 'paused'
