@@ -127,32 +127,6 @@ lovelace:
       require_admin: false
 
 
-browser_mod:
-  devices:
-    eeb5b969-b258d433:
-      name: mbp_firefox
-      disable:
-        - all
-    c8c83698-edd23149:
-      name: mbp_chrome
-      disable:
-        - all
-    900555a2_37d7d79f:
-      name: dashboard_bedroom_hallway
-      disable:
-        - all
-    d41f1a7_7b527b03:
-      name: dashboard_front_entrance
-      disable:
-        - all
-    d41f0ff_a82f86e:
-      name: dashboard_garage_entrance
-      disable:
-        - all
-  disable:
-    - all
-
-
 # neato:
 #   client_id: neato_client_id
 #   client_secret: neato_client_secret
@@ -258,13 +232,17 @@ emulated_hue:
       hidden: false
     light.patio_lights:
       hidden: false
-    light.patio_string_lights:
+    light.downstairs_patio_string_lights:
       hidden: false
     light.living_room_tv:
       hidden: false
     light.upstairs_hallway_group_lights:
       hidden: false
     light.upstairs_hallway:
+      hidden: false
+    light.upstairs_patio_lights:
+      hidden: false
+    light.upstairs_patio_string_lights:
       hidden: false
     light.rec_room:
       hidden: false
@@ -316,6 +294,11 @@ light:
     entities:
       - light.den_1
       - light.den_2
+  - platform: group
+    name: Upstairs Patio Lights
+    entities:
+      - light.upstairs_patio_1
+      - light.upstairs_patio_2
   - platform: switch
     name: Garage Lights
     entity_id: switch.garage_lights
@@ -419,13 +402,16 @@ homekit:
       - input_boolean.mode_home_theater
       - input_boolean.mode_sleep
       - remote.living_room_apple_tv
+      - sensor.downstairs_thermostat_humidity
+      - sensor.upstairs_thermostat_humidity
     exclude_entities:
       - light.patio_lights
       - light.den_lights
       - light.den_cabinets
       - light.bedroom_lights
-      - light.upstairs_hallway_group_lights
       - light.patio_string_lights
+      - light.upstairs_hallway_group_lights
+      - light.upstairs_patio_lights
 
 
 ios:

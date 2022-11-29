@@ -27,7 +27,7 @@
     - service: media_player.media_pause
       data:
         entity_id: '{{ states("sensor.sonos_group_master") }}'
-    - service: sonos.unjoin
+    - service: media_player.unjoin
       entity_id: media_player.sonos_rec_room
     - wait_template: '{{ is_state("input_boolean.sonos_rec_room", "off") }}'
     - service: media_player.select_source
