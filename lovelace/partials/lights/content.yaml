@@ -3,6 +3,7 @@ card_mod:
   style: |
     :host {
       --masonry-view-card-margin: 0;
+      --ha-card-border-width: 0;
     }
 card:
   type: vertical-stack

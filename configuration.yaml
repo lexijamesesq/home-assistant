@@ -220,18 +220,6 @@ utility_meter:
       - offpeak
 
 
-sonos:
-  media_player:
-    hosts:
-      - !secret media_player_sonos_one_kitchen
-      - !secret media_player_sonos_one_bedroom
-      - !secret media_player_sonos_one_bathroom
-      - !secret media_player_sonos_amp_living_room
-      - !secret media_player_sonos_amp_rec_room
-      - !secret media_player_sonos_one_den
-      - !secret media_player_sonos_move
-
-
 emulated_hue:
   host_ip: !secret emulated_hue_host
   listen_port: !secret emulated_hue_port
@@ -369,22 +357,9 @@ light:
 #   password: !secret mqtt_remote_password
 
 
-notify:
-  - name: Pushover
-    platform: pushover
-    api_key: !secret pushover_api_key
-    user_key: !secret pushover_user_key
-
-
 geofency:
   mobile_beacons:
     - Octavia
-
-
-google:
-  client_id: !secret google_calendar_client_id
-  client_secret: !secret google_calendar_secret
-  track_new_calendar: true
 
 
 cover:
