@@ -6,20 +6,20 @@
   trigger:
     - platform: numeric_state
       entity_id:
-        - sensor.battery_august_front_door
-        - sensor.battery_august_front_door_keypad
-        - sensor.battery_august_front_door
-        - sensor.battery_august_garage_door
-        - sensor.battery_garage_stairs_multisensor
-        - sensor.battery_garage_motion_sensor
-        - sensor.battery_downstairs_hallway_trisensor
-        - sensor.battery_main_stairs_multisensor
-        - sensor.battery_bedroom_closet_door_sensor
-        - sensor.battery_bedroom_closet_trisensor
-        - sensor.battery_laundry_door_left_sensor
-        - sensor.battery_laundry_door_right_sensor
-        - sensor.battery_den_multisensor
-        - sensor.battery_guest_bedroom_closet_door_sensor
+        - sensor.august_smart_lock_pro_front_door_battery_level
+        - sensor.august_web_front_door_keypad_battery
+        - sensor.august_smart_lock_pro_front_door_battery_level
+        - sensor.garage_motion_sensor_battery_level
+        - sensor.garage_stairs_multisensor_battery_level
+        - sensor.downstairs_hallway_trisensor_battery_level
+        - sensor.main_stairs_multisensor_battery_level
+        - sensor.bedroom_closet_door_sensor_battery_level
+        - sensor.bedroom_closet_trisensor_battery_level
+        - sensor.laundry_door_left_sensor_battery_level
+        - sensor.laundry_door_right_sensor_battery_level
+        - sensor.den_multisensor_sensor_battery_level
+        - sensor.guest_bedroom_closet_door_sensor_battery_level
+        - sensor.server_rack_ups_battery_charge
       below: 50
       for:
         hours: 1
