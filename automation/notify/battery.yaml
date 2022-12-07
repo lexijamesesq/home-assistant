@@ -21,6 +21,8 @@
         - sensor.battery_den_multisensor
         - sensor.battery_guest_bedroom_closet_door_sensor
       below: 50
+      for:
+        hours: 1
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
