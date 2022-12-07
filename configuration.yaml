@@ -254,6 +254,8 @@ emulated_hue:
       hidden: false
     input_boolean.mode_sleep:
       hidden: false
+    script.scene_bedroom_alarm_dismissed:
+      hidden: false
 
 
 nest:
