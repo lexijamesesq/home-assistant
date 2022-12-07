@@ -14,13 +14,12 @@
   action:
     service: browser_mod.navigate
     data:
-      navigation_path: /lovelace-dashboard/sonos
-      deviceID:
+      path: /lovelace-dashboard/sonos
+      browser_id:
         - dashboard_bedroom_hallway
-        - dashboard_front_entrance
+        - dashboard_downstairs_hallway
         - dashboard_garage_entrance
         - mbp_firefox
-        - mbp_chrome
 
 - alias: Browser Mod Switch to Home Tab
   trigger:
@@ -32,13 +31,12 @@
   action:
     service: browser_mod.navigate
     data:
-      navigation_path: /lovelace-dashboard/home
-      deviceID:
+      path: /lovelace-dashboard/home
+      browser_id:
         - dashboard_bedroom_hallway
-        - dashboard_front_entrance
+        - dashboard_downstairs_hallway
         - dashboard_garage_entrance
         - mbp_firefox
-        - mbp_chrome
 
 
 ##############################################################
