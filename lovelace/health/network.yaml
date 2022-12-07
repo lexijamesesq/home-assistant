@@ -53,21 +53,3 @@ cards:
             name: IoT
           - entity: sensor.network_status_vl50_guest
             name: Guest
-      - type: section
-        label: Hardware
-      - entity: sensor.network_pfsense
-        name: pfSense
-      - entity: sensor.network_unifi_cloudkey
-        name: UniFi Cloud Key Plus
-      - entity: sensor.network_unifi_switch_16
-        name: UniFi Switch 16
-      - entity: sensor.network_unifi_switch_8_downstairs
-        name: UniFi Switch 8 - Downstairs
-      - entity: sensor.network_unifi_switch_8_upstairs
-        name: UniFi Switch 8 - Upstairs
-      - entity: sensor.network_unifi_switch_8_den
-        name: UniFi Switch 8 - Den
-      - entity: sensor.network_unifi_ap_downstairs
-        name: UniFi AP - Downstairs
-      - entity: sensor.network_unifi_ap_upstairs
-        name: UniFi AP - Upstairs
