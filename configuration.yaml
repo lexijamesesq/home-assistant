@@ -101,6 +101,8 @@ lovelace:
       type: module
     - url: /hacsfiles/lovelace-layout-card/layout-card.js
       type: module
+    - url: /hacsfiles/lovelace-template-entity-row/template-entity-row.js
+      type: module
     - url: /hacsfiles/bar-card/bar-card.js
       type: module
     - url: /hacsfiles/Homekit-panel-card/homekit-panel-card.js

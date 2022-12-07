@@ -9,25 +9,59 @@ cards:
     entities:
       - type: section
         label: Locks
-      - entity: sensor.battery_august_front_door
+      - type: custom:template-entity-row
+        entity: sensor.august_smart_lock_pro_front_door_battery_level
         name: Front Door
-      - entity: sensor.battery_august_front_door_keypad
+        state: '{{ states(config.entity) }}'
+      - entity: sensor.august_web_front_door_keypad_battery
         name: Front Door Keypad
-      - entity: sensor.battery_august_garage_door
+      - type: custom:template-entity-row
+        entity: sensor.august_smart_lock_pro_front_door_battery_level
         name: Garage Door
+        state: '{{ states(config.entity) }}'
       - type: section
         label: Sensors
-      - sensor.battery_garage_stairs_multisensor
-      - sensor.battery_garage_motion_sensor
-      - sensor.battery_downstairs_hallway_trisensor
-      - sensor.battery_main_stairs_multisensor
-      - sensor.battery_bedroom_closet_door_sensor
-      - sensor.battery_bedroom_closet_trisensor
-      - sensor.battery_laundry_door_left_sensor
-      - sensor.battery_laundry_door_right_sensor
-      - sensor.battery_den_multisensor
-      - sensor.battery_guest_bedroom_closet_door_sensor
+      - type: custom:template-entity-row
+        entity: sensor.garage_motion_sensor_battery_level
+        name: Garage Motion Sensor
+        state: '{{ states(config.entity) }}'
+      - type: custom:template-entity-row
+        entity: sensor.garage_stairs_multisensor_battery_level
+        name: Garage Stairs MultiSensor
+        state: '{{ states(config.entity) }}'
+      - type: custom:template-entity-row
+        entity: sensor.downstairs_hallway_trisensor_battery_level
+        name: Downstairs Hallway TriSensor
+        state: '{{ states(config.entity) }}'
+      - type: custom:template-entity-row
+        entity: sensor.main_stairs_multisensor_battery_level
+        name: Main Stairs MultiSensor
+        state: '{{ states(config.entity) }}'
+      - type: custom:template-entity-row
+        entity: sensor.bedroom_closet_door_sensor_battery_level
+        name: Bedroom Closet Door Sensor
+        state: '{{ states(config.entity) }}'
+      - type: custom:template-entity-row
+        entity: sensor.bedroom_closet_trisensor_battery_level
+        name: Bedroom Closet TriSensor
+        state: '{{ states(config.entity) }}'
+      - type: custom:template-entity-row
+        entity: sensor.laundry_door_left_sensor_battery_level
+        name: Laundry Door Left Sensor
+        state: '{{ states(config.entity) }}'
+      - type: custom:template-entity-row
+        entity: sensor.laundry_door_right_sensor_battery_level
+        name: Laundry Door Right Sensor
+        state: '{{ states(config.entity) }}'
+      - type: custom:template-entity-row
+        entity: sensor.den_multisensor_sensor_battery_level
+        name: Den MultiSensor
+        state: '{{ states(config.entity) }}'
+      - type: custom:template-entity-row
+        entity: sensor.guest_bedroom_closet_door_sensor_battery_level
+        name: Guest Bedroom Closet Door Sensor
+        state: '{{ states(config.entity) }}'
       - type: section
         label: UPS
-      - entity: sensor.battery_server_rack_ups
+      - entity: sensor.server_rack_ups_battery_charge
         name: Server Rack
