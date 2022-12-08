@@ -150,17 +150,20 @@
         state: 'peak'
       - condition: or
         conditions:
+          - condition: state
+            entity_id: binary_sensor.srp_on_peak_day
+            state: 'off'
           - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) < "16:00" }}'
           - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) >= "19:00" }}'
-          - '{{ is_state("binary_sensor.srp_on_peak_day", "off") }}'
   action:
-    - service: utility_meter.select_tariff
-      data:
-        tariff: offpeak
+    - service: select.select_option
+      target:
         entity_id:
-          - utility_meter.grid_consumption_hourly
-          - utility_meter.grid_consumption_daily
-          - utility_meter.grid_consumption_monthly
+          - select.grid_consumption_daily
+          - select.grid_consumption_hourly
+          - select.grid_consumption_monthly
+      data:
+        option: offpeak
 - alias: Manually Reset Energy Peak Tariff
   trigger:
     - platform: homeassistant
@@ -177,13 +180,14 @@
       - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) >= "16:00" }}'
       - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) < "19:00" }}'
   action:
-    - service: utility_meter.select_tariff
-      data:
-        tariff: peak
+    - service: select.select_option
+      target:
         entity_id:
-          - utility_meter.grid_consumption_hourly
-          - utility_meter.grid_consumption_daily
-          - utility_meter.grid_consumption_monthly
+         - select.grid_consumption_daily
+         - select.grid_consumption_hourly
+         - select.grid_consumption_monthly
+      data:
+        option: peak
 
 # Manually Start HomeKit #####################################
 # Wait until the zwave network is ready
