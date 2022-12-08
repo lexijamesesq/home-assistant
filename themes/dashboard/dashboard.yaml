@@ -11,8 +11,8 @@ Tablet Dashboard:
   warning-color: "#ebeb60"
   error-color: "#d18941"
   # Background colors
-  primary-background-color: 'rgba(0, 0, 0, .6)'
-  secondary-background-color: '#rgba(0, 0, 0, .38)'
+  primary-background-color: '#1e1E21'
+  secondary-background-color: '#2b2b2b'
   # Text
   primary-font-family: 'SF Pro Display'
   # Text colors
@@ -62,8 +62,10 @@ Tablet Dashboard:
   label-badge-yellow: "#ebc860"
   label-badge-gray: "#666f80"
   # Cards
-  masonry-view-card-margin: 0;
-  vertical-stack-card-margin: 0;
+  masonry-view-card-margin: 0
+  vertical-stack-card-margin: 0
+  ha-card-border-width: 0
+  ha-card-border-color: transparent
   #ha-card-border-radius: "13.75px"
   ha-card-box-shadow: none
   ha-card-border-color: none

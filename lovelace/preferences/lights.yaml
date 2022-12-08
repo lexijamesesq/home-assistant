@@ -17,7 +17,6 @@ cards:
         name: Prefer Dim Scenes After
       - type: section
         label: Automations
-      - entity: automation.bedroom_wakeup_light
       - entity: automation.update_lights_at_night_progressive_dimming
         name: Progressive Dimming at Night
       - entity: automation.simulate_presence_mode_update_lights
