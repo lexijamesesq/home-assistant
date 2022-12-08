@@ -7,8 +7,7 @@ card_mod:
     }
     ha-card {
       padding: 0 0 0 7px;
-      background: rgba(0, 0, 0, .1);
-      backdrop-filter: blur(2px);
+      background: var(--secondary-background-color);
       --ha-card-background: transparent;
       border-radius: 0 0 12px 12px;
       overflow: hidden;
