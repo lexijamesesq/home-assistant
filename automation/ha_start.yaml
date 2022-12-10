@@ -146,7 +146,7 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: utility_meter.grid_consumption_hourly
+        entity_id: select.grid_consumption_hourly
         state: 'peak'
       - condition: or
         conditions:
@@ -172,7 +172,7 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: utility_meter.grid_consumption_hourly
+        entity_id: select.grid_consumption_hourly
         state: 'offpeak'
       - condition: state
         entity_id: binary_sensor.srp_on_peak_day
