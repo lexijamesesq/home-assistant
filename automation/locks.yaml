@@ -8,11 +8,11 @@
       to: 'not_home'
   condition:
     - condition: state
-      entity_id: lock.august_smart_lock_pro_front_door
+      entity_id: lock.august_web_front_door
       state: 'unlocked'
   action:
     - service: lock.lock
-      entity_id: lock.august_smart_lock_pro_front_door
+      entity_id: lock.august_web_front_door
 
 # Lock Garage Door When Away or Asleep #######################
 - alias: Lock Garage Door When Away or Asleep
@@ -24,11 +24,11 @@
       to: 'not_home'
   condition:
     - condition: state
-      entity_id: lock.august_smart_lock_pro_garage_door
+      entity_id: lock.august_web_garage_door
       state: 'unlocked'
   action:
     - service: lock.lock
-      entity_id: lock.august_smart_lock_pro_garage_door
+      entity_id: lock.august_web_garage_door
 
 # Unlock Garage Door When Home and Awake #####################
 - alias: Unlock Garage Door When Home and Awake
@@ -40,8 +40,8 @@
       to: 'home'
   condition:
     - condition: state
-      entity_id: lock.august_smart_lock_pro_garage_door
+      entity_id: lock.august_web_garage_door
       state: 'locked'
   action:
     - service: lock.unlock
-      entity_id: lock.august_smart_lock_pro_garage_door
+      entity_id: lock.august_web_garage_door

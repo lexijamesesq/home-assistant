@@ -90,7 +90,7 @@ sensor.dashboard_home_state:
                   - card: custom:button-card
                     cardOptions:
                       template: security
-                      entity: lock.august_smart_lock_pro_garage_door
+                      entity: lock.august_web_garage_door
                       name: Garage
                       icon: >
                         [[[
@@ -111,7 +111,7 @@ sensor.dashboard_home_state:
                   - card: custom:button-card
                     cardOptions:
                       template: security
-                      entity: lock.august_smart_lock_pro_front_door
+                      entity: lock.august_web_front_door
                       name: Front
                       icon: >
                         [[[

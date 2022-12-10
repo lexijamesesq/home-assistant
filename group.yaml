@@ -183,8 +183,8 @@ laundry_door_sensor:
 all_locks:
   all: true
   entities:
-    - lock.august_smart_lock_pro_front_door
-    - lock.august_smart_lock_pro_garage_door
+    - lock.august_web_front_door
+    - lock.august_web_garage_door
 
 all_doors:
   entities:

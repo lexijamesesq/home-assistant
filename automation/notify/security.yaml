@@ -226,7 +226,7 @@
       data:
         title: "Condo"
         message: >-
-          {%- if is_state("lock.august_smart_lock_pro_front_door", "unlocked") -%}
+          {%- if is_state("lock.august_web_front_door", "unlocked") -%}
             Guest Mode has been triggered and the front door was {% if is_state("sensor.august_smart_lock_pro_front_door_access_control", "2") %}manually unlocked.{% elif is_state("sensor.august_smart_lock_pro_front_door_access_control", "4") %}unlocked with the August app.{% elif is_state("sensor.august_smart_lock_pro_front_door_access_control", "6") %}unlocked with the keypad.{% else %}unlocked.{% endif %} Expecting anyone?
           {%- else -%}
             Guest Mode has been triggered and the front door is locked. Cats? Aliens?

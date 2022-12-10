@@ -6,9 +6,9 @@
   trigger:
     - platform: numeric_state
       entity_id:
-        - sensor.august_smart_lock_pro_front_door_battery_level
-        - sensor.august_web_front_door_keypad_battery
-        - sensor.august_smart_lock_pro_front_door_battery_level
+        - sensor.august_web_front_door_battery
+        - sensor.august_web_garage_door_keypad_battery
+        - sensor.august_web_garage_door_battery
         - sensor.garage_motion_sensor_battery_level
         - sensor.garage_stairs_multisensor_battery_level
         - sensor.downstairs_hallway_trisensor_battery_level

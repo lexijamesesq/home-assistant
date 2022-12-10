@@ -79,7 +79,7 @@ card:
             - card: custom:button-card
               cardOptions:
                 template: door_lock
-                entity: lock.august_smart_lock_pro_garage_door
+                entity: lock.august_web_garage_door
                 name: Garage Door
                 variables:
                   door: '[[[ return states["binary_sensor.garage_door"].state ]]]'
@@ -87,7 +87,7 @@ card:
             - card: custom:button-card
               cardOptions:
                 template: door_lock
-                entity: lock.august_smart_lock_pro_front_door
+                entity: lock.august_web_front_door
                 name: Front Door
                 variables:
                   door: '[[[ return states["binary_sensor.front_door"].state ]]]'
