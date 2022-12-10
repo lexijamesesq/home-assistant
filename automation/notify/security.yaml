@@ -60,36 +60,36 @@
             sound: "gamelan.wav"
 
 # Lock Notifications #########################################
-- alias: Notify Security - Front Door Locked or Unlocked
-  trigger:
-    - platform: state
-      entity_id: lock.august_web_front_door
-      from: 'locked'
-      to: 'unlocked'
-    - platform: state
-      entity_id: lock.august_web_front_door
-      from: 'unlocked'
-      to: 'locked'
-  action:
-    - wait_for_trigger:
-        - platform: state
-          entity_id: sensor.august_web_front_door_operator
-      timeout:
-        seconds: 20
-    - service: notify.mobile_app_alexs_iphone
-      data:
-        title: "Condo"
-        message: >-
-          {% if is_state('sensor.august_web_front_door_operator', 'Manual Lock') or is_state('sensor.august_web_front_door_operator', 'Manual Unlock') %}
-            {% set message = 'manually ' ~ states('lock.august_web_front_door') %}
-          {% else %}
-            {% set message = states('lock.august_web_front_door') ~ ' by ' ~ states('sensor.august_web_front_door_operator') %}
-          {% endif %}
-          The Front Door was {{ message }}.
-        data:
-          push:
-            thread-id: "ha-condo-group"
-            sound: "gamelan.wav"
+# - alias: Notify Security - Front Door Locked or Unlocked
+#   trigger:
+#     - platform: state
+#       entity_id: lock.august_web_front_door
+#       from: 'locked'
+#       to: 'unlocked'
+#     - platform: state
+#       entity_id: lock.august_web_front_door
+#       from: 'unlocked'
+#       to: 'locked'
+#   action:
+#     - wait_for_trigger:
+#         - platform: state
+#           entity_id: sensor.august_web_front_door_operator
+#       timeout:
+#         seconds: 20
+#     - service: notify.mobile_app_alexs_iphone
+#       data:
+#         title: "Condo"
+#         message: >-
+#           {% if is_state('sensor.august_web_front_door_operator', 'Manual Lock') or is_state('sensor.august_web_front_door_operator', 'Manual Unlock') %}
+#             {% set message = 'manually ' ~ states('lock.august_web_front_door') %}
+#           {% else %}
+#             {% set message = states('lock.august_web_front_door') ~ ' by ' ~ states('sensor.august_web_front_door_operator') %}
+#           {% endif %}
+#           The Front Door was {{ message }}.
+#         data:
+#           push:
+#             thread-id: "ha-condo-group"
+#             sound: "gamelan.wav"
 
 # Garage Notifications #######################################
 - alias: Notify Security - Garage Actual Opened or Closed
