@@ -1,6 +1,0 @@
-- unique_id: resident
-  sensor:
-    - name: Alex
-      unique_id: alex
-      state: '{{ states("device_tracker.alexs_iphone_geofency") }}'
-      picture: '{{ state_attr("person.alex", "entity_picture") }}'

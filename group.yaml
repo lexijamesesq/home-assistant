@@ -1,17 +1,11 @@
 ##############################################################
 # People
 ##############################################################
-alex:
-  name: Alex
-  icon: mdi:human-male
-  entities:
-    - sensor.alex
-
 residents:
   name: Residents
   icon: mdi:account-multiple
   entities:
-    - group.alex
+    - person.alexis
 
 
 ##############################################################

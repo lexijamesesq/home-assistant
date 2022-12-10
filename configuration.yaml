@@ -403,7 +403,6 @@ homekit:
       - light.upstairs_patio_lights
 
 
-ios:
 mobile_app:
 
 

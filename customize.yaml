@@ -14,9 +14,6 @@ binary_sensor.garage_motion_sensor:
   device_class: motion
 binary_sensor.garage_stairs_motion_sensor:
   device_class: motion
-device_tracker.alexs_iphone_geofency:
-  friendly_name: Alex
-  entity_picture: /local/calvin.png
 sensor.august_smart_lock_pro_front_door_alarm_level:
   hidden: true
 sensor.august_smart_lock_pro_front_door_alarm_type:
