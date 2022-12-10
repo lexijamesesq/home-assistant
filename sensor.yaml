@@ -687,57 +687,6 @@
       unit_of_measurement: "ºF"
 
 
-# Resident & Vehicle Sensors
-- platform: template
-  sensors:
-    device_tracker_alex:
-      friendly_name: Alex
-      value_template: >-
-        {%- if is_state('device_tracker.alexs_iphone_geofency', 'not_home') -%}
-          {{ state_attr('sensor.alex', 'city') }}
-        {%- elif 'extended' in states('device_tracker.alexs_iphone_geofency') -%}
-          {{ state_attr('sensor.alex', 'city') }}
-        {%- else -%}
-          {{ states('device_tracker.alexs_iphone_geofency') | replace("not_home", "away") | title }}
-        {%- endif %}
-      entity_picture_template: '{{ state_attr("person.alex", "entity_picture") }}'
-    device_tracker_alex_recently_home:
-      friendly_name: Alex - Recently Home
-      value_template: >-
-        {% if states('sensor.uptime') | int(0) > 5 %}
-          {% if is_state('device_tracker.alexs_iphone_geofency', 'home') and as_timestamp(now()) < (as_timestamp(states.device_tracker.alexs_iphone_geofency.last_changed) + (60 * 5)) %}
-            on
-          {% else %}
-            off
-          {% endif %}
-        {% else %}
-          off
-        {% endif %}
-    device_tracker_octavia:
-      friendly_name: Octavia
-      value_template: >-
-        {%- if is_state('device_tracker.beacon_octavia', 'not_home') -%}
-          {{ state_attr('sensor.octavia', 'city') }}
-        {%- elif 'extended' in states('device_tracker.beacon_octavia') -%}
-          {{ state_attr('sensor.octavia', 'city') }}
-        {%- else -%}
-          {{ states('device_tracker.beacon_octavia') | replace("not_home", "away") | title }}
-        {%- endif %}
-      entity_picture_template: /local/jeep.png
-    device_tracker_garage_actual_recently_closed:
-      friendly_name: Garage - Recently Closed
-      value_template: >-
-        {% if states('sensor.uptime') | int(0) > 5 %}
-          {% if is_state('binary_sensor.garage_actual', 'off') and as_timestamp(now()) < (as_timestamp(states.binary_sensor.garage_actual.last_changed) + (60 * 5)) %}
-            on
-          {% else %}
-            off
-          {% endif %}
-        {% else %}
-          off
-        {% endif %}
-
-
 # Tautulli Sensors
 - platform: template
   sensors:
