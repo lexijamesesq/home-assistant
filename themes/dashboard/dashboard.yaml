@@ -68,7 +68,6 @@ Tablet Dashboard:
   ha-card-border-color: transparent
   #ha-card-border-radius: "13.75px"
   ha-card-box-shadow: none
-  ha-card-border-color: none
   #ha-card-border-width: 3px
   card-background-color: none
   paper-card-background-color: none
