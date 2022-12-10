@@ -19,19 +19,8 @@ zone:
   - name: Home
     latitude: !secret home_latitude
     longitude: !secret home_longitude
-    radius: 30
+    radius: 100
     icon: mdi:home
-  - name: !secret work_name
-    latitude: !secret work_latitude
-    longitude: !secret work_longitude
-    radius: 500
-    icon: mdi:domain
-  - name: Work Extended
-    latitude: !secret work_latitude
-    longitude: !secret work_longitude
-    radius: 2000
-    passive: true
-    icon: mdi:domain
 
 
 config:
