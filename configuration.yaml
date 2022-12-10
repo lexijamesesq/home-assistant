@@ -387,10 +387,20 @@ homekit:
       - binary_sensor.living_room_motion_sensor
       - binary_sensor.main_stairs_multisensor_sensor
       - binary_sensor.upstairs_hallway_motion_sensor
+      - fan.bedroom
+      - fan.kitchen
       - input_boolean.mode_guest
       - input_boolean.mode_home_theater
       - input_boolean.mode_sleep
       - remote.living_room_apple_tv
+      - sensor.bedroom_nitrogen_dioxide
+      - sensor.bedroom_pm_10
+      - sensor.bedroom_pm_2_5
+      - sensor.bedroom_volatile_organic_compounds
+      - sensor.kitchen_nitrogen_dioxide
+      - sensor.kitchen_pm_10
+      - sensor.kitchen_pm_2_5
+      - sensor.kitchen_volatile_organic_compounds
       - sensor.downstairs_thermostat_humidity
       - sensor.upstairs_thermostat_humidity
     exclude_entities:
