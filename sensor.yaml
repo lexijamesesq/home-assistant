@@ -633,10 +633,10 @@
   sensors:
     prefer_lighting_low:
       friendly_name: Prefer Lighting Low Time
-      # 9:00pm on weekdays, 10:00pm on weekends
+      # 8:00pm on weekdays, 9:00pm on weekends
       value_template: >-
         {% set forcerefresh = states("sensor.date") %}
-        {{ '21:00' if now().strftime('%A')|lower in ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday'] else '22:00' }}
+        {{ '20:00' if now().strftime('%A')|lower in ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday'] else '21:00' }}
     prefer_lighting_mid:
       friendly_name: Prefer Lighting Mid Time
       # Half way between Night Mode and Prefer Low
