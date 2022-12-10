@@ -64,11 +64,11 @@
     august_front_door:
       friendly_name: 'Front Door'
       value_template: >
-        {{ states.lock.august_smart_lock_pro_front_door.state }}
+        {{ states.lock.august_web_front_door.state }}
       icon_template: >
-        {% if is_state('lock.august_smart_lock_pro_front_door', 'locked') %}
+        {% if is_state('lock.august_web_front_door', 'locked') %}
           mdi:lock
-        {% elif is_state('lock.august_smart_lock_pro_front_door', 'unlocked') %}
+        {% elif is_state('lock.august_web_front_door', 'unlocked') %}
           mdi:lock-open
         {% else %}
           mdi:timer-sand
@@ -76,11 +76,11 @@
     august_garage_door:
       friendly_name: 'Garage Door'
       value_template: >
-        {{ states.lock.august_smart_lock_pro_garage_door.state }}
+        {{ states.lock.august_web_garage_door.state }}
       icon_template: >
-        {% if is_state('lock.august_smart_lock_pro_garage_door', 'locked') %}
+        {% if is_state('lock.august_web_garage_door', 'locked') %}
           mdi:lock
-        {% elif is_state('lock.august_smart_lock_pro_garage_door', 'unlocked') %}
+        {% elif is_state('lock.august_web_garage_door', 'unlocked') %}
           mdi:lock-open
         {% else %}
           mdi:timer-sand
@@ -243,13 +243,13 @@
     dashboard_home_state:
       friendly_name: Home State
       value_template: >-
-        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_smart_lock_pro_front_door.state == 'locked' and states.lock.august_smart_lock_pro_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
+        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_web_front_door.state == 'locked' and states.lock.august_web_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
           Secure
         {% else %}
           Insecure
         {% endif %}
       icon_template: >-
-        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_smart_lock_pro_front_door.state == 'locked' and states.lock.august_smart_lock_pro_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
+        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_web_front_door.state == 'locked' and states.lock.august_web_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
           mdi:shield-home
         {% else %}
           mdi:shield-off
@@ -358,9 +358,9 @@
 
         {% if num == 2 %}
           Front Door and Garage Door are unlocked.
-        {% elif num ==1 and is_state("lock.august_smart_lock_pro_front_door", "unlocked") %}
+        {% elif num ==1 and is_state("lock.august_web_front_door", "unlocked") %}
           Front Door is unlocked.
-        {% elif num ==1 and is_state("lock.august_smart_lock_pro_garage_door", "unlocked") %}
+        {% elif num ==1 and is_state("lock.august_web_garage_door", "unlocked") %}
           Garage Door is unlocked.
         {% else %}
           off

@@ -9,11 +9,11 @@ cards:
     entities:
       - type: section
         label: Locks
-      - entity: sensor.battery_august_front_door
+      - entity: sensor.august_web_front_door_battery
         name: Front Door
-      - entity: sensor.battery_august_front_door_keypad
-        name: Front Door Keypad
-      - entity: sensor.battery_august_garage_door
+      - entity: sensor.august_web_garage_door_keypad_battery
+        name: Garage Door Keypad
+      - entity: sensor.august_web_garage_door_battery
         name: Garage Door
       - type: section
         label: Sensors
