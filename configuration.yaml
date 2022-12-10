@@ -3,11 +3,13 @@ homeassistant:
   latitude: !secret home_latitude
   longitude: !secret home_longitude
   elevation: !secret home_elevation
-  unit_system: imperial
-  currency: USD
+  unit_system: !secret home_unit_system
+  temperature_unit: !secret home_temperature_unit
   time_zone: !secret home_timezone
-  internal_url: !secret internal_url
+  currency: !secret home_currency
   external_url: !secret external_url
+  internal_url: !secret internal_url
+  country: !secret home_country
   customize: !include customize.yaml
   allowlist_external_dirs:
      - /config/json/
@@ -18,12 +20,6 @@ zone:
     latitude: !secret home_latitude
     longitude: !secret home_longitude
     radius: 30
-    icon: mdi:home
-  - name: Home Extended
-    latitude: !secret home_latitude
-    longitude: !secret home_longitude
-    radius: 2000
-    passive: true
     icon: mdi:home
   - name: !secret work_name
     latitude: !secret work_latitude
