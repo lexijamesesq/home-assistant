@@ -1,0 +1,229 @@
+type: custom:mod-card
+card_mod:
+  style: |
+    :host {}
+view_layout:
+  grid-area: content
+card:
+  type: vertical-stack
+  cards:
+    - type: entities
+      style: |
+        :host {
+          --card-background-color: var(--card-off-background-color);
+        }
+        ha-card {
+          margin: 0 15px 15px;
+          transition: none;
+        }
+        ha-card:first-child {
+          margin: 15px;
+        }
+      title: Servers
+      show_header_toggle: false
+      entities:
+        - type: section
+          label: Overwatch
+        - entity: sensor.overwatch_cpu_load_15
+          type: custom:multiple-entity-row
+          name: Load
+          show_state: false
+          entities:
+            - entity: sensor.overwatch_cpu_load_1
+              name: 1 min
+              unit: ' '
+            - entity: sensor.overwatch_cpu_load_5
+              name: 5 min
+              unit: ' '
+            - entity: sensor.overwatch_cpu_load_15
+              name: 15 min
+              unit: ' '
+            - entity: sensor.overwatch_ram_used
+              name: RAM
+        - entity: sensor.overwatch_cpu_temp
+          type: custom:multiple-entity-row
+          name: Temp
+          show_state: false
+          entities:
+            - entity: sensor.overwatch_cpu_temp
+              name: CPU 1
+        - type: section
+          label: Woodhouse
+        - entity: sensor.woodhouse_cpu_load_15
+          type: custom:multiple-entity-row
+          name: Load
+          show_state: false
+          entities:
+            - entity: sensor.woodhouse_cpu_load_1
+              name: 1 min
+              unit: ' '
+            - entity: sensor.woodhouse_cpu_load_5
+              name: 5 min
+              unit: ' '
+            - entity: sensor.woodhouse_cpu_load_15
+              name: 15 min
+              unit: ' '
+            - entity: sensor.woodhouse_ram_used
+              name: RAM
+        - entity: sensor.woodhouse_cpu1_temp
+          type: custom:multiple-entity-row
+          name: Temp
+          show_state: false
+          entities:
+            - entity: sensor.woodhouse_cpu1_temp
+              name: CPU 1
+            - entity: sensor.woodhouse_cpu2_temp
+              name: CPU 2
+    - type: entities
+      style: |
+        :host {
+          --card-background-color: var(--card-off-background-color);
+        }
+        ha-card {
+          margin: 0 15px 15px;
+          transition: none;
+        }
+      title: Network
+      show_header_toggle: false
+      entities:
+  #       - type: section
+  #         label: Internet
+  #       - entity: sensor.cox_data_plan
+  #         name: Plan
+  #       - entity: sensor.cox_data_usage
+  #         type: custom:multiple-entity-row
+  #         name: Usage
+  #         show_state: false
+  #         entities:
+  #           - entity: sensor.cox_data_usage
+  #             name: Usage
+  #           - entity: sensor.cox_data_resets
+  #             name: Resets
+        - entity: sensor.network_status_cox_wan
+          type: custom:multiple-entity-row
+          name: WAN
+          show_state: false
+          entities:
+            - entity: sensor.network_status_cox_wan
+              name: Cox
+            - entity: sensor.network_status_vpn_wan
+              name: VPN
+            - entity: sensor.network_status_vpn2_wan
+              name: VPN2
+            - entity: sensor.network_status_vpn3_wan
+              name: VPN3
+        - entity: sensor.network_status_lan
+          type: custom:multiple-entity-row
+          name: LAN & VLAN
+          show_state: false
+          entities:
+            - entity: sensor.network_status_lan
+              name: LAN
+            - entity: sensor.network_status_vl40_iot
+              name: IoT
+            - entity: sensor.network_status_vl50_guest
+              name: Guest
+    - type: entities
+      style: |
+        :host {
+          --card-background-color: var(--card-off-background-color);
+        }
+        ha-card {
+          margin: 0 15px 15px;
+          transition: none;
+        }
+      title: Services
+      show_header_toggle: false
+      entities:
+        - type: section
+          label: Overwatch
+        - entity: sensor.service_status_home_assistant
+          name: Home Assistant
+        - type: section
+          label: Woodhouse
+        - entity: sensor.service_status_plex
+          name: Plex
+        - entity: sensor.service_status_sonarr
+          name: Sonarr
+        - entity: sensor.service_status_sabnzbd
+          name: SABnzbd
+        - entity: sensor.service_status_tautulli
+          name: Tautulli
+        - entity: sensor.service_status_grafana
+          name: Grafana
+        - type: section
+          label: UniFi
+        - entity: sensor.service_status_unifi_network
+          name: Network
+        - entity: sensor.service_status_unifi_protect
+          name: Protect
+    - type: entities
+      style: |
+        :host {
+          --card-background-color: var(--card-off-background-color);
+        }
+        ha-card {
+          margin: 0 15px 15px;
+          transition: none;
+        }
+      title: Battery Level
+      show_header_toggle: false
+      entities:
+        - type: section
+          label: Locks
+        - type: custom:template-entity-row
+          entity: sensor.august_web_front_door_battery
+          name: Front Door
+          state: '{{ states(config.entity) | int(0) }}%'
+        - entity: sensor.august_web_garage_door_keypad_battery
+          name: Front Door Keypad
+        - type: custom:template-entity-row
+          entity: sensor.august_web_garage_door_battery
+          name: Garage Door
+          state: '{{ states(config.entity) | int(0) }}%'
+        - type: section
+          label: Sensors
+        - type: custom:template-entity-row
+          entity: sensor.garage_motion_sensor_battery_level
+          name: Garage Motion Sensor
+          state: '{{ states(config.entity) | int(0) }}%'
+        - type: custom:template-entity-row
+          entity: sensor.garage_stairs_multisensor_battery_level
+          name: Garage Stairs MultiSensor
+          state: '{{ states(config.entity) | int(0) }}%'
+        - type: custom:template-entity-row
+          entity: sensor.downstairs_hallway_trisensor_battery_level
+          name: Downstairs Hallway TriSensor
+          state: '{{ states(config.entity) | int(0) }}%'
+        - type: custom:template-entity-row
+          entity: sensor.main_stairs_multisensor_battery_level
+          name: Main Stairs MultiSensor
+          state: '{{ states(config.entity) | int(0) }}%'
+        - type: custom:template-entity-row
+          entity: sensor.bedroom_closet_door_sensor_battery_level
+          name: Bedroom Closet Door Sensor
+          state: '{{ states(config.entity) | int(0) }}%'
+        - type: custom:template-entity-row
+          entity: sensor.bedroom_closet_trisensor_battery_level
+          name: Bedroom Closet TriSensor
+          state: '{{ states(config.entity) | int(0) }}%'
+        - type: custom:template-entity-row
+          entity: sensor.laundry_door_left_sensor_battery_level
+          name: Laundry Door Left Sensor
+          state: '{{ states(config.entity) | int(0) }}%'
+        - type: custom:template-entity-row
+          entity: sensor.laundry_door_right_sensor_battery_level
+          name: Laundry Door Right Sensor
+          state: '{{ states(config.entity) | int(0) }}%'
+        - type: custom:template-entity-row
+          entity: sensor.den_multisensor_sensor_battery_level
+          name: Den MultiSensor
+          state: '{{ states(config.entity) | int(0) }}%'
+        - type: custom:template-entity-row
+          entity: sensor.guest_bedroom_closet_door_sensor_battery_level
+          name: Guest Bedroom Closet Door Sensor
+          state: '{{ states(config.entity) | int(0) }}%'
+        - type: section
+          label: UPS
+        - entity: sensor.server_rack_ups_battery_charge
+          name: Server Rack

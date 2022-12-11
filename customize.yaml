@@ -255,8 +255,6 @@ switch.alex_s_imac:
   hidden: true
 sensor.service_status_home_assistant:
   icon: mdi:home-assistant
-sensor.service_status_dashboard:
-  icon: mdi:tablet-dashboard
 sensor.service_status_plex:
   icon: mdi:plex
 sensor.service_status_unifi_protect:

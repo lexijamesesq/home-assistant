@@ -1,172 +1,120 @@
 title: Home Assistant
 background: var(--primary-background-color)
 views:
-  - icon: mdi:home-assistant
-    title: Home
+  - type: custom:grid-layout
+    icon: mdi:home-assistant
     path: home
+    title: Home
     theme: Tablet Dashboard
+ #   background: center / cover no-repeat fixed url('/local/dashboard/bg-phone.png')
     popup_cards: !include_dir_merge_named lovelace/popups/home/
-    panel: true
+    layout:
+      grid-template-columns: auto
+      grid-template-rows: auto auto
+      grid-template-areas: |
+        "header"  "content"
+      margin: 0
     cards:
-      - type: custom:mod-card
-        card_mod:
-          style: |
-            ha-card {
-              margin: 0 auto;
-            }
-        card:
-          type: vertical-stack
-          cards:
-            - !include lovelace/partials/home/header.yaml
-            - !include lovelace/partials/home/content.yaml
-  - icon: mdi:lightbulb
-    title: Lights
+      - !include lovelace/partials/home/header.yaml
+      - !include lovelace/partials/home/content.yaml
+  - type: custom:grid-layout
+    icon: mdi:lightbulb
     path: lights
+    title: Lights
     theme: Tablet Dashboard
-    panel: true
+    layout:
+      grid-template-columns: auto
+      grid-template-rows: auto auto
+      grid-template-areas: |
+        "header"  "content"
+      margin: 0
     cards:
-      - type: custom:mod-card
-        card_mod:
-          style: |
-            ha-card {
-              max-width: 1465px;
-              margin: 0 auto;
-            }
-        card:
-          type: vertical-stack
-          cards:
-            - !include lovelace/partials/lights/header.yaml
-            - !include lovelace/partials/lights/content.yaml
-  - icon: mdi:music
-    title: Sonos
+      - !include lovelace/partials/lights/header.yaml
+      - !include lovelace/partials/lights/content.yaml
+  - type: custom:grid-layout
+    icon: mdi:music
     path: sonos
+    title: Sonos
     theme: Tablet Dashboard
-    panel: true
+    layout:
+      grid-template-columns: auto
+      grid-template-rows: auto auto
+      grid-template-areas: |
+        "header"  "content"
+      margin: 0
     cards:
-      - type: custom:mod-card
-        card_mod:
-          style: |
-            ha-card {
-              max-width: 1465px;
-              margin: 0 auto;
-            }
-        card:
-          type: vertical-stack
-          cards:
-            - !include lovelace/partials/sonos/header.yaml
-            - !include lovelace/partials/sonos/content.yaml
-  - icon: mdi:television
-    title: Home Theater
+      - !include lovelace/partials/sonos/header.yaml
+      - !include lovelace/partials/sonos/content.yaml
+  - type: custom:grid-layout
+    icon: mdi:television
     path: home_theater
+    title: Home Theater
     theme: Tablet Dashboard
-    panel: true
+    layout:
+      grid-template-columns: auto
+      grid-template-rows: auto auto
+      grid-template-areas: |
+        "header"  "content"
+      margin: 0
     cards:
-      - type: custom:mod-card
-        card_mod:
-          style: |
-            ha-card {
-              max-width: 1465px;
-              margin: 0 auto;
-            }
-        card:
-          type: vertical-stack
-          cards:
-            - !include lovelace/partials/home_theater/header.yaml
-            - !include lovelace/partials/home_theater/content.yaml
-  - icon: mdi:shield-home
-    title: Security
+      - !include lovelace/partials/home_theater/header.yaml
+      - !include lovelace/partials/home_theater/content.yaml
+  - type: custom:grid-layout
+    icon: mdi:shield-home
     path: security
+    title: Security
     theme: Tablet Dashboard
-    panel: true
+    layout:
+      grid-template-columns: auto
+      grid-template-rows: auto auto
+      grid-template-areas: |
+        "header"  "content"
+      margin: 0
     cards:
-      - type: custom:mod-card
-        card_mod:
-          style: |
-            ha-card {
-              max-width: 1465px;
-              margin: 0 auto;
-            }
-        card:
-          type: vertical-stack
-          cards:
-            - !include lovelace/partials/security/header.yaml
-            - !include lovelace/partials/security/content.yaml
-  - icon: mdi:heart-pulse
-    title: Health
+      - !include lovelace/partials/security/header.yaml
+      - !include lovelace/partials/security/content.yaml
+  - type: custom:grid-layout
+    icon: mdi:heart-pulse
     path: health
+    title: Health
     theme: Tablet Dashboard
-    panel: true
+    layout:
+      grid-template-columns: auto
+      grid-template-rows: auto auto
+      grid-template-areas: |
+        "header"  "content"
+      margin: 0
     cards:
-      - type: custom:mod-card
-        card_mod:
-          style: |
-            ha-card {
-              max-width: 1465px;
-              margin: 0 auto;
-            }
-        card:
-          type: vertical-stack
-          cards:
-            - !include lovelace/partials/health/header.yaml
-            - !include lovelace/health/servers.yaml
-            - !include lovelace/health/services.yaml
-            - !include lovelace/health/network.yaml
-            - !include lovelace/health/battery.yaml
-  - icon: mdi:account-cog
-    title: Preferences
+      - !include lovelace/partials/health/header.yaml
+      - !include lovelace/partials/health/content.yaml
+  - type: custom:grid-layout
+    icon: mdi:account-cog
     path: preferences
+    title: Preferences
     theme: Tablet Dashboard
-    panel: true
+    layout:
+      grid-template-columns: auto
+      grid-template-rows: auto auto
+      grid-template-areas: |
+        "header"  "content"
+      margin: 0
     cards:
-      - type: custom:mod-card
-        card_mod:
-          style: |
-            ha-card {
-              max-width: 1465px;
-              margin: 0 auto;
-            }
-        card:
-          type: vertical-stack
-          cards:
-            - !include lovelace/partials/preferences/header.yaml
-            - !include lovelace/preferences/lights.yaml
-            - !include lovelace/preferences/thermostat.yaml
+      - !include lovelace/partials/preferences/header.yaml
+      - !include lovelace/partials/preferences/content.yaml
 
   # Always Hidden ##############################################
-  - title: Scenes
+  - type: custom:grid-layout
     path: scenes
-    panel: true
+    title: Scenes
+    layout:
+      grid-template-columns: auto
+      grid-template-rows: auto auto
+      grid-template-areas: |
+        "header"  "content"
+      margin: 0
     visible: false
     cards:
-      - type: custom:mod-card
-        card_mod:
-          style: |
-            ha-card {
-              max-width: 1465px;
-              margin: 0 auto;
-            }
-        card:
-          type: vertical-stack
-          cards:
-            - !include lovelace/scenes/header.yaml
-            - !include lovelace/scenes/scenes.yaml
-  - title: Modes
-    path: modes
-    panel: true
-    visible: false
-    cards:
-      - type: custom:mod-card
-        style: |
-          ha-card {
-            max-width: 1465px;
-            margin: 0 auto;
-          }
-        card:
-          type: vertical-stack
-          cards:
-            - !include lovelace/modes/header.yaml
-            - !include lovelace/modes/user.yaml
-            - !include lovelace/modes/security.yaml
-            - !include lovelace/modes/home.yaml
+      - !include lovelace/partials/scenes/header.yaml
+      - !include lovelace/partials/scenes/scenes.yaml
 
 button_card_templates: !include_dir_merge_named lovelace/button_card_templates

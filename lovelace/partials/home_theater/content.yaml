@@ -1,10 +1,9 @@
 type: custom:mod-card
 card_mod:
   style: |
-    :host {
-      --masonry-view-card-margin: 0;
-      --ha-card-border-width: 0;
-    }
+    :host {}
+view_layout:
+  grid-area: content
 card:
   type: vertical-stack
   cards:

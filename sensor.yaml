@@ -869,13 +869,6 @@
       measurement: '"http_response"'
       field: '"http_response_code"'
       database: telegraf
-    - name: Service Status Dashboard
-      group_function: last
-      where: !secret influxdb_service_status_dashboard
-      value_template: '{{ "Up" if value == "200" else "Down" }}'
-      measurement: '"http_response"'
-      field: '"http_response_code"'
-      database: telegraf
     # Woodhouse Services
     - name: Service Status Plex
       group_function: last
@@ -987,7 +980,6 @@
       value_template: >-
         {% set services = [
           "sensor.service_status_home_assistant",
-          "sensor.service_status_dashboard",
           "sensor.service_status_plex",
           "sensor.service_status_sonarr",
           "sensor.service_status_sabnzbd",
