@@ -11,6 +11,8 @@
     - platform: state
       entity_id: sensor.sonos_group_master_state
       to: 'playing'
+  condition:
+    - '{{ "google" not in state_attr(states("sensor.sonos_group_master"), "media_content_id") }}'
   action:
     service: browser_mod.navigate
     data:
