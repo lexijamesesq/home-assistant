@@ -20,31 +20,6 @@
     - time
     - date
 
-# Dark Sky Weather
-- platform: darksky
-  api_key: !secret darksky_api_key
-  latitude: !secret home_latitude
-  longitude: !secret home_longitude
-  forecast:
-    - 0
-  monitored_conditions:
-    - summary
-    - icon
-    - precip_probability
-    - temperature
-    - humidity
-    - minutely_summary
-    - hourly_summary
-    - daily_summary
-    - temperature_high
-    - temperature_low
-    - sunrise_time
-    - sunset_time
-    - nearest_storm_distance
-  scan_interval:
-    minutes: 5
-
-
 - platform: integration
   source: sensor.energy_usage
   name: Energy Usage kWh
