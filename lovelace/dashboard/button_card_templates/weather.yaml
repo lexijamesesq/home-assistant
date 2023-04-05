@@ -24,14 +24,14 @@ weather:
   entity: sensor.dashboard_weather
   triggers_update:
     - sensor.dark_sky_icon_0d
-    - sensor.dashboard_weather
-    - sensor.dark_sky_minutely_summary
+    - weather.tomorrow_io_home_nowcast
+    - weather.tomorrow_io_home_daily
   show_name: false
   show_state: false
   show_icon: false
   show_label: true
   show_entity_picture: true
-  entity_picture: '[[[ return `/local/icons/weather/${states["sensor.dark_sky_icon"].state}.svg` ]]]'
+  entity_picture: '[[[ return states["sensor.dashboard_weather"].attributes.icon ]]]'
   label: >
     [[[
       return `<span class="temp-large">${states["sensor.dashboard_weather"].attributes.outside_temp}<sup class="temp-unit">${states["sensor.dashboard_weather"].attributes.unit_of_measurement}</sup></span><span class="temp-small">
