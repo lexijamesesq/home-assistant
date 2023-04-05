@@ -175,8 +175,6 @@ card:
           entity: sensor.august_web_front_door_battery
           name: Front Door
           state: '{{ states(config.entity) | int(0) }}%'
-        - entity: sensor.august_web_garage_door_keypad_battery
-          name: Front Door Keypad
         - type: custom:template-entity-row
           entity: sensor.august_web_garage_door_battery
           name: Garage Door
