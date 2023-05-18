@@ -40,3 +40,6 @@ zwave_device_config.yaml
 *.pickle
 *.comget.html
 *.compost.html
+home-assistant.log.1
+rtsp2webrtc_v5_amd64
+home-assistant.log.fault

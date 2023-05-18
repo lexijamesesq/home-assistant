@@ -266,12 +266,17 @@
   trigger:
     - platform: state
       entity_id: sensor.dashboard_home_state
-      to: "Insecure"
+      to: 'Insecure'
       for:
         minutes: 10
     - platform: state
       entity_id: group.residents
       to: 'not_home'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: input_boolean.mode_guest
+      to: 'off'
       for:
         minutes: 10
   condition:
@@ -283,6 +288,11 @@
       - condition: state
         entity_id: group.residents
         state: 'not_home'
+      - condition: state
+        entity_id: input_boolean.mode_guest
+        state: 'off'
+      - "{{ states.lock.august_web_front_door.state != 'unknown' }}"
+      - "{{ states.lock.august_web_garage_door.state != 'unknown' }}"
   action:
     service: notify.mobile_app_alexs_iphone
     data:
@@ -293,8 +303,6 @@
           thread-id: "ha-condo-group"
           sound:
             name: "siren.wav"
-            critical: 1
-            volume: 1.0
 
 # Sleep Mode Notifications ###################################
 - alias: Notify Security - Home Not Secure During Sleep Mode

@@ -1,562 +1,87 @@
-2022-11-29 12:22:04.782 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration browser_mod which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
-2022-11-29 12:22:04.785 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration hacs which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
-2022-11-29 12:22:04.787 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration dyson_local which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
-2022-11-29 12:22:04.790 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration tautulli which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
-2022-11-29 12:22:04.792 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration webrtc which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
-2022-11-29 12:22:21.142 WARNING (MainThread) [homeassistant.setup] Setup of input_number is taking over 10 seconds.
-2022-11-29 12:22:21.153 WARNING (MainThread) [homeassistant.setup] Setup of input_select is taking over 10 seconds.
-2022-11-29 12:22:21.174 WARNING (MainThread) [homeassistant.setup] Setup of zone is taking over 10 seconds.
-2022-11-29 12:22:21.177 WARNING (MainThread) [homeassistant.setup] Setup of input_boolean is taking over 10 seconds.
-2022-11-29 12:22:21.179 WARNING (MainThread) [homeassistant.setup] Setup of input_text is taking over 10 seconds.
-2022-11-29 12:22:37.187 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.81:11311 ssl:default [Connect call failed ('10.0.40.81', 11311)]
-2022-11-29 12:22:37.282 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
-2022-11-29 12:22:41.261 WARNING (MainThread) [homeassistant.components.google.calendar] The 'track' option in google_calendars.yaml has been deprecated. The setting has been imported to the UI, and should now be removed from google_calendars.yaml
-2022-11-29 12:22:41.266 WARNING (MainThread) [homeassistant.components.google.calendar] The 'track' option in google_calendars.yaml has been deprecated. The setting has been imported to the UI, and should now be removed from google_calendars.yaml
-2022-11-29 12:22:41.271 WARNING (MainThread) [homeassistant.components.google.calendar] The 'track' option in google_calendars.yaml has been deprecated. The setting has been imported to the UI, and should now be removed from google_calendars.yaml
-2022-11-29 12:22:41.274 WARNING (MainThread) [homeassistant.components.google.calendar] The 'track' option in google_calendars.yaml has been deprecated. The setting has been imported to the UI, and should now be removed from google_calendars.yaml
-2022-11-29 12:22:41.278 WARNING (MainThread) [homeassistant.components.google.calendar] The 'track' option in google_calendars.yaml has been deprecated. The setting has been imported to the UI, and should now be removed from google_calendars.yaml
-2022-11-29 12:22:41.766 ERROR (MainThread) [homeassistant.components.sensor] The version platform for the sensor integration does not support platform setup. Please remove it from your config.
-2022-11-29 12:22:41.805 ERROR (MainThread) [homeassistant.components.sensor] The version platform for the sensor integration does not support platform setup. Please remove it from your config.
-2022-11-29 12:22:52.308 WARNING (MainThread) [homeassistant.components.sensor] Setup of sensor platform darksky is taking over 10 seconds.
-2022-11-29 12:22:52.311 WARNING (MainThread) [homeassistant.components.sensor] Setup of sensor platform influxdb is taking over 10 seconds.
-2022-11-29 12:22:52.313 WARNING (MainThread) [homeassistant.components.sensor] Setup of sensor platform file is taking over 10 seconds.
-2022-11-29 12:22:53.599 WARNING (MainThread) [homeassistant.components.sensor] Setup of sensor platform airvisual is taking over 10 seconds.
-2022-11-29 12:22:54.370 WARNING (MainThread) [homeassistant.components.sensor] Platform rest not ready yet: Server disconnected without sending a response.; Retrying in background in 30 seconds
-2022-11-29 12:22:55.174 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
-2022-11-29 12:22:55.185 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
-2022-11-29 12:23:03.439 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
-2022-11-29 12:23:03.446 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
-2022-11-29 12:23:04.531 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.80:9078 ssl:default [Connect call failed ('10.0.40.80', 9078)]
-2022-11-29 12:23:04.711 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.81:11311 ssl:default [Connect call failed ('10.0.40.81', 11311)]
-2022-11-29 12:23:05.049 ERROR (MainThread) [homeassistant.helpers.event] Error while processing template: Template("{{ states.sensor.average_temperature.state | round() }}")
+2023-02-28 17:13:08.822 WARNING (SyncWorker_1) [homeassistant.loader] We found a custom integration browser_mod which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2023-02-28 17:13:08.825 WARNING (SyncWorker_1) [homeassistant.loader] We found a custom integration hacs which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2023-02-28 17:13:08.828 WARNING (SyncWorker_1) [homeassistant.loader] We found a custom integration dyson_local which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2023-02-28 17:13:08.831 WARNING (SyncWorker_1) [homeassistant.loader] We found a custom integration tautulli which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2023-02-28 17:13:08.834 WARNING (SyncWorker_1) [homeassistant.loader] We found a custom integration webrtc which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2023-02-28 17:13:24.801 WARNING (MainThread) [homeassistant.config_entries] Config entry 'Living Room' for apple_tv integration not ready yet: Not found at 10.0.1.21, waiting for discovery; Retrying in background
+2023-02-28 17:13:46.362 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:13:46.372 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:13:52.736 ERROR (MainThread) [homeassistant.components.sensor] The version platform for the sensor integration does not support platform setup. Please remove it from your config.
+2023-02-28 17:13:52.757 ERROR (MainThread) [homeassistant.components.sensor] The version platform for the sensor integration does not support platform setup. Please remove it from your config.
+2023-02-28 17:14:02.821 WARNING (MainThread) [homeassistant.components.sensor] Setup of sensor platform darksky is taking over 10 seconds.
+2023-02-28 17:14:02.870 WARNING (MainThread) [homeassistant.components.sensor] Setup of sensor platform influxdb is taking over 10 seconds.
+2023-02-28 17:14:02.896 WARNING (MainThread) [homeassistant.components.sensor] Setup of sensor platform file is taking over 10 seconds.
+2023-02-28 17:14:04.789 WARNING (MainThread) [homeassistant.components.sensor] Setup of sensor platform rest is taking over 10 seconds.
+2023-02-28 17:14:04.793 WARNING (MainThread) [homeassistant.components.sensor] Setup of sensor platform rest is taking over 10 seconds.
+2023-02-28 17:14:04.798 WARNING (MainThread) [homeassistant.components.sensor] Setup of sensor platform rest is taking over 10 seconds.
+2023-02-28 17:14:04.801 WARNING (MainThread) [homeassistant.components.binary_sensor] Setup of binary_sensor platform nest is taking over 10 seconds.
+2023-02-28 17:14:04.809 WARNING (MainThread) [homeassistant.components.sensor] Setup of sensor platform nest is taking over 10 seconds.
+2023-02-28 17:14:06.257 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:14:06.262 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:14:08.891 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:14:08.897 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:14:09.746 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.81:11311 ssl:default [Connect call failed ('10.0.40.81', 11311)]
+2023-02-28 17:14:09.762 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.81:11311 ssl:default [Connect call failed ('10.0.40.81', 11311)]
+2023-02-28 17:14:11.376 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.80:9078 ssl:default [Connect call failed ('10.0.40.80', 9078)]
+2023-02-28 17:14:11.521 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:14:12.789 WARNING (MainThread) [homeassistant.components.homeassistant.triggers.numeric_state] Error initializing 'Notify Battery - Replace Low Battery' trigger: In 'numeric_state' condition: unknown entity sensor.august_web_garage_door_keypad_battery
+2023-02-28 17:14:29.154 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:14:29.164 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:14:31.179 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.80:9078 ssl:default [Connect call failed ('10.0.40.80', 9078)]
+2023-02-28 17:14:31.194 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.80:9078 ssl:default [Connect call failed ('10.0.40.80', 9078)]
+2023-02-28 17:14:31.336 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.80:9078 ssl:default [Connect call failed ('10.0.40.80', 9078)]
+2023-02-28 17:14:31.776 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.81:11311 ssl:default [Connect call failed ('10.0.40.81', 11311)]
+2023-02-28 17:14:31.797 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:14:32.306 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:14:32.603 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.80:9078 ssl:default [Connect call failed ('10.0.40.80', 9078)]
+2023-02-28 17:14:32.612 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.81:11311 ssl:default [Connect call failed ('10.0.40.81', 11311)]
+2023-02-28 17:14:32.882 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: 
+2023-02-28 17:14:43.031 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.80:9078 ssl:default [Connect call failed ('10.0.40.80', 9078)]
+2023-02-28 17:14:43.259 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.81:11311 ssl:default [Connect call failed ('10.0.40.81', 11311)]
+2023-02-28 17:14:43.292 WARNING (MainThread) [homeassistant.components.konnected.panel] Exception trying to connect to panel: Cannot connect to host 10.0.40.81:11311 ssl:default [Connect call failed ('10.0.40.81', 11311)]
+2023-02-28 17:16:34.883 WARNING (SyncWorker_3) [homeassistant.loader] We found a custom integration browser_mod which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2023-02-28 17:16:34.894 WARNING (SyncWorker_3) [homeassistant.loader] We found a custom integration hacs which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2023-02-28 17:16:34.897 WARNING (SyncWorker_3) [homeassistant.loader] We found a custom integration dyson_local which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2023-02-28 17:16:34.901 WARNING (SyncWorker_3) [homeassistant.loader] We found a custom integration tautulli which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2023-02-28 17:16:34.905 WARNING (SyncWorker_3) [homeassistant.loader] We found a custom integration webrtc which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2023-02-28 17:31:49.672 ERROR (MainThread) [homeassistant] Error doing job: Task exception was never retrieved
 Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 420, in async_render
-    render_result = _render_with_context(self.template, compiled, **kwargs)
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 1933, in _render_with_context
-    return template.render(**kwargs)
-  File "/usr/local/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/usr/local/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "<template>", line 1, in top-level template code
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 1421, in forgiving_round
-    value = round(float(value), precision)
-jinja2.exceptions.UndefinedError: 'None' has no attribute 'state'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 536, in async_render_to_info
-    render_info._result = self.async_render(variables, strict=strict, **kwargs)
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 422, in async_render
-    raise TemplateError(err) from err
-homeassistant.exceptions.TemplateError: UndefinedError: 'None' has no attribute 'state'
-2022-11-29 12:23:05.061 ERROR (MainThread) [homeassistant.helpers.template_entity] TemplateError('UndefinedError: 'None' has no attribute 'state'') while processing template 'Template("{{ states.sensor.average_temperature.state | round() }}")' for attribute '_attr_native_value' in entity 'sensor.dashboard_inside_average_temperature'
-2022-11-29 12:23:05.075 ERROR (MainThread) [homeassistant.helpers.event] Error while processing template: Template("{{ states.sensor.average_humidity.state | round() }}")
-Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 420, in async_render
-    render_result = _render_with_context(self.template, compiled, **kwargs)
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 1933, in _render_with_context
-    return template.render(**kwargs)
-  File "/usr/local/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/usr/local/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "<template>", line 1, in top-level template code
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 1421, in forgiving_round
-    value = round(float(value), precision)
-jinja2.exceptions.UndefinedError: 'None' has no attribute 'state'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 536, in async_render_to_info
-    render_info._result = self.async_render(variables, strict=strict, **kwargs)
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 422, in async_render
-    raise TemplateError(err) from err
-homeassistant.exceptions.TemplateError: UndefinedError: 'None' has no attribute 'state'
-2022-11-29 12:23:05.083 ERROR (MainThread) [homeassistant.helpers.template_entity] TemplateError('UndefinedError: 'None' has no attribute 'state'') while processing template 'Template("{{ states.sensor.average_humidity.state | round() }}")' for attribute '_attr_native_value' in entity 'sensor.dashboard_inside_average_humidity'
-2022-11-29 12:23:05.244 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:23:05.251 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:23:06.788 WARNING (MainThread) [homeassistant.components.automation] Error evaluating condition in 'Manually Reset Energy Off-Peak Tariff':
-In 'condition':
-  In 'and' (item 1 of 2):
-    In 'state':
-      In 'state' condition: unknown entity utility_meter.grid_consumption_hourly
-2022-11-29 12:23:11.006 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:23:12.350 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:23:13.431 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:23:13.742 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:23:14.313 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:23:14.575 WARNING (SyncWorker_3) [homeassistant.components.sonos] Failed to add SonosSpeaker using <SoCo object at ip 10.0.1.38>
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 174, in _new_conn
-    conn = connection.create_connection(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/connection.py", line 95, in create_connection
-    raise err
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
+  File "/usr/local/lib/python3.10/site-packages/zwave_js_server/client.py", line 116, in async_send_command
+    return await future
+asyncio.exceptions.CancelledError
 
 During handling of the above exception, another exception occurred:
 
 Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 703, in urlopen
-    httplib_response = self._make_request(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 398, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 239, in request
-    super(HTTPConnection, self).request(method, url, body=body, headers=headers)
-  File "/usr/local/lib/python3.10/http/client.py", line 1282, in request
-    self._send_request(method, url, body, headers, encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1328, in _send_request
-    self.endheaders(body, encode_chunked=encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1277, in endheaders
-    self._send_output(message_body, encode_chunked=encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1037, in _send_output
-    self.send(msg)
-  File "/usr/local/lib/python3.10/http/client.py", line 975, in send
-    self.connect()
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 205, in connect
-    conn = self._new_conn()
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 186, in _new_conn
-    raise NewConnectionError(
-urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f6706320bb0>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
+  File "/usr/src/homeassistant/homeassistant/components/zwave_js/update.py", line 164, in _async_update
+    await self.driver.controller.async_get_available_firmware_updates(
+  File "/usr/local/lib/python3.10/site-packages/zwave_js_server/model/controller/__init__.py", line 719, in async_get_available_firmware_updates
+    data = await self.client.async_send_command(
+  File "/usr/local/lib/python3.10/site-packages/zwave_js_server/client.py", line 118, in async_send_command
+    self._result_futures.pop(message_id)
+KeyError: '85350d450b304eaf9790229208bd18cd'
+2023-02-28 17:31:49.646 ERROR (Recorder) [root] Uncaught thread exception
 Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 489, in send
-    resp = conn.urlopen(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
-    retries = retries.increment(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/retry.py", line 592, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.1.38', port=1400): Max retries exceeded with url: /xml/device_description.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6706320bb0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/components/sonos/__init__.py", line 230, in _add_speaker
-    speaker_info = soco.get_speaker_info(True, timeout=7)
-  File "/usr/local/lib/python3.10/site-packages/soco/core.py", line 2018, in get_speaker_info
-    response = requests.get(
-  File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 73, in get
-    return request("get", url, params=params, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 59, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 587, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 701, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 565, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.1.38', port=1400): Max retries exceeded with url: /xml/device_description.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6706320bb0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2022-11-29 12:23:15.515 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:23:18.421 WARNING (SyncWorker_2) [homeassistant.components.sonos] Failed to add SonosSpeaker using <SoCo object at ip 10.0.1.38>
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 174, in _new_conn
-    conn = connection.create_connection(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/connection.py", line 95, in create_connection
-    raise err
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 703, in urlopen
-    httplib_response = self._make_request(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 398, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 239, in request
-    super(HTTPConnection, self).request(method, url, body=body, headers=headers)
-  File "/usr/local/lib/python3.10/http/client.py", line 1282, in request
-    self._send_request(method, url, body, headers, encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1328, in _send_request
-    self.endheaders(body, encode_chunked=encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1277, in endheaders
-    self._send_output(message_body, encode_chunked=encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1037, in _send_output
-    self.send(msg)
-  File "/usr/local/lib/python3.10/http/client.py", line 975, in send
-    self.connect()
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 205, in connect
-    conn = self._new_conn()
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 186, in _new_conn
-    raise NewConnectionError(
-urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f6706181c30>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 489, in send
-    resp = conn.urlopen(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
-    retries = retries.increment(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/retry.py", line 592, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.1.38', port=1400): Max retries exceeded with url: /xml/device_description.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6706181c30>: Failed to establish a new connection: [Errno 111] Connection refused'))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/components/sonos/__init__.py", line 230, in _add_speaker
-    speaker_info = soco.get_speaker_info(True, timeout=7)
-  File "/usr/local/lib/python3.10/site-packages/soco/core.py", line 2018, in get_speaker_info
-    response = requests.get(
-  File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 73, in get
-    return request("get", url, params=params, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 59, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 587, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 701, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 565, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.1.38', port=1400): Max retries exceeded with url: /xml/device_description.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6706181c30>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2022-11-29 12:26:30.617 WARNING (SyncWorker_6) [homeassistant.components.sonos] Failed to add SonosSpeaker using <SoCo object at ip 10.0.1.38>
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 174, in _new_conn
-    conn = connection.create_connection(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/connection.py", line 95, in create_connection
-    raise err
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 703, in urlopen
-    httplib_response = self._make_request(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 398, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 239, in request
-    super(HTTPConnection, self).request(method, url, body=body, headers=headers)
-  File "/usr/local/lib/python3.10/http/client.py", line 1282, in request
-    self._send_request(method, url, body, headers, encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1328, in _send_request
-    self.endheaders(body, encode_chunked=encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1277, in endheaders
-    self._send_output(message_body, encode_chunked=encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1037, in _send_output
-    self.send(msg)
-  File "/usr/local/lib/python3.10/http/client.py", line 975, in send
-    self.connect()
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 205, in connect
-    conn = self._new_conn()
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 186, in _new_conn
-    raise NewConnectionError(
-urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f6705088460>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 489, in send
-    resp = conn.urlopen(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
-    retries = retries.increment(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/retry.py", line 592, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.1.38', port=1400): Max retries exceeded with url: /xml/device_description.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6705088460>: Failed to establish a new connection: [Errno 111] Connection refused'))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/components/sonos/__init__.py", line 230, in _add_speaker
-    speaker_info = soco.get_speaker_info(True, timeout=7)
-  File "/usr/local/lib/python3.10/site-packages/soco/core.py", line 2018, in get_speaker_info
-    response = requests.get(
-  File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 73, in get
-    return request("get", url, params=params, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 59, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 587, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 701, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 565, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.1.38', port=1400): Max retries exceeded with url: /xml/device_description.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f6705088460>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2022-11-29 12:28:14.833 WARNING (MainThread) [homeassistant.components.automation] Error evaluating condition in 'Den Hallway Lighting on Motion':
-In 'condition':
-  In 'and' (item 2 of 2):
-    In 'or' (item 4 of 4):
-      In 'numeric_state':
-        In 'numeric_state' condition: unknown entity sensor.den_multisensor_luminance
-2022-11-29 12:30:46.725 WARNING (SyncWorker_0) [homeassistant.components.sonos] Failed to add SonosSpeaker using <SoCo object at ip 10.0.1.38>
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 174, in _new_conn
-    conn = connection.create_connection(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/connection.py", line 95, in create_connection
-    raise err
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 703, in urlopen
-    httplib_response = self._make_request(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 398, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 239, in request
-    super(HTTPConnection, self).request(method, url, body=body, headers=headers)
-  File "/usr/local/lib/python3.10/http/client.py", line 1282, in request
-    self._send_request(method, url, body, headers, encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1328, in _send_request
-    self.endheaders(body, encode_chunked=encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1277, in endheaders
-    self._send_output(message_body, encode_chunked=encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1037, in _send_output
-    self.send(msg)
-  File "/usr/local/lib/python3.10/http/client.py", line 975, in send
-    self.connect()
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 205, in connect
-    conn = self._new_conn()
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 186, in _new_conn
-    raise NewConnectionError(
-urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f67038b5ed0>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 489, in send
-    resp = conn.urlopen(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
-    retries = retries.increment(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/retry.py", line 592, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.1.38', port=1400): Max retries exceeded with url: /xml/device_description.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f67038b5ed0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/components/sonos/__init__.py", line 230, in _add_speaker
-    speaker_info = soco.get_speaker_info(True, timeout=7)
-  File "/usr/local/lib/python3.10/site-packages/soco/core.py", line 2018, in get_speaker_info
-    response = requests.get(
-  File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 73, in get
-    return request("get", url, params=params, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 59, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 587, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 701, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 565, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.1.38', port=1400): Max retries exceeded with url: /xml/device_description.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f67038b5ed0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2022-11-29 12:31:15.106 WARNING (MainThread) [homeassistant.components.automation] Error evaluating condition in 'Den Hallway Lighting on Motion':
-In 'condition':
-  In 'and' (item 2 of 2):
-    In 'or' (item 4 of 4):
-      In 'numeric_state':
-        In 'numeric_state' condition: unknown entity sensor.den_multisensor_luminance
-2022-11-29 12:35:28.190 WARNING (MainThread) [homeassistant.components.automation] Error evaluating condition in 'Den Hallway Lighting on Motion':
-In 'condition':
-  In 'and' (item 2 of 2):
-    In 'or' (item 4 of 4):
-      In 'numeric_state':
-        In 'numeric_state' condition: unknown entity sensor.den_multisensor_luminance
-2022-11-29 12:38:33.761 WARNING (MainThread) [homeassistant.components.automation] Error evaluating condition in 'Den Hallway Lighting on Motion':
-In 'condition':
-  In 'and' (item 2 of 2):
-    In 'or' (item 4 of 4):
-      In 'numeric_state':
-        In 'numeric_state' condition: unknown entity sensor.den_multisensor_luminance
-2022-11-29 12:39:18.572 WARNING (SyncWorker_4) [homeassistant.components.sonos] Failed to add SonosSpeaker using <SoCo object at ip 10.0.1.38>
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 174, in _new_conn
-    conn = connection.create_connection(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/connection.py", line 95, in create_connection
-    raise err
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/connection.py", line 85, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 703, in urlopen
-    httplib_response = self._make_request(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 398, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 239, in request
-    super(HTTPConnection, self).request(method, url, body=body, headers=headers)
-  File "/usr/local/lib/python3.10/http/client.py", line 1282, in request
-    self._send_request(method, url, body, headers, encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1328, in _send_request
-    self.endheaders(body, encode_chunked=encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1277, in endheaders
-    self._send_output(message_body, encode_chunked=encode_chunked)
-  File "/usr/local/lib/python3.10/http/client.py", line 1037, in _send_output
-    self.send(msg)
-  File "/usr/local/lib/python3.10/http/client.py", line 975, in send
-    self.connect()
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 205, in connect
-    conn = self._new_conn()
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 186, in _new_conn
-    raise NewConnectionError(
-urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f670019e170>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 489, in send
-    resp = conn.urlopen(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
-    retries = retries.increment(
-  File "/usr/local/lib/python3.10/site-packages/urllib3/util/retry.py", line 592, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.0.1.38', port=1400): Max retries exceeded with url: /xml/device_description.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f670019e170>: Failed to establish a new connection: [Errno 111] Connection refused'))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/components/sonos/__init__.py", line 230, in _add_speaker
-    speaker_info = soco.get_speaker_info(True, timeout=7)
-  File "/usr/local/lib/python3.10/site-packages/soco/core.py", line 2018, in get_speaker_info
-    response = requests.get(
-  File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 73, in get
-    return request("get", url, params=params, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 59, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 587, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 701, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 565, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.0.1.38', port=1400): Max retries exceeded with url: /xml/device_description.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f670019e170>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2022-11-29 12:41:08.529 ERROR (MainThread) [frontend.js.latest.202211080] :0:0 ResizeObserver loop completed with undelivered notifications.
-2022-11-29 12:41:58.667 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:41:58.681 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:41:58.692 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:41:58.703 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:41:58.713 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:41:58.724 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:41:58.746 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:41:58.834 WARNING (MainThread) [homeassistant.helpers.template] Template variable warning: 'homeassistant.util.read_only_dict.ReadOnlyDict object' has no attribute 'group_members' when rendering '{%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%} {%- set players = expand('group.sonos_players') -%} {%- for player in players if player.entity_id == master %}
-  {%- set slaves = player.attributes.group_members %}
-  {{ slaves|join(",")|replace("media_player", "input_boolean") }}
-{%- endfor %}'
-2022-11-29 12:42:22.679 ERROR (MainThread) [homeassistant.components.script.sonos_volume_ramp_up] Sonos Volume Ramp Up: Repeat at step 1: Error executing script. Error for call_service at pos 2: Error rendering data template: TypeError: '<' not supported between instances of 'NoneType' and 'float'
-2022-11-29 12:42:22.722 ERROR (MainThread) [homeassistant.components.script.sonos_volume_ramp_up] Sonos Volume Ramp Up: Error executing script. Error for repeat at pos 1: Error rendering data template: TypeError: '<' not supported between instances of 'NoneType' and 'float'
-2022-11-29 12:42:22.736 ERROR (MainThread) [homeassistant] Error doing job: Task exception was never retrieved
-Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 420, in async_render
-    render_result = _render_with_context(self.template, compiled, **kwargs)
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 1933, in _render_with_context
-    return template.render(**kwargs)
-  File "/usr/local/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/usr/local/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "<template>", line 1, in top-level template code
-TypeError: '<' not supported between instances of 'NoneType' and 'float'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 242, in async_prepare_call_from_config
-    render = template.render_complex(config[conf], variables)
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 135, in render_complex
-    return {
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 136, in <dictcomp>
-    render_complex(key, variables, limited, parse_result): render_complex(
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 142, in render_complex
-    return value.async_render(variables, limited=limited, parse_result=parse_result)
-  File "/usr/src/homeassistant/homeassistant/helpers/template.py", line 422, in async_render
-    raise TemplateError(err) from err
-homeassistant.exceptions.TemplateError: TypeError: '<' not supported between instances of 'NoneType' and 'float'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/usr/src/homeassistant/homeassistant/components/script/__init__.py", line 484, in _async_run
-    return await self.script.async_run(script_vars, context)
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1524, in async_run
-    await asyncio.shield(run.async_run())
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 409, in async_run
-    await self._async_step(log_exceptions=False)
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 453, in _async_step
-    self._handle_exception(
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 476, in _handle_exception
-    raise exception
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 451, in _async_step
-    await getattr(self, handler)()
-  File "/usr/src/homeassistant/homeassistant/helpers/trace.py", line 252, in async_wrapper
-    await func(*args)
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 861, in _async_repeat_step
-    await async_run_sequence(iteration)
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 795, in async_run_sequence
-    await self._async_run_script(script)
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1029, in _async_run_script
-    await self._async_run_long_action(
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 648, in _async_run_long_action
-    long_task.result()
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1524, in async_run
-    await asyncio.shield(run.async_run())
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 409, in async_run
-    await self._async_step(log_exceptions=False)
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 453, in _async_step
-    self._handle_exception(
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 476, in _handle_exception
-    raise exception
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 451, in _async_step
-    await getattr(self, handler)()
-  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 657, in _async_call_service_step
-    params = service.async_prepare_call_from_config(
-  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 249, in async_prepare_call_from_config
-    raise HomeAssistantError(f"Error rendering data template: {ex}") from ex
-homeassistant.exceptions.HomeAssistantError: Error rendering data template: TypeError: '<' not supported between instances of 'NoneType' and 'float'
+  File "/usr/local/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/usr/src/homeassistant/homeassistant/components/recorder/core.py", line 654, in run
+    self._run_event_loop()
+  File "/usr/src/homeassistant/homeassistant/components/recorder/core.py", line 670, in _run_event_loop
+    self._shutdown()
+  File "/usr/src/homeassistant/homeassistant/components/recorder/core.py", line 1208, in _shutdown
+    self._end_session()
+  File "/usr/src/homeassistant/homeassistant/components/recorder/core.py", line 1202, in _end_session
+    self.run_history.clear()
+  File "/usr/src/homeassistant/homeassistant/components/recorder/run_history.py", line 140, in clear
+    assert self._current_run_info.end is not None
+  File "/usr/local/lib/python3.10/site-packages/sqlalchemy/orm/attributes.py", line 482, in __get__
+    return self.impl.get(state, dict_)
+  File "/usr/local/lib/python3.10/site-packages/sqlalchemy/orm/attributes.py", line 942, in get
+    value = self._fire_loader_callables(state, key, passive)
+  File "/usr/local/lib/python3.10/site-packages/sqlalchemy/orm/attributes.py", line 973, in _fire_loader_callables
+    return state._load_expired(state, passive)
+  File "/usr/local/lib/python3.10/site-packages/sqlalchemy/orm/state.py", line 712, in _load_expired
+    self.manager.expired_attribute_loader(self, toload, passive)
+  File "/usr/local/lib/python3.10/site-packages/sqlalchemy/orm/loading.py", line 1369, in load_scalar_attributes
+    raise orm_exc.DetachedInstanceError(
+sqlalchemy.orm.exc.DetachedInstanceError: Instance <RecorderRuns at 0x7fb55e4ceb60> is not bound to a Session; attribute refresh operation cannot proceed (Background on this error at: https://sqlalche.me/e/14/bhk3)

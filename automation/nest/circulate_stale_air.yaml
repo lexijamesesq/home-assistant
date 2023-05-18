@@ -20,4 +20,4 @@
       entity_id: script.nest_circulate_stale_air
       data:
         variables:
-          minutes: 30
+          minutes: 5

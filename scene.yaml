@@ -8,5 +8,5 @@
 # LIFX Cloud
 ##############################################################
 
-# - platform: lifx_cloud
-#   token: !secret lifx_cloud_token
+- platform: lifx_cloud
+  token: !secret lifx_cloud_token
