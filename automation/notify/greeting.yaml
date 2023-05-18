@@ -1,0 +1,43 @@
+##############################################################
+# Sonos Greetings
+##############################################################
+# Front Door Greetings #######################################
+- alias: Notify Greeting - Front Door Entry
+  trigger:
+    - platform: state
+      entity_id: sensor.august_web_front_door_operator
+      to: 'Ray Tienswang'
+  action:
+    - choose:
+        # Door is open or was open
+        - conditions:
+            - condition: or
+              conditions:
+                - condition: state
+                  entity_id: binary_sensor.front_door
+                  state: 'on'
+                - '{{ is_state("binary_sensor.front_door", "off") and (as_timestamp(now()) - as_timestamp(states.binary_sensor.front_door.last_changed)) < 20 }}'
+          sequence:
+            - service: script.turn_on
+              entity_id: script.greet_user
+              data:
+                variables:
+                  user: '{{ states("sensor.august_web_front_door_operator") }}'
+        # Door is closed
+        - conditions:
+            - condition: state
+              entity_id: binary_sensor.front_door
+              state: 'off'
+          sequence:
+            - wait_for_trigger:
+                - platform: state
+                  entity_id: binary_sensor.front_door
+                  to: 'on'
+              timeout:
+                seconds: 20
+              continue_on_timeout: false
+            - service: script.turn_on
+              entity_id: script.greet_user
+              data:
+                variables:
+                  user: '{{ states("sensor.august_web_front_door_operator") }}'
