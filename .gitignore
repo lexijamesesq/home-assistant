@@ -43,3 +43,5 @@ zwave_device_config.yaml
 home-assistant.log.1
 rtsp2webrtc_v5_amd64
 home-assistant.log.fault
+home-assistant_v2.db-shm
+home-assistant_v2.db-wal
