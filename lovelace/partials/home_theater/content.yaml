@@ -112,187 +112,35 @@ card:
                 tap_action:
                   action: none
               conditionalClass: '[[[ return "custom-card" ]]]'
-        - title: Streams
-          collapse: true
-          entities:
-            # Tautulli No Streams
-            - card: custom:button-card
-              cardOptions:
-                template: plex_no_streams
-                triggers_update:
-                  - sensor.tautulli
-              wider: true
-              widerSize: 3
-              conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli"].state > 0 ]]]'
-            # Tautulli User 1
-            - card: custom:button-card
-              cardOptions:
-                style: |
-                  .progress-bar {
-                    height: 100%;
-                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
-                  }
-                template: plex_stream_status
-                entity: sensor.tautulli_user1
-                triggers_update:
-                  - sensor.tautulli
-                  - input_text.tautulli_user1
-                variables:
-                  user: '[[[ return states["input_text.tautulli_user1"].state ]]]'
-              wider: true
-              widerSize: 3
-              conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user1"].state == "off" ]]]'
-            # Tautulli User 2
-            - card: custom:button-card
-              cardOptions:
-                style: |
-                  .progress-bar {
-                    height: 100%;
-                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
-                  }
-                template: plex_stream_status
-                entity: sensor.tautulli_user2
-                triggers_update:
-                  - sensor.tautulli
-                  - input_text.tautulli_user2
-                variables:
-                  user: '[[[ return states["input_text.tautulli_user2"].state ]]]'
-              wider: true
-              widerSize: 3
-              conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user2"].state == "off" ]]]'
-            # Tautulli User 3
-            - card: custom:button-card
-              cardOptions:
-                style: |
-                  .progress-bar {
-                    height: 100%;
-                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
-                  }
-                template: plex_stream_status
-                entity: sensor.tautulli_user3
-                triggers_update:
-                  - sensor.tautulli
-                  - input_text.tautulli_user3
-                variables:
-                  user: '[[[ return states["input_text.tautulli_user3"].state ]]]'
-              wider: true
-              widerSize: 3
-              conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user3"].state == "off" ]]]'
-            # Tautulli User 4
-            - card: custom:button-card
-              cardOptions:
-                style: |
-                  .progress-bar {
-                    height: 100%;
-                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
-                  }
-                template: plex_stream_status
-                entity: sensor.tautulli_user4
-                triggers_update:
-                  - sensor.tautulli
-                  - input_text.tautulli_user4
-                variables:
-                  user: '[[[ return states["input_text.tautulli_user4"].state ]]]'
-              wider: true
-              widerSize: 3
-              conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user4"].state == "off" ]]]'
-            # Tautulli User 5
-            - card: custom:button-card
-              cardOptions:
-                style: |
-                  .progress-bar {
-                    height: 100%;
-                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
-                  }
-                template: plex_stream_status
-                entity: sensor.tautulli_user5
-                triggers_update:
-                  - sensor.tautulli
-                  - input_text.tautulli_user5
-                variables:
-                  user: '[[[ return states["input_text.tautulli_user5"].state ]]]'
-              wider: true
-              widerSize: 3
-              conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user5"].state == "off" ]]]'
-            # Tautulli User 6
-            - card: custom:button-card
-              cardOptions:
-                style: |
-                  .progress-bar {
-                    height: 100%;
-                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
-                  }
-                template: plex_stream_status
-                entity: sensor.tautulli_user6
-                triggers_update:
-                  - sensor.tautulli
-                  - input_text.tautulli_user6
-                variables:
-                  user: '[[[ return states["input_text.tautulli_user6"].state ]]]'
-              wider: true
-              widerSize: 3
-              conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user6"].state == "off" ]]]'
-            # Tautulli User 7
-            - card: custom:button-card
-              cardOptions:
-                style: |
-                  .progress-bar {
-                    height: 100%;
-                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
-                  }
-                template: plex_stream_status
-                entity: sensor.tautulli_user7
-                triggers_update:
-                  - sensor.tautulli
-                  - input_text.tautulli_user7
-                variables:
-                  user: '[[[ return states["input_text.tautulli_user7"].state ]]]'
-              wider: true
-              widerSize: 3
-              conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user7"].state == "off" ]]]'
-            # Tautulli User 8
-            - card: custom:button-card
-              cardOptions:
-                style: |
-                  .progress-bar {
-                    height: 100%;
-                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
-                  }
-                template: plex_stream_status
-                entity: sensor.tautulli_user8
-                triggers_update:
-                  - sensor.tautulli
-                  - input_text.tautulli_user8
-                variables:
-                  user: '[[[ return states["input_text.tautulli_user8"].state ]]]'
-              wider: true
-              widerSize: 3
-              conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user8"].state == "off" ]]]'
-            # Tautulli User 9
-            - card: custom:button-card
-              cardOptions:
-                style: |
-                  .progress-bar {
-                    height: 100%;
-                    background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
-                  }
-                template: plex_stream_status
-                entity: sensor.tautulli_user9
-                triggers_update:
-                  - sensor.tautulli
-                  - input_text.tautulli_user9
-                variables:
-                  user: '[[[ return states["input_text.tautulli_user9"].state ]]]'
-              wider: true
-              widerSize: 3
-              conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user9"].state == "off" ]]]'
+#         - title: Streams
+#           collapse: true
+#           entities:
+#             # Tautulli No Streams
+#             - card: custom:button-card
+#               cardOptions:
+#                 template: plex_no_streams
+#                 triggers_update:
+#                   - sensor.tautulli
+#               wider: true
+#               widerSize: 3
+#               conditionalClass: '[[[ return "custom-card" ]]]'
+#               hide: '[[[ return states["sensor.tautulli"].state > 0 ]]]'
+#             # Tautulli User 1
+#             - card: custom:button-card
+#               cardOptions:
+#                 style: |
+#                   .progress-bar {
+#                     height: 100%;
+#                     background: {% if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity == "paused" %}rgba(150, 150, 150, 0.5){% else %}#E5A00D{% endif %};
+#                   }
+#                 template: plex_stream_status
+#                 entity: sensor.tautulli_user1
+#                 triggers_update:
+#                   - sensor.tautulli
+#                   - input_text.tautulli_user1
+#                 variables:
+#                   user: '[[[ return states["input_text.tautulli_user1"].state ]]]'
+#               wider: true
+#               widerSize: 3
+#               conditionalClass: '[[[ return "custom-card" ]]]'
+#               hide: '[[[ return states["sensor.tautulli_user1"].state == "off" ]]]'

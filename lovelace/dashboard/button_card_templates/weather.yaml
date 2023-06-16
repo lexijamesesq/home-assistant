@@ -68,5 +68,5 @@ weather:
         - text-align: left
         - font-size: 16px
         - font-weight: 400
-  custom_fields:
-    summary: '[[[ return states["sensor.dark_sky_minutely_summary"].state ]]]'
+#  custom_fields:
+#    summary: '[[[ return states["sensor.dark_sky_minutely_summary"].state ]]]'

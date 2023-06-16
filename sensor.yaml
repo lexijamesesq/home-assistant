@@ -8,12 +8,6 @@
 #   password: !secret plex_password
 #   server: !secret pms_server
 
-# Home Assistant Version
-- platform: version
-  source: local
-- platform: version
-  source: docker
-
 # Time & Date
 - platform: time_date
   display_options:
@@ -663,73 +657,13 @@
 
 
 # Tautulli Sensors
-- platform: template
-  sensors:
-    tautulli_count_transcode:
-      friendly_name: Stream Count (Transcode)
-      value_template: '{{ state_attr("sensor.tautulli", "stream_count_transcode") }}'
-    tautulli_direct_plays:
-      friendly_name: Stream Count (Direct Play)
-      value_template: '{{ state_attr("sensor.tautulli", "stream_count_direct_play") }}'
-    tautulli_direct_streams:
-      friendly_name: Stream Count (Direct Stream)
-      value_template: '{{ state_attr("sensor.tautulli", "stream_count_direct_stream") }}'
-    tautulli_total_streams:
-      friendly_name: Stream Count
-      value_template: '{{ state_attr("sensor.tautulli", "stream_count") }}'
-    tautulli_wan_bandwidth:
-      friendly_name: WAN Bandwidth
-      value_template: '{{ ((state_attr("sensor.tautulli", "wan_bandwidth") / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
-      unit_of_measurement: "Mbps"
-    tautulli_lan_bandwidth:
-      friendly_name: LAN Bandwidth
-      value_template: '{{ ((state_attr("sensor.tautulli", "lan_bandwidth") / 1000) | round(1) | string).rstrip("0").rstrip(".") }}'
-      unit_of_measurement: "Mbps"
+# - platform: template
+#   sensors:
     # Tautulli User 1
-    tautulli_user1:
-      friendly_name: !secret tautulli_user1_friendly_name
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user1")).user_thumb | default("/local/none.png") }}'
-    # Tautulli User 2
-    tautulli_user2:
-      friendly_name: !secret tautulli_user2_friendly_name
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user2")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user2")).user_thumb | default("/local/none.png") }}'
-    # Tautulli User 3
-    tautulli_user3:
-      friendly_name: !secret tautulli_user3_friendly_name
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user3")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user3")).user_thumb | default("/local/none.png") }}'
-    # Tautulli User 4
-    tautulli_user4:
-      friendly_name: !secret tautulli_user4_friendly_name
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user4")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user4")).user_thumb | default("/local/none.png") }}'
-    # Tautulli User 5
-    tautulli_user5:
-      friendly_name: !secret tautulli_user5_friendly_name
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user5")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user5")).user_thumb | default("/local/none.png") }}'
-    # Tautulli User 6
-    tautulli_user6:
-      friendly_name: !secret tautulli_user6_friendly_name
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user6")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user6")).user_thumb | default("/local/none.png") }}'
-    # Tautulli User 7
-    tautulli_user7:
-      friendly_name: !secret tautulli_user7_friendly_name
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user7")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user7")).user_thumb | default("/local/none.png") }}'
-    # Tautulli User 8
-    tautulli_user8:
-      friendly_name: !secret tautulli_user8_friendly_name
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user8")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user8")).user_thumb | default("/local/none.png") }}'
-    # Tautulli User 9
-    tautulli_user9:
-      friendly_name: !secret tautulli_user9_friendly_name
-      value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user9")).Activity | title }}'
-      entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user9")).user_thumb | default("/local/none.png") }}'
+#     tautulli_user1:
+#       friendly_name: !secret tautulli_user1_friendly_name
+#       value_template: '{{ "off" if state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity == none else state_attr("sensor.tautulli", states("input_text.tautulli_user1")).Activity | title }}'
+#       entity_picture_template: '{{ state_attr("sensor.tautulli", states("input_text.tautulli_user1")).user_thumb | default("/local/none.png") }}'
 
 - platform: rest
   name: Tautulli Plex Update Available
