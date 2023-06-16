@@ -56,12 +56,6 @@ recorder:
 
 
 history:
-  exclude:
-    domains:
-      - automation
-      - date
-      - script
-      - time
 
 
 logbook:
