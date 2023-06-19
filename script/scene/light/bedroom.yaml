@@ -56,12 +56,10 @@ scene_bedroom_alarm_dismissed:
   alias: Scene Bedroom Alarm Dismissed
   sequence:
     - service: script.turn_on
-      entity_id: script.update_lights
-      data:
-        variables:
-          lights:
-            - bedroom_tiles
-            - bedroom
+      entity_id:
+        - scene_bedroom_tiles_wakeup
+        - script.scene_bedroom_neutral_low
+
 
 ##############################################################
 # Bedroom Scenes
