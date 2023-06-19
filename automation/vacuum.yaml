@@ -14,6 +14,8 @@
       entity_id: binary_sensor.shark_cleaning_schedule
       state: 'on'
   action:
+    - wait_template: '{{ is_state("media_player.denon_avr_x4300h", "off") }}'
+      continue_on_timeout: false
     - service: vacuum.start
       data: {}
       target:
