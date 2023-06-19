@@ -110,33 +110,18 @@ Custom Dark:
           bottom: unset !important;
         }
       }
-    ha-app-layout$: |
-      /* This corrects top padding for the view. */
-      #contentContainer {
-        /* Change this to 0px if you want the header on the bottom */
-        /* padding-top: 48px !important; */
-      }
-      /* Styles for mobile */
-      @media (orientation: portrait) and (max-width: 405px),
-             (orientation: landscape) and (max-width: 950px) {
-        /* Display the header on the bottom */
-        #contentContainer {
-          padding-top: 0px !important;
-          padding-bottom: 4px !important;
-        }
-      }
     .: |
       /* Let's change the background. */
-      app-header, app-toolbar {
+      .header, .toolbar {
         background: var(--secondary-background-color) !important;
         color: var(--secondary-text-color) !important;
       }
       /* We're still going to need a way to see that we're in edit mode. */
-      app-header.edit-mode {
+      .header.edit-mode {
         padding-bottom: calc(var(--ha-card-border-width, 2px) * 2);
         border-bottom: var(--ha-card-border-width, 2px) solid var(--primary-color);
       }
-      app-toolbar {
+      .toolbar {
         height: 48px;
       }
       /* This changes the color of the currently selected tab. */
@@ -167,28 +152,28 @@ Custom Dark:
         display: none;
       }
       /* This hides the app-toolbar in edit mode. */
-      app-toolbar.edit-mode {
+      .toolbar.edit-mode {
         height: 0;
       }
       /* This moves the edit mode buttons back in. */
-      app-toolbar.edit-mode > mwc-icon-button {
+      .toolbar.edit-mode > mwc-icon-button {
         position: absolute;
         left: 0;
         top: 0;
         z-index: 1;
       }
-      app-toolbar.edit-mode > ha-button-menu {
+      .toolbar.edit-mode > ha-button-menu {
         position: absolute;
         right: 0;
         top: 0;
         z-index: 1;
       }
       /* This adds a bit more padding, mainly for unused entities. */
-      app-header.edit-mode > div {
+      .header.edit-mode > div {
         padding-left: 5px;
       }
       /* Uncomment this for header on the bottom. You're 3/3 there.
-      app-header {
+      .header {
         top: calc(100vh - 60px) !important;
         bottom: 0 !important;
         transform: unset !important;
@@ -198,12 +183,16 @@ Custom Dark:
       @media (orientation: portrait) and (max-width: 405px),
              (orientation: landscape) and (max-width: 950px) {
         /* Display the header on the bottom */
-        app-header {
+        .header {
           top: calc(100vh - 72px) !important;
           bottom: 0 !important;
           transform: unset !important;
         }
-        app-toolbar {
+        #view {
+          padding-top: 0 !important;
+          padding-bottom: 4px !important;
+        }
+        .toolbar {
           transform: unset !important;
         }
         hui-view {
