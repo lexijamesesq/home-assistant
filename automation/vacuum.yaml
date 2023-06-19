@@ -1,0 +1,20 @@
+##############################################################
+# Shark Vacuum
+##############################################################
+# Downstairs Schedule ########################################
+- alias: Vacuum - Downstairs Weekday Cleaning
+  trigger:
+    - platform: time
+      at: "09:00:00"
+  condition:
+    - condition: state
+      entity_id: group.residents
+      state: 'home'
+    - condition: state
+      entity_id: binary_sensor.shark_cleaning_schedule
+      state: 'on'
+  action:
+    - service: vacuum.start
+      data: {}
+      target:
+        entity_id: vacuum.mr_ray
