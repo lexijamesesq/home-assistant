@@ -140,7 +140,7 @@ card:
               wider: true
               widerSize: 3
               conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user1"].state != "playing" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user1"].state == "unknown" ]]]'
             # Tautulli User 2
             - card: custom:button-card
               cardOptions:
@@ -156,7 +156,7 @@ card:
               wider: true
               widerSize: 3
               conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user2"].state != "playing" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user2"].state == "unknown" ]]]'
             # Tautulli User 3
             - card: custom:button-card
               cardOptions:
@@ -172,7 +172,7 @@ card:
               wider: true
               widerSize: 3
               conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user3"].state != "playing" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user3"].state == "unknown" ]]]'
             # Tautulli User 4
             - card: custom:button-card
               cardOptions:
@@ -188,7 +188,7 @@ card:
               wider: true
               widerSize: 3
               conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user4"].state != "playing" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user4"].state == "unknown" ]]]'
             # Tautulli User 5
             - card: custom:button-card
               cardOptions:
@@ -204,7 +204,7 @@ card:
               wider: true
               widerSize: 3
               conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user5"].state != "playing" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user5"].state == "unknown" ]]]'
             # Tautulli User 6
             - card: custom:button-card
               cardOptions:
@@ -220,7 +220,7 @@ card:
               wider: true
               widerSize: 3
               conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user6"].state != "playing" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user6"].state == "unknown" ]]]'
             # Tautulli User 7
             - card: custom:button-card
               cardOptions:
@@ -236,7 +236,7 @@ card:
               wider: true
               widerSize: 3
               conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user7"].state != "playing" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user7"].state == "unknown" ]]]'
             # Tautulli User 8
             - card: custom:button-card
               cardOptions:
@@ -252,4 +252,4 @@ card:
               wider: true
               widerSize: 3
               conditionalClass: '[[[ return "custom-card" ]]]'
-              hide: '[[[ return states["sensor.tautulli_user8"].state != "playing" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user8"].state == "unknown" ]]]'
