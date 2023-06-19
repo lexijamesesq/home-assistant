@@ -6,40 +6,33 @@ plex_stream_status:
   show_entity_picture: true
   tap_action:
     action: none
-  name: >
-    [[[
-      if(states["sensor.tautulli"].attributes[variables.user].friendly_name != "")
-        return states["sensor.tautulli"].attributes[variables.user].friendly_name;
-      else
-        return variables.user
-    ]]]
+  name: '[[[ return entity.attributes.name ]]]'
   label: >
     [[[
-      if(states["sensor.tautulli"].attributes[variables.user].Activity != null)
-        if(states["sensor.tautulli"].attributes[variables.user].Activity == "paused")
-          return `<ha-icon
-            icon="mdi:pause"
-            style="width: 24px; height: 24px; margin-right: 4px; margin-bottom: 2px;">
-            </ha-icon><span>${states["sensor.tautulli"].attributes[variables.user].full_title}</span>`;
-        else
-          return `<ha-icon
-            icon="mdi:play"
-            style="width: 24px; height: 24px; margin-right: 4px; margin-bottom: 2px;">
-            </ha-icon><span>${states["sensor.tautulli"].attributes[variables.user].full_title}</span>`
+      if(entity.state == "playing")
+        return `<ha-icon
+          icon="mdi:play"
+          style="width: 24px; height: 24px; margin-right: 4px; margin-bottom: 2px;">
+          </ha-icon><span>${entity.attributes.full_title }</span>`
+      else
+        return `<ha-icon
+          icon="mdi:pause"
+          style="width: 24px; height: 24px; margin-right: 4px; margin-bottom: 2px;">
+          </ha-icon><span>${entity.attributes.full_title }</span>`;
     ]]]
-  entity_picture: '[[[ return states["sensor.tautulli"].attributes[variables.user].user_thumb ]]]'
+  entity_picture: '[[[ return entity.attributes.session_thumbnail ]]]'
   custom_fields:
     quality: >-
       [[[
         var quality = ``;
-        quality += `<div>${states["sensor.tautulli"].attributes[variables.user].stream_video_resolution.replace("4k", "4K").replace("1080", "1080p").replace("720", "720p").replace("480", "480p").replace("sd", "SD")}</div>`;
-        quality += `<div>${states["sensor.tautulli"].attributes[variables.user].transcode_decision.replace("copy", "Direct Stream")}</div>`;
+        quality += `<div>${entity.attributes.video_resolution}</div>`;
+        quality += `<div>${entity.attributes.transcode_decision}</div>`;
         return quality;
       ]]]
     progress: >
       [[[
-        if(states["sensor.tautulli"].attributes[variables.user].progress_percent != "")
-          return `<div class="progress-bar" style="width: ${states["sensor.tautulli"].attributes[variables.user].progress_percent}%"></div>`;
+        if(entity.attributes.progress != "unknown")
+          return `<div class="progress-bar" style="width: ${entity.attributes.progress}%"></div>`;
         else
           return `<div class="progress-bar" style="width: 0%"></div>`
       ]]]
