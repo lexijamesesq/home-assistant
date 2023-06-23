@@ -110,7 +110,7 @@ card:
       show_name: false
       styles:
         grid:
-          - grid-template-areas: '"home" "sonos" "lights" "cameras"'
+          - grid-template-areas: '"home" "sonos" "lights"'
           - grid-template-rows: auto auto auto auto
           - grid-template-columns: 1fr
         card:
@@ -121,8 +121,6 @@ card:
           sonos:
             - margin: 0 20px
           lights:
-            - margin: 0 20px
-          cameras:
             - margin: 0 20px
       custom_fields:
         home:
@@ -158,17 +156,6 @@ card:
             tap_action:
               action: navigate
               navigation_path: lights
-        cameras:
-          card:
-            type: custom:button-card
-            template: navigation
-            icon: mdi:cctv
-            name: Cameras
-            variables:
-              view: cameras
-            tap_action:
-              action: navigate
-              navigation_path: cameras
     - type: custom:mod-card
       card_mod:
         style: |
