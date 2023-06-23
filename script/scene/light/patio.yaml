@@ -8,9 +8,17 @@
 
 scene_patio_sunset_high:
   alias: Scene Patio Sunset High
+  variables:
+    holiday: '{{ is_state("calendar.holiday_lighting", "on") }}'
   sequence:
-    - service: script.turn_on
-      entity_id: script.scene_patio_neutral
+    - choose:
+        - conditions: '{{ holiday and is_state_attr("calendar.holiday_lighting", "message", "holiday name") }}'
+          sequence:
+            - service: script.turn_on
+              entity_id: script.scene_patio_neutral
+      default:
+        - service: script.turn_on
+          entity_id: script.scene_patio_neutral
 
 
 # Indirect Scenes ############################################
@@ -44,6 +52,8 @@ scene_patio_neutral:
         - light.patio_1
         - light.patio_2
         - light.patio_3
+        - light.upstairs_patio_1
+        - light.upstairs_patio_2
       data:
         transition: 2
         brightness: 35
