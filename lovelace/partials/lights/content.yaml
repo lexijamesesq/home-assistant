@@ -114,6 +114,8 @@ card:
               name: Den
             - entity: light.den_cabinets
               name: Den Cabinets
+            - entity: light.upstairs_patio_lights
+              name: Patio
             - entity: light.upstairs_patio_string_lights
               name: Patio String
             - entity: light.guest_bedroom_closet_lights
