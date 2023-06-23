@@ -128,8 +128,6 @@ card:
                       name: Bedroom
                     - entity: light.bedroom_tiles
                       name: Bedroom Tiles
-                    - entity: light.bedroom_closet_lights
-                      name: Bedroom Closet
                     - entity: light.laundry_lights
                       name: Laundry
                     - entity: light.den_hallway
@@ -138,7 +136,7 @@ card:
                       name: Den
                     - entity: light.den_cabinets
                       name: Den Cabinets
+                    - entity: light.upstairs_patio_lights
+                      name: Patio
                     - entity: light.upstairs_patio_string_lights
                       name: Patio String
-                    - entity: light.guest_bedroom_closet_lights
-                      name: Guest Bed Closet
