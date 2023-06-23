@@ -47,18 +47,4 @@ views:
       - !include lovelace/dashboard/partials/sidebar.yaml
       - !include lovelace/dashboard/partials/lights.yaml
 
-  - type: custom:grid-layout
-    path: cameras
-    theme: Tablet Dashboard
-    background: center / cover no-repeat fixed url('/local/dashboard/bg.png')
-    popup_cards: !include_dir_merge_named lovelace/dashboard/popups/cameras/
-    layout:
-      grid-template-columns: auto auto
-      grid-template-rows: auto
-      grid-template-areas: |
-        "sidebar  content"
-    cards:
-      - !include lovelace/dashboard/partials/sidebar.yaml
-      - !include lovelace/dashboard/partials/cameras.yaml
-
 button_card_templates: !include_dir_merge_named lovelace/dashboard/button_card_templates
