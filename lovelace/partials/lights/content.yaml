@@ -80,7 +80,7 @@ card:
               name: Downstairs Hallway
             - entity: light.kitchen
               name: Kitchen
-            - entity: light.patio_lights
+            - entity: light.downstairs_patio_lights
               name: Patio
             - entity: light.downstairs_patio_string_lights
               name: Patio String

@@ -340,6 +340,8 @@ binary_sensor.downstairs_hallway_trisensor_sensor:
   device_class: motion
 light.patio_lights:
   icon: mdi:lightbulb
+light.downstairs_patio_lights:
+  icon: mdi:lightbulb
 light.bedroom_lights:
   icon: mdi:lightbulb
 light.den_cabinets:

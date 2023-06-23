@@ -221,6 +221,8 @@ emulated_hue:
       hidden: false
     light.upstairs_hallway:
       hidden: false
+    light.downstairs_patio_lights:
+      hidden: false
     light.upstairs_patio_lights:
       hidden: false
     light.upstairs_patio_string_lights:
@@ -245,43 +247,6 @@ nest:
 
 
 light:
-  - platform: group
-    name: Patio Lights
-    entities:
-      - light.patio_1
-      - light.patio_2
-      - light.patio_3
-  - platform: group
-    name: Patio String Lights
-    entities:
-      - light.downstairs_patio_string_lights
-      - light.upstairs_patio_string_lights
-  - platform: group
-    name: Upstairs Hallway Group Lights
-    entities:
-      - light.main_stairs
-      - light.upstairs_hallway
-      - light.bedroom_hallway
-  - platform: group
-    name: Bedroom Lights
-    entities:
-      - light.bedroom_1
-      - light.bedroom_2
-  - platform: group
-    name: Den Cabinets
-    entities:
-      - light.den_cabinet_1
-      - light.den_cabinet_2
-  - platform: group
-    name: Den Lights
-    entities:
-      - light.den_1
-      - light.den_2
-  - platform: group
-    name: Upstairs Patio Lights
-    entities:
-      - light.upstairs_patio_1
-      - light.upstairs_patio_2
   - platform: switch
     name: Garage Lights
     entity_id: switch.garage_lights
@@ -399,6 +364,7 @@ homekit:
       - sensor.upstairs_thermostat_humidity
     exclude_entities:
       - light.patio_lights
+      - light.downstairs_patio_lights
       - light.den_lights
       - light.den_cabinets
       - light.bedroom_lights
