@@ -94,12 +94,8 @@ card:
               name: Rec Room Canvas
         - title: Upstairs
           entities:
-            - entity: light.main_stairs
-              name: Main Stairs
-            - entity: light.upstairs_hallway
+            - entity: light.upstairs_hallway_group_lights
               name: Upstairs Hallway
-            - entity: light.bedroom_hallway
-              name: Bedroom Hallway
             - entity: light.bedroom_lights
               name: Bedroom
             - entity: light.bedroom_tiles

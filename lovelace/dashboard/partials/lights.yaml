@@ -118,16 +118,14 @@ card:
               entities:
                 - title: Upstairs
                   entities:
-                    - entity: light.main_stairs
-                      name: Main Stairs
-                    - entity: light.upstairs_hallway
+                    - entity: light.upstairs_hallway_group_lights
                       name: Upstairs Hallway
-                    - entity: light.bedroom_hallway
-                      name: Bedroom Hallway
                     - entity: light.bedroom_lights
                       name: Bedroom
                     - entity: light.bedroom_tiles
                       name: Bedroom Tiles
+                    - entity: light.bedroom_closet_lights
+                      name: Bedroom Closet
                     - entity: light.laundry_lights
                       name: Laundry
                     - entity: light.den_hallway
@@ -140,3 +138,5 @@ card:
                       name: Patio
                     - entity: light.upstairs_patio_string_lights
                       name: Patio String
+                    - entity: light.guest_bedroom_closet_lights
+                      name: Guest Bed Closet
