@@ -26,7 +26,7 @@ all_lights:
     - light.garage_stairs
     - light.downstairs_hallway
     - light.kitchen
-    - light.patio_lights
+    - light.downstairs_patio_lights
     - light.downstairs_patio_string_lights
     - light.living_room
     - light.living_room_tv
@@ -42,6 +42,7 @@ all_lights:
     - light.den_hallway
     - light.den_lights
     - light.den_cabinets
+    - light.upstairs_patio_lights
     - light.upstairs_patio_string_lights
     - light.guest_bedroom_closet_lights
 
@@ -69,8 +70,9 @@ inside_lights:
 
 outside_lights:
   entities:
-    - light.patio_lights
+    - light.downstairs_patio_lights
     - light.downstairs_patio_string_lights
+    - light.uptairs_patio_lights
     - light.upstairs_patio_string_lights
 
 garage_lights:
@@ -82,7 +84,7 @@ downstairs_lights:
   entities:
     - light.downstairs_hallway
     - light.kitchen
-    - light.patio_lights
+    - light.downstairs_patio_lights
     - light.downstairs_patio_string_lights
     - light.living_room
     - light.living_room_tv
@@ -101,6 +103,7 @@ upstairs_lights:
     - light.den_hallway
     - light.den_lights
     - light.den_cabinets
+    - light.upstairs_patio_lights
     - light.upstairs_patio_string_lights
     - light.guest_bedroom_closet_lights
 
