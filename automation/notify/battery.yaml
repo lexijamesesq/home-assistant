@@ -8,31 +8,31 @@
       entity_id:
         - sensor.august_web_front_door_battery
         - sensor.august_web_garage_door_battery
-        - sensor.garage_motion_sensor_battery_level
+        - sensor.garage_motion_battery_level
         - sensor.garage_stairs_multisensor_battery_level
         - sensor.downstairs_hallway_trisensor_battery_level
         - sensor.main_stairs_multisensor_battery_level
-        - sensor.bedroom_closet_door_sensor_battery_level
+        - sensor.bedroom_closet_door_battery_level
         - sensor.bedroom_closet_trisensor_battery_level
-        - sensor.laundry_door_left_sensor_battery_level
-        - sensor.laundry_door_right_sensor_battery_level
-        - sensor.den_multisensor_sensor_battery_level
-        - sensor.guest_bedroom_closet_door_sensor_battery_level
+        - sensor.laundry_door_left_battery_level
+        - sensor.laundry_door_right_battery_level
+        - sensor.den_multisensor_battery_level
+        - sensor.guest_bedroom_closet_door_battery_level
         - sensor.server_rack_ups_battery_charge
-      below: 50
+      below: 40
       for:
         hours: 1
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
         title: "Condo"
-        message: "The {{ trigger.to_state.attributes.friendly_name }} battery is at {{ trigger.to_state.state }}%. A task to replace it has been added to Things."
+        message: "The {{ trigger.to_state.attributes.friendly_name.replace('Battery level', '').replace('Battery Charege', '').replace('Battery', '') }} battery is at {{ trigger.to_state.state }}%. A task to replace it has been added to Things."
         data:
           push:
             thread-id: "ha-condo-group"
             sound: "gesture.wav"
     - service: rest_command.things_add_task
       data:
-        title: "Replace {{ trigger.to_state.attributes.friendly_name }} Battery"
+        title: "Replace {{ trigger.to_state.attributes.friendly_name.replace('Battery level', '').replace('Battery Charege', '').replace('Battery', '') }} Battery"
         when: "Today"
         list: "Maintenance"

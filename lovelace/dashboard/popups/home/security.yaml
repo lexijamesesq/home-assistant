@@ -1,200 +1,177 @@
-sensor.dashboard_home_state:
-  title: "Modes"
-  style:
-    $: |
-      .mdc-dialog {
-        backdrop-filter: initial;
-      }
-      .mdc-dialog .mdc-dialog__container {
-        width: 100%;
-      }
-      .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-        width: 925px;
-        box-shadow: none;
-      }
-      .mdc-dialog__scrim {
-        backdrop-filter: blur(10px);
-      }
-    .: |
-      :host {
-        --mdc-theme-surface: rgba(0, 0, 0, 0);
-        --secondary-background-color: rgba(0, 0, 0, 0);
-        --ha-card-background: rgba(0, 0, 0, 0);
-        --mdc-dialog-scrim-color: rgba(0, 0, 0, .8);
-        --mdc-dialog-min-width: 100%;
-        --mdc-dialog-max-width: 100%;
-      }
-      app-toolbar {
-        display: none;
-      }
-      .content {
-        width: inherit !important;
-        margin: 0 !important;
-      }
-  card:
-    type: "custom:homekit-card"
-    style: |
-      :host {
-        --vertical-stack-card-margin: 0;
-        --tile-background: rgba(135, 135, 135, 0.3);
-        --tile-name-text-color: rgba(255, 255, 255, 0.6);
-        --tile-state-text-color: rgba(255, 255, 255, 0.6);
-        --tile-icon-color: rgba(255, 255, 255, 0.6);
-        --tile-on-icon-color: rgba(0, 0, 0, 0.6);
-      }
-      .container {
-        font-family: 'SF Pro Display';
-      }
-      homekit-button.custom-card {
-        background-color: inherit !important;
-      }
-      homekit-button.custom-card button-card {
-        margin: -10px;
-      }
-      homekit-button .icon {
-        line-height: calc(var(--tile-icon-size, 30px) + 2px) !important;
-        text-align: inherit !important;
-      }
-      homekit-button .name {
-        font-size: 15px !important;
-      }
-      homekit-button .state {
-        height: 20px;
-      }
-      .card-title {
-        font-size: 24px !important;
-        font-weight: 300 !important;
-        padding-top: 0 !important;
-        padding-bottom: 16px;
-      }
-      .row {
-        justify-content: center;
-      }
-    enableColumns: true
-    rows:
-      - row: 1
-        columns:
-          - column: 1
-            tileOnRow: 3
-            entities:
-              - title: Doors
-                entities:
-                  - card: custom:button-card
-                    cardOptions:
-                      template: security
-                      entity: cover.garage_actual
-                      name: Garage Actual
-                    conditionalClass: '[[[ return "custom-card" ]]]'
-                    tap_action:
-                      action: toggle
-                  - card: custom:button-card
-                    cardOptions:
-                      template: security
-                      entity: lock.august_web_garage_door
-                      name: Garage
-                      icon: >
-                        [[[
-                          if(variables.door == "on")
-                            return "mdi:door-open";
-                          if(entity.state == "unlocked")
-                            return "mdi:lock-open";
-                          if(entity.state == "locked")
-                            return "mdi:door-closed-lock";
-                          else
-                            return "mdi:door-closed"
-                        ]]]
-                      variables:
-                        door: '[[[ return states["binary_sensor.garage_door"].state ]]]'
-                    conditionalClass: '[[[ return "custom-card" ]]]'
-                    tap_action:
-                      action: toggle
-                  - card: custom:button-card
-                    cardOptions:
-                      template: security
-                      entity: lock.august_web_front_door
-                      name: Front
-                      icon: >
-                        [[[
-                          if(variables.door == "on")
-                            return "mdi:door-open";
-                          if(entity.state == "unlocked")
-                            return "mdi:lock-open";
-                          if(entity.state == "locked")
-                            return "mdi:door-closed-lock";
-                          else
-                            return "mdi:door-closed"
-                        ]]]
-                      variables:
-                        door: '[[[ return states["binary_sensor.front_door"].state ]]]'
-                    conditionalClass: '[[[ return "custom-card" ]]]'
-                    tap_action:
-                      action: toggle
-                  - card: custom:button-card
-                    cardOptions:
-                      template: security
-                      entity: binary_sensor.patio_door
-                      name: Patio
-                    conditionalClass: '[[[ return "custom-card" ]]]'
-                    tap_action:
-                      action: none
-                  - card: custom:button-card
-                    cardOptions:
-                      template: security
-                      entity: binary_sensor.den_door
-                      name: Den
-                    conditionalClass: '[[[ return "custom-card" ]]]'
-                    tap_action:
-                      action: none
-          - column: 2
-            tileOnRow: 3
-            entities:
-              - title: Windows
-                entities:
-                  - card: custom:button-card
-                    cardOptions:
-                      template: security
-                      entity: binary_sensor.kitchen_windows
-                      name: Kitchen
-                    conditionalClass: '[[[ return "custom-card" ]]]'
-                    tap_action:
-                      action: none
-                  - card: custom:button-card
-                    cardOptions:
-                      template: security
-                      entity: binary_sensor.living_room_windows
-                      name: Kitchen
-                    conditionalClass: '[[[ return "custom-card" ]]]'
-                    tap_action:
-                      action: none
-                  - card: custom:button-card
-                    cardOptions:
-                      template: security
-                      entity: binary_sensor.rec_room_windows
-                      name: Kitchen
-                    conditionalClass: '[[[ return "custom-card" ]]]'
-                    tap_action:
-                      action: none
-                  - card: custom:button-card
-                    cardOptions:
-                      template: security
-                      entity: binary_sensor.bedroom_windows
-                      name: Kitchen
-                    conditionalClass: '[[[ return "custom-card" ]]]'
-                    tap_action:
-                      action: none
-                  - card: custom:button-card
-                    cardOptions:
-                      template: security
-                      entity: binary_sensor.den_windows
-                      name: Kitchen
-                    conditionalClass: '[[[ return "custom-card" ]]]'
-                    tap_action:
-                      action: none
-                  - card: custom:button-card
-                    cardOptions:
-                      template: security
-                      entity: binary_sensor.guest_bedroom_windows
-                      name: Kitchen
-                    conditionalClass: '[[[ return "custom-card" ]]]'
-                    tap_action:
-                      action: none
+type: "custom:popup-card"
+style: |
+  --popup-min-width: 900px;
+  --popup-max-width: 925px;
+  --popup-border-width: 0px;
+  --dialog-surface-margin-top: 140px;
+  --primary-font-family:  'SF Pro Display';
+  --ha-card-border-width: 0px;
+title: Security
+entity: sensor.dashboard_home_state
+card:
+  type: "custom:homekit-card"
+  style: |
+    :host {
+      --vertical-stack-card-margin: 0;
+      --tile-background: rgba(135, 135, 135, 0.3);
+      --tile-name-text-color: rgba(255, 255, 255, 0.6);
+      --tile-state-text-color: rgba(255, 255, 255, 0.6);
+      --tile-icon-color: rgba(255, 255, 255, 0.6);
+      --tile-on-icon-color: rgba(0, 0, 0, 0.6);
+    }
+    .container {
+      font-family: 'SF Pro Display';
+    }
+    homekit-button.custom-card {
+      background-color: inherit !important;
+    }
+    homekit-button.custom-card button-card {
+      margin: -10px;
+    }
+    homekit-button .icon {
+      line-height: calc(var(--tile-icon-size, 30px) + 2px) !important;
+      text-align: inherit !important;
+    }
+    homekit-button .name {
+      font-size: 15px !important;
+    }
+    homekit-button .state {
+      height: 20px;
+    }
+    .card-title {
+      font-size: 24px !important;
+      font-weight: 300 !important;
+      padding-top: 0 !important;
+      padding-bottom: 16px;
+    }
+    .row {
+      justify-content: center;
+    }
+  enableColumns: true
+  rows:
+    - row: 1
+      columns:
+        - column: 1
+          tileOnRow: 3
+          entities:
+            - title: Doors
+              entities:
+                - card: custom:button-card
+                  cardOptions:
+                    template: security
+                    entity: cover.garage_actual
+                    name: Garage Actual
+                  conditionalClass: '[[[ return "custom-card" ]]]'
+                  tap_action:
+                    action: toggle
+                - card: custom:button-card
+                  cardOptions:
+                    template: security
+                    entity: lock.august_web_garage_door
+                    name: Garage
+                    icon: >
+                      [[[
+                        if(variables.door == "on")
+                          return "mdi:door-open";
+                        if(entity.state == "unlocked")
+                          return "mdi:lock-open";
+                        if(entity.state == "locked")
+                          return "mdi:door-closed-lock";
+                        else
+                          return "mdi:door-closed"
+                      ]]]
+                    variables:
+                      door: '[[[ return states["binary_sensor.garage_door"].state ]]]'
+                  conditionalClass: '[[[ return "custom-card" ]]]'
+                  tap_action:
+                    action: toggle
+                - card: custom:button-card
+                  cardOptions:
+                    template: security
+                    entity: lock.august_web_front_door
+                    name: Front
+                    icon: >
+                      [[[
+                        if(variables.door == "on")
+                          return "mdi:door-open";
+                        if(entity.state == "unlocked")
+                          return "mdi:lock-open";
+                        if(entity.state == "locked")
+                          return "mdi:door-closed-lock";
+                        else
+                          return "mdi:door-closed"
+                      ]]]
+                    variables:
+                      door: '[[[ return states["binary_sensor.front_door"].state ]]]'
+                  conditionalClass: '[[[ return "custom-card" ]]]'
+                  tap_action:
+                    action: toggle
+                - card: custom:button-card
+                  cardOptions:
+                    template: security
+                    entity: binary_sensor.patio_door
+                    name: Patio
+                  conditionalClass: '[[[ return "custom-card" ]]]'
+                  tap_action:
+                    action: none
+                - card: custom:button-card
+                  cardOptions:
+                    template: security
+                    entity: binary_sensor.den_door
+                    name: Den
+                  conditionalClass: '[[[ return "custom-card" ]]]'
+                  tap_action:
+                    action: none
+        - column: 2
+          tileOnRow: 3
+          entities:
+            - title: Windows
+              entities:
+                - card: custom:button-card
+                  cardOptions:
+                    template: security
+                    entity: binary_sensor.kitchen_windows
+                    name: Kitchen
+                  conditionalClass: '[[[ return "custom-card" ]]]'
+                  tap_action:
+                    action: none
+                - card: custom:button-card
+                  cardOptions:
+                    template: security
+                    entity: binary_sensor.living_room_windows
+                    name: Kitchen
+                  conditionalClass: '[[[ return "custom-card" ]]]'
+                  tap_action:
+                    action: none
+                - card: custom:button-card
+                  cardOptions:
+                    template: security
+                    entity: binary_sensor.rec_room_windows
+                    name: Kitchen
+                  conditionalClass: '[[[ return "custom-card" ]]]'
+                  tap_action:
+                    action: none
+                - card: custom:button-card
+                  cardOptions:
+                    template: security
+                    entity: binary_sensor.bedroom_windows
+                    name: Kitchen
+                  conditionalClass: '[[[ return "custom-card" ]]]'
+                  tap_action:
+                    action: none
+                - card: custom:button-card
+                  cardOptions:
+                    template: security
+                    entity: binary_sensor.den_windows
+                    name: Kitchen
+                  conditionalClass: '[[[ return "custom-card" ]]]'
+                  tap_action:
+                    action: none
+                - card: custom:button-card
+                  cardOptions:
+                    template: security
+                    entity: binary_sensor.guest_bedroom_windows
+                    name: Kitchen
+                  conditionalClass: '[[[ return "custom-card" ]]]'
+                  tap_action:
+                    action: none

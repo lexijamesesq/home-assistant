@@ -1,125 +1,101 @@
-sensor.dashboard_current_mode:
-  title: "Modes"
-  style:
-    $: |
-      .mdc-dialog {
-        backdrop-filter: initial;
-      }
-      .mdc-dialog .mdc-dialog__container {
-        width: 100%;
-      }
-      .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-        width: 850px;
-        box-shadow: none;
-      }
-      .mdc-dialog__scrim {
-        backdrop-filter: blur(10px);
-      }
-    .: |
-      :host {
-        --mdc-theme-surface: rgba(0, 0, 0, 0);
-        --secondary-background-color: rgba(0, 0, 0, 0);
-        --ha-card-background: rgba(0, 0, 0, 0);
-        --mdc-dialog-scrim-color: rgba(0, 0, 0, .8);
-        --mdc-dialog-min-width: 100%;
-        --mdc-dialog-max-width: 100%;
-      }
-      app-toolbar {
-        display: none;
-      }
-      .content {
-        width: inherit !important;
-        margin: 0 !important;
-      }
-  card:
-    type: "custom:homekit-card"
-    style: |
-      :host {
-        --vertical-stack-card-margin: 0;
-        --tile-background: rgba(135, 135, 135, 0.3);
-        --tile-name-text-color: rgba(255, 255, 255, 0.6);
-        --tile-state-text-color: rgba(255, 255, 255, 0.6);
-        --tile-icon-color: rgba(255, 255, 255, 0.6);
-        --tile-on-icon-color: rgba(0, 0, 0, 0.6);
-      }
-      .container {
-        font-family: 'SF Pro Display';
-      }
-      homekit-button .icon {
-        line-height: calc(var(--tile-icon-size, 30px) + 2px) !important;
-        text-align: inherit !important;
-      }
-      homekit-button .name {
-        font-size: 15px !important;
-      }
-      homekit-button .state {
-        height: 20px;
-      }
-      .card-title {
-        font-size: 24px !important;
-        font-weight: 300 !important;
-        padding-top: 0 !important;
-        padding-bottom: 16px;
-      }
-      .row {
-        justify-content: center;
-      }
-    enableColumns: true
-    rows:
-      - row: 1
-        columns:
-          - column: 1
-            tileOnRow: 2
-            entities:
-              - title: User
-                entities:
-                  - entity: input_boolean.mode_guest
-                    name: Guest
-                    hideState: true
-                    hold_action:
-                      action: none
-                  - entity: input_boolean.mode_home_theater
-                    name: Home Theater
-                    hideState: true
-                    hold_action:
-                      action: none
-                  - entity: input_boolean.mode_sleep
-                    name: Sleep
-                    hideState: true
-                    hold_action:
-                      action: none
-          - column: 2
-            tileOnRow: 2
-            entities:
-              - title: Home
-                entities:
-                  - entity: sensor.mode_morning
-                    name: Morning
-                    hideState: true
-                    hold_action:
-                      action: none
-                  - entity: sensor.mode_day
-                    name: Day
-                    hideState: true
-                    hold_action:
-                      action: none
-                  - entity: sensor.mode_sunset
-                    name: Sunset
-                    hideState: true
-                    hold_action:
-                      action: none
-                  - entity: sensor.mode_night
-                    name: Night
-                    hideState: true
-                    hold_action:
-                      action: none
-          - column: 3
-            tileOnRow: 1
-            entities:
-              - title: Security
-                entities:
-                  - entity: sensor.mode_simulate_presence
-                    name: Presence
-                    hideState: true
-                    hold_action:
-                      action: none
+type: "custom:popup-card"
+style: |
+  --popup-min-width: 825px;
+  --popup-max-width: 850px;
+  --popup-border-width: 0px;
+  --dialog-surface-margin-top: 140px;
+  --primary-font-family:  'SF Pro Display';
+title: Modes
+entity: sensor.dashboard_current_mode
+card:
+  type: "custom:homekit-card"
+  style: |
+    :host {
+      --vertical-stack-card-margin: 0;
+      --tile-background: rgba(135, 135, 135, 0.3);
+      --tile-name-text-color: rgba(255, 255, 255, 0.6);
+      --tile-state-text-color: rgba(255, 255, 255, 0.6);
+      --tile-icon-color: rgba(255, 255, 255, 0.6);
+      --tile-on-icon-color: rgba(0, 0, 0, 0.6);
+    }
+    .container {
+      font-family: 'SF Pro Display';
+    }
+    homekit-button .icon {
+      line-height: calc(var(--tile-icon-size, 30px) + 2px) !important;
+      text-align: inherit !important;
+    }
+    homekit-button .name {
+      font-size: 15px !important;
+    }
+    homekit-button .state {
+      height: 20px;
+    }
+    .card-title {
+      font-size: 24px !important;
+      font-weight: 300 !important;
+      padding-top: 0 !important;
+      padding-bottom: 16px;
+    }
+    .row {
+      justify-content: center;
+    }
+  enableColumns: true
+  rows:
+    - row: 1
+      columns:
+        - column: 1
+          tileOnRow: 2
+          entities:
+            - title: User
+              entities:
+                - entity: input_boolean.mode_guest
+                  name: Guest
+                  hideState: true
+                  hold_action:
+                    action: none
+                - entity: input_boolean.mode_home_theater
+                  name: Home Theater
+                  hideState: true
+                  hold_action:
+                    action: none
+                - entity: input_boolean.mode_sleep
+                  name: Sleep
+                  hideState: true
+                  hold_action:
+                    action: none
+        - column: 2
+          tileOnRow: 2
+          entities:
+            - title: Home
+              entities:
+                - entity: sensor.mode_morning
+                  name: Morning
+                  hideState: true
+                  hold_action:
+                    action: none
+                - entity: sensor.mode_day
+                  name: Day
+                  hideState: true
+                  hold_action:
+                    action: none
+                - entity: sensor.mode_sunset
+                  name: Sunset
+                  hideState: true
+                  hold_action:
+                    action: none
+                - entity: sensor.mode_night
+                  name: Night
+                  hideState: true
+                  hold_action:
+                    action: none
+        - column: 3
+          tileOnRow: 1
+          entities:
+            - title: Security
+              entities:
+                - entity: sensor.mode_simulate_presence
+                  name: Presence
+                  hideState: true
+                  hold_action:
+                    action: none

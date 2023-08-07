@@ -258,7 +258,7 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: light.upstairs_hallway_group_lights
+        entity_id: light.upstairs_hallway_group
         state: 'off'
       - condition: or
         conditions:
@@ -302,7 +302,7 @@
         state: 'on'
   action:
     - service: light.turn_off
-      entity_id: light.upstairs_hallway_group_lights
+      entity_id: light.upstairs_hallway_group
     - service: input_boolean.turn_off
       entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
 
@@ -379,11 +379,11 @@
     to: 'on'
   condition:
     condition: state
-    entity_id: light.laundry_lights
+    entity_id: light.laundry
     state: 'off'
   action:
     - service: light.turn_on
-      entity_id: light.laundry_lights
+      entity_id: light.laundry
 - alias: Laundry Lighting on Door Close
   trigger:
     platform: state
@@ -391,11 +391,11 @@
     to: 'off'
   condition:
     condition: state
-    entity_id: light.laundry_lights
+    entity_id: light.laundry
     state: 'on'
   action:
     - service: light.turn_off
-      entity_id: light.laundry_lights
+      entity_id: light.laundry
 
 
 ##############################################################
@@ -404,30 +404,30 @@
 - alias: Bedroom Closet Lighting - Turn On
   trigger:
     - platform: state
-      entity_id: binary_sensor.bedroom_closet_door_sensor
+      entity_id: binary_sensor.bedroom_closet_door
       to: 'on'
     - platform: state
       entity_id: input_boolean.motion_bedroom_closet
       to: 'on'
   condition:
     condition: state
-    entity_id: light.bedroom_closet_lights
+    entity_id: light.bedroom_closet
     state: 'off'
   action:
     - service: light.turn_on
-      entity_id: light.bedroom_closet_lights
+      entity_id: light.bedroom_closet
 - alias: Bedroom Closet Lighting on Door Close
   trigger:
     - platform: state
-      entity_id: binary_sensor.bedroom_closet_door_sensor
+      entity_id: binary_sensor.bedroom_closet_door
       to: 'off'
   condition:
     condition: state
-    entity_id: light.bedroom_closet_lights
+    entity_id: light.bedroom_closet
     state: 'on'
   action:
     - service: light.turn_off
-      entity_id: light.bedroom_closet_lights
+      entity_id: light.bedroom_closet
 - alias: Bedroom Closet Lights Timed Out
   trigger:
     - platform: state
@@ -437,7 +437,7 @@
         minutes: 10
   action:
     - service: light.turn_off
-      entity_id: light.bedroom_closet_lights
+      entity_id: light.bedroom_closet
 
 
 ##############################################################
@@ -446,34 +446,34 @@
 - alias: Guest Bedroom Closet Lighting on Door Open
   trigger:
     platform: state
-    entity_id: binary_sensor.guest_bedroom_closet_door_sensor
+    entity_id: binary_sensor.guest_bedroom_closet_door
     to: 'on'
   condition:
     condition: state
-    entity_id: light.guest_bedroom_closet_lights
+    entity_id: light.guest_bedroom_closet
     state: 'off'
   action:
     - service: light.turn_on
-      entity_id: light.guest_bedroom_closet_lights
+      entity_id: light.guest_bedroom_closet
 - alias: Guest Bedroom Closet Lighting on Door Close
   trigger:
     platform: state
-    entity_id: binary_sensor.guest_bedroom_closet_door_sensor
+    entity_id: binary_sensor.guest_bedroom_closet_door
     to: 'off'
   condition:
     condition: state
-    entity_id: light.guest_bedroom_closet_lights
+    entity_id: light.guest_bedroom_closet
     state: 'on'
   action:
     - service: light.turn_off
-      entity_id: light.guest_bedroom_closet_lights
+      entity_id: light.guest_bedroom_closet
 - alias: Guest Bedroom Closet Lights Timed Out
   trigger:
     platform: state
-    entity_id: light.guest_bedroom_closet_lights
+    entity_id: light.guest_bedroom_closet
     to: 'on'
     for:
       minutes: 12
   action:
     - service: light.turn_off
-      entity_id: light.guest_bedroom_closet_lights
+      entity_id: light.guest_bedroom_closet

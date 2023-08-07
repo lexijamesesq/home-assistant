@@ -70,7 +70,7 @@ card:
       entities:
         - title: Garage
           entities:
-            - entity: light.garage_lights
+            - entity: light.garage
               name: Garage
             - entity: light.garage_stairs
               name: Garage Stairs
@@ -80,9 +80,9 @@ card:
               name: Downstairs Hallway
             - entity: light.kitchen
               name: Kitchen
-            - entity: light.downstairs_patio_lights
+            - entity: light.downstairs_patio
               name: Patio
-            - entity: light.downstairs_patio_string_lights
+            - entity: light.downstairs_patio_string
               name: Patio String
             - entity: light.living_room
               name: Living Room
@@ -94,25 +94,25 @@ card:
               name: Rec Room Canvas
         - title: Upstairs
           entities:
-            - entity: light.upstairs_hallway_group_lights
+            - entity: light.upstairs_hallway_group
               name: Upstairs Hallway
-            - entity: light.bedroom_lights
+            - entity: light.bedroom
               name: Bedroom
             - entity: light.bedroom_tiles
               name: Bedroom Tiles
-            - entity: light.bedroom_closet_lights
+            - entity: light.bedroom_closet
               name: Bedroom Closet
-            - entity: light.laundry_lights
+            - entity: light.laundry
               name: Laundry
             - entity: light.den_hallway
               name: Den Hallway
-            - entity: light.den_lights
+            - entity: light.den
               name: Den
             - entity: light.den_cabinets
               name: Den Cabinets
-            - entity: light.upstairs_patio_lights
+            - entity: light.upstairs_patio
               name: Patio
-            - entity: light.upstairs_patio_string_lights
+            - entity: light.upstairs_patio_string
               name: Patio String
-            - entity: light.guest_bedroom_closet_lights
+            - entity: light.guest_bedroom_closet
               name: Guest Bed Closet

@@ -80,3 +80,13 @@
         video_resolution: '{{ states("sensor.tautulli_" + states("input_text.tautulli_user8") + "_video_resolution").replace("4k", "4K").replace("1080", "1080p").replace("720", "720p").replace("480", "480p").replace("sd", "SD") }}'
         transcode_decision: '{{ states("sensor.tautulli_" + states("input_text.tautulli_user8") + "_transcode_decision").replace("copy", "Direct Stream") }}'
         session_thumbnail: '{{ states("sensor.tautulli_" + states("input_text.tautulli_user8") + "_session_thumbnail") | default("/local/icons/none.png") }}'
+    - name: Tautulli User 9
+      unique_id: tautulli_user9
+      state: '{{ states("sensor.tautulli_" + states("input_text.tautulli_user9") + "_state") }}'
+      attributes:
+        name: !secret tautulli_user9_friendly_name
+        full_title: '{{ states("sensor.tautulli_" + states("input_text.tautulli_user9") + "_full_title") }}'
+        progress: '{{ states("sensor.tautulli_" + states("input_text.tautulli_user9") + "_progress") }}'
+        video_resolution: '{{ states("sensor.tautulli_" + states("input_text.tautulli_user9") + "_video_resolution").replace("4k", "4K").replace("1080", "1080p").replace("720", "720p").replace("480", "480p").replace("sd", "SD") }}'
+        transcode_decision: '{{ states("sensor.tautulli_" + states("input_text.tautulli_user9") + "_transcode_decision").replace("copy", "Direct Stream") }}'
+        session_thumbnail: '{{ states("sensor.tautulli_" + states("input_text.tautulli_user9") + "_session_thumbnail") | default("/local/icons/none.png") }}'

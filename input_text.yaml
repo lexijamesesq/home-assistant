@@ -18,6 +18,8 @@ tautulli_user7:
   initial: !secret tautulli_user7
 tautulli_user8:
   initial: !secret tautulli_user8
+tautulli_user9:
+  initial: !secret tautulli_user9
 
 ##############################################################
 # Trash & Recycling Sensors

@@ -28,9 +28,11 @@ card:
           - type: custom:button-card
             template: badge_home
             entity: sensor.dashboard_current_mode
+          - !include ../popups/home/modes.yaml
           - type: custom:button-card
             template: badge_home
             entity: sensor.dashboard_home_state
+          - !include ../popups/home/security.yaml
     - type: "custom:homekit-card"
       style: |
         :host {

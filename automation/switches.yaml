@@ -22,12 +22,12 @@
 ##############################################################
 
 # On #########################################################
-- alias: Patio Physical Switch On
+- alias: Downstairs Patio Physical Switch On
   trigger:
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 46
+        node_id: 12
         property_key: "001"
   action:
     choose:
@@ -36,15 +36,15 @@
           - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: switch.turn_on
-            entity_id: switch.patio_string_lights
+            entity_id: switch.downstairs_patio_outlet
 
 # Off ########################################################
-- alias: Patio Physical Switch Off
+- alias: Downstairs Patio Physical Switch Off
   trigger:
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 46
+        node_id: 12
         property_key: "002"
   action:
     choose:
@@ -53,7 +53,7 @@
           - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: switch.turn_off
-            entity_id: switch.patio_string_lights
+            entity_id: switch.downstairs_patio_outlet
 
 
 ##############################################################
@@ -66,7 +66,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 65
+        node_id: 15
         property_key: "001"
   action:
     choose:
@@ -89,7 +89,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 65
+        node_id: 15
         property_key: "002"
   action:
     choose:
@@ -117,7 +117,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 35
+        node_id: 14
         property_key: "001"
   action:
     choose:
@@ -140,7 +140,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 35
+        node_id: 14
         property_key: "002"
   action:
     choose:
@@ -168,7 +168,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 59
+        node_id: 13
         property_key: "001"
   action:
     choose:
@@ -195,7 +195,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 59
+        node_id: 13
         property_key: "002"
   action:
     choose:
@@ -227,7 +227,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 48
+        node_id: 10
         property_key: "001"
   action:
     choose:
@@ -262,7 +262,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 48
+        node_id: 10
         property_key: "002"
   action:
     choose:
@@ -277,7 +277,7 @@
           - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: light.turn_off
-            entity_id: light.upstairs_hallway_group_lights
+            entity_id: light.upstairs_hallway_group
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
@@ -298,7 +298,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 38
+        node_id: 9
         property_key: "001"
   action:
     choose:
@@ -333,7 +333,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 38
+        node_id: 9
         property_key: "002"
   action:
     choose:
@@ -348,7 +348,7 @@
           - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: light.turn_off
-            entity_id: light.upstairs_hallway_group_lights
+            entity_id:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
@@ -369,7 +369,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 72
+        node_id: 6
         property_key: "001"
   action:
     choose:
@@ -404,7 +404,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 72
+        node_id: 6
         property_key: "002"
   action:
     choose:
@@ -419,7 +419,7 @@
           - '{{ trigger.event.data.value == "KeyPressed2x" }}'
         sequence:
           - service: light.turn_off
-            entity_id: light.upstairs_hallway_group_lights
+            entity_id: light.upstairs_hallway_group
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
       # Hold
@@ -440,7 +440,7 @@
     - platform: event
       event_type: zwave_js_value_notification
       event_data:
-        node_id: 60
+        node_id: 5
         property_key: "001"
   action:
     choose:
@@ -474,7 +474,7 @@
       event_type: zwave_js_value_notification
       event_data:
         type: value_notification
-        node_id: 60
+        node_id: 5
         property_key: "002"
   action:
     choose:

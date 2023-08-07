@@ -72,22 +72,22 @@ scene_patio_string_lights_morning:
   alias: Scene Patio String Lights Morning
   sequence:
     - service: light.turn_off
-      entity_id: light.patio_string_lights
+      entity_id: light.patio_string
 
 scene_patio_string_lights_day:
   alias: Scene Patio String Lights Day
   sequence:
     - service: light.turn_off
-      entity_id: light.patio_string_lights
+      entity_id: light.patio_string
 
 scene_patio_string_lights_sunset:
   alias: Scene Patio String Lights Sunset
   sequence:
     - service: light.turn_on
-      entity_id: light.patio_string_lights
+      entity_id: light.patio_string
 
 scene_patio_string_lights_night:
   alias: Scene Patio String Lights Night
   sequence:
     - service: light.turn_on
-      entity_id: light.patio_string_lights
+      entity_id: light.patio_string
