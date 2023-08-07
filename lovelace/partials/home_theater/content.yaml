@@ -253,3 +253,19 @@ card:
               widerSize: 3
               conditionalClass: '[[[ return "custom-card" ]]]'
               hide: '[[[ return states["sensor.tautulli_user8"].state == "unknown" ]]]'
+            # Tautulli User 9
+            - card: custom:button-card
+              cardOptions:
+                style: |
+                  .progress-bar {
+                    height: 100%;
+                    background: {% if is_state("sensor.tautulli_user9", "playing") %}#E5A00D{% else %}rgba(150, 150, 150, 0.5){% endif %};
+                  }
+                template: plex_stream_status
+                entity: sensor.tautulli_user9
+                triggers_update:
+                  - sensor.tautulli_user9
+              wider: true
+              widerSize: 3
+              conditionalClass: '[[[ return "custom-card" ]]]'
+              hide: '[[[ return states["sensor.tautulli_user9"].state == "unknown" ]]]'

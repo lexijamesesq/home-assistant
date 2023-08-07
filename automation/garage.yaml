@@ -10,11 +10,11 @@
       to: 'on'
   condition:
     - condition: state
-      entity_id: light.garage_lights
+      entity_id: light.garage
       state: 'off'
   action:
     - service: light.turn_on
-      entity_id: light.garage_lights
+      entity_id: light.garage
     - service: input_boolean.turn_on
       entity_id: input_boolean.motion_trigger_garage_lights
 
@@ -26,11 +26,11 @@
       to: 'on'
   condition:
     - condition: state
-      entity_id: light.garage_lights
+      entity_id: light.garage
       state: 'off'
   action:
     - service: light.turn_on
-      entity_id: light.garage_lights
+      entity_id: light.garage
     - service: input_boolean.turn_on
       entity_id: input_boolean.door_trigger_garage_lights
 # Separated to add delay on the Garage Door so they do not
@@ -42,13 +42,13 @@
       to: 'on'
   condition:
     - condition: state
-      entity_id: light.garage_lights
+      entity_id: light.garage
       state: 'off'
       for:
         minutes: 1
   action:
     - service: light.turn_on
-      entity_id: light.garage_lights
+      entity_id: light.garage
     - service: input_boolean.turn_on
       entity_id: input_boolean.door_trigger_garage_lights
 
@@ -85,11 +85,11 @@
     - condition: state
       entity_id:
         - input_boolean.motion_trigger_garage_lights
-        - light.garage_lights
+        - light.garage
       state: 'on'
   action:
     - service: light.turn_off
-      entity_id: light.garage_lights
+      entity_id: light.garage
     - service: input_boolean.turn_on
       entity_id:
         - input_boolean.door_trigger_garage_lights

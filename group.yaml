@@ -22,12 +22,12 @@ simulate_presence_scenes:
 
 all_lights:
   entities:
-    - light.garage_lights
+    - light.garage
     - light.garage_stairs
     - light.downstairs_hallway
     - light.kitchen
-    - light.downstairs_patio_lights
-    - light.downstairs_patio_string_lights
+    - light.downstairs_patio
+    - light.downstairs_patio_string
     - light.living_room
     - light.living_room_tv
     - light.rec_room
@@ -35,20 +35,20 @@ all_lights:
     - light.main_stairs
     - light.upstairs_hallway
     - light.bedroom_hallway
-    - light.bedroom_lights
+    - light.bedroom
     - light.bedroom_tiles
-    - light.bedroom_closet_lights
-    - light.laundry_lights
+    - light.bedroom_closet
+    - light.laundry
     - light.den_hallway
-    - light.den_lights
+    - light.den
     - light.den_cabinets
-    - light.upstairs_patio_lights
-    - light.upstairs_patio_string_lights
-    - light.guest_bedroom_closet_lights
+    - light.upstairs_patio
+    - light.upstairs_patio_string
+    - light.guest_bedroom_closet
 
 inside_lights:
   entities:
-    - light.garage_lights
+    - light.garage
     - light.garage_stairs
     - light.downstairs_hallway
     - light.kitchen
@@ -59,33 +59,33 @@ inside_lights:
     - light.main_stairs
     - light.upstairs_hallway
     - light.bedroom_hallway
-    - light.bedroom_lights
+    - light.bedroom
     - light.bedroom_tiles
-    - light.bedroom_closet_lights
-    - light.laundry_lights
+    - light.bedroom_closet
+    - light.laundry
     - light.den_hallway
-    - light.den_lights
+    - light.den
     - light.den_cabinets
-    - light.guest_bedroom_closet_lights
+    - light.guest_bedroom_closet
 
 outside_lights:
   entities:
-    - light.downstairs_patio_lights
-    - light.downstairs_patio_string_lights
-    - light.uptairs_patio_lights
-    - light.upstairs_patio_string_lights
+    - light.downstairs_patio
+    - light.downstairs_patio_string
+    - light.uptairs_patio
+    - light.upstairs_patio_string
 
 garage_lights:
   entities:
-    - light.garage_lights
+    - light.garage
     - light.garage_stairs
 
 downstairs_lights:
   entities:
     - light.downstairs_hallway
     - light.kitchen
-    - light.downstairs_patio_lights
-    - light.downstairs_patio_string_lights
+    - light.downstairs_patio
+    - light.downstairs_patio
     - light.living_room
     - light.living_room_tv
     - light.rec_room
@@ -96,16 +96,16 @@ upstairs_lights:
     - light.main_stairs
     - light.upstairs_hallway
     - light.bedroom_hallway
-    - light.bedroom_lights
+    - light.bedroom
     - light.bedroom_tiles
-    - light.bedroom_closet_lights
-    - light.laundry_lights
+    - light.bedroom_closet
+    - light.laundry
     - light.den_hallway
-    - light.den_lights
+    - light.den
     - light.den_cabinets
-    - light.upstairs_patio_lights
-    - light.upstairs_patio_string_lights
-    - light.guest_bedroom_closet_lights
+    - light.upstairs_patio
+    - light.upstairs_patio_string
+    - light.guest_bedroom_closet
 
 
 ##############################################################
@@ -176,8 +176,8 @@ device_tracker_oswin:
     - device_tracker.oswin_nic2
 
 laundry_door_sensor:
-  - binary_sensor.laundry_door_left_sensor
-  - binary_sensor.laundry_door_right_sensor
+  - binary_sensor.laundry_door_left
+  - binary_sensor.laundry_door_right
 
 
 ##############################################################

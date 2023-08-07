@@ -128,8 +128,7 @@ influxdb:
        - sensor.den_multisensor_relative_humidity
        - sensor.den_multisensor_temperature
        - sensor.bedroom_closet_trisensor_luminance
-       - sensor.bedroom_closet_trtisensor_relative_humidity
-       - sensor.bedroom_closet_trtisensor_temperature
+       - sensor.bedroom_closet_trisensor_temperature
        - sensor.downstairs_hallway_trisensor_luminance
        - sensor.downstairs_hallway_trisensor_temperature
        - sensor.garage_stairs_multisensor_luminance
@@ -181,13 +180,13 @@ emulated_hue:
   expose_by_default: false
   lights_all_dimmable: true
   entities:
-    light.bedroom_lights:
+    light.bedroom:
       hidden: false
     light.kitchen:
       hidden: false
     light.bedroom_tiles:
       hidden: false
-    light.bedroom_closet_lights:
+    light.bedroom_closet:
       hidden: false
     light.bedroom_hallway:
       hidden: false
@@ -195,37 +194,37 @@ emulated_hue:
       hidden: false
     light.den_hallway:
       hidden: false
-    light.den_lights:
+    light.den:
       hidden: false
     light.downstairs_hallway:
       hidden: false
-    light.garage_lights:
+    light.garage:
       hidden: false
     light.garage_stairs:
       hidden: false
-    light.guest_bedroom_closet_lights:
+    light.guest_bedroom_closet:
       hidden: false
-    light.laundry_lights:
+    light.laundry:
       hidden: false
     light.living_room:
       hidden: false
     light.main_stairs:
       hidden: false
-    light.patio_lights:
+    light.patio:
       hidden: false
-    light.downstairs_patio_string_lights:
+    light.downstairs_patio_string:
       hidden: false
     light.living_room_tv:
       hidden: false
-    light.upstairs_hallway_group_lights:
+    light.upstairs_hallway_group:
       hidden: false
     light.upstairs_hallway:
       hidden: false
-    light.downstairs_patio_lights:
+    light.downstairs_patio:
       hidden: false
-    light.upstairs_patio_lights:
+    light.upstairs_patio:
       hidden: false
-    light.upstairs_patio_string_lights:
+    light.upstairs_patio_string:
       hidden: false
     light.rec_room:
       hidden: false
@@ -245,26 +244,6 @@ nest:
   client_id: !secret nest_client_id
   client_secret: !secret nest_client_secret
 
-
-light:
-  - platform: switch
-    name: Garage Lights
-    entity_id: switch.garage_lights
-  - platform: switch
-    name: Downstairs Patio String Lights
-    entity_id: switch.downstairs_patio_string_lights
-  - platform: switch
-    name: Bedroom Closet Lights
-    entity_id: switch.bedroom_closet_lights
-  - platform: switch
-    name: Laundry Lights
-    entity_id: switch.laundry_lights
-  - platform: switch
-    name: Guest Bedroom Closet Lights
-    entity_id: switch.guest_bedroom_closet_lights
-  - platform: switch
-    name: Upstairs Patio String Lights
-    entity_id: switch.upstairs_patio_string_lights
 
 
 # device_tracker:
@@ -363,14 +342,14 @@ homekit:
       - sensor.downstairs_thermostat_humidity
       - sensor.upstairs_thermostat_humidity
     exclude_entities:
-      - light.patio_lights
-      - light.downstairs_patio_lights
-      - light.den_lights
+      - light.patio
+      - light.downstairs_patio
+      - light.den
       - light.den_cabinets
-      - light.bedroom_lights
-      - light.patio_string_lights
-      - light.upstairs_hallway_group_lights
-      - light.upstairs_patio_lights
+      - light.bedroom
+      - light.patio_string
+      - light.upstairs_hallway_group
+      - light.upstairs_patio
 
 
 mobile_app:

@@ -21,6 +21,14 @@ Custom Dark:
   material-secondary-text-color: var(--secondary-text-color)
   theme-title-color: 'var(--secondary-text-color)'
   disabled-text-color: 'rgba(255, 255, 255, 0.26)'
+  # HomeKit Cards
+  card-on-text-color: rgba(0, 0, 0, 1)
+  card-on-icon-color: rgba(0, 0, 0, 0.6)
+  card-on-background-color: rgba(255, 255, 255, 1)
+  card-off-text-color: rgba(255, 255, 255, 0.6)
+  card-off-icon-color: rgba(255, 255, 255, 0.6)
+  card-off-background-color: rgba(135, 135, 135, 0.3)
+
   # Sidebar
   sidebar-icon-color: 'rgba(255, 255, 255, 0.54)'
   sidebar-text-color: 'var(--primary-text-color)'

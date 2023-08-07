@@ -338,15 +338,15 @@ light.rec_room_canvas:
   icon: mdi:lightbulb
 binary_sensor.downstairs_hallway_trisensor_sensor:
   device_class: motion
-light.patio_lights:
+light.patio:
   icon: mdi:lightbulb
-light.downstairs_patio_lights:
+light.downstairs_patio:
   icon: mdi:lightbulb
-light.bedroom_lights:
+light.bedroom:
   icon: mdi:lightbulb
 light.den_cabinets:
   icon: mdi:lightbulb
-light.den_lights:
+light.den:
   icon: mdi:lightbulb
 sensor.energy_usage:
   device_class: energy

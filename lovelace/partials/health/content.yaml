@@ -182,7 +182,7 @@ card:
         - type: section
           label: Sensors
         - type: custom:template-entity-row
-          entity: sensor.garage_motion_sensor_battery_level
+          entity: sensor.garage_motion_battery_level
           name: Garage Motion Sensor
           state: '{{ states(config.entity) | int(0) }}%'
         - type: custom:template-entity-row
@@ -198,7 +198,7 @@ card:
           name: Main Stairs MultiSensor
           state: '{{ states(config.entity) | int(0) }}%'
         - type: custom:template-entity-row
-          entity: sensor.bedroom_closet_door_sensor_battery_level
+          entity: sensor.bedroom_closet_door_battery_level
           name: Bedroom Closet Door Sensor
           state: '{{ states(config.entity) | int(0) }}%'
         - type: custom:template-entity-row
@@ -206,19 +206,19 @@ card:
           name: Bedroom Closet TriSensor
           state: '{{ states(config.entity) | int(0) }}%'
         - type: custom:template-entity-row
-          entity: sensor.laundry_door_left_sensor_battery_level
+          entity: sensor.laundry_door_left_battery_level
           name: Laundry Door Left Sensor
           state: '{{ states(config.entity) | int(0) }}%'
         - type: custom:template-entity-row
-          entity: sensor.laundry_door_right_sensor_battery_level
+          entity: sensor.laundry_door_right_battery_level
           name: Laundry Door Right Sensor
           state: '{{ states(config.entity) | int(0) }}%'
         - type: custom:template-entity-row
-          entity: sensor.den_multisensor_sensor_battery_level
+          entity: sensor.den_multisensor_battery_level
           name: Den MultiSensor
           state: '{{ states(config.entity) | int(0) }}%'
         - type: custom:template-entity-row
-          entity: sensor.guest_bedroom_closet_door_sensor_battery_level
+          entity: sensor.guest_bedroom_closet_door_battery_level
           name: Guest Bedroom Closet Door Sensor
           state: '{{ states(config.entity) | int(0) }}%'
         - type: section

@@ -5,8 +5,11 @@
 - alias: Notify Laundry - Washing Machine Completed
   trigger:
     - platform: numeric_state
-      entity_id: sensor.washing_machine_electric_consumed_w
+      entity_id: sensor.washing_machine_outlet_electric_consumption_w
       below: 2
+#  condition:
+#    - condition: template
+#      value_template: '{{ trigger.from_state.state != 0 }}'
   action:
     - service: notify.mobile_app_alexs_iphone
       data:
