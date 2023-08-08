@@ -2,7 +2,7 @@ alias: Scene Start Color Loop Bedroom
 sequence:
   - service: lifx.effect_colorloop
     data:
-      entity_id: light.bedroom_lights
+      entity_id: light.bedroom
       brightness: 76
       period: 100
       transition: 20
