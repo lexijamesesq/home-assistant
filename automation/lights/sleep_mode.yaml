@@ -41,7 +41,7 @@
       event_type: mode_sleep_off_wakeup_long
   condition:
     - condition: state
-      entity_id: light.bedroom_lights
+      entity_id: light.bedroom
       state: 'on'
   action:
     - service: script.turn_on
