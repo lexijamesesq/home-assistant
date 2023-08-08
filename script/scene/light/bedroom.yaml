@@ -57,7 +57,7 @@ scene_bedroom_alarm_dismissed:
   sequence:
     - service: script.turn_on
       entity_id:
-        - scene_bedroom_tiles_wakeup
+        - scene.bedroom_tiles_wakeup
         - script.scene_bedroom_neutral_low
 
 
