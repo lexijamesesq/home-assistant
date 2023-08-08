@@ -9,7 +9,7 @@
   action:
     - service: light.turn_off
       entity_id:
-        - light.den_lights
+        - light.den
         - light.den_cabinets
         - light.patio
         - light.patio_string

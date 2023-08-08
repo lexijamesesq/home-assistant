@@ -25,7 +25,7 @@
             entity_id: light.living_room
             state: 'on'
           - condition: state
-            entity_id: light.den_lights
+            entity_id: light.den
             state: 'on'
           - condition: state
             entity_id: light.den_cabinets
