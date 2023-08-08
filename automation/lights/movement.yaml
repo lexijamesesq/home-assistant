@@ -334,7 +334,7 @@
             entity_id: input_boolean.mode_night
             state: 'on'
           - condition: numeric_state
-            entity_id: sensor.den_multisensor_sensor_illuminance
+            entity_id: sensor.den_multisensor_luminance
             below: 20.0
   action:
     - service: script.turn_on
