@@ -2,19 +2,26 @@
 # Homeseer
 # https://home-assistant.io/docs/z-wave/device-specific/
 # https://gist.github.com/dnschneid/7e36cac10a568a92562880844dbc2874
-# Button    scene_id     property_key
-# on        1            001
-# off       2            002
+# Button    property_key
+# on        001
+# off       002
+#
+# Inovelli
+# https://gist.github.com/mikemsd/f67d1ebc4ef04d040b0b328daebd8520
+# Button    property_key
+# on        002
+# off       001
+# config    003
 #
 # scene_data
-# Action    v1    v2     zwavejs
-# single    0     7680   KeyPressed
-# hold      2     7740   KeyHeldDown
-# release   1     7400   KeyReleased
-# double    3     7860   KeyPressed2x
-# triple    4     7920   KeyPressed3x
-# quad      N/A   7980   KeyPressed4x
-# quint     N/A   8040   KeyPressed5x
+# Action    zwavejs
+# single    KeyPressed
+# hold      KeyHeldDown
+# release   KeyReleased
+# double    KeyPressed2x
+# triple    KeyPressed3x
+# quad      KeyPressed4x
+# quint     KeyPressed5x
 ##############################################################
 
 ##############################################################
@@ -428,6 +435,82 @@
         sequence:
           - service: input_boolean.turn_off
             entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+
+
+##############################################################
+# Bedroom
+##############################################################
+
+# Sync #######################################################
+- alias: Bedroom Dimmer Lights Sync
+  trigger:
+    - id: "brightness"
+      platform: state
+      entity_id:
+        - light.bedroom
+        - light.bedroom_switch
+      attribute: brightness
+    - id: "off"
+      platform: state
+      entity_id:
+        - light.bedroom
+        - light.bedroom_switch
+      to: "off"
+  action:
+    choose:
+      - conditions:
+          - condition: trigger
+            id: "brightness"
+        sequence:
+          - parallel:
+              - service: light.turn_on
+                entity_id: light.bedroom_1
+                data:
+                  brightness: "{{ state_attr(trigger.entity_id, 'brightness') | int }}"
+              - service: light.turn_on
+                entity_id: light.bedroom_2
+                data:
+                  brightness: "{{ state_attr(trigger.entity_id, 'brightness') | int }}"
+              - service: light.turn_on
+                data:
+                  brightness: "{{ state_attr(trigger.entity_id, 'brightness') | int }}"
+                entity_id: light.bedroom_switch
+      - conditions:
+          - condition: trigger
+            id: "off"
+        sequence:
+          - service: light.turn_off
+            entity_id: 
+                - light.bedroom
+                - light.bedroom_switch
+  mode: restart
+
+# Config #####################################################
+- alias: Bedroom Dimmer Config Scene Toggle
+  trigger:
+    - platform: event
+      event_type: zwave_js_value_notification
+      event_data:
+        node_id: 34
+        property_key: "003"
+  action:
+    choose:
+      # Single Tap
+      - conditions:
+          - '{{ trigger.event.data.value == "KeyPressed" }}'
+        sequence:
+          - service: input_select.select_next
+            data:
+              cycle: true
+            target:
+              entity_id: input_select.bedroom_scene_toggle              
+          - service: script.turn_on
+            target:
+              entity_id: '{{ states("input_select.bedroom_scene_toggle") }}'
+            data:
+              variables:
+                seconds: 1
+  mode: queued
 
 
 ##############################################################

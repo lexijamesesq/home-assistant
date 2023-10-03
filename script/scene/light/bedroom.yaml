@@ -124,38 +124,92 @@ scene_bedroom_night_low:
 scene_bedroom_purple_blue:
   alias: Scene Bedroom Purple & Blue
   sequence:
-    - service: light.turn_on
-      entity_id: light.bedroom_1
-      data:
-        transition: 2
-        brightness: 100
-        rgb_color: [65,102,255]
-    - service: light.turn_on
-      entity_id: light.bedroom_2
-      data:
-        transition: 2
-        brightness: 100
-        rgb_color: [15,163,255]
+    - service: automation.turn_off
+      entity_id: automation.bedroom_dimmer_lights_sync
+    - parallel:
+        - service: light.turn_on
+          entity_id: light.bedroom_1
+          data:
+            transition: "{{ seconds | default(2, true) }}"
+            brightness: 100
+            rgb_color: [65,102,255]
+        - service: light.turn_on
+          entity_id: light.bedroom_2
+          data:
+            transition: 2
+            brightness: 100
+            rgb_color: [15,163,255]
+        - service: light.turn_on
+          entity_id: light.bedroom_switch
+          data:
+            brightness: 75
+    - delay:
+        seconds: 2
+    - service: automation.turn_on
+      entity_id: automation.bedroom_dimmer_lights_sync
+#    - service: number.set_value
+#      data:
+#        value: "190"
+#      target:
+#        entity_id:
+#          - number.bedroom_dimmer_default_all_led_strip_color_when_on
+#          - number.bedroom_dimmer_default_all_led_strip_color_when_off
 
 scene_bedroom_neutral_low:
   alias: Scene Bedroom Neutral Low
   sequence:
-    - service: light.turn_on
-      entity_id: light.bedroom
-      data:
-        transition: 2
-        brightness: 75
-        color_temp: 285
+    - service: automation.turn_off
+      entity_id: automation.bedroom_dimmer_lights_sync
+    - parallel:
+        - service: light.turn_on
+          entity_id: light.bedroom
+          data:
+            transition: 2
+            brightness: 75
+            color_temp: 285
+        - service: light.turn_on
+          entity_id: light.bedroom_switch
+          data:
+            brightness: 75
+    - delay:
+        seconds: 2
+    - service: automation.turn_on
+      entity_id: automation.bedroom_dimmer_lights_sync
+#    - service: number.set_value
+#      data:
+#        value: "255"
+#      target:
+#        entity_id:
+#          - number.bedroom_dimmer_default_all_led_strip_color_when_on
+#          - number.bedroom_dimmer_default_all_led_strip_color_when_off
 
 scene_bedroom_sleep_mode_on:
   alias: Scene Bedroom Sleep Mode On
   sequence:
-    - service: light.turn_on
-      entity_id: light.bedroom
-      data:
-        transition: 2
-        brightness: 75
-        color_temp: 333
+    - service: automation.turn_off
+      entity_id: automation.bedroom_dimmer_lights_sync
+    - parallel:
+        - service: light.turn_on
+          entity_id: light.bedroom
+          data:
+            transition: 2
+            brightness: 75
+            color_temp: 333
+        - service: light.turn_on
+          entity_id: light.bedroom_switch
+          data:
+            brightness: 75
+    - delay:
+        seconds: 2
+    - service: automation.turn_on
+      entity_id: automation.bedroom_dimmer_lights_sync
+#    - service: number.set_value
+#      data:
+#        value: "255"
+#      target:
+#        entity_id:
+#          - number.bedroom_dimmer_default_all_led_strip_color_when_on
+#          - number.bedroom_dimmer_default_all_led_strip_color_when_off
 
 scene_bedroom_off:
   alias: Scene Bedroom Lights Off
