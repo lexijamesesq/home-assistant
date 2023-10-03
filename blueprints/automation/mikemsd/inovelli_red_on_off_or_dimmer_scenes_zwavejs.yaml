@@ -1,0 +1,169 @@
+blueprint:
+  name: Inovelli Red On/Off or Dimmer Switch Scenes (ZWaveJS)
+  description: 'Perform actions on various scenes supported by the Inovelli Red On/Off
+    or Dimmer Switches
+
+    Note that the x2, x3, x4, x5 variants DO NOT work if you have put your switch
+    in ''Instant On'' mode.
+
+    Modified from the original work by kylezimmerman to work with ZWaveJS Integration.
+    Original blueprint https://gist.github.com/kylezimmerman/065bcbec34b79fd838eb59055ac18e6f '
+  domain: automation
+  input:
+    inovelli_switch:
+      name: Inovelli Red Switch
+      description: The Inovelli Red On/Off or Dimmer Switch to do actions on
+      selector:
+        device:
+          integration: zwave_js
+          manufacturer: Inovelli
+          multiple: false
+    up_action:
+      name: Press Up Once Action
+      description: Action to perform when pressing up once
+      default: []
+      selector:
+        action: {}
+    down_action:
+      name: Press Down Once Action
+      description: Action to perform when pressing down once
+      default: []
+      selector:
+        action: {}
+    up_hold_action:
+      name: Hold Up Action
+      description: Action to perform when holding the up button
+      default: []
+      selector:
+        action: {}
+    up_release_action:
+      name: Release Up Action
+      description: Action to perform when releasing the up button
+      default: []
+      selector:
+        action: {}
+    down_hold_action:
+      name: Hold Down Action
+      description: Action to perform when holding the down button
+      default: []
+      selector:
+        action: {}
+    down_release_action:
+      name: Release Down Action
+      description: Action to perform when releasing the down button
+      default: []
+      selector:
+        action: {}
+    config_action:
+      name: Config Button Action
+      description: The action to perform when the config button is pressed once
+      default: []
+      selector:
+        action: {}
+    up_x2_action:
+      name: Press Up Twice Action
+      description: Action to perform when pressing up twice
+      default: []
+      selector:
+        action: {}
+    down_x2_action:
+      name: Press Down Twice Action
+      description: Action to perform when pressing down twice
+      default: []
+      selector:
+        action: {}
+    up_x3_action:
+      name: Press Up 3 Times Action
+      description: Action to perform on when pressing up 3 times
+      default: []
+      selector:
+        action: {}
+    down_x3_action:
+      name: Press Down 3 Times Action
+      description: Action to perform when pressing down 3 times
+      default: []
+      selector:
+        action: {}
+    up_x4_action:
+      name: Press Up 4 Times Action
+      description: Action to perform when pressing up 4 times
+      default: []
+      selector:
+        action: {}
+    down_x4_action:
+      name: Press Down 4 Times Action
+      description: Action to perform when pressing down 4 times
+      default: []
+      selector:
+        action: {}
+    up_x5_action:
+      name: Press Up 5 Times Action
+      description: Action to perform when pressing up 5 times
+      default: []
+      selector:
+        action: {}
+    down_x5_action:
+      name: Press Down 5 Times Action
+      description: Action to perform when pressing down 5 times
+      default: []
+      selector:
+        action: {}
+  source_url: https://gist.github.com/mikemsd/f67d1ebc4ef04d040b0b328daebd8520
+mode: parallel
+max_exceeded: silent
+variables:
+  down_button: '001'
+  up_button: '002'
+  config_button: '003'
+  press_x1: KeyPressed
+  press_x2: KeyPressed2x
+  press_x3: KeyPressed3x
+  press_x4: KeyPressed4x
+  press_x5: KeyPressed5x
+  hold: KeyHeldDown
+  release: KeyReleased
+  button: '{{ trigger.event.data.property_key }}'
+  action_type: '{{ trigger.event.data.value }}'
+trigger:
+- platform: event
+  event_type: zwave_js_value_notification
+  event_data:
+    device_id: !input inovelli_switch
+action:
+  choose:
+  - conditions: '{{ button == up_button }}'
+    sequence:
+    - choose:
+      - conditions: '{{ action_type == press_x1 }}'
+        sequence: !input up_action
+      - conditions: '{{ action_type == press_x2 }}'
+        sequence: !input up_x2_action
+      - conditions: '{{ action_type == press_x3 }}'
+        sequence: !input up_x3_action
+      - conditions: '{{ action_type == press_x4 }}'
+        sequence: !input up_x4_action
+      - conditions: '{{ action_type == press_x5 }}'
+        sequence: !input up_x5_action
+      - conditions: '{{ action_type == hold }}'
+        sequence: !input up_hold_action
+      - conditions: '{{ action_type == release }}'
+        sequence: !input up_release_action
+  - conditions: '{{ button == down_button }}'
+    sequence:
+    - choose:
+      - conditions: '{{ action_type == press_x1 }}'
+        sequence: !input down_action
+      - conditions: '{{ action_type == press_x2 }}'
+        sequence: !input down_x2_action
+      - conditions: '{{ action_type == press_x3 }}'
+        sequence: !input down_x3_action
+      - conditions: '{{ action_type == press_x4 }}'
+        sequence: !input down_x4_action
+      - conditions: '{{ action_type == press_x5 }}'
+        sequence: !input down_x5_action
+      - conditions: '{{ action_type == hold }}'
+        sequence: !input down_hold_action
+      - conditions: '{{ action_type == release }}'
+        sequence: !input down_release_action
+  - conditions: '{{ button == config_button and action_type == press_x1 }}'
+    sequence: !input config_action
