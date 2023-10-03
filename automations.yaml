@@ -1,0 +1,12 @@
+- id: '1696115769042'
+  alias: Inovelli Red On/Off or Dimmer Switch Scenes (ZWaveJS)
+  description: ''
+  use_blueprint:
+    path: mikemsd/inovelli_red_on_off_or_dimmer_scenes_zwavejs.yaml
+    input:
+      inovelli_switch: 3ebf976a9530bfec26b3649ee370b712
+      up_action:
+      - service: light.turn_on
+        data: {}
+        target:
+          entity_id: light.bedroom

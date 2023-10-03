@@ -34,6 +34,11 @@
             - bedroom
             - den
             - den_cabinets
+    - service: number.set_value
+      target:
+        entity_id: number.bedroom_dimmer_default_all_led_strip_brightness_when_off
+      data:
+        value: 1
 
 - alias: Sleep Mode Wake Up Time Ended Update Lights
   trigger:
@@ -68,3 +73,35 @@
           lights:
             - kitchen
             - living_room
+
+- alias: Sleep Mode Dimmer LED Off When Lights Off
+  trigger:
+    - platform: state
+      entity_id: group.bedroom_lights
+      to: 'off'
+  condition:
+    - condition: state
+      entity_id: input_boolean.mode_sleep
+      state: 'on'
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.bedroom_dimmer_default_all_led_strip_brightness_when_off
+      data:
+        value: 0
+
+- alias: Sleep Mode Dimmer LED On When Lights On
+  trigger:
+    - platform: state
+      entity_id: group.bedroom_lights
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.mode_sleep
+      state: 'on'
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.bedroom_dimmer_default_all_led_strip_brightness_when_off
+      data:
+        value: 1

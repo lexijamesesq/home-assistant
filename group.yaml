@@ -107,6 +107,11 @@ upstairs_lights:
     - light.upstairs_patio_string
     - light.guest_bedroom_closet
 
+bedroom_lights:
+  entities:
+    - light.bedroom
+    - light.bedroom_tiles
+
 
 ##############################################################
 # Media Players
