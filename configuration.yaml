@@ -30,7 +30,7 @@ frontend:
   extra_module_url:
     - /hacsfiles/lovelace-card-mod/card-mod.js
 system_health:
-
+my:
 
 # updater:
 
@@ -238,12 +238,6 @@ emulated_hue:
       hidden: false
     script.scene_bedroom_alarm_dismissed:
       hidden: false
-
-
-nest:
-  client_id: !secret nest_client_id
-  client_secret: !secret nest_client_secret
-
 
 
 # device_tracker:
