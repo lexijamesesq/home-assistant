@@ -1,14 +1,15 @@
 camera_home:
   show_name: false
   show_state: false
-  entity_id: camera.front_door
+  entity_id: camera.front_door_high_resolution_channel
   custom_fields:
     camera:
       card:
         type: custom:webrtc-camera
-        url: 'rtsp://10.0.1.5:7447/jgHdueMamxgQBo1O'
+        url: "rtsp://10.0.1.1:7447/jgHdueMamxgQBo1O"
         ui: true
         background: true
+        muted: true
         mse: false
         style: |
           ha-card {

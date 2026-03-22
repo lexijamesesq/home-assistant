@@ -1,12 +1,4093 @@
-- id: '1696115769042'
-  alias: Inovelli Red On/Off or Dimmer Switch Scenes (ZWaveJS)
-  description: ''
-  use_blueprint:
-    path: mikemsd/inovelli_red_on_off_or_dimmer_scenes_zwavejs.yaml
-    input:
-      inovelli_switch: 3ebf976a9530bfec26b3649ee370b712
-      up_action:
-      - service: light.turn_on
-        data: {}
+- alias: Enable Home Theater On Lighting
+  trigger:
+  - platform: event
+    event_type: mode_home_theater_on
+  action:
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - living_room
+        - living_room_tv
+        - rec_room_canvas
+  id: f65139339bb34c7ba0099ed3645b656a
+- id: 3fda0f37ff6c4f85ae28c2d53c640eaf
+  alias: Restore Home Theater Off Lighting
+  triggers:
+  - event_type: mode_home_theater_off
+    trigger: event
+  actions:
+  - entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - living_room
+        - living_room_tv
+        - rec_room_canvas
+    action: script.turn_on
+- id: de214ebd382a4ab180129f62da343ea0
+  alias: Enable Home Theater Playing Lighting
+  triggers:
+  - entity_id: media_player.living_room_apple_tv
+    from: idle
+    to: playing
+    trigger: state
+  - entity_id: media_player.living_room_apple_tv
+    from: paused
+    to: playing
+    trigger: state
+  actions:
+  - entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - living_room
+        - living_room_tv
+        - rec_room_canvas
+        - kitchen
+    action: script.turn_on
+- alias: Restore Home Theater On Lighting
+  trigger:
+  - platform: state
+    entity_id: media_player.living_room_apple_tv
+    from: playing
+    to: paused
+    for:
+      seconds: 10
+  - platform: state
+    entity_id: media_player.living_room_apple_tv
+    from: playing
+    to: idle
+    for:
+      seconds: 1
+  - platform: state
+    entity_id: media_player.living_room_apple_tv
+    from: paused
+    to: idle
+  action:
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - living_room
+        - living_room_tv
+        - rec_room_canvas
+        - kitchen
+  id: 2542955fd84b476686f2a547d6fcc07c
+- alias: Alert Stranger Danger On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_stranger_danger
+    to: 'on'
+  action:
+  - service: select.select_option
+    target:
+      entity_id: group.led_strip_effect
+    data:
+      option: Pulse
+  - service: number.set_value
+    target:
+      entity_id: group.led_strip_effect_color
+    data:
+      value: 0
+  - service: number.set_value
+    target:
+      entity_id: group.led_strip_effect_duration
+    data:
+      value: 255
+  id: 4bf1d4391b1f4c2a9079e03c69f01d40
+- alias: Alert Stranger Danger Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_stranger_danger
+    to: 'off'
+  action:
+  - service: select.select_option
+    target:
+      entity_id: group.led_strip_effect
+    data:
+      option: 'Off'
+  - service: number.set_value
+    target:
+      entity_id: group.led_strip_effect_duration
+    data:
+      value: 0
+  id: 5783e93e654b4d2aae7853a219586a1a
+- alias: Alert Laundry On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_laundry
+    to: 'on'
+  action:
+  - service: select.select_option
+    target:
+      entity_id: select.laundry_switch_all_led_strip_effect_effect
+    data:
+      option: Pulse
+  - service: number.set_value
+    target:
+      entity_id: number.laundry_switch_all_led_strip_effect_color
+    data:
+      value: 170
+  - service: number.set_value
+    target:
+      entity_id: number.laundry_switch_all_led_strip_effect_duration
+    data:
+      value: 255
+  id: 09d1611ef5a2482785ffcb7282228c4d
+- alias: Alert Laundry Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_laundry
+    to: 'off'
+  action:
+  - service: select.select_option
+    target:
+      entity_id: select.laundry_switch_all_led_strip_effect_effect
+    data:
+      option: 'Off'
+  - service: number.set_value
+    target:
+      entity_id: number.laundry_switch_all_led_strip_effect_duration
+    data:
+      value: 0
+  id: 6e8b9937a4ee4d0ca93446cb92e54d38
+- alias: Garage Stairs Lighting on Motion
+  trigger:
+  - platform: state
+    entity_id: input_boolean.motion_garage_stairs
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.garage_stairs
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - garage_stairs
+        trigger: motion
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_trigger_garage_stairs_lights
+  id: a1d2c56afe9f4b5cbf711da41ee20129
+- alias: Garage Stairs Lighting on Door Open
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_door
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.garage_stairs
+    state: 'off'
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.downstairs_hallway_trisensor_luminance
+        below: 20.0
+      sequence:
+      - service: script.turn_on
+        entity_id: script.update_lights
+        data:
+          variables:
+            lights:
+            - garage_stairs
+            - downstairs_hallway
+            trigger: door
+    default:
+    - service: script.turn_on
+      entity_id: script.update_lights
+      data:
+        variables:
+          lights:
+          - garage_stairs
+          trigger: door
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.door_trigger_garage_stairs_lights
+  - condition: numeric_state
+    entity_id: sensor.downstairs_hallway_trisensor_luminance
+    below: 20.0
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+  id: 1463409aeb2448048080084c7a65a7c2
+- alias: Garage Stairs Lighting Door to Motion Transition
+  trigger:
+    platform: state
+    entity_id: input_boolean.motion_garage_stairs
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: input_boolean.door_trigger_garage_stairs_lights
+    state: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_trigger_garage_stairs_lights
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.door_trigger_garage_stairs_lights
+  id: 1b00ddc5de20400eac0502be8ae48ff2
+- alias: Garage Stairs Lighting Timed Out
+  trigger:
+  - platform: state
+    entity_id: input_boolean.motion_garage_stairs
+    to: 'off'
+    for:
+      seconds: 20
+  - platform: state
+    entity_id: binary_sensor.garage_door
+    to: 'off'
+    for:
+      seconds: 140
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.motion_garage_stairs
+      state: 'off'
+    - condition: state
+      entity_id: binary_sensor.garage_door
+      state: 'off'
+      for:
+        minutes: 2
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_boolean.motion_trigger_garage_stairs_lights
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.door_trigger_garage_stairs_lights
+        state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.garage_stairs
+  - service: input_boolean.turn_off
+    entity_id:
+    - input_boolean.motion_trigger_garage_stairs_lights
+    - input_boolean.door_trigger_garage_stairs_lights
+  id: eb61782de265430187fad99500311ae9
+- alias: Downstairs Hallway Lighting on Motion
+  trigger:
+  - platform: state
+    entity_id: input_boolean.motion_downstairs_hallway
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: light.downstairs_hallway
+      state: 'off'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_boolean.mode_morning
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.mode_sunset
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.mode_night
+        state: 'on'
+      - condition: numeric_state
+        entity_id: sensor.downstairs_hallway_trisensor_luminance
+        below: 20.0
+  action:
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - downstairs_hallway
+        trigger: motion
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
+  id: 7aec67203d0c435fad630e024f08038d
+- alias: Downstairs Hallway Lighting on Door Open
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.front_door
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: light.downstairs_hallway
+      state: 'off'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_boolean.mode_morning
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.mode_sunset
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.mode_night
+        state: 'on'
+      - condition: numeric_state
+        entity_id: sensor.downstairs_hallway_trisensor_luminance
+        below: 20.0
+  action:
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - downstairs_hallway
+        trigger: door
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+  id: 537df3fac8054803a1979f0600a77690
+- alias: Downstairs Hallway Lighting Door to Motion Transition
+  trigger:
+    platform: state
+    entity_id: input_boolean.motion_downstairs_hallway
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+    state: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+  id: c81a03eadc1644a0954bc7a2b57860c2
+- alias: Downstairs Hallway Lighting Timed Out
+  trigger:
+  - platform: state
+    entity_id: input_boolean.motion_downstairs_hallway
+    to: 'off'
+    for:
+      seconds: 20
+  - platform: state
+    entity_id: binary_sensor.garage_door
+    to: 'off'
+    for:
+      seconds: 140
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.motion_downstairs_hallway
+      state: 'off'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+        state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.downstairs_hallway
+  - service: input_boolean.turn_off
+    entity_id:
+    - input_boolean.motion_trigger_downstairs_hallway_lights
+    - input_boolean.door_trigger_downstairs_hallway_lights
+  id: 596469b0430c4a25b3bdab7c43b95edb
+- alias: Upstairs Hallway Group Lighting on Motion
+  trigger:
+  - platform: state
+    entity_id: group.motion_upstairs_hallway_group_areas
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: light.upstairs_hallway_group
+      state: 'off'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_boolean.mode_morning
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.mode_sunset
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.mode_night
+        state: 'on'
+      - condition: numeric_state
+        entity_id: sensor.main_stairs_multisensor_luminance
+        below: 70.0
+  action:
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - upstairs_hallway_group
+        trigger: motion
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+  id: 9cf8b66af54b4da9a2241e437a3d6ea3
+- alias: Upstairs Hallway Group Lighting Timed Out
+  trigger:
+  - platform: state
+    entity_id: group.motion_upstairs_hallway_group_areas
+    to: 'off'
+    for:
+      seconds: 20
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: group.motion_upstairs_hallway_group_areas
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+      state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.upstairs_hallway_group
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+  id: 07359fec3559474785cd241bcd33381e
+- alias: Den Hallway Lighting on Motion
+  trigger:
+  - platform: state
+    entity_id: input_boolean.motion_den_hallway
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: light.den_hallway
+      state: 'off'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_boolean.mode_morning
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.mode_sunset
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.mode_night
+        state: 'on'
+      - condition: numeric_state
+        entity_id: sensor.den_multisensor_luminance
+        below: 20.0
+  action:
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - den_hallway
+        trigger: motion
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_trigger_den_hallway_lights
+  id: 8b9ecf8f51c748f99abccb2b05034a4b
+- alias: Den Hallway Lighting Timed Out
+  trigger:
+  - platform: state
+    entity_id: input_boolean.motion_den_hallway
+    to: 'off'
+    for:
+      seconds: 20
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.motion_den_hallway
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.motion_trigger_den_hallway_lights
+      state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.den_hallway
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_trigger_den_hallway_lights
+  id: af0d61a7acc546d884ee670979d3ac25
+- alias: Laundry Lighting on Door Open
+  trigger:
+    platform: state
+    entity_id: group.laundry_door_sensor
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.laundry
+    state: 'off'
+  action:
+  - service: light.turn_on
+    entity_id: light.laundry
+  id: a606bcd6371b4dc2b48e41d31217addf
+- alias: Laundry Lighting on Door Close
+  trigger:
+    platform: state
+    entity_id: group.laundry_door_sensor
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: light.laundry
+    state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.laundry
+  id: 82c631eaac6f4ed6a06e395be275d1b0
+- alias: Bedroom Closet Lighting - Turn On
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.bedroom_closet_door
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.motion_bedroom_closet
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.bedroom_closet
+    state: 'off'
+  action:
+  - service: light.turn_on
+    entity_id: light.bedroom_closet
+  id: f5d74321e71c45c58de92b55e317691c
+- alias: Bedroom Closet Lighting on Door Close
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.bedroom_closet_door
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: light.bedroom_closet
+    state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.bedroom_closet
+  id: 291af5c8ca474080a894649d1740da57
+- alias: Bedroom Closet Lights Timed Out
+  trigger:
+  - platform: state
+    entity_id: input_boolean.motion_bedroom_closet
+    to: 'off'
+    for:
+      minutes: 10
+  action:
+  - service: light.turn_off
+    entity_id: light.bedroom_closet
+  id: ada3a17a2fc94d22a74efc6b00900437
+- id: 1f6d31bb02814407b9a2985e7300c24e
+  alias: Studio Closet Lighting on Door Open
+  triggers:
+  - entity_id: binary_sensor.studio_closet_door
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: light.studio_closet
+    state: 'off'
+  actions:
+  - entity_id: light.studio_closet
+    action: light.turn_on
+- id: 92efc1bc59754096b9c0640dd2adc885
+  alias: Studio Closet Lighting on Door Close
+  triggers:
+  - entity_id: binary_sensor.studio_closet_door
+    to: 'off'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: light.studio_closet
+    state: 'on'
+  actions:
+  - entity_id: light.studio_closet
+    action: light.turn_off
+- id: cdb03ad2748f4c90b8c454624cbb07fb
+  alias: Studio Closet Lights Timed Out
+  triggers:
+  - entity_id: light.studio_closet
+    to: 'on'
+    for:
+      minutes: 12
+    trigger: state
+  actions:
+  - entity_id: light.studio_closet
+    action: light.turn_off
+- alias: Start Welcome Lighting
+  trigger:
+  - platform: state
+    entity_id: group.residents
+    to: home
+  - platform: state
+    entity_id: input_boolean.mode_guest
+    to: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.mode_day
+        state: 'on'
+      sequence:
+      - service: script.turn_on
+        entity_id: script.update_lights
+        data:
+          variables:
+            lights:
+            - den
+            - rec_room_canvas
+    default:
+    - service: script.turn_on
+      entity_id: script.update_lights
+      data:
+        variables:
+          lights:
+          - kitchen
+          - living_room
+          - rec_room_canvas
+          - bedroom
+          - den
+          - den_cabinets
+  id: f7213450ce71441880c50a427d5c9c06
+- alias: Start Away Lighting
+  trigger:
+  - platform: state
+    entity_id: group.residents
+    to: not_home
+    for:
+      minutes: 4
+  - platform: state
+    entity_id: input_boolean.mode_guest
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: group.residents
+    state: not_home
+  - condition: state
+    entity_id: input_boolean.mode_guest
+    state: 'off'
+  action:
+  - choose:
+    - conditions:
+        condition: or
+        conditions:
+        - condition: state
+          entity_id: group.motion_guest_areas
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.mode_home_theater
+          state: 'on'
+      sequence:
+      - event: mode_guest_turn_on
+    default:
+    - service: light.turn_off
+      entity_id: group.inside_lights
+  id: 074a15c7d04a4927aa5c5ce013038f0a
+- alias: Simulate Presence Mode - Update Lights
+  trigger:
+  - platform: event
+    event_type: mode_simulate_presence_on
+  action:
+  - service: script.turn_on
+    entity_id: script.simulate_presence
+  id: 2d0358baea7843258fc191ec5ac61eae
+- alias: Simulate Presence Mode - Off
+  trigger:
+  - platform: event
+    event_type: mode_simulate_presence_off
+  action:
+  - service: script.turn_off
+    entity_id: script.simulate_presence
+  id: 355c0e77ccf64b8c8d1304b3530fdeb6
+- alias: Sleep Mode Started Turn Off Den Cabinet Lights
+  trigger:
+  - platform: event
+    event_type: mode_sleep_on_delay_short
+  action:
+  - service: light.turn_off
+    entity_id:
+    - light.den
+    - light.den_cabinets
+    - light.patio
+    - light.patio_string
+  id: ee1380ba381c47d7a9bcafec1ef2345e
+- alias: Sleep Mode Ended Update Lights
+  trigger:
+  - platform: event
+    event_type: mode_sleep_off
+  condition:
+  - condition: state
+    entity_id: group.residents
+    state: home
+  action:
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - kitchen
+        - rec_room_canvas
+        - bedroom
+        - den
+        - den_cabinets
+  - service: number.set_value
+    target:
+      entity_id: number.bedroom_dimmer_default_all_led_strip_brightness_when_off
+    data:
+      value: 1
+  id: 61e7e463a0d54f018fb885cdcf9a6f51
+- alias: Sleep Mode Wake Up Time Ended Update Lights
+  trigger:
+  - platform: event
+    event_type: mode_sleep_off_wakeup_long
+  condition:
+  - condition: state
+    entity_id: light.bedroom
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - bedroom
+  id: 6f4b16d23c374f779269ae60ac1b97eb
+- alias: Sleep Mode Lights On When Patio Door Opens
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.patio_door
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.mode_sleep
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - kitchen
+        - living_room
+  id: ed0e1495414447e9bda9c03842ff6219
+- id: 345242ddcb404be9a611027fca27b56c
+  alias: Sleep Mode Dimmer LED Off When Lights Off
+  trigger:
+  - platform: state
+    entity_id: group.bedroom_lights
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.mode_sleep
+    state: 'on'
+  action:
+  - target:
+      entity_id:
+      - number.bedroom_dimmer_default_all_led_strip_brightness_when_off
+      - number.bathroom_dimmer_default_all_led_strip_brightness_when_off
+      - number.bathroom_wc_dimmer_default_all_led_strip_brightness_when_off
+    data:
+      value: 0
+    action: number.set_value
+  mode: single
+- id: 07f3f2a6b4a842708efe8509d47abcd0
+  alias: Sleep Mode Dimmer LED On When Lights On
+  trigger:
+  - platform: state
+    entity_id: group.bedroom_lights
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
+  action:
+  - target:
+      entity_id:
+      - number.bedroom_dimmer_default_all_led_strip_brightness_when_off
+      - number.bathroom_dimmer_default_all_led_strip_brightness_when_off
+      - number.bathroom_wc_dimmer_default_all_led_strip_brightness_when_off
+    data:
+      value: 2
+    action: number.set_value
+  mode: single
+- alias: Update Switch Colors
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_morning
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.mode_night
+    to: 'on'
+  action:
+  - delay: 00:00:01
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.mode_night
+        state: 'on'
+      sequence:
+      - service: number.set_value
         target:
-          entity_id: light.bedroom
+          entity_id:
+          - group.led_color_when_off
+          - group.led_color_when_on
+        data:
+          value: 190
+    default:
+    - service: number.set_value
+      target:
+        entity_id:
+        - group.led_color_when_off
+        - group.led_color_when_on
+      data:
+        value: 255
+  id: a12ed7dbc9f54516abdfba834138931b
+- alias: Update Lights After Sunrise
+  trigger:
+  - platform: event
+    event_type: mode_morning_off_delay_short
+  condition:
+    condition: and
+    conditions:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: group.residents
+        state: home
+      - condition: state
+        entity_id: input_boolean.mode_guest
+        state: 'on'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: light.kitchen
+        state: 'on'
+      - condition: state
+        entity_id: light.living_room
+        state: 'on'
+      - condition: state
+        entity_id: light.den
+        state: 'on'
+      - condition: state
+        entity_id: light.den_cabinets
+        state: 'on'
+  action:
+  - delay: 00:00:01
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - kitchen
+        - living_room
+        - den
+        - den_cabinets
+  id: 76739e53c933471ab4a219d26793f42d
+- alias: Update Lights Before Sunset
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_sunset
+    to: 'on'
+  action:
+  - delay: 00:00:01
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: group.residents
+          state: home
+        - condition: state
+          entity_id: input_boolean.mode_guest
+          state: 'on'
+      sequence:
+      - service: script.turn_on
+        entity_id: script.update_lights
+        data:
+          variables:
+            lights:
+            - kitchen
+            - living_room
+            - living_room_tv
+            - bedroom
+            - den
+            - den_cabinets
+            - patio
+            - patio_string_lights
+            seconds: 10
+    default:
+    - service: script.turn_on
+      entity_id: script.update_lights
+      data:
+        variables:
+          lights:
+          - patio
+          - patio_string_lights
+  id: 6a7097221eac4b17aa39a26cc81a78d8
+- alias: Update Lights at Night
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_night
+    to: 'on'
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: group.residents
+      state: home
+    - condition: state
+      entity_id: input_boolean.mode_guest
+      state: 'on'
+  action:
+  - delay: 00:00:01
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - kitchen
+        - living_room
+        - living_room_tv
+        - bedroom
+        - den
+        - den_cabinets
+        seconds: 10
+  id: 38843906373a44dc87e8d6e7142333f0
+- alias: Update Lights at Late Night
+  trigger:
+  - platform: time
+    at: 03:00:00
+  condition:
+  - condition: state
+    entity_id: group.residents
+    state: not_home
+  - condition: state
+    entity_id: input_boolean.mode_guest
+    state: 'off'
+  action:
+  - service: light.turn_off
+    entity_id: group.outside_lights
+  id: 6d5e863edaff4d449ed1c3474a13461f
+- alias: Update Lights at Night Progressive Dimming
+  trigger:
+  - platform: time
+    at: input_datetime.prefer_lighting_mid_time
+  - platform: time
+    at: input_datetime.prefer_lighting_low_time
+  condition:
+    condition: and
+    conditions:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: group.residents
+        state: home
+      - condition: state
+        entity_id: input_boolean.mode_guest
+        state: 'on'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: light.kitchen
+        state: 'on'
+      - condition: state
+        entity_id: light.living_room
+        state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - kitchen
+        - living_room
+        seconds: 10
+  id: a1a25314a7e44a00bd7140d894b97890
+- id: 54a23323fa1a409ca7fa8817482d5366
+  alias: Bedroom Lights at Night - Sleep Mode On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: group.residents
+    state: home
+  - condition: state
+    entity_id:
+    - light.bedroom
+    state: 'on'
+  action:
+  - entity_id: script.scene_bedroom_sleep_mode_on
+    action: script.turn_on
+- id: 95d4190e272949a2a91190afd8d5a628
+  alias: Bedroom Lights at Night - Sleep Mode Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: group.residents
+    state: home
+  - condition: state
+    entity_id:
+    - light.bedroom
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.mode_morning
+    state: 'off'
+  action:
+  - entity_id: script.update_lights
+    data:
+      variables:
+        lights:
+        - bedroom
+    action: script.turn_on
+- alias: Set All Thermostats to ECO When Windows Open
+  trigger:
+  - platform: state
+    entity_id: group.all_windows
+    from: 'off'
+    to: 'on'
+    for:
+      seconds: 30
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: group.residents
+      state: home
+    - condition: state
+      entity_id: input_boolean.mode_guest
+      state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: climate.downstairs
+      attribute: preset_mode
+      state: eco
+    - condition: state
+      entity_id: climate.upstairs
+      attribute: preset_mode
+      state: eco
+  action:
+  - service: climate.set_preset_mode
+    data:
+      entity_id:
+      - climate.downstairs
+      - climate.upstairs
+      preset_mode: eco
+  id: aea3b2614a494bf2956e983acefe5900
+- alias: Restore All Thermostats When Windows Close
+  trigger:
+  - platform: state
+    entity_id: group.all_windows
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: group.residents
+      state: home
+    - condition: state
+      entity_id: input_boolean.mode_guest
+      state: 'on'
+  action:
+  - service: climate.set_preset_mode
+    data:
+      entity_id:
+      - climate.downstairs
+      - climate.upstairs
+      preset_mode: none
+  id: 6093415dea134340a100dfc1500d1eb4
+- id: 5a0afe3c6b58437f9b514aac1819c5ab
+  alias: Notify Battery - Replace Low Battery
+  triggers:
+  - entity_id:
+    - sensor.august_web_front_door_battery
+    - sensor.august_web_garage_door_battery
+    - sensor.garage_motion_battery_level
+    - sensor.garage_stairs_multisensor_battery_level
+    - sensor.downstairs_hallway_trisensor_battery_level
+    - sensor.main_stairs_multisensor_battery_level
+    - sensor.bedroom_closet_door_battery_level
+    - sensor.bedroom_closet_trisensor_battery_level
+    - sensor.laundry_door_left_battery_level
+    - sensor.laundry_door_right_battery_level
+    - sensor.den_multisensor_battery_level
+    - sensor.studio_closet_door_battery_level
+    below: 40
+    for:
+      hours: 1
+    trigger: numeric_state
+  actions:
+  - data:
+      title: Condo
+      message: The {{ trigger.to_state.attributes.friendly_name.replace('Battery level',
+        '').replace('Battery Charege', '').replace('Battery', '') }} battery is at
+        {{ trigger.to_state.state }}%. A task to replace it has been added to Things.
+      data:
+        url: /dashboard-phone/health
+        push:
+          thread-id: ha-condo-group
+          sound: gesture.wav
+    action: notify.mobile_app_alexis_iphone
+  - data:
+      title: Replace {{ trigger.to_state.attributes.friendly_name.replace('Battery
+        level', '').replace('Battery Charege', '').replace('Battery', '') }} Battery
+      when: Today
+      list: Maintenance
+    action: rest_command.things_add_task
+- id: 43d533db8d0f47369353b80f63487884
+  alias: Notify Laundry - Washing Machine Completed
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.washer_current_status
+    to: end
+  actions:
+  - data:
+      title: Condo
+      message: The laundry in the washing machine is ready to be put in the dryer.
+      data:
+        push:
+          thread-id: ha-condo-group
+          sound: gentle-alarm.wav
+    action: notify.mobile_app_alexis_iphone
+  - event: mode_laundry_turn_on
+- id: b3f216e47d8a4a1295b0f333ef373dc8
+  alias: Notify Security - Sonos - Doorbell Pressed
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.front_door_doorbell
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: group.residents
+      state: home
+    - condition: state
+      entity_id: input_boolean.mode_guest
+      state: 'on'
+  action:
+  - data:
+      message: "{%- if is_state('input_boolean.mode_home_theater', 'on') -%}\n  Excuse
+        the interruption... Someone is at the front door.\n{%- elif is_state('sensor.sonos_group_master_state',
+        'playing') -%}\n  Excuse the interruption... Someone is at the front door.\n{%-
+        else -%}\n  Someone is at the front door.\n{%- endif %}"
+    action: rest_command.notify_sonos_all
+- alias: Notify Security - Sonos - Garage Actual Opened
+  trigger:
+  - platform: state
+    entity_id: sensor.garage_actual
+    from: closed
+    to: open
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.mode_sleep
+      state: 'off'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: group.residents
+        state: home
+      - condition: state
+        entity_id: input_boolean.mode_guest
+        state: 'on'
+  action:
+  - service: rest_command.notify_sonos_all
+    data:
+      message: "{%- if is_state('input_boolean.mode_home_theater', 'on') -%}\n  Excuse
+        the interruption... The garage has opened.\n{%- elif is_state('sensor.sonos_group_master_state',
+        'playing') -%}\n  Excuse the interruption... The garage has opened.\n{%- else
+        -%}\n  The garage has opened.\n{%- endif %}"
+  id: b378dea6b26045e598f2bfa9f081b219
+- id: b9a3adaeb67d4d458cfefc74c50d92e3
+  alias: Notify Security - Sonos - Home Not Secure During Sleep Mode
+  triggers:
+  - entity_id: sensor.garage_actual
+    to: open
+    trigger: state
+  - entity_id:
+    - binary_sensor.garage_door
+    - binary_sensor.front_door
+    - binary_sensor.patio_door
+    - binary_sensor.den_door
+    - binary_sensor.kitchen_windows
+    - binary_sensor.living_room_windows
+    - binary_sensor.rec_room_windows
+    - binary_sensor.bedroom_windows
+    - binary_sensor.den_windows
+    - binary_sensor.studio_windows
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: input_boolean.mode_sleep
+    state: 'on'
+  actions:
+  - data:
+      message: Wake up! The {{ trigger.to_state.attributes.friendly_name }} was opened.
+      room: Bedroom Sonos One
+      volume: 30
+    action: rest_command.notify_sonos_room
+- id: 6be753e97e8044889893cc60d1dfb2f0
+  alias: Notify Security - Window Opened or Closed When Away
+  triggers:
+  - entity_id:
+    - binary_sensor.kitchen_windows
+    - binary_sensor.living_room_windows
+    - binary_sensor.rec_room_windows
+    - binary_sensor.bedroom_windows
+    - binary_sensor.den_windows
+    - binary_sensor.studio_windows
+    to: 'off'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: group.residents
+    state: not_home
+  actions:
+  - data:
+      title: Condo
+      message: The {{ trigger.to_state.attributes.friendly_name }} were {% if trigger.to_state.state
+        == 'on' %}opened{% else %}closed{% endif %}.
+      data:
+        url: /lovelace/security
+        push:
+          thread-id: ha-condo-group
+          sound: gamelan.wav
+    action: notify.mobile_app_alexis_iphone
+  mode: queued
+- id: efd1286a56a6434cb2aca8b1ca18b675
+  alias: Notify Security - Door Opened
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_door
+    - binary_sensor.front_door
+    - binary_sensor.patio_door
+    - binary_sensor.den_door
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.mode_sleep
+    state: 'off'
+  action:
+  - data:
+      title: Condo
+      message: The {{ trigger.to_state.attributes.friendly_name }} was {% if trigger.to_state.state
+        == 'on' %}opened{% else %}closed{% endif %}.
+      data:
+        url: /lovelace/security
+        push:
+          thread-id: ha-condo-group
+          sound: gamelan.wav
+    action: notify.mobile_app_alexis_iphone
+  mode: queued
+- id: 9a6811fa31cf40f380abb666e858ba42
+  alias: Notify Security - Front Door Locked or Unlocked
+  trigger:
+  - platform: state
+    entity_id: lock.august_web_front_door
+    from: locked
+    to: unlocked
+  - platform: state
+    entity_id: lock.august_web_front_door
+    from: unlocked
+    to: locked
+  - platform: state
+    entity_id:
+    - lock.august_web_front_door
+    from: unlocking
+    to: unlocked
+  - platform: state
+    entity_id:
+    - lock.august_web_front_door
+    from: locking
+    to: locked
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - data:
+      title: Condo
+      message: "{% if is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
+        Lock') or is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
+        Unlock') %}\n  {% set message = 'manually ' ~ states('lock.august_web_front_door')
+        %}\n{% else %}\n  {% set message = states('lock.august_web_front_door') ~
+        ' by ' ~ state_attr('lock.august_web_front_door', 'changed_by') %}\n{% endif
+        %} The Front Door was {{ message }}."
+      data:
+        url: /lovelace/security
+        push:
+          thread-id: ha-condo-group
+          sound: basic-bit-shots.wav
+    action: notify.mobile_app_alexis_iphone
+- id: 60b9d55c16624c8ea648895ce8395e13
+  alias: Notify Security - Garage Actual Opened or Closed
+  trigger:
+  - platform: state
+    entity_id: sensor.garage_actual
+    from: closed
+    to: open
+  - platform: state
+    entity_id: sensor.garage_actual
+    from: open
+    to: closed
+  condition:
+  - condition: state
+    entity_id: input_boolean.mode_sleep
+    state: 'off'
+  action:
+  - data:
+      title: Condo
+      message: The {{ trigger.to_state.attributes.friendly_name }} was {% if trigger.to_state.state
+        == 'open' %}opened{% else %}closed{% endif %}.
+      data:
+        url: /lovelace/security
+        push:
+          thread-id: ha-condo-group
+          sound: gamelan.wav
+    action: notify.mobile_app_alexis_iphone
+  mode: queued
+- id: ba0e5069adff40f29a505cc276288f5a
+  alias: Notify Security - Door Opened for Extended Period of Time
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_door
+    - binary_sensor.front_door
+    - binary_sensor.patio_door
+    - binary_sensor.den_door
+    to: 'on'
+    for:
+      minutes: 2
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_door
+    - binary_sensor.front_door
+    - binary_sensor.patio_door
+    - binary_sensor.den_door
+    to: 'on'
+    for:
+      minutes: 5
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_door
+    - binary_sensor.front_door
+    - binary_sensor.patio_door
+    - binary_sensor.den_door
+    to: 'on'
+    for:
+      minutes: 10
+  action:
+  - data:
+      title: Condo
+      message: The {{ trigger.to_state.attributes.friendly_name }} has been open for
+        {{ (trigger.for.total_seconds() / 60) | int(0) }} minutes.
+      data:
+        url: /lovelace/security
+        push:
+          thread-id: ha-condo-group
+          sound: siren.wav
+    action: notify.mobile_app_alexis_iphone
+  mode: queued
+- id: 3914663672bc474e98b6b778cfac7d8c
+  alias: Notify Security - Garage Actual Opened for Extended Period of Time
+  trigger:
+  - platform: state
+    entity_id: sensor.garage_actual
+    to: open
+    for:
+      minutes: 10
+  - platform: state
+    entity_id: sensor.garage_actual
+    to: open
+    for:
+      minutes: 20
+  - platform: state
+    entity_id: sensor.garage_actual
+    to: open
+    for:
+      minutes: 30
+  action:
+  - data:
+      title: Condo
+      message: The {{ trigger.to_state.attributes.friendly_name }} has been open for
+        {{ (trigger.for.total_seconds() / 60) | int(0) }} minutes.
+      data:
+        url: /lovelace/security
+        push:
+          thread-id: ha-condo-group
+          sound: siren.wav
+    action: notify.mobile_app_alexis_iphone
+  mode: queued
+- id: a958ff4f89e846b0a965ea2b614bdd57
+  alias: Notify of Guest Motion Detected
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_guest
+    to: 'on'
+  action:
+  - delay: 00:00:02
+  - data:
+      title: Condo
+      message: "{%- if is_state(\"lock.august_web_front_door\", \"unlocked\") -%}\n
+        \ Guest Mode has been triggered and the front door was {% if is_state(\"sensor.august_smart_lock_pro_front_door_access_control\",
+        \"2\") %}manually unlocked.{% elif is_state(\"sensor.august_smart_lock_pro_front_door_access_control\",
+        \"4\") %}unlocked with the August app.{% elif is_state(\"sensor.august_smart_lock_pro_front_door_access_control\",
+        \"6\") %}unlocked with the keypad.{% else %}unlocked.{% endif %} Expecting
+        anyone?\n{%- else -%}\n  Guest Mode has been triggered and the front door
+        is locked. Cats? Aliens?\n{%- endif %}"
+      data:
+        url: /lovelace/security
+        push:
+          thread-id: ha-condo-group
+          sound: siren.wav
+    action: notify.mobile_app_alexis_iphone
+  mode: queued
+- id: 52723054e1e54c509bf18456b0a9aa80
+  alias: Notify of Guest Mode Ended
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_guest
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: group.residents
+    state: not_home
+  action:
+  - data:
+      title: Condo
+      message: Motion in guest areas has not been detected for 30 minutes. Guest Mode
+        has been turned off.
+      data:
+        url: /lovelace/security
+        push:
+          thread-id: ha-condo-group
+          sound: gamelan.wav
+    action: notify.mobile_app_alexis_iphone
+  mode: queued
+- id: f886bf013ad441abbb8d33e3036794c7
+  alias: Notify Security - Home Not Secure for Extended Period of Time When Away
+  trigger:
+  - platform: state
+    entity_id: sensor.dashboard_home_state
+    to: Insecure
+    for:
+      minutes: 10
+  - platform: state
+    entity_id: group.residents
+    to: not_home
+    for:
+      minutes: 10
+  - platform: state
+    entity_id: input_boolean.mode_guest
+    to: 'off'
+    for:
+      minutes: 10
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: sensor.dashboard_home_state
+      state: Insecure
+    - condition: state
+      entity_id: group.residents
+      state: not_home
+    - condition: state
+      entity_id: input_boolean.mode_guest
+      state: 'off'
+    - condition: template
+      value_template: '{{ states.lock.august_web_front_door.state != ''unknown'' }}'
+    - condition: template
+      value_template: '{{ states.lock.august_web_garage_door.state != ''unknown''
+        }}'
+  action:
+  - data:
+      title: Condo
+      message: The condo has not been secure for 10 minutes.
+      data:
+        url: /lovelace/security
+        push:
+          thread-id: ha-condo-group
+          sound:
+            name: siren.wav
+    action: notify.mobile_app_alexis_iphone
+  mode: queued
+- id: 9d31fea744f04f249e0c413c708d68ea
+  alias: Notify Security - Home Not Secure During Sleep Mode
+  triggers:
+  - entity_id: sensor.garage_actual
+    to: open
+    trigger: state
+  - entity_id:
+    - binary_sensor.garage_door
+    - binary_sensor.front_door
+    - binary_sensor.patio_door
+    - binary_sensor.den_door
+    - binary_sensor.kitchen_windows
+    - binary_sensor.living_room_windows
+    - binary_sensor.rec_room_windows
+    - binary_sensor.bedroom_windows
+    - binary_sensor.den_windows
+    - binary_sensor.studio_windows
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: input_boolean.mode_sleep
+    state: 'on'
+  actions:
+  - data:
+      title: Condo
+      message: The {{ trigger.to_state.attributes.friendly_name }} was opened.
+      data:
+        url: /lovelace/security
+        push:
+          thread-id: ha-condo-group
+          sound:
+            name: siren.wav
+            critical: 1
+            volume: 1
+    action: notify.mobile_app_alexis_iphone
+  - event: mode_stranger_danger_turn_on
+  mode: queued
+- alias: Notify Woodhouse - Excessive CPU Temp
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.woodhouse_cpu1_temp
+    - sensor.woodhouse_cpu2_temp
+    above: 68
+    for:
+      minutes: 10
+  - platform: numeric_state
+    entity_id:
+    - sensor.woodhouse_cpu1_temp
+    - sensor.woodhouse_cpu2_temp
+    above: 68
+    for:
+      minutes: 20
+  - platform: numeric_state
+    entity_id:
+    - sensor.woodhouse_cpu1_temp
+    - sensor.woodhouse_cpu2_temp
+    above: 68
+    for:
+      minutes: 30
+  - platform: numeric_state
+    entity_id:
+    - sensor.woodhouse_cpu1_temp
+    - sensor.woodhouse_cpu2_temp
+    above: 68
+    for:
+      minutes: 60
+  action:
+  - service: notify.mobile_app_alexis_iphone
+    data:
+      url: /dashboard-phone/health
+      title: Woodhouse
+      message: '{%- set level = ''critical'' if states("sensor.woodhouse_cpu1_temp")
+        | int(0) > 79 or states("sensor.woodhouse_cpu2_temp") | int(0) > 79 else ''warning''
+        -%} {{- level | title }}. The server has been running hot for {{ (trigger.for.total_seconds()
+        / 60) | int(0) }} minutes.'
+      data:
+        push:
+          thread-id: ha-server-group
+          sound:
+            name: siren.wav
+            critical: 1
+            volume: 1.0
+  id: a441ee8487ce48efad56db29a82da9f2
+- alias: Notify Woodhouse - Normal CPU Temp
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.woodhouse_cpu1_temp
+    - sensor.woodhouse_cpu2_temp
+    below: 69
+    for:
+      minutes: 5
+  condition:
+  - '{{ trigger.from_state is not none }}'
+  - '{{ trigger.from_state.state is number }}'
+  action:
+  - service: notify.mobile_app_alexis_iphone
+    data:
+      url: /dashboard-phone/health
+      title: Woodhouse
+      message: The server has been restored to a normal operating temperature."
+      data:
+        push:
+          thread-id: ha-server-group
+          sound: gesture.wav
+  id: da0d7059831e49039dd18a25de59cc04
+- alias: Notify Server Rack - UPS on Battery
+  trigger:
+  - platform: state
+    entity_id: sensor.server_rack_ups_status_data
+    to: OB DISCHRG
+  - platform: state
+    entity_id: sensor.server_rack_ups_status_data
+    to: OB DISCHRG
+    for:
+      minutes: 5
+  - platform: state
+    entity_id: sensor.server_rack_ups_status_data
+    to: OB DISCHRG
+    for:
+      minutes: 10
+  - platform: state
+    entity_id: sensor.server_rack_ups_status_data
+    to: OB DISCHRG
+    for:
+      minutes: 15
+  - platform: state
+    entity_id: sensor.server_rack_ups_status_data
+    to: OB DISCHRG
+    for:
+      minutes: 20
+  action:
+  - service: notify.mobile_app_alexis_iphone
+    data:
+      url: /dashboard-phone/health
+      title: Server Rack
+      message: "{%- if ((as_timestamp(now()) - as_timestamp(states.sensor.server_rack_ups_status_data.last_changed))
+        / 60) | int(0) < 5 -%}\n  The UPS is running on battery power.\n{%- else -%}\n
+        \ The UPS has been running on battery power for {{ (trigger.for.total_seconds()
+        / 60) | int(0) }} minutes. {{ states.sensor.server_rack_ups_battery_charge.state
+        }}% remaining.\n{%- endif %}"
+      data:
+        push:
+          thread-id: ha-server-group
+          sound:
+            name: siren.wav
+            critical: 1
+            volume: 1.0
+  id: 37a8db6400a94de39b9e36aa272cbf98
+- alias: Notify Server Rack - UPS Online
+  trigger:
+  - platform: state
+    entity_id: sensor.server_rack_ups_status_data
+    to: OL CHRG
+    from: OB DISCHRG
+  action:
+  - service: notify.mobile_app_alexis_iphone
+    data:
+      url: /dashboard-phone/health
+      title: Server Rack
+      message: "{% if is_state('sensor.server_rack_ups_status_data', 'OL') %}\n  The
+        UPS is online and fully charged.\n{% elif is_state('sensor.server_rack_ups_status_data',
+        'OL CHRG') %}\n  The UPS is back online and charging.\n{% endif %}"
+      data:
+        push:
+          thread-id: ha-server-group
+          sound: gesture.wav
+  id: d67d597acf40444d9181941c7b796c56
+- alias: Notify HA - New Major Version
+  trigger:
+  - platform: state
+    entity_id: sensor.state_ha_new_major_version
+    to: 'on'
+  action:
+  - service: persistent_notification.create
+    data:
+      title: New Major Version Available
+      message: '{% set version = states(''sensor.latest_version'') %} An update to
+        {{ version }} is available for Home Assistant. View the [release notes](https://www.home-assistant.io/latest-release-notes/).'
+  id: a28b15251cfc48968adc4e62f30761bd
+- alias: Notify HACS - Updates Available
+  trigger:
+  - platform: state
+    entity_id: sensor.hacs
+  condition:
+  - '{{ states(trigger.entity_id) != "unknown"}}'
+  - '{{ (states(trigger.entity_id) | float) != 0}}'
+  action:
+  - service: persistent_notification.create
+    data:
+      title: Updates pending in HACS
+      message: "{% for repo in state_attr(trigger.entity_id, 'repositories') %}\n
+        \ **{{ repo.display_name }}** _{{ repo[\"installed_version\"] }}_ -> _{{ repo[\"available_version\"]
+        }}_\n{% endfor %}"
+  id: 3e6d8e2a91b245a788dfa9bb56e9aa3c
+- alias: Notify Service Restart - Sonarr
+  trigger:
+  - platform: event
+    event_type: event_service_restart_sonarr
+  action:
+  - service: notify.mobile_app_alexis_iphone
+    data:
+      title: Sonarr
+      message: The container has been down for 10 minutes and is being restarted.
+      data:
+        push:
+          thread-id: ha-server-group
+          sound: gesture.wav
+  id: a4281f6e48a64061b61fe24ccc97f7c8
+- alias: Notify Service Update - Plex
+  trigger:
+  - platform: event
+    event_type: event_service_upgrading_plex
+  action:
+  - service: notify.mobile_app_alexis_iphone
+    data:
+      title: Plex
+      message: Update available. The container is restarting to update to version
+        {{ state_attr("sensor.tautulli_plex_update_available", "version") }}
+      data:
+        push:
+          thread-id: ha-server-group
+          sound: gesture.wav
+  id: ee44b05bfde94911b76f55d3872e5f68
+- alias: Sonos - Pause Speakers When HT Mode Starts
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_home_theater
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: sensor.sonos_group_master_state
+    state: playing
+  action:
+  - service: media_player.media_pause
+    data:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+  id: 0d2af93e5ce84b1a973e633643c17b26
+- alias: Sonos - Sleep Mode Volume
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'on'
+  variables:
+    offset: 0.08
+  action:
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_bedroom
+      volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset)
+        | round(2, "floor") }}'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_bathroom
+      volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset)
+        | round(2, "floor") }}'
+  id: 8cde3eb887224daeabca4ee53890bdb1
+- id: 88c9d5e9e5fb4907a6b437fd69d42d0e
+  alias: Set Sonos Group Master Input Select
+  trigger:
+  - platform: state
+    entity_id: sensor.sonos_group_master
+  - platform: homeassistant
+    event: start
+  condition:
+  - condition: template
+    value_template: '{{ states.sensor.sonos_group_master.state != '''' }}'
+  action:
+  - data:
+      entity_id: input_select.master_sonos
+      option: "{% set master = states('sensor.sonos_group_master') %} {% if 'media_player.sonos_kitchen'
+        in master %}\n  Kitchen\n{% elif 'media_player.sonos_living_room' in master
+        %}\n  Living Room\n{% elif 'media_player.sonos_rec_room_tv' in master %}\n
+        \ Rec Room TV\n{% elif 'media_player.sonos_rec_room' in master %}\n  Rec Room\n{%
+        elif 'media_player.sonos_bedroom' in master %}\n  Bedroom\n{% elif 'media_player.sonos_bathroom'
+        in master %}\n  Bathroom\n{% elif 'media_player.sonos_den' in master %}\n
+        \ Den\n{% elif 'media_player.sonos_move' in master %}\n  Move\n{% else %}\n
+        \ Unknown\n{% endif %}"
+    action: input_select.select_option
+- alias: Set Sonos Switches On
+  mode: restart
+  trigger:
+  - platform: state
+    entity_id: sensor.sonos_switches_on
+  - platform: homeassistant
+    event: start
+  condition:
+  - '{{ states("sensor.sonos_switches_on") != "" }}'
+  action:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: '{{ states("sensor.sonos_switches_on") }}'
+  id: 6f0ec1f5f7b64531afb259b15464b983
+- alias: Set Sonos Switches Off
+  mode: restart
+  trigger:
+  - platform: state
+    entity_id: sensor.sonos_switches_off
+  - platform: homeassistant
+    event: start
+  condition:
+  - '{{ states("sensor.sonos_switches_off") != "" }}'
+  action:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: '{{ states("sensor.sonos_switches_off") }}'
+  id: 2ac7fd96f2274358901a321e31a22e79
+- alias: Toggle Sonos Speaker State
+  mode: restart
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.sonos_bathroom
+    - input_boolean.sonos_bedroom
+    - input_boolean.sonos_den
+    - input_boolean.sonos_kitchen
+    - input_boolean.sonos_living_room
+    - input_boolean.sonos_rec_room
+    - input_boolean.sonos_move
+  action:
+  - service: script.turn_on
+    data:
+      entity_id: "{% set switch  = trigger.to_state.entity_id %} {% if is_state(switch,
+        \"on\") %}\n  script.sonos_speaker_join_group\n{% else %}\n  script.sonos_speaker_unjoin_group\n{%
+        endif %}"
+      variables:
+        speaker: '{{ trigger.to_state.entity_id|replace("input_boolean", "media_player")
+          }}'
+  id: 37f6c302f00445f8b0d34cf456d246f5
+- alias: Sonos - Wakeup Volume
+  trigger:
+  - platform: time
+    at: 03:00:00
+  variables:
+    offset: 0.05
+  action:
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_kitchen
+      volume_level: '{{ (states("input_number.sonos_kitchen_volume") | float - offset)
+        | round(2, "floor") }}'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_living_room
+      volume_level: '{{ (states("input_number.sonos_living_room_volume") | float -
+        offset) | round(2, "floor") }}'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_rec_room
+      volume_level: '{{ (states("input_number.sonos_rec_room_volume") | float - offset)
+        | round(2, "floor") }}'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_rec_room_tv
+      volume_level: '{{ (states("input_number.sonos_rec_room_tv_volume") | float -
+        offset) | round(2, "floor") }}'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_bedroom
+      volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset)
+        | round(2, "floor") }}'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_bathroom
+      volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset)
+        | round(2, "floor") }}'
+  id: 01386299ef2a414eafebd08720add5fc
+- alias: Sonos - Morning Volume
+  trigger:
+  - platform: time
+    at: '11:00:00'
+  variables:
+    offset: 0.02
+  condition:
+  - condition: state
+    entity_id: sensor.sonos_group_master_state
+    state: paused
+  action:
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_kitchen
+      volume_level: '{{ (states("input_number.sonos_kitchen_volume") | float - offset)
+        | round(2, "floor") }}'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_living_room
+      volume_level: '{{ (states("input_number.sonos_living_room_volume") | float -
+        offset) | round(2, "floor") }}'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_rec_room
+      volume_level: '{{ (states("input_number.sonos_rec_room_volume") | float - offset)
+        | round(2, "floor") }}'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_bedroom
+      volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset)
+        | round(2, "floor") }}'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.sonos_bathroom
+      volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset)
+        | round(2, "floor") }}'
+  id: 98b5e6dcea21457c80e537919f7addfe
+- id: fc4453a7eb8240298d7fedae6c0f6898
+  alias: Sonos - Paused Reset
+  triggers:
+  - entity_id: sensor.sonos_group_master_state
+    from: playing
+    to: paused
+    for:
+      minutes: 30
+    trigger: state
+  actions:
+  - data:
+      entity_id: media_player.sonos_kitchen
+      volume_level: '{{ (states("input_number.sonos_kitchen_volume") | float - offset)
+        | round(2, "floor") }}'
+    action: media_player.volume_set
+  - data:
+      entity_id: media_player.sonos_living_room
+      volume_level: '{{ (states("input_number.sonos_living_room_volume") | float -
+        offset) | round(2, "floor") }}'
+    action: media_player.volume_set
+  - data:
+      entity_id: media_player.sonos_rec_room
+      volume_level: '{{ (states("input_number.sonos_rec_room_volume") | float - offset)
+        | round(2, "floor") }}'
+    action: media_player.volume_set
+  - data:
+      entity_id: media_player.sonos_bedroom
+      volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset)
+        | round(2, "floor") }}'
+    action: media_player.volume_set
+  - data:
+      entity_id: media_player.sonos_bathroom
+      volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset)
+        | round(2, "floor") }}'
+    action: media_player.volume_set
+  - data:
+      entity_id: media_player.sonos_den
+      volume_level: '{{ states("input_number.sonos_den_volume") | float }}'
+    action: media_player.volume_set
+  - data:
+      entity_id: media_player.sonos_move
+      volume_level: '{{ states("input_number.sonos_move_volume") | float }}'
+    action: media_player.volume_set
+  - data:
+      entity_id: media_player.sonos_bedroom
+      group_members:
+      - media_player.sonos_bathroom
+      - media_player.sonos_den
+      - media_player.sonos_kitchen
+      - media_player.sonos_living_room
+      - media_player.sonos_rec_room
+      - media_player.sonos_move
+    action: media_player.join
+  variables:
+    offset: 0.02
+- alias: Sonos - Shuffle On
+  trigger:
+  - platform: state
+    entity_id: sensor.sonos_group_master_state
+    to: playing
+  condition:
+  - '{{ is_state_attr(states("sensor.sonos_group_master"), "shuffle", false) }}'
+  action:
+  - service: media_player.shuffle_set
+    data:
+      entity_id: '{{ states("sensor.sonos_group_master") }}'
+      shuffle: true
+  id: 94597e4f50574f93bd1887267ca48488
+- id: 9013b60ccaed4d989607f196abea99a0
+  alias: Sonos - Volume Ramp Up
+  trigger:
+  - platform: state
+    entity_id: sensor.sonos_group_master_state
+    to: playing
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.mode_sleep
+      state: 'off'
+    - condition: or
+      conditions:
+      - condition: template
+        value_template: '{{ state_attr("media_player.sonos_kitchen", "volume_level")
+          | default(0) < states("input_number.sonos_kitchen_volume") | float }}'
+      - condition: template
+        value_template: '{{ state_attr("media_player.sonos_living_room", "volume_level")
+          | default(0) < states("input_number.sonos_living_room_volume") | float }}'
+      - condition: template
+        value_template: '{{ state_attr("media_player.sonos_rec_room", "volume_level")
+          | default(0) < states("input_number.sonos_rec_room_volume") | float }}'
+      - condition: template
+        value_template: '{{ state_attr("media_player.sonos_bedroom", "volume_level")
+          | default(0) < states("input_number.sonos_bedroom_volume") | float }}'
+      - condition: template
+        value_template: '{{ state_attr("media_player.sonos_bathroom", "volume_level")
+          | default(0) < states("input_number.sonos_bathroom_volume") | float }}'
+  action:
+  - entity_id: script.sonos_volume_ramp_up
+    action: script.turn_on
+  mode: single
+- alias: Browser Mod Switch to Sonos Tab
+  trigger:
+  - platform: state
+    entity_id: sensor.sonos_group_master_state
+    to: playing
+  condition:
+  - '{{ "google" not in state_attr(states("sensor.sonos_group_master"), "media_content_id")
+    }}'
+  action:
+    service: browser_mod.navigate
+    data:
+      path: /lovelace-dashboard/sonos
+      browser_id:
+      - dashboard_bedroom_hallway
+      - dashboard_downstairs_hallway
+      - dashboard_garage_entrance
+      - mbp_firefox
+  id: 659b94d9008148edb318969f74a96c4b
+- alias: Browser Mod Switch to Home Tab
+  trigger:
+  - platform: state
+    entity_id: sensor.sonos_group_master_state
+    to: paused
+    for:
+      seconds: 10
+  action:
+    service: browser_mod.navigate
+    data:
+      path: /lovelace-dashboard/home
+      browser_id:
+      - dashboard_bedroom_hallway
+      - dashboard_downstairs_hallway
+      - dashboard_garage_entrance
+      - mbp_firefox
+  id: 6edfcdde2368400f957b44e7412a5317
+- alias: Browser Mod Turn Screen Off - Night
+  trigger:
+  - platform: event
+    event_type: mode_sleep_on_delay_short
+  - platform: template
+    value_template: '{{ is_state("input_boolean.mode_sleep", "on") and as_timestamp(states("sensor.date")
+      + " " + states("sensor.time")) > (as_timestamp(states.input_boolean.mode_sleep.last_changed)
+      + (60 * 5)) and is_state_attr("sensor.bedroom_hallway_dashboard", "screenOn",
+      true) }}'
+    for:
+      minutes: 2
+  - platform: template
+    value_template: '{{ is_state("input_boolean.mode_sleep", "on") and as_timestamp(states("sensor.date")
+      + " " + states("sensor.time")) > (as_timestamp(states.input_boolean.mode_sleep.last_changed)
+      + (60 * 5)) and is_state_attr("sensor.downstairs_hallway_dashboard", "screenOn",
+      true) }}'
+    for:
+      minutes: 2
+  - platform: template
+    value_template: '{{ is_state("input_boolean.mode_sleep", "on") and as_timestamp(states("sensor.date")
+      + " " + states("sensor.time")) > (as_timestamp(states.input_boolean.mode_sleep.last_changed)
+      + (60 * 5)) and is_state_attr("sensor.garage_entrance_dashboard", "screenOn",
+      true) }}'
+    for:
+      minutes: 2
+  action:
+  - service: rest_command.bedroom_hallway_dashboard_sleep
+  - service: rest_command.downstairs_hallway_dashboard_sleep
+  - service: rest_command.garage_entrance_dashboard_sleep
+  id: 55553f97d8044c5ebebb915c08233d3c
+- alias: Browser Mod Turn Screen Off - Away
+  trigger:
+  - platform: state
+    entity_id: group.residents
+    to: not_home
+    for:
+      minutes: 4
+  - platform: state
+    entity_id: input_boolean.mode_guest
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: group.residents
+    state: not_home
+  - condition: state
+    entity_id: input_boolean.mode_guest
+    state: 'off'
+  action:
+  - service: rest_command.bedroom_hallway_dashboard_sleep
+  - service: rest_command.downstairs_hallway_dashboard_sleep
+  - service: rest_command.garage_entrance_dashboard_sleep
+  id: d737a35d4c6d4ae08b3c1324697cd3d9
+- alias: Browser Mod Turn Screen On
+  trigger:
+  - platform: event
+    event_type: mode_sleep_off
+  - platform: state
+    entity_id: group.residents
+    to: home
+  - platform: state
+    entity_id: input_boolean.mode_guest
+    to: 'on'
+  action:
+  - service: rest_command.bedroom_hallway_dashboard_wake
+  - service: rest_command.downstairs_hallway_dashboard_wake
+  - service: rest_command.garage_entrance_dashboard_wake
+  id: 1ac896481fd14a3fb633ef520a315040
+- alias: DateTime - Update Sunrise Starts
+  trigger:
+  - platform: state
+    entity_id: sensor.suncalc_sunriseend
+  action:
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_starts
+    data:
+      datetime: '{{ states("sensor.suncalc_sunriseend") }}'
+  id: 6e5ae7c8487448d4bcc5323c8d6008be
+- alias: DateTime - Update Sunrise Ends
+  trigger:
+  - platform: state
+    entity_id: sensor.suncalc_goldenhourend
+  action:
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_ends
+    data:
+      datetime: '{{ states("sensor.suncalc_goldenhourend") }}'
+  id: b06eeaaa28554a4bb1c49e9351f1f7c1
+- alias: DateTime - Update Sunset Starts
+  trigger:
+  - platform: state
+    entity_id: sensor.suncalc_goldenhour
+  action:
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_starts
+    data:
+      datetime: '{{ states("sensor.suncalc_goldenhour") }}'
+  id: 90a77d4e29f14956aae6167126225278
+- alias: DateTime - Update Sunset Ends
+  trigger:
+  - platform: state
+    entity_id: sensor.suncalc_sunsetstart
+  action:
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_ends
+    data:
+      datetime: '{{ states("sensor.suncalc_sunsetstart") }}'
+  id: 507928c9e276427c8579823b9e06df63
+- alias: DateTime - Update Night Ends
+  trigger:
+  - platform: state
+    entity_id: sensor.suncalc_nightend
+  action:
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.night_ends
+    data:
+      datetime: '{{ states("sensor.suncalc_nightend") }}'
+  id: 66b947e63c43489397a98d0186ff9896
+- alias: DateTime - Update Preferred Lighting Times
+  variables:
+    prefer_low: '{{ states("sensor.date") ~ " 20:00:00" if now().strftime("%A")|lower
+      in ["sunday", "monday", "tuesday", "wednesday", "thursday"] else  states("sensor.date")
+      ~ " 21:00:00" }}'
+    sunset: '{{ states("input_datetime.sunset_ends") }}'
+  trigger:
+  - platform: state
+    entity_id:
+    - input_datetime.sunrise_ends
+    - input_datetime.sunset_ends
+  action:
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.prefer_lighting_high_time
+    data:
+      datetime: '{{ states("input_datetime.sunrise_ends") }}'
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.prefer_lighting_mid_time
+    data:
+      datetime: '{{ (((as_timestamp(prefer_low) - as_timestamp(sunset)) / 2) + as_timestamp(sunset))  |
+        timestamp_custom("%Y-%m-%d %H:%M:%S") }}'
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.prefer_lighting_low_time
+    data:
+      datetime: '{{ prefer_low }}'
+  id: a9124ce7b2c248aeba4f7e7c8ebba3d3
+- alias: Energy Tariff - Select On-Peak
+  trigger:
+  - platform: time
+    at: '16:00:00'
+    variables:
+      tariff: peak
+  - platform: time
+    at: '19:00:00'
+    variables:
+      tariff: offpeak
+  condition:
+  - condition: state
+    entity_id: binary_sensor.srp_on_peak_day
+    state: 'on'
+  action:
+  - service: select.select_option
+    target:
+      entity_id:
+      - select.grid_consumption_daily
+      - select.grid_consumption_hourly
+      - select.grid_consumption_monthly
+    data:
+      option: '{{ tariff }}'
+  id: 141a4cd7e86f4d908a31c8b93a74d4fd
+- alias: Event - Sleep Mode On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'on'
+  action:
+  - event: mode_sleep_on
+  id: 6b1a1595981b460986ba1ceac834e4dc
+- alias: Event - Sleep Mode On - Delay Short
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'on'
+    for:
+      minutes: 2
+  action:
+  - event: mode_sleep_on_delay_short
+  id: 859f3dd461e142528f55e9b0437163ae
+- alias: Event - Sleep Mode Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
+  action:
+  - event: mode_sleep_off
+  id: d58b1f79b2f042608315ba66cff138f1
+- alias: Event - Sleep Mode Off - Wakeup Short
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
+    for:
+      minutes: 20
+  action:
+  - event: mode_sleep_off_wakeup_short
+  id: 9ee337e80f91454c88476d47f45c9c08
+- alias: Event - Sleep Mode Off - Wakeup Long
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
+    for:
+      hours: 3
+  action:
+  - event: mode_sleep_off_wakeup_long
+  id: 57c2cb74a1814acb903d08bad94ced03
+- alias: Event - Morning Mode On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_morning
+    to: 'on'
+  action:
+  - event: mode_morning_on
+  id: a4c06b4c08324b168f41a8599d480772
+- alias: Event - Morning Mode Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_morning
+    to: 'off'
+  action:
+  - event: mode_morning_off
+  id: ac07ad884b4e454ba5f31cc2f8f6b19c
+- alias: Event - Morning Mode Off - Delay Short
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_morning
+    to: 'off'
+    for:
+      minutes: 5
+  action:
+  - event: mode_morning_off_delay_short
+  id: 16df0a8e6ab04187982d23f959d847ff
+- alias: Event - Day Mode On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_day
+    to: 'on'
+  action:
+  - event: mode_day_on
+  id: 84448a6125364586a8f6c0f17f113255
+- alias: Event - Day Mode Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_day
+    to: 'off'
+  action:
+  - event: mode_day_off
+  id: f66e024e09bc4a88a6f038f4754066a1
+- alias: Event - Sunset Mode On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_sunset
+    to: 'on'
+  action:
+  - event: mode_sunset_on
+  id: bb8be976f3d64abf812b197613480d59
+- alias: Event - Sunset Mode Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_sunset
+    to: 'off'
+  action:
+  - event: mode_sunset_off
+  id: 5756a0424cc741fba8a118e782914bd0
+- alias: Event - Night Mode On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_night
+    to: 'on'
+  action:
+  - event: mode_night_on
+  id: 03d37c6812134bd385ef4e5dc31ce2a9
+- alias: Event - Night Mode Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_night
+    to: 'off'
+  action:
+  - event: mode_night_off
+  id: f684cd379f82478cb919fe58d0f2eceb
+- alias: Event - Simulate Presence Mode On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_simulate_presence
+    to: 'on'
+  action:
+  - event: mode_simulate_presence_on
+  id: 36b42e11a8394e31b70ec4b988e92e06
+- alias: Event - Simulate Presence Mode Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_simulate_presence
+    to: 'off'
+  action:
+  - event: mode_simulate_presence_off
+  id: 043e805a886c4726a4e23a17e734d2d5
+- alias: Event - Guest Mode On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_guest
+    to: 'on'
+  action:
+  - event: mode_guest_on
+  id: 32582b13bf1e40a58682eff986a4a209
+- alias: Event - Guest Mode Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_guest
+    to: 'off'
+  action:
+  - event: mode_guest_off
+  id: fafcd6092fc14a3297b060d4929a2dec
+- alias: Event - Home Theater Mode On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_home_theater
+    to: 'on'
+  action:
+  - event: mode_home_theater_on
+  id: 7a49360a7de842bcb2e64dc6822ade07
+- alias: Event - Home Theater Mode Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_home_theater
+    to: 'off'
+  action:
+  - event: mode_home_theater_off
+  id: 6cce6b80a3ba4c0f9c07e0670843b5a0
+- alias: Fan - Bedroom - Sleep Mode On
+  trigger:
+  - platform: event
+    event_type: mode_sleep_on
+  condition:
+  - condition: state
+    entity_id: fan.bedroom
+    state: 'on'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.bedroom_night_mode
+  - service: fan.set_percentage
+    data:
+      entity_id: fan.bedroom
+      percentage: 40
+  id: bb2d1df521fd41ce91372c6a37ef3242
+- alias: Fan - Bedroom - Sleep Mode Off
+  trigger:
+  - platform: event
+    event_type: mode_sleep_off
+  condition:
+  - condition: state
+    entity_id: fan.bedroom
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.bedroom_night_mode
+  - service: fan.set_percentage
+    data:
+      entity_id: fan.bedroom
+      percentage: 40
+  id: 16ffa89125f8427db43b4bbf513d0b51
+- alias: Fan - Bedroom - Bedroom Window Open
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.bedroom_windows
+    to: 'on'
+    for:
+      seconds: 30
+  condition:
+  - condition: state
+    entity_id: fan.bedroom
+    state: 'on'
+  action:
+  - service: fan.turn_off
+    entity_id: fan.bedroom
+  id: 311904deb8a4428181cb2896c5612def
+- alias: Fan - Bedroom - Bedroom Window Closed
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.bedroom_windows
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: fan.bedroom
+    state: 'off'
+  action:
+  - service: fan.turn_on
+    entity_id: fan.bedroom
+  id: 86e3e850aa894e958ed289d6bab77c7c
+- alias: Fan - Kitchen - Sleep Mode On
+  trigger:
+  - platform: event
+    event_type: mode_sleep_on
+  condition:
+  - condition: state
+    entity_id: fan.kitchen
+    state: 'on'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.kitchen_night_mode
+  id: e2165dce95d148b08cdb830ec23e7772
+- alias: Fan - Kitchen - Sleep Mode Off
+  trigger:
+  - platform: event
+    event_type: mode_sleep_off
+  condition:
+  - condition: state
+    entity_id: fan.kitchen
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.kitchen_night_mode
+  - service: fan.set_percentage
+    data:
+      entity_id: fan.kitchen
+      percentage: 50
+  id: 07ce473b96eb44538e10f7bfc79de034
+- alias: Garage Lighting on Motion
+  trigger:
+  - platform: state
+    entity_id: input_boolean.motion_garage
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.garage
+    state: 'off'
+  action:
+  - service: light.turn_on
+    entity_id: light.garage
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_trigger_garage_lights
+  id: 9a4f608854e74fa7b09e8b3b4186ff41
+- alias: Garage Lighting on Garage Actual Open
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_actual
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.garage
+    state: 'off'
+  action:
+  - service: light.turn_on
+    entity_id: light.garage
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.door_trigger_garage_lights
+  id: 4bd3198d6c2d4a1b9df5c5912032ddaa
+- alias: Garage Lighting on Garage Door Open
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_door
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.garage
+    state: 'off'
+    for:
+      minutes: 1
+  action:
+  - service: light.turn_on
+    entity_id: light.garage
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.door_trigger_garage_lights
+  id: 5334c91ffa2644778d6fd4673625ab86
+- alias: Garage Lighting Door to Motion Transition
+  trigger:
+  - platform: state
+    entity_id: input_boolean.motion_garage
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.door_trigger_garage_lights
+    state: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_trigger_garage_lights
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.door_trigger_garage_lights
+  id: 69a8b84b60774df9a8760eb6646dbc25
+- alias: Garage Lighting on Gragage Actual Timed Out
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_actual
+    - input_boolean.motion_garage
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id:
+    - input_boolean.motion_garage
+    - binary_sensor.garage_actual
+    state: 'off'
+  - condition: state
+    entity_id:
+    - input_boolean.motion_trigger_garage_lights
+    - light.garage
+    state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.garage
+  - service: input_boolean.turn_on
+    entity_id:
+    - input_boolean.door_trigger_garage_lights
+    - input_boolean.motion_trigger_garage_lights
+  id: 76174011fd5a4a5b8a32c544b715e396
+- alias: Garage Actual Trigger from NFC Tag
+  trigger:
+  - platform: event
+    event_type: nfc_garage_actual_toggle
+  action:
+  - service: cover.toggle
+    entity_id: cover.garage_actual
+  id: 71554398c0e346d59794a1c8d8379008
+- alias: Mode - Manually Reset After HA Start
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition:
+  - condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.mode_morning
+        state: 'off'
+      - condition: time
+        after: input_datetime.night_ends
+        before: input_datetime.sunrise_ends
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.mode_day
+        state: 'off'
+      - condition: time
+        after: input_datetime.sunrise_ends
+        before: input_datetime.sunset_starts
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.mode_sunset
+        state: 'off'
+      - condition: time
+        after: input_datetime.sunset_starts
+        before: input_datetime.sunset_ends
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.mode_night
+        state: 'off'
+      - condition: time
+        after: input_datetime.sunset_ends
+        before: input_datetime.night_ends
+  action:
+  - event: mode_reset_after_ha_start
+  id: 208e6f9c413b4ef9b9ee5a7c50fa6bb0
+- alias: Manually Reset Energy Off-Peak Tariff
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: select.grid_consumption_hourly
+      state: peak
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.srp_on_peak_day
+        state: 'off'
+      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) < "16:00"
+        }}'
+      - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) >= "19:00"
+        }}'
+  action:
+  - service: select.select_option
+    target:
+      entity_id:
+      - select.grid_consumption_daily
+      - select.grid_consumption_hourly
+      - select.grid_consumption_monthly
+    data:
+      option: offpeak
+  id: e423e6b54614475598734e44bad2d2f5
+- alias: Manually Reset Energy Peak Tariff
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: select.grid_consumption_hourly
+      state: offpeak
+    - condition: state
+      entity_id: binary_sensor.srp_on_peak_day
+      state: 'on'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) >= "16:00"
+      }}'
+    - '{{ as_timestamp(now()) | timestamp_custom("%H:%M", default = 0) < "19:00" }}'
+  action:
+  - service: select.select_option
+    target:
+      entity_id:
+      - select.grid_consumption_daily
+      - select.grid_consumption_hourly
+      - select.grid_consumption_monthly
+    data:
+      option: peak
+  id: 68e0e7717b8048bf8c1b6fa5c03220f9
+- alias: Lock Front Door When Away or Asleep
+  trigger:
+  - platform: event
+    event_type: mode_sleep_on
+  - platform: state
+    entity_id: group.residents
+    to: not_home
+  condition:
+  - condition: state
+    entity_id: lock.august_web_front_door
+    state: unlocked
+  action:
+  - service: lock.lock
+    entity_id: lock.august_web_front_door
+  id: 8ae9b10345be428a853c8748193b37ce
+- alias: Lock Garage Door When Away or Asleep
+  trigger:
+  - platform: event
+    event_type: mode_sleep_on
+  - platform: state
+    entity_id: group.residents
+    to: not_home
+  condition:
+  - condition: state
+    entity_id: lock.august_web_garage_door
+    state: unlocked
+  action:
+  - service: lock.lock
+    entity_id: lock.august_web_garage_door
+  id: 13feec17e0804f2ea4ff7bda55750b0e
+- alias: Unlock Garage Door When Home and Awake
+  trigger:
+  - platform: event
+    event_type: mode_sleep_off
+  - platform: state
+    entity_id: group.residents
+    to: home
+  condition:
+  - condition: state
+    entity_id: lock.august_web_garage_door
+    state: locked
+  action:
+  - service: lock.unlock
+    entity_id: lock.august_web_garage_door
+  id: 99d48fa1b2f44df7a92e4e63bcf8c0c6
+- alias: Mode - Update Current Mode
+  trigger:
+  - platform: event
+    event_type: mode_reset_after_ha_start
+  - platform: time
+    at: input_datetime.night_ends
+  - platform: time
+    at: input_datetime.sunrise_ends
+  - platform: time
+    at: input_datetime.sunset_starts
+  - platform: time
+    at: input_datetime.sunset_ends
+  mode: restart
+  action:
+  - service: input_boolean.turn_off
+    entity_id:
+    - input_boolean.mode_morning
+    - input_boolean.mode_day
+    - input_boolean.mode_sunset
+    - input_boolean.mode_night
+  - choose:
+    - conditions:
+      - condition: time
+        after: input_datetime.night_ends
+        before: input_datetime.sunrise_ends
+      sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.mode_morning
+    - conditions:
+      - condition: time
+        after: input_datetime.sunrise_ends
+        before: input_datetime.sunset_starts
+      sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.mode_day
+    - conditions:
+      - condition: time
+        after: input_datetime.sunset_starts
+        before: input_datetime.sunset_ends
+      sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.mode_sunset
+    - conditions:
+      - condition: time
+        after: input_datetime.sunset_ends
+        before: input_datetime.night_ends
+      sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.mode_night
+    default:
+    - service: notify.mobile_app_alexis_iphone
+      data:
+        title: Home Assistant
+        message: Unable to update current mode. No conditions matched.
+        data:
+          push:
+            thread-id: ha-condo-group
+            sound: gentle-alarm.wav
+  id: a9c2f8e880f84814bf38200487b361f8
+- alias: Mode - Guest On
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_actual
+    - binary_sensor.garage_door
+    - binary_sensor.front_door
+    to: 'on'
+  - platform: event
+    event_type: mode_guest_turn_on
+  condition:
+  - condition: state
+    entity_id: group.residents
+    state: not_home
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.mode_guest
+  id: 6f492c1175884e6b9460b5877791d806
+- alias: Mode - Guest Off
+  trigger:
+  - platform: state
+    entity_id: group.residents
+    to: home
+  - platform: state
+    entity_id: group.motion_guest_areas
+    to: 'off'
+    for:
+      minutes: 30
+  condition:
+  - condition: state
+    entity_id: input_boolean.mode_home_theater
+    state: 'off'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.mode_guest
+  id: 639dbc905e0d423ba47e67b66e865866
+- alias: Mode - Simulate Presence On
+  trigger:
+  - platform: state
+    entity_id: group.residents
+    to: not_home
+    for:
+      minutes: 4
+  - platform: state
+    entity_id: input_boolean.mode_guest
+    to: 'off'
+  - platform: state
+    entity_id: input_boolean.mode_night
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.mode_night
+      state: 'on'
+    - condition: state
+      entity_id: group.residents
+      state: not_home
+    - condition: state
+      entity_id: input_boolean.mode_guest
+      state: 'off'
+    - condition: or
+      conditions:
+      - condition: time
+        after: '17:00:00'
+      - condition: time
+        before: '23:00:00'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.mode_simulate_presence
+  id: c9f490c9a54546c9b11b740d7aea4d66
+- alias: Mode - Simulate Presence Off
+  trigger:
+  - platform: state
+    entity_id: group.residents
+    to: home
+  - platform: state
+    entity_id: input_boolean.mode_guest
+    to: 'on'
+  - platform: time
+    at: '23:00:00'
+  condition:
+  - condition: state
+    entity_id: input_boolean.mode_simulate_presence
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.mode_simulate_presence
+  id: 3ca6471d86aa44e18b1085dab0e7b0c8
+- alias: Mode - Sleep Toggle
+  trigger:
+  - platform: event
+    event_type: nfc_mode_sleep_toggle
+  action:
+  - service: input_boolean.toggle
+    entity_id: input_boolean.mode_sleep
+  id: 9e4cb43266c648d998a4e6fd16fc54e5
+- alias: Mode - Home Theater On
+  trigger:
+  - platform: state
+    entity_id: media_player.denon_avr_x4300h
+    from: 'off'
+    to: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.mode_home_theater
+  id: d51ea86852194d89b7534a430369a2e2
+- alias: Mode - Home Theater Off
+  trigger:
+  - platform: state
+    entity_id: media_player.denon_avr_x4300h
+    to: 'off'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.mode_home_theater
+  id: 44eb6fe37bce4d8eb72cbd44113b3b67
+- alias: Mode - Stranger Danger On
+  trigger:
+  - platform: event
+    event_type: mode_stranger_danger_turn_on
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.mode_stranger_danger
+  id: 70943bd4d39a4155a0914dbbee8e7ecc
+- alias: Mode - Laundry On
+  trigger:
+  - platform: event
+    event_type: mode_laundry_turn_on
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.mode_laundry
+  id: c47ef01edb0f4fbaba5ff809f3c09e55
+- alias: Mode - Laundry Off
+  trigger:
+  - platform: state
+    entity_id: group.laundry_door_sensor
+    to: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.mode_laundry
+  id: f9dcbcfd5a5c4e338c9054bc78c2bc8d
+- alias: Motion Started in Garage
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_motion_sensor
+    to: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_garage
+  id: 32e97a7afd1e45838c00e0911d3052d5
+- alias: Motion Ended in Garage
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_motion_sensor
+    to: 'off'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_garage
+  id: a65e86084e9e4c8cba108d68a0a4e70a
+- alias: Motion Started in Garage Stairs
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_stairs_multisensor_sensor
+    to: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_garage_stairs
+  id: 694706fa4de04f0bb8aa649f5328efeb
+- alias: Motion Ended in Garage Stairs
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_stairs_multisensor_sensor
+    to: 'off'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_garage_stairs
+  id: 2105dcd73ee94488a6b90538fcb866fb
+- alias: Motion Started at Front Door
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.front_door_motion
+    to: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_front_door
+  id: 76dc2d5724224a4facb007ccb2d07f52
+- alias: Motion Ended at Front Door Motion Ended
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.front_door_motion
+    to: 'off'
+    for:
+      minutes: 2
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_front_door
+  id: 945e6bfb8a13430192d4992c3ef6e2ea
+- alias: Motion Started in Downstairs Hallway
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.downstairs_hallway_trisensor_sensor
+    to: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_downstairs_hallway
+  id: 2dfb04a847a6400684e1f1f10424756d
+- alias: Motion Ended in Downstairs Hallway
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.downstairs_hallway_trisensor_sensor
+    to: 'off'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_downstairs_hallway
+  id: 1f5bba80e3344fb3b6caa038a46ede14
+- alias: Motion Started in Kitchen
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.main_floor_motion
+    to: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_kitchen
+  id: 10dd4d5d4a134807b472d33103f398ad
+- alias: Motion Ended in Kitchen
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.main_floor_motion
+    to: 'off'
+    for:
+      minutes: 2
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_kitchen
+  id: c4e2fc0862fe49a99f76efe90a05e46e
+- alias: Motion Started in Den Hallway
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.den_multisensor_sensor
+    to: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_den_hallway
+  id: 12f99828b36b4b25b78fbc6055745bac
+- alias: Motion Ended in Den Hallway
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.den_multisensor_sensor
+    to: 'off'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_den_hallway
+  id: 80312e9bd7df41bc89a8489f7406de24
+- alias: Motion Started in Bedroom Closet
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.bedroom_closet_trisensor_sensor
+    to: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_bedroom_closet
+  id: 61975f07f6764d819620fb2496aae060
+- alias: Motion Ended in Bedroom Closet
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.bedroom_closet_trisensor_sensor
+    to: 'off'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_bedroom_closet
+  id: 6b13b82364ad4c119d9655051e6f34d6
+- alias: Motion Started in Living Room
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.living_room_motion_sensor
+    to: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_living_room
+  id: e8b22a66fa8243d68e0ff5f50f9c6f3d
+- alias: Motion Ended in Living Room
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.living_room_motion_sensor
+    to: 'off'
+    for:
+      minutes: 2
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_living_room
+  id: 14a2e6bd9fc34277aa6636b3ae671e54
+- alias: Motion Started in Main Stairs
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.main_stairs_multisensor_sensor
+    to: 'on'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_main_stairs
+  id: f71dca6ee3af45e28e0310eaa4e9b043
+- alias: Motion Ended in Main Stairs
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.main_stairs_multisensor_sensor
+    to: 'off'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_main_stairs
+  id: 6411e340553a4906ba2e62da87edc37a
+- alias: Motion Started in Upstairs Hallway
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.upstairs_hallway_motion_sensor
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.motion_upstairs_hallway
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_upstairs_hallway
+  id: b1bb722d18034fbdb22be55586d7eb51
+- alias: Motion Ended in Upstairs Hallway
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.upstairs_hallway_motion_sensor
+    to: 'off'
+    for:
+      minutes: 2
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.motion_upstairs_hallway
+  id: ccd0b34dffbb4a3fb6497685854ead8f
+- alias: Service Restart - Sonarr
+  trigger:
+  - platform: state
+    entity_id: sensor.service_status_sonarr
+    to: Down
+    for:
+      minutes: 10
+  action:
+  - service: rest_command.docker_restart_sonarr
+  - event: event_service_restart_sonarr
+  id: b5f34ad9e2c643559b84ce9189f81e0b
+- alias: Service Update - Plex
+  trigger:
+  - platform: time
+    at: 03:00:00
+  condition:
+  - condition: state
+    entity_id: sensor.tautulli_plex_update_available
+    state: 'on'
+  action:
+  - service: rest_command.docker_restart_plex
+  - event: event_service_upgrading_plex
+  id: 5e5d95d26ad14efc87488e932c40e97a
+- alias: Query Suncalc
+  trigger:
+  - platform: time_pattern
+    hours: /1
+    minutes: 0
+    seconds: 0
+  action:
+  - service: shell_command.query_suncalc
+  id: 4f2f9c9c99a14949862fa60334cc0f82
+- id: 2e470db960fa421686c0904a91894653
+  alias: Downstairs Patio Dimmer Lights Sync
+  trigger:
+  - id: brightness
+    platform: state
+    entity_id:
+    - light.downstairs_patio
+    - light.downstairs_patio_dimmer
+    attribute: brightness
+  - id: 'off'
+    platform: state
+    entity_id:
+    - light.downstairs_patio
+    - light.downstairs_patio_dimmer
+    to: 'off'
+  action:
+  - wait_template: "{% set scenes = [\n  'script.scene_patio_neutral',\n  'script.scene_bedroom_purple_blue',\n
+      \ 'script.scene_bedroom_sleep_mode_on'\n] %} {{ not scenes | select('is_state',
+      'on') | list | length > 0 }}\n"
+    timeout: 00:00:10
+    continue_on_timeout: false
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: brightness
+      sequence:
+      - delay: 00:00:01
+      - parallel:
+        - entity_id: light.downstairs_patio
+          data:
+            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+              }}'
+          action: light.turn_on
+        - data:
+            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+              }}'
+          entity_id: light.downstairs_patio_dimmer
+          action: light.turn_on
+    - conditions:
+      - condition: trigger
+        id: 'off'
+      sequence:
+      - entity_id:
+        - light.downstairs_patio
+        - light.downstairs_patio_dimmer
+        action: light.turn_off
+  mode: restart
+- alias: Downstairs Patio Physical Switch On
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 51
+      property_key: '002'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: switch.turn_on
+        entity_id: switch.downstairs_patio_outlet
+  id: 7b26afc7990147ca8fabb48aa6e1162f
+- alias: Downstairs Patio Physical Switch Off
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 51
+      property_key: '001'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: switch.turn_off
+        entity_id: switch.downstairs_patio_outlet
+  id: 7701e2c1527049fa8943fa49322a59b2
+- alias: Garage Physical Switch On
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 15
+      property_key: '001'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_garage_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_garage_lights
+  id: e5661b3cedc145289a34edff661bec2b
+- alias: Garage Physical Switch Off
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 15
+      property_key: '002'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_garage_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_garage_lights
+  id: 5b503e56d23e4fa0928505ad5b480bf5
+- alias: Garage Stairs Physical Switch On
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 14
+      property_key: '001'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_garage_stairs_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_garage_stairs_lights
+  id: 38c6caf15d924b358850489187a385be
+- alias: Garage Stairs Physical Switch Off
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 14
+      property_key: '002'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_garage_stairs_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_garage_stairs_lights
+  id: 09631529a86d4f5e8e41e7f268b5b53e
+- alias: Downstairs Hallway Physical Switch On
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 13
+      property_key: '001'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id:
+        - input_boolean.motion_trigger_downstairs_hallway_lights
+        - input_boolean.door_trigger_downstairs_hallway_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id:
+        - input_boolean.motion_trigger_downstairs_hallway_lights
+        - input_boolean.door_trigger_downstairs_hallway_lights
+  id: 9d9620785ffb443da6dd6fed9fdf3479
+- alias: Downstairs Hallway Physical Switch Off
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 13
+      property_key: '002'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id:
+        - input_boolean.motion_trigger_downstairs_hallway_lights
+        - input_boolean.door_trigger_downstairs_hallway_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id:
+        - input_boolean.motion_trigger_downstairs_hallway_lights
+        - input_boolean.door_trigger_downstairs_hallway_lights
+  id: 614481625cf944858e53ce887f54647b
+- alias: Main Stairs Physical Switch On
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 42
+      property_key: '002'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: script.turn_on
+        entity_id: script.update_lights
+        data:
+          variables:
+            lights:
+            - upstairs_hallway_group
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+  id: 2fe7a81042c246a4a509b3706c01da94
+- alias: Main Stairs Physical Switch Off
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 42
+      property_key: '001'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: light.turn_off
+        entity_id: light.upstairs_hallway_group
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+  id: 37216cd639eb43b9b95ca29e503212e8
+- alias: Upstairs Hallway Physical Switch On
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 41
+      property_key: '002'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: script.turn_on
+        entity_id: script.update_lights
+        data:
+          variables:
+            lights:
+            - upstairs_hallway_group
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+  id: c4301ca1d86b471e8737e25692e310fa
+- alias: Upstairs Hallway Physical Switch Off
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 41
+      property_key: '001'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: light.turn_off
+        entity_id: light.upstairs_hallway_group
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+  id: ea3062f75ab24f0da294c2ff2663665f
+- alias: Bedroom Hallway Physical Switch On
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 40
+      property_key: '002'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: script.turn_on
+        entity_id: script.update_lights
+        data:
+          variables:
+            lights:
+            - upstairs_hallway_group
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+  id: cf9005b4cc1c4ef38cddf6aa51648977
+- alias: Bedroom Hallway Physical Switch Off
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 40
+      property_key: '001'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: light.turn_off
+        entity_id: light.upstairs_hallway_group
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+  id: 3851b7ab38ee4ca79fff2733de14b52f
+- id: b9b90ddb31d1474798d9dd7bfca01f5d
+  alias: Bedroom Dimmer Lights Sync
+  trigger:
+  - id: brightness
+    platform: state
+    entity_id:
+    - light.bedroom
+    - light.bedroom_switch
+    attribute: brightness
+  - id: 'off'
+    platform: state
+    entity_id:
+    - light.bedroom
+    - light.bedroom_switch
+    to: 'off'
+  action:
+  - wait_template: "{% set scenes = [\n  'script.scene_bedroom_neutral_low',\n  'script.scene_bedroom_purple_blue',\n
+      \ 'script.scene_bedroom_sleep_mode_on'\n] %} {{ not scenes | select('is_state',
+      'on') | list | length > 0 }}\n"
+    timeout: 00:00:10
+    continue_on_timeout: false
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: brightness
+      sequence:
+      - delay: 00:00:01
+      - parallel:
+        - entity_id: light.bedroom
+          data:
+            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+              }}'
+          action: light.turn_on
+        - data:
+            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+              }}'
+          entity_id: light.bedroom_switch
+          action: light.turn_on
+    - conditions:
+      - condition: trigger
+        id: 'off'
+      sequence:
+      - entity_id:
+        - light.bedroom
+        - light.bedroom_switch
+        action: light.turn_off
+  mode: restart
+- alias: Bedroom Dimmer Config Scene Toggle
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 47
+      property_key: '003'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_select.select_next
+        data:
+          cycle: true
+        target:
+          entity_id: input_select.bedroom_scene_toggle
+      - service: script.turn_on
+        target:
+          entity_id: '{{ states("input_select.bedroom_scene_toggle") }}'
+        data:
+          variables:
+            seconds: 1
+  mode: queued
+  id: 722aeb381c104a59a8160f39dc7f14e4
+- alias: Den Hallway Physical Switch On
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 39
+      property_key: '002'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_den_hallway_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: script.turn_on
+        entity_id: script.update_lights
+        data:
+          variables:
+            lights:
+            - den_cabinets
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_den_hallway_lights
+  id: ab7e8c75f47e469fb61bb69edcad92d3
+- alias: Den Hallway Physical Switch Off
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      type: value_notification
+      node_id: 39
+      property_key: '001'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_den_hallway_lights
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: light.turn_off
+        entity_id: light.den_cabinets
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyHeldDown" }}'
+      sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.motion_trigger_den_hallway_lights
+  id: dda528feb6ce4cd1a1a4a9f7a7df4456
+- id: c916853495f04c9e9681169d014dc88c
+  alias: Den Dimmer Lights Sync
+  trigger:
+  - id: brightness
+    platform: state
+    entity_id:
+    - light.den
+    - light.den_dimmer
+    attribute: brightness
+  - id: 'off'
+    platform: state
+    entity_id:
+    - light.den
+    - light.den_dimmer
+    to: 'off'
+  action:
+  - wait_template: "{% set scenes = [\n  'script.scene_den_neutral_low',\n  'script.scene_den_pink_blue'\n]
+      %} {{ not scenes | select('is_state', 'on') | list | length > 0 }}\n"
+    timeout: 00:00:10
+    continue_on_timeout: false
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: brightness
+      sequence:
+      - delay: 00:00:01
+      - parallel:
+        - entity_id: light.den
+          data:
+            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+              }}'
+          action: light.turn_on
+        - data:
+            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+              }}'
+          entity_id: light.den_dimmer
+          action: light.turn_on
+    - conditions:
+      - condition: trigger
+        id: 'off'
+      sequence:
+      - entity_id:
+        - light.den
+        - light.den_dimmer
+        action: light.turn_off
+  mode: restart
+- alias: Den Dimmer Config Scene Toggle
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 49
+      property_key: '003'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - service: input_select.select_next
+        data:
+          cycle: true
+        target:
+          entity_id: input_select.den_scene_toggle
+      - service: script.turn_on
+        target:
+          entity_id: '{{ states("input_select.den_scene_toggle") }}'
+        data:
+          variables:
+            seconds: 1
+  mode: queued
+  id: 32489df4ce0c45639fd72bc3d8127add
+- id: 637d6b8ce1d8412b817799844fed9fe3
+  alias: Upstairs Patio Dimmer Lights Sync
+  trigger:
+  - id: brightness
+    platform: state
+    entity_id:
+    - light.upstairs_patio
+    - light.upstairs_patio_dimmer
+    attribute: brightness
+  - id: 'off'
+    platform: state
+    entity_id:
+    - light.upstairs_patio
+    - light.upstairs_patio_dimmer
+    to: 'off'
+  action:
+  - wait_template: "{% set scenes = [\n  'script.scene_patio_neutral',\n  'script.scene_bedroom_purple_blue',\n
+      \ 'script.scene_bedroom_sleep_mode_on'\n] %} {{ not scenes | select('is_state',
+      'on') | list | length > 0 }}\n"
+    timeout: 00:00:10
+    continue_on_timeout: false
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: brightness
+      sequence:
+      - delay: 00:00:01
+      - parallel:
+        - entity_id: light.upstairs_patio
+          data:
+            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+              }}'
+          action: light.turn_on
+        - data:
+            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+              }}'
+          entity_id: light.upstairs_patio_dimmer
+          action: light.turn_on
+    - conditions:
+      - condition: trigger
+        id: 'off'
+      sequence:
+      - entity_id:
+        - light.upstairs_patio
+        - light.upstairs_patio_dimmer
+        action: light.turn_off
+  mode: restart
+- alias: Upstairs Patio Physical Switch On
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 57
+      property_key: '002'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: switch.turn_on
+        entity_id: switch.upstairs_patio_outlet
+  id: c2806d5c36f048eba70a14b51e0f5a8a
+- alias: Upstairs Patio Physical Switch Off
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 57
+      property_key: '001'
+  action:
+    choose:
+    - conditions:
+      - '{{ trigger.event.data.value == "KeyPressed2x" }}'
+      sequence:
+      - service: switch.turn_off
+        entity_id: switch.upstairs_patio_outlet
+  id: e8d5aabc85a14f2d8a7bbecd4b126254
+- alias: Vacuum - Downstairs Weekday Cleaning
+  trigger:
+  - platform: time
+    at: 09:00:00
+  condition:
+  - condition: state
+    entity_id: group.residents
+    state: home
+  - condition: state
+    entity_id: binary_sensor.shark_cleaning_schedule
+    state: 'on'
+  action:
+  - wait_template: '{{ is_state("media_player.denon_avr_x4300h", "off") }}'
+    continue_on_timeout: false
+  - service: vacuum.start
+    data: {}
+    target:
+      entity_id: vacuum.ob1_cleanobi
+  id: b0ddccde807b482abecde262e28077d6
+- id: '1724049503965'
+  alias: Notify Security - Garage Door Locked or Unlocked
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - lock.august_web_garage_door
+    from: locked
+    to: unlocked
+  - platform: state
+    entity_id:
+    - lock.august_web_garage_door
+    from: unlocked
+    to: locked
+  - platform: state
+    entity_id:
+    - lock.august_web_garage_door
+    from: unlocking
+    to: unlocked
+  - platform: state
+    entity_id:
+    - lock.august_web_garage_door
+    from: locking
+    to: locked
+  condition: []
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - data:
+      title: Condo
+      message: "{% if is_state_attr('lock.august_web_garage_door', 'changed_by', 'Manual
+        Lock') or is_state_attr('lock.august_web_garage_door', 'changed_by', 'Manual
+        Unlock') %}\n  {% set message = 'manually ' ~ states('lock.august_web_garage_door')
+        %}\n{% else %}\n  {% set message = states('lock.august_web_garage_door') ~
+        ' by ' ~ state_attr('lock.august_web_garage_door', 'changed_by') %}\n{% endif
+        %} The Garage Door was {{ message }}."
+      data:
+        url: /lovelace/security
+        push:
+          thread-id: ha-condo-group
+          sound: basic-bit-shots.wav
+    action: notify.mobile_app_alexis_iphone
+  mode: single
+- id: '1724791118711'
+  alias: Circulate Stale Air
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: /3
+    minutes: 0
+    seconds: 0
+    id: start_downstairs_fan
+  - platform: state
+    entity_id: climate.downstairs
+    attribute: fan_mode
+    to: 'on'
+    for: 00:04:00
+    id: start_upstairs_fan
+  - platform: state
+    entity_id: climate.downstairs
+    attribute: fan_mode
+    to: 'on'
+    for: 00:08:00
+    id: stop_downstairs_fan
+  - platform: state
+    entity_id: climate.upstairs
+    attribute: fan_mode
+    to: 'on'
+    for: 00:08:00
+    id: stop_upstairs_fan
+  condition:
+  - condition: state
+    entity_id: group.all_windows
+    state: 'off'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: start_downstairs_fan
+      sequence:
+      - action: climate.set_fan_mode
+        entity_id: climate.downstairs
+        data:
+          fan_mode: 'on'
+    - conditions:
+      - condition: trigger
+        id: start_upstairs_fan
+      sequence:
+      - action: climate.set_fan_mode
+        entity_id: climate.upstairs
+        data:
+          fan_mode: 'on'
+    - conditions:
+      - condition: trigger
+        id: stop_downstairs_fan
+      sequence:
+      - action: climate.set_fan_mode
+        entity_id: climate.downstairs
+        data:
+          fan_mode: 'off'
+    - conditions:
+      - condition: trigger
+        id: stop_upstairs_fan
+      sequence:
+      - action: climate.set_fan_mode
+        entity_id: climate.upstairs
+        data:
+          fan_mode: 'off'
+- id: '1724803728374'
+  alias: Event - House Cleaning Mode On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_house_cleaning
+    to: 'on'
+  condition: []
+  action:
+  - event: mode_house_cleaning_on
+  mode: single
+- id: '1724803800048'
+  alias: Event - House Cleaning Mode Off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_house_cleaning
+    to: 'off'
+  condition: []
+  action:
+  - event: mode_house_cleaning_off
+  mode: single
+- id: '1724804282087'
+  alias: Update Lights - House Cleaning Mode On
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mode_house_cleaning_on
+  action:
+  - parallel:
+    - entity_id:
+      - script.scene_garage_stairs_morning_low
+      - script.scene_downstairs_hallway_morning_low
+      - script.scene_kitchen_night_high
+      - script.scene_living_room_night_high
+      - script.scene_upstairs_hallway_group_morning_low
+      action: script.turn_on
+    - entity_id:
+      - light.downstairs_bathroom
+      - light.bathroom
+      - light.bathroom_wc_dimmer
+      - light.upstairs_bathroom
+      action: light.turn_on
+- id: '1724805095859'
+  alias: Update Lights - House Cleaning Mode Off
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mode_house_cleaning_off
+  condition: []
+  action:
+  - entity_id:
+    - light.garage_stairs
+    - light.downstairs_hallway
+    - light.downstairs_bathroom
+    - light.kitchen
+    - light.living_room
+    - light.upstairs_hallway_group
+    - light.bathroom
+    - light.bathroom_wc_dimmer
+    - light.upstairs_bathroom
+    action: light.turn_off
+  mode: single
+- id: '1735600259809'
+  alias: Studio Dimmer Lights Sync
+  triggers:
+  - id: brightness
+    entity_id:
+    - light.studio
+    - light.studio_dimmer
+    attribute: brightness
+    trigger: state
+  - id: 'off'
+    entity_id:
+    - light.studio
+    - light.studio_dimmer
+    to: 'off'
+    trigger: state
+  actions:
+  - wait_template: "{% set scenes = [\n  'script.scene_studio_neutral_low',\n  'script.scene_studio_neutral_low'\n]
+      %} {{ not scenes | select('is_state', 'on') | list | length > 0 }}\n"
+    timeout: 00:00:10
+    continue_on_timeout: false
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: brightness
+      sequence:
+      - delay: 00:00:01
+      - parallel:
+        - entity_id: light.studio
+          data:
+            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+              }}'
+          action: light.turn_on
+        - data:
+            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+              }}'
+          entity_id: light.studio_dimmer
+          action: light.turn_on
+    - conditions:
+      - condition: trigger
+        id: 'off'
+      sequence:
+      - entity_id:
+        - light.studio
+        - light.studio_dimmer
+        action: light.turn_off
+  mode: restart
+- id: '1735600923285'
+  alias: Studio Dimmer Config Scene Toggle
+  description: ''
+  triggers:
+  - event_type: zwave_js_value_notification
+    event_data:
+      node_id: 62
+      property_key: '003'
+    trigger: event
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.value == "KeyPressed" }}'
+      sequence:
+      - data:
+          cycle: true
+        target:
+          entity_id: input_select.studio_scene_toggle_scene_toggle
+        action: input_select.select_next
+      - target:
+          entity_id: '{{ states("input_select.studio_scene_toggle") }}'
+        data:
+          variables:
+            seconds: 1
+        action: script.turn_on
+  mode: queued
+- id: '1767560752032'
+  alias: Notify Laundry - Dryer Completed
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.dryer_current_status
+    to: end
+  conditions: []
+  actions:
+  - data:
+      title: Condo
+      message: The laundry in the dryer is ready to be taken out.
+      data:
+        push:
+          thread-id: ha-condo-group
+          sound: gentle-alarm.wav
+    action: notify.mobile_app_alexis_iphone
+  - event: mode_laundry_turn_on
+  mode: single

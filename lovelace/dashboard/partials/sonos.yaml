@@ -16,12 +16,18 @@ card:
   cards:
     - type: custom:mod-card
       card_mod:
-        style: |
-          :host {
-            padding: 28px 28px 0 0;
-            align-self: end;
-            --vertical-stack-card-margin: 0;
-          }
+        style:
+          hui-horizontal-stack-card$: |
+            #root {
+              padding: 28px 28px 0 0;
+              --vertical-stack-card-margin: 0;
+              --horizontal-stack-card-gap: 0;
+            }
+          .: |
+            ha-card hui-horizontal-stack-card{
+              display: flex;
+              justify-content: flex-end;
+            }            
       card:
         type: horizontal-stack
         cards:
@@ -172,6 +178,15 @@ card:
                     - card: custom:button-card
                       cardOptions:
                         template: speaker
+                        entity: input_boolean.sonos_rec_room_tv
+                        triggers_update:
+                          - sensor.sonos_rec_room_tv_volume
+                        variables:
+                          volume: 'sensor.sonos_rec_room_tv_volume'
+                      conditionalClass: '[[[ return "custom-card" ]]]'
+                    - card: custom:button-card
+                      cardOptions:
+                        template: speaker
                         entity: input_boolean.sonos_bedroom
                         triggers_update:
                           - sensor.sonos_bedroom_volume
@@ -216,8 +231,8 @@ card:
                     - card: custom:button-card
                       cardOptions:
                         template: playlist
-                        entity: script.sonos_playlist_currently_listening_to
-                        name: Currently Listening To
+                        entity: script.sonos_playlist_favorite_songs
+                        name: Favorite Songs
                       wider: true
                       widerSize: 2
                       halfheight: true

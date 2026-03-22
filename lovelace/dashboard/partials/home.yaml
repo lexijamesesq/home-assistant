@@ -16,12 +16,18 @@ card:
   cards:
     - type: custom:mod-card
       card_mod:
-        style: |
-          :host {
-            padding: 28px 28px 0 0;
-            align-self: end;
-            --vertical-stack-card-margin: 0;
-          }
+        style:
+          hui-horizontal-stack-card$: |
+            #root {
+              padding: 28px 28px 0 0;
+              --vertical-stack-card-margin: 0;
+              --horizontal-stack-card-gap: 0;
+            }
+          .: |
+            ha-card hui-horizontal-stack-card{
+              display: flex;
+              justify-content: flex-end;
+            }
       card:
         type: horizontal-stack
         cards:
@@ -165,7 +171,7 @@ card:
                       cardOptions:
                         template: base
                         entity: sensor.trash_pickup
-                        state_display: '[[[ return entity.attributes.date ]]]'
+                        state_display: "[[[ return entity.attributes.date ]]]"
                       conditionalClass: '[[[ return "custom-card" ]]]'
                       tap_action:
                         action: none
@@ -173,7 +179,7 @@ card:
                       cardOptions:
                         template: base
                         entity: sensor.recycling_pickup
-                        state_display: '[[[ return entity.attributes.date ]]]'
+                        state_display: "[[[ return entity.attributes.date ]]]"
                       conditionalClass: '[[[ return "custom-card" ]]]'
                       tap_action:
                         action: none
@@ -181,7 +187,7 @@ card:
                       cardOptions:
                         template: base
                         entity: sensor.house_cleaning
-                        state_display: '[[[ return entity.attributes.date ]]]'
+                        state_display: "[[[ return entity.attributes.date ]]]"
                       conditionalClass: '[[[ return "custom-card" ]]]'
                       tap_action:
                         action: none
@@ -201,30 +207,31 @@ card:
                       conditionalClass: '[[[ return "custom-card" ]]]'
                       tap_action:
                         action: more-info
-                        entity: camera.front_door
+                        entity: camera.front_door_high_resolution_channel
             - column: 2
               entities:
                 - title: Energy
                   entities:
                     - card: custom:mini-graph-card
-                      cardOptions:
+                      card_mod:
                         style: |
                           ha-card {
                             height: 100%;
                             transition: none;
                           }
-                          .states {
+                          ha-card .states {
                             position: absolute;
                             padding: 0 !important;
                             color: rgba(255, 255, 255, 0.6);
                           }
-                          .states .state .state__value {
+                          ha-card .states .state .state__value {
                             font-size: 2.4em !important;
                           }
-                          .states .state .state__uom {
+                          ha-card .states .state .state__uom {
                             font-size: 1.4em !important;
                             line-height: 1.6em !important;
                           }
+                      cardOptions:
                         line_width: 3
                         points_per_hour: 30
                         height: 300

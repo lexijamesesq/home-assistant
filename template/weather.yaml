@@ -1,11 +1,22 @@
 - unique_id: weather
+  trigger:
+    - platform: time_pattern
+      hours: /1
+  action:
+    - service: weather.get_forecasts
+      data:
+        type: daily
+      target:
+        entity_id: weather.tomorrow_io_home_daily
+      response_variable: daily
   sensor:
     - name: Dashboard Weather
       unique_id: dashboard_weather
       state: 'template'
       attributes:
-        icon: '/local/icons/weather/{{ states["weather.tomorrow_io_home_nowcast"].state | replace(" ", "_") }}.svg'
-        outside_temp: '{{ state_attr("weather.tomorrow_io_home_nowcast", "temperature") | int(0) }}'
-        outside_temp_high: '{{ state_attr("weather.tomorrow_io_home_daily", "forecast")[0].temperature | int(0) }}'
-        outside_temp_low: '{{ state_attr("weather.tomorrow_io_home_daily", "forecast")[0].templow | int(0) }}'
+        icon: '/local/icons/weather/{{ states["weather.tomorrow_io_home_daily"].state | replace("-", "") | replace(" ", "") }}.svg'
+        outside_temp: '{{ state_attr("weather.tomorrow_io_home_daily", "temperature") | int(0) }}'
+        outside_temp_high: '{{ daily["weather.tomorrow_io_home_daily"].forecast[0].temperature | int(0) }}'
+        outside_temp_low: '{{ daily["weather.tomorrow_io_home_daily"].forecast[0].templow | int(0) }}'
+        condition: '{{ states["weather.tomorrow_io_home_daily"].state | replace("-", " ") | title }}'
         unit_of_measurement: 'ºF'

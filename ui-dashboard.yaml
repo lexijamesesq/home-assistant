@@ -2,7 +2,7 @@ kiosk_mode:
   hide_header: true
   user_settings:
     - users:
-      - "dashboard"
+        - "dashboard"
       kiosk: true
 
 title: Home assistant

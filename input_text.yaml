@@ -20,11 +20,3 @@ tautulli_user8:
   initial: !secret tautulli_user8
 tautulli_user9:
   initial: !secret tautulli_user9
-
-##############################################################
-# Trash & Recycling Sensors
-##############################################################
-next_pickup_trash:
-  name: Next Trash Pickup
-next_pickup_recycling:
-  name: Next Recycling Pickup

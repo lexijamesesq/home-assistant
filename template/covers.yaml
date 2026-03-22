@@ -1,0 +1,23 @@
+- cover:
+    - name: "Garage Actual"
+      unique_id: garage_actual
+      device_class: garage
+      state: "{{ is_state('binary_sensor.garage_actual', 'on') }}"
+      open_cover:
+        action: switch.turn_on
+        data:
+          entity_id: switch.garage_actual_1
+      close_cover:
+        action: switch.turn_on
+        data:
+          entity_id: switch.garage_actual_1
+      stop_cover:
+        action: switch.turn_on
+        data:
+          entity_id: switch.garage_actual_1
+      icon: >-
+        {% if is_state('binary_sensor.garage_actual', 'on') %}
+          mdi:garage-open-variant
+        {% else %}
+          mdi:garage-variant
+        {% endif %}
