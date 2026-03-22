@@ -1,27 +1,7 @@
 homeassistant:
-  name: Home
-  latitude: !secret home_latitude
-  longitude: !secret home_longitude
-  elevation: !secret home_elevation
-  unit_system: !secret home_unit_system
-  temperature_unit: !secret home_temperature_unit
-  time_zone: !secret home_timezone
-  currency: !secret home_currency
-  external_url: !secret external_url
-  internal_url: !secret internal_url
-  country: !secret home_country
   customize: !include customize.yaml
   allowlist_external_dirs:
-     - /config/json/
-
-
-zone:
-  - name: Home
-    latitude: !secret home_latitude
-    longitude: !secret home_longitude
-    radius: 100
-    icon: mdi:home
-
+    - /config/json/
 
 config:
 conversation:
@@ -34,7 +14,6 @@ my:
 
 # updater:
 
-
 http:
   # Uncomment this to add a password (recommended!)
   # api_password: !secret api_password
@@ -43,20 +22,15 @@ http:
   # ssl_key: !secret ssl_key
   use_x_forwarded_for: true
   trusted_proxies:
-    - !secret trusted_proxy_ip_lan
-    - !secret trusted_proxy_ip_iot
-    - !secret trusted_proxy_ip_virtual_ip
+    - !secret trusted_proxy_ip_cf
 #  ip_ban_enabled: true
 #  login_attempts_threshold: 3
-
 
 recorder:
   purge_keep_days: 5
 #  db_url: !secret recorder_db_url
 
-
 history:
-
 
 logbook:
   include:
@@ -68,36 +42,8 @@ logbook:
       - script
       - switch
 
-
 lovelace:
-  mode: yaml
-  resources:
-    - url: /hacsfiles/lovelace-state-switch/state-switch.js
-      type: module
-    - url: /hacsfiles/button-card/button-card.js
-      type: module
-    - url: /browser_mod.js
-      type: module
-    - url: /hacsfiles/lovelace-layout-card/layout-card.js
-      type: module
-    - url: /hacsfiles/lovelace-template-entity-row/template-entity-row.js
-      type: module
-    - url: /hacsfiles/bar-card/bar-card.js
-      type: module
-    - url: /hacsfiles/Homekit-panel-card/homekit-panel-card.js
-      type: module
-    - url: /webrtc/webrtc-camera.js
-      type: module
-    - url: /hacsfiles/kiosk-mode/kiosk-mode.js
-      type: module
-    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
-      type: module
-    - url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
-      type: module
-    - url: /local/dwains-theme/plugins/dwains-flexbox-card/dwains-flexbox-card.js
-      type: module
-    - url: /local/dashboard/fonts.css
-      type: css
+  mode: storage
   dashboards:
     lovelace-dashboard:
       mode: yaml
@@ -107,47 +53,15 @@ lovelace:
       show_in_sidebar: true
       require_admin: false
 
-
 # neato:
 #   client_id: neato_client_id
 #   client_secret: neato_client_secret
 
-
 influxdb:
-  host: !secret influxdb_host
-  port: !secret influxdb_port
-  database: !secret influxdb_database
-  include:
-    entities:
-       - sensor.average_humidity
-       - sensor.average_temperature
-       - sensor.dark_sky_humidity
-       - sensor.dark_sky_precip_probability
-       - sensor.dark_sky_temperature
-       - sensor.den_multisensor_luminance
-       - sensor.den_multisensor_relative_humidity
-       - sensor.den_multisensor_temperature
-       - sensor.bedroom_closet_trisensor_luminance
-       - sensor.bedroom_closet_trisensor_temperature
-       - sensor.downstairs_hallway_trisensor_luminance
-       - sensor.downstairs_hallway_trisensor_temperature
-       - sensor.garage_stairs_multisensor_luminance
-       - sensor.garage_stairs_multisensor_relative_humidity
-       - sensor.garage_stairs_multisensor_temperature
-       - sensor.main_stairs_multisensor_luminance
-       - sensor.main_stairs_multisensor_relative_humidity
-       - sensor.main_stairs_multisensor_temperature
-       - sensor.downstairs_thermostat_humidity
-       - sensor.downstairs_thermostat_target
-       - sensor.downstairs_thermostat_temperature
-       - sensor.upstairs_thermostat_humidity
-       - sensor.upstairs_thermostat_target
-       - sensor.upstairs_thermostat_temperature
-       - sensor.server_rack_ups_battery_charge
-
+  exclude:
+    entity_globs: "*"
 
 sun:
-
 
 energy:
 utility_meter:
@@ -173,181 +87,177 @@ utility_meter:
       - peak
       - offpeak
 
-
-emulated_hue:
-  host_ip: !secret emulated_hue_host
-  listen_port: !secret emulated_hue_port
-  expose_by_default: false
-  lights_all_dimmable: true
-  entities:
-    light.bedroom:
-      hidden: false
-    light.kitchen:
-      hidden: false
-    light.bedroom_tiles:
-      hidden: false
-    light.bedroom_closet:
-      hidden: false
-    light.bedroom_hallway:
-      hidden: false
-    light.den_cabinets:
-      hidden: false
-    light.den_hallway:
-      hidden: false
-    light.den:
-      hidden: false
-    light.downstairs_hallway:
-      hidden: false
-    light.garage:
-      hidden: false
-    light.garage_stairs:
-      hidden: false
-    light.guest_bedroom_closet:
-      hidden: false
-    light.laundry:
-      hidden: false
-    light.living_room:
-      hidden: false
-    light.main_stairs:
-      hidden: false
-    light.patio:
-      hidden: false
-    light.downstairs_patio_string:
-      hidden: false
-    light.living_room_tv:
-      hidden: false
-    light.upstairs_hallway_group:
-      hidden: false
-    light.upstairs_hallway:
-      hidden: false
-    light.downstairs_patio:
-      hidden: false
-    light.upstairs_patio:
-      hidden: false
-    light.upstairs_patio_string:
-      hidden: false
-    light.rec_room:
-      hidden: false
-    light.rec_room_canvas:
-      hidden: false
-    input_boolean.mode_guest:
-      hidden: false
-    input_boolean.mode_home_theater:
-      hidden: false
-    input_boolean.mode_sleep:
-      hidden: false
-    script.scene_bedroom_alarm_dismissed:
-      hidden: false
-
-
-# device_tracker:
-#   - platform: automatic
-#     client_id: !secret automatic_client_id
-#     secret: !secret automatic_secret
-#     current_location: true
-#     devices:
-#       - 2007 Honda Element
-#  - platform: owntracks
-#    max_gps_accuracy: 200
-#    track_new_devices: false
-
-
-# mqtt:
-#   broker: !secret mqtt_remote_host
-#   port: !secret mqtt_remote_port
-#   client_id: !secret mqtt_remote_client_id
-#   keepalive: 60
-#   username: !secret mqtt_remote_username
-#   password: !secret mqtt_remote_password
-
+alexa:
+  smart_home:
+    locale: en-US
+    #    endpoint: https://api.amazonalexa.com/v3/events
+    #    client_id: REDACTED_CLIENT_ID
+    #    client_secret: REDACTED_CLIENT_SECRET
+    filter:
+      include_entities:
+        - fan.bathroom_fan
+        - input_boolean.mode_guest
+        - input_boolean.mode_home_theater
+        - input_boolean.mode_sleep
+        - input_boolean.mode_stranger_danger
+        - media_player.living_room_apple_tv
+        - media_player.rec_room_apple_tv
+        - script.scene_bedroom_alarm_dismissed
+        - script.scene_bedroom_tiles_wakeup
+        - script.scene_bedroom_neutral_low
+      include_domains:
+        - light
+      exclude_entities:
+        - light.bedroom_1
+        - light.bedroom_2
+        - light.bedroom_switch
+        - light.den_1
+        - light.den_2
+        - light.den_cabinet_1
+        - light.den_cabinet_2
+        - light.den_dimmer
+        - light.downstairs_patio_1
+        - light.downstairs_patio_2
+        - light.downstairs_patio_3
+        - light.downstairs_patio_dimmer
+        - light.garage_motion_basic
+        - light.upstairs_patio_1
+        - light.upstairs_patio_2
+        - light.upstairs_patio_dimmer
+        - light.upstairs_patio_outlet
+        - light.studio_1
+        - light.studio_2
+      exclude_entity_globs:
+        - light.*_basic
+    entity_config:
+      script.scene_bedroom_alarm_dismissed:
+        display_categories: SWITCH
 
 geofency:
   mobile_beacons:
     - Octavia
 
-
-cover:
-  - platform: template
-    covers:
-      garage_actual:
-        friendly_name: "Garage Actual"
-        value_template: "{{ is_state('binary_sensor.garage_actual', 'on') }}"
-        open_cover:
-          service: switch.turn_on
-          data:
-            entity_id: switch.garage_actual
-        close_cover:
-          service: switch.turn_on
-          data:
-            entity_id: switch.garage_actual
-        stop_cover:
-          service: switch.turn_on
-          data:
-            entity_id: switch.garage_actual
-        icon_template: >-
-          {% if is_state('binary_sensor.garage_actual', 'on') %}
-            mdi:garage-open-variant
-          {% else %}
-            mdi:garage-variant
-          {% endif %}
-
-
 homekit:
-#  auto_start: false
-  ip_address: !secret homekit_ip_address
-  filter:
-    include_domains:
-      - climate
-      - cover
-      - light
-    include_entities:
-      - binary_sensor.bedroom_windows
-      - binary_sensor.den_door
-      - binary_sensor.den_windows
-      - binary_sensor.front_door
-      - binary_sensor.garage_door
-      - binary_sensor.guest_bedroom_windows
-      - binary_sensor.kitchen_windows
-      - binary_sensor.living_room_windows
-      - binary_sensor.patio_door
-      - binary_sensor.rec_room_windows
-      - binary_sensor.den_multisensor_sensor
-      - binary_sensor.bedroom_closet_trisensor_sensor
-      - binary_sensor.downstairs_hallway_trisensor_sensor
-      - binary_sensor.garage_motion_sensor
-      - binary_sensor.garage_stairs_multisensor_sensor
-      - binary_sensor.living_room_motion_sensor
-      - binary_sensor.main_stairs_multisensor_sensor
-      - binary_sensor.upstairs_hallway_motion_sensor
-      - fan.bedroom
-      - fan.kitchen
-      - input_boolean.mode_guest
-      - input_boolean.mode_home_theater
-      - input_boolean.mode_sleep
-      - remote.living_room_apple_tv
-      - sensor.bedroom_nitrogen_dioxide
-      - sensor.bedroom_pm_10
-      - sensor.bedroom_pm_2_5
-      - sensor.bedroom_volatile_organic_compounds
-      - sensor.kitchen_nitrogen_dioxide
-      - sensor.kitchen_pm_10
-      - sensor.kitchen_pm_2_5
-      - sensor.kitchen_volatile_organic_compounds
-      - sensor.downstairs_thermostat_humidity
-      - sensor.upstairs_thermostat_humidity
-    exclude_entities:
-      - light.patio
-      - light.downstairs_patio
-      - light.den
-      - light.den_cabinets
-      - light.bedroom
-      - light.patio_string
-      - light.upstairs_hallway_group
-      - light.upstairs_patio
-
+  - filter:
+      include_domains:
+        - climate
+        - light
+      include_entities:
+        - binary_sensor.bedroom_windows
+        - binary_sensor.den_door
+        - binary_sensor.den_windows
+        - binary_sensor.front_door
+        - binary_sensor.front_door_doorbell
+        - binary_sensor.garage_door
+        - binary_sensor.studio_windows
+        - binary_sensor.kitchen_windows
+        - binary_sensor.living_room_windows
+        - binary_sensor.patio_door
+        - binary_sensor.rec_room_windows
+        - binary_sensor.den_multisensor_sensor
+        - binary_sensor.bedroom_closet_trisensor_sensor
+        - binary_sensor.downstairs_hallway_trisensor_sensor
+        - binary_sensor.front_door_motion
+        - binary_sensor.garage_motion_sensor
+        - binary_sensor.garage_stairs_multisensor_sensor
+        - binary_sensor.living_room_motion_sensor
+        - binary_sensor.main_stairs_multisensor_sensor
+        - binary_sensor.upstairs_hallway_motion_sensor
+        - fan.bedroom
+        - fan.kitchen
+        - input_boolean.mode_guest
+        - input_boolean.mode_home_theater
+        - input_boolean.mode_sleep
+        - remote.living_room_apple_tv
+        - sensor.bedroom_nitrogen_dioxide
+        - sensor.bedroom_pm_10
+        - sensor.bedroom_pm_2_5
+        - sensor.bedroom_volatile_organic_compounds
+        - sensor.kitchen_nitrogen_dioxide
+        - sensor.kitchen_pm_10
+        - sensor.kitchen_pm_2_5
+        - sensor.kitchen_volatile_organic_compounds
+        - sensor.downstairs_thermostat_humidity
+        - sensor.upstairs_thermostat_humidity
+      exclude_entities:
+        - light.patio
+        - light.patio_string
+        - light.downstairs_patio
+        - light.den
+        - light.den_cabinets
+        - light.bedroom
+        - light.upstairs_hallway_group
+        - light.upstairs_patio
+        - light.studio
+      exclude_entity_globs:
+        - light.*_basic
+  - name: Front Door Camera
+    port: 51065
+    mode: accessory
+    filter:
+      include_entities:
+        - camera.front_door_high_resolution_channel
+    entity_config:
+      camera.front_door_high_resolution_channel:
+        support_audio: true
+        linked_doorbell_sensor: binary_sensor.front_door_doorbell
+        linked_motion_sensor: binary_sensor.front_door_motion
+  - name: Downstairs Hallway Camera
+    port: 51027
+    mode: accessory
+    filter:
+      include_entities:
+        - camera.downstairs_hallway_high_resolution_channel
+    entity_config:
+      camera.downstairs_hallway_high_resolution_channel:
+        linked_motion_sensor: binary_sensor.downstairs_hallway_motion
+  - name: Main Floor Hallway Camera
+    port: 51076
+    mode: accessory
+    filter:
+      include_entities:
+        - camera.main_floor_high_resolution_channel
+    entity_config:
+      camera.main_floor_high_resolution_channel:
+        linked_motion_sensor: binary_sensor.main_floor_motion
+  - name: Main Patio Camera
+    port: 51023
+    mode: accessory
+    filter:
+      include_entities:
+        - camera.main_patio_high_resolution_channel
+    entity_config:
+      camera.main_patio_high_resolution_channel:
+        linked_motion_sensor: binary_sensor.main_patio_motion
+  - name: Garage Camera
+    port: 51097
+    mode: accessory
+    filter:
+      include_entities:
+        - camera.garage_high_resolution_channel
+    entity_config:
+      camera.garage_high_resolution_channel:
+        linked_motion_sensor: binary_sensor.garage_motion
+  - name: Front Door Lock
+    port: 51742
+    mode: accessory
+    filter:
+      include_entities:
+        - lock.august_web_front_door
+  - name: Garage Door Lock
+    port: 51134
+    mode: accessory
+    filter:
+      include_entities:
+        - lock.august_web_garage_door
+  - name: Garage Actual
+    port: 51876
+    mode: accessory
+    filter:
+      include_entities:
+        - cover.garage_actual
 
 mobile_app:
-
 
 # Disabled Features ##########################################
 # introduction:
@@ -357,10 +267,9 @@ mobile_app:
 # tts:
 #   platform: google
 
-
-
 # Includes ###################################################
-automation: !include_dir_merge_list automation/
+# automation: !include_dir_merge_list automation/
+automation: !include automations.yaml
 binary_sensor: !include binary_sensor.yaml
 group: !include group.yaml
 input_boolean: !include input_boolean.yaml
@@ -370,7 +279,8 @@ input_text: !include input_text.yaml
 media_player: !include media_player.yaml
 rest_command: !include rest_command.yaml
 scene: !include scene.yaml
-script: !include_dir_merge_named script/
+# script: !include_dir_merge_named script/
+script: !include scripts.yaml
 sensor: !include sensor.yaml
 shell_command: !include shell_command.yaml
 template: !include_dir_merge_list template/

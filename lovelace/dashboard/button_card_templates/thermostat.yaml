@@ -15,7 +15,7 @@ thermostat:
       }
 
       if (isEco) {
-        return states[variables.thermostat].attributes.preset_mode;
+        return states[variables.thermostat].attributes.preset_mode.capitalize();
       }
       else if (hvac_action == "cool" || hvac_action == "cooling") {
         return hvac_action.capitalize() + cool_target
@@ -23,8 +23,8 @@ thermostat:
       else if (hvac_action == "heat" || hvac_action == "heating") {
         return hvac_action.capitalize() + heat_target
       }
-      else if (hvac_action == "auto") {
-        return hvac_action.capitalize() + ' ' + states[variables.thermostat].attributes.target_temp_low + '–' + states[variables.thermostat].attributes.target_temp_high + 'º'
+      else if (hvac_action == "heat_cool") {
+        return 'Auto ' + states[variables.thermostat].attributes.target_temp_low + '–' + states[variables.thermostat].attributes.target_temp_high + 'º'
 
       }
       else {
@@ -53,7 +53,7 @@ thermostat:
     state:
       - text-transform: inherit
   state:
-    - value: "cool"
+    - value: "cooling"
       styles:
         card:
           - background: var(--card-on-background-color)
@@ -64,7 +64,7 @@ thermostat:
           - color: var(--card-on-text-color)
         state:
           - color: var(--card-on-text-color)
-    - value: "heat"
+    - value: "heating"
       styles:
         card:
           - background: var(--card-on-background-color)

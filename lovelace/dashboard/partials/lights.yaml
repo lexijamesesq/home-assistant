@@ -16,12 +16,18 @@ card:
   cards:
     - type: custom:mod-card
       card_mod:
-        style: |
-          :host {
-            padding: 28px 28px 0 0;
-            align-self: end;
-            --vertical-stack-card-margin: 0;
-          }
+        style:
+          hui-horizontal-stack-card$: |
+            #root {
+              padding: 28px 28px 0 0;
+              --vertical-stack-card-margin: 0;
+              --horizontal-stack-card-gap: 0;
+            }
+          .: |
+            ha-card hui-horizontal-stack-card{
+              display: flex;
+              justify-content: flex-end;
+            }
       card:
         type: horizontal-stack
         cards:
@@ -122,8 +128,6 @@ card:
                       name: Upstairs Hallway
                     - entity: light.bedroom
                       name: Bedroom
-                    - entity: light.bedroom_tiles
-                      name: Bedroom Tiles
                     - entity: light.bedroom_closet
                       name: Bedroom Closet
                     - entity: light.laundry
@@ -138,5 +142,5 @@ card:
                       name: Patio
                     - entity: light.upstairs_patio_string
                       name: Patio String
-                    - entity: light.guest_bedroom_closet
-                      name: Guest Bed Closet
+                    - entity: light.studio_closet
+                      name: Studio Closet

@@ -84,8 +84,6 @@ sensor.average_humidity:
   icon: mdi:water-percent
 sensor.average_temperature:
   icon: mdi:thermometer
-sensor.dark_sky_temperature:
-  friendly_name: Temperature
 sensor.dark_sky_daytime_high_temperature_0d:
   friendly_name: High
   icon: mdi:thermometer-plus
@@ -129,8 +127,23 @@ sensor.woodhouse_cpu1_temp:
   icon: mdi:thermometer
 sensor.woodhouse_cpu2_temp:
   icon: mdi:thermometer
+sensor.woodhouse_disk_used:
+  icon: mdi:harddisk
 sensor.woodhouse_ram_used:
   icon: mdi:memory
+sensor.black_pearl_cpu_load_1:
+  icon: mdi:chart-line
+sensor.black_pearl_cpu_load_15:
+  icon: mdi:chart-line
+sensor.black_pearl_cpu_load_5:
+  icon: mdi:chart-line
+sensor.black_pearl_cpu_temp:
+  icon: mdi:thermometer
+sensor.black_pearl_disk_used:
+  icon: mdi:harddisk
+sensor.black_pearl_ram_used:
+  icon: mdi:memory
+
 sensor.cox_wan:
   icon: mdi:network
 sensor.airvpn_wan:
@@ -144,6 +157,8 @@ input_boolean.sonos_kitchen:
 input_boolean.sonos_living_room:
   icon: mdi:speaker
 input_boolean.sonos_rec_room:
+  icon: mdi:speaker
+input_boolean.sonos_rec_room_tv:
   icon: mdi:speaker
 input_boolean.sonos_bedroom:
   icon: mdi:speaker
@@ -205,15 +220,15 @@ sensor.laundry_door_left_sensor_alarm_level:
   hidden: true
 sensor.laundry_door_left_sensor_access_control:
   hidden: true
-sensor.guest_bedroom_closet_door_sensor_sourcenodeid:
+sensor.studio_closet_door_sensor_sourcenodeid:
   hidden: true
-sensor.guest_bedroom_closet_door_sensor_burglar:
+sensor.studio_closet_door_sensor_burglar:
   hidden: true
-sensor.guest_bedroom_closet_door_sensor_alarm_type:
+sensor.studio_closet_door_sensor_alarm_type:
   hidden: true
-sensor.guest_bedroom_closet_door_sensor_alarm_level:
+sensor.studio_closet_door_sensor_alarm_level:
   hidden: true
-sensor.guest_bedroom_closet_door_sensor_access_control:
+sensor.studio_closet_door_sensor_access_control:
   hidden: true
 sensor.garage_actual_water_chlorine_level:
   hidden: true

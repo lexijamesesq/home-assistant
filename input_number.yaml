@@ -14,6 +14,10 @@ sonos_rec_room_volume:
   initial: 0.46
   min: 0
   max: 1
+sonos_rec_room_tv_volume:
+  initial: 0.28
+  min: 0
+  max: 1
 sonos_bedroom_volume:
   initial: 0.28
   min: 0
@@ -27,6 +31,6 @@ sonos_den_volume:
   min: 0
   max: 1
 sonos_move_volume:
-  initial: 0.12
+  initial: 0.14
   min: 0
   max: 1

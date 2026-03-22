@@ -1,0 +1,621 @@
+# Template sensors migrated from sensor.yaml (legacy platform: template format)
+# Migrated: 2026-03-21
+
+# ──────────────────────────────────────────────
+# Group 1: Mode monitoring sensors
+# ──────────────────────────────────────────────
+- sensor:
+    - name: "Morning Mode"
+      unique_id: mode_morning
+      state: >
+        {{ states('input_boolean.mode_morning') }}
+      icon: "mdi:weather-hazy"
+
+    - name: "Day Mode"
+      unique_id: mode_day
+      state: >
+        {{ states('input_boolean.mode_day') }}
+      icon: "mdi:weather-sunny"
+
+    - name: "Sunset Mode"
+      unique_id: mode_sunset
+      state: >
+        {{ states('input_boolean.mode_sunset') }}
+      icon: "mdi:weather-sunset"
+
+    - name: "Night Mode"
+      unique_id: mode_night
+      state: >
+        {{ states('input_boolean.mode_night') }}
+      icon: "mdi:weather-night"
+
+    - name: "Guest Mode"
+      unique_id: mode_guest
+      state: >
+        {{ states('input_boolean.mode_guest') }}
+      icon: "mdi:human-greeting"
+
+    - name: "Home Theater Mode"
+      unique_id: mode_home_theater
+      state: >
+        {{ states('input_boolean.mode_home_theater') }}
+      icon: "mdi:theater"
+
+    - name: "Sleep Mode"
+      unique_id: mode_sleep
+      state: >
+        {{ states('input_boolean.mode_sleep') }}
+      icon: "mdi:sleep"
+
+    - name: "Simulate Presence Mode"
+      unique_id: mode_simulate_presence
+      state: >
+        {% if is_state('input_boolean.mode_simulate_presence', 'on') %}
+          {% if is_state("group.inside_lights", "on") %}
+            Lights On
+          {% else %}
+            Lights Off
+          {% endif %}
+        {% else %}
+          off
+        {% endif %}
+
+# ──────────────────────────────────────────────
+# Group 2: Dashboard view sensors
+# ──────────────────────────────────────────────
+- sensor:
+    - name: "Current Home Mode"
+      unique_id: dashboard_current_home_mode
+      state: >-
+        {% if is_state('input_boolean.mode_morning', 'on') %}
+          Morning
+        {% elif is_state('input_boolean.mode_day', 'on') %}
+          Day
+        {% elif is_state('input_boolean.mode_sunset', 'on') %}
+          Sunset
+        {% elif is_state('input_boolean.mode_night', 'on') %}
+          Night
+        {% else %}
+          Unknown
+        {% endif %}
+      icon: >-
+        {% if is_state('input_boolean.mode_morning', 'on') %}
+          mdi:weather-hazy
+        {% elif is_state('input_boolean.mode_day', 'on') %}
+          mdi:weather-sunny
+        {% elif is_state('input_boolean.mode_sunset', 'on') %}
+          mdi:weather-sunset
+        {% elif is_state('input_boolean.mode_night', 'on') %}
+          mdi:weather-night
+        {% else %}
+          mdi:weather-cloudy-alert
+        {% endif %}
+
+    - name: "Current Mode"
+      unique_id: dashboard_current_mode
+      state: >-
+        {% if is_state('input_boolean.mode_sleep', 'on') %}
+          Sleep
+        {% elif is_state('input_boolean.mode_laundry', 'on') %}
+          Laundry
+        {% elif is_state('input_boolean.mode_home_theater', 'on') %}
+          Theater
+        {% elif is_state('input_boolean.mode_house_cleaning', 'on') %}
+          Cleaning
+        {% elif is_state('input_boolean.mode_guest', 'on') %}
+          Guest
+        {% elif is_state('input_boolean.mode_morning', 'on') %}
+          Morning
+        {% elif is_state('input_boolean.mode_day', 'on') %}
+          Day
+        {% elif is_state('input_boolean.mode_sunset', 'on') %}
+          Sunset
+        {% elif is_state('input_boolean.mode_night', 'on') %}
+          Night
+        {% else %}
+          Unknown
+        {% endif %}
+      icon: >-
+        {% if is_state('input_boolean.mode_sleep', 'on') %}
+          mdi:sleep
+        {% elif is_state('input_boolean.mode_laundry', 'on') %}
+          mdi:washing-machine
+        {% elif is_state('input_boolean.mode_home_theater', 'on') %}
+          mdi:theater
+        {% elif is_state('input_boolean.mode_house_cleaning', 'on') %}
+          mdi:broom
+        {% elif is_state('input_boolean.mode_guest', 'on') %}
+          mdi:human-greeting
+        {% elif is_state('input_boolean.mode_morning', 'on') %}
+          mdi:weather-hazy
+        {% elif is_state('input_boolean.mode_day', 'on') %}
+          mdi:weather-sunny
+        {% elif is_state('input_boolean.mode_sunset', 'on') %}
+          mdi:weather-sunset
+        {% elif is_state('input_boolean.mode_night', 'on') %}
+          mdi:weather-night
+        {% else %}
+          mdi:weather-cloudy-alert
+        {% endif %}
+
+    - name: "Home State"
+      unique_id: dashboard_home_state
+      state: >-
+        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_web_front_door.state == 'locked' and states.lock.august_web_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
+          Secure
+        {% else %}
+          Insecure
+        {% endif %}
+      icon: >-
+        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_web_front_door.state == 'locked' and states.lock.august_web_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
+          mdi:shield-home
+        {% else %}
+          mdi:shield-off
+        {% endif %}
+
+    - name: "Occupancy State"
+      unique_id: dashboard_occupancy_state
+      state: >-
+        {% if is_state("group.residents", "home") %}
+          Resident
+        {% elif is_state("sensor.mode_guest", "on") %}
+          Guest
+        {% else %}
+          Cats
+        {% endif %}
+      icon: >-
+        {% if is_state("group.residents", "home") %}
+          mdi:account-multiple
+        {% elif is_state("sensor.mode_guest", "on") %}
+          mdi:human-greeting
+        {% else %}
+          mdi:cat
+        {% endif %}
+
+    - name: "Simulate Presence Status"
+      unique_id: dashboard_simulate_presence_status
+      state: >
+        {% if is_state('input_boolean.mode_simulate_presence', 'on') %}
+          Simulating presence.
+        {% else %}
+          off
+        {% endif %}
+
+    - name: "Garage Actual Status"
+      unique_id: dashboard_garage_actual_status
+      state: >-
+        {{ 'off' if is_state("cover.garage_actual", "closed") else "Garage Actual is open." }}
+
+    - name: "Garage Actual Status - Short"
+      unique_id: dashboard_garage_actual_status_short
+      state: >-
+        {{ 'off' if is_state("cover.garage_actual", "closed") else "Open" }}
+
+    - name: "Open Window Status"
+      unique_id: dashboard_open_window_status
+      state: >-
+        {% set num_windows = states.binary_sensor
+          | selectattr('entity_id', 'in', states.group.all_windows.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+        {% set num_downstairs = states.binary_sensor
+          | selectattr('entity_id', 'in', states.group.downstairs_windows.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+        {% set num_upstairs = states.binary_sensor
+          | selectattr('entity_id', 'in', states.group.upstairs_windows.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+
+        {% if num_windows > 1 %}
+          {% if num_downstairs == 0 %}
+            {{ num_windows }} upstairs windows are open.
+          {% elif num_upstairs == 0 %}
+            {{ num_windows }} downstairs windows are open.
+          {% else %}
+            {{ num_windows }} windows are open.
+          {% endif %}
+        {% elif num_windows == 1 %}
+          {% set open_window = states.binary_sensor
+            | selectattr('entity_id', 'in', states.group.all_windows.attributes.entity_id)
+            | selectattr('state', 'eq', 'on')
+            | first
+          %}
+          {{ open_window.attributes.friendly_name }} are open.
+        {% else %}
+          off
+        {% endif %}
+
+    - name: "Open Window Status - Short"
+      unique_id: dashboard_open_window_status_short
+      state: >-
+        {% set num_windows = states.binary_sensor
+          | selectattr('entity_id', 'in', states.group.all_windows.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+
+        {% if num_windows > 0 %}
+          {{ num_windows }} Open
+        {% else %}
+          off
+        {% endif %}
+
+    - name: "Open Door Status"
+      unique_id: dashboard_open_door_status
+      state: >-
+        {% set num_doors = states.binary_sensor
+          | selectattr('entity_id', 'in', states.group.all_doors.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+
+        {% if num_doors > 1 %}
+          {{ num_doors }} doors are open.
+        {% elif num_doors == 1 %}
+          {% set open_door = states.binary_sensor
+            | selectattr('entity_id', 'in', states.group.all_doors.attributes.entity_id)
+            | selectattr('state', 'eq', 'on')
+            | first
+          %}
+          {{ open_door.attributes.friendly_name }} is open.
+        {% else %}
+          off
+        {% endif %}
+
+    - name: "Open Door Status - Short"
+      unique_id: dashboard_open_door_status_short
+      state: >-
+        {% set num_doors = states.binary_sensor
+          | selectattr('entity_id', 'in', states.group.all_doors.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+
+        {% if num_doors > 0 %}
+          {{ num_doors }} Open
+        {% else %}
+          off
+        {% endif %}
+
+    - name: "Unlocked Door Status"
+      unique_id: dashboard_unlocked_door_status
+      state: >-
+        {% set num = states.lock
+          | selectattr('entity_id', 'in', states.group.all_locks.attributes.entity_id)
+          | selectattr('state', 'eq', 'unlocked')
+          | list
+          | length
+        %}
+
+        {% if num == 2 %}
+          Front Door and Garage Door are unlocked.
+        {% elif num ==1 and is_state("lock.august_web_front_door", "unlocked") %}
+          Front Door is unlocked.
+        {% elif num ==1 and is_state("lock.august_web_garage_door", "unlocked") %}
+          Garage Door is unlocked.
+        {% else %}
+          off
+        {% endif %}
+
+    - name: "Lights On Status"
+      unique_id: dashboard_lights_on_status
+      state: >-
+        {% set num_lights = states.light
+          | selectattr('entity_id', 'in', states.group.all_lights.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+
+        {% if num_lights > 1 %}
+          {{ num_lights }} lights are on.
+        {% elif num_lights == 1 %}
+          {% set lights_on = states.light
+            | selectattr('entity_id', 'in', states.group.all_lights.attributes.entity_id)
+            | selectattr('state', 'eq', 'on')
+            | first
+          %}
+          {{ lights_on.attributes.friendly_name }} are on.
+        {% else %}
+          off
+        {% endif %}
+
+    - name: "Lights On Status - Short"
+      unique_id: dashboard_lights_on_status_short
+      state: >-
+        {% set num_lights = states.light
+          | selectattr('entity_id', 'in', states.group.all_lights.attributes.entity_id)
+          | selectattr('state', 'eq', 'on')
+          | list
+          | length
+        %}
+
+        {% if num_lights > 0 %}
+          {{ num_lights }} On
+        {% else %}
+          off
+        {% endif %}
+
+    - name: "Sonos Song Status"
+      unique_id: dashboard_sonos_song_status
+      state: >-
+        {% set group_master = states("sensor.sonos_group_master") %}
+
+        {% if group_master != none %}
+          {% if is_state("sensor.sonos_group_master_state", "playing") %}
+            {{ state_attr(group_master, "media_artist") }} – {{ state_attr(group_master, "media_title") }}
+          {% else %}
+            Nothing is playing.
+          {% endif %}
+        {% else %}
+          off
+        {% endif %}
+
+    - name: "Sonos Speaker Status"
+      unique_id: dashboard_sonos_speaker_status
+      state: >-
+        {% if group_master != none %}
+          {{ state_attr(states("sensor.sonos_group_master"), "friendly_name") }} + {{ states("sensor.sonos_speakers_join").split(',') | length }}
+        {% else %}
+          off
+        {% endif %}
+
+    - name: "Bedroom Fan Filter"
+      unique_id: dashboard_bedroom_fan_filter
+      state: >-
+        {% if states("sensor.bedroom_hepa_filter_remaining_life") | int(0) <= 33 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon: "mdi:air-filter"
+
+    - name: "Kitchen Fan Filter"
+      unique_id: dashboard_kitchen_fan_filter
+      state: >-
+        {% if states("sensor.kitchen_combi_filter_remaining_life") | int(0) <= 33 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon: "mdi:air-filter"
+
+# ──────────────────────────────────────────────
+# Group 3: Sonos grouping sensors
+# ──────────────────────────────────────────────
+- sensor:
+    - name: "Sonos Group Master"
+      unique_id: sonos_group_master
+      state: >-
+        {%- set players = expand('group.sonos_players') -%}
+        {%- for player in players if player.state == 'playing' and player.attributes.source is not defined and player.attributes.group_members[0] == player.entity_id %}
+          {% if loop.last %}
+            {{ player.entity_id }}
+          {% endif %}
+        {% else %}
+          {{ 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") }}
+        {% endfor -%}
+
+    - name: "Sonos Group Master - State"
+      unique_id: sonos_group_master_state
+      state: >-
+        {%- set master = states('sensor.sonos_group_master') -%}
+        {{- 'playing' if is_state(master, 'playing') else 'paused' -}}
+
+    - name: "Sonos Group Master - Shuffle"
+      unique_id: sonos_group_master_shuffle
+      state: >-
+        {%- set master = states('sensor.sonos_group_master') -%}
+        {{- 'on' if is_state_attr(master, 'shuffle', true) else 'off' -}}
+
+    - name: "Sonos Group Master - Repeat"
+      unique_id: sonos_group_master_repeat
+      state: >-
+        {%- set master = states('sensor.sonos_group_master') -%}
+        {{- 'on' if is_state_attr(master, 'repeat', 'all') else 'off' -}}
+
+    - name: "Sonos Join Speakers"
+      unique_id: sonos_speakers_join
+      state: >-
+        {% set master = states('sensor.sonos_group_master') %}
+        {% for switch in states.input_boolean if "sonos" in switch.entity_id and switch.state == "on" and switch.entity_id|replace("input_boolean", "media_player") != master -%}
+          {{ switch.entity_id|replace("input_boolean", "media_player") }}
+          {%- if not loop.last -%}
+            ,
+          {%- endif %}
+        {%- endfor %}
+
+    - name: "Sonos Unjoin Speakers"
+      unique_id: sonos_speakers_unjoin
+      state: >-
+        {% set master = states('sensor.sonos_group_master') %}
+        {% for switch in states.input_boolean if "sonos" in switch.entity_id and switch.state == "off" and switch.entity_id|replace("input_boolean", "media_player") != master -%}
+          {{ switch.entity_id|replace("input_boolean", "media_player") }}
+          {%- if not loop.last -%}
+            ,
+          {%- endif %}
+        {%- endfor %}
+
+    - name: "Sonos Switches On"
+      unique_id: sonos_switches_on
+      state: >-
+        {%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%}
+        {%- set players = expand('group.sonos_players') -%}
+        {%- for player in players if player.attributes.group_members | length > 0 and player.entity_id == master %}
+          {%- set slaves = player.attributes.group_members %}
+          {{ slaves|join(",")|replace("media_player", "input_boolean") }}
+        {%- endfor %}
+
+    - name: "Sonos Switches Off"
+      unique_id: sonos_switches_off
+      state: >-
+        {%- set master = 'media_player.sonos_'+ states('input_select.master_sonos') | lower | replace(" ", "_") -%}
+        {%- set players = expand('group.sonos_players') -%}
+        {%- for player in players if player.attributes.group_members | length == 1 and player.entity_id != master -%}
+          {{ player.entity_id|replace("media_player", "input_boolean") }}
+          {%- if not loop.last -%}
+            ,
+          {%- endif -%}
+        {%- endfor %}
+
+# ──────────────────────────────────────────────
+# Group 4: Sonos volume sensors
+# ──────────────────────────────────────────────
+- sensor:
+    - name: "Sonos Kitchen Volume"
+      unique_id: sonos_kitchen_volume
+      state: >-
+        {%- if state_attr('media_player.sonos_kitchen', 'volume_level') is defined and state_attr('media_player.sonos_kitchen', 'volume_level') is number -%}
+          {{ (state_attr('media_player.sonos_kitchen', 'volume_level') * 100) | int(0) ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+
+    - name: "Sonos Living Room Volume"
+      unique_id: sonos_living_room_volume
+      state: >-
+        {%- if state_attr('media_player.sonos_living_room', 'volume_level') is defined and state_attr('media_player.sonos_living_room', 'volume_level') is number -%}
+          {{ (state_attr('media_player.sonos_living_room', 'volume_level') * 100) | int(0) ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+
+    - name: "Sonos Rec Room Volume"
+      unique_id: sonos_rec_room_volume
+      state: >-
+        {%- if state_attr('media_player.sonos_rec_room', 'volume_level') is defined and state_attr('media_player.sonos_rec_room', 'volume_level') is number -%}
+          {{ (state_attr('media_player.sonos_rec_room', 'volume_level') * 100) | int(0) ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+
+    - name: "Sonos Rec Room TV Volume"
+      unique_id: sonos_rec_room_tv_volume
+      state: >-
+        {%- if state_attr('media_player.sonos_rec_room', 'volume_level') is defined and state_attr('media_player.sonos_rec_room', 'volume_level') is number -%}
+          {{ (state_attr('media_player.sonos_rec_room', 'volume_level') * 100) | int(0) ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+
+    - name: "Sonos Bedroom Volume"
+      unique_id: sonos_bedroom_volume
+      state: >-
+        {%- if state_attr('media_player.sonos_bedroom', 'volume_level') is defined and state_attr('media_player.sonos_bedroom', 'volume_level') is number -%}
+          {{ (state_attr('media_player.sonos_bedroom', 'volume_level') * 100) | int(0) ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+
+    - name: "Sonos Bathroom Volume"
+      unique_id: sonos_bathroom_volume
+      state: >-
+        {%- if state_attr('media_player.sonos_bathroom', 'volume_level') is defined and state_attr('media_player.sonos_bathroom', 'volume_level') is number -%}
+          {{ (state_attr('media_player.sonos_bathroom', 'volume_level') * 100) | int(0) ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+
+    - name: "Sonos Den Volume"
+      unique_id: sonos_den_volume
+      state: >-
+        {%- if state_attr('media_player.sonos_den', 'volume_level') is defined and state_attr('media_player.sonos_den', 'volume_level') is number -%}
+          {{ (state_attr('media_player.sonos_den', 'volume_level') * 100) | int(0) ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+
+    - name: "Sonos Move Volume"
+      unique_id: sonos_move_volume
+      state: >-
+        {%- if state_attr('media_player.sonos_move', 'volume_level') is defined and state_attr('media_player.sonos_move', 'volume_level') is number -%}
+          {{ (state_attr('media_player.sonos_move', 'volume_level') * 100) | int(0) ~ '%' }}
+        {%- else -%}
+          Unavailable
+        {%- endif %}
+
+# ──────────────────────────────────────────────
+# Group 5: Nest sleep mode temperatures
+# ──────────────────────────────────────────────
+- sensor:
+    - name: "Downstairs Nest Sleep Mode - Cool"
+      unique_id: climate_downstairs_sleep_mode_cool
+      state: 80
+      unit_of_measurement: "ºF"
+
+    - name: "Downstairs Nest Sleep Mode - Heat"
+      unique_id: climate_downstairs_sleep_mode_heat
+      state: 76
+      unit_of_measurement: "ºF"
+
+    - name: "Upstairs Nest Sleep Mode - Cool"
+      unique_id: climate_upstairs_sleep_mode_cool
+      state: 74
+      unit_of_measurement: "ºF"
+
+    - name: "Upstairs Nest Sleep Mode - Heat"
+      unique_id: climate_upstairs_sleep_mode_heat
+      state: 74
+      unit_of_measurement: "ºF"
+
+# ──────────────────────────────────────────────
+# Group 6: States for conditionals
+# ──────────────────────────────────────────────
+- sensor:
+    - name: "State - All Services Up"
+      unique_id: state_all_services_up
+      state: >-
+        {% set services = [
+          "sensor.service_status_home_assistant",
+          "sensor.service_status_plex",
+          "sensor.service_status_sonarr",
+          "sensor.service_status_sabnzbd",
+          "sensor.service_status_tautulli",
+          "sensor.service_status_grafana",
+          "sensor.service_status_unifi_network",
+          "sensor.service_status_unifi_protect"
+        ] %}
+
+        {{ 'on' if states.sensor
+          | selectattr('entity_id', 'in', services)
+          | selectattr('state', 'eq', 'Down')
+          | list
+          | count == 0
+          else 'off'
+        }}
+
+    - name: "State - All VPN WANs Down"
+      unique_id: state_all_vpn_wan_down
+      state: >-
+        {% set networks = [
+          "sensor.network_status_vpn_wan",
+          "sensor.network_status_vpn2_wan",
+          "sensor.network_status_vpn3_wan",
+        ] %}
+
+        {{ 'on' if states.sensor
+          | selectattr('entity_id', 'in', networks)
+          | selectattr('state', 'eq', 'Down')
+          | list
+          | count == 3
+          else 'off'
+        }}
+
+    - name: "State - HA New Major Version"
+      unique_id: state_ha_new_major_version
+      state: >-
+        {%- if states.sensor.current_version.state is defined and states.sensor.latest_version.state is defined -%}
+          {{- "on" if states("sensor.latest_version").rsplit(".", 1)[0] > states("sensor.current_version").rsplit(".", 1)[0] else "off" -}}
+        {%- else -%}
+          unknown
+        {%- endif %}

@@ -22,28 +22,29 @@ card:
   type: vertical-stack
   cards:
     - type: custom:button-card
-      style: |
-        .colon {
-          animation: blink 2s step-start 0s infinite;
-        }
-        .ampm {
-          font-size: 32px;
-          font-weight: 300;
-          margin-left: 14px;
-        }
-        .ellipsis {
-          text-overflow: inherit !important;
-          white-space: inherit !important;
-          overflow: inherit !important;
-        }
-        p {
-          line-height: 20px;
-          text-align: left;
-          margin: 0 0 4px 0;
-        }
-        p:last-child {
-          margin: 0;
-        }
+      card_mod:
+        style: |
+          .colon {
+            animation: blink 2s step-start 0s infinite;
+          }
+          .ampm {
+            font-size: 32px;
+            font-weight: 300;
+            margin-left: 14px;
+          }
+          .ellipsis {
+            text-overflow: inherit !important;
+            white-space: inherit !important;
+            overflow: inherit !important;
+          }
+          p {
+            line-height: 20px;
+            text-align: left;
+            margin: 0 0 4px 0;
+          }
+          p:last-child {
+            margin: 0;
+          }
       triggers_update:
         - sensor.dashboard_date_time
         - sensor.dashboard_garage_actual_status

@@ -7,7 +7,6 @@ residents:
   entities:
     - person.alexis
 
-
 ##############################################################
 # Lights
 ##############################################################
@@ -25,6 +24,7 @@ all_lights:
     - light.garage
     - light.garage_stairs
     - light.downstairs_hallway
+    - light.downstairs_bathroom
     - light.kitchen
     - light.downstairs_patio
     - light.downstairs_patio_string
@@ -36,7 +36,8 @@ all_lights:
     - light.upstairs_hallway
     - light.bedroom_hallway
     - light.bedroom
-    - light.bedroom_tiles
+    - light.bathroom
+    - light.bathroom_wc_dimmer
     - light.bedroom_closet
     - light.laundry
     - light.den_hallway
@@ -44,13 +45,15 @@ all_lights:
     - light.den_cabinets
     - light.upstairs_patio
     - light.upstairs_patio_string
-    - light.guest_bedroom_closet
+    - light.upstairs_bathroom
+    - light.studio_closet
 
 inside_lights:
   entities:
     - light.garage
     - light.garage_stairs
     - light.downstairs_hallway
+    - light.downstairs_bathroom
     - light.kitchen
     - light.living_room
     - light.living_room_tv
@@ -60,13 +63,17 @@ inside_lights:
     - light.upstairs_hallway
     - light.bedroom_hallway
     - light.bedroom
-    - light.bedroom_tiles
+    - light.bathroom
+    - light.bathroom_wc_dimmer
     - light.bedroom_closet
     - light.laundry
     - light.den_hallway
     - light.den
     - light.den_cabinets
-    - light.guest_bedroom_closet
+    - light.upstairs_bathroom
+    - light.studio_lights
+    - light.studio_overhead
+    - light.studio_closet
 
 outside_lights:
   entities:
@@ -83,9 +90,10 @@ garage_lights:
 downstairs_lights:
   entities:
     - light.downstairs_hallway
+    - light.downstairs_bathroom
     - light.kitchen
     - light.downstairs_patio
-    - light.downstairs_patio
+    - light.downstairs_patio_string
     - light.living_room
     - light.living_room_tv
     - light.rec_room
@@ -97,7 +105,8 @@ upstairs_lights:
     - light.upstairs_hallway
     - light.bedroom_hallway
     - light.bedroom
-    - light.bedroom_tiles
+    - light.bathroom
+    - light.bathroom_wc_dimmer
     - light.bedroom_closet
     - light.laundry
     - light.den_hallway
@@ -105,13 +114,14 @@ upstairs_lights:
     - light.den_cabinets
     - light.upstairs_patio
     - light.upstairs_patio_string
-    - light.guest_bedroom_closet
+    - light.upstairs_bathroom
+    - light.studio_lights
+    - light.studio_overhead
+    - light.studio_closet
 
 bedroom_lights:
   entities:
     - light.bedroom
-    - light.bedroom_tiles
-
 
 ##############################################################
 # Media Players
@@ -125,7 +135,7 @@ sonos_players:
     - media_player.sonos_living_room
     - media_player.sonos_move
     - media_player.sonos_rec_room
-
+    - media_player.sonos_rec_room_tv
 
 ##############################################################
 # Sensors
@@ -168,22 +178,9 @@ motion_upstairs_hallway_group_areas:
     - input_boolean.motion_main_stairs
     - input_boolean.motion_upstairs_hallway
 
-device_tracker_woodhouse:
-  name: Woodhouse
-  entities:
-    - device_tracker.woodhouse_nic1
-    - device_tracker.woodhouse_nic2
-
-device_tracker_oswin:
-  name: Oswin
-  entities:
-    - device_tracker.oswin_nic1
-    - device_tracker.oswin_nic2
-
 laundry_door_sensor:
   - binary_sensor.laundry_door_left
   - binary_sensor.laundry_door_right
-
 
 ##############################################################
 # Security
@@ -211,7 +208,7 @@ upstairs_windows:
   entities:
     - binary_sensor.bedroom_windows
     - binary_sensor.den_windows
-    - binary_sensor.guest_bedroom_windows
+    - binary_sensor.studio_windows
 
 all_windows:
   entities:
@@ -220,4 +217,122 @@ all_windows:
     - binary_sensor.rec_room_windows
     - binary_sensor.bedroom_windows
     - binary_sensor.den_windows
-    - binary_sensor.guest_bedroom_windows
+    - binary_sensor.studio_windows
+
+##############################################################
+# Switch LEDs
+##############################################################
+led_color_when_off:
+  entities:
+    - number.garage_stairs_dimmer_default_all_led_strip_color_when_off
+    - number.downstairs_hallway_dimmer_default_all_led_strip_color_when_off
+    - number.downstairs_bathroom_default_all_led_strip_color_when_off
+    - number.kitchen_dimmer_default_all_led_strip_color_when_off
+    - number.downstairs_patio_dimmer_default_all_led_strip_color_when_off
+    - number.living_room_dimmer_default_all_led_strip_color_when_off
+    - number.rec_room_dimmer_default_all_led_strip_color_when_off
+    - number.main_stairs_dimmer_default_all_led_strip_color_when_off
+    - number.upstairs_hallway_dimmer_default_all_led_strip_color_when_off
+    - number.bedroom_hallway_dimmer_default_all_led_strip_color_when_off
+    - number.bedroom_dimmer_default_all_led_strip_color_when_off
+    - number.bathroom_dimmer_default_all_led_strip_color_when_off
+    - number.bathroom_wc_dimmer_default_all_led_strip_color_when_off
+    - number.laundry_switch_default_all_led_strip_color_when_off
+    - number.den_hallway_dimmer_default_all_led_strip_color_when_off
+    - number.den_dimmer_default_all_led_strip_color_when_off
+    - number.upstairs_bathroom_default_all_led_strip_color_when_off
+    - number.upstairs_patio_dimmer_default_all_led_strip_color_when_off
+    - number.studio_dimmer_default_all_led_strip_color_when_off
+    - number.studio_switch_default_all_led_strip_color_when_off
+
+led_color_when_on:
+  entities:
+    - number.garage_stairs_dimmer_default_all_led_strip_color_when_on
+    - number.downstairs_hallway_dimmer_default_all_led_strip_color_when_on
+    - number.downstairs_bathroom_default_all_led_strip_color_when_on
+    - number.kitchen_dimmer_default_all_led_strip_color_when_on
+    - number.downstairs_patio_dimmer_default_all_led_strip_color_when_on
+    - number.living_room_dimmer_default_all_led_strip_color_when_on
+    - number.rec_room_dimmer_default_all_led_strip_color_when_on
+    - number.main_stairs_dimmer_default_all_led_strip_color_when_on
+    - number.upstairs_hallway_dimmer_default_all_led_strip_color_when_on
+    - number.bedroom_hallway_dimmer_default_all_led_strip_color_when_on
+    - number.bedroom_dimmer_default_all_led_strip_color_when_on
+    - number.bathroom_dimmer_default_all_led_strip_color_when_on
+    - number.bathroom_wc_dimmer_default_all_led_strip_color_when_on
+    - number.laundry_switch_default_all_led_strip_color_when_on
+    - number.den_hallway_dimmer_default_all_led_strip_color_when_on
+    - number.den_dimmer_default_all_led_strip_color_when_on
+    - number.upstairs_bathroom_default_all_led_strip_color_when_on
+    - number.upstairs_patio_dimmer_default_all_led_strip_color_when_on
+    - number.studio_dimmer_default_all_led_strip_color_when_on
+    - number.studio_switch_default_all_led_strip_color_when_on
+
+led_strip_effect:
+  entities:
+    - select.garage_stairs_dimmer_all_led_strip_effect_effect
+    - select.downstairs_hallway_dimmer_all_led_strip_effect_effect
+    - select.downstairs_bathroom_all_led_strip_effect_effect
+    - select.kitchen_dimmer_all_led_strip_effect_effect
+    - select.downstairs_patio_dimmer_all_led_strip_effect_effect
+    - select.living_room_dimmer_all_led_strip_effect_effect
+    - select.rec_room_dimmer_all_led_strip_effect_effect
+    - select.main_stairs_dimmer_all_led_strip_effect_effect
+    - select.upstairs_hallway_dimmer_all_led_strip_effect_effect
+    - select.bedroom_hallway_dimmer_all_led_strip_effect_effect
+    - select.bedroom_dimmer_all_led_strip_effect_effect
+    - select.bathroom_dimmer_all_led_strip_effect_effect
+    - select.bathroom_wc_dimmer_all_led_strip_effect_effect
+    - select.laundry_switch_all_led_strip_effect_effect
+    - select.den_hallway_dimmer_all_led_strip_effect_effect
+    - select.den_dimmer_all_led_strip_effect_effect
+    - select.upstairs_bathroom_all_led_strip_effect_effect
+    - select.upstairs_patio_dimmer_all_led_strip_effect_effect
+    - select.studio_dimmer_all_led_strip_effect_effect
+    - select.studio_switch_all_led_strip_effect_effect
+
+led_strip_effect_color:
+  entities:
+    - number.garage_stairs_dimmer_all_led_strip_effect_color
+    - number.downstairs_hallway_dimmer_all_led_strip_effect_color
+    - number.downstairs_bathroom_all_led_strip_effect_color
+    - number.kitchen_dimmer_all_led_strip_effect_color
+    - number.downstairs_patio_dimmer_all_led_strip_effect_color
+    - number.living_room_dimmer_all_led_strip_effect_color
+    - number.rec_room_dimmer_all_led_strip_effect_color
+    - number.main_stairs_dimmer_all_led_strip_effect_color
+    - number.upstairs_hallway_dimmer_all_led_strip_effect_color
+    - number.bedroom_hallway_dimmer_all_led_strip_effect_color
+    - number.bedroom_dimmer_all_led_strip_effect_color
+    - number.bathroom_dimmer_all_led_strip_effect_color
+    - number.bathroom_wc_dimmer_all_led_strip_effect_color
+    - number.laundry_switch_all_led_strip_effect_color
+    - number.den_hallway_dimmer_all_led_strip_effect_color
+    - number.den_dimmer_all_led_strip_effect_color
+    - number.upstairs_bathroom_all_led_strip_effect_color
+    - number.upstairs_patio_dimmer_all_led_strip_effect_color
+    - number.studio_dimmer_all_led_strip_effect_color
+    - number.studio_switch_all_led_strip_effect_color
+
+led_strip_effect_duration:
+  entities:
+    - number.garage_stairs_dimmer_all_led_strip_effect_duration
+    - number.downstairs_hallway_dimmer_all_led_strip_effect_duration
+    - number.downstairs_bathroom_all_led_strip_effect_duration
+    - number.kitchen_dimmer_all_led_strip_effect_duration
+    - number.downstairs_patio_dimmer_all_led_strip_effect_duration
+    - number.living_room_dimmer_all_led_strip_effect_duration
+    - number.rec_room_dimmer_all_led_strip_effect_duration
+    - number.main_stairs_dimmer_all_led_strip_effect_duration
+    - number.upstairs_hallway_dimmer_all_led_strip_effect_duration
+    - number.bedroom_hallway_dimmer_all_led_strip_effect_duration
+    - number.bedroom_dimmer_all_led_strip_effect_duration
+    - number.bathroom_dimmer_all_led_strip_effect_duration
+    - number.bathroom_wc_dimmer_all_led_strip_effect_duration
+    - number.laundry_switch_all_led_strip_effect_duration
+    - number.den_hallway_dimmer_all_led_strip_effect_duration
+    - number.den_dimmer_all_led_strip_effect_duration
+    - number.upstairs_bathroom_all_led_strip_effect_duration
+    - number.upstairs_patio_dimmer_all_led_strip_effect_duration
+    - number.studio_dimmer_all_led_strip_effect_duration
+    - number.studio_switch_all_led_strip_effect_duration

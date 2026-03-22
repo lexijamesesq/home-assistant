@@ -42,7 +42,7 @@ light:
                   service_data:
                     entity_id: >
                       [[[ return entity.entity_id ]]]
-                    color_temp: 153
+                    color_temp_kelvin: 6535
                 template: color_light
               - type: custom:button-card
                 styles:
@@ -54,7 +54,7 @@ light:
                   service_data:
                     entity_id: >
                       [[[ return entity.entity_id ]]]
-                    color_temp: 326
+                    color_temp_kelvin: 3070
                 template: color_light
           - type: custom:hui-horizontal-stack-card
             style: >
@@ -73,7 +73,7 @@ light:
                   service_data:
                     entity_id: >
                       [[[ return entity.entity_id ]]]
-                    color_temp: 500
+                    color_temp_kelvin: 2000
                 template: color_light
               - type: custom:button-card
                 styles:

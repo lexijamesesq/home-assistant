@@ -1,47 +1,70 @@
-custom_components
-deps
-json
-lib
-python
-tts
-www
+# Secrets and credentials
+secrets.yaml
+.cloud/
+.ssh/
+.google.token
+*.conf
+*.pem
+*.key
+*.pickle
 
-.*
+# Databases and logs
 *.db
+*.db-shm
+*.db-wal
 *.db-journal
 *.db_bak
-*.conf
-*.csr
-*.crt
-*.json
-*.key
 *.log
-*.pem
-*.pid
+*.log.*
 *.sqlite
-*.xml
-*.xsd
 
-.HAVERSION
+# HA generated / runtime state
+.HA_VERSION
+.ha_run.lock
 .uuid
-entity_registry.yaml
-gitupdate.sh
-google_calendars.yaml
+deps/
+tts/
+backups/
+__pycache__/
+*.pyc
+
+# .storage — track selectively
+.storage/*
+!.storage/input_*
+!.storage/timer
+!.storage/counter
+!.storage/zone
+!.storage/person
+!.storage/lovelace*
+
+# Legacy / obsolete
 ip_bans.yaml
 known_devices.yaml
-OZW_Log.txt
-secrets.yaml
 zwave_device_config.yaml
+google_calendars.yaml
+entity_registry.yaml
+OZW_Log.txt
+zwcfg*
+zwscene*
+options.xml
 
-!/.gitignore
-!/.travis.yml
+# Installable dependencies (managed by HACS / HA)
+custom_components/
+www/
+image/
 
-/icloud/*
-*.pickle
-*.comget.html
-*.compost.html
-home-assistant.log.1
-rtsp2webrtc_v5_amd64
-home-assistant.log.fault
-home-assistant_v2.db-shm
-home-assistant_v2.db-wal
+# Binaries and generated
+go2rtc-*
+rtsp2webrtc_*
+*.swp
+
+# macOS
+._*
+.DS_Store
+.fuse_*
+
+# IDE
+.vscode/
+
+# Keep dotfiles we need
+!.gitignore

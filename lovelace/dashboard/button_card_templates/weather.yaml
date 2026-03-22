@@ -1,26 +1,27 @@
 weather:
-  style: |
-    .ellipsis {
-      text-overflow: inherit !important;
-      white-space: inherit !important;
-      overflow: inherit !important;
-    }
-    .temp-large {
-      font-size: 40px;
-      font-weight: 300;
-      line-height: 48px;
-      color: var(--primary-text-color);
-    }
-    .temp-unit {
-      font-size: 0.5em;
-    }
-    .temp-small {
-      vertical-align: top;
-      font-size: 16px;
-      line-height: 45px;
-      color: var(--secondary-text-color);
-      margin-left: 8px;
-    }
+  card_mod:
+    style: |
+      .ellipsis {
+        text-overflow: inherit !important;
+        white-space: inherit !important;
+        overflow: inherit !important;
+      }
+      .temp-large {
+        font-size: 40px;
+        font-weight: 300;
+        line-height: 48px;
+        color: var(--primary-text-color);
+      }
+      .temp-unit {
+        font-size: 0.5em;
+      }
+      .temp-small {
+        vertical-align: top;
+        font-size: 16px;
+        line-height: 45px;
+        color: var(--secondary-text-color);
+        margin-left: 8px;
+      }
   entity: sensor.dashboard_weather
   triggers_update:
     - sensor.dark_sky_icon_0d
@@ -68,5 +69,5 @@ weather:
         - text-align: left
         - font-size: 16px
         - font-weight: 400
-#  custom_fields:
-#    summary: '[[[ return states["sensor.dark_sky_minutely_summary"].state ]]]'
+  # custom_fields:
+  #   summary: '[[[ return states["sensor.dashboard_weather"].attributes.condition ]]]'

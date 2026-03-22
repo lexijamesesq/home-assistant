@@ -170,7 +170,7 @@ card:
                 - card: custom:button-card
                   cardOptions:
                     template: security
-                    entity: binary_sensor.guest_bedroom_windows
+                    entity: binary_sensor.studio_windows
                     name: Kitchen
                   conditionalClass: '[[[ return "custom-card" ]]]'
                   tap_action:

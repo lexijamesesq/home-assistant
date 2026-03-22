@@ -19,6 +19,12 @@ mode_simulate_presence:
   name: Simulate Presence Mode
 mode_peloton:
   name: Peloton Mode
+mode_stranger_danger:
+  name: Stranger Danger
+mode_laundry:
+  name: Laundry Mode
+mode_house_cleaning:
+  name: House Cleaning Mode
 
 ##############################################################
 # Motion
@@ -73,6 +79,8 @@ sonos_living_room:
   name: Living Room
 sonos_rec_room:
   name: Rec Room
+sonos_rec_room_tv:
+  name: Rec Room TV
 sonos_bedroom:
   name: Bedroom
 sonos_bathroom:

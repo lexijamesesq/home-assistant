@@ -1,0 +1,1355 @@
+scene_bedroom_alarm_dismissed:
+  alias: Scene Bedroom Alarm Dismissed
+  sequence:
+  - service: script.turn_on
+    entity_id:
+    - script.scene_bedroom_neutral_low
+scene_bedroom_morning_low:
+  alias: Scene Bedroom Morning Low
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_bedroom_neutral_low
+scene_bedroom_day_high:
+  alias: Scene Bedroom Day High
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.mode_sleep
+        state: 'off'
+      - '{{ as_timestamp(now()) < (as_timestamp(states.input_boolean.mode_sleep.last_changed)
+        + (60 * 5)) }}'
+      sequence:
+      - service: script.turn_on
+        entity_id: script.scene_bedroom_neutral_low
+    default:
+    - service: script.turn_on
+      entity_id: script.scene_bedroom_off
+scene_bedroom_sunset_high:
+  alias: Scene Bedroom Night High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_bedroom_neutral_low
+scene_bedroom_night_high:
+  alias: Scene Bedroom Night High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_bedroom_neutral_low
+scene_bedroom_night_mid:
+  alias: Scene Bedroom Night Mid
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_bedroom_neutral_low
+scene_bedroom_night_low:
+  alias: Scene Bedroom Night Low
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_bedroom_neutral_low
+scene_bedroom_purple_blue:
+  alias: Scene Bedroom Purple & Blue
+  sequence:
+  - parallel:
+    - entity_id: light.bedroom_1
+      data:
+        transition: 2
+        brightness: 100
+        rgb_color:
+        - 65
+        - 102
+        - 255
+      action: light.turn_on
+    - entity_id: light.bedroom_2
+      data:
+        transition: 2
+        brightness: 100
+        rgb_color:
+        - 15
+        - 163
+        - 255
+      action: light.turn_on
+    - entity_id: light.bedroom_switch
+      data:
+        brightness: 75
+      action: light.turn_on
+  - delay:
+      seconds: 2
+  - target:
+      entity_id: input_select.bedroom_scene_toggle
+    data:
+      option: script.scene_bedroom_purple_blue
+    action: input_select.select_option
+scene_bedroom_neutral_low:
+  alias: Scene Bedroom Neutral Low
+  sequence:
+  - parallel:
+    - entity_id: light.bedroom
+      data:
+        transition: 2
+        brightness: 75
+        color_temp_kelvin: 3500
+      action: light.turn_on
+    - entity_id: light.bedroom_switch
+      data:
+        brightness: 75
+      action: light.turn_on
+  - delay:
+      seconds: 2
+  - target:
+      entity_id: input_select.bedroom_scene_toggle
+    data:
+      option: script.scene_bedroom_neutral_low
+    action: input_select.select_option
+scene_bedroom_sleep_mode_on:
+  alias: Scene Bedroom Sleep Mode On
+  sequence:
+  - parallel:
+    - entity_id: light.bedroom
+      data:
+        transition: 2
+        brightness: 75
+        color_temp_kelvin: 3000
+      action: light.turn_on
+    - entity_id: light.bedroom_switch
+      data:
+        brightness: 75
+      action: light.turn_on
+  - delay:
+      seconds: 2
+scene_bedroom_off:
+  alias: Scene Bedroom Lights Off
+  sequence:
+  - service: light.turn_off
+    entity_id: light.bedroom
+scene_den_hallway_morning_low:
+  alias: Scene Den Hallway Morning Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.den_hallway
+    data:
+      transition: 2
+      brightness: 35
+scene_den_hallway_day_high:
+  alias: Scene Den Hallway Day High
+  sequence:
+  - service: light.turn_on
+    entity_id: light.den_hallway
+    data:
+      transition: 2
+      brightness: 133
+scene_den_hallway_day_mid:
+  alias: Scene Den Hallway Day Mid
+  sequence:
+  - service: light.turn_on
+    entity_id: light.den_hallway
+    data:
+      transition: 2
+      brightness: 63
+scene_den_hallway_sunset_high:
+  alias: Scene Den Hallway Sunset High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_den_hallway_night_high
+scene_den_hallway_sunset_mid:
+  alias: Scene Den Hallway Night Mid
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_den_hallway_night_mid
+scene_den_hallway_night_high:
+  alias: Scene Den Hallway Night High
+  sequence:
+  - service: light.turn_on
+    entity_id: light.den_hallway
+    data:
+      transition: 2
+      brightness: 105
+scene_den_hallway_night_mid:
+  alias: Scene Den Hallway Night Mid
+  sequence:
+  - service: light.turn_on
+    entity_id: light.den_hallway
+    data:
+      transition: 2
+      brightness: 70
+scene_den_hallway_night_low:
+  alias: Scene Den Hallway Night Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.den_hallway
+    data:
+      transition: 2
+      brightness: 35
+scene_den_morning_low:
+  alias: Scene Den Morning Low
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_den_neutral_low
+scene_den_day_high:
+  alias: Scene Den Day High
+  sequence:
+  - service: light.turn_off
+    entity_id: light.den
+scene_den_sunset_high:
+  alias: Scene Den Sunset High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_den_neutral_low
+scene_den_night_high:
+  alias: Scene Den Night High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_den_neutral_low
+scene_den_night_mid:
+  alias: Scene Den Night Mid
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_den_neutral_low
+scene_den_night_low:
+  alias: Scene Den Night Low
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_den_neutral_low
+scene_den_pink_blue:
+  alias: Scene Den Pink & Blue
+  sequence:
+  - parallel:
+    - entity_id: light.den_1
+      data:
+        transition: 2
+        brightness: 206
+        rgb_color:
+        - 255
+        - 0
+        - 185
+      action: light.turn_on
+    - entity_id: light.den_2
+      data:
+        transition: 2
+        brightness: 206
+        rgb_color:
+        - 33
+        - 0
+        - 255
+      action: light.turn_on
+  - delay:
+      seconds: 2
+  - target:
+      entity_id: input_select.den_scene_toggle
+    data:
+      option: script.scene_den_pink_blue
+    action: input_select.select_option
+scene_den_neutral_low:
+  alias: Scene Den Neutral Low
+  sequence:
+  - entity_id: light.den
+    data:
+      transition: 2
+      brightness: 75
+      color_temp_kelvin: 3500
+    action: light.turn_on
+  - delay:
+      seconds: 2
+  - target:
+      entity_id: input_select.den_scene_toggle
+    data:
+      option: script.scene_den_neutral_low
+    action: input_select.select_option
+scene_den_cabinets_morning:
+  alias: Scene Den Cabinets Morning Mid
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_den_cabinets_neutral
+scene_den_cabinets_day:
+  alias: Scene Den Cabinets Day High
+  sequence:
+  - service: light.turn_off
+    entity_id: light.den_cabinets
+scene_den_cabinets_sunset:
+  alias: Scene Den Cabinets Sunset High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_den_cabinets_neutral
+scene_den_cabinets_night:
+  alias: Scene Den Cabinets Night High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_den_cabinets_neutral
+scene_den_cabinets_neutral:
+  alias: Scene Den Cabinets Neutral
+  sequence:
+  - service: light.turn_on
+    entity_id: light.den_cabinets
+    data:
+      transition: 5
+      brightness: 75
+      color_temp_kelvin: 3500
+scene_downstairs_hallway_morning_low:
+  alias: Scene Downstairs Hallway Morning Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.downstairs_hallway
+    data:
+      transition: 2
+      brightness: 25
+scene_downstairs_hallway_day_high:
+  alias: Scene Downstairs Hallway Day High
+  sequence:
+  - service: light.turn_on
+    entity_id: light.downstairs_hallway
+    data:
+      transition: 2
+      brightness: 95
+scene_downstairs_hallway_day_mid:
+  alias: Scene Downstairs Hallway Day Mid
+  sequence:
+  - service: light.turn_on
+    entity_id: light.downstairs_hallway
+    data:
+      transition: 2
+      brightness: 45
+scene_downstairs_hallway_sunset_high:
+  alias: Scene Downstairs Hallway Sunset High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_downstairs_hallway_night_high
+scene_downstairs_hallway_sunset_mid:
+  alias: Scene Downstairs Hallway Sunset Mid
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_downstairs_hallway_night_mid
+scene_downstairs_hallway_night_high:
+  alias: Scene Downstairs Hallway Night High
+  sequence:
+  - service: light.turn_on
+    entity_id: light.downstairs_hallway
+    data:
+      transition: 2
+      brightness: 75
+scene_downstairs_hallway_night_mid:
+  alias: Scene Downstairs Hallway Night Mid
+  sequence:
+  - service: light.turn_on
+    entity_id: light.downstairs_hallway
+    data:
+      transition: 2
+      brightness: 50
+scene_downstairs_hallway_night_low:
+  alias: Scene Downstairs Hallway Night Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.downstairs_hallway
+    data:
+      transition: 2
+      brightness: 25
+scene_garage_stairs_morning_low:
+  alias: Scene Garage Stairs Morning Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.garage_stairs
+    data:
+      transition: 2
+      brightness: 25
+scene_garage_stairs_day_high:
+  alias: Scene Garage Stairs Day High
+  sequence:
+  - service: light.turn_on
+    entity_id: light.garage_stairs
+    data:
+      transition: 2
+      brightness: 95
+scene_garage_stairs_day_mid:
+  alias: Scene Garage Stairs Day Mid
+  sequence:
+  - service: light.turn_on
+    entity_id: light.garage_stairs
+    data:
+      transition: 2
+      brightness: 45
+scene_garage_stairs_sunset_high:
+  alias: Scene Garage Stairs Sunset High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_garage_stairs_night_high
+scene_garage_stairs_sunset_mid:
+  alias: Scene Garage Stairs Sunset Mid
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_garage_stairs_night_mid
+scene_garage_stairs_night_high:
+  alias: Scene Garage Stairs Night High
+  sequence:
+  - service: light.turn_on
+    entity_id: light.garage_stairs
+    data:
+      transition: 2
+      brightness: 75
+scene_garage_stairs_night_mid:
+  alias: Scene Garage Stairs Night Mid
+  sequence:
+  - service: light.turn_on
+    entity_id: light.garage_stairs
+    data:
+      transition: 2
+      brightness: 50
+scene_garage_stairs_night_low:
+  alias: Scene Garage Stairs Night Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.garage_stairs
+    data:
+      transition: 2
+      brightness: 25
+scene_kitchen_morning_low:
+  alias: Scene Kitchen Morning Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: 2
+      brightness: 13
+scene_kitchen_morning_ht_on_low:
+  alias: Scene Kitchen Morning HT On Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: 2
+      brightness: 13
+scene_kitchen_morning_ht_playing_low:
+  alias: Scene Kitchen Morning HT Playing Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: 5
+      brightness: 13
+scene_kitchen_day_high:
+  alias: Scene Kitchen Day High
+  sequence:
+  - condition: state
+    entity_id: light.kitchen
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.kitchen
+scene_kitchen_day_ht_on_high:
+  alias: Scene Kitchen Day HT On High
+  sequence:
+  - condition: state
+    entity_id: light.kitchen
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.kitchen
+scene_kitchen_day_ht_playing_high:
+  alias: Scene Kitchen Day HT Playing High
+  sequence:
+  - condition: state
+    entity_id: light.kitchen
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.kitchen
+scene_kitchen_sunset_high:
+  alias: Scene Kitchen Sunset High
+  sequence:
+  - entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(2, true) }}'
+      brightness: 145
+    action: light.turn_on
+scene_kitchen_sunset_ht_on_high:
+  alias: Scene Kitchen Sunset HT On High
+  sequence:
+  - entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(2, true) }}'
+      brightness: 145
+    action: light.turn_on
+scene_kitchen_sunset_ht_playing_high:
+  alias: Scene Kitchen Sunset HT Playing High
+  sequence:
+  - entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(5, true) }}'
+      brightness: 13
+    action: light.turn_on
+scene_kitchen_night_high:
+  alias: Scene Kitchen Night High
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(2, true) }}'
+      brightness: 145
+scene_kitchen_night_mid:
+  alias: Scene Kitchen Night Mid
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(2, true) }}'
+      brightness: 90
+scene_kitchen_night_low:
+  alias: Scene Kitchen Night Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(2, true) }}'
+      brightness: 35
+scene_kitchen_night_ht_on_high:
+  alias: Scene Kitchen Night HT On High
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(2, true) }}'
+      brightness: 145
+scene_kitchen_night_ht_on_mid:
+  alias: Scene Kitchen Night HT On Mid
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(2, true) }}'
+      brightness: 90
+scene_kitchen_night_ht_on_low:
+  alias: Scene Kitchen Night HT On Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(2, true) }}'
+      brightness: 35
+scene_kitchen_night_ht_playing_high:
+  alias: Scene Kitchen Night HT Playing High
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(5, true) }}'
+      brightness: 13
+scene_kitchen_night_ht_playing_mid:
+  alias: Scene Kitchen Night HT Playing Mid
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(5, true) }}'
+      brightness: 13
+scene_kitchen_night_ht_playing_low:
+  alias: Scene Kitchen Night HT Playing Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen
+    data:
+      transition: '{{ seconds | default(5, true) }}'
+      brightness: 13
+scene_living_room_tv_morning:
+  alias: Scene TV Ambient Morning
+  sequence:
+  - condition: state
+    entity_id: light.living_room_tv
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.living_room_tv
+scene_living_room_tv_morning_ht_on:
+  alias: Scene TV Ambient Morning HT On
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_living_room_tv
+scene_living_room_tv_morning_ht_playing:
+  alias: Scene TV Ambient Morning HT Playing
+  sequence:
+  - service: light.turn_on
+    entity_id: light.living_room_tv
+    data:
+      brightness: 25
+      color_temp_kelvin: 3500
+scene_living_room_tv_day:
+  alias: Scene TV Ambient Day
+  sequence:
+  - condition: state
+    entity_id: light.living_room_tv
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.living_room_tv
+scene_living_room_tv_day_ht_on:
+  alias: Scene TV Ambient Day HT On
+  sequence:
+  - condition: state
+    entity_id: light.living_room_tv
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.living_room_tv
+scene_living_room_tv_day_ht_playing:
+  alias: Scene TV Ambient Day HT Playing
+  sequence:
+  - condition: state
+    entity_id: light.living_room_tv
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.living_room_tv
+scene_living_room_tv_sunset:
+  alias: Scene TV Ambient Sunset
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_living_room_tv_night
+scene_living_room_tv_sunset_ht_on:
+  alias: Scene TV Ambient Sunset HT On
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_living_room_tv_night_ht_on
+scene_living_room_tv_sunset_ht_playing:
+  alias: Scene TV Ambient Sunset HT Playing
+  sequence:
+  - service: light.turn_on
+    entity_id: light.living_room_tv
+    data:
+      brightness: 45
+      color_temp_kelvin: 3500
+scene_living_room_tv_night:
+  alias: Scene TV Ambient Night
+  sequence:
+  - condition: state
+    entity_id: light.living_room_tv
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.living_room_tv
+scene_living_room_tv_night_ht_on:
+  alias: Scene TV Ambient Night HT On
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_living_room_tv
+scene_living_room_tv_night_ht_playing:
+  alias: Scene TV Ambient Night HT Playing
+  sequence:
+  - service: light.turn_on
+    entity_id: light.living_room_tv
+    data:
+      brightness: 25
+      color_temp_kelvin: 3500
+scene_living_room_tv:
+  alias: Scene TV Ambient
+  sequence:
+  - service: scene.turn_on
+    entity_id: scene.tv_ambient_night_ht_on
+scene_living_room_morning_low:
+  alias: Scene Living Room Morning Low
+  sequence:
+  - service: light.turn_off
+    entity_id: light.living_room
+scene_living_room_morning_ht_on_low:
+  alias: Scene Living Room Morning HT On Low
+  sequence:
+  - service: light.turn_off
+    entity_id: light.living_room
+scene_living_room_morning_ht_playing_low:
+  alias: Scene Living Room Morning HT Playing Low
+  sequence:
+  - service: light.turn_off
+    entity_id:
+    - light.downstairs_hallway
+    - light.main_stairs
+    - light.living_room
+scene_living_room_day_high:
+  alias: Scene Living Room Day High
+  sequence:
+  - condition: state
+    entity_id: light.living_room
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.living_room
+scene_living_room_day_ht_on_high:
+  alias: Scene Living Room Day HT On High
+  sequence:
+  - condition: state
+    entity_id: light.living_room
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.living_room
+scene_living_room_day_ht_playing_high:
+  alias: Scene Living Room Day HT Playing High
+  sequence:
+  - condition: state
+    entity_id: light.living_room
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.living_room
+scene_living_room_sunset_high:
+  alias: Scene Living Room Sunset High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_living_room_night_high
+scene_living_room_sunset_ht_on_high:
+  alias: Scene Living Room Sunset HT On High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_living_room_night_ht_on_high
+scene_living_room_sunset_ht_playing_high:
+  alias: Scene Living Room Sunset HT Playing High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_living_room_night_ht_playing_high
+scene_living_room_night_high:
+  alias: Scene Living Room Night High
+  sequence:
+  - service: light.turn_on
+    entity_id: light.living_room
+    data:
+      transition: '{{ seconds | default(2, true) }}'
+      brightness: 190
+scene_living_room_night_mid:
+  alias: Scene Living Room Night Mid
+  sequence:
+  - service: light.turn_on
+    entity_id: light.living_room
+    data:
+      transition: '{{ seconds | default(2, true) }}'
+      brightness: 120
+scene_living_room_night_low:
+  alias: Scene Living Room Night Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.living_room
+    data:
+      transition: '{{ seconds | default(2, true) }}'
+      brightness: 50
+scene_living_room_night_ht_on_high:
+  alias: Scene Living Room Night HT On High
+  sequence:
+  - service: light.turn_on
+    entity_id: light.living_room
+    data:
+      brightness: 100
+scene_living_room_night_ht_on_mid:
+  alias: Scene Living Room Night HT On Mid
+  sequence:
+  - service: light.turn_on
+    entity_id: light.living_room
+    data:
+      brightness: 60
+scene_living_room_night_ht_on_low:
+  alias: Scene Living Room Night HT On Low
+  sequence:
+  - service: light.turn_on
+    entity_id: light.living_room
+    data:
+      brightness: 25
+scene_living_room_night_ht_playing_high:
+  alias: Scene Living Room Night HT Playing High
+  sequence:
+  - service: light.turn_off
+    entity_id:
+    - light.downstairs_hallway
+    - light.upstairs_hallway_group
+    - light.bedroom_hallway
+    - light.living_room
+scene_living_room_night_ht_playing_mid:
+  alias: Scene Living Room Night HT Playing Mid
+  sequence:
+  - service: light.turn_off
+    entity_id:
+    - light.downstairs_hallway
+    - light.upstairs_hallway_group
+    - light.living_room
+scene_living_room_night_ht_playing_low:
+  alias: Scene Living Room Night HT Playing Low
+  sequence:
+  - service: light.turn_off
+    entity_id:
+    - light.downstairs_hallway
+    - light.upstairs_hallway_group
+    - light.living_room
+scene_patio_sunset_high:
+  alias: Scene Patio Sunset High
+  variables:
+    holiday: '{{ is_state("calendar.holiday_lighting", "on") }}'
+  sequence:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ holiday and is_state_attr("calendar.holiday_lighting",
+          "message", "holiday name") }}'
+      sequence:
+      - entity_id: script.scene_patio_neutral
+        action: script.turn_on
+    - conditions:
+      - condition: template
+        value_template: '{{ holiday and is_state_attr("calendar.holiday_lighting",
+          "message", "Christmas") }}'
+      sequence:
+      - entity_id: light.patio
+        action: light.turn_off
+    default:
+    - entity_id: script.scene_patio_neutral
+      action: script.turn_on
+scene_patio_blue_purple:
+  alias: Scene Patio Blue & Purple
+  sequence:
+  - service: automation.turn_off
+    entity_id: automation.downstairs_patio_dimmer_lights_sync
+  - parallel:
+    - service: light.turn_on
+      entity_id: light.downstairs_patio_1
+      data:
+        transition: 2
+        brightness: 100
+        rgb_color:
+        - 69
+        - 63
+        - 255
+    - service: light.turn_on
+      entity_id: light.downstairs_patio_2
+      data:
+        transition: 2
+        brightness: 100
+        rgb_color:
+        - 193
+        - 0
+        - 255
+    - service: light.turn_on
+      entity_id: light.downstairs_patio_3
+      data:
+        transition: 2
+        brightness: 100
+        rgb_color:
+        - 69
+        - 63
+        - 255
+  - delay:
+      seconds: 2
+  - service: automation.turn_on
+    entity_id: automation.downstairs_patio_dimmer_lights_sync
+scene_patio_neutral:
+  alias: Scene Patio Neutral
+  sequence:
+  - parallel:
+    - entity_id: light.downstairs_patio
+      data:
+        transition: 2
+        brightness: 50
+        color_temp_kelvin: 2500
+      action: light.turn_on
+    - entity_id: light.upstairs_patio
+      data:
+        transition: 2
+        brightness: 152
+        color_temp_kelvin: 2500
+      action: light.turn_on
+  - delay:
+      seconds: 2
+scene_patio_string_lights_sunset:
+  alias: Scene Patio String Lights Sunset
+  variables:
+    holiday: '{{ is_state("calendar.holiday_lighting", "on") }}'
+  sequence:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ holiday and is_state_attr("calendar.holiday_lighting",
+          "message", "Pride") }}'
+      sequence:
+      - entity_id: scene.holiday_pride
+        action: scene.turn_on
+    - conditions:
+      - condition: template
+        value_template: '{{ holiday and is_state_attr("calendar.holiday_lighting",
+          "message", "USA") }}'
+      sequence:
+      - entity_id: scene.holiday_usa
+        action: scene.turn_on
+    - conditions:
+      - condition: template
+        value_template: '{{ holiday and is_state_attr("calendar.holiday_lighting",
+          "message", "Christmas") }}'
+      sequence:
+      - entity_id: scene.holiday_christmas
+        action: scene.turn_on
+    default:
+    - entity_id: script.scene_patio_string_lights_neutral
+      action: script.turn_on
+scene_patio_string_lights_neutral:
+  alias: Scene Patio String Lights Neutral
+  sequence:
+  - parallel:
+    - service: light.turn_on
+      entity_id: light.downstairs_patio_string
+      data:
+        transition: 2
+        brightness: 154
+        color_temp_kelvin: 2500
+    - service: light.turn_on
+      entity_id: light.upstairs_patio_string
+      data:
+        transition: 2
+        brightness: 154
+        color_temp_kelvin: 2500
+scene_rec_room_canvas_morning:
+  alias: Scene Rec Room Canvas Morning
+  sequence:
+  - condition: state
+    entity_id: light.rec_room_canvas
+    state: 'off'
+  - service: script.turn_on
+    entity_id: script.scene_rec_room_canvas_mood
+scene_rec_room_canvas_morning_ht_on:
+  alias: Scene Rec Room Canvas Morning HT On
+  sequence:
+  - condition: state
+    entity_id: light.rec_room_canvas
+    state: 'off'
+  - service: script.turn_on
+    entity_id: script.scene_rec_room_canvas_mood
+scene_rec_room_canvas_morning_ht_playing:
+  alias: Scene Rec Room Canvas Morning HT Playing
+  sequence:
+  - condition: state
+    entity_id: light.rec_room_canvas
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.rec_room_canvas
+scene_rec_room_canvas_day:
+  alias: Scene Rec Room Canvas Day
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_rec_room_canvas_mood
+scene_rec_room_canvas_day_ht_on:
+  alias: Scene Rec Room Canvas Day HT On
+  sequence:
+  - condition: state
+    entity_id: light.rec_room_canvas
+    state: 'off'
+  - service: script.turn_on
+    entity_id: script.scene_rec_room_canvas_mood
+scene_rec_room_canvas_day_ht_playing:
+  alias: Scene Rec Room Canvas Day HT Playing
+  sequence:
+  - condition: state
+    entity_id: light.rec_room_canvas
+    state: 'off'
+  - service: script.turn_on
+    entity_id: script.scene_rec_room_canvas_mood
+scene_rec_room_canvas_sunset:
+  alias: Scene Rec Room Canvas Sunset
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_rec_room_canvas_night
+scene_rec_room_canvas_sunset_ht_on:
+  alias: Scene Rec Room Canvas Sunset HT On
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_rec_room_canvas_night_ht_on
+scene_rec_room_canvas_sunset_ht_playing:
+  alias: Scene Rec Room Canvas Sunset HT Playing
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_rec_room_canvas_night_ht_playing
+scene_rec_room_canvas_night:
+  alias: Scene Rec Room Canvas Night
+  sequence:
+  - condition: state
+    entity_id: light.rec_room_canvas
+    state: 'off'
+  - service: script.turn_on
+    entity_id: script.scene_rec_room_canvas_mood
+scene_rec_room_canvas_night_ht_on:
+  alias: Scene Rec Room Canvas Night HT On
+  sequence:
+  - condition: state
+    entity_id: light.rec_room_canvas
+    state: 'off'
+  - service: script.turn_on
+    entity_id: script.scene_rec_room_canvas_mood
+scene_rec_room_canvas_night_ht_playing:
+  alias: Scene Rec Room Canvas Night HT Playing
+  sequence:
+  - condition: state
+    entity_id: light.rec_room_canvas
+    state: 'on'
+  - service: light.turn_off
+    entity_id: light.rec_room_canvas
+scene_rec_room_canvas_mood:
+  alias: Scene Rec Room Canvas - Mood
+  sequence:
+  - service: light.turn_on
+    entity_id: light.rec_room_canvas
+    data:
+      effect: Mood
+scene_upstairs_hallway_group_morning_low:
+  alias: Scene Upstairs Hallway Group Morning Low
+  sequence:
+  - parallel:
+    - service: light.turn_on
+      entity_id: light.main_stairs
+      data:
+        transition: 2
+        brightness: 25
+    - service: light.turn_on
+      entity_id: light.upstairs_hallway
+      data:
+        transition: 2
+        brightness: 25
+    - service: light.turn_on
+      entity_id: light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 25
+scene_upstairs_hallway_group_day_high:
+  alias: Scene Upstairs Hallway Group Day High
+  sequence:
+  - parallel:
+    - service: light.turn_on
+      entity_id: light.main_stairs
+      data:
+        transition: 2
+        brightness: 95
+    - service: light.turn_on
+      entity_id: light.upstairs_hallway
+      data:
+        transition: 2
+        brightness: 95
+    - service: light.turn_on
+      entity_id: light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 95
+scene_upstairs_hallway_group_day_mid:
+  alias: Scene Upstairs Hallway Group Day Mid
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.mode_sleep
+        state: 'off'
+      - '{{ as_timestamp(now()) < (as_timestamp(states.input_boolean.mode_sleep.last_changed)
+        + (60 * 5)) }}'
+      sequence:
+      - service: script.turn_on
+        entity_id: script.scene_upstairs_hallway_group_morning_low
+    default:
+    - parallel:
+      - service: light.turn_on
+        entity_id: light.main_stairs
+        data:
+          transition: 2
+          brightness: 45
+      - service: light.turn_on
+        entity_id: light.upstairs_hallway
+        data:
+          transition: 2
+          brightness: 45
+      - service: light.turn_on
+        entity_id: light.bedroom_hallway
+        data:
+          transition: 2
+          brightness: 45
+scene_upstairs_hallway_group_sunset_high:
+  alias: Scene Upstairs Hallway Group Sunset High
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_upstairs_hallway_group_night_high
+scene_upstairs_hallway_group_sunset_mid:
+  alias: Scene Upstairs Hallway Group Sunset Mid
+  sequence:
+  - service: script.turn_on
+    entity_id: script.scene_upstairs_hallway_group_night_mid
+scene_upstairs_hallway_group_night_high:
+  alias: Scene Upstairs Hallway Group Night High
+  sequence:
+  - parallel:
+    - service: light.turn_on
+      entity_id: light.main_stairs
+      data:
+        transition: 2
+        brightness: 75
+    - service: light.turn_on
+      entity_id: light.upstairs_hallway
+      data:
+        transition: 2
+        brightness: 75
+    - service: light.turn_on
+      entity_id: light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 75
+scene_upstairs_hallway_group_night_mid:
+  alias: Scene Upstairs Hallway Group Night Mid
+  sequence:
+  - parallel:
+    - service: light.turn_on
+      entity_id: light.main_stairs
+      data:
+        transition: 2
+        brightness: 50
+    - service: light.turn_on
+      entity_id: light.upstairs_hallway
+      data:
+        transition: 2
+        brightness: 50
+    - service: light.turn_on
+      entity_id: light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 50
+scene_upstairs_hallway_group_night_low:
+  alias: Scene Upstairs Hallway Group Night Low
+  sequence:
+  - parallel:
+    - service: light.turn_on
+      entity_id: light.main_stairs
+      data:
+        transition: 2
+        brightness: 25
+    - service: light.turn_on
+      entity_id: light.upstairs_hallway
+      data:
+        transition: 2
+        brightness: 25
+    - service: light.turn_on
+      entity_id: light.bedroom_hallway
+      data:
+        transition: 2
+        brightness: 25
+nest_toggle_downstairs_eco:
+  alias: Nest Toggle Downstairs Eco
+  sequence:
+  - service: climate.set_preset_mode
+    target:
+      entity_id: climate.downstairs
+    data:
+      preset_mode: '{{ ''eco'' if is_state_attr(''climate.downstairs'', ''preset_mode'',
+        ''none'') else ''none'' }}'
+nest_toggle_upstairs_eco:
+  alias: Nest Toggle Upstairs Eco
+  sequence:
+  - service: climate.set_preset_mode
+    target:
+      entity_id: climate.upstairs
+    data:
+      preset_mode: '{{ ''eco'' if is_state_attr(''climate.upstairs'', ''preset_mode'',
+        ''none'') else ''none'' }}'
+simulate_presence:
+  alias: Simulate Presence
+  sequence:
+    repeat:
+      while:
+      - condition: state
+        entity_id: input_boolean.mode_simulate_presence
+        state: 'on'
+      sequence:
+      - service: script.turn_on
+        data:
+          entity_id: '{{ states.group.simulate_presence_scenes.attributes.entity_id
+            | random }}'
+      - delay: 00:{{ (range(35, 55) | random) }}:00
+      - service: light.turn_off
+        entity_id: group.inside_lights
+      - delay: 00:{{ (range(2, 10) | random) }}:00
+update_lights:
+  alias: Update Lights
+  icon: mdi:lightbulb-on
+  mode: parallel
+  sequence:
+  - condition: template
+    value_template: '{{ lights is defined }}'
+  - service: script.turn_on
+    data:
+      entity_id: "{% set time        = as_timestamp(now()) | timestamp_custom(\"%H:%M:%S\")
+        %} {% set prefer_low  = as_timestamp(states(\"input_datetime.prefer_lighting_low_time\"))
+        | timestamp_custom(\"%H:%M:%S\") %} {% set prefer_mid  = as_timestamp(states(\"input_datetime.prefer_lighting_mid_time\"))
+        | timestamp_custom(\"%H:%M:%S\") %} {% set prefer_high = as_timestamp(states(\"input_datetime.prefer_lighting_high_time\"))
+        | timestamp_custom(\"%H:%M:%S\") %}\n{% set ht_lights = [\"kitchen\", \"living_room\",
+        \"living_room_tv\", \"rec_room_canvas\"] %} {% set ambient_lights = [\"living_room_tv\",
+        \"rec_room_canvas\", \"den_cabinets\", \"patio_string_lights\"]
+        %}\n{% set mode = '_' + states('sensor.dashboard_current_home_mode') | lower
+        %}\n{% if is_state('input_boolean.mode_home_theater', 'on') %}\n  {% if is_state('media_player.living_room_apple_tv',
+        'playing') %}\n    {% set ht = \"_ht_playing\" %}\n  {% else %}\n    {% set
+        ht = \"_ht_on\" %}\n  {% endif %}\n{% else %}\n  {% set ht = \"\" %}\n{% endif
+        %}\n{% if time >= prefer_low or time < prefer_high %}\n  {% set brightness
+        = \"_low\" %}\n{% elif time >= prefer_mid %}\n  {% set brightness = \"_mid\"
+        %}\n{% else %}\n  {% set brightness = \"_mid\" if trigger is defined else
+        \"_high\" %}\n{% endif %}\n{% for light in lights -%}\n  script.scene_{{ light
+        }}{{ mode }}{{ ht if light in ht_lights }}{{ brightness if light not in ambient_lights
+        }}\n  {%- if not loop.last -%}\n    ,\n  {%- endif %}\n{%- endfor %}\n"
+sonos_playlist_country_caffeine:
+  alias: Sonos Playlist Country Caffeine
+  sequence:
+  - service: media_player.select_source
+    data:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+      source: Country Caffeine
+  - service: script.turn_on
+    entity_id: script.sonos_playlist_toggle_play
+sonos_playlist_country_risers:
+  alias: Sonos Playlist Country Risers
+  sequence:
+  - service: media_player.select_source
+    data:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+      source: Country Risers
+  - service: script.turn_on
+    entity_id: script.sonos_playlist_toggle_play
+sonos_playlist_currently_listening_to:
+  alias: Sonos Playlist Currently Listening To
+  sequence:
+  - service: media_player.select_source
+    data:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+      source: Currently Listening To
+  - service: script.turn_on
+    entity_id: script.sonos_playlist_toggle_play
+sonos_playlist_favorite_songs:
+  alias: Sonos Playlist Favorite Songs
+  sequence:
+  - service: media_player.select_source
+    data:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+      source: Favorite Songs
+  - service: script.turn_on
+    entity_id: script.sonos_playlist_toggle_play
+sonos_playlist_latin_pop:
+  alias: Sonos Playlist Latin Pop
+  sequence:
+  - service: media_player.select_source
+    data:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+      source: Latin Pop
+  - service: script.turn_on
+    entity_id: script.sonos_playlist_toggle_play
+sonos_playlist_little_bit_country:
+  alias: Sonos Playlist Little Bit Country
+  sequence:
+  - service: media_player.select_source
+    data:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+      source: Little Bit Country
+  - service: script.turn_on
+    entity_id: script.sonos_playlist_toggle_play
+sonos_playlist_toggle_play:
+  alias: Sonos Playlist Toggle Play
+  sequence:
+  - condition: template
+    value_template: '{{ is_state("sensor.sonos_group_master_state", "paused") }}'
+  - service: media_player.media_play_pause
+    data:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+  - service: media_player.shuffle_set
+    data:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+      shuffle: true
+sonos_playlist_two_step_music:
+  alias: Sonos Playlist Two-Step Music
+  sequence:
+  - service: media_player.select_source
+    data:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+      source: Two-Step Music
+  - service: script.turn_on
+    entity_id: script.sonos_playlist_toggle_play
+sonos_playlist_west_coast_swing:
+  alias: Sonos Playlist West Coast Swing
+  sequence:
+  - service: media_player.select_source
+    data:
+      entity_id: '{{ states.sensor.sonos_group_master.state }}'
+      source: West Coast Swing
+  - service: script.turn_on
+    entity_id: script.sonos_playlist_toggle_play
+sonos_speaker_join_group:
+  alias: Sonos Speaker Join Group
+  sequence:
+  - data:
+      entity_id: '{{ "media_player.sonos_"+ states.input_select.master_sonos.state|lower|replace("
+        ", "_") }}'
+      group_members: '{{ speaker }}'
+    action: media_player.join
+  mode: queued
+sonos_speaker_unjoin_group:
+  alias: Sonos Speaker Unjoin Group
+  sequence:
+  - data:
+      entity_id: '{{ speaker }}'
+    action: media_player.unjoin
+  mode: queued
+sonos_volume_ramp_up:
+  alias: Sonos Volume Ramp Up
+  variables:
+    increment: 0.01
+  sequence:
+  - repeat:
+      while:
+      - condition: or
+        conditions:
+        - condition: template
+          value_template: '{{ state_attr("media_player.sonos_kitchen", "volume_level")
+            | default(0) < states("input_number.sonos_kitchen_volume") | float }}'
+        - condition: template
+          value_template: '{{ state_attr("media_player.sonos_living_room", "volume_level")
+            | default(0) < states("input_number.sonos_living_room_volume") | float
+            }}'
+        - condition: template
+          value_template: '{{ state_attr("media_player.sonos_rec_room", "volume_level")
+            | default(0) < states("input_number.sonos_rec_room_volume") | float }}'
+        - condition: template
+          value_template: '{{ state_attr("media_player.sonos_bedroom", "volume_level")
+            | default(0) < states("input_number.sonos_bedroom_volume") | float }}'
+        - condition: template
+          value_template: '{{ state_attr("media_player.sonos_bathroom", "volume_level")
+            | default(0) < states("input_number.sonos_bathroom_volume") | float }}'
+      - condition: template
+        value_template: '{{ is_state("sensor.sonos_group_master_state", "playing")
+          and repeat.index <= 5 }}'
+      sequence:
+      - delay: 00:01:00
+      - data:
+          entity_id: media_player.sonos_kitchen
+          volume_level: '{{ (state_attr("media_player.sonos_kitchen", "volume_level")
+            | default(0) + increment) | round(2, "floor") if state_attr("media_player.sonos_kitchen",
+            "volume_level") | default(0) < states("input_number.sonos_kitchen_volume")
+            | float else states("input_number.sonos_kitchen_volume") | float }}'
+        action: media_player.volume_set
+      - data:
+          entity_id: media_player.sonos_living_room
+          volume_level: '{{ (state_attr("media_player.sonos_living_room", "volume_level")
+            | default(0) + increment) | round(2, "floor") if state_attr("media_player.sonos_living_room",
+            "volume_level") | default(0) < states("input_number.sonos_living_room_volume")
+            | float else states("input_number.sonos_living_room_volume") | float }}'
+        action: media_player.volume_set
+      - data:
+          entity_id: media_player.sonos_rec_room
+          volume_level: '{{ (state_attr("media_player.sonos_rec_room", "volume_level")
+            | default(0) + increment) | round(2, "floor") if state_attr("media_player.sonos_rec_room",
+            "volume_level") | default(0) < states("input_number.sonos_rec_room_volume")
+            | float else states("input_number.sonos_rec_room_volume") | float }}'
+        action: media_player.volume_set
+      - data:
+          entity_id: media_player.sonos_bedroom
+          volume_level: '{{ (state_attr("media_player.sonos_bedroom", "volume_level")
+            | default(0) + increment) | round(2, "floor") if state_attr("media_player.sonos_bedroom",
+            "volume_level") | default(0) < states("input_number.sonos_bedroom_volume")
+            | float else states("input_number.sonos_bedroom_volume") | float }}'
+        action: media_player.volume_set
+      - data:
+          entity_id: media_player.sonos_bathroom
+          volume_level: '{{ (state_attr("media_player.sonos_bathroom", "volume_level")
+            | default(0) + increment) | round(2, "floor") if state_attr("media_player.sonos_bathroom",
+            "volume_level") | default(0) < states("input_number.sonos_bathroom_volume")
+            | float else states("input_number.sonos_bathroom_volume") | float }}'
+        action: media_player.volume_set
+  mode: queued
+scene_studio_neutral_low:
+  alias: Scene Studio Neutral Low
+  sequence:
+  - entity_id: light.studio
+    data:
+      transition: 2
+      brightness: 75
+      color_temp_kelvin: 3500
+    action: light.turn_on
+  - delay:
+      seconds: 2
+  - target:
+      entity_id: input_select.studio_scene_toggle
+    data:
+      option: script.scene_studio_neutral_low
+    action: input_select.select_option
+  description: ''
+  icon: mdi:palette-outline

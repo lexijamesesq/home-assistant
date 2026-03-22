@@ -1,0 +1,308 @@
+####################### FRAPPE ######################
+
+Catppuccin Mush:
+  # Catppuccin Colors
+  text: "#c6d0f5"
+  subtext1: "#b5bfe2"
+  subtext0: "#a5adce"
+
+  overlay2: "#949cbb"
+  overlay1: "#838ba7"
+  overlay0: "#737994"
+
+  surface2: "#626880"
+  surface1: "#51576d"
+  surface0: "#414559"
+
+  base: "#303446"
+  mantle: "#292c3c"
+  crust: "#232634"
+
+  rosewater: "#f2d5cf"
+  flamingo: "#eebebe"
+  pink: "#f4b8e4"
+  mauve: "#ca9ee6"
+  red: "#e78284"
+  maroon: "#ea999c"
+  peach: "#ef9f76"
+  yellow: "#e5c890"
+  green: "#a6d189"
+  teal: "#81c8be"
+  sky: "#99d1db"
+  sapphire: "#85c1dc"
+  blue: "#8caaee"
+  lavender: "#babbf1"
+
+  # HA Colors
+  disabled-color: var(--overlay1)
+  red-color: var(--red)
+  pink-color: var(--pink)
+  purple-color: var(--mauve)
+  deep-purple-color: var(--overlay2)
+  indigo-color: "#7891cc"
+  blue-color: "#6A9AF2"
+  light-blue-color: var(--sky)
+  cyan-color: "#6daaa1"
+  teal-color: var(--teal)
+  green-color: "#88BC72"
+  light-green-color: "#98c07d"
+  lime-color: "#bac486"
+  yellow-color: var(--yellow)
+  amber-color: "#e3b37c"
+  orange-color: "#e1936e"
+  deep-orange-color: "#d18567"
+  brown-color: var(--surface0)
+  light-grey-color: var(--overlay1)
+  grey-color: var(--overlay0)
+  dark-grey-color: var(--surface1)
+  blue-grey-color: var(--lavender)
+  black-color: var(--crust)
+
+  # Mushroom Colors
+  mush-rgb-red: 231, 130, 132
+  mush-rgb-pink: 244, 184, 228
+  mush-rgb-purple: 202, 158, 230
+  mush-rgb-deep-purple: 148, 156, 187
+  mush-rgb-indigo: 120, 145, 204
+  mush-rgb-blue: 106, 154, 242
+  mush-rgb-light-blue: 153, 209, 219
+  mush-rgb-cyan: 109, 170, 161
+  mush-rgb-teal: 129, 200, 190
+  mush-rgb-green: 136, 188, 114
+  mush-rgb-light-green: 152, 192, 125
+  mush-rgb-lime: 186, 196, 134
+  mush-rgb-yellow: 229, 200, 144
+  mush-rgb-amber: 227, 179, 124
+  mush-rgb-orange: 225, 147, 110
+  mush-rgb-deep-orange: 209, 133, 103
+  mush-rgb-brown: 65, 69, 89
+  mush-rgb-light-grey: 131, 139, 167
+  mush-rgb-grey: 114, 121, 148
+  mush-rgb-dark-grey: 81, 87, 109
+  mush-rgb-blue-grey: 186, 187, 241
+  mush-rgb-black: 35, 38, 52
+  mush-rgb-white: 198, 208, 245
+
+  ###########################
+
+  # Header
+  app-header-background-color: var(--mantle)
+  app-header-text-color: var(--text)
+
+  # Main Interface colors
+  primary-color: var(--blue)
+  light-primary-color: var(--primary-color)
+  accent-color: var(--yellow)
+
+  primary-background-color: var(--base)
+  secondary-background-color: var(--base)
+
+  # Text
+  primary-text-color: var(--text)
+  secondary-text-color: var(--subtext1)
+  text-primary-color: var(--text)
+  divider-color: var(--base)
+  disabled-text-color: var(--overlay0)
+  text-accent-color: var(--base)
+
+  # Sidebar
+  sidebar-background-color: var(--crust)
+  sidebar-selected-background-color: var(--primary-background-color)
+
+  sidebar-icon-color: var(--subtext0)
+  sidebar-text-color: var(--subtext0)
+  sidebar-selected-icon-color: var(--mauve)
+  sidebar-selected-text-color: var(--mauve)
+
+  # Buttons
+  paper-item-icon-color: var(--subtext0)
+  paper-item-icon-active-color: var(--primary-color)
+
+  # States and Badges
+  state-icon-color: var(--lavender)
+  state-icon-active-color: var(--primary-color)
+
+  state-icon-unavailable-color: var(--disabled-text-color)
+
+  # Sliders
+  paper-slider-knob-color: var(--blue)
+  paper-slider-knob-start-color: var(--paper-slider-knob-color)
+  paper-slider-pin-color: var(--paper-slider-knob-color)
+  paper-slider-active-color: var(--paper-slider-knob-color)
+  paper-slider-secondary-color: var(--blue)
+
+  # Labels
+  label-badge-background-color: var(--surface0)
+  label-badge-text-color: var(--text)
+  label-badge-red: var(--red)
+  label-badge-green: var(--green)
+  label-badge-blue: var(--blue)
+  label-badge-yellow: var(--yellow)
+  label-badge-gray: var(--overlay0)
+
+  # Cards
+  card-background-color: var(--surface0)
+  ha-card-background: var(--card-background-color)
+
+  ha-card-border-radius: "15px"
+  ha-card-box-shadow: none
+  paper-dialog-background-color: var(--overlay0)
+  paper-listbox-background-color: var(--overlay0)
+  paper-card-background-color: var(--card-background-color)
+
+  # Switches
+  switch-checked-button-color: var(--green)
+  switch-checked-track-color: var(--surface2)
+  switch-unchecked-button-color: rgb(--overlay0)
+  switch-unchecked-track-color: rgb(--surface0)
+
+  # Toggles
+  paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
+  paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
+  paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
+  paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
+
+  # Table
+  table-row-background-color: var(--primary-background-color)
+  table-row-alternative-background-color: var(--secondary-background-color)
+  data-table-background-color: var(--primary-background-color)
+  mdc-checkbox-unchecked-color: var(--overlay0)
+
+  # Dropdowns
+  material-background-color: var(--primary-background-color)
+  material-secondary-background-color: var(--primary-background-color)
+  mdc-theme-surface: var(--primary-background-color)
+
+  # Pre/Code
+  markdown-code-background-color: var(--surface0)
+
+  # Checkboxes
+  mdc-select-fill-color: var(--surface0)
+  mdc-select-ink-color: var(--primary-text-color)
+  mdc-select-label-ink-color: var(--subtext1)
+  mdc-select-idle-line-color: var(--primary-text-color)
+  mdc-select-dropdown-icon-color: var(--secondary-text-color)
+  mdc-select-hover-line-color: var(--accent-color)
+
+  # Input
+  input-fill-color: var(--secondary-background-color)
+  input-dropdown-icon-color: var(--secondary-text-color)
+  input-ink-color: var(--primary-text-color)
+  input-label-ink-color: var(--secondary-text-color)
+  input-idle-line-color: var(--primary-text-color)
+  input-hover-line-color: var(--accent-color)
+  input-disabled-ink-color: var(--disabled-text-color)
+  input-disabled-line-color: var(--disabled-text-color)
+  input-outlined-idle-border-color: var(--disabled-text-color)
+  input-outlined-hover-border-color: var(--disabled-text-color)
+  input-outlined-disabled-border-color: var(--disabled-text-color)
+  input-disabled-fill-color: rgba(0, 0, 0, 0)
+
+  # Toast
+  paper-toast-background-color: var(--overlay0)
+
+  # Colors
+  error-color: var(--red)
+  warning-color: var(--yellow)
+  success-color: var(--green)
+  info-color: var(--blue)
+
+  state-on-color: var(--green)
+  state-off-color: var(--red)
+
+  # Mushroom
+  # Mushroom layout
+  mush-spacing: 10px
+  # Title
+  mush-title-padding: 24px 12px 8px
+  mush-title-spacing: 8px
+  mush-title-font-size: 24px
+  mush-title-font-weight: normal
+  mush-title-line-height: 32px
+  mush-title-color: var(--primary-text-color)
+  mush-title-letter-spacing: -0.288px
+  # Subtitle
+  mush-subtitle-font-size: 16px
+  mush-subtitle-font-weight: normal
+  mush-subtitle-line-height: 24px
+  mush-subtitle-color: var(--secondary-text-color);
+  mush-subtitle-letter-spacing: 0px
+
+  # Card
+  mush-card-primary-font-size: 14px
+  mush-card-secondary-font-size: 12px
+  mush-card-primary-font-weight: 500
+  mush-card-secondary-font-weight: 400
+  mush-card-primary-line-height: 20px
+  mush-card-secondary-line-height: 16px
+  mush-card-primary-color: var(--primary-text-color)
+  mush-card-secondary-color: var(--primary-text-color)
+  mush-card-primary-letter-spacing: 0.1px
+  mush-card-secondary-letter-spacing: 0.4px
+
+  # Chip
+  mush-chip-spacing: 8px
+  mush-chip-padding: 0 0.25em
+  mush-chip-height: 36px
+  mush-chip-border-radius: 18px
+  mush-chip-font-size: 0.3em
+  mush-chip-font-weight: bold
+  mush-chip-icon-size: 0.5em
+  mush-chip-avatar-padding: 0.1em
+  mush-chip-avatar-border-radius: 50%
+  mush-chip-background: var(--ha-card-background)
+  # Control
+  mush-control-border-radius: 12px
+  mush-control-height: 42px
+  mush-control-button-ratio: 1
+  mush-control-icon-size: 0.5em
+  # Slider
+  mush-slider-threshold: 10
+  # Badge
+  mush-badge-size: 16px
+  mush-badge-icon-size: 0.75em
+  mush-badge-border-radius: 50%
+  # Icon
+  mush-icon-border-radius: 50%
+  mush-icon-size: 36px
+  mush-icon-symbol-size: 22px
+
+  # State
+  mush-rgb-disabled: var(--mush-rgb-grey)
+  mush-rgb-info: var(--mush-rgb-blue)
+  mush-rgb-success: var(--mush-rgb-green)
+  mush-rgb-warning: var(--mush-rgb-orange)
+  mush-rgb-danger: var(--mush-rgb-red)
+
+  mush-rgb-state-fan: var(--mush-rgb-green)
+  mush-rgb-state-light: var(--mush-rgb-orange)
+  mush-rgb-state-entity: var(--mush-rgb-blue)
+  mush-rgb-state-switch: var(--mush-rgb-blue)
+
+  mush-rgb-state-alarm-disarmed: var(--mush-rgb-info)
+  mush-rgb-state-alarm-armed: var(--mush-rgb-success)
+  mush-rgb-state-alarm-triggered: var(--mush-rgb-danger)
+
+  mush-rgb-state-person-home: var(--mush-rgb-success)
+  mush-rgb-state-person-not-home: var(--mush-rgb-danger)
+  mush-rgb-state-person-zone: var(--mush-rgb-info)
+  mush-rgb-state-person-unknown: var(--mush-rgb-grey)
+
+  mush-rgb-state-cover-open: var(--mush-rgb-blue)
+  mush-rgb-state-cover-closed: var(--mush-rgb-disabled)
+
+  mush-rgb-state-climate-auto: var(--mush-rgb-green)
+  mush-rgb-state-climate-cool: var(--mush-rgb-blue)
+  mush-rgb-state-climate-dry: var(--mush-rgb-orange)
+  mush-rgb-state-climate-fan-only: var(--mush-rgb-blue-grey)
+  mush-rgb-state-climate-heat: var(--mush-rgb-deep-orange)
+  mush-rgb-state-climate-heat-cool: var(--mush-rgb-green)
+  mush-rgb-state-climate-idle: var(--mush-rgb-grey)
+  mush-rgb-state-climate-off: var(--mush-rgb-disabled)
+
+  mush-rgb-state-vacuum: var(--must-rgb-teal)
+
+  mush-rgb-state-media-player: var(--mush--rgb-indigo)
+
+  rgb-primary-color: var(--mush-rgb-blue)
+  rgb-accent-color: var(--mush-rgb-yellow)
