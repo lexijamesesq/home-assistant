@@ -1,6 +1,6 @@
 # Home Assistant Configuration
 
-Personal [Home Assistant](https://home-assistant.io/) configuration, version-controlled with automatic commits via [HomeAssistantVersionControl](https://github.com/saihgupr/HomeAssistantVersionControl).
+Personal [Home Assistant](https://home-assistant.io/) configuration.
 
 ## Platform
 
