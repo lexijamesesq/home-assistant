@@ -33,7 +33,7 @@ camera.front_door:
       }
   card:
     type: custom:webrtc-camera
-    url: 'rtsp://10.0.1.5:7447/91H4vUu2nZjAUrlt'
+    url: !secret rtsp_front_door
     ui: true
     mse: false
     style: |

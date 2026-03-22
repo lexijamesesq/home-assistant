@@ -6,7 +6,7 @@ camera_home:
     camera:
       card:
         type: custom:webrtc-camera
-        url: "rtsp://10.0.1.1:7447/jgHdueMamxgQBo1O"
+        url: !secret rtsp_camera_home
         ui: true
         background: true
         muted: true
