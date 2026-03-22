@@ -1,72 +1,62 @@
-# Home Assistant
-[Home Assistant](https://home-assistant.io/)
+# Home Assistant Configuration
 
-# Devices
-* [Aeotec Z-Stick Gen5](https://www.amazon.com/gp/product/B00X0AWA6E/)
-* [Aeotec MultiSensor 6](https://www.amazon.com/gp/product/B0151Z8ZQY/)
-* [Aeotec TriSensor](https://www.amazon.com/gp/product/B07GP3ZCYD/)
-* [Honeywell IS3035 PIR Motion Detector](https://www.amazon.com/gp/product/B0182QLPYI/)
-* [Ecolink Z-wave Plus Motion Detector](https://www.amazon.com/gp/product/B01MQXXG0I/)
-* [Sensative Z-Wave Plus Ultra Thin Door/Window Contact Sensor Strips](https://www.amazon.com/gp/product/B01LWMTUI8/)
-* [FortrezZ MIMOlite](https://www.amazon.com/gp/product/B00B6RZ7MM/)
-* [Konnected Alarm Panel Wired Alarm System Conversion Kit](https://konnected.io/collections/in-stock-now/products/konnected-alarm-panel-wired-alarm-system-conversion-kit)
-* [August Connect](http://august.com/products/august-connect/)
-* [August Smart Lock Pro](https://www.amazon.com/gp/product/B0765LFNM7/)
-* [Estimote Proximity Beacons](https://www.amazon.com/gp/product/B01M7SREI7/)
-* [HomeSeer HS-WS100+ Wall Switch](https://www.amazon.com/gp/product/B01DFSAAJ4/)
-* [HomeSeer HS-WD200+ Wall Dimmer](https://www.amazon.com/gp/product/B079F38TPF/)
-* [GE Enbrighten Z-Wave Plus Smart Receptacle Outlet](https://www.amazon.com/gp/product/B07361JZ2H/)
-* [LIFX A19](https://www.amazon.com/gp/product/B01KY02MS8/)
-* [LIFX BR30](https://www.amazon.com/gp/product/B01KY02MPG/)
-* [LIFX Mini](https://www.amazon.com/gp/product/B072Y4GNNH/)
-* [LIFX Z Multi Color LED Light Strip](https://www.amazon.com/gp/product/B073168F4Y/)
-* [Nest Thermostat E](https://store.google.com/us/product/nest_thermostat_e?hl=en-US)
-* [Apple TV (4th Generation)](https://www.apple.com/apple-tv/)
-* [Amazon Echo](https://www.amazon.com/gp/product/B00X4WHP5E/)
-* [Sonos One](https://www.amazon.com/gp/product/B074XN1LH3/)
-* [Sonos Amp](https://www.amazon.com/gp/product/B07LD8NN37/)
-* [Neato Robotics Botvac Connected D7](https://www.amazon.com/gp/product/B07KGMCLPX/)
-* [Automatic Connected Car Assistant](https://www.amazon.com/gp/product/B07P37K3VG/)
-* [Samsung Electronics Galaxy Tab A, 10.5"](https://www.amazon.com/gp/product/B07FM86283/) *TileBoard Dashboard Displays*
+Personal [Home Assistant](https://home-assistant.io/) configuration, version-controlled with automatic commits via [HomeAssistantVersionControl](https://github.com/saihgupr/HomeAssistantVersionControl).
 
-# Hardware
-* [Supermicro Atom Server](https://www.supermicro.com/products/system/1U/5015/SYS-5015A-EHF-D525.cfm) *for Home Assistant*
-* [Supermicro Dual Xeon L5640 RAID Server](http://www.supermicro.com/products/motherboard/QPI/5500/X8DTU-F.cfm) *for Plex Media Server*
-* [Supermicro Xeon E3-1220 Server](https://www.supermicro.com/products/motherboard/Xeon/C202_C204/X9SCL_-F.cfm) *for pfSense*
-* [NETGEAR ReadyNAS (RN3138)](https://www.amazon.com/gp/product/B017NMX5KO/) *for Plex Media*
-* [Ubiquiti Networks - UniFi Cloud Key Gen2 Plus](https://www.amazon.com/gp/product/B07HLLC1TC/)
-* [Ubiquiti Networks - UniFi AP AC PRO](https://www.amazon.com/gp/product/B015PRO512/)
-* [Ubiquiti Networks - UniFi Switch 16-150W](https://www.amazon.com/gp/product/B01E46ATQ0/)
-* [Ubiquiti Networks - UniFi Switch 8-150W](https://www.amazon.com/gp/product/B01DKXT4CI/)
-* [Ubiquiti Networks - Unifi Switch Flex](https://www.amazon.com/gp/product/B07XL4DHZN/)
-* [Ubiquiti Networks - Unifi UVC-G3](https://www.amazon.com/gp/product/B01EZYTYLC/)
-* [Ubiquiti Networks - UniFi Video G3 Camera](https://www.amazon.com/gp/product/B077QCR56S/)
-* [Ubiquiti Networks - UniFi Video G3-Micro Wireless Camera](https://www.amazon.com/gp/product/B077H91CM7/)
+## Platform
 
-# Software
-* [Docker](https://www.docker.com/)
-* [Home Assistant](https://home-assistant.io/)
-* [MariaDB](https://mariadb.org/)
-* [NGINX](https://www.nginx.com/)
-* [TileBoard](https://github.com/resoai/TileBoard)
-* [Fully Kiosk Browser](https://www.ozerov.de/fully-kiosk-browser/)
-* [Sonos TTS Addon](https://github.com/kevinvincent/hassio-addons/tree/master/sonos-audioclip-tts)
-* [webNUT](https://github.com/rshipp/webNUT)
-* [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/)
-* [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/)
-* [Grafana](https://grafana.com/)
-* [Plex Media Server](https://www.plex.tv/)
-* [Tautulli](https://tautulli.com/)
-* [Geofency](https://www.geofency.com/)
+| | |
+|---|---|
+| **Hardware** | Raspberry Pi 5 |
+| **Install** | Home Assistant OS |
+| **Network** | UniFi (Protect, Network) |
+| **Protocols** | Z-Wave (Z-Wave JS UI), Matter/Thread, WiFi (LIFX, Nanoleaf) |
 
-<!--
-# Interface
-![UI](screenshots/ha-home.png)
-![UI](screenshots/ha-bathroom.png)
-![UI](screenshots/ha-bedroom.png)
-![UI](screenshots/ha-kitchen.png)
-![UI](screenshots/ha-living-room.png)
-![UI](screenshots/ha-office.png)
-![UI](screenshots/ha-lights.png)
-![UI](screenshots/ha-scripts.png)
-![UI](screenshots/ha-health.png)-->
+## Repository Structure
+
+```
+configuration.yaml          # Main config — includes, integrations, utility meters
+automations.yaml            # All automations (UI-managed)
+scripts.yaml                # All scripts (UI-managed)
+
+blueprints/                 # Automation and template blueprints
+template/                   # Template sensors — climate, weather, calendar, status
+themes/                     # Catppuccin, Bubble, custom themes
+
+lovelace/dashboard/         # Tablet dashboard (YAML mode)
+  button_card_templates/    # Custom button card templates
+  partials/                 # Dashboard view partials
+  popups/                   # Camera and home popups
+ui-dashboard.yaml           # Tablet dashboard root
+
+sensor.yaml                 # Platform sensors (InfluxDB, REST, etc.)
+customize.yaml              # Entity customizations
+group.yaml                  # Groups
+input_boolean.yaml          # Input helpers
+input_number.yaml
+input_select.yaml
+input_text.yaml
+rest_command.yaml            # REST commands
+shell_command.yaml           # Shell commands
+scene.yaml                  # Scenes
+binary_sensor.yaml
+media_player.yaml
+```
+
+## What's Tracked
+
+- All YAML configuration files
+- Selective `.storage/` — lovelace dashboards, input helpers, zones, persons
+- Themes and blueprints
+
+## What's Not Tracked
+
+- `secrets.yaml` — credentials and API keys
+- `.storage/` registries — entity, device, config entries (regenerated on startup)
+- `custom_components/` — managed by HACS
+- `www/` — frontend cards managed by HACS
+- Databases, logs, backups, binaries
+
+## History
+
+Originally installed ~2017 on a Supermicro 1U rack server running Ubuntu with Docker. Hand-edited YAML, split across `automation/` and `script/` directories with `!include_dir_merge_list`. Migrated to HAOS on Raspberry Pi 5 in March 2025. Config consolidated to `automations.yaml` and `scripts.yaml` (UI-managed). Repository synced to current state in March 2026.
+
