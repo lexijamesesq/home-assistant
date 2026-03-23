@@ -2919,15 +2919,20 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.mode_laundry
   id: c47ef01edb0f4fbaba5ff809f3c09e55
-- alias: Mode - Laundry Off
-  trigger:
+- id: f9dcbcfd5a5c4e338c9054bc78c2bc8d
+  alias: Mode - Laundry Off
+  triggers:
   - platform: state
-    entity_id: group.laundry_door_sensor
+    entity_id: light.laundry
     to: 'on'
-  action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.mode_laundry
-  id: f9dcbcfd5a5c4e338c9054bc78c2bc8d
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      node_id: 48
+      property_key: '003'
+  actions:
+  - entity_id: input_boolean.mode_laundry
+    action: input_boolean.turn_off
 - alias: Motion Started in Garage
   trigger:
   - platform: state
