@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "input_datetime",
+  "data": {
+    "items": [
+      {
+        "id": "sunrise_starts",
+        "name": "Sunrise Starts",
+        "icon": "mdi:weather-sunset-up",
+        "has_date": true,
+        "has_time": true
+      },
+      {
+        "id": "sunrise_ends",
+        "name": "Sunrise Ends",
+        "icon": "mdi:weather-sunset-up",
+        "has_date": true,
+        "has_time": true
+      },
+      {
+        "id": "sunset_starts",
+        "name": "Sunset Starts",
+        "icon": "mdi:weather-sunset-down",
+        "has_date": true,
+        "has_time": true
+      },
+      {
+        "id": "sunset_ends",
+        "name": "Sunset Ends",
+        "icon": "mdi:weather-sunset-down",
+        "has_date": true,
+        "has_time": true
+      },
+      {
+        "id": "night_ends",
+        "name": "Night Ends",
+        "icon": "mdi:weather-night",
+        "has_date": true,
+        "has_time": true
+      },
+      {
+        "id": "prefer_lighting_low_time",
+        "name": "Prefer Lighting Low Time",
+        "icon": "mdi:clock-time-eight-outline",
+        "has_date": true,
+        "has_time": true
+      },
+      {
+        "id": "prefer_lighting_mid_time",
+        "name": "Prefer Lighting Mid Time",
+        "icon": "mdi:clock-time-eight-outline",
+        "has_date": true,
+        "has_time": true
+      },
+      {
+        "id": "prefer_lighting_high_time",
+        "name": "Prefer Lighting High Time",
+        "icon": "mdi:clock-time-eight-outline",
+        "has_date": true,
+        "has_time": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace_resources",
+  "data": {
+    "items": [
+      {
+        "id": "1eb5e09e200b4ee88b50e9971e08672c",
+        "url": "/webrtc/webrtc-camera.js?v=v3.6.1",
+        "type": "module"
+      },
+      {
+        "id": "c76332eac9534afb9f39af5eed6480e8",
+        "url": "/browser_mod.js?automatically-added&2.10.0",
+        "type": "module"
+      },
+      {
+        "id": "7e393107881c4117a77fe1555e99cc46",
+        "url": "/hacsfiles/lovelace-mushroom/mushroom.js?hacstag=444350375511",
+        "type": "module"
+      },
+      {
+        "id": "aba1a64b057444cd9ab225cfdbf4eea9",
+        "url": "/hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620130",
+        "type": "module"
+      },
+      {
+        "id": "a4bdbdbe90b2418f9a9c26d1260a411e",
+        "url": "/hacsfiles/button-card/button-card.js?hacstag=146194325701",
+        "type": "module"
+      },
+      {
+        "id": "87ef221499034678a515013c10cd4d91",
+        "url": "/hacsfiles/lovelace-card-mod/card-mod.js?hacstag=190927524421",
+        "type": "module"
+      },
+      {
+        "id": "776659b34bf34dc2818777ec9816bf36",
+        "url": "/hacsfiles/lovelace-layout-card/layout-card.js?hacstag=156434866247",
+        "type": "module"
+      },
+      {
+        "id": "ffb89f0ddfcb484386e0d4988e730f37",
+        "url": "/hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js?hacstag=178921037451",
+        "type": "module"
+      },
+      {
+        "id": "c8aac57eaa104a68be49adf4dac4dbbf",
+        "url": "/hacsfiles/kiosk-mode/kiosk-mode.js?hacstag=4973191281100",
+        "type": "module"
+      },
+      {
+        "id": "0618d491d6044e4583c921ace832a9ca",
+        "url": "/hacsfiles/uptime-card/uptime-card.js?hacstag=3505098670160",
+        "type": "module"
+      },
+      {
+        "id": "996e7ac97e0541cdaaf74ce2fc2a511b",
+        "url": "/hacsfiles/Homekit-panel-card/homekit-panel-card.js?hacstag=229219283063",
+        "type": "module"
+      },
+      {
+        "id": "a344d073f7d240f481d8d369068f0f68",
+        "url": "/hacsfiles/custom-sonos-card/custom-sonos-card.js?hacstag=4494168161061",
+        "type": "module"
+      },
+      {
+        "id": "4a8e7d6b36cc4060b222c97c9048a9ed",
+        "url": "/hacsfiles/lovelace-template-entity-row/template-entity-row.js?hacstag=231674882141",
+        "type": "module"
+      },
+      {
+        "id": "cf3094d2dc0641408e3d591a0ae94a1e",
+        "url": "/hacsfiles/lovelace-card-tools/card-tools.js?hacstag=16140332811",
+        "type": "module"
+      }
+    ]
+  }
+}

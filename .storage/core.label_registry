@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "minor_version": 2,
+  "key": "core.label_registry",
+  "data": {
+    "labels": [
+      {
+        "color": "amber",
+        "description": "Scenes directly called by the Update Lights Script.",
+        "icon": "mdi:palette",
+        "label_id": "direct_scene",
+        "name": "Direct Scene",
+        "created_at": "2024-08-13T01:09:29.402349+00:00",
+        "modified_at": "2024-08-13T01:55:37.444901+00:00"
+      },
+      {
+        "color": "grey",
+        "description": "Scenes directly called called by other scenes. Indirect scenes reduce duplication.",
+        "icon": "mdi:palette-outline",
+        "label_id": "indirect_scene",
+        "name": "Indirect Scene",
+        "created_at": "2024-08-13T01:25:38.536093+00:00",
+        "modified_at": "2024-08-13T01:55:22.944857+00:00"
+      },
+      {
+        "color": "light-blue",
+        "description": null,
+        "icon": "mdi:thermostat",
+        "label_id": "nest",
+        "name": "Nest",
+        "created_at": "2024-08-13T02:26:59.930286+00:00",
+        "modified_at": "2024-08-13T02:26:59.930301+00:00"
+      },
+      {
+        "color": "amber",
+        "description": null,
+        "icon": "mdi:lightbulb",
+        "label_id": "lights",
+        "name": "Lights",
+        "created_at": "2024-08-13T02:31:50.997612+00:00",
+        "modified_at": "2024-08-13T02:31:50.997636+00:00"
+      },
+      {
+        "color": "orange",
+        "description": null,
+        "icon": "mdi:theater",
+        "label_id": "home_theater",
+        "name": "Home Theater",
+        "created_at": "2024-08-13T21:31:31.262699+00:00",
+        "modified_at": "2024-08-13T21:31:31.262715+00:00"
+      },
+      {
+        "color": "purple",
+        "description": null,
+        "icon": "mdi:light-switch-off",
+        "label_id": "switch_leds",
+        "name": "Switch LEDs",
+        "created_at": "2024-08-13T21:32:08.280143+00:00",
+        "modified_at": "2024-08-13T21:32:08.280160+00:00"
+      },
+      {
+        "color": "amber",
+        "description": null,
+        "icon": "mdi:motion-sensor",
+        "label_id": "motion",
+        "name": "Motion",
+        "created_at": "2024-08-13T21:36:06.329263+00:00",
+        "modified_at": "2024-08-13T21:36:06.329280+00:00"
+      },
+      {
+        "color": "blue",
+        "description": null,
+        "icon": "mdi:door-open",
+        "label_id": "door",
+        "name": "Door",
+        "created_at": "2024-08-13T21:40:42.642348+00:00",
+        "modified_at": "2024-08-13T21:40:42.642364+00:00"
+      },
+      {
+        "color": null,
+        "description": null,
+        "icon": "mdi:home-account",
+        "label_id": "presence",
+        "name": "Presence",
+        "created_at": "2024-08-13T21:42:43.110209+00:00",
+        "modified_at": "2024-08-13T21:42:43.110226+00:00"
+      },
+      {
+        "color": null,
+        "description": null,
+        "icon": "mdi:tag",
+        "label_id": "modes",
+        "name": "Modes",
+        "created_at": "2024-08-13T21:47:49.466877+00:00",
+        "modified_at": "2024-08-13T21:47:49.466894+00:00"
+      },
+      {
+        "color": "purple",
+        "description": null,
+        "icon": "mdi:sleep",
+        "label_id": "sleep_mode",
+        "name": "Sleep",
+        "created_at": "2024-08-13T21:48:12.749769+00:00",
+        "modified_at": "2024-08-13T21:53:49.688859+00:00"
+      },
+      {
+        "color": "orange",
+        "description": null,
+        "icon": "mdi:weather-sunset-up",
+        "label_id": "morning",
+        "name": "Morning",
+        "created_at": "2024-08-13T21:53:33.087477+00:00",
+        "modified_at": "2024-08-13T21:53:33.087495+00:00"
+      },
+      {
+        "color": "purple",
+        "description": null,
+        "icon": "mdi:weather-night",
+        "label_id": "night",
+        "name": "Night",
+        "created_at": "2024-08-13T21:55:28.808539+00:00",
+        "modified_at": "2024-08-13T21:55:28.808555+00:00"
+      },
+      {
+        "color": "orange",
+        "description": null,
+        "icon": "mdi:weather-sunset-down",
+        "label_id": "sunset",
+        "name": "Sunset",
+        "created_at": "2024-08-13T21:56:22.796854+00:00",
+        "modified_at": "2024-08-13T21:56:22.796871+00:00"
+      },
+      {
+        "color": null,
+        "description": null,
+        "icon": "mdi:clock",
+        "label_id": "time",
+        "name": "Time",
+        "created_at": "2024-08-13T22:12:42.715694+00:00",
+        "modified_at": "2024-08-13T22:12:42.715710+00:00"
+      },
+      {
+        "color": null,
+        "description": null,
+        "icon": "mdi:server",
+        "label_id": "server_rack",
+        "name": "Server Rack",
+        "created_at": "2024-08-13T22:21:16.320050+00:00",
+        "modified_at": "2024-08-13T22:21:16.320067+00:00"
+      },
+      {
+        "color": "red",
+        "description": null,
+        "icon": "mdi:shield-home",
+        "label_id": "security",
+        "name": "Security",
+        "created_at": "2024-08-13T22:23:16.218920+00:00",
+        "modified_at": "2024-08-13T22:23:16.218936+00:00"
+      },
+      {
+        "color": "teal",
+        "description": null,
+        "icon": "mdi:speaker-message",
+        "label_id": "sonos",
+        "name": "Sonos",
+        "created_at": "2024-08-13T22:25:50.863321+00:00",
+        "modified_at": "2024-08-13T22:25:50.863339+00:00"
+      },
+      {
+        "color": "yellow",
+        "description": null,
+        "icon": "mdi:weather-sunny",
+        "label_id": "day",
+        "name": "Day",
+        "created_at": "2024-08-13T23:05:42.488952+00:00",
+        "modified_at": "2024-08-13T23:05:42.488980+00:00"
+      },
+      {
+        "color": null,
+        "description": null,
+        "icon": "mdi:human-greeting-variant",
+        "label_id": "guest",
+        "name": "Guest",
+        "created_at": "2024-08-13T23:07:40.078730+00:00",
+        "modified_at": "2024-08-13T23:07:40.078751+00:00"
+      },
+      {
+        "color": null,
+        "description": null,
+        "icon": "mdi:restart",
+        "label_id": "ha_start",
+        "name": "HA Start",
+        "created_at": "2024-08-13T23:19:44.784120+00:00",
+        "modified_at": "2024-08-13T23:19:44.784137+00:00"
+      },
+      {
+        "color": "blue",
+        "description": null,
+        "icon": "mdi:washing-machine",
+        "label_id": "laundry",
+        "name": "Laundry",
+        "created_at": "2024-08-13T23:45:33.548038+00:00",
+        "modified_at": "2024-08-13T23:45:33.548055+00:00"
+      },
+      {
+        "color": "yellow",
+        "description": null,
+        "icon": "mdi:broom",
+        "label_id": "house_cleaning",
+        "name": "House Cleaning",
+        "created_at": "2024-08-28T00:12:29.009346+00:00",
+        "modified_at": "2024-08-28T00:12:29.009351+00:00"
+      }
+    ]
+  }
+}

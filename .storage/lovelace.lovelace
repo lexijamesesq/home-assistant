@@ -1,0 +1,2747 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.lovelace",
+  "data": {
+    "config": {
+      "kiosk_mode": {
+        "mobile_settings": {
+          "hide_overflow": true
+        }
+      },
+      "views": [
+        {
+          "title": "Home",
+          "type": "sections",
+          "max_columns": 4,
+          "icon": "mdi:home-assistant",
+          "visible": [
+            {
+              "user": "1ded8e209ad549f485beba7917c76729"
+            }
+          ],
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "entity": "sensor.dashboard_current_mode",
+                      "hold_action": {
+                        "action": "none"
+                      },
+                      "double_tap_action": {
+                        "action": "none"
+                      },
+                      "icon": "{{ state_attr(entity, \"icon\") }}",
+                      "icon_color": "{% set mode = states(entity) %}\n{% if mode == \"Morning\" %}\n  {{ \"var(--mush-rgb-orange)\" }}\n{% elif mode == \"Day\" %}\n  {{ \"var(--mush-rgb-yellow)\" }}\n{% elif mode == \"Sunset\" %}\n  {{ \"var(--mush-rgb-orange)\" }}\n{% elif mode == \"Night\" %}\n  {{ \"var(--mush-rgb-purple)\" }}\n{% elif mode == \"Theater\" %}\n  {{ \"var(--mush-rgb-orange)\" }}\n{% elif mode == \"Cleaning\" %}\n  {{ \"var(--mush-rgb-yellow)\" }}\n{% elif mode == \"Laundry\" %}\n  {{ \"var(--mush-rgb-blue)\" }}\n{% elif mode == \"Sleep\" %}\n  {{ \"var(--mush-rgb-purple)\" }}\n{% endif %}\n",
+                      "content": "{{ states(entity) }}",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/modes"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "entity": "sensor.dashboard_home_state",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/security"
+                      },
+                      "hold_action": {
+                        "action": "none"
+                      },
+                      "double_tap_action": {
+                        "action": "none"
+                      },
+                      "icon": "{{ state_attr(entity, \"icon\") }}",
+                      "icon_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"Secure\") else \"var(--mush-rgb-red)\" }}\n",
+                      "content": "{{ states(entity) }}"
+                    },
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "sensor.dashboard_garage_actual_status_short",
+                          "state_not": "off"
+                        }
+                      ],
+                      "chip": {
+                        "type": "entity",
+                        "entity": "sensor.dashboard_garage_actual_status_short",
+                        "tap_action": {
+                          "action": "navigate",
+                          "navigation_path": "/lovelace/security"
+                        },
+                        "hold_action": {
+                          "action": "none"
+                        },
+                        "double_tap_action": {
+                          "action": "none"
+                        },
+                        "icon": "mdi:garage-open-variant",
+                        "icon_color": "amber"
+                      }
+                    },
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "sensor.dashboard_open_door_status_short",
+                          "state_not": "off"
+                        }
+                      ],
+                      "chip": {
+                        "type": "entity",
+                        "entity": "sensor.dashboard_open_door_status_short",
+                        "tap_action": {
+                          "action": "navigate",
+                          "navigation_path": "/lovelace/security"
+                        },
+                        "hold_action": {
+                          "action": "none"
+                        },
+                        "double_tap_action": {
+                          "action": "none"
+                        },
+                        "icon": "mdi:door-open",
+                        "icon_color": "amber"
+                      }
+                    },
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "sensor.dashboard_open_window_status_short",
+                          "state_not": "off"
+                        }
+                      ],
+                      "chip": {
+                        "type": "entity",
+                        "entity": "sensor.dashboard_open_window_status_short",
+                        "tap_action": {
+                          "action": "navigate",
+                          "navigation_path": "/lovelace/security"
+                        },
+                        "hold_action": {
+                          "action": "none"
+                        },
+                        "double_tap_action": {
+                          "action": "none"
+                        },
+                        "icon": "mdi:window-open",
+                        "icon_color": "amber"
+                      }
+                    },
+                    {
+                      "type": "weather",
+                      "entity": "weather.tomorrow_io_home_daily",
+                      "tap_action": {
+                        "action": "url",
+                        "url_path": "carrotweather://"
+                      },
+                      "hold_action": {
+                        "action": "none"
+                      },
+                      "double_tap_action": {
+                        "action": "none"
+                      },
+                      "show_temperature": true,
+                      "show_conditions": true
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card {\n  height: 100%;\n}\nha-card .chip-container {\n  flex-flow: nowrap !important;\n  overflow-y: auto;\n  align-items: flex-end !important;\n  height: 100%;\n  margin-right: -8px;\n  padding-right: 8px;\n  margin-left: -8px;\n  padding-left: 8px;\n  padding-bottom: 4px;\n}\nha-card .chip-container::-webkit-scrollbar {\n  display: none;\n}\nha-card mushroom-entity-chip {\n  white-space: nowrap;\n}\nha-card mushroom-weather-chip {\n  white-space: nowrap;\n}\n"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Trackers"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Alexis",
+                  "secondary": "{{ state_attr('sensor.alexis_iphone_geocoded_location', 'Zones') if is_state(entity, \"home\") else 'Away ⸱ ' ~ state_attr('sensor.alexis_iphone_geocoded_location', 'Locality') }}\n",
+                  "icon": "",
+                  "entity": "person.alexis",
+                  "picture": "{{ state_attr(entity, \"entity_picture\") }}",
+                  "badge_icon": "{{ \"mdi:home\" if is_state(entity, \"home\") else \"mdi:home-export-outline\" }}",
+                  "badge_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"home\") else \"var(--mush-rgb-red)\" }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "multiline_secondary": false,
+                  "fill_container": false
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "{{ state_attr(entity, 'friendly_name') }}",
+                  "secondary": "{% set state = 'Driving' if is_state('sensor.octavia_car_info', 'Running') else 'Parked' %}\n{% set fuel = ' ⸱ ' ~ states('sensor.octavia_car_fuel') ~ '%' %}\n{{ (states(entity) | capitalize if is_state(entity, \"home\") else state) ~ fuel }}",
+                  "icon": "{{ state_attr(entity, 'icon') }}",
+                  "picture": "{{ state_attr(entity, \"entity_picture\") }}",
+                  "badge_icon": "{{ \"mdi:home\" if is_state(entity, \"home\") else \"mdi:home-export-outline\" }}",
+                  "badge_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"home\") else \"var(--mush-rgb-red)\" }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "multiline_secondary": false,
+                  "fill_container": false,
+                  "entity": "person.octavia"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Climate"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "{{ state_attr(entity, 'friendly_name') }}",
+                  "secondary": "{% set isEco = state_attr(entity, 'preset_mode') | lower == 'away and eco' or state_attr(entity, 'preset_mode') | lower == 'eco' %}\n{% set hvac_action = state_attr(entity, 'hvac_action') if state_attr(entity, 'hvac_action') != 'idle' else states(entity) %}\n{% set cool_target = ' to ' ~ state_attr(entity, 'temperature') ~ 'º' if state_attr(entity, 'temperature') is defined else ' to ' ~ state_attr(entity, 'target_temp_high') ~ 'º' %}\n{% set heat_target = ' to ' ~ state_attr(entity, 'temperature') ~ 'º' if state_attr(entity, 'temperature') is defined else ' to ' ~ state_attr(entity, 'target_temp_low') ~ 'º' %}\n\n{% if (isEco) %}\n  {{ state_attr(entity, 'preset_mode') | capitalize }}\n\n{% elif (hvac_action == \"cool\" or hvac_action == \"cooling\") %}\n  {{ hvac_action | capitalize + cool_target }}\n\n{% elif (hvac_action == \"heat\" or hvac_action == \"heating\") %}\n  {{ hvac_action | capitalize + heat_target }}\n\n{% elif (hvac_action == \"heat_cool\") %}\n  {{ 'Auto ' ~ state_attr(entity, 'target_temp_low') ~ '–' ~ state_attr(entity, 'target_temp_high') ~ 'º' }}\n\n{% else %}\n  {{ states('climate.downstairs') | capitalize }}\n{% endif %}\n\n{{ ' ⸱ ' + states('sensor.downstairs_humidity') + '%' }}",
+                  "icon": "{% if is_state(entity, 'cool') %}\n  mdi:snowflake\n{% elif is_state(entity, 'heat') %}\n  mdi:fire\n{% elif is_state(entity, 'heat_cool') %}\n  mdi:sun-snowflake-variant\n{% else %}\n  mdi:thermostat\n{% endif %}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "icon_color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  {{ \"var(--mush-rgb-blue)\" }}\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  {{ \"var(--mush-rgb-orange)\" }}\n{% elif is_state_attr(entity, 'hvac_action', 'idle') %}\n  {{ \"var(--mush-rgb-blue-grey)\" }}\n{% else %}\n  {{ \"var(--mush-rgb-grey)\" }}\n{% endif %}",
+                  "layout_options": {
+                    "grid_columns": 3,
+                    "grid_rows": 1
+                  },
+                  "entity": "climate.downstairs",
+                  "badge_icon": "{% if is_state_attr(entity, 'fan_mode', 'on') %}\n  mdi:fan\n{% endif %}",
+                  "badge_color": "{{ \"var(--mush-rgb-grey)\" }}",
+                  "card_mod": {
+                    "style": "@keyframes spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(359deg);\n  }\n}\nha-state-icon {\n  display: none;\n}\nha-card mushroom-shape-icon::after {\n  content: \"{{ states.climate.downstairs.attributes.current_temperature | string }}\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  display: flex;\n  width: 36px;\n  height: 36px;\n  align-items: center;\n  justify-content: center;\n  color: var(--icon-color);\n  font-size: 15px;\n  font-weight: bold;\n}\nha-card mushroom-badge-icon {\n  animation: spin 1.5s infinite linear;\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "",
+                  "secondary": "",
+                  "icon": "mdi:leaf",
+                  "layout_options": {
+                    "grid_columns": 1,
+                    "grid_rows": 1
+                  },
+                  "entity": "climate.downstairs",
+                  "fill_container": false,
+                  "tap_action": {
+                    "action": "call-service",
+                    "service": "script.nest_toggle_downstairs_eco",
+                    "target": {}
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "icon_color": "{% if is_state_attr(entity, 'preset_mode', 'eco') %}\n  {{ \"var(--mush-rgb-green)\" }}\n{% else %}\n  {{ \"var(--mush-rgb-grey)\" }}\n{% endif %}",
+                  "card_mod": {
+                    "style": "ha-card mushroom-state-item {\njustify-content: center;\ndisplay: flex;\n"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "{{ state_attr(entity, 'friendly_name') }}",
+                  "secondary": "{% set isEco = state_attr(entity, 'preset_mode') | lower == 'away and eco' or state_attr(entity, 'preset_mode') | lower == 'eco' %}\n{% set hvac_action = state_attr(entity, 'hvac_action') if state_attr(entity, 'hvac_action') != 'idle' else states(entity) %}\n{% set cool_target = ' to ' ~ state_attr(entity, 'temperature') ~ 'º' if state_attr(entity, 'temperature') is defined else ' to ' ~ state_attr(entity, 'target_temp_high') ~ 'º' %}\n{% set heat_target = ' to ' ~ state_attr(entity, 'temperature') ~ 'º' if state_attr(entity, 'temperature') is defined else ' to ' ~ state_attr(entity, 'target_temp_low') ~ 'º' %}\n\n{% if (isEco) %}\n  {{ state_attr(entity, 'preset_mode') | capitalize }}\n\n{% elif (hvac_action == \"cool\" or hvac_action == \"cooling\") %}\n  {{ hvac_action | capitalize + cool_target }}\n\n{% elif (hvac_action == \"heat\" or hvac_action == \"heating\") %}\n  {{ hvac_action | capitalize + heat_target }}\n\n{% elif (hvac_action == \"heat_cool\") %}\n  {{ 'Auto ' ~ state_attr(entity, 'target_temp_low') ~ '–' ~ state_attr(entity, 'target_temp_high') ~ 'º' }}\n\n{% else %}\n  {{ states('climate.downstairs') | capitalize }}\n{% endif %}\n\n{{ ' ⸱ ' + states('sensor.upstairs_humidity') + '%' }}",
+                  "icon": "{% if is_state(entity, 'cool') %}\n  mdi:snowflake\n{% elif is_state(entity, 'heat') %}\n  mdi:fire\n{% elif is_state(entity, 'heat_cool') %}\n  mdi:sun-snowflake-variant\n{% else %}\n  mdi:thermostat\n{% endif %}",
+                  "entity": "climate.upstairs",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "icon_color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  {{ \"var(--mush-rgb-blue)\" }}\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  {{ \"var(--mush-rgb-orange)\" }}\n{% elif is_state_attr(entity, 'hvac_action', 'idle') %}\n  {{ \"var(--mush-rgb-blue-grey)\" }}\n{% else %}\n  {{ \"var(--mush-rgb-grey)\" }}\n{% endif %}",
+                  "layout_options": {
+                    "grid_columns": 3,
+                    "grid_rows": 1
+                  },
+                  "badge_icon": "{% if is_state_attr(entity, 'fan_mode', 'on') %}\n  mdi:fan\n{% endif %}",
+                  "badge_color": "{{ \"var(--mush-rgb-grey)\" }}",
+                  "card_mod": {
+                    "style": "@keyframes spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(359deg);\n  }\n}\nha-state-icon {\n  display: none;\n}\nha-card mushroom-shape-icon::after {\n  content: \"{{ states.climate.upstairs.attributes.current_temperature | string }}\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  display: flex;\n  width: 36px;\n  height: 36px;\n  align-items: center;\n  justify-content: center;\n  color: var(--icon-color);\n  font-size: 15px;\n  font-weight: bold;\n}\nha-card mushroom-badge-icon {\n  animation: spin 1.5s infinite linear;\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "",
+                  "secondary": "",
+                  "icon": "mdi:leaf",
+                  "layout_options": {
+                    "grid_columns": 1,
+                    "grid_rows": 1
+                  },
+                  "fill_container": false,
+                  "tap_action": {
+                    "action": "call-service",
+                    "service": "script.nest_toggle_upstairs_eco",
+                    "target": {}
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "icon_color": "{% if is_state_attr(entity, 'preset_mode', 'eco') %}\n  {{ \"var(--mush-rgb-green)\" }}\n{% else %}\n  {{ \"var(--mush-rgb-grey)\" }}\n{% endif %}",
+                  "entity": "climate.upstairs",
+                  "card_mod": {
+                    "style": "ha-card mushroom-state-item {\njustify-content: center;\ndisplay: flex;\n"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Air Quality",
+                  "secondary": "{{ states(entity) }}",
+                  "icon": "{{ state_attr(entity, \"icon\") }}",
+                  "entity": "sensor.u_s_air_quality_index",
+                  "icon_color": "{% set state = states(entity) | int(0) %}\n\n{% if state | is_number %}\n  {% if state > 300 %}\n    var(--mush-rgb-maroon)\n  {% elif state > 200 %}\n    var(--mush-rgb-purple)\n  {% elif state > 150 %}\n    var(--mush-rgb-red)\n  {% elif state > 100 %}\n    var(--mush-rgb-orange)\n  {% elif state > 50 %}\n    var(--mush-rgb-yellow)\n  {% elif state > 0 %}\n    var(--mush-rgb-green)\n  {% endif %}\n{% endif %}\n",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "{{ 'First Light' if is_state(entity, 'on') else 'Golden Hour' }}",
+                  "secondary": "{{ state_attr('sensor.dashboard_date_time', 'first_light') if is_state(entity, 'on') else state_attr('sensor.dashboard_date_time', 'golden_hour') }}",
+                  "icon": "{{ 'mdi:weather-sunset-up' if is_state(entity, 'on') else 'mdi:weather-sunset-down' }}",
+                  "entity": "sensor.first_light_show",
+                  "tap_action": {
+                    "action": "none"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "icon_color": "var(--mush-rgb-orange)"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Energy"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Current Usage",
+                  "secondary": "{{ '{:,}'.format(states(entity) | int) + ' ' + state_attr(entity, \"unit_of_measurement\") }}",
+                  "icon": "mdi:lightning-bolt",
+                  "entity": "sensor.energy_usage",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/energy"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "icon_color": "{% set state = states(entity) | int(0) %}\n\n{% if state | is_number %}\n  {% if state > 6000 %}\n    var(--mush-rgb-red)\n  {% elif state > 3500 %}\n    var(--mush-rgb-orange)\n  {% elif state > 1500 %}\n    var(--mush-rgb-yellow)\n  {% elif state >= 0 %}\n    var(--mush-rgb-green)\n  {% endif %}\n{% endif %}"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Today's Usage",
+                  "secondary": "{{ states(entity) + ' ' + state_attr(entity, \"unit_of_measurement\") }}",
+                  "icon": "mdi:calendar-today",
+                  "entity": "sensor.daily_usage",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/energy"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "icon_color": "{% set state = states(entity) | int(0) %}\n\n{% if state | is_number %}\n  {% if state > 70 %}\n    var(--mush-rgb-red)\n  {% elif state > 55 %}\n    var(--mush-rgb-orange)\n  {% elif state > 40 %}\n    var(--mush-rgb-yellow)\n  {% elif state >= 0 %}\n    var(--mush-rgb-green)\n  {% endif %}\n{% endif %}"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Vacuum"
+                },
+                {
+                  "type": "tile",
+                  "entity": "vacuum.ob1_cleanobi",
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  },
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Laundry",
+                  "heading_style": "title"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Washer",
+                  "secondary": "{% set static = {\n  'power_off': 'Off',\n  'end': 'Finished',\n  'pause': 'Paused',\n  'error': 'Error',\n  'reserved': 'Scheduled',\n  'initial': 'Ready',\n  'detecting': 'Detecting',\n  'rinse_hold': 'Rinse Hold'\n} %}\n{% set timer = states('sensor.washer_remaining_time') %}\n{% if states(entity) in static %}\n  {{ static[states(entity)] }}\n{% elif timer not in ['unknown', 'unavailable'] and timer %}\n  {{ relative_time(now() - (timer | as_datetime - now())) }} remaining\n{% else %}\n  Running\n{% endif %}",
+                  "icon": "mdi:washing-machine",
+                  "entity": "sensor.washer_current_status",
+                  "icon_color": "{{ 'var(--mush-rgb-blue)' if states(entity) != 'power_off' }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "multiline_secondary": false
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Dryer",
+                  "secondary": "{% set static = {\n  'power_off': 'Off',\n  'end': 'Finished',\n  'pause': 'Paused',\n  'error': 'Error',\n  'reserved': 'Scheduled',\n  'initial': 'Ready',\n  'detecting': 'Detecting'\n} %}\n{% set timer = states('sensor.dryer_remaining_time') %}\n{% if states(entity) in static %}\n  {{ static[states(entity)] }}\n{% elif timer not in ['unknown', 'unavailable'] and timer %}\n  {{ relative_time(now() - (timer | as_datetime - now())) }} remaining\n{% else %}\n  Running\n{% endif %}",
+                  "icon": "mdi:tumble-dryer",
+                  "entity": "sensor.dryer_current_status",
+                  "icon_color": "{{ 'var(--mush-rgb-blue)' if states(entity) != 'power_off' }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  }
+                }
+              ]
+            }
+          ],
+          "path": "home",
+          "theme": "HA Modified",
+          "cards": [],
+          "badges": []
+        },
+        {
+          "title": "Lights",
+          "path": "lights",
+          "icon": "mdi:lightbulb",
+          "type": "sections",
+          "max_columns": 4,
+          "subview": false,
+          "visible": [
+            {
+              "user": "1ded8e209ad549f485beba7917c76729"
+            }
+          ],
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "entity": "group.garage_lights",
+                      "icon": "{{ \"mdi:lightbulb-on\" if is_state(entity, \"on\") else \"mdi:lightbulb-off\" }}\n",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "homeassistant.turn_off",
+                        "target": {
+                          "entity_id": "group.garage_lights"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "none"
+                      },
+                      "double_tap_action": {
+                        "action": "none"
+                      },
+                      "icon_color": "{{ \"var(--mush-rgb-amber)\" if is_state(entity, \"on\") else \"var(--mush-rgb-grey)\" }}",
+                      "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.garage_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Garage' if num_lights >= 1 else 'Garage' }}"
+                    },
+                    {
+                      "type": "template",
+                      "entity": "group.downstairs_lights",
+                      "icon": "{{ \"mdi:lightbulb-on\" if is_state(entity, \"on\") else \"mdi:lightbulb-off\" }}\n",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "homeassistant.turn_off",
+                        "target": {
+                          "entity_id": "group.downstairs_lights"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "none"
+                      },
+                      "double_tap_action": {
+                        "action": "none"
+                      },
+                      "icon_color": "{{ \"var(--mush-rgb-amber)\" if is_state(entity, \"on\") else \"var(--mush-rgb-grey)\" }}",
+                      "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.downstairs_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Downstairs' if num_lights >= 1 else 'Downstairs' }}"
+                    },
+                    {
+                      "type": "template",
+                      "entity": "group.upstairs_lights",
+                      "icon": "{{ \"mdi:lightbulb-on\" if is_state(entity, \"on\") else \"mdi:lightbulb-off\" }}\n",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "homeassistant.turn_off",
+                        "target": {
+                          "entity_id": "group.upstairs_lights"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "none"
+                      },
+                      "double_tap_action": {
+                        "action": "none"
+                      },
+                      "icon_color": "{{ \"var(--mush-rgb-amber)\" if is_state(entity, \"on\") else \"var(--mush-rgb-grey)\" }}",
+                      "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.upstairs_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Upstairs' if num_lights >= 1 else 'Upstairs' }}"
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "group.all_lights",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/preferences"
+                      },
+                      "hold_action": {
+                        "action": "none"
+                      },
+                      "double_tap_action": {
+                        "action": "none"
+                      },
+                      "name": "Preferences",
+                      "content_info": "name",
+                      "icon": "mdi:cog"
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card {\n  height: 100%;\n}\nha-card .chip-container {\n  flex-flow: nowrap !important;\n  overflow-y: auto;\n  align-items: flex-end !important;\n  height: 100%;\n  margin-right: -8px;\n  padding-right: 8px;\n  margin-left: -8px;\n  padding-left: 8px;\n  padding-bottom: 4px;\n}\nha-card .chip-container::-webkit-scrollbar {\n  display: none;\n}\nha-card mushroom-entity-chip {\n  white-space: nowrap;\n}\nha-card mushroom-template-chip {\n  white-space: nowrap;\n}\nha-card mushroom-weather-chip {\n  white-space: nowrap;\n}\n"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Garage"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.garage",
+                  "name": "Garage",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.garage_stairs",
+                  "name": "Garage Stairs",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Downstairs"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.downstairs_hallway",
+                  "name": "Downstairs Hallway",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.downstairs_bathroom",
+                  "name": "Downstairs Bathroom",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.kitchen",
+                  "name": "Kitchen",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.patio",
+                  "name": "Patio",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.patio_string",
+                  "name": "Patio String",
+                  "icon": "mdi:string-lights",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.living_room",
+                  "icon": "mdi:lightbulb",
+                  "name": "Living Room",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.living_room_tv",
+                  "name": "TV Ambient",
+                  "icon": "mdi:television-ambient-light",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.rec_room",
+                  "name": "Rec Room",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.rec_room_canvas",
+                  "name": "Rec Room Canvas",
+                  "icon": "mdi:wall-sconce-flat",
+                  "color": "amber"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Upstairs"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.upstairs_hallway_group",
+                  "name": "Upstairs Hallway",
+                  "icon": "mdi:lightbulb-group",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.bedroom",
+                  "name": "Bedroom",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "name": "Bathroom",
+                  "icon": "mdi:lightbulb",
+                  "entity": "light.bathroom",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.bathroom_wc_dimmer",
+                  "name": "Bathroom WC",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.bedroom_closet",
+                  "name": "Bedroom Closet",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.laundry",
+                  "name": "Laundry",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.den_hallway",
+                  "name": "Den Hallway",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.den",
+                  "name": "Den",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.den_cabinets",
+                  "name": "Den Cabinets",
+                  "icon": "mdi:led-strip-variant",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.upstairs_patio",
+                  "name": "Patio",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.upstairs_patio_string",
+                  "name": "Patio String",
+                  "icon": "mdi:string-lights",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "name": "Upstairs Bathroom",
+                  "icon": "mdi:lightbulb",
+                  "entity": "light.upstairs_bathroom",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "name": "Studio",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber",
+                  "entity": "light.studio"
+                },
+                {
+                  "type": "tile",
+                  "name": "Studio Overhead",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber",
+                  "entity": "light.studio_overhead"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.studio_closet",
+                  "name": "Studio Closet",
+                  "icon": "mdi:lightbulb",
+                  "color": "amber"
+                }
+              ]
+            }
+          ],
+          "cards": [],
+          "theme": "HA Modified",
+          "badges": []
+        },
+        {
+          "title": "Sonos",
+          "path": "sonos",
+          "icon": "mdi:music",
+          "cards": [],
+          "type": "sections",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Sonos"
+                },
+                {
+                  "type": "custom:sonos-card",
+                  "sections": [
+                    "player",
+                    "volumes",
+                    "grouping",
+                    "groups"
+                  ],
+                  "showVolumeUpAndDownButtons": false,
+                  "topFavorites": [
+                    ""
+                  ],
+                  "dynamicVolumeSlider": false,
+                  "dynamicVolumeSliderMax": 30,
+                  "hideGroupCurrentTrack": false,
+                  "mediaBrowserHideTitleForThumbnailIcons": false,
+                  "showAudioInputFormat": true,
+                  "adjustVolumeRelativeToMainPlayer": true,
+                  "hideVolumeCogwheel": true,
+                  "hideBrowseMediaButton": true,
+                  "artworkAsBackground": false,
+                  "replaceHttpWithHttpsForThumbnails": true,
+                  "card_mod": {
+                    "style": {
+                      "sonos-player $ sonos-player-header $ .info": ".entity {\n  display: none;\n}\n.song::before {\n  display: block;\n  content: \"{{ states.sensor.dashboard_sonos_speaker_status.state }}\";\n  overflow: hidden;\n  text-overflow: ellipsis;\n  font-size: 1rem;\n  font-weight: 500;\n  color: var(--secondary-text-color);\n  white-space: nowrap;\n}\n"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Playlists"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Favorite Songs",
+                  "secondary": "Music",
+                  "icon": "mdi:playlist-music",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "fill_container": false,
+                  "layout_options": {
+                    "grid_columns": 2,
+                    "grid_rows": 1
+                  },
+                  "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
+                  "entity": "script.sonos_playlist_favorite_songs",
+                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Country Caffeine",
+                  "secondary": "Music",
+                  "icon": "mdi:playlist-music",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "fill_container": false,
+                  "layout_options": {
+                    "grid_columns": 2,
+                    "grid_rows": 1
+                  },
+                  "entity": "script.sonos_playlist_country_caffeine",
+                  "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
+                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Country Risers",
+                  "secondary": "Music",
+                  "icon": "mdi:playlist-music",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "fill_container": false,
+                  "layout_options": {
+                    "grid_columns": 2,
+                    "grid_rows": 1
+                  },
+                  "entity": "script.sonos_playlist_country_risers",
+                  "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
+                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Little Bit Country",
+                  "secondary": "Music",
+                  "icon": "mdi:playlist-music",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "fill_container": false,
+                  "layout_options": {
+                    "grid_columns": 2,
+                    "grid_rows": 1
+                  },
+                  "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
+                  "entity": "script.sonos_playlist_little_bit_country",
+                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Two-Step Music",
+                  "secondary": "Music",
+                  "icon": "mdi:playlist-music",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "fill_container": false,
+                  "layout_options": {
+                    "grid_columns": 2,
+                    "grid_rows": 1
+                  },
+                  "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
+                  "entity": "script.sonos_playlist_two_step_music",
+                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "West Cost Swing",
+                  "secondary": "Music",
+                  "icon": "mdi:playlist-music",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "fill_container": false,
+                  "layout_options": {
+                    "grid_columns": 2,
+                    "grid_rows": 1
+                  },
+                  "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
+                  "entity": "script.sonos_playlist_west_coast_swing",
+                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                }
+              ]
+            }
+          ],
+          "visible": [
+            {
+              "user": "1ded8e209ad549f485beba7917c76729"
+            }
+          ],
+          "max_columns": 4,
+          "theme": "HA Modified"
+        },
+        {
+          "title": "Home Theater",
+          "path": "home-theater",
+          "icon": "mdi:television",
+          "type": "sections",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Living Room"
+                },
+                {
+                  "type": "tile",
+                  "entity": "media_player.living_room_apple_tv",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "name": "Apple TV",
+                  "icon_tap_action": {
+                    "action": "perform-action",
+                    "perform_action": "media_player.toggle",
+                    "target": {
+                      "entity_id": "media_player.living_room_apple_tv"
+                    }
+                  },
+                  "state_content": [
+                    "state",
+                    "media_title"
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "entity": "media_player.living_room_tv",
+                  "name": "Sony Bravia",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  }
+                },
+                {
+                  "type": "tile",
+                  "entity": "media_player.denon_avr_x4300h",
+                  "name": "Denon AVR",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Rec Room"
+                },
+                {
+                  "type": "tile",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "name": "Apple TV",
+                  "icon_tap_action": {
+                    "action": "perform-action",
+                    "perform_action": "media_player.toggle",
+                    "target": {
+                      "entity_id": "media_player.rec_room_apple_tv"
+                    }
+                  },
+                  "entity": "media_player.rec_room_apple_tv",
+                  "state_content": [
+                    "state",
+                    "media_title"
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "entity": "media_player.rec_room_tv",
+                  "name": "Sony Bravia",
+                  "icon": "mdi:television",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Plex Streams"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.tautulli_lan_bandwidth"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.tautulli_wan_bandwidth"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Alexis",
+                  "secondary": "{{ states(\"sensor.tautulli_alexbussa_full_title\") ~ \" (\" ~ states(\"sensor.tautulli_alexbussa_progress\") ~ \"%)\" }}",
+                  "icon": "",
+                  "entity": "sensor.tautulli_alexbussa_state",
+                  "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_alexbussa_state\", \"playing\") else \"mdi:pause\" }}",
+                  "fill_container": false,
+                  "multiline_secondary": false,
+                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_alexbussa_state\", \"playing\") }}",
+                  "picture": "{{ states(\"sensor.tautulli_alexbussa_session_thumbnail\") }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "double_tap_action": {
+                    "action": "more-info"
+                  },
+                  "layout": "horizontal",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_alexbussa_state",
+                      "state_not": "unknown"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Andrew",
+                  "secondary": "{{ states(\"sensor.tautulli_acouch12_full_title\") ~ \" (\" ~ states(\"sensor.tautulli_acouch12_progress\") ~ \"%)\" }}",
+                  "icon": "",
+                  "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_acouch12_state\", \"playing\") else \"mdi:pause\" }}",
+                  "fill_container": false,
+                  "multiline_secondary": false,
+                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_acouch12_state\", \"playing\") }}",
+                  "picture": "{{ states(\"sensor.tautulli_acouch12_session_thumbnail\") }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "double_tap_action": {
+                    "action": "more-info"
+                  },
+                  "layout": "horizontal",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_acouch12_state",
+                      "state_not": "unknown"
+                    }
+                  ],
+                  "entity": "sensor.tautulli_acouch12_state"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Chelsea",
+                  "secondary": "{{ states(\"sensor.tautulli_chelsea209_full_title\") ~ \" (\" ~ states(\"sensor.tautulli_chelsea209_progress\") ~ \"%)\" }}",
+                  "icon": "",
+                  "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_chelsea209_state\", \"playing\") else \"mdi:pause\" }}",
+                  "fill_container": false,
+                  "multiline_secondary": false,
+                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_chelsea209_state\", \"playing\") }}",
+                  "picture": "{{ states(\"sensor.tautulli_chelsea209_session_thumbnail\") }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "double_tap_action": {
+                    "action": "more-info"
+                  },
+                  "layout": "horizontal",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_chelsea209_state",
+                      "state_not": "unknown"
+                    }
+                  ],
+                  "entity": "sensor.tautulli_chelsea209_state"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Hybred",
+                  "secondary": "{{ states(\"sensor.tautulli_hybred_full_title\") ~ \" (\" ~ states(\"sensor.tautulli_hybred_progress\") ~ \"%)\" }}",
+                  "icon": "",
+                  "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_hybred_state\", \"playing\") else \"mdi:pause\" }}",
+                  "fill_container": false,
+                  "multiline_secondary": false,
+                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_hybred_state\", \"playing\") }}",
+                  "picture": "{{ states(\"sensor.tautulli_hybred_session_thumbnail\") }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "double_tap_action": {
+                    "action": "more-info"
+                  },
+                  "layout": "horizontal",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_hybred_state",
+                      "state_not": "unknown"
+                    }
+                  ],
+                  "entity": "sensor.tautulli_hybred_state"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Mom",
+                  "secondary": "{{ states(\"sensor.tautulli_jan553_full_title\") ~ \" (\" ~ states(\"sensor.tautulli_jan553_progress\") ~ \"%)\" }}",
+                  "icon": "",
+                  "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_jan553_state\", \"playing\") else \"mdi:pause\" }}",
+                  "fill_container": false,
+                  "multiline_secondary": false,
+                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_jan553_state\", \"playing\") }}",
+                  "picture": "{{ states(\"sensor.tautulli_jan553_session_thumbnail\") }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "double_tap_action": {
+                    "action": "more-info"
+                  },
+                  "layout": "horizontal",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_jan553_state",
+                      "state_not": "unknown"
+                    }
+                  ],
+                  "entity": "sensor.tautulli_jan553_state"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Jeff",
+                  "secondary": "{{ states(\"sensor.tautulli_mindblender_full_title\") ~ \" (\" ~ states(\"sensor.tautulli_mindblender_progress\") ~ \"%)\" }}",
+                  "icon": "",
+                  "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_mindblender_state\", \"playing\") else \"mdi:pause\" }}",
+                  "fill_container": false,
+                  "multiline_secondary": false,
+                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_mindblender_state\", \"playing\") }}",
+                  "picture": "{{ states(\"sensor.tautulli_mindblender_session_thumbnail\") }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "double_tap_action": {
+                    "action": "more-info"
+                  },
+                  "layout": "horizontal",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_mindblender_state",
+                      "state_not": "unknown"
+                    }
+                  ],
+                  "entity": "sensor.tautulli_mindblender_state"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Ray",
+                  "secondary": "{{ states(\"sensor.tautulli_monkypirate_full_title\") ~ \" (\" ~ states(\"sensor.tautulli_monkypirate_progress\") ~ \"%)\" }}",
+                  "icon": "",
+                  "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_monkypirate_state\", \"playing\") else \"mdi:pause\" }}",
+                  "fill_container": false,
+                  "multiline_secondary": false,
+                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_monkypirate_state\", \"playing\") }}",
+                  "picture": "{{ states(\"sensor.tautulli_monkypirate_session_thumbnail\") }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "double_tap_action": {
+                    "action": "more-info"
+                  },
+                  "layout": "horizontal",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_monkypirate_state",
+                      "state_not": "unknown"
+                    }
+                  ],
+                  "entity": "sensor.tautulli_monkypirate_state"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Tiffany",
+                  "secondary": "{{ states(\"sensor.tautulli_tiffanybeeson_full_title\") ~ \" (\" ~ states(\"sensor.tautulli_tiffanybeeson_progress\") ~ \"%)\" }}",
+                  "icon": "",
+                  "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_tiffanybeeson_state\", \"playing\") else \"mdi:pause\" }}",
+                  "fill_container": false,
+                  "multiline_secondary": false,
+                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_tiffanybeeson_state\", \"playing\") }}",
+                  "picture": "{{ states(\"sensor.tautulli_tiffanybeeson_session_thumbnail\") }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "double_tap_action": {
+                    "action": "more-info"
+                  },
+                  "layout": "horizontal",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_tiffanybeeson_state",
+                      "state_not": "unknown"
+                    }
+                  ],
+                  "entity": "sensor.tautulli_tiffanybeeson_state"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "Zach",
+                  "secondary": "{{ states(\"sensor.tautulli_zharm_full_title\") ~ \" (\" ~ states(\"sensor.tautulli_zharm_progress\") ~ \"%)\" }}",
+                  "icon": "",
+                  "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_zharm_state\", \"playing\") else \"mdi:pause\" }}",
+                  "fill_container": false,
+                  "multiline_secondary": false,
+                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_zharm_state\", \"playing\") }}",
+                  "picture": "{{ states(\"sensor.tautulli_zharm_session_thumbnail\") }}",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "double_tap_action": {
+                    "action": "more-info"
+                  },
+                  "layout": "horizontal",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_zharm_state",
+                      "state_not": "unknown"
+                    }
+                  ],
+                  "entity": "sensor.tautulli_zharm_state"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "No Streams",
+                  "secondary": "",
+                  "icon": "mdi:video-account",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_alexbussa_state",
+                      "state": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_acouch12_state",
+                      "state": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_chelsea209_state",
+                      "state": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_hybred_state",
+                      "state": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_jan553_state",
+                      "state": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_mindblender_state",
+                      "state": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_monkypirate_state",
+                      "state": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_tiffanybeeson_state",
+                      "state": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "sensor.tautulli_zharm_state",
+                      "state": "unknown"
+                    }
+                  ],
+                  "layout": "horizontal",
+                  "tap_action": {
+                    "action": "none"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                }
+              ]
+            }
+          ],
+          "visible": [
+            {
+              "user": "1ded8e209ad549f485beba7917c76729"
+            }
+          ],
+          "cards": [],
+          "max_columns": 4,
+          "theme": "HA Modified"
+        },
+        {
+          "title": "Security",
+          "path": "security",
+          "icon": "mdi:shield-home",
+          "type": "sections",
+          "max_columns": 4,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "chips": [
+                    {
+                      "type": "entity",
+                      "entity": "sensor.dashboard_occupancy_state"
+                    },
+                    {
+                      "type": "template",
+                      "entity": "sensor.dashboard_home_state",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-phone/security"
+                      },
+                      "hold_action": {
+                        "action": "none"
+                      },
+                      "double_tap_action": {
+                        "action": "none"
+                      },
+                      "icon": "{{ state_attr(entity, \"icon\") }}",
+                      "icon_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"Secure\") else \"var(--mush-rgb-red)\" }}\n",
+                      "content": "{{ states(entity) }}"
+                    },
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "sensor.dashboard_garage_actual_status_short",
+                          "state_not": "off"
+                        }
+                      ],
+                      "chip": {
+                        "type": "entity",
+                        "entity": "sensor.dashboard_garage_actual_status_short",
+                        "tap_action": {
+                          "action": "navigate",
+                          "navigation_path": "/lovelace/security"
+                        },
+                        "hold_action": {
+                          "action": "none"
+                        },
+                        "double_tap_action": {
+                          "action": "none"
+                        },
+                        "icon": "mdi:garage-open-variant",
+                        "icon_color": "amber"
+                      }
+                    },
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "sensor.dashboard_open_door_status_short",
+                          "state_not": "off"
+                        }
+                      ],
+                      "chip": {
+                        "type": "entity",
+                        "entity": "sensor.dashboard_open_door_status_short",
+                        "tap_action": {
+                          "action": "navigate",
+                          "navigation_path": "/lovelace/security"
+                        },
+                        "hold_action": {
+                          "action": "none"
+                        },
+                        "double_tap_action": {
+                          "action": "none"
+                        },
+                        "icon": "mdi:door-open",
+                        "icon_color": "amber"
+                      }
+                    },
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "sensor.dashboard_open_window_status_short",
+                          "state_not": "off"
+                        }
+                      ],
+                      "chip": {
+                        "type": "entity",
+                        "entity": "sensor.dashboard_open_window_status_short",
+                        "tap_action": {
+                          "action": "navigate",
+                          "navigation_path": "/lovelace/security"
+                        },
+                        "hold_action": {
+                          "action": "none"
+                        },
+                        "double_tap_action": {
+                          "action": "none"
+                        },
+                        "icon": "mdi:window-open",
+                        "icon_color": "amber"
+                      }
+                    },
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "input_boolean.mode_simulate_presence",
+                          "state": "on"
+                        }
+                      ],
+                      "chip": {
+                        "type": "entity",
+                        "entity": "sensor.mode_simulate_presence"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card {\n  height: 100%;\n}\nha-card .chip-container {\n  flex-flow: nowrap !important;\n  overflow-y: auto;\n  align-items: flex-end !important;\n  height: 100%;\n  margin-right: -8px;\n  padding-right: 8px;\n  margin-left: -8px;\n  padding-left: 8px;\n  padding-bottom: 4px;\n}\nha-card .chip-container::-webkit-scrollbar {\n  display: none;\n}\nha-card mushroom-entity-chip {\n  white-space: nowrap;\n}\nha-card mushroom-template-chip {\n  white-space: nowrap;\n}\nha-card mushroom-weather-chip {\n  white-space: nowrap;\n}\n"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Doors"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "{{ state_attr(entity, 'friendly_name') }}",
+                  "secondary": "{% if is_state('cover.garage_actual', 'open') and (now() > states.cover.garage_actual.last_changed + timedelta(minutes=10)) %}\n  {% set delta = (now() - states.cover.garage_actual.last_changed) | string  %}\n  {{ states(entity) | capitalize + ' ⸱ ' + delta.split(':')[1] + ' min' }}\n{% else %}\n  {{ states(entity) | capitalize }}\n{% endif %}\n",
+                  "icon": "{{ state_attr(entity, 'icon') }}",
+                  "entity": "cover.garage_actual",
+                  "badge_icon": "{% if is_state('cover.garage_actual', 'open') and (now() > states.cover.garage_actual.last_changed + timedelta(minutes=10)) %}\nmdi:exclamation-thick\n{% endif %}",
+                  "badge_color": "var(--mush-rgb-red)",
+                  "icon_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"closed\") else \"var(--mush-rgb-amber)\" }}",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  }
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.garage_door",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "binary_sensor.garage_door",
+                      "state": "on"
+                    }
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "entity": "lock.august_web_garage_door",
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  },
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "binary_sensor.garage_door",
+                      "state_not": "on"
+                    }
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.front_door",
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "binary_sensor.front_door",
+                      "state": "on"
+                    }
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "entity": "lock.august_web_front_door",
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  },
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "binary_sensor.front_door",
+                      "state_not": "on"
+                    }
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.patio_door"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.den_door"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Windows"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.kitchen_windows",
+                  "name": "Kitchen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.living_room_windows",
+                  "name": "Living Room"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.rec_room_windows",
+                  "name": "Rec Room"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.bedroom_windows",
+                  "name": "Bedroom"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.den_windows",
+                  "name": "Den"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.studio_windows",
+                  "name": "Studio"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Motion"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.garage_motion_sensor",
+                  "name": "Garage"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.garage_stairs_multisensor_sensor",
+                  "name": "Garage Stairs"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.front_door_motion",
+                  "name": "Front Door"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.downstairs_hallway_motion",
+                  "name": "Downstairs Hallway"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.main_floor_motion",
+                  "name": "Kitchen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.living_room_motion_sensor",
+                  "name": "Living Room"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.main_stairs_multisensor_sensor",
+                  "name": "Main Stairs"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.upstairs_hallway_motion_sensor",
+                  "name": "Upstairs Hallway"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.bedroom_closet_trisensor_sensor",
+                  "name": "Bedroom Closet"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.den_multisensor_sensor",
+                  "name": "Den Hallway"
+                }
+              ]
+            }
+          ],
+          "visible": [
+            {
+              "user": "1ded8e209ad549f485beba7917c76729"
+            }
+          ],
+          "cards": [],
+          "theme": "HA Modified"
+        },
+        {
+          "title": "Health",
+          "path": "health",
+          "icon": "mdi:heart-pulse",
+          "type": "sections",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Home Assistant OS"
+                },
+                {
+                  "type": "entities",
+                  "show_header_toggle": false,
+                  "entities": [
+                    {
+                      "entity": "sensor.home_assistant_pi_load_15m",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Load",
+                      "show_state": false,
+                      "entities": [
+                        {
+                          "entity": "sensor.home_assistant_pi_load_1m",
+                          "name": "1 min",
+                          "unit": " "
+                        },
+                        {
+                          "entity": "sensor.home_assistant_pi_load_5m",
+                          "name": "5 min",
+                          "unit": " "
+                        },
+                        {
+                          "entity": "sensor.home_assistant_pi_load_15m",
+                          "name": "15 min",
+                          "unit": " "
+                        },
+                        {
+                          "entity": "sensor.home_assistant_pi_memory_usage",
+                          "name": "RAM"
+                        }
+                      ]
+                    },
+                    {
+                      "entity": "sensor.home_assistant_pi_processor_temperature",
+                      "type": "custom:multiple-entity-row",
+                      "name": "CPU Temp",
+                      "show_state": true
+                    },
+                    {
+                      "entity": "sensor.home_assistant_pi_disk_usage",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Storage",
+                      "show_state": true
+                    },
+                    {
+                      "entity": "sensor.unifi_switch_16_overwatch_poe_power",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Power",
+                      "show_state": true
+                    }
+                  ],
+                  "state_color": false
+                },
+                {
+                  "type": "custom:uptime-card",
+                  "entity": "sensor.home_assistant_status",
+                  "hours_to_show": 12,
+                  "icon": "mdi:arrow-up-circle-outline",
+                  "ko_icon": "mdi:arrow-down-circle-outline",
+                  "update_interval": 30,
+                  "severity": 20,
+                  "title_adaptive_color": false,
+                  "status_adaptive_color": true,
+                  "icon_adaptive_color": true,
+                  "tooltip_adaptive_color": true,
+                  "color": {
+                    "title": "var(--card-primary-color)",
+                    "footer": "var(--light-grey-color)",
+                    "ok": "var(--green-color)",
+                    "ko": "var(--red-color)",
+                    "half": "var(--yellow-color)"
+                  },
+                  "alias": {
+                    "ok": "Online",
+                    "ko": "Offline"
+                  },
+                  "title_template": "[[[ return entity.attributes.friendly_name; ]]]",
+                  "bar": {
+                    "height": 12,
+                    "round": 2,
+                    "amount": 12
+                  },
+                  "show": {
+                    "status": false
+                  },
+                  "ok": "up",
+                  "ko": "down"
+                },
+                {
+                  "type": "custom:uptime-card",
+                  "entity": "sensor.nginx_proxy_manager_status",
+                  "hours_to_show": 12,
+                  "icon": "mdi:arrow-up-circle-outline",
+                  "ko_icon": "mdi:arrow-down-circle-outline",
+                  "update_interval": 30,
+                  "severity": 20,
+                  "title_adaptive_color": false,
+                  "status_adaptive_color": true,
+                  "icon_adaptive_color": true,
+                  "tooltip_adaptive_color": true,
+                  "color": {
+                    "title": "var(--card-primary-color)",
+                    "footer": "var(--light-grey-color)",
+                    "ok": "var(--green-color)",
+                    "ko": "var(--red-color)",
+                    "half": "var(--yellow-color)"
+                  },
+                  "alias": {
+                    "ok": "Online",
+                    "ko": "Offline"
+                  },
+                  "title_template": "[[[ return entity.attributes.friendly_name; ]]]",
+                  "bar": {
+                    "height": 12,
+                    "round": 2,
+                    "amount": 12
+                  },
+                  "show": {
+                    "status": false
+                  },
+                  "ok": "up",
+                  "ko": "down"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Black Pearl"
+                },
+                {
+                  "type": "entities",
+                  "show_header_toggle": false,
+                  "entities": [
+                    {
+                      "entity": "sensor.black_pearl_cpu_load_15",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Load",
+                      "show_state": false,
+                      "entities": [
+                        {
+                          "entity": "sensor.black_pearl_cpu_load_1",
+                          "name": "1 min",
+                          "unit": " "
+                        },
+                        {
+                          "entity": "sensor.black_pearl_cpu_load_5",
+                          "name": "5 min",
+                          "unit": " "
+                        },
+                        {
+                          "entity": "sensor.black_pearl_cpu_load_15",
+                          "name": "15 min",
+                          "unit": " "
+                        },
+                        {
+                          "entity": "sensor.black_pearl_ram_used",
+                          "name": "RAM"
+                        }
+                      ]
+                    },
+                    {
+                      "entity": "sensor.black_pearl_cpu_temp",
+                      "type": "custom:multiple-entity-row",
+                      "name": "CPU Temp",
+                      "show_state": true
+                    },
+                    {
+                      "entity": "sensor.black_pearl_disk_used",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Storage",
+                      "show_state": true
+                    },
+                    {
+                      "entity": "sensor.unifi_switch_16_port_9_poe_power",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Power",
+                      "show_state": true
+                    },
+                    {
+                      "entity": "sensor.sabnzbd_queue_count",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Downloads",
+                      "icon": "mdi:progress-download",
+                      "show_state": true
+                    }
+                  ],
+                  "state_color": false
+                },
+                {
+                  "type": "custom:uptime-card",
+                  "entity": "sensor.sonarr_status",
+                  "hours_to_show": 12,
+                  "icon": "mdi:arrow-up-circle-outline",
+                  "ko_icon": "mdi:arrow-down-circle-outline",
+                  "update_interval": 30,
+                  "severity": 20,
+                  "title_adaptive_color": false,
+                  "status_adaptive_color": true,
+                  "icon_adaptive_color": true,
+                  "tooltip_adaptive_color": true,
+                  "color": {
+                    "title": "var(--card-primary-color)",
+                    "footer": "var(--light-grey-color)",
+                    "ok": "var(--green-color)",
+                    "ko": "var(--red-color)",
+                    "half": "var(--yellow-color)"
+                  },
+                  "alias": {
+                    "ok": "Online",
+                    "ko": "Offline"
+                  },
+                  "title_template": "[[[ return entity.attributes.friendly_name; ]]]",
+                  "bar": {
+                    "height": 12,
+                    "round": 2,
+                    "amount": 12
+                  },
+                  "show": {
+                    "status": false
+                  },
+                  "ok": "up",
+                  "ko": "down"
+                },
+                {
+                  "type": "custom:uptime-card",
+                  "entity": "sensor.sabnzbd_status_2",
+                  "hours_to_show": 12,
+                  "icon": "mdi:arrow-up-circle-outline",
+                  "ko_icon": "mdi:arrow-down-circle-outline",
+                  "update_interval": 30,
+                  "severity": 20,
+                  "title_adaptive_color": false,
+                  "status_adaptive_color": true,
+                  "icon_adaptive_color": true,
+                  "tooltip_adaptive_color": true,
+                  "color": {
+                    "title": "var(--card-primary-color)",
+                    "footer": "var(--light-grey-color)",
+                    "ok": "var(--green-color)",
+                    "ko": "var(--red-color)",
+                    "half": "var(--yellow-color)"
+                  },
+                  "alias": {
+                    "ok": "Online",
+                    "ko": "Offline"
+                  },
+                  "title_template": "[[[ return entity.attributes.friendly_name; ]]]",
+                  "bar": {
+                    "height": 12,
+                    "round": 2,
+                    "amount": 12
+                  },
+                  "show": {
+                    "status": false
+                  },
+                  "ok": "up",
+                  "ko": "down"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Woodhouse"
+                },
+                {
+                  "type": "entities",
+                  "show_header_toggle": false,
+                  "entities": [
+                    {
+                      "entity": "sensor.woodhouse_cpu_load_15",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Load",
+                      "show_state": false,
+                      "entities": [
+                        {
+                          "entity": "sensor.woodhouse_cpu_load_1",
+                          "name": "1 min",
+                          "unit": " "
+                        },
+                        {
+                          "entity": "sensor.woodhouse_cpu_load_5",
+                          "name": "5 min",
+                          "unit": " "
+                        },
+                        {
+                          "entity": "sensor.woodhouse_cpu_load_15",
+                          "name": "15 min",
+                          "unit": " "
+                        },
+                        {
+                          "entity": "sensor.woodhouse_ram_used",
+                          "name": "RAM"
+                        }
+                      ]
+                    },
+                    {
+                      "entity": "sensor.woodhouse_cpu1_temp",
+                      "type": "custom:multiple-entity-row",
+                      "name": "CPU Temp",
+                      "show_state": false,
+                      "entities": [
+                        {
+                          "entity": "sensor.woodhouse_cpu1_temp",
+                          "name": "CPU 1"
+                        },
+                        {
+                          "entity": "sensor.woodhouse_cpu2_temp",
+                          "name": "CPU 2"
+                        }
+                      ]
+                    },
+                    {
+                      "entity": "sensor.woodhouse_disk_used",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Storage",
+                      "show_state": true
+                    },
+                    {
+                      "entity": "sensor.tautulli",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Streams",
+                      "show_state": true,
+                      "unit": " "
+                    }
+                  ],
+                  "state_color": false
+                },
+                {
+                  "type": "custom:uptime-card",
+                  "entity": "sensor.plex_status",
+                  "hours_to_show": 12,
+                  "icon": "mdi:arrow-up-circle-outline",
+                  "ko_icon": "mdi:arrow-down-circle-outline",
+                  "update_interval": 30,
+                  "severity": 20,
+                  "title_adaptive_color": false,
+                  "status_adaptive_color": true,
+                  "icon_adaptive_color": true,
+                  "tooltip_adaptive_color": true,
+                  "color": {
+                    "title": "var(--card-primary-color)",
+                    "footer": "var(--light-grey-color)",
+                    "ok": "var(--green-color)",
+                    "ko": "var(--red-color)",
+                    "half": "var(--yellow-color)"
+                  },
+                  "alias": {
+                    "ok": "Online",
+                    "ko": "Offline"
+                  },
+                  "title_template": "[[[ return entity.attributes.friendly_name; ]]]",
+                  "bar": {
+                    "height": 12,
+                    "round": 2,
+                    "amount": 12
+                  },
+                  "show": {
+                    "status": false
+                  },
+                  "ok": "up",
+                  "ko": "down"
+                },
+                {
+                  "type": "custom:uptime-card",
+                  "entity": "sensor.tautulli_status",
+                  "hours_to_show": 12,
+                  "icon": "mdi:arrow-up-circle-outline",
+                  "ko_icon": "mdi:arrow-down-circle-outline",
+                  "update_interval": 30,
+                  "severity": 20,
+                  "title_adaptive_color": false,
+                  "status_adaptive_color": true,
+                  "icon_adaptive_color": true,
+                  "tooltip_adaptive_color": true,
+                  "color": {
+                    "title": "var(--card-primary-color)",
+                    "footer": "var(--light-grey-color)",
+                    "ok": "var(--green-color)",
+                    "ko": "var(--red-color)",
+                    "half": "var(--yellow-color)"
+                  },
+                  "alias": {
+                    "ok": "Online",
+                    "ko": "Offline"
+                  },
+                  "title_template": "[[[ return entity.attributes.friendly_name; ]]]",
+                  "bar": {
+                    "height": 12,
+                    "round": 2,
+                    "amount": 12
+                  },
+                  "show": {
+                    "status": false
+                  },
+                  "ok": "up",
+                  "ko": "down"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "UniFi Dream Machine Pro"
+                },
+                {
+                  "type": "entities",
+                  "show_header_toggle": false,
+                  "entities": [
+                    {
+                      "entity": "sensor.unifi_udm_pro_cpu_utilization",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Load",
+                      "show_state": false,
+                      "entities": [
+                        {
+                          "entity": "sensor.unifi_udm_pro_cpu_utilization",
+                          "name": "CPU"
+                        },
+                        {
+                          "entity": "sensor.unifi_udm_pro_memory_utilization",
+                          "name": "RAM"
+                        }
+                      ]
+                    },
+                    {
+                      "entity": "sensor.nowhere_storage_utilization",
+                      "type": "custom:multiple-entity-row",
+                      "name": "Storage",
+                      "show_state": false,
+                      "entities": [
+                        {
+                          "entity": "binary_sensor.nowhere_hdd_1",
+                          "name": "SSD"
+                        },
+                        {
+                          "entity": "sensor.nowhere_storage_utilization",
+                          "name": "Utilization"
+                        }
+                      ]
+                    }
+                  ],
+                  "state_color": false
+                },
+                {
+                  "type": "custom:uptime-card",
+                  "entity": "sensor.unifi_console_status",
+                  "hours_to_show": 12,
+                  "icon": "mdi:arrow-up-circle-outline",
+                  "ko_icon": "mdi:arrow-down-circle-outline",
+                  "update_interval": 30,
+                  "severity": 20,
+                  "title_adaptive_color": false,
+                  "status_adaptive_color": true,
+                  "icon_adaptive_color": true,
+                  "tooltip_adaptive_color": true,
+                  "color": {
+                    "title": "var(--card-primary-color)",
+                    "footer": "var(--light-grey-color)",
+                    "ok": "var(--green-color)",
+                    "ko": "var(--red-color)",
+                    "half": "var(--yellow-color)"
+                  },
+                  "alias": {
+                    "ok": "Online",
+                    "ko": "Offline"
+                  },
+                  "title_template": "[[[ return entity.attributes.friendly_name; ]]]",
+                  "bar": {
+                    "height": 12,
+                    "round": 2,
+                    "amount": 12
+                  },
+                  "show": {
+                    "status": false
+                  },
+                  "ok": "up",
+                  "ko": "down"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Batteries"
+                },
+                {
+                  "type": "entities",
+                  "show_header_toggle": false,
+                  "entities": [
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.august_web_front_door_battery",
+                      "name": "Front Door Lock",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    },
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.august_web_garage_door_battery",
+                      "name": "Garage Door Lock",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    },
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.garage_motion_battery_level",
+                      "name": "Garage Motion Sensor",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    },
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.garage_stairs_multisensor_battery_level",
+                      "name": "Garage Stairs MultiSensor",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    },
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.downstairs_hallway_trisensor_battery_level",
+                      "name": "Downstairs Hallway TriSensor",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    },
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.main_stairs_multisensor_battery_level",
+                      "name": "Main Stairs MultiSensor",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    },
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.bedroom_closet_door_battery_level",
+                      "name": "Bedroom Closet Door Sensor",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    },
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.bedroom_closet_trisensor_battery_level",
+                      "name": "Bedroom Closet TriSensor",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    },
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.laundry_door_left_battery_level",
+                      "name": "Laundry Door Left Sensor",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    },
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.laundry_door_right_battery_level",
+                      "name": "Laundry Door Right Sensor",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    },
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.den_multisensor_battery_level",
+                      "name": "Den MultiSensor",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    },
+                    {
+                      "type": "custom:template-entity-row",
+                      "entity": "sensor.studio_closet_door_battery_level",
+                      "name": "Studio Closet Door Sensor",
+                      "state": "{{ states(config.entity) | int(0) }}%"
+                    }
+                  ],
+                  "state_color": true
+                }
+              ]
+            }
+          ],
+          "visible": [
+            {
+              "user": "1ded8e209ad549f485beba7917c76729"
+            }
+          ],
+          "cards": [],
+          "max_columns": 4,
+          "theme": "HA Modified"
+        },
+        {
+          "title": "Preferences",
+          "path": "preferences",
+          "icon": "mdi:account-cog",
+          "type": "sections",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Dimming"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.dashboard_date_time",
+                  "icon": "mdi:clock-time-five-outline",
+                  "name": "Prefer Lighting High Time",
+                  "show_entity_picture": false,
+                  "hide_state": false,
+                  "tap_action": {
+                    "action": "none"
+                  },
+                  "icon_tap_action": {
+                    "action": "none"
+                  },
+                  "state_content": "prefer_high",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  }
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.dashboard_date_time",
+                  "icon": "mdi:clock-time-seven-outline",
+                  "name": "Prefer Lighting Mid Time",
+                  "show_entity_picture": false,
+                  "hide_state": false,
+                  "tap_action": {
+                    "action": "none"
+                  },
+                  "icon_tap_action": {
+                    "action": "none"
+                  },
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "state_content": "prefer_mid"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.dashboard_date_time",
+                  "icon": "mdi:clock-time-nine-outline",
+                  "name": "Prefer Lighting Low Time",
+                  "show_entity_picture": false,
+                  "hide_state": false,
+                  "tap_action": {
+                    "action": "none"
+                  },
+                  "icon_tap_action": {
+                    "action": "none"
+                  },
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "state_content": "prefer_low"
+                },
+                {
+                  "type": "tile",
+                  "icon": "mdi:progress-download",
+                  "name": "Progressive Dimming at Night",
+                  "show_entity_picture": false,
+                  "hide_state": false,
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  },
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "entity": "automation.update_lights_at_night_progressive_dimming"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Motion"
+                },
+                {
+                  "type": "tile",
+                  "icon": "mdi:walk",
+                  "show_entity_picture": false,
+                  "hide_state": false,
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  },
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "entity": "automation.garage_lighting_on_motion",
+                  "name": "Garage"
+                },
+                {
+                  "type": "tile",
+                  "icon": "mdi:walk",
+                  "show_entity_picture": false,
+                  "hide_state": false,
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  },
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "name": "Garage Stairs",
+                  "entity": "automation.garage_stairs_lighting_on_motion"
+                },
+                {
+                  "type": "tile",
+                  "icon": "mdi:walk",
+                  "show_entity_picture": false,
+                  "hide_state": false,
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  },
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "entity": "automation.downstairs_hallway_lighting_on_motion",
+                  "name": "Downstairs Hallway"
+                },
+                {
+                  "type": "tile",
+                  "icon": "mdi:walk",
+                  "show_entity_picture": false,
+                  "hide_state": false,
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  },
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "name": "Upstairs Hallway Group",
+                  "entity": "automation.upstairs_hallway_group_lighting_on_motion"
+                },
+                {
+                  "type": "tile",
+                  "icon": "mdi:walk",
+                  "show_entity_picture": false,
+                  "hide_state": false,
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  },
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "name": "Den Hallway",
+                  "entity": "automation.den_hallway_lighting_on_motion"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Security"
+                },
+                {
+                  "type": "tile",
+                  "entity": "automation.simulate_presence_mode_update_lights",
+                  "name": "Simulate Presence at Night",
+                  "icon": "mdi:home-lightbulb",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  }
+                }
+              ]
+            }
+          ],
+          "visible": [
+            {
+              "user": "1ded8e209ad549f485beba7917c76729"
+            }
+          ],
+          "cards": [],
+          "max_columns": 4,
+          "theme": "Catppuccin Frappe",
+          "subview": true,
+          "layout": {
+            "back_path": "/ui-data/climate"
+          }
+        },
+        {
+          "title": "Modes",
+          "path": "modes",
+          "icon": "mdi:tag",
+          "theme": "Catppuccin Frappe",
+          "type": "sections",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "System Modes"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.mode_morning",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "color": "orange"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.mode_day",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "color": "yellow"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.mode_sunset",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "color": "orange"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.mode_night",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "color": "purple"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "User Modes"
+                },
+                {
+                  "type": "tile",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "entity": "input_boolean.mode_home_theater",
+                  "color": "orange"
+                },
+                {
+                  "type": "tile",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "icon": "mdi:broom",
+                  "color": "yellow",
+                  "entity": "input_boolean.mode_house_cleaning"
+                },
+                {
+                  "type": "tile",
+                  "entity": "input_boolean.mode_laundry",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "icon": "mdi:washing-machine",
+                  "name": "Laundry Mode",
+                  "color": "blue"
+                },
+                {
+                  "type": "tile",
+                  "entity": "input_boolean.mode_sleep",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "color": "purple"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Security Modes"
+                },
+                {
+                  "type": "tile",
+                  "entity": "input_boolean.mode_guest",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "input_boolean.mode_simulate_presence",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "icon": "mdi:home-lightbulb",
+                  "color": "amber"
+                },
+                {
+                  "type": "tile",
+                  "entity": "input_boolean.mode_stranger_danger",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "icon": "mdi:shield-account",
+                  "color": "red",
+                  "name": "Stranger Danger Mode"
+                }
+              ]
+            }
+          ],
+          "max_columns": 4,
+          "subview": true,
+          "cards": []
+        }
+      ]
+    }
+  }
+}
