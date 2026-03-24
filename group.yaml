@@ -5,7 +5,7 @@ residents:
   name: Residents
   icon: mdi:account-multiple
   entities:
-    - person.alexis
+    - person.lexi
 
 ##############################################################
 # Lights
