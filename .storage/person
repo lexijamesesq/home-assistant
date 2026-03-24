@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "minor_version": 1,
+  "key": "person",
+  "data": {
+    "items": [
+      {
+        "id": "lexi",
+        "name": "Lexi",
+        "device_trackers": [
+          "device_tracker.alexis_iphone"
+        ],
+        "user_id": "1ded8e209ad549f485beba7917c76729",
+        "picture": "/api/image/serve/43d5c70fd99c5f93f9e46d7e58e4176c/512x512"
+      },
+      {
+        "id": "octavia",
+        "name": "Octavia",
+        "device_trackers": [
+          "device_tracker.octavia"
+        ],
+        "user_id": null,
+        "picture": "/api/image/serve/c3b8fe4b375539828b527a225314bdeb/512x512"
+      }
+    ]
+  }
+}

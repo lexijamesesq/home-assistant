@@ -1,0 +1,160 @@
+{
+  "version": 1,
+  "minor_version": 2,
+  "key": "core.category_registry",
+  "data": {
+    "categories": {
+      "script": [
+        {
+          "category_id": "01J54M5B2SA8TB2H8FN4SRYD7M",
+          "created_at": "2024-08-13T01:03:11.961600+00:00",
+          "icon": "mdi:palette",
+          "modified_at": "2024-08-13T01:03:11.961616+00:00",
+          "name": "Scenes"
+        },
+        {
+          "category_id": "01J54S3BA1523J7Y9ZRC3EZQAB",
+          "created_at": "2024-08-13T02:29:29.537840+00:00",
+          "icon": "mdi:thermostat",
+          "modified_at": "2024-08-13T02:29:29.537857+00:00",
+          "name": "Climate"
+        },
+        {
+          "category_id": "01J54S4NRFD79AD90CJV3WW2S3",
+          "created_at": "2024-08-13T02:30:13.007881+00:00",
+          "icon": "mdi:shield-home",
+          "modified_at": "2024-08-13T22:34:31.256277+00:00",
+          "name": "Security"
+        },
+        {
+          "category_id": "01J54S5KQSGKVMCTTVFF0CMAVF",
+          "created_at": "2024-08-13T02:30:43.705977+00:00",
+          "icon": "mdi:hammer-wrench",
+          "modified_at": "2024-08-13T02:30:43.705993+00:00",
+          "name": "Utility"
+        },
+        {
+          "category_id": "01J54TDT414X2XSMNQ6V0073R8",
+          "created_at": "2024-08-13T02:52:40.961540+00:00",
+          "icon": "mdi:music",
+          "modified_at": "2024-08-13T22:44:13.520911+00:00",
+          "name": "Sonos"
+        },
+        {
+          "category_id": "01J54TFQT3AX89G3ECFVP6VJP4",
+          "created_at": "2024-08-13T02:53:44.131503+00:00",
+          "icon": "mdi:lightbulb",
+          "modified_at": "2024-08-13T02:53:44.131519+00:00",
+          "name": "Lights"
+        }
+      ],
+      "automation": [
+        {
+          "category_id": "01J56T8JQMYQXHTX75CG1XTF7T",
+          "created_at": "2024-08-13T21:28:18.420840+00:00",
+          "icon": "mdi:lightbulb",
+          "modified_at": "2024-08-13T21:28:18.420864+00:00",
+          "name": "Lights"
+        },
+        {
+          "category_id": "01J56TAPYFP1MEKHTWV5ZM7YFP",
+          "created_at": "2024-08-13T21:29:28.271968+00:00",
+          "icon": "mdi:light-switch-off",
+          "modified_at": "2024-08-13T21:29:28.271984+00:00",
+          "name": "Switches"
+        },
+        {
+          "category_id": "01J56W4S21QH41GMT7A8WPEKVQ",
+          "created_at": "2024-08-13T22:01:10.977119+00:00",
+          "icon": "mdi:thermostat",
+          "modified_at": "2024-08-13T22:01:10.977137+00:00",
+          "name": "Climate"
+        },
+        {
+          "category_id": "01J56XFAN71X47C9MAW1GD7W79",
+          "created_at": "2024-08-13T22:24:25.255711+00:00",
+          "icon": "mdi:bell",
+          "modified_at": "2024-08-13T22:24:25.255728+00:00",
+          "name": "Notifications"
+        },
+        {
+          "category_id": "01J56YHSS4KVR4N7GKZ6EYQME3",
+          "created_at": "2024-08-13T22:43:14.852636+00:00",
+          "icon": "mdi:music",
+          "modified_at": "2024-08-13T22:44:25.985305+00:00",
+          "name": "Sonos"
+        },
+        {
+          "category_id": "01J56YXQZDAZH0F29G5Q3VAYXF",
+          "created_at": "2024-08-13T22:49:46.221660+00:00",
+          "icon": "mdi:tablet-dashboard",
+          "modified_at": "2024-08-13T22:49:46.221677+00:00",
+          "name": "Browser Mod"
+        },
+        {
+          "category_id": "01J56Z49GXVCJ9X0792NFXD00Y",
+          "created_at": "2024-08-13T22:53:20.797979+00:00",
+          "icon": "mdi:calendar-clock",
+          "modified_at": "2024-08-13T22:53:20.798007+00:00",
+          "name": "DateTime"
+        },
+        {
+          "category_id": "01J56ZEQ9798J1A34BVWYCWJB3",
+          "created_at": "2024-08-13T22:59:02.567523+00:00",
+          "icon": "mdi:lightning-bolt",
+          "modified_at": "2024-08-13T22:59:02.567541+00:00",
+          "name": "Energy"
+        },
+        {
+          "category_id": "01J56ZJMFNP0V4H7FBJ577Y61M",
+          "created_at": "2024-08-13T23:01:10.773761+00:00",
+          "icon": "mdi:tag",
+          "modified_at": "2024-08-13T23:01:10.773777+00:00",
+          "name": "Modes"
+        },
+        {
+          "category_id": "01J570BVJHG37JPVSF35KW5DS6",
+          "created_at": "2024-08-13T23:14:57.234000+00:00",
+          "icon": "mdi:cellphone-nfc",
+          "modified_at": "2024-08-13T23:14:57.234027+00:00",
+          "name": "NFC Tags"
+        },
+        {
+          "category_id": "01J571MBQ48J50F4G94MK9K52J",
+          "created_at": "2024-08-13T23:37:04.484623+00:00",
+          "icon": "mdi:lock",
+          "modified_at": "2024-08-13T23:37:04.484640+00:00",
+          "name": "Locks"
+        },
+        {
+          "category_id": "01J572N4GVJT7ZHB9E0HHK4JYM",
+          "created_at": "2024-08-13T23:54:58.459693+00:00",
+          "icon": "mdi:motion-sensor",
+          "modified_at": "2024-08-13T23:54:58.459711+00:00",
+          "name": "Motion"
+        },
+        {
+          "category_id": "01J5738QJJ9KV9P2WC8Y8583MK",
+          "created_at": "2024-08-14T00:05:40.562388+00:00",
+          "icon": "mdi:api",
+          "modified_at": "2024-08-14T00:05:40.562405+00:00",
+          "name": "Rest Commands"
+        },
+        {
+          "category_id": "01J573A0NQ5CN2KJR3X7BA12P3",
+          "created_at": "2024-08-14T00:06:22.647271+00:00",
+          "icon": "mdi:code-block-tags",
+          "modified_at": "2024-08-14T00:06:22.647289+00:00",
+          "name": "Shell Command"
+        },
+        {
+          "category_id": "01J5743N6CP2BFARNCHY0FBN2T",
+          "created_at": "2024-08-14T00:20:22.860915+00:00",
+          "icon": "mdi:robot-vacuum",
+          "modified_at": "2024-08-14T00:20:22.860931+00:00",
+          "name": "Vacuum"
+        }
+      ]
+    }
+  }
+}

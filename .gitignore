@@ -29,13 +29,20 @@ __pycache__/
 *.pyc
 
 # .storage — track selectively
+# Helpers (lost during backup restore 2026-03-23)
 .storage/*
 !.storage/input_*
 !.storage/timer
 !.storage/counter
 !.storage/zone
 !.storage/person
+# Dashboards
 !.storage/lovelace*
+# Organizational registries
+!.storage/core.area_registry
+!.storage/core.floor_registry
+!.storage/core.label_registry
+!.storage/core.category_registry
 
 # Legacy / obsolete
 ip_bans.yaml

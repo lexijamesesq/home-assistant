@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "minor_version": 3,
+  "key": "core.floor_registry",
+  "data": {
+    "floors": [
+      {
+        "aliases": [],
+        "floor_id": "upstairs",
+        "icon": "mdi:home-floor-2",
+        "level": 3,
+        "name": "Upstairs",
+        "created_at": "2024-08-13T03:24:13.341856+00:00",
+        "modified_at": "2026-03-23T00:43:50.463739+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": "downstairs",
+        "icon": "mdi:home-floor-1",
+        "level": 2,
+        "name": "Downstairs",
+        "created_at": "2024-08-13T03:23:07.061184+00:00",
+        "modified_at": "2026-03-23T00:43:50.039075+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": "garage",
+        "icon": "mdi:garage",
+        "level": 1,
+        "name": "Garage",
+        "created_at": "2024-08-13T03:24:55.350380+00:00",
+        "modified_at": "2026-03-23T00:43:43.293175+00:00"
+      }
+    ]
+  }
+}
