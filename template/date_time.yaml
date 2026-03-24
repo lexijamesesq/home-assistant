@@ -9,9 +9,9 @@
         date: '{{ as_timestamp(states.sensor.date.state + " " + states.sensor.time.state)  | timestamp_custom("%A, %B %d") }}'
         first_light: '{{ as_timestamp(states("input_datetime.sunrise_ends")) | timestamp_custom("%-I:%M %p") }}'
         golden_hour: '{{ as_timestamp(states("input_datetime.sunset_starts")) | timestamp_custom("%-I:%M %p") }}'
-        prefer_high: '{{ as_timestamp(states("input_datetime.prefer_lighting_high_time")) | timestamp_custom("%-I:%M %p") }}'
-        prefer_mid: '{{ as_timestamp(states("input_datetime.prefer_lighting_mid_time")) | timestamp_custom("%-I:%M %p") }}'
-        prefer_low: '{{ as_timestamp(states("input_datetime.prefer_lighting_low_time")) | timestamp_custom("%-I:%M %p") }}'
+        prefer_high: '{{ today_at(states("input_datetime.prefer_lighting_high_time")).strftime("%-I:%M %p") }}'
+        prefer_mid: '{{ today_at(states("input_datetime.prefer_lighting_mid_time")).strftime("%-I:%M %p") }}'
+        prefer_low: '{{ today_at(states("input_datetime.prefer_lighting_low_time")).strftime("%-I:%M %p") }}'
     - name: Dashboard Show First Light
       unique_id: dashboard_show_first_light
       state: '{{ "on" if as_timestamp(now()) | timestamp_custom("%H:%M:%S") <= as_timestamp(states("input_datetime.sunrise_ends")) | timestamp_custom("%H:%M:%S") or as_timestamp(now()) | timestamp_custom("%H:%M:%S") > as_timestamp(states("input_datetime.sunset_starts")) | timestamp_custom("%H:%M:%S") else "off" }}'

@@ -2181,35 +2181,35 @@
     data:
       datetime: '{{ states("sensor.suncalc_nightend") }}'
   id: 66b947e63c43489397a98d0186ff9896
-- alias: DateTime - Update Preferred Lighting Times
-  variables:
-    prefer_low: '{{ states("sensor.date") ~ " 20:00:00" if now().strftime("%A")|lower
-      in ["sunday", "monday", "tuesday", "wednesday", "thursday"] else  states("sensor.date")
-      ~ " 21:00:00" }}'
-    sunset: '{{ states("input_datetime.sunset_ends") }}'
-  trigger:
+- id: a9124ce7b2c248aeba4f7e7c8ebba3d3
+  alias: DateTime - Update Preferred Lighting Times
+  triggers:
   - platform: state
     entity_id:
     - input_datetime.sunrise_ends
     - input_datetime.sunset_ends
-  action:
-  - service: input_datetime.set_datetime
-    target:
+  actions:
+  - target:
       entity_id: input_datetime.prefer_lighting_high_time
     data:
-      datetime: '{{ states("input_datetime.sunrise_ends") }}'
-  - service: input_datetime.set_datetime
-    target:
+      time: '{{ as_timestamp(states(''input_datetime.sunrise_ends'')) | timestamp_custom(''%H:%M:%S'')
+        }}'
+    action: input_datetime.set_datetime
+  - target:
       entity_id: input_datetime.prefer_lighting_mid_time
     data:
-      datetime: '{{ (((as_timestamp(prefer_low) - as_timestamp(sunset)) / 2) + as_timestamp(sunset))  |
-        timestamp_custom("%Y-%m-%d %H:%M:%S") }}'
-  - service: input_datetime.set_datetime
-    target:
+      time: '{{ (((today_at(prefer_low) | as_timestamp - as_timestamp(sunset)) / 2)
+        + as_timestamp(sunset)) | timestamp_custom(''%H:%M:%S'') }}'
+    action: input_datetime.set_datetime
+  - target:
       entity_id: input_datetime.prefer_lighting_low_time
     data:
-      datetime: '{{ prefer_low }}'
-  id: a9124ce7b2c248aeba4f7e7c8ebba3d3
+      time: '{{ prefer_low }}'
+    action: input_datetime.set_datetime
+  variables:
+    prefer_low: '{{ ''20:00:00'' if now().strftime(''%A'')|lower in [''sunday'', ''monday'',
+      ''tuesday'', ''wednesday'', ''thursday''] else ''21:00:00'' }}'
+    sunset: '{{ states(''input_datetime.sunset_ends'') }}'
 - alias: Energy Tariff - Select On-Peak
   trigger:
   - platform: time

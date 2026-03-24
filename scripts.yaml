@@ -1168,7 +1168,7 @@ update_lights:
       - studio
       current_mode: "{{ states('sensor.dashboard_current_home_mode') }}"
       ht_state: "{{ 'playing' if is_state('input_boolean.mode_home_theater', 'on') and is_state('media_player.living_room_apple_tv', 'playing') else ('on' if is_state('input_boolean.mode_home_theater', 'on') else 'none') }}"
-      current_brightness: "{% set time = as_timestamp(now()) | timestamp_custom('%H:%M:%S') %}{% set low = as_timestamp(states('input_datetime.prefer_lighting_low_time')) | timestamp_custom('%H:%M:%S') %}{% set mid = as_timestamp(states('input_datetime.prefer_lighting_mid_time')) | timestamp_custom('%H:%M:%S') %}{% set high = as_timestamp(states('input_datetime.prefer_lighting_high_time')) | timestamp_custom('%H:%M:%S') %}{% if time >= low or time < high %}low{% elif time >= mid %}mid{% else %}{{ 'mid' if trigger is defined else 'high' }}{% endif %}"
+      current_brightness: "{% set time = now().strftime('%H:%M:%S') %}{% set low = states('input_datetime.prefer_lighting_low_time') %}{% set mid = states('input_datetime.prefer_lighting_mid_time') %}{% set high = states('input_datetime.prefer_lighting_high_time') %}{% if time >= low or time < high %}low{% elif time >= mid %}mid{% else %}{{ 'mid' if trigger is defined else 'high' }}{% endif %}"
       legacy_lights: "{{ lights | reject('in', new_model_rooms) | list }}"
       new_lights: "{{ lights | select('in', new_model_rooms) | list }}"
       ht_lights:
