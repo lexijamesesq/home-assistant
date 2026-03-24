@@ -2126,61 +2126,66 @@
   - service: rest_command.downstairs_hallway_dashboard_wake
   - service: rest_command.garage_entrance_dashboard_wake
   id: 1ac896481fd14a3fb633ef520a315040
-- alias: DateTime - Update Sunrise Starts
-  trigger:
+- id: 6e5ae7c8487448d4bcc5323c8d6008be
+  alias: DateTime - Update Sunrise Starts
+  triggers:
   - platform: state
     entity_id: sensor.suncalc_sunriseend
-  action:
-  - service: input_datetime.set_datetime
-    target:
+  actions:
+  - target:
       entity_id: input_datetime.sunrise_starts
     data:
-      datetime: '{{ states("sensor.suncalc_sunriseend") }}'
-  id: 6e5ae7c8487448d4bcc5323c8d6008be
-- alias: DateTime - Update Sunrise Ends
-  trigger:
+      time: '{{ as_timestamp(states(''sensor.suncalc_sunriseend'')) | timestamp_custom(''%H:%M:%S'')
+        }}'
+    action: input_datetime.set_datetime
+- id: b06eeaaa28554a4bb1c49e9351f1f7c1
+  alias: DateTime - Update Sunrise Ends
+  triggers:
   - platform: state
     entity_id: sensor.suncalc_goldenhourend
-  action:
-  - service: input_datetime.set_datetime
-    target:
+  actions:
+  - target:
       entity_id: input_datetime.sunrise_ends
     data:
-      datetime: '{{ states("sensor.suncalc_goldenhourend") }}'
-  id: b06eeaaa28554a4bb1c49e9351f1f7c1
-- alias: DateTime - Update Sunset Starts
-  trigger:
+      time: '{{ as_timestamp(states(''sensor.suncalc_goldenhourend'')) | timestamp_custom(''%H:%M:%S'')
+        }}'
+    action: input_datetime.set_datetime
+- id: 90a77d4e29f14956aae6167126225278
+  alias: DateTime - Update Sunset Starts
+  triggers:
   - platform: state
     entity_id: sensor.suncalc_goldenhour
-  action:
-  - service: input_datetime.set_datetime
-    target:
+  actions:
+  - target:
       entity_id: input_datetime.sunset_starts
     data:
-      datetime: '{{ states("sensor.suncalc_goldenhour") }}'
-  id: 90a77d4e29f14956aae6167126225278
-- alias: DateTime - Update Sunset Ends
-  trigger:
+      time: '{{ as_timestamp(states(''sensor.suncalc_goldenhour'')) | timestamp_custom(''%H:%M:%S'')
+        }}'
+    action: input_datetime.set_datetime
+- id: 507928c9e276427c8579823b9e06df63
+  alias: DateTime - Update Sunset Ends
+  triggers:
   - platform: state
     entity_id: sensor.suncalc_sunsetstart
-  action:
-  - service: input_datetime.set_datetime
-    target:
+  actions:
+  - target:
       entity_id: input_datetime.sunset_ends
     data:
-      datetime: '{{ states("sensor.suncalc_sunsetstart") }}'
-  id: 507928c9e276427c8579823b9e06df63
-- alias: DateTime - Update Night Ends
-  trigger:
+      time: '{{ as_timestamp(states(''sensor.suncalc_sunsetstart'')) | timestamp_custom(''%H:%M:%S'')
+        }}'
+    action: input_datetime.set_datetime
+- id: 66b947e63c43489397a98d0186ff9896
+  alias: DateTime - Update Night Ends
+  triggers:
   - platform: state
     entity_id: sensor.suncalc_nightend
-  action:
-  - service: input_datetime.set_datetime
-    target:
+  actions:
+  - target:
       entity_id: input_datetime.night_ends
     data:
-      datetime: '{{ states("sensor.suncalc_nightend") }}'
-  id: 66b947e63c43489397a98d0186ff9896
+      time: '{{ as_timestamp(states(''sensor.suncalc_nightend'')) | timestamp_custom(''%H:%M:%S'')
+        }}'
+    action: input_datetime.set_datetime
 - id: a9124ce7b2c248aeba4f7e7c8ebba3d3
   alias: DateTime - Update Preferred Lighting Times
   triggers:
@@ -2192,14 +2197,13 @@
   - target:
       entity_id: input_datetime.prefer_lighting_high_time
     data:
-      time: '{{ as_timestamp(states(''input_datetime.sunrise_ends'')) | timestamp_custom(''%H:%M:%S'')
-        }}'
+      time: '{{ states(''input_datetime.sunrise_ends'') }}'
     action: input_datetime.set_datetime
   - target:
       entity_id: input_datetime.prefer_lighting_mid_time
     data:
-      time: '{{ (((today_at(prefer_low) | as_timestamp - as_timestamp(sunset)) / 2)
-        + as_timestamp(sunset)) | timestamp_custom(''%H:%M:%S'') }}'
+      time: '{{ (((today_at(prefer_low) | as_timestamp - today_at(sunset) | as_timestamp)
+        / 2) + today_at(sunset) | as_timestamp) | timestamp_custom(''%H:%M:%S'') }}'
     action: input_datetime.set_datetime
   - target:
       entity_id: input_datetime.prefer_lighting_low_time
