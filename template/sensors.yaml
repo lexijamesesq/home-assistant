@@ -3,32 +3,9 @@
 
 # ──────────────────────────────────────────────
 # Group 1: Mode monitoring sensors
+# (Time-of-day mirrors removed — now input_select.time_of_day_mode)
 # ──────────────────────────────────────────────
 - sensor:
-    - name: "Morning Mode"
-      unique_id: mode_morning
-      state: >
-        {{ states('input_boolean.mode_morning') }}
-      icon: "mdi:weather-hazy"
-
-    - name: "Day Mode"
-      unique_id: mode_day
-      state: >
-        {{ states('input_boolean.mode_day') }}
-      icon: "mdi:weather-sunny"
-
-    - name: "Sunset Mode"
-      unique_id: mode_sunset
-      state: >
-        {{ states('input_boolean.mode_sunset') }}
-      icon: "mdi:weather-sunset"
-
-    - name: "Night Mode"
-      unique_id: mode_night
-      state: >
-        {{ states('input_boolean.mode_night') }}
-      icon: "mdi:weather-night"
-
     - name: "Guest Mode"
       unique_id: mode_guest
       state: >
@@ -67,76 +44,27 @@
     - name: "Current Home Mode"
       unique_id: dashboard_current_home_mode
       state: >-
-        {% if is_state('input_boolean.mode_morning', 'on') %}
-          Morning
-        {% elif is_state('input_boolean.mode_day', 'on') %}
-          Day
-        {% elif is_state('input_boolean.mode_sunset', 'on') %}
-          Sunset
-        {% elif is_state('input_boolean.mode_night', 'on') %}
-          Night
-        {% else %}
-          Unknown
-        {% endif %}
+        {{ states('input_select.time_of_day_mode') }}
       icon: >-
-        {% if is_state('input_boolean.mode_morning', 'on') %}
-          mdi:weather-hazy
-        {% elif is_state('input_boolean.mode_day', 'on') %}
-          mdi:weather-sunny
-        {% elif is_state('input_boolean.mode_sunset', 'on') %}
-          mdi:weather-sunset
-        {% elif is_state('input_boolean.mode_night', 'on') %}
-          mdi:weather-night
-        {% else %}
-          mdi:weather-cloudy-alert
-        {% endif %}
+        {% set mode = states('input_select.time_of_day_mode') %}
+        {{ 'mdi:weather-hazy' if mode == 'Morning' else 'mdi:weather-sunny' if mode == 'Day' else 'mdi:weather-sunset' if mode == 'Sunset' else 'mdi:weather-night' if mode == 'Night' else 'mdi:weather-cloudy-alert' }}
 
     - name: "Current Mode"
       unique_id: dashboard_current_mode
       state: >-
-        {% if is_state('input_boolean.mode_sleep', 'on') %}
-          Sleep
-        {% elif is_state('input_boolean.mode_laundry', 'on') %}
-          Laundry
-        {% elif is_state('input_boolean.mode_home_theater', 'on') %}
-          Theater
-        {% elif is_state('input_boolean.mode_house_cleaning', 'on') %}
-          Cleaning
-        {% elif is_state('input_boolean.mode_guest', 'on') %}
-          Guest
-        {% elif is_state('input_boolean.mode_morning', 'on') %}
-          Morning
-        {% elif is_state('input_boolean.mode_day', 'on') %}
-          Day
-        {% elif is_state('input_boolean.mode_sunset', 'on') %}
-          Sunset
-        {% elif is_state('input_boolean.mode_night', 'on') %}
-          Night
-        {% else %}
-          Unknown
-        {% endif %}
+        {% if is_state('input_boolean.mode_sleep', 'on') %}Sleep
+        {% elif is_state('input_boolean.mode_laundry', 'on') %}Laundry
+        {% elif is_state('input_boolean.mode_home_theater', 'on') %}Theater
+        {% elif is_state('input_boolean.mode_house_cleaning', 'on') %}Cleaning
+        {% elif is_state('input_boolean.mode_guest', 'on') %}Guest
+        {% else %}{{ states('input_select.time_of_day_mode') }}{% endif %}
       icon: >-
-        {% if is_state('input_boolean.mode_sleep', 'on') %}
-          mdi:sleep
-        {% elif is_state('input_boolean.mode_laundry', 'on') %}
-          mdi:washing-machine
-        {% elif is_state('input_boolean.mode_home_theater', 'on') %}
-          mdi:theater
-        {% elif is_state('input_boolean.mode_house_cleaning', 'on') %}
-          mdi:broom
-        {% elif is_state('input_boolean.mode_guest', 'on') %}
-          mdi:human-greeting
-        {% elif is_state('input_boolean.mode_morning', 'on') %}
-          mdi:weather-hazy
-        {% elif is_state('input_boolean.mode_day', 'on') %}
-          mdi:weather-sunny
-        {% elif is_state('input_boolean.mode_sunset', 'on') %}
-          mdi:weather-sunset
-        {% elif is_state('input_boolean.mode_night', 'on') %}
-          mdi:weather-night
-        {% else %}
-          mdi:weather-cloudy-alert
-        {% endif %}
+        {% if is_state('input_boolean.mode_sleep', 'on') %}mdi:sleep
+        {% elif is_state('input_boolean.mode_laundry', 'on') %}mdi:washing-machine
+        {% elif is_state('input_boolean.mode_home_theater', 'on') %}mdi:theater
+        {% elif is_state('input_boolean.mode_house_cleaning', 'on') %}mdi:broom
+        {% elif is_state('input_boolean.mode_guest', 'on') %}mdi:human-greeting
+        {% else %}{% set mode = states('input_select.time_of_day_mode') %}{{ 'mdi:weather-hazy' if mode == 'Morning' else 'mdi:weather-sunny' if mode == 'Day' else 'mdi:weather-sunset' if mode == 'Sunset' else 'mdi:weather-night' if mode == 'Night' else 'mdi:weather-cloudy-alert' }}{% endif %}
 
     - name: "Home State"
       unique_id: dashboard_home_state

@@ -1,14 +1,7 @@
 ##############################################################
 # Modes
+# Time-of-day modes moved to input_select.time_of_day_mode
 ##############################################################
-mode_morning:
-  name: Morning Mode
-mode_day:
-  name: Day Mode
-mode_sunset:
-  name: Sunset Mode
-mode_night:
-  name: Night Mode
 mode_guest:
   name: Guest Mode
 mode_sleep:

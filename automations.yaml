@@ -157,26 +157,40 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.motion_trigger_garage_stairs_lights
   id: a1d2c56afe9f4b5cbf711da41ee20129
-- id: 1463409aeb2448048080084c7a65a7c2
-  alias: Garage Stairs Lighting on Door Open
-  triggers:
+- alias: Garage Stairs Lighting on Door Open
+  trigger:
   - platform: state
     entity_id: binary_sensor.garage_door
     to: 'on'
-  conditions:
+  condition:
     condition: state
     entity_id: light.garage_stairs
     state: 'off'
-  actions:
-  - action: script.turn_on
-    target:
-      entity_id:
-      - script.lighting_garage_stairs
-      - script.lighting_downstairs_hallway
-  - entity_id: input_boolean.door_trigger_garage_stairs_lights
-    action: input_boolean.turn_on
-  - entity_id: input_boolean.door_trigger_downstairs_hallway_lights
-    action: input_boolean.turn_on
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.downstairs_hallway_trisensor_luminance
+        below: 20.0
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id:
+          - script.lighting_garage_stairs
+          - script.lighting_downstairs_hallway
+    default:
+    - action: script.turn_on
+      target:
+        entity_id:
+        - script.lighting_garage_stairs
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.door_trigger_garage_stairs_lights
+  - condition: numeric_state
+    entity_id: sensor.downstairs_hallway_trisensor_luminance
+    below: 20.0
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+  id: 1463409aeb2448048080084c7a65a7c2
 - alias: Garage Stairs Lighting Door to Motion Transition
   trigger:
     platform: state
@@ -231,13 +245,12 @@
     - input_boolean.motion_trigger_garage_stairs_lights
     - input_boolean.door_trigger_garage_stairs_lights
   id: eb61782de265430187fad99500311ae9
-- id: 7aec67203d0c435fad630e024f08038d
-  alias: Downstairs Hallway Lighting on Motion
-  triggers:
+- alias: Downstairs Hallway Lighting on Motion
+  trigger:
   - platform: state
     entity_id: input_boolean.motion_downstairs_hallway
     to: 'on'
-  conditions:
+  condition:
     condition: and
     conditions:
     - condition: state
@@ -245,29 +258,28 @@
       state: 'off'
     - condition: or
       conditions:
-      - condition: state
-        entity_id: input_boolean.mode_morning
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_sunset
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_night
-        state: 'on'
-  actions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: input_select.time_of_day_mode
+          state: Day
+      - condition: numeric_state
+        entity_id: sensor.downstairs_hallway_trisensor_luminance
+        below: 20.0
+  action:
   - action: script.turn_on
     target:
       entity_id:
       - script.lighting_downstairs_hallway
-  - entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
-    action: input_boolean.turn_on
-- id: 537df3fac8054803a1979f0600a77690
-  alias: Downstairs Hallway Lighting on Door Open
-  triggers:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
+  id: 7aec67203d0c435fad630e024f08038d
+- alias: Downstairs Hallway Lighting on Door Open
+  trigger:
   - platform: state
     entity_id: binary_sensor.front_door
     to: 'on'
-  conditions:
+  condition:
     condition: and
     conditions:
     - condition: state
@@ -275,22 +287,22 @@
       state: 'off'
     - condition: or
       conditions:
-      - condition: state
-        entity_id: input_boolean.mode_morning
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_sunset
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_night
-        state: 'on'
-  actions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: input_select.time_of_day_mode
+          state: Day
+      - condition: numeric_state
+        entity_id: sensor.downstairs_hallway_trisensor_luminance
+        below: 20.0
+  action:
   - action: script.turn_on
     target:
       entity_id:
       - script.lighting_downstairs_hallway
-  - entity_id: input_boolean.door_trigger_downstairs_hallway_lights
-    action: input_boolean.turn_on
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+  id: 537df3fac8054803a1979f0600a77690
 - alias: Downstairs Hallway Lighting Door to Motion Transition
   trigger:
     platform: state
@@ -340,13 +352,12 @@
     - input_boolean.motion_trigger_downstairs_hallway_lights
     - input_boolean.door_trigger_downstairs_hallway_lights
   id: 596469b0430c4a25b3bdab7c43b95edb
-- id: 9cf8b66af54b4da9a2241e437a3d6ea3
-  alias: Upstairs Hallway Group Lighting on Motion
-  triggers:
+- alias: Upstairs Hallway Group Lighting on Motion
+  trigger:
   - platform: state
     entity_id: group.motion_upstairs_hallway_group_areas
     to: 'on'
-  conditions:
+  condition:
     condition: and
     conditions:
     - condition: state
@@ -354,22 +365,22 @@
       state: 'off'
     - condition: or
       conditions:
-      - condition: state
-        entity_id: input_boolean.mode_morning
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_sunset
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_night
-        state: 'on'
-  actions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: input_select.time_of_day_mode
+          state: Day
+      - condition: numeric_state
+        entity_id: sensor.main_stairs_multisensor_luminance
+        below: 70.0
+  action:
   - action: script.turn_on
     target:
       entity_id:
       - script.lighting_upstairs_hallway_group
-  - entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-    action: input_boolean.turn_on
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+  id: 9cf8b66af54b4da9a2241e437a3d6ea3
 - alias: Upstairs Hallway Group Lighting Timed Out
   trigger:
   - platform: state
@@ -392,13 +403,12 @@
   - service: input_boolean.turn_off
     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
   id: 07359fec3559474785cd241bcd33381e
-- id: 8b9ecf8f51c748f99abccb2b05034a4b
-  alias: Den Hallway Lighting on Motion
-  triggers:
+- alias: Den Hallway Lighting on Motion
+  trigger:
   - platform: state
     entity_id: input_boolean.motion_den_hallway
     to: 'on'
-  conditions:
+  condition:
     condition: and
     conditions:
     - condition: state
@@ -406,22 +416,22 @@
       state: 'off'
     - condition: or
       conditions:
-      - condition: state
-        entity_id: input_boolean.mode_morning
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_sunset
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.mode_night
-        state: 'on'
-  actions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: input_select.time_of_day_mode
+          state: Day
+      - condition: numeric_state
+        entity_id: sensor.den_multisensor_luminance
+        below: 20.0
+  action:
   - action: script.turn_on
     target:
       entity_id:
       - script.lighting_den_hallway
-  - entity_id: input_boolean.motion_trigger_den_hallway_lights
-    action: input_boolean.turn_on
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.motion_trigger_den_hallway_lights
+  id: 8b9ecf8f51c748f99abccb2b05034a4b
 - alias: Den Hallway Lighting Timed Out
   trigger:
   - platform: state
@@ -559,8 +569,8 @@
   - choose:
     - conditions:
       - condition: state
-        entity_id: input_boolean.mode_day
-        state: 'on'
+        entity_id: input_select.time_of_day_mode
+        state: Day
       sequence:
       - action: script.turn_on
         target:
@@ -733,18 +743,18 @@
 - alias: Update Switch Colors
   trigger:
   - platform: state
-    entity_id: input_boolean.mode_morning
-    to: 'on'
+    entity_id: input_select.time_of_day_mode
+    to: Morning
   - platform: state
-    entity_id: input_boolean.mode_night
-    to: 'on'
+    entity_id: input_select.time_of_day_mode
+    to: Night
   action:
   - delay: 00:00:01
   - choose:
     - conditions:
       - condition: state
-        entity_id: input_boolean.mode_night
-        state: 'on'
+        entity_id: input_select.time_of_day_mode
+        state: Night
       sequence:
       - service: number.set_value
         target:
@@ -764,8 +774,11 @@
   id: a12ed7dbc9f54516abdfba834138931b
 - alias: Update Lights After Sunrise
   trigger:
-  - platform: event
-    event_type: mode_morning_off_delay_short
+  - platform: state
+    entity_id: input_select.time_of_day_mode
+    to: Day
+    for:
+      minutes: 5
   condition:
     condition: and
     conditions:
@@ -796,8 +809,8 @@
 - alias: Update Lights Before Sunset
   trigger:
   - platform: state
-    entity_id: input_boolean.mode_sunset
-    to: 'on'
+    entity_id: input_select.time_of_day_mode
+    to: Sunset
   action:
   - delay: 00:00:01
   - choose:
@@ -830,8 +843,8 @@
 - alias: Update Lights at Night
   trigger:
   - platform: state
-    entity_id: input_boolean.mode_night
-    to: 'on'
+    entity_id: input_select.time_of_day_mode
+    to: Night
   condition:
     condition: or
     conditions:
@@ -897,9 +910,11 @@
     entity_id:
     - light.bedroom
     state: 'on'
-  - condition: state
-    entity_id: input_boolean.mode_morning
-    state: 'off'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.time_of_day_mode
+      state: Morning
   action:
   - action: script.turn_on
     target:
@@ -2135,80 +2150,6 @@
   action:
   - event: mode_sleep_off_wakeup_long
   id: 57c2cb74a1814acb903d08bad94ced03
-- alias: Event - Morning Mode On
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_morning
-    to: 'on'
-  action:
-  - event: mode_morning_on
-  id: a4c06b4c08324b168f41a8599d480772
-- alias: Event - Morning Mode Off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_morning
-    to: 'off'
-  action:
-  - event: mode_morning_off
-  id: ac07ad884b4e454ba5f31cc2f8f6b19c
-- alias: Event - Morning Mode Off - Delay Short
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_morning
-    to: 'off'
-    for:
-      minutes: 5
-  action:
-  - event: mode_morning_off_delay_short
-  id: 16df0a8e6ab04187982d23f959d847ff
-- alias: Event - Day Mode On
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_day
-    to: 'on'
-  action:
-  - event: mode_day_on
-  id: 84448a6125364586a8f6c0f17f113255
-- alias: Event - Day Mode Off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_day
-    to: 'off'
-  action:
-  - event: mode_day_off
-  id: f66e024e09bc4a88a6f038f4754066a1
-- alias: Event - Sunset Mode On
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_sunset
-    to: 'on'
-  action:
-  - event: mode_sunset_on
-  id: bb8be976f3d64abf812b197613480d59
-- alias: Event - Sunset Mode Off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_sunset
-    to: 'off'
-  action:
-  - event: mode_sunset_off
-  id: 5756a0424cc741fba8a118e782914bd0
-- alias: Event - Night Mode On
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_night
-    to: 'on'
-  action:
-  - event: mode_night_on
-  id: 03d37c6812134bd385ef4e5dc31ce2a9
-- alias: Event - Night Mode Off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_night
-    to: 'off'
-  action:
-  - event: mode_night_off
-  id: f684cd379f82478cb919fe58d0f2eceb
 - alias: Event - Simulate Presence Mode On
   trigger:
   - platform: state
@@ -2450,33 +2391,41 @@
     conditions:
     - condition: and
       conditions:
-      - condition: state
-        entity_id: input_boolean.mode_morning
-        state: 'off'
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: input_select.time_of_day_mode
+          state: Morning
       - condition: time
         after: input_datetime.night_ends
         before: input_datetime.sunrise_ends
     - condition: and
       conditions:
-      - condition: state
-        entity_id: input_boolean.mode_day
-        state: 'off'
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: input_select.time_of_day_mode
+          state: Day
       - condition: time
         after: input_datetime.sunrise_ends
         before: input_datetime.sunset_starts
     - condition: and
       conditions:
-      - condition: state
-        entity_id: input_boolean.mode_sunset
-        state: 'off'
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: input_select.time_of_day_mode
+          state: Sunset
       - condition: time
         after: input_datetime.sunset_starts
         before: input_datetime.sunset_ends
     - condition: and
       conditions:
-      - condition: state
-        entity_id: input_boolean.mode_night
-        state: 'off'
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: input_select.time_of_day_mode
+          state: Night
       - condition: time
         after: input_datetime.sunset_ends
         before: input_datetime.night_ends
@@ -2597,20 +2546,12 @@
     at: input_datetime.sunset_ends
   mode: restart
   action:
-  - service: input_boolean.turn_off
-    entity_id:
-    - input_boolean.mode_morning
-    - input_boolean.mode_day
-    - input_boolean.mode_sunset
-    - input_boolean.mode_night
   - choose:
     - conditions:
       - condition: time
         after: input_datetime.night_ends
         before: input_datetime.sunrise_ends
       sequence:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.mode_morning
       - service: input_select.select_option
         target:
           entity_id: input_select.time_of_day_mode
@@ -2621,8 +2562,6 @@
         after: input_datetime.sunrise_ends
         before: input_datetime.sunset_starts
       sequence:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.mode_day
       - service: input_select.select_option
         target:
           entity_id: input_select.time_of_day_mode
@@ -2633,8 +2572,6 @@
         after: input_datetime.sunset_starts
         before: input_datetime.sunset_ends
       sequence:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.mode_sunset
       - service: input_select.select_option
         target:
           entity_id: input_select.time_of_day_mode
@@ -2645,8 +2582,6 @@
         after: input_datetime.sunset_ends
         before: input_datetime.night_ends
       sequence:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.mode_night
       - service: input_select.select_option
         target:
           entity_id: input_select.time_of_day_mode
@@ -2709,14 +2644,14 @@
     entity_id: input_boolean.mode_guest
     to: 'off'
   - platform: state
-    entity_id: input_boolean.mode_night
-    to: 'on'
+    entity_id: input_select.time_of_day_mode
+    to: Night
   condition:
     condition: and
     conditions:
     - condition: state
-      entity_id: input_boolean.mode_night
-      state: 'on'
+      entity_id: input_select.time_of_day_mode
+      state: Night
     - condition: state
       entity_id: group.residents
       state: not_home

@@ -5,22 +5,11 @@
       state: 'template'
       attributes:
         greeting: >-
-          {% if is_state("sensor.mode_morning", "on") %}
-            Good Morning
-          {% elif is_state("sensor.mode_day", "on") %}
-            {% if states("sensor.time") < "12:00" %}
-              Good Morning
-            {% else %}
-              Good Afternoon
-            {% endif %}
-          {% elif is_state("sensor.mode_sunset", "on") %}
-            Good Evening
-          {% elif is_state("sensor.mode_night", "on") %}
-            {% if is_state("sensor.mode_sleep", "off") %}
-              Good Evening
-            {% else %}
-              Good Night
-            {% endif %}
+          {% set mode = states('input_select.time_of_day_mode') %}
+          {% if mode == 'Morning' %}Good Morning
+          {% elif mode == 'Day' %}{{ 'Good Morning' if states('sensor.time') < '12:00' else 'Good Afternoon' }}
+          {% elif mode == 'Sunset' %}Good Evening
+          {% elif mode == 'Night' %}{{ 'Good Night' if is_state('input_boolean.mode_sleep', 'on') else 'Good Evening' }}
           {% endif %}
         home: >-
           {% if is_state("sensor.dashboard_home_state", "Secure") and is_state("group.all_windows", "off") %}
