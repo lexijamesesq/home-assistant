@@ -46,10 +46,15 @@ update_lights:
         and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on''
         if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
       current_brightness: '{% set time = now().strftime(''%H:%M:%S'') %}{% set low
-        = states(''input_datetime.prefer_lighting_low_time'') %}{% set mid = states(''input_datetime.prefer_lighting_mid_time'')
-        %}{% set high = states(''input_datetime.prefer_lighting_high_time'') %}{%
-        if time >= low or time < high %}low{% elif time >= mid %}mid{% else %}{{ ''mid''
-        if trigger is defined else ''high'' }}{% endif %}'
+        = states(''input_datetime.prefer_lighting_low_time'').split('' '')[1] if ''
+        '' in states(''input_datetime.prefer_lighting_low_time'') else states(''input_datetime.prefer_lighting_low_time'')
+        %}{% set mid = states(''input_datetime.prefer_lighting_mid_time'').split(''
+        '')[1] if '' '' in states(''input_datetime.prefer_lighting_mid_time'') else
+        states(''input_datetime.prefer_lighting_mid_time'') %}{% set high = states(''input_datetime.prefer_lighting_high_time'').split(''
+        '')[1] if '' '' in states(''input_datetime.prefer_lighting_high_time'') else
+        states(''input_datetime.prefer_lighting_high_time'') %}{% if time >= low or
+        time < high %}low{% elif time >= mid %}mid{% else %}{{ ''mid'' if trigger
+        is defined else ''high'' }}{% endif %}'
   - repeat:
       for_each: '{{ lights }}'
       sequence:
