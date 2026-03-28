@@ -10,8 +10,6 @@ mode_home_theater:
   name: Home Theater Mode
 mode_simulate_presence:
   name: Simulate Presence Mode
-mode_peloton:
-  name: Peloton Mode
 mode_stranger_danger:
   name: Stranger Danger
 mode_laundry:
