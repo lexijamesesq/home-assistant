@@ -1,7 +1,8 @@
 - alias: Enable Home Theater On Lighting
   trigger:
-  - platform: event
-    event_type: mode_home_theater_on
+  - platform: state
+    entity_id: input_boolean.mode_home_theater
+    to: 'on'
   action:
   - action: script.turn_on
     target:
@@ -12,8 +13,9 @@
 - id: 3fda0f37ff6c4f85ae28c2d53c640eaf
   alias: Restore Home Theater Off Lighting
   triggers:
-  - event_type: mode_home_theater_off
-    trigger: event
+  - entity_id: input_boolean.mode_home_theater
+    to: 'off'
+    trigger: state
   actions:
   - action: script.turn_on
     target:
@@ -622,24 +624,29 @@
   id: 074a15c7d04a4927aa5c5ce013038f0a
 - alias: Simulate Presence Mode - Update Lights
   trigger:
-  - platform: event
-    event_type: mode_simulate_presence_on
+  - platform: state
+    entity_id: input_boolean.mode_simulate_presence
+    to: 'on'
   action:
   - service: script.turn_on
     entity_id: script.simulate_presence
   id: 2d0358baea7843258fc191ec5ac61eae
 - alias: Simulate Presence Mode - Off
   trigger:
-  - platform: event
-    event_type: mode_simulate_presence_off
+  - platform: state
+    entity_id: input_boolean.mode_simulate_presence
+    to: 'off'
   action:
   - service: script.turn_off
     entity_id: script.simulate_presence
   id: 355c0e77ccf64b8c8d1304b3530fdeb6
 - alias: Sleep Mode Started Turn Off Den Cabinet Lights
   trigger:
-  - platform: event
-    event_type: mode_sleep_on_delay_short
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'on'
+    for:
+      minutes: 2
   action:
   - service: light.turn_off
     entity_id:
@@ -650,8 +657,9 @@
   id: ee1380ba381c47d7a9bcafec1ef2345e
 - alias: Sleep Mode Ended Update Lights
   trigger:
-  - platform: event
-    event_type: mode_sleep_off
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
   condition:
   - condition: state
     entity_id: group.residents
@@ -672,8 +680,11 @@
   id: 61e7e463a0d54f018fb885cdcf9a6f51
 - alias: Sleep Mode Wake Up Time Ended Update Lights
   trigger:
-  - platform: event
-    event_type: mode_sleep_off_wakeup_long
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
+    for:
+      hours: 3
   condition:
   - condition: state
     entity_id: light.bedroom
@@ -1944,8 +1955,11 @@
   id: 6edfcdde2368400f957b44e7412a5317
 - alias: Browser Mod Turn Screen Off - Night
   trigger:
-  - platform: event
-    event_type: mode_sleep_on_delay_short
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'on'
+    for:
+      minutes: 2
   - platform: template
     value_template: '{{ is_state("input_boolean.mode_sleep", "on") and as_timestamp(states("sensor.date")
       + " " + states("sensor.time")) > (as_timestamp(states.input_boolean.mode_sleep.last_changed)
@@ -1996,8 +2010,9 @@
   id: d737a35d4c6d4ae08b3c1324697cd3d9
 - alias: Browser Mod Turn Screen On
   trigger:
-  - platform: event
-    event_type: mode_sleep_off
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
   - platform: state
     entity_id: group.residents
     to: home
@@ -2104,132 +2119,65 @@
     data:
       option: '{{ tariff }}'
   id: 141a4cd7e86f4d908a31c8b93a74d4fd
-- alias: Event - Sleep Mode On
+- alias: Fan - Sleep Mode
   trigger:
   - platform: state
     entity_id: input_boolean.mode_sleep
     to: 'on'
-  action:
-  - event: mode_sleep_on
-  id: 6b1a1595981b460986ba1ceac834e4dc
-- alias: Event - Sleep Mode On - Delay Short
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_sleep
-    to: 'on'
-    for:
-      minutes: 2
-  action:
-  - event: mode_sleep_on_delay_short
-  id: 859f3dd461e142528f55e9b0437163ae
-- alias: Event - Sleep Mode Off
-  trigger:
+    id: sleep_on
   - platform: state
     entity_id: input_boolean.mode_sleep
     to: 'off'
+    id: sleep_off
   action:
-  - event: mode_sleep_off
-  id: d58b1f79b2f042608315ba66cff138f1
-- alias: Event - Sleep Mode Off - Wakeup Short
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_sleep
-    to: 'off'
-    for:
-      minutes: 20
-  action:
-  - event: mode_sleep_off_wakeup_short
-  id: 9ee337e80f91454c88476d47f45c9c08
-- alias: Event - Sleep Mode Off - Wakeup Long
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_sleep
-    to: 'off'
-    for:
-      hours: 3
-  action:
-  - event: mode_sleep_off_wakeup_long
-  id: 57c2cb74a1814acb903d08bad94ced03
-- alias: Event - Simulate Presence Mode On
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_simulate_presence
-    to: 'on'
-  action:
-  - event: mode_simulate_presence_on
-  id: 36b42e11a8394e31b70ec4b988e92e06
-- alias: Event - Simulate Presence Mode Off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_simulate_presence
-    to: 'off'
-  action:
-  - event: mode_simulate_presence_off
-  id: 043e805a886c4726a4e23a17e734d2d5
-- alias: Event - Guest Mode On
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_guest
-    to: 'on'
-  action:
-  - event: mode_guest_on
-  id: 32582b13bf1e40a58682eff986a4a209
-- alias: Event - Guest Mode Off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_guest
-    to: 'off'
-  action:
-  - event: mode_guest_off
-  id: fafcd6092fc14a3297b060d4929a2dec
-- alias: Event - Home Theater Mode On
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_home_theater
-    to: 'on'
-  action:
-  - event: mode_home_theater_on
-  id: 7a49360a7de842bcb2e64dc6822ade07
-- alias: Event - Home Theater Mode Off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_home_theater
-    to: 'off'
-  action:
-  - event: mode_home_theater_off
-  id: 6cce6b80a3ba4c0f9c07e0670843b5a0
-- alias: Fan - Bedroom - Sleep Mode On
-  trigger:
-  - platform: event
-    event_type: mode_sleep_on
-  condition:
-  - condition: state
-    entity_id: fan.bedroom
-    state: 'on'
-  action:
-  - service: switch.turn_on
-    entity_id: switch.bedroom_night_mode
-  - service: fan.set_percentage
-    data:
-      entity_id: fan.bedroom
-      percentage: 40
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sleep_on
+      sequence:
+      - parallel:
+        - sequence:
+          - condition: state
+            entity_id: fan.bedroom
+            state: 'on'
+          - service: switch.turn_on
+            entity_id: switch.bedroom_night_mode
+          - service: fan.set_percentage
+            data:
+              entity_id: fan.bedroom
+              percentage: 40
+        - sequence:
+          - condition: state
+            entity_id: fan.kitchen
+            state: 'on'
+          - service: switch.turn_on
+            entity_id: switch.kitchen_night_mode
+    - conditions:
+      - condition: trigger
+        id: sleep_off
+      sequence:
+      - parallel:
+        - sequence:
+          - condition: state
+            entity_id: fan.bedroom
+            state: 'on'
+          - service: switch.turn_off
+            entity_id: switch.bedroom_night_mode
+          - service: fan.set_percentage
+            data:
+              entity_id: fan.bedroom
+              percentage: 40
+        - sequence:
+          - condition: state
+            entity_id: fan.kitchen
+            state: 'on'
+          - service: switch.turn_off
+            entity_id: switch.kitchen_night_mode
+          - service: fan.set_percentage
+            data:
+              entity_id: fan.kitchen
+              percentage: 50
   id: bb2d1df521fd41ce91372c6a37ef3242
-- alias: Fan - Bedroom - Sleep Mode Off
-  trigger:
-  - platform: event
-    event_type: mode_sleep_off
-  condition:
-  - condition: state
-    entity_id: fan.bedroom
-    state: 'on'
-  action:
-  - service: switch.turn_off
-    entity_id: switch.bedroom_night_mode
-  - service: fan.set_percentage
-    data:
-      entity_id: fan.bedroom
-      percentage: 40
-  id: 16ffa89125f8427db43b4bbf513d0b51
 - alias: Fan - Bedroom - Bedroom Window Open
   trigger:
   - platform: state
@@ -2258,34 +2206,6 @@
   - service: fan.turn_on
     entity_id: fan.bedroom
   id: 86e3e850aa894e958ed289d6bab77c7c
-- alias: Fan - Kitchen - Sleep Mode On
-  trigger:
-  - platform: event
-    event_type: mode_sleep_on
-  condition:
-  - condition: state
-    entity_id: fan.kitchen
-    state: 'on'
-  action:
-  - service: switch.turn_on
-    entity_id: switch.kitchen_night_mode
-  id: e2165dce95d148b08cdb830ec23e7772
-- alias: Fan - Kitchen - Sleep Mode Off
-  trigger:
-  - platform: event
-    event_type: mode_sleep_off
-  condition:
-  - condition: state
-    entity_id: fan.kitchen
-    state: 'on'
-  action:
-  - service: switch.turn_off
-    entity_id: switch.kitchen_night_mode
-  - service: fan.set_percentage
-    data:
-      entity_id: fan.kitchen
-      percentage: 50
-  id: 07ce473b96eb44538e10f7bfc79de034
 - alias: Garage Lighting on Motion
   trigger:
   - platform: state
@@ -2489,8 +2409,9 @@
   id: 68e0e7717b8048bf8c1b6fa5c03220f9
 - alias: Lock Front Door When Away or Asleep
   trigger:
-  - platform: event
-    event_type: mode_sleep_on
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'on'
   - platform: state
     entity_id: group.residents
     to: not_home
@@ -2504,8 +2425,9 @@
   id: 8ae9b10345be428a853c8748193b37ce
 - alias: Lock Garage Door When Away or Asleep
   trigger:
-  - platform: event
-    event_type: mode_sleep_on
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'on'
   - platform: state
     entity_id: group.residents
     to: not_home
@@ -2519,8 +2441,9 @@
   id: 13feec17e0804f2ea4ff7bda55750b0e
 - alias: Unlock Garage Door When Home and Awake
   trigger:
-  - platform: event
-    event_type: mode_sleep_off
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
   - platform: state
     entity_id: group.residents
     to: home
@@ -3737,32 +3660,13 @@
         data:
           fan_mode: 'off'
 - id: '1724803728374'
-  alias: Event - House Cleaning Mode On
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_house_cleaning
-    to: 'on'
-  condition: []
-  action:
-  - event: mode_house_cleaning_on
-  mode: single
-- id: '1724803800048'
-  alias: Event - House Cleaning Mode Off
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_house_cleaning
-    to: 'off'
-  condition: []
-  action:
-  - event: mode_house_cleaning_off
-  mode: single
 - id: '1724804282087'
   alias: Update Lights - House Cleaning Mode On
   description: Turn on all common area lights at full brightness for cleaning
   triggers:
-  - platform: event
-    event_type: mode_house_cleaning_on
+  - entity_id: input_boolean.mode_house_cleaning
+    to: 'on'
+    trigger: state
   actions:
   - parallel:
     - action: light.turn_on
@@ -3785,8 +3689,9 @@
   alias: Update Lights - House Cleaning Mode Off
   description: ''
   trigger:
-  - platform: event
-    event_type: mode_house_cleaning_off
+  - platform: state
+    entity_id: input_boolean.mode_house_cleaning
+    to: 'off'
   condition: []
   action:
   - entity_id:
