@@ -11,3 +11,12 @@ master_sonos:
     - Bathroom
     - Den
     - Move
+
+time_of_day_mode:
+  name: Time of Day
+  icon: mdi:weather-partly-cloudy
+  options:
+    - Morning
+    - Day
+    - Sunset
+    - Night

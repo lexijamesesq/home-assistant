@@ -170,12 +170,8 @@ input_boolean.mode_guest:
   icon: mdi:human-greeting
 input_boolean.mode_home_theater:
   icon: mdi:theater
-input_boolean.mode_night:
-  icon: mdi:weather-night
 input_boolean.mode_sleep:
   icon: mdi:sleep
-input_boolean.mode_sunset:
-  icon: mdi:weather-sunset
 switch.pfsense:
   hidden: true
 switch.woodhouse:
