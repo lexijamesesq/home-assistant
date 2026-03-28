@@ -33,39 +33,6 @@ simulate_presence:
       - service: light.turn_off
         entity_id: group.inside_lights
       - delay: 00:{{ (range(2, 10) | random) }}:00
-update_lights:
-  alias: Update Lights
-  icon: mdi:lightbulb-on
-  mode: parallel
-  sequence:
-  - condition: template
-    value_template: '{{ lights is defined }}'
-  - variables:
-      current_mode: '{{ states(''sensor.dashboard_current_home_mode'') }}'
-      ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'')
-        and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on''
-        if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
-      current_brightness: '{% set time = now().strftime(''%H:%M:%S'') %}{% set low
-        = states(''input_datetime.prefer_lighting_low_time'').split('' '')[1] if ''
-        '' in states(''input_datetime.prefer_lighting_low_time'') else states(''input_datetime.prefer_lighting_low_time'')
-        %}{% set mid = states(''input_datetime.prefer_lighting_mid_time'').split(''
-        '')[1] if '' '' in states(''input_datetime.prefer_lighting_mid_time'') else
-        states(''input_datetime.prefer_lighting_mid_time'') %}{% set high = states(''input_datetime.prefer_lighting_high_time'').split(''
-        '')[1] if '' '' in states(''input_datetime.prefer_lighting_high_time'') else
-        states(''input_datetime.prefer_lighting_high_time'') %}{% if time >= low or
-        time < high %}low{% elif time >= mid %}mid{% else %}{{ ''mid'' if trigger
-        is defined else ''high'' }}{% endif %}'
-  - repeat:
-      for_each: '{{ lights }}'
-      sequence:
-      - action: script.turn_on
-        target:
-          entity_id: script.lighting_{{ repeat.item }}
-        data:
-          variables:
-            mode: '{{ current_mode }}'
-            brightness_level: '{{ current_brightness }}'
-            ht_state: '{{ ht_state }}'
 sonos_playlist_country_caffeine:
   alias: Sonos Playlist Country Caffeine
   sequence:
@@ -236,43 +203,30 @@ lighting_kitchen:
   alias: Lighting - Kitchen
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode:
-      description: Time-of-day mode
-      example: Night
-    brightness_level:
-      description: Brightness tier
-      example: mid
-    ht_state:
-      description: Home theater state
-      example: none
   sequence:
   - variables:
       brightness:
-        morning:
-          high: 13
-          mid: 13
-          low: 13
-        sunset:
-          high: 145
-          mid: 145
-          low: 145
-        night:
-          high: 145
-          mid: 90
-          low: 35
+        morning: 13
+        sunset: 145
+        night_ceiling: 145
+        night_floor: 35
+        nightlight: 5
       ht_playing_brightness: 13
       transitions:
         default: 2
         ht_playing: 5
-      is_day: '{{ mode | lower == ''day'' }}'
-      is_ht_playing: '{{ ht_state == ''playing'' }}'
-      transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default
-        }}'
-      target_brightness: "{% if is_day %}\n  off\n{% elif is_ht_playing %}\n  {{ ht_playing_brightness
-        }}\n{% else %}\n  {% set mode_key = mode | lower %}\n  {% set level = brightness_level
-        | default('high') %}\n  {{ brightness[mode_key][level] | default(brightness[mode_key].high
-        | default(13)) }}\n{% endif %}"
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      curve: '{{ states(''sensor.brightness_curve_position'') | float(0.5) }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
+      is_day: '{{ mode_key == ''day'' }}'
+      is_ht_playing: '{{ is_state(''input_boolean.mode_home_theater'', ''on'') and
+        is_state(''media_player.living_room_apple_tv'', ''playing'') }}'
+      transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default }}'
+      target_brightness: '{% if is_day %}off{% elif is_sleep %}{{ brightness.nightlight
+        }}{% elif is_ht_playing %}{{ ht_playing_brightness }}{% elif mode_key == ''night''
+        %}{{ ((brightness.night_ceiling - brightness.night_floor) * (1.0 - curve) +
+        brightness.night_floor) | round(0) | int }}{% else %}{{ brightness[mode_key]
+        | default(13) }}{% endif %}'
   - if:
     - '{{ target_brightness == ''off'' }}'
     then:
@@ -293,28 +247,15 @@ lighting_living_room:
   alias: Lighting - Living Room
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode:
-      description: Time-of-day mode
-      example: Night
-    brightness_level:
-      description: Brightness tier
-      example: mid
-    ht_state:
-      description: Home theater state
-      example: none
   sequence:
   - variables:
       brightness:
-        night:
-          high: 190
-          mid: 120
-          low: 50
+        night_ceiling: 190
+        night_floor: 50
+        nightlight: 10
       ht_on_brightness:
-        night:
-          high: 100
-          mid: 60
-          low: 25
+        night_ceiling: 100
+        night_floor: 25
       ht_playing_kill_lights:
       - light.living_room
       - light.downstairs_hallway
@@ -323,19 +264,20 @@ lighting_living_room:
       transitions:
         default: 2
         ht_playing: 5
-      is_day: '{{ mode | lower in [''day'', ''morning''] }}'
-      is_sunset: '{{ mode | lower == ''sunset'' }}'
-      is_ht_playing: '{{ ht_state == ''playing'' }}'
-      is_ht_on: '{{ ht_state == ''on'' }}'
-      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
-      transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default
-        }}'
-      target_brightness: "{% if is_day %}\n  off\n{% elif is_ht_playing %}\n  off\n{%
-        elif is_ht_on %}\n  {% set level = brightness_level | default('high') %}\n
-        \ {{ ht_on_brightness[effective_mode][level] | default(ht_on_brightness.night[level]
-        | default(25)) }}\n{% else %}\n  {% set level = brightness_level | default('high')
-        %}\n  {{ brightness[effective_mode][level] | default(brightness.night[level]
-        | default(50)) }}\n{% endif %}"
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      curve: '{{ states(''sensor.brightness_curve_position'') | float(0.5) }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
+      is_day: '{{ mode_key in [''day'', ''morning''] }}'
+      is_ht_playing: '{{ is_state(''input_boolean.mode_home_theater'', ''on'') and
+        is_state(''media_player.living_room_apple_tv'', ''playing'') }}'
+      is_ht_on: '{{ is_state(''input_boolean.mode_home_theater'', ''on'') and not
+        is_state(''media_player.living_room_apple_tv'', ''playing'') }}'
+      transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default }}'
+      target_brightness: '{% if is_day %}off{% elif is_ht_playing %}off{% elif is_sleep
+        %}{{ brightness.nightlight }}{% elif is_ht_on %}{{ ((ht_on_brightness.night_ceiling
+        - ht_on_brightness.night_floor) * (1.0 - curve) + ht_on_brightness.night_floor)
+        | round(0) | int }}{% else %}{{ ((brightness.night_ceiling - brightness.night_floor)
+        * (1.0 - curve) + brightness.night_floor) | round(0) | int }}{% endif %}'
   - choose:
     - conditions:
       - '{{ is_ht_playing and not is_day }}'
@@ -363,17 +305,12 @@ lighting_rec_room_canvas:
   alias: Lighting - Rec Room Canvas
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode:
-      description: Time-of-day mode
-    brightness_level:
-      description: Brightness tier
-    ht_state:
-      description: Home theater state
   sequence:
   - variables:
-      is_sunset: '{{ mode | lower == ''sunset'' }}'
-      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'') and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on'' if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
+      is_sunset: '{{ mode_key == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
       is_ht_playing: '{{ ht_state == ''playing'' }}'
       is_day_no_ht: '{{ effective_mode == ''day'' and ht_state == ''none'' }}'
       action: "{% if is_ht_playing %}\n  conditional_off\n{% elif is_day_no_ht %}\n
@@ -411,15 +348,10 @@ lighting_downstairs_hallway:
   alias: Lighting - Downstairs Hallway
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode:
-      description: Time-of-day mode
-    brightness_level:
-      description: Brightness tier
-    ht_state:
-      description: Home theater state
   sequence:
   - variables:
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 0.5 else ''high'') }}'
       brightness:
         morning:
           high: 25
@@ -437,9 +369,9 @@ lighting_downstairs_hallway:
           high: 75
           mid: 50
           low: 25
-      is_sunset: '{{ mode | lower == ''sunset'' }}'
-      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
-      level: '{{ brightness_level | default(''high'') }}'
+      is_sunset: '{{ mode_key == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
+      level: '{{ brightness_level }}'
       target_brightness: '{{ brightness[effective_mode][level] | default(brightness.night[level]
         | default(25)) }}'
   - action: light.turn_on
@@ -452,15 +384,11 @@ lighting_upstairs_hallway_group:
   alias: Lighting - Upstairs Hallway Group
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode:
-      description: Time-of-day mode
-    brightness_level:
-      description: Brightness tier
-    ht_state:
-      description: Home theater state
   sequence:
   - variables:
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'') and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on'' if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
+      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 0.5 else ''high'') }}'
       brightness:
         morning:
           high: 25
@@ -479,10 +407,10 @@ lighting_upstairs_hallway_group:
           mid: 50
           low: 25
       ht_playing_brightness: 13
-      is_sunset: '{{ mode | lower == ''sunset'' }}'
-      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
+      is_sunset: '{{ mode_key == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
       is_ht_playing: '{{ ht_state == ''playing'' }}'
-      level: '{{ brightness_level | default(''high'') }}'
+      level: '{{ brightness_level }}'
       sleep_recently_ended: "{{ is_state('input_boolean.mode_sleep', 'off') and\n
         \  (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed))
         < 300 }}"
@@ -500,13 +428,10 @@ lighting_den:
   alias: Lighting - Den
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode: {}
-    brightness_level: {}
-    ht_state: {}
   sequence:
   - variables:
-      is_day: '{{ mode | lower == ''day'' }}'
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      is_day: '{{ mode_key == ''day'' }}'
   - choose:
     - conditions:
       - '{{ is_day }}'
@@ -533,13 +458,10 @@ lighting_den_cabinets:
   alias: Lighting - Den Cabinets
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode: {}
-    brightness_level: {}
-    ht_state: {}
   sequence:
   - variables:
-      is_day: '{{ mode | lower == ''day'' }}'
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      is_day: '{{ mode_key == ''day'' }}'
   - if:
     - '{{ is_day }}'
     then:
@@ -558,12 +480,10 @@ lighting_den_hallway:
   alias: Lighting - Den Hallway
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode: {}
-    brightness_level: {}
-    ht_state: {}
   sequence:
   - variables:
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 0.5 else ''high'') }}'
       brightness:
         morning:
           high: 35
@@ -581,9 +501,9 @@ lighting_den_hallway:
           high: 105
           mid: 70
           low: 35
-      is_sunset: '{{ mode | lower == ''sunset'' }}'
-      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
-      level: '{{ brightness_level | default(''high'') }}'
+      is_sunset: '{{ mode_key == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
+      level: '{{ brightness_level }}'
       target_brightness: '{{ brightness[effective_mode][level] | default(35) }}'
   - action: light.turn_on
     target:
@@ -595,12 +515,10 @@ lighting_garage_stairs:
   alias: Lighting - Garage Stairs
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode: {}
-    brightness_level: {}
-    ht_state: {}
   sequence:
   - variables:
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 0.5 else ''high'') }}'
       brightness:
         morning:
           high: 25
@@ -618,9 +536,9 @@ lighting_garage_stairs:
           high: 75
           mid: 50
           low: 25
-      is_sunset: '{{ mode | lower == ''sunset'' }}'
-      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
-      level: '{{ brightness_level | default(''high'') }}'
+      is_sunset: '{{ mode_key == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
+      level: '{{ brightness_level }}'
       target_brightness: '{{ brightness[effective_mode][level] | default(25) }}'
   - action: light.turn_on
     target:
@@ -632,13 +550,10 @@ lighting_bedroom:
   alias: Lighting - Bedroom
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode: {}
-    brightness_level: {}
-    ht_state: {}
   sequence:
   - variables:
-      is_day: '{{ mode | lower == ''day'' }}'
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      is_day: '{{ mode_key == ''day'' }}'
       is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
       sleep_recently_ended: '{{ is_state(''input_boolean.mode_sleep'', ''off'') and
         (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed))
@@ -676,15 +591,13 @@ lighting_living_room_tv:
   alias: Lighting - Living Room TV
   icon: mdi:television-ambient-light
   mode: restart
-  fields:
-    mode: {}
-    brightness_level: {}
-    ht_state: {}
   sequence:
   - variables:
-      is_day: '{{ mode | lower == ''day'' }}'
-      is_sunset: '{{ mode | lower == ''sunset'' }}'
-      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'') and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on'' if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
+      is_day: '{{ mode_key == ''day'' }}'
+      is_sunset: '{{ mode_key == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
       is_ht_playing: '{{ ht_state == ''playing'' }}'
       is_ht_on: '{{ ht_state == ''on'' }}'
       ht_playing_brightness:
@@ -885,13 +798,10 @@ lighting_patio:
   alias: Lighting - Patio
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode: {}
-    brightness_level: {}
-    ht_state: {}
   sequence:
   - variables:
-      is_day: '{{ mode | lower in [''day'', ''morning''] }}'
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      is_day: '{{ mode_key in [''day'', ''morning''] }}'
       holiday: '{{ is_state(''calendar.holiday_lighting'', ''on'') }}'
       holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') if
         holiday else '''' }}'
@@ -925,13 +835,10 @@ lighting_patio_string_lights:
   alias: Lighting - Patio String Lights
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode: {}
-    brightness_level: {}
-    ht_state: {}
   sequence:
   - variables:
-      is_day: '{{ mode | lower in [''day'', ''morning''] }}'
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      is_day: '{{ mode_key in [''day'', ''morning''] }}'
       holiday: '{{ is_state(''calendar.holiday_lighting'', ''on'') }}'
       holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') if
         holiday else '''' }}'
@@ -977,13 +884,10 @@ lighting_studio:
   alias: Lighting - Studio
   icon: mdi:lightbulb
   mode: restart
-  fields:
-    mode: {}
-    brightness_level: {}
-    ht_state: {}
   sequence:
   - variables:
-      is_day: '{{ mode | lower == ''day'' }}'
+      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      is_day: '{{ mode_key == ''day'' }}'
   - if:
     - '{{ is_day }}'
     then: []

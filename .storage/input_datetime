@@ -5,20 +5,6 @@
   "data": {
     "items": [
       {
-        "id": "prefer_lighting_high_time",
-        "name": "Prefer Lighting High Time",
-        "icon": "mdi:clock-time-eight-outline",
-        "has_date": true,
-        "has_time": true
-      },
-      {
-        "id": "prefer_lighting_mid_time",
-        "name": "Prefer Lighting Mid Time",
-        "icon": "mdi:clock-time-eight-outline",
-        "has_date": true,
-        "has_time": true
-      },
-      {
         "id": "prefer_lighting_low_time",
         "name": "Prefer Lighting Low Time",
         "icon": "mdi:clock-time-eight-outline",
