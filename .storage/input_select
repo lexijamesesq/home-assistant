@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "minor_version": 2,
+  "key": "input_select",
+  "data": {
+    "items": [
+      {
+        "id": "bedroom_scene_toggle",
+        "name": "Bedroom Scene Toggle",
+        "icon": "mdi:palette",
+        "options": [
+          "script.lighting_bedroom",
+          "script.lighting_bedroom_mood"
+        ]
+      },
+      {
+        "id": "den_scene_toggle",
+        "name": "Den Scene Toggle",
+        "icon": "mdi:palette",
+        "options": [
+          "script.lighting_den",
+          "script.lighting_den_mood"
+        ]
+      }
+    ]
+  }
+}
