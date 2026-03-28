@@ -1,1113 +1,3 @@
-scene_bedroom_alarm_dismissed:
-  alias: Scene Bedroom Alarm Dismissed
-  sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.scene_bedroom_neutral_low
-scene_bedroom_morning_low:
-  alias: Scene Bedroom Morning Low
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_bedroom_neutral_low
-scene_bedroom_day_high:
-  alias: Scene Bedroom Day High
-  sequence:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.mode_sleep
-        state: 'off'
-      - '{{ as_timestamp(now()) < (as_timestamp(states.input_boolean.mode_sleep.last_changed)
-        + (60 * 5)) }}'
-      sequence:
-      - service: script.turn_on
-        entity_id: script.scene_bedroom_neutral_low
-    default:
-    - service: script.turn_on
-      entity_id: script.scene_bedroom_off
-scene_bedroom_sunset_high:
-  alias: Scene Bedroom Night High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_bedroom_neutral_low
-scene_bedroom_night_high:
-  alias: Scene Bedroom Night High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_bedroom_neutral_low
-scene_bedroom_night_mid:
-  alias: Scene Bedroom Night Mid
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_bedroom_neutral_low
-scene_bedroom_night_low:
-  alias: Scene Bedroom Night Low
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_bedroom_neutral_low
-scene_bedroom_purple_blue:
-  alias: Scene Bedroom Purple & Blue
-  sequence:
-  - parallel:
-    - entity_id: light.bedroom_1
-      data:
-        transition: 2
-        brightness: 100
-        rgb_color:
-        - 65
-        - 102
-        - 255
-      action: light.turn_on
-    - entity_id: light.bedroom_2
-      data:
-        transition: 2
-        brightness: 100
-        rgb_color:
-        - 15
-        - 163
-        - 255
-      action: light.turn_on
-    - entity_id: light.bedroom_switch
-      data:
-        brightness: 75
-      action: light.turn_on
-  - delay:
-      seconds: 2
-  - target:
-      entity_id: input_select.bedroom_scene_toggle
-    data:
-      option: script.scene_bedroom_purple_blue
-    action: input_select.select_option
-scene_bedroom_neutral_low:
-  alias: Scene Bedroom Neutral Low
-  sequence:
-  - parallel:
-    - entity_id: light.bedroom
-      data:
-        transition: 2
-        brightness: 75
-        color_temp_kelvin: 3500
-      action: light.turn_on
-    - entity_id: light.bedroom_switch
-      data:
-        brightness: 75
-      action: light.turn_on
-  - delay:
-      seconds: 2
-  - target:
-      entity_id: input_select.bedroom_scene_toggle
-    data:
-      option: script.scene_bedroom_neutral_low
-    action: input_select.select_option
-scene_bedroom_sleep_mode_on:
-  alias: Scene Bedroom Sleep Mode On
-  sequence:
-  - parallel:
-    - entity_id: light.bedroom
-      data:
-        transition: 2
-        brightness: 75
-        color_temp_kelvin: 3000
-      action: light.turn_on
-    - entity_id: light.bedroom_switch
-      data:
-        brightness: 75
-      action: light.turn_on
-  - delay:
-      seconds: 2
-scene_bedroom_off:
-  alias: Scene Bedroom Lights Off
-  sequence:
-  - service: light.turn_off
-    entity_id: light.bedroom
-scene_den_hallway_morning_low:
-  alias: Scene Den Hallway Morning Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.den_hallway
-    data:
-      transition: 2
-      brightness: 35
-scene_den_hallway_day_high:
-  alias: Scene Den Hallway Day High
-  sequence:
-  - service: light.turn_on
-    entity_id: light.den_hallway
-    data:
-      transition: 2
-      brightness: 133
-scene_den_hallway_day_mid:
-  alias: Scene Den Hallway Day Mid
-  sequence:
-  - service: light.turn_on
-    entity_id: light.den_hallway
-    data:
-      transition: 2
-      brightness: 63
-scene_den_hallway_sunset_high:
-  alias: Scene Den Hallway Sunset High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_den_hallway_night_high
-scene_den_hallway_sunset_mid:
-  alias: Scene Den Hallway Night Mid
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_den_hallway_night_mid
-scene_den_hallway_night_high:
-  alias: Scene Den Hallway Night High
-  sequence:
-  - service: light.turn_on
-    entity_id: light.den_hallway
-    data:
-      transition: 2
-      brightness: 105
-scene_den_hallway_night_mid:
-  alias: Scene Den Hallway Night Mid
-  sequence:
-  - service: light.turn_on
-    entity_id: light.den_hallway
-    data:
-      transition: 2
-      brightness: 70
-scene_den_hallway_night_low:
-  alias: Scene Den Hallway Night Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.den_hallway
-    data:
-      transition: 2
-      brightness: 35
-scene_den_morning_low:
-  alias: Scene Den Morning Low
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_den_neutral_low
-scene_den_day_high:
-  alias: Scene Den Day High
-  sequence:
-  - service: light.turn_off
-    entity_id: light.den
-scene_den_sunset_high:
-  alias: Scene Den Sunset High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_den_neutral_low
-scene_den_night_high:
-  alias: Scene Den Night High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_den_neutral_low
-scene_den_night_mid:
-  alias: Scene Den Night Mid
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_den_neutral_low
-scene_den_night_low:
-  alias: Scene Den Night Low
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_den_neutral_low
-scene_den_pink_blue:
-  alias: Scene Den Pink & Blue
-  sequence:
-  - parallel:
-    - entity_id: light.den_1
-      data:
-        transition: 2
-        brightness: 206
-        rgb_color:
-        - 255
-        - 0
-        - 185
-      action: light.turn_on
-    - entity_id: light.den_2
-      data:
-        transition: 2
-        brightness: 206
-        rgb_color:
-        - 33
-        - 0
-        - 255
-      action: light.turn_on
-  - delay:
-      seconds: 2
-  - target:
-      entity_id: input_select.den_scene_toggle
-    data:
-      option: script.scene_den_pink_blue
-    action: input_select.select_option
-scene_den_neutral_low:
-  alias: Scene Den Neutral Low
-  sequence:
-  - entity_id: light.den
-    data:
-      transition: 2
-      brightness: 75
-      color_temp_kelvin: 3500
-    action: light.turn_on
-  - delay:
-      seconds: 2
-  - target:
-      entity_id: input_select.den_scene_toggle
-    data:
-      option: script.scene_den_neutral_low
-    action: input_select.select_option
-scene_den_cabinets_morning:
-  alias: Scene Den Cabinets Morning Mid
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_den_cabinets_neutral
-scene_den_cabinets_day:
-  alias: Scene Den Cabinets Day High
-  sequence:
-  - service: light.turn_off
-    entity_id: light.den_cabinets
-scene_den_cabinets_sunset:
-  alias: Scene Den Cabinets Sunset High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_den_cabinets_neutral
-scene_den_cabinets_night:
-  alias: Scene Den Cabinets Night High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_den_cabinets_neutral
-scene_den_cabinets_neutral:
-  alias: Scene Den Cabinets Neutral
-  sequence:
-  - service: light.turn_on
-    entity_id: light.den_cabinets
-    data:
-      transition: 5
-      brightness: 75
-      color_temp_kelvin: 3500
-scene_downstairs_hallway_morning_low:
-  alias: Scene Downstairs Hallway Morning Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.downstairs_hallway
-    data:
-      transition: 2
-      brightness: 25
-scene_downstairs_hallway_day_high:
-  alias: Scene Downstairs Hallway Day High
-  sequence:
-  - service: light.turn_on
-    entity_id: light.downstairs_hallway
-    data:
-      transition: 2
-      brightness: 95
-scene_downstairs_hallway_day_mid:
-  alias: Scene Downstairs Hallway Day Mid
-  sequence:
-  - service: light.turn_on
-    entity_id: light.downstairs_hallway
-    data:
-      transition: 2
-      brightness: 45
-scene_downstairs_hallway_sunset_high:
-  alias: Scene Downstairs Hallway Sunset High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_downstairs_hallway_night_high
-scene_downstairs_hallway_sunset_mid:
-  alias: Scene Downstairs Hallway Sunset Mid
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_downstairs_hallway_night_mid
-scene_downstairs_hallway_night_high:
-  alias: Scene Downstairs Hallway Night High
-  sequence:
-  - service: light.turn_on
-    entity_id: light.downstairs_hallway
-    data:
-      transition: 2
-      brightness: 75
-scene_downstairs_hallway_night_mid:
-  alias: Scene Downstairs Hallway Night Mid
-  sequence:
-  - service: light.turn_on
-    entity_id: light.downstairs_hallway
-    data:
-      transition: 2
-      brightness: 50
-scene_downstairs_hallway_night_low:
-  alias: Scene Downstairs Hallway Night Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.downstairs_hallway
-    data:
-      transition: 2
-      brightness: 25
-scene_garage_stairs_morning_low:
-  alias: Scene Garage Stairs Morning Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.garage_stairs
-    data:
-      transition: 2
-      brightness: 25
-scene_garage_stairs_day_high:
-  alias: Scene Garage Stairs Day High
-  sequence:
-  - service: light.turn_on
-    entity_id: light.garage_stairs
-    data:
-      transition: 2
-      brightness: 95
-scene_garage_stairs_day_mid:
-  alias: Scene Garage Stairs Day Mid
-  sequence:
-  - service: light.turn_on
-    entity_id: light.garage_stairs
-    data:
-      transition: 2
-      brightness: 45
-scene_garage_stairs_sunset_high:
-  alias: Scene Garage Stairs Sunset High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_garage_stairs_night_high
-scene_garage_stairs_sunset_mid:
-  alias: Scene Garage Stairs Sunset Mid
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_garage_stairs_night_mid
-scene_garage_stairs_night_high:
-  alias: Scene Garage Stairs Night High
-  sequence:
-  - service: light.turn_on
-    entity_id: light.garage_stairs
-    data:
-      transition: 2
-      brightness: 75
-scene_garage_stairs_night_mid:
-  alias: Scene Garage Stairs Night Mid
-  sequence:
-  - service: light.turn_on
-    entity_id: light.garage_stairs
-    data:
-      transition: 2
-      brightness: 50
-scene_garage_stairs_night_low:
-  alias: Scene Garage Stairs Night Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.garage_stairs
-    data:
-      transition: 2
-      brightness: 25
-scene_kitchen_morning_low:
-  alias: Scene Kitchen Morning Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: 2
-      brightness: 13
-scene_kitchen_morning_ht_on_low:
-  alias: Scene Kitchen Morning HT On Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: 2
-      brightness: 13
-scene_kitchen_morning_ht_playing_low:
-  alias: Scene Kitchen Morning HT Playing Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: 5
-      brightness: 13
-scene_kitchen_day_high:
-  alias: Scene Kitchen Day High
-  sequence:
-  - condition: state
-    entity_id: light.kitchen
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.kitchen
-scene_kitchen_day_ht_on_high:
-  alias: Scene Kitchen Day HT On High
-  sequence:
-  - condition: state
-    entity_id: light.kitchen
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.kitchen
-scene_kitchen_day_ht_playing_high:
-  alias: Scene Kitchen Day HT Playing High
-  sequence:
-  - condition: state
-    entity_id: light.kitchen
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.kitchen
-scene_kitchen_sunset_high:
-  alias: Scene Kitchen Sunset High
-  sequence:
-  - entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(2, true) }}'
-      brightness: 145
-    action: light.turn_on
-scene_kitchen_sunset_ht_on_high:
-  alias: Scene Kitchen Sunset HT On High
-  sequence:
-  - entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(2, true) }}'
-      brightness: 145
-    action: light.turn_on
-scene_kitchen_sunset_ht_playing_high:
-  alias: Scene Kitchen Sunset HT Playing High
-  sequence:
-  - entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(5, true) }}'
-      brightness: 13
-    action: light.turn_on
-scene_kitchen_night_high:
-  alias: Scene Kitchen Night High
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(2, true) }}'
-      brightness: 145
-scene_kitchen_night_mid:
-  alias: Scene Kitchen Night Mid
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(2, true) }}'
-      brightness: 90
-scene_kitchen_night_low:
-  alias: Scene Kitchen Night Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(2, true) }}'
-      brightness: 35
-scene_kitchen_night_ht_on_high:
-  alias: Scene Kitchen Night HT On High
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(2, true) }}'
-      brightness: 145
-scene_kitchen_night_ht_on_mid:
-  alias: Scene Kitchen Night HT On Mid
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(2, true) }}'
-      brightness: 90
-scene_kitchen_night_ht_on_low:
-  alias: Scene Kitchen Night HT On Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(2, true) }}'
-      brightness: 35
-scene_kitchen_night_ht_playing_high:
-  alias: Scene Kitchen Night HT Playing High
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(5, true) }}'
-      brightness: 13
-scene_kitchen_night_ht_playing_mid:
-  alias: Scene Kitchen Night HT Playing Mid
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(5, true) }}'
-      brightness: 13
-scene_kitchen_night_ht_playing_low:
-  alias: Scene Kitchen Night HT Playing Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.kitchen
-    data:
-      transition: '{{ seconds | default(5, true) }}'
-      brightness: 13
-scene_living_room_tv_morning:
-  alias: Scene TV Ambient Morning
-  sequence:
-  - condition: state
-    entity_id: light.living_room_tv
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.living_room_tv
-scene_living_room_tv_morning_ht_on:
-  alias: Scene TV Ambient Morning HT On
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_living_room_tv
-scene_living_room_tv_morning_ht_playing:
-  alias: Scene TV Ambient Morning HT Playing
-  sequence:
-  - service: light.turn_on
-    entity_id: light.living_room_tv
-    data:
-      brightness: 25
-      color_temp_kelvin: 3500
-scene_living_room_tv_day:
-  alias: Scene TV Ambient Day
-  sequence:
-  - condition: state
-    entity_id: light.living_room_tv
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.living_room_tv
-scene_living_room_tv_day_ht_on:
-  alias: Scene TV Ambient Day HT On
-  sequence:
-  - condition: state
-    entity_id: light.living_room_tv
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.living_room_tv
-scene_living_room_tv_day_ht_playing:
-  alias: Scene TV Ambient Day HT Playing
-  sequence:
-  - condition: state
-    entity_id: light.living_room_tv
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.living_room_tv
-scene_living_room_tv_sunset:
-  alias: Scene TV Ambient Sunset
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_living_room_tv_night
-scene_living_room_tv_sunset_ht_on:
-  alias: Scene TV Ambient Sunset HT On
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_living_room_tv_night_ht_on
-scene_living_room_tv_sunset_ht_playing:
-  alias: Scene TV Ambient Sunset HT Playing
-  sequence:
-  - service: light.turn_on
-    entity_id: light.living_room_tv
-    data:
-      brightness: 45
-      color_temp_kelvin: 3500
-scene_living_room_tv_night:
-  alias: Scene TV Ambient Night
-  sequence:
-  - condition: state
-    entity_id: light.living_room_tv
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.living_room_tv
-scene_living_room_tv_night_ht_on:
-  alias: Scene TV Ambient Night HT On
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_living_room_tv
-scene_living_room_tv_night_ht_playing:
-  alias: Scene TV Ambient Night HT Playing
-  sequence:
-  - service: light.turn_on
-    entity_id: light.living_room_tv
-    data:
-      brightness: 25
-      color_temp_kelvin: 3500
-scene_living_room_tv:
-  alias: Scene TV Ambient
-  sequence:
-  - service: scene.turn_on
-    entity_id: scene.tv_ambient_night_ht_on
-scene_living_room_morning_low:
-  alias: Scene Living Room Morning Low
-  sequence:
-  - service: light.turn_off
-    entity_id: light.living_room
-scene_living_room_morning_ht_on_low:
-  alias: Scene Living Room Morning HT On Low
-  sequence:
-  - service: light.turn_off
-    entity_id: light.living_room
-scene_living_room_morning_ht_playing_low:
-  alias: Scene Living Room Morning HT Playing Low
-  sequence:
-  - service: light.turn_off
-    entity_id:
-    - light.downstairs_hallway
-    - light.main_stairs
-    - light.living_room
-scene_living_room_day_high:
-  alias: Scene Living Room Day High
-  sequence:
-  - condition: state
-    entity_id: light.living_room
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.living_room
-scene_living_room_day_ht_on_high:
-  alias: Scene Living Room Day HT On High
-  sequence:
-  - condition: state
-    entity_id: light.living_room
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.living_room
-scene_living_room_day_ht_playing_high:
-  alias: Scene Living Room Day HT Playing High
-  sequence:
-  - condition: state
-    entity_id: light.living_room
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.living_room
-scene_living_room_sunset_high:
-  alias: Scene Living Room Sunset High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_living_room_night_high
-scene_living_room_sunset_ht_on_high:
-  alias: Scene Living Room Sunset HT On High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_living_room_night_ht_on_high
-scene_living_room_sunset_ht_playing_high:
-  alias: Scene Living Room Sunset HT Playing High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_living_room_night_ht_playing_high
-scene_living_room_night_high:
-  alias: Scene Living Room Night High
-  sequence:
-  - service: light.turn_on
-    entity_id: light.living_room
-    data:
-      transition: '{{ seconds | default(2, true) }}'
-      brightness: 190
-scene_living_room_night_mid:
-  alias: Scene Living Room Night Mid
-  sequence:
-  - service: light.turn_on
-    entity_id: light.living_room
-    data:
-      transition: '{{ seconds | default(2, true) }}'
-      brightness: 120
-scene_living_room_night_low:
-  alias: Scene Living Room Night Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.living_room
-    data:
-      transition: '{{ seconds | default(2, true) }}'
-      brightness: 50
-scene_living_room_night_ht_on_high:
-  alias: Scene Living Room Night HT On High
-  sequence:
-  - service: light.turn_on
-    entity_id: light.living_room
-    data:
-      brightness: 100
-scene_living_room_night_ht_on_mid:
-  alias: Scene Living Room Night HT On Mid
-  sequence:
-  - service: light.turn_on
-    entity_id: light.living_room
-    data:
-      brightness: 60
-scene_living_room_night_ht_on_low:
-  alias: Scene Living Room Night HT On Low
-  sequence:
-  - service: light.turn_on
-    entity_id: light.living_room
-    data:
-      brightness: 25
-scene_living_room_night_ht_playing_high:
-  alias: Scene Living Room Night HT Playing High
-  sequence:
-  - service: light.turn_off
-    entity_id:
-    - light.downstairs_hallway
-    - light.upstairs_hallway_group
-    - light.bedroom_hallway
-    - light.living_room
-scene_living_room_night_ht_playing_mid:
-  alias: Scene Living Room Night HT Playing Mid
-  sequence:
-  - service: light.turn_off
-    entity_id:
-    - light.downstairs_hallway
-    - light.upstairs_hallway_group
-    - light.living_room
-scene_living_room_night_ht_playing_low:
-  alias: Scene Living Room Night HT Playing Low
-  sequence:
-  - service: light.turn_off
-    entity_id:
-    - light.downstairs_hallway
-    - light.upstairs_hallway_group
-    - light.living_room
-scene_patio_sunset_high:
-  alias: Scene Patio Sunset High
-  variables:
-    holiday: '{{ is_state("calendar.holiday_lighting", "on") }}'
-  sequence:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ holiday and is_state_attr("calendar.holiday_lighting",
-          "message", "holiday name") }}'
-      sequence:
-      - entity_id: script.scene_patio_neutral
-        action: script.turn_on
-    - conditions:
-      - condition: template
-        value_template: '{{ holiday and is_state_attr("calendar.holiday_lighting",
-          "message", "Christmas") }}'
-      sequence:
-      - entity_id: light.patio
-        action: light.turn_off
-    default:
-    - entity_id: script.scene_patio_neutral
-      action: script.turn_on
-scene_patio_blue_purple:
-  alias: Scene Patio Blue & Purple
-  sequence:
-  - service: automation.turn_off
-    entity_id: automation.downstairs_patio_dimmer_lights_sync
-  - parallel:
-    - service: light.turn_on
-      entity_id: light.downstairs_patio_1
-      data:
-        transition: 2
-        brightness: 100
-        rgb_color:
-        - 69
-        - 63
-        - 255
-    - service: light.turn_on
-      entity_id: light.downstairs_patio_2
-      data:
-        transition: 2
-        brightness: 100
-        rgb_color:
-        - 193
-        - 0
-        - 255
-    - service: light.turn_on
-      entity_id: light.downstairs_patio_3
-      data:
-        transition: 2
-        brightness: 100
-        rgb_color:
-        - 69
-        - 63
-        - 255
-  - delay:
-      seconds: 2
-  - service: automation.turn_on
-    entity_id: automation.downstairs_patio_dimmer_lights_sync
-scene_patio_neutral:
-  alias: Scene Patio Neutral
-  sequence:
-  - parallel:
-    - entity_id: light.downstairs_patio
-      data:
-        transition: 2
-        brightness: 50
-        color_temp_kelvin: 2500
-      action: light.turn_on
-    - entity_id: light.upstairs_patio
-      data:
-        transition: 2
-        brightness: 152
-        color_temp_kelvin: 2500
-      action: light.turn_on
-  - delay:
-      seconds: 2
-scene_patio_string_lights_sunset:
-  alias: Scene Patio String Lights Sunset
-  variables:
-    holiday: '{{ is_state("calendar.holiday_lighting", "on") }}'
-  sequence:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ holiday and is_state_attr("calendar.holiday_lighting",
-          "message", "Pride") }}'
-      sequence:
-      - entity_id: scene.holiday_pride
-        action: scene.turn_on
-    - conditions:
-      - condition: template
-        value_template: '{{ holiday and is_state_attr("calendar.holiday_lighting",
-          "message", "USA") }}'
-      sequence:
-      - entity_id: scene.holiday_usa
-        action: scene.turn_on
-    - conditions:
-      - condition: template
-        value_template: '{{ holiday and is_state_attr("calendar.holiday_lighting",
-          "message", "Christmas") }}'
-      sequence:
-      - entity_id: scene.holiday_christmas
-        action: scene.turn_on
-    default:
-    - entity_id: script.scene_patio_string_lights_neutral
-      action: script.turn_on
-scene_patio_string_lights_neutral:
-  alias: Scene Patio String Lights Neutral
-  sequence:
-  - parallel:
-    - service: light.turn_on
-      entity_id: light.downstairs_patio_string
-      data:
-        transition: 2
-        brightness: 154
-        color_temp_kelvin: 2500
-    - service: light.turn_on
-      entity_id: light.upstairs_patio_string
-      data:
-        transition: 2
-        brightness: 154
-        color_temp_kelvin: 2500
-scene_rec_room_canvas_morning:
-  alias: Scene Rec Room Canvas Morning
-  sequence:
-  - condition: state
-    entity_id: light.rec_room_canvas
-    state: 'off'
-  - service: script.turn_on
-    entity_id: script.scene_rec_room_canvas_mood
-scene_rec_room_canvas_morning_ht_on:
-  alias: Scene Rec Room Canvas Morning HT On
-  sequence:
-  - condition: state
-    entity_id: light.rec_room_canvas
-    state: 'off'
-  - service: script.turn_on
-    entity_id: script.scene_rec_room_canvas_mood
-scene_rec_room_canvas_morning_ht_playing:
-  alias: Scene Rec Room Canvas Morning HT Playing
-  sequence:
-  - condition: state
-    entity_id: light.rec_room_canvas
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.rec_room_canvas
-scene_rec_room_canvas_day:
-  alias: Scene Rec Room Canvas Day
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_rec_room_canvas_mood
-scene_rec_room_canvas_day_ht_on:
-  alias: Scene Rec Room Canvas Day HT On
-  sequence:
-  - condition: state
-    entity_id: light.rec_room_canvas
-    state: 'off'
-  - service: script.turn_on
-    entity_id: script.scene_rec_room_canvas_mood
-scene_rec_room_canvas_day_ht_playing:
-  alias: Scene Rec Room Canvas Day HT Playing
-  sequence:
-  - condition: state
-    entity_id: light.rec_room_canvas
-    state: 'off'
-  - service: script.turn_on
-    entity_id: script.scene_rec_room_canvas_mood
-scene_rec_room_canvas_sunset:
-  alias: Scene Rec Room Canvas Sunset
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_rec_room_canvas_night
-scene_rec_room_canvas_sunset_ht_on:
-  alias: Scene Rec Room Canvas Sunset HT On
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_rec_room_canvas_night_ht_on
-scene_rec_room_canvas_sunset_ht_playing:
-  alias: Scene Rec Room Canvas Sunset HT Playing
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_rec_room_canvas_night_ht_playing
-scene_rec_room_canvas_night:
-  alias: Scene Rec Room Canvas Night
-  sequence:
-  - condition: state
-    entity_id: light.rec_room_canvas
-    state: 'off'
-  - service: script.turn_on
-    entity_id: script.scene_rec_room_canvas_mood
-scene_rec_room_canvas_night_ht_on:
-  alias: Scene Rec Room Canvas Night HT On
-  sequence:
-  - condition: state
-    entity_id: light.rec_room_canvas
-    state: 'off'
-  - service: script.turn_on
-    entity_id: script.scene_rec_room_canvas_mood
-scene_rec_room_canvas_night_ht_playing:
-  alias: Scene Rec Room Canvas Night HT Playing
-  sequence:
-  - condition: state
-    entity_id: light.rec_room_canvas
-    state: 'on'
-  - service: light.turn_off
-    entity_id: light.rec_room_canvas
-scene_rec_room_canvas_mood:
-  alias: Scene Rec Room Canvas - Mood
-  sequence:
-  - service: light.turn_on
-    entity_id: light.rec_room_canvas
-    data:
-      effect: Mood
-scene_upstairs_hallway_group_morning_low:
-  alias: Scene Upstairs Hallway Group Morning Low
-  sequence:
-  - parallel:
-    - service: light.turn_on
-      entity_id: light.main_stairs
-      data:
-        transition: 2
-        brightness: 25
-    - service: light.turn_on
-      entity_id: light.upstairs_hallway
-      data:
-        transition: 2
-        brightness: 25
-    - service: light.turn_on
-      entity_id: light.bedroom_hallway
-      data:
-        transition: 2
-        brightness: 25
-scene_upstairs_hallway_group_day_high:
-  alias: Scene Upstairs Hallway Group Day High
-  sequence:
-  - parallel:
-    - service: light.turn_on
-      entity_id: light.main_stairs
-      data:
-        transition: 2
-        brightness: 95
-    - service: light.turn_on
-      entity_id: light.upstairs_hallway
-      data:
-        transition: 2
-        brightness: 95
-    - service: light.turn_on
-      entity_id: light.bedroom_hallway
-      data:
-        transition: 2
-        brightness: 95
-scene_upstairs_hallway_group_day_mid:
-  alias: Scene Upstairs Hallway Group Day Mid
-  sequence:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.mode_sleep
-        state: 'off'
-      - '{{ as_timestamp(now()) < (as_timestamp(states.input_boolean.mode_sleep.last_changed)
-        + (60 * 5)) }}'
-      sequence:
-      - service: script.turn_on
-        entity_id: script.scene_upstairs_hallway_group_morning_low
-    default:
-    - parallel:
-      - service: light.turn_on
-        entity_id: light.main_stairs
-        data:
-          transition: 2
-          brightness: 45
-      - service: light.turn_on
-        entity_id: light.upstairs_hallway
-        data:
-          transition: 2
-          brightness: 45
-      - service: light.turn_on
-        entity_id: light.bedroom_hallway
-        data:
-          transition: 2
-          brightness: 45
-scene_upstairs_hallway_group_sunset_high:
-  alias: Scene Upstairs Hallway Group Sunset High
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_upstairs_hallway_group_night_high
-scene_upstairs_hallway_group_sunset_mid:
-  alias: Scene Upstairs Hallway Group Sunset Mid
-  sequence:
-  - service: script.turn_on
-    entity_id: script.scene_upstairs_hallway_group_night_mid
-scene_upstairs_hallway_group_night_high:
-  alias: Scene Upstairs Hallway Group Night High
-  sequence:
-  - parallel:
-    - service: light.turn_on
-      entity_id: light.main_stairs
-      data:
-        transition: 2
-        brightness: 75
-    - service: light.turn_on
-      entity_id: light.upstairs_hallway
-      data:
-        transition: 2
-        brightness: 75
-    - service: light.turn_on
-      entity_id: light.bedroom_hallway
-      data:
-        transition: 2
-        brightness: 75
-scene_upstairs_hallway_group_night_mid:
-  alias: Scene Upstairs Hallway Group Night Mid
-  sequence:
-  - parallel:
-    - service: light.turn_on
-      entity_id: light.main_stairs
-      data:
-        transition: 2
-        brightness: 50
-    - service: light.turn_on
-      entity_id: light.upstairs_hallway
-      data:
-        transition: 2
-        brightness: 50
-    - service: light.turn_on
-      entity_id: light.bedroom_hallway
-      data:
-        transition: 2
-        brightness: 50
-scene_upstairs_hallway_group_night_low:
-  alias: Scene Upstairs Hallway Group Night Low
-  sequence:
-  - parallel:
-    - service: light.turn_on
-      entity_id: light.main_stairs
-      data:
-        transition: 2
-        brightness: 25
-    - service: light.turn_on
-      entity_id: light.upstairs_hallway
-      data:
-        transition: 2
-        brightness: 25
-    - service: light.turn_on
-      entity_id: light.bedroom_hallway
-      data:
-        transition: 2
-        brightness: 25
 nest_toggle_downstairs_eco:
   alias: Nest Toggle Downstairs Eco
   sequence:
@@ -1151,63 +41,26 @@ update_lights:
   - condition: template
     value_template: '{{ lights is defined }}'
   - variables:
-      new_model_rooms:
-      - kitchen
-      - living_room
-      - rec_room_canvas
-      - downstairs_hallway
-      - upstairs_hallway_group
-      - den
-      - den_cabinets
-      - den_hallway
-      - garage_stairs
-      - bedroom
-      - living_room_tv
-      - patio
-      - patio_string_lights
-      - studio
-      current_mode: "{{ states('sensor.dashboard_current_home_mode') }}"
-      ht_state: "{{ 'playing' if is_state('input_boolean.mode_home_theater', 'on') and is_state('media_player.living_room_apple_tv', 'playing') else ('on' if is_state('input_boolean.mode_home_theater', 'on') else 'none') }}"
-      current_brightness: "{% set time = now().strftime('%H:%M:%S') %}{% set low = states('input_datetime.prefer_lighting_low_time') %}{% set mid = states('input_datetime.prefer_lighting_mid_time') %}{% set high = states('input_datetime.prefer_lighting_high_time') %}{% if time >= low or time < high %}low{% elif time >= mid %}mid{% else %}{{ 'mid' if trigger is defined else 'high' }}{% endif %}"
-      legacy_lights: "{{ lights | reject('in', new_model_rooms) | list }}"
-      new_lights: "{{ lights | select('in', new_model_rooms) | list }}"
-      ht_lights:
-      - kitchen
-      - living_room
-      - living_room_tv
-      - rec_room_canvas
-      ambient_lights:
-      - living_room_tv
-      - rec_room_canvas
-      - den_cabinets
-      - patio_string_lights
-  - if:
-    - "{{ legacy_lights | length > 0 }}"
-    then:
-    - service: script.turn_on
-      data:
-        entity_id: >-
-          {% set mode = '_' + current_mode | lower %}
-          {% set ht = '_ht_playing' if ht_state == 'playing' else ('_ht_on' if ht_state == 'on' else '') %}
-          {% set brightness = '_' + current_brightness %}
-          {% for light in legacy_lights -%}
-            script.scene_{{ light }}{{ mode }}{{ ht if light in ht_lights }}{{ brightness if light not in ambient_lights }}
-            {%- if not loop.last -%},{%- endif %}
-          {%- endfor %}
-  - if:
-    - "{{ new_lights | length > 0 }}"
-    then:
-    - repeat:
-        for_each: "{{ new_lights }}"
-        sequence:
-        - action: script.turn_on
-          target:
-            entity_id: "script.lighting_{{ repeat.item }}"
-          data:
-            variables:
-              mode: "{{ current_mode }}"
-              brightness_level: "{{ current_brightness }}"
-              ht_state: "{{ ht_state }}"
+      current_mode: '{{ states(''sensor.dashboard_current_home_mode'') }}'
+      ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'')
+        and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on''
+        if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
+      current_brightness: '{% set time = now().strftime(''%H:%M:%S'') %}{% set low
+        = states(''input_datetime.prefer_lighting_low_time'') %}{% set mid = states(''input_datetime.prefer_lighting_mid_time'')
+        %}{% set high = states(''input_datetime.prefer_lighting_high_time'') %}{%
+        if time >= low or time < high %}low{% elif time >= mid %}mid{% else %}{{ ''mid''
+        if trigger is defined else ''high'' }}{% endif %}'
+  - repeat:
+      for_each: '{{ lights }}'
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.lighting_{{ repeat.item }}
+        data:
+          variables:
+            mode: '{{ current_mode }}'
+            brightness_level: '{{ current_brightness }}'
+            ht_state: '{{ ht_state }}'
 sonos_playlist_country_caffeine:
   alias: Sonos Playlist Country Caffeine
   sequence:
@@ -1374,29 +227,6 @@ sonos_volume_ramp_up:
             | float else states("input_number.sonos_bathroom_volume") | float }}'
         action: media_player.volume_set
   mode: queued
-scene_studio_neutral_low:
-  alias: Scene Studio Neutral Low
-  sequence:
-  - entity_id: light.studio
-    data:
-      transition: 2
-      brightness: 75
-      color_temp_kelvin: 3500
-    action: light.turn_on
-  - delay:
-      seconds: 2
-  - target:
-      entity_id: input_select.studio_scene_toggle
-    data:
-      option: script.scene_studio_neutral_low
-    action: input_select.select_option
-  description: ''
-  icon: mdi:palette-outline
-
-# ══════════════════════════════════════════════════
-# Option C Lighting Scripts
-# Per-room scripts with curated data headers.
-# ══════════════════════════════════════════════════
 lighting_kitchen:
   alias: Lighting - Kitchen
   icon: mdi:lightbulb
@@ -1414,29 +244,32 @@ lighting_kitchen:
   sequence:
   - variables:
       brightness:
-        morning: {high: 13, mid: 13, low: 13}
-        sunset: {high: 145, mid: 145, low: 145}
-        night: {high: 145, mid: 90, low: 35}
+        morning:
+          high: 13
+          mid: 13
+          low: 13
+        sunset:
+          high: 145
+          mid: 145
+          low: 145
+        night:
+          high: 145
+          mid: 90
+          low: 35
       ht_playing_brightness: 13
       transitions:
         default: 2
         ht_playing: 5
-      is_day: "{{ mode | lower == 'day' }}"
-      is_ht_playing: "{{ ht_state == 'playing' }}"
-      transition: >-
-        {{ transitions.ht_playing if is_ht_playing else transitions.default }}
-      target_brightness: >-
-        {% if is_day %}
-          off
-        {% elif is_ht_playing %}
-          {{ ht_playing_brightness }}
-        {% else %}
-          {% set mode_key = mode | lower %}
-          {% set level = brightness_level | default('high') %}
-          {{ brightness[mode_key][level] | default(brightness[mode_key].high | default(13)) }}
-        {% endif %}
+      is_day: '{{ mode | lower == ''day'' }}'
+      is_ht_playing: '{{ ht_state == ''playing'' }}'
+      transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default
+        }}'
+      target_brightness: "{% if is_day %}\n  off\n{% elif is_ht_playing %}\n  {{ ht_playing_brightness
+        }}\n{% else %}\n  {% set mode_key = mode | lower %}\n  {% set level = brightness_level
+        | default('high') %}\n  {{ brightness[mode_key][level] | default(brightness[mode_key].high
+        | default(13)) }}\n{% endif %}"
   - if:
-    - "{{ target_brightness == 'off' }}"
+    - '{{ target_brightness == ''off'' }}'
     then:
     - condition: state
       entity_id: light.kitchen
@@ -1449,8 +282,8 @@ lighting_kitchen:
       target:
         entity_id: light.kitchen
       data:
-        brightness: "{{ target_brightness | int }}"
-        transition: "{{ transition }}"
+        brightness: '{{ target_brightness | int }}'
+        transition: '{{ transition }}'
 lighting_living_room:
   alias: Lighting - Living Room
   icon: mdi:lightbulb
@@ -1468,9 +301,15 @@ lighting_living_room:
   sequence:
   - variables:
       brightness:
-        night: {high: 190, mid: 120, low: 50}
+        night:
+          high: 190
+          mid: 120
+          low: 50
       ht_on_brightness:
-        night: {high: 100, mid: 60, low: 25}
+        night:
+          high: 100
+          mid: 60
+          low: 25
       ht_playing_kill_lights:
       - light.living_room
       - light.downstairs_hallway
@@ -1479,34 +318,28 @@ lighting_living_room:
       transitions:
         default: 2
         ht_playing: 5
-      is_day: "{{ mode | lower in ['day', 'morning'] }}"
-      is_sunset: "{{ mode | lower == 'sunset' }}"
-      is_ht_playing: "{{ ht_state == 'playing' }}"
-      is_ht_on: "{{ ht_state == 'on' }}"
-      effective_mode: "{{ 'night' if is_sunset else mode | lower }}"
-      transition: >-
-        {{ transitions.ht_playing if is_ht_playing else transitions.default }}
-      target_brightness: >-
-        {% if is_day %}
-          off
-        {% elif is_ht_playing %}
-          off
-        {% elif is_ht_on %}
-          {% set level = brightness_level | default('high') %}
-          {{ ht_on_brightness[effective_mode][level] | default(ht_on_brightness.night[level] | default(25)) }}
-        {% else %}
-          {% set level = brightness_level | default('high') %}
-          {{ brightness[effective_mode][level] | default(brightness.night[level] | default(50)) }}
-        {% endif %}
+      is_day: '{{ mode | lower in [''day'', ''morning''] }}'
+      is_sunset: '{{ mode | lower == ''sunset'' }}'
+      is_ht_playing: '{{ ht_state == ''playing'' }}'
+      is_ht_on: '{{ ht_state == ''on'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
+      transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default
+        }}'
+      target_brightness: "{% if is_day %}\n  off\n{% elif is_ht_playing %}\n  off\n{%
+        elif is_ht_on %}\n  {% set level = brightness_level | default('high') %}\n
+        \ {{ ht_on_brightness[effective_mode][level] | default(ht_on_brightness.night[level]
+        | default(25)) }}\n{% else %}\n  {% set level = brightness_level | default('high')
+        %}\n  {{ brightness[effective_mode][level] | default(brightness.night[level]
+        | default(50)) }}\n{% endif %}"
   - choose:
     - conditions:
-      - "{{ is_ht_playing and not is_day }}"
+      - '{{ is_ht_playing and not is_day }}'
       sequence:
       - action: light.turn_off
         target:
-          entity_id: "{{ ht_playing_kill_lights }}"
+          entity_id: '{{ ht_playing_kill_lights }}'
     - conditions:
-      - "{{ target_brightness == 'off' }}"
+      - '{{ target_brightness == ''off'' }}'
       sequence:
       - condition: state
         entity_id: light.living_room
@@ -1519,8 +352,8 @@ lighting_living_room:
       target:
         entity_id: light.living_room
       data:
-        brightness: "{{ target_brightness | int }}"
-        transition: "{{ transition }}"
+        brightness: '{{ target_brightness | int }}'
+        transition: '{{ transition }}'
 lighting_rec_room_canvas:
   alias: Lighting - Rec Room Canvas
   icon: mdi:lightbulb
@@ -1534,21 +367,15 @@ lighting_rec_room_canvas:
       description: Home theater state
   sequence:
   - variables:
-      is_sunset: "{{ mode | lower == 'sunset' }}"
-      effective_mode: "{{ 'night' if is_sunset else mode | lower }}"
-      is_ht_playing: "{{ ht_state == 'playing' }}"
-      is_day_no_ht: "{{ effective_mode == 'day' and ht_state == 'none' }}"
-      action: >-
-        {% if is_ht_playing %}
-          conditional_off
-        {% elif is_day_no_ht %}
-          mood_always
-        {% else %}
-          mood_if_off
-        {% endif %}
+      is_sunset: '{{ mode | lower == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
+      is_ht_playing: '{{ ht_state == ''playing'' }}'
+      is_day_no_ht: '{{ effective_mode == ''day'' and ht_state == ''none'' }}'
+      action: "{% if is_ht_playing %}\n  conditional_off\n{% elif is_day_no_ht %}\n
+        \ mood_always\n{% else %}\n  mood_if_off\n{% endif %}"
   - choose:
     - conditions:
-      - "{{ action == 'conditional_off' }}"
+      - '{{ action == ''conditional_off'' }}'
       sequence:
       - condition: state
         entity_id: light.rec_room_canvas
@@ -1557,7 +384,7 @@ lighting_rec_room_canvas:
         target:
           entity_id: light.rec_room_canvas
     - conditions:
-      - "{{ action == 'mood_always' }}"
+      - '{{ action == ''mood_always'' }}'
       sequence:
       - action: light.turn_on
         target:
@@ -1565,7 +392,7 @@ lighting_rec_room_canvas:
         data:
           effect: Mood
     - conditions:
-      - "{{ action == 'mood_if_off' }}"
+      - '{{ action == ''mood_if_off'' }}'
       sequence:
       - condition: state
         entity_id: light.rec_room_canvas
@@ -1589,20 +416,32 @@ lighting_downstairs_hallway:
   sequence:
   - variables:
       brightness:
-        morning: {high: 25, mid: 25, low: 25}
-        day: {high: 95, mid: 45, low: 25}
-        sunset: {high: 75, mid: 50, low: 25}
-        night: {high: 75, mid: 50, low: 25}
-      is_sunset: "{{ mode | lower == 'sunset' }}"
-      effective_mode: "{{ 'night' if is_sunset else mode | lower }}"
-      level: "{{ brightness_level | default('high') }}"
-      target_brightness: >-
-        {{ brightness[effective_mode][level] | default(brightness.night[level] | default(25)) }}
+        morning:
+          high: 25
+          mid: 25
+          low: 25
+        day:
+          high: 95
+          mid: 45
+          low: 25
+        sunset:
+          high: 75
+          mid: 50
+          low: 25
+        night:
+          high: 75
+          mid: 50
+          low: 25
+      is_sunset: '{{ mode | lower == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
+      level: '{{ brightness_level | default(''high'') }}'
+      target_brightness: '{{ brightness[effective_mode][level] | default(brightness.night[level]
+        | default(25)) }}'
   - action: light.turn_on
     target:
       entity_id: light.downstairs_hallway
     data:
-      brightness: "{{ target_brightness | int }}"
+      brightness: '{{ target_brightness | int }}'
       transition: 2
 lighting_upstairs_hallway_group:
   alias: Lighting - Upstairs Hallway Group
@@ -1618,31 +457,39 @@ lighting_upstairs_hallway_group:
   sequence:
   - variables:
       brightness:
-        morning: {high: 25, mid: 25, low: 25}
-        day: {high: 95, mid: 45, low: 25}
-        sunset: {high: 75, mid: 50, low: 25}
-        night: {high: 75, mid: 50, low: 25}
+        morning:
+          high: 25
+          mid: 25
+          low: 25
+        day:
+          high: 95
+          mid: 45
+          low: 25
+        sunset:
+          high: 75
+          mid: 50
+          low: 25
+        night:
+          high: 75
+          mid: 50
+          low: 25
       ht_playing_brightness: 13
-      is_sunset: "{{ mode | lower == 'sunset' }}"
-      effective_mode: "{{ 'night' if is_sunset else mode | lower }}"
-      is_ht_playing: "{{ ht_state == 'playing' }}"
-      level: "{{ brightness_level | default('high') }}"
-      sleep_recently_ended: >-
-        {{ is_state('input_boolean.mode_sleep', 'off') and
-           (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed)) < 300 }}
-      target_brightness: >-
-        {% if is_ht_playing %}
-          {{ ht_playing_brightness }}
-        {% elif effective_mode == 'day' and level == 'mid' and sleep_recently_ended %}
-          25
-        {% else %}
-          {{ brightness[effective_mode][level] | default(brightness.night[level] | default(25)) }}
-        {% endif %}
+      is_sunset: '{{ mode | lower == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
+      is_ht_playing: '{{ ht_state == ''playing'' }}'
+      level: '{{ brightness_level | default(''high'') }}'
+      sleep_recently_ended: "{{ is_state('input_boolean.mode_sleep', 'off') and\n
+        \  (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed))
+        < 300 }}"
+      target_brightness: "{% if is_ht_playing %}\n  {{ ht_playing_brightness }}\n{%
+        elif effective_mode == 'day' and level == 'mid' and sleep_recently_ended %}\n
+        \ 25\n{% else %}\n  {{ brightness[effective_mode][level] | default(brightness.night[level]
+        | default(25)) }}\n{% endif %}"
   - action: light.turn_on
     target:
       entity_id: light.upstairs_hallway_group
     data:
-      brightness: "{{ target_brightness | int }}"
+      brightness: '{{ target_brightness | int }}'
       transition: 2
 lighting_den:
   alias: Lighting - Den
@@ -1654,10 +501,10 @@ lighting_den:
     ht_state: {}
   sequence:
   - variables:
-      is_day: "{{ mode | lower == 'day' }}"
+      is_day: '{{ mode | lower == ''day'' }}'
   - choose:
     - conditions:
-      - "{{ is_day }}"
+      - '{{ is_day }}'
       sequence:
       - action: light.turn_off
         target:
@@ -1676,7 +523,7 @@ lighting_den:
       target:
         entity_id: input_select.den_scene_toggle
       data:
-        option: script.scene_den_neutral_low
+        option: script.lighting_den
 lighting_den_cabinets:
   alias: Lighting - Den Cabinets
   icon: mdi:lightbulb
@@ -1687,9 +534,9 @@ lighting_den_cabinets:
     ht_state: {}
   sequence:
   - variables:
-      is_day: "{{ mode | lower == 'day' }}"
+      is_day: '{{ mode | lower == ''day'' }}'
   - if:
-    - "{{ is_day }}"
+    - '{{ is_day }}'
     then:
     - action: light.turn_off
       target:
@@ -1713,19 +560,31 @@ lighting_den_hallway:
   sequence:
   - variables:
       brightness:
-        morning: {high: 35, mid: 35, low: 35}
-        day: {high: 133, mid: 63, low: 35}
-        sunset: {high: 105, mid: 70, low: 35}
-        night: {high: 105, mid: 70, low: 35}
-      is_sunset: "{{ mode | lower == 'sunset' }}"
-      effective_mode: "{{ 'night' if is_sunset else mode | lower }}"
-      level: "{{ brightness_level | default('high') }}"
-      target_brightness: "{{ brightness[effective_mode][level] | default(35) }}"
+        morning:
+          high: 35
+          mid: 35
+          low: 35
+        day:
+          high: 133
+          mid: 63
+          low: 35
+        sunset:
+          high: 105
+          mid: 70
+          low: 35
+        night:
+          high: 105
+          mid: 70
+          low: 35
+      is_sunset: '{{ mode | lower == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
+      level: '{{ brightness_level | default(''high'') }}'
+      target_brightness: '{{ brightness[effective_mode][level] | default(35) }}'
   - action: light.turn_on
     target:
       entity_id: light.den_hallway
     data:
-      brightness: "{{ target_brightness | int }}"
+      brightness: '{{ target_brightness | int }}'
       transition: 2
 lighting_garage_stairs:
   alias: Lighting - Garage Stairs
@@ -1738,19 +597,31 @@ lighting_garage_stairs:
   sequence:
   - variables:
       brightness:
-        morning: {high: 25, mid: 25, low: 25}
-        day: {high: 95, mid: 45, low: 25}
-        sunset: {high: 75, mid: 50, low: 25}
-        night: {high: 75, mid: 50, low: 25}
-      is_sunset: "{{ mode | lower == 'sunset' }}"
-      effective_mode: "{{ 'night' if is_sunset else mode | lower }}"
-      level: "{{ brightness_level | default('high') }}"
-      target_brightness: "{{ brightness[effective_mode][level] | default(25) }}"
+        morning:
+          high: 25
+          mid: 25
+          low: 25
+        day:
+          high: 95
+          mid: 45
+          low: 25
+        sunset:
+          high: 75
+          mid: 50
+          low: 25
+        night:
+          high: 75
+          mid: 50
+          low: 25
+      is_sunset: '{{ mode | lower == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
+      level: '{{ brightness_level | default(''high'') }}'
+      target_brightness: '{{ brightness[effective_mode][level] | default(25) }}'
   - action: light.turn_on
     target:
       entity_id: light.garage_stairs
     data:
-      brightness: "{{ target_brightness | int }}"
+      brightness: '{{ target_brightness | int }}'
       transition: 2
 lighting_bedroom:
   alias: Lighting - Bedroom
@@ -1762,13 +633,15 @@ lighting_bedroom:
     ht_state: {}
   sequence:
   - variables:
-      is_day: "{{ mode | lower == 'day' }}"
-      is_sleep: "{{ is_state('input_boolean.mode_sleep', 'on') }}"
-      sleep_recently_ended: "{{ is_state('input_boolean.mode_sleep', 'off') and (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed)) < 300 }}"
-      color_temp: "{{ 3000 if is_sleep else 3500 }}"
+      is_day: '{{ mode | lower == ''day'' }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
+      sleep_recently_ended: '{{ is_state(''input_boolean.mode_sleep'', ''off'') and
+        (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed))
+        < 300 }}'
+      color_temp: '{{ 3000 if is_sleep else 3500 }}'
   - choose:
     - conditions:
-      - "{{ is_day and not sleep_recently_ended }}"
+      - '{{ is_day and not sleep_recently_ended }}'
       sequence:
       - action: light.turn_off
         target:
@@ -1780,7 +653,7 @@ lighting_bedroom:
           entity_id: light.bedroom
         data:
           brightness: 75
-          color_temp_kelvin: "{{ color_temp }}"
+          color_temp_kelvin: '{{ color_temp }}'
           transition: 2
       - action: light.turn_on
         target:
@@ -1793,7 +666,7 @@ lighting_bedroom:
       target:
         entity_id: input_select.bedroom_scene_toggle
       data:
-        option: script.scene_bedroom_neutral_low
+        option: script.lighting_bedroom
 lighting_living_room_tv:
   alias: Lighting - Living Room TV
   icon: mdi:television-ambient-light
@@ -1804,19 +677,20 @@ lighting_living_room_tv:
     ht_state: {}
   sequence:
   - variables:
-      is_day: "{{ mode | lower == 'day' }}"
-      is_sunset: "{{ mode | lower == 'sunset' }}"
-      effective_mode: "{{ 'night' if is_sunset else mode | lower }}"
-      is_ht_playing: "{{ ht_state == 'playing' }}"
-      is_ht_on: "{{ ht_state == 'on' }}"
+      is_day: '{{ mode | lower == ''day'' }}'
+      is_sunset: '{{ mode | lower == ''sunset'' }}'
+      effective_mode: '{{ ''night'' if is_sunset else mode | lower }}'
+      is_ht_playing: '{{ ht_state == ''playing'' }}'
+      is_ht_on: '{{ ht_state == ''on'' }}'
       ht_playing_brightness:
         morning: 25
         night: 25
         sunset: 45
-      action: "{{ 'conditional_off' if is_day else ('ht_scene' if is_ht_on else ('ht_playing' if is_ht_playing else 'conditional_off')) }}"
+      action: '{{ ''conditional_off'' if is_day else (''ht_scene'' if is_ht_on else
+        (''ht_playing'' if is_ht_playing else ''conditional_off'')) }}'
   - choose:
     - conditions:
-      - "{{ action == 'ht_scene' }}"
+      - '{{ action == ''ht_scene'' }}'
       sequence:
       - action: pyscript.lifx_set_zones
         data:
@@ -1824,57 +698,177 @@ lighting_living_room_tv:
           format: lifx
           power_on: true
           colors:
-          - [14017, 3276, 14952, 3500]
-          - [12196, 5406, 15840, 3500]
-          - [10376, 7536, 16728, 3500]
-          - [8920, 9666, 17616, 3500]
-          - [6735, 11795, 18504, 3500]
-          - [5097, 13926, 19392, 3500]
-          - [3094, 16056, 20279, 3500]
-          - [1274, 18184, 21166, 3500]
-          - [728, 19250, 21612, 3500]
-          - [64988, 20315, 22054, 3500]
-          - [62440, 25968, 21166, 3500]
-          - [59709, 31619, 20279, 3500]
-          - [57161, 37273, 19392, 3500]
-          - [54248, 42925, 18504, 3500]
-          - [51699, 48577, 17616, 3500]
-          - [48969, 54230, 16728, 3500]
-          - [46238, 59882, 15841, 3500]
-          - [44964, 62708, 15396, 3500]
-          - [43872, 65535, 14953, 3500]
-          - [44054, 60292, 15420, 3500]
-          - [44418, 55048, 15887, 3500]
-          - [44600, 49806, 16355, 3500]
-          - [44964, 44562, 16821, 3500]
-          - [45328, 39321, 17288, 3500]
-          - [45692, 34077, 17756, 3500]
-          - [46056, 28834, 18223, 3500]
-          - [46238, 26214, 18456, 3500]
-          - [46238, 23591, 18690, 3500]
-          - [48969, 21626, 21681, 3500]
-          - [50425, 20642, 23176, 3500]
-          - [51699, 19660, 24672, 3500]
-          - [54430, 17693, 27662, 3500]
-          - [54430, 17693, 27662, 3500]
-          - [54430, 17693, 27662, 3500]
-          - [58708, 65535, 26345, 3500]
-          - [59391, 65535, 26345, 3500]
-          - [60073, 65535, 26345, 3500]
-          - [61439, 65535, 26345, 3500]
-          - [62804, 65535, 26345, 3500]
-          - [64168, 65535, 26345, 3500]
+          - - 14017
+            - 3276
+            - 14952
+            - 3500
+          - - 12196
+            - 5406
+            - 15840
+            - 3500
+          - - 10376
+            - 7536
+            - 16728
+            - 3500
+          - - 8920
+            - 9666
+            - 17616
+            - 3500
+          - - 6735
+            - 11795
+            - 18504
+            - 3500
+          - - 5097
+            - 13926
+            - 19392
+            - 3500
+          - - 3094
+            - 16056
+            - 20279
+            - 3500
+          - - 1274
+            - 18184
+            - 21166
+            - 3500
+          - - 728
+            - 19250
+            - 21612
+            - 3500
+          - - 64988
+            - 20315
+            - 22054
+            - 3500
+          - - 62440
+            - 25968
+            - 21166
+            - 3500
+          - - 59709
+            - 31619
+            - 20279
+            - 3500
+          - - 57161
+            - 37273
+            - 19392
+            - 3500
+          - - 54248
+            - 42925
+            - 18504
+            - 3500
+          - - 51699
+            - 48577
+            - 17616
+            - 3500
+          - - 48969
+            - 54230
+            - 16728
+            - 3500
+          - - 46238
+            - 59882
+            - 15841
+            - 3500
+          - - 44964
+            - 62708
+            - 15396
+            - 3500
+          - - 43872
+            - 65535
+            - 14953
+            - 3500
+          - - 44054
+            - 60292
+            - 15420
+            - 3500
+          - - 44418
+            - 55048
+            - 15887
+            - 3500
+          - - 44600
+            - 49806
+            - 16355
+            - 3500
+          - - 44964
+            - 44562
+            - 16821
+            - 3500
+          - - 45328
+            - 39321
+            - 17288
+            - 3500
+          - - 45692
+            - 34077
+            - 17756
+            - 3500
+          - - 46056
+            - 28834
+            - 18223
+            - 3500
+          - - 46238
+            - 26214
+            - 18456
+            - 3500
+          - - 46238
+            - 23591
+            - 18690
+            - 3500
+          - - 48969
+            - 21626
+            - 21681
+            - 3500
+          - - 50425
+            - 20642
+            - 23176
+            - 3500
+          - - 51699
+            - 19660
+            - 24672
+            - 3500
+          - - 54430
+            - 17693
+            - 27662
+            - 3500
+          - - 54430
+            - 17693
+            - 27662
+            - 3500
+          - - 54430
+            - 17693
+            - 27662
+            - 3500
+          - - 58708
+            - 65535
+            - 26345
+            - 3500
+          - - 59391
+            - 65535
+            - 26345
+            - 3500
+          - - 60073
+            - 65535
+            - 26345
+            - 3500
+          - - 61439
+            - 65535
+            - 26345
+            - 3500
+          - - 62804
+            - 65535
+            - 26345
+            - 3500
+          - - 64168
+            - 65535
+            - 26345
+            - 3500
     - conditions:
-      - "{{ action == 'ht_playing' }}"
+      - '{{ action == ''ht_playing'' }}'
       sequence:
       - action: light.turn_on
         target:
           entity_id: light.living_room_tv
         data:
-          brightness: "{{ ht_playing_brightness[effective_mode] | default(25) }}"
+          brightness: '{{ ht_playing_brightness[effective_mode] | default(25) }}'
           color_temp_kelvin: 3500
     - conditions:
-      - "{{ action == 'conditional_off' }}"
+      - '{{ action == ''conditional_off'' }}'
       sequence:
       - condition: state
         entity_id: light.living_room_tv
@@ -1892,15 +886,16 @@ lighting_patio:
     ht_state: {}
   sequence:
   - variables:
-      is_day: "{{ mode | lower in ['day', 'morning'] }}"
-      holiday: "{{ is_state('calendar.holiday_lighting', 'on') }}"
-      holiday_name: "{{ state_attr('calendar.holiday_lighting', 'message') if holiday else '' }}"
+      is_day: '{{ mode | lower in [''day'', ''morning''] }}'
+      holiday: '{{ is_state(''calendar.holiday_lighting'', ''on'') }}'
+      holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') if
+        holiday else '''' }}'
   - choose:
     - conditions:
-      - "{{ is_day }}"
+      - '{{ is_day }}'
       sequence: []
     - conditions:
-      - "{{ holiday and holiday_name == 'Christmas' }}"
+      - '{{ holiday and holiday_name == ''Christmas'' }}'
       sequence:
       - action: light.turn_off
         target:
@@ -1931,27 +926,28 @@ lighting_patio_string_lights:
     ht_state: {}
   sequence:
   - variables:
-      is_day: "{{ mode | lower in ['day', 'morning'] }}"
-      holiday: "{{ is_state('calendar.holiday_lighting', 'on') }}"
-      holiday_name: "{{ state_attr('calendar.holiday_lighting', 'message') if holiday else '' }}"
+      is_day: '{{ mode | lower in [''day'', ''morning''] }}'
+      holiday: '{{ is_state(''calendar.holiday_lighting'', ''on'') }}'
+      holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') if
+        holiday else '''' }}'
   - choose:
     - conditions:
-      - "{{ is_day }}"
+      - '{{ is_day }}'
       sequence: []
     - conditions:
-      - "{{ holiday and holiday_name == 'Pride' }}"
+      - '{{ holiday and holiday_name == ''Pride'' }}'
       sequence:
       - action: scene.turn_on
         target:
           entity_id: scene.holiday_pride
     - conditions:
-      - "{{ holiday and holiday_name == 'USA' }}"
+      - '{{ holiday and holiday_name == ''USA'' }}'
       sequence:
       - action: scene.turn_on
         target:
           entity_id: scene.holiday_usa
     - conditions:
-      - "{{ holiday and holiday_name == 'Christmas' }}"
+      - '{{ holiday and holiday_name == ''Christmas'' }}'
       sequence:
       - action: scene.turn_on
         target:
@@ -1982,9 +978,9 @@ lighting_studio:
     ht_state: {}
   sequence:
   - variables:
-      is_day: "{{ mode | lower == 'day' }}"
+      is_day: '{{ mode | lower == ''day'' }}'
   - if:
-    - "{{ is_day }}"
+    - '{{ is_day }}'
     then: []
     else:
     - action: light.turn_on
@@ -1994,10 +990,60 @@ lighting_studio:
         brightness: 75
         color_temp_kelvin: 3500
         transition: 2
-    - delay:
-        seconds: 2
-    - action: input_select.select_option
+lighting_bedroom_mood:
+  alias: Lighting - Bedroom Mood
+  icon: mdi:lightbulb-multiple
+  mode: restart
+  sequence:
+  - parallel:
+    - action: light.turn_on
       target:
-        entity_id: input_select.studio_scene_toggle
+        entity_id: light.bedroom_1
       data:
-        option: script.scene_studio_neutral_low
+        transition: 2
+        brightness: 100
+        rgb_color:
+        - 65
+        - 102
+        - 255
+    - action: light.turn_on
+      target:
+        entity_id: light.bedroom_2
+      data:
+        transition: 2
+        brightness: 100
+        rgb_color:
+        - 15
+        - 163
+        - 255
+    - action: light.turn_on
+      target:
+        entity_id: light.bedroom_switch
+      data:
+        brightness: 75
+lighting_den_mood:
+  alias: Lighting - Den Mood
+  icon: mdi:lightbulb-multiple
+  mode: restart
+  sequence:
+  - parallel:
+    - action: light.turn_on
+      target:
+        entity_id: light.den_1
+      data:
+        transition: 2
+        brightness: 206
+        rgb_color:
+        - 255
+        - 0
+        - 185
+    - action: light.turn_on
+      target:
+        entity_id: light.den_2
+      data:
+        transition: 2
+        brightness: 206
+        rgb_color:
+        - 33
+        - 0
+        - 255

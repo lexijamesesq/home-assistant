@@ -2135,8 +2135,7 @@
   - target:
       entity_id: input_datetime.sunrise_starts
     data:
-      time: '{{ as_timestamp(states(''sensor.suncalc_sunriseend'')) | timestamp_custom(''%H:%M:%S'')
-        }}'
+      datetime: '{{ states(''sensor.suncalc_sunriseend'') }}'
     action: input_datetime.set_datetime
 - id: b06eeaaa28554a4bb1c49e9351f1f7c1
   alias: DateTime - Update Sunrise Ends
@@ -2147,8 +2146,7 @@
   - target:
       entity_id: input_datetime.sunrise_ends
     data:
-      time: '{{ as_timestamp(states(''sensor.suncalc_goldenhourend'')) | timestamp_custom(''%H:%M:%S'')
-        }}'
+      datetime: '{{ states(''sensor.suncalc_goldenhourend'') }}'
     action: input_datetime.set_datetime
 - id: 90a77d4e29f14956aae6167126225278
   alias: DateTime - Update Sunset Starts
@@ -2159,8 +2157,7 @@
   - target:
       entity_id: input_datetime.sunset_starts
     data:
-      time: '{{ as_timestamp(states(''sensor.suncalc_goldenhour'')) | timestamp_custom(''%H:%M:%S'')
-        }}'
+      datetime: '{{ states(''sensor.suncalc_goldenhour'') }}'
     action: input_datetime.set_datetime
 - id: 507928c9e276427c8579823b9e06df63
   alias: DateTime - Update Sunset Ends
@@ -2171,8 +2168,7 @@
   - target:
       entity_id: input_datetime.sunset_ends
     data:
-      time: '{{ as_timestamp(states(''sensor.suncalc_sunsetstart'')) | timestamp_custom(''%H:%M:%S'')
-        }}'
+      datetime: '{{ states(''sensor.suncalc_sunsetstart'') }}'
     action: input_datetime.set_datetime
 - id: 66b947e63c43489397a98d0186ff9896
   alias: DateTime - Update Night Ends
@@ -2183,8 +2179,7 @@
   - target:
       entity_id: input_datetime.night_ends
     data:
-      time: '{{ as_timestamp(states(''sensor.suncalc_nightend'')) | timestamp_custom(''%H:%M:%S'')
-        }}'
+      datetime: '{{ states(''sensor.suncalc_nightend'') }}'
     action: input_datetime.set_datetime
 - id: a9124ce7b2c248aeba4f7e7c8ebba3d3
   alias: DateTime - Update Preferred Lighting Times
@@ -2197,22 +2192,23 @@
   - target:
       entity_id: input_datetime.prefer_lighting_high_time
     data:
-      time: '{{ states(''input_datetime.sunrise_ends'') }}'
+      datetime: '{{ states(''input_datetime.sunrise_ends'') }}'
     action: input_datetime.set_datetime
   - target:
       entity_id: input_datetime.prefer_lighting_mid_time
     data:
-      time: '{{ (((today_at(prefer_low) | as_timestamp - today_at(sunset) | as_timestamp)
-        / 2) + today_at(sunset) | as_timestamp) | timestamp_custom(''%H:%M:%S'') }}'
+      datetime: '{{ (((as_timestamp(prefer_low) - as_timestamp(sunset)) / 2) + as_timestamp(sunset))
+        | timestamp_custom(''%Y-%m-%d %H:%M:%S'') }}'
     action: input_datetime.set_datetime
   - target:
       entity_id: input_datetime.prefer_lighting_low_time
     data:
-      time: '{{ prefer_low }}'
+      datetime: '{{ prefer_low }}'
     action: input_datetime.set_datetime
   variables:
-    prefer_low: '{{ ''20:00:00'' if now().strftime(''%A'')|lower in [''sunday'', ''monday'',
-      ''tuesday'', ''wednesday'', ''thursday''] else ''21:00:00'' }}'
+    prefer_low: '{{ states(''sensor.date'') ~ '' 20:00:00'' if now().strftime(''%A'')|lower
+      in [''sunday'', ''monday'', ''tuesday'', ''wednesday'', ''thursday''] else states(''sensor.date'')
+      ~ '' 21:00:00'' }}'
     sunset: '{{ states(''input_datetime.sunset_ends'') }}'
 - alias: Energy Tariff - Select On-Peak
   trigger:
@@ -3163,7 +3159,7 @@
   id: 4f2f9c9c99a14949862fa60334cc0f82
 - id: 2e470db960fa421686c0904a91894653
   alias: Downstairs Patio Dimmer Lights Sync
-  trigger:
+  triggers:
   - id: brightness
     platform: state
     entity_id:
@@ -3176,10 +3172,8 @@
     - light.downstairs_patio
     - light.downstairs_patio_dimmer
     to: 'off'
-  action:
-  - wait_template: "{% set scenes = [\n  'script.scene_patio_neutral',\n  'script.scene_bedroom_purple_blue',\n
-      \ 'script.scene_bedroom_sleep_mode_on'\n] %} {{ not scenes | select('is_state',
-      'on') | list | length > 0 }}\n"
+  actions:
+  - wait_template: '{{ is_state(''script.lighting_patio'', ''off'') }}'
     timeout: 00:00:10
     continue_on_timeout: false
   - choose:
@@ -3542,7 +3536,7 @@
   id: 3851b7ab38ee4ca79fff2733de14b52f
 - id: b9b90ddb31d1474798d9dd7bfca01f5d
   alias: Bedroom Dimmer Lights Sync
-  trigger:
+  triggers:
   - id: brightness
     platform: state
     entity_id:
@@ -3555,10 +3549,8 @@
     - light.bedroom
     - light.bedroom_switch
     to: 'off'
-  action:
-  - wait_template: "{% set scenes = [\n  'script.scene_bedroom_neutral_low',\n  'script.scene_bedroom_purple_blue',\n
-      \ 'script.scene_bedroom_sleep_mode_on'\n] %} {{ not scenes | select('is_state',
-      'on') | list | length > 0 }}\n"
+  actions:
+  - wait_template: '{{ is_state(''script.lighting_bedroom'', ''off'') }}'
     timeout: 00:00:10
     continue_on_timeout: false
   - choose:
@@ -3669,7 +3661,7 @@
   id: dda528feb6ce4cd1a1a4a9f7a7df4456
 - id: c916853495f04c9e9681169d014dc88c
   alias: Den Dimmer Lights Sync
-  trigger:
+  triggers:
   - id: brightness
     platform: state
     entity_id:
@@ -3682,9 +3674,8 @@
     - light.den
     - light.den_dimmer
     to: 'off'
-  action:
-  - wait_template: "{% set scenes = [\n  'script.scene_den_neutral_low',\n  'script.scene_den_pink_blue'\n]
-      %} {{ not scenes | select('is_state', 'on') | list | length > 0 }}\n"
+  actions:
+  - wait_template: '{{ is_state(''script.lighting_den'', ''off'') }}'
     timeout: 00:00:10
     continue_on_timeout: false
   - choose:
@@ -3740,7 +3731,7 @@
   id: 32489df4ce0c45639fd72bc3d8127add
 - id: 637d6b8ce1d8412b817799844fed9fe3
   alias: Upstairs Patio Dimmer Lights Sync
-  trigger:
+  triggers:
   - id: brightness
     platform: state
     entity_id:
@@ -3753,10 +3744,8 @@
     - light.upstairs_patio
     - light.upstairs_patio_dimmer
     to: 'off'
-  action:
-  - wait_template: "{% set scenes = [\n  'script.scene_patio_neutral',\n  'script.scene_bedroom_purple_blue',\n
-      \ 'script.scene_bedroom_sleep_mode_on'\n] %} {{ not scenes | select('is_state',
-      'on') | list | length > 0 }}\n"
+  actions:
+  - wait_template: '{{ is_state(''script.lighting_patio'', ''off'') }}'
     timeout: 00:00:10
     continue_on_timeout: false
   - choose:
@@ -3968,25 +3957,28 @@
   mode: single
 - id: '1724804282087'
   alias: Update Lights - House Cleaning Mode On
-  description: ''
-  trigger:
+  description: Turn on all common area lights at full brightness for cleaning
+  triggers:
   - platform: event
     event_type: mode_house_cleaning_on
-  action:
+  actions:
   - parallel:
-    - entity_id:
-      - script.scene_garage_stairs_morning_low
-      - script.scene_downstairs_hallway_morning_low
-      - script.scene_kitchen_night_high
-      - script.scene_living_room_night_high
-      - script.scene_upstairs_hallway_group_morning_low
-      action: script.turn_on
-    - entity_id:
-      - light.downstairs_bathroom
-      - light.bathroom
-      - light.bathroom_wc_dimmer
-      - light.upstairs_bathroom
-      action: light.turn_on
+    - action: light.turn_on
+      target:
+        entity_id:
+        - light.garage_stairs
+        - light.downstairs_hallway
+        - light.kitchen
+        - light.living_room
+        - light.main_stairs
+        - light.upstairs_hallway
+        - light.bedroom_hallway
+        - light.downstairs_bathroom
+        - light.bathroom
+        - light.bathroom_wc_dimmer
+        - light.upstairs_bathroom
+      data:
+        brightness: 255
 - id: '1724805095859'
   alias: Update Lights - House Cleaning Mode Off
   description: ''
@@ -4023,8 +4015,7 @@
     to: 'off'
     trigger: state
   actions:
-  - wait_template: "{% set scenes = [\n  'script.scene_studio_neutral_low',\n  'script.scene_studio_neutral_low'\n]
-      %} {{ not scenes | select('is_state', 'on') | list | length > 0 }}\n"
+  - wait_template: '{{ is_state(''script.lighting_studio'', ''off'') }}'
     timeout: 00:00:10
     continue_on_timeout: false
   - choose:
@@ -4053,33 +4044,6 @@
         - light.studio_dimmer
         action: light.turn_off
   mode: restart
-- id: '1735600923285'
-  alias: Studio Dimmer Config Scene Toggle
-  description: ''
-  triggers:
-  - event_type: zwave_js_value_notification
-    event_data:
-      node_id: 62
-      property_key: '003'
-    trigger: event
-  actions:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ trigger.event.data.value == "KeyPressed" }}'
-      sequence:
-      - data:
-          cycle: true
-        target:
-          entity_id: input_select.studio_scene_toggle_scene_toggle
-        action: input_select.select_next
-      - target:
-          entity_id: '{{ states("input_select.studio_scene_toggle") }}'
-        data:
-          variables:
-            seconds: 1
-        action: script.turn_on
-  mode: queued
 - id: '1767560752032'
   alias: Notify Laundry - Dryer Completed
   description: ''
