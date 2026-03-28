@@ -2553,6 +2553,43 @@
                   }
                 }
               ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Lighting"
+                },
+                {
+                  "type": "tile",
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "entity": "input_button.refresh_all_lights",
+                  "name": "Refresh All Lights",
+                  "icon": "mdi:lightbulb-group",
+                  "show_entity_picture": false,
+                  "hide_state": true,
+                  "vertical": false,
+                  "tap_action": {
+                    "action": "perform-action",
+                    "perform_action": "input_button.press",
+                    "target": {
+                      "entity_id": "input_button.refresh_all_lights"
+                    }
+                  },
+                  "icon_tap_action": {
+                    "action": "perform-action",
+                    "perform_action": "input_button.press",
+                    "target": {
+                      "entity_id": "input_button.refresh_all_lights"
+                    }
+                  },
+                  "features_position": "bottom"
+                }
+              ]
             }
           ],
           "visible": [

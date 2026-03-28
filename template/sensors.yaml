@@ -391,6 +391,45 @@
       icon: "mdi:air-filter"
 
 # ──────────────────────────────────────────────
+# Group 7: Brightness curve
+# Trigger-based: re-evaluates every 5 min and on mode changes.
+# Outputs 0.0 (ceiling brightness) to 1.0 (floor brightness)
+# during Night mode. Static 0.0 for all other modes.
+# ──────────────────────────────────────────────
+- trigger:
+    - trigger: time_pattern
+      minutes: "/5"
+    - trigger: state
+      entity_id: sensor.dashboard_current_home_mode
+    - trigger: homeassistant
+      event: start
+  sensor:
+    - name: "Brightness Curve Position"
+      unique_id: brightness_curve_position
+      icon: mdi:brightness-auto
+      state: >-
+        {% set mode = states('sensor.dashboard_current_home_mode') | lower %}
+        {% if mode != 'night' %}
+          0.0
+        {% else %}
+          {% set start = state_attr('input_datetime.sunset_ends', 'timestamp') | float(0) %}
+          {% set end = state_attr('input_datetime.prefer_lighting_low_time', 'timestamp') | float(0) %}
+          {% set now_s = now() | as_timestamp %}
+          {% if start == 0 or end == 0 or start >= end %}
+            0.5
+          {% elif now_s <= start %}
+            0.0
+          {% elif now_s >= end %}
+            1.0
+          {% else %}
+            {{ ((now_s - start) / (end - start)) | round(2) }}
+          {% endif %}
+        {% endif %}
+      availability: >-
+        {{ has_value('input_datetime.sunset_ends') and
+           has_value('input_datetime.prefer_lighting_low_time') }}
+
+# ──────────────────────────────────────────────
 # Group 3: Sonos grouping sensors
 # ──────────────────────────────────────────────
 - sensor:

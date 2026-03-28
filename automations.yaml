@@ -3,14 +3,11 @@
   - platform: event
     event_type: mode_home_theater_on
   action:
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - living_room
-        - living_room_tv
-        - rec_room_canvas
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_living_room_tv
+      - script.lighting_rec_room_canvas
   id: f65139339bb34c7ba0099ed3645b656a
 - id: 3fda0f37ff6c4f85ae28c2d53c640eaf
   alias: Restore Home Theater Off Lighting
@@ -18,14 +15,11 @@
   - event_type: mode_home_theater_off
     trigger: event
   actions:
-  - entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - living_room
-        - living_room_tv
-        - rec_room_canvas
-    action: script.turn_on
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_living_room_tv
+      - script.lighting_rec_room_canvas
 - id: de214ebd382a4ab180129f62da343ea0
   alias: Enable Home Theater Playing Lighting
   triggers:
@@ -38,15 +32,11 @@
     to: playing
     trigger: state
   actions:
-  - entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - living_room
-        - living_room_tv
-        - rec_room_canvas
-        - kitchen
-    action: script.turn_on
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_living_room_tv
+      - script.lighting_rec_room_canvas
 - alias: Restore Home Theater On Lighting
   trigger:
   - platform: state
@@ -66,15 +56,11 @@
     from: paused
     to: idle
   action:
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - living_room
-        - living_room_tv
-        - rec_room_canvas
-        - kitchen
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_living_room_tv
+      - script.lighting_rec_room_canvas
   id: 2542955fd84b476686f2a547d6fcc07c
 - alias: Alert Stranger Danger On
   trigger:
@@ -164,13 +150,10 @@
     entity_id: light.garage_stairs
     state: 'off'
   action:
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - garage_stairs
-        trigger: motion
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_garage_stairs
   - service: input_boolean.turn_on
     entity_id: input_boolean.motion_trigger_garage_stairs_lights
   id: a1d2c56afe9f4b5cbf711da41ee20129
@@ -190,22 +173,16 @@
         entity_id: sensor.downstairs_hallway_trisensor_luminance
         below: 20.0
       sequence:
-      - service: script.turn_on
-        entity_id: script.update_lights
-        data:
-          variables:
-            lights:
-            - garage_stairs
-            - downstairs_hallway
-            trigger: door
+      - action: script.turn_on
+        target:
+          entity_id:
+          - script.lighting_garage_stairs
+          - script.lighting_downstairs_hallway
     default:
-    - service: script.turn_on
-      entity_id: script.update_lights
-      data:
-        variables:
-          lights:
-          - garage_stairs
-          trigger: door
+    - action: script.turn_on
+      target:
+        entity_id:
+        - script.lighting_garage_stairs
   - service: input_boolean.turn_on
     entity_id: input_boolean.door_trigger_garage_stairs_lights
   - condition: numeric_state
@@ -294,13 +271,10 @@
         entity_id: sensor.downstairs_hallway_trisensor_luminance
         below: 20.0
   action:
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - downstairs_hallway
-        trigger: motion
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_downstairs_hallway
   - service: input_boolean.turn_on
     entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
   id: 7aec67203d0c435fad630e024f08038d
@@ -330,13 +304,10 @@
         entity_id: sensor.downstairs_hallway_trisensor_luminance
         below: 20.0
   action:
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - downstairs_hallway
-        trigger: door
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_downstairs_hallway
   - service: input_boolean.turn_on
     entity_id: input_boolean.door_trigger_downstairs_hallway_lights
   id: 537df3fac8054803a1979f0600a77690
@@ -415,13 +386,10 @@
         entity_id: sensor.main_stairs_multisensor_luminance
         below: 70.0
   action:
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - upstairs_hallway_group
-        trigger: motion
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_upstairs_hallway_group
   - service: input_boolean.turn_on
     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
   id: 9cf8b66af54b4da9a2241e437a3d6ea3
@@ -473,13 +441,10 @@
         entity_id: sensor.den_multisensor_luminance
         below: 20.0
   action:
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - den_hallway
-        trigger: motion
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_den_hallway
   - service: input_boolean.turn_on
     entity_id: input_boolean.motion_trigger_den_hallway_lights
   id: 8b9ecf8f51c748f99abccb2b05034a4b
@@ -623,25 +588,19 @@
         entity_id: input_boolean.mode_day
         state: 'on'
       sequence:
-      - service: script.turn_on
-        entity_id: script.update_lights
-        data:
-          variables:
-            lights:
-            - den
-            - rec_room_canvas
+      - action: script.turn_on
+        target:
+          entity_id:
+          - script.lighting_den
+          - script.lighting_rec_room_canvas
     default:
-    - service: script.turn_on
-      entity_id: script.update_lights
-      data:
-        variables:
-          lights:
-          - kitchen
-          - living_room
-          - rec_room_canvas
-          - bedroom
-          - den
-          - den_cabinets
+    - action: script.turn_on
+      target:
+        entity_id:
+        - script.lighting_rec_room_canvas
+        - script.lighting_bedroom
+        - script.lighting_den
+        - script.lighting_den_cabinets
   id: f7213450ce71441880c50a427d5c9c06
 - alias: Start Away Lighting
   trigger:
@@ -714,16 +673,13 @@
     entity_id: group.residents
     state: home
   action:
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - kitchen
-        - rec_room_canvas
-        - bedroom
-        - den
-        - den_cabinets
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_rec_room_canvas
+      - script.lighting_bedroom
+      - script.lighting_den
+      - script.lighting_den_cabinets
   - service: number.set_value
     target:
       entity_id: number.bedroom_dimmer_default_all_led_strip_brightness_when_off
@@ -739,12 +695,10 @@
     entity_id: light.bedroom
     state: 'on'
   action:
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - bedroom
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_bedroom
   id: 6f4b16d23c374f779269ae60ac1b97eb
 - alias: Sleep Mode Lights On When Patio Door Opens
   trigger:
@@ -756,13 +710,12 @@
     entity_id: input_boolean.mode_sleep
     state: 'on'
   action:
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - kitchen
-        - living_room
+  - action: script.turn_on
+    target:
+      entity_id: script.lighting_kitchen
+  - action: script.turn_on
+    target:
+      entity_id: script.lighting_living_room
   id: ed0e1495414447e9bda9c03842ff6219
 - id: 345242ddcb404be9a611027fca27b56c
   alias: Sleep Mode Dimmer LED Off When Lights Off
@@ -853,12 +806,6 @@
     - condition: or
       conditions:
       - condition: state
-        entity_id: light.kitchen
-        state: 'on'
-      - condition: state
-        entity_id: light.living_room
-        state: 'on'
-      - condition: state
         entity_id: light.den
         state: 'on'
       - condition: state
@@ -866,15 +813,11 @@
         state: 'on'
   action:
   - delay: 00:00:01
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - kitchen
-        - living_room
-        - den
-        - den_cabinets
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_den
+      - script.lighting_den_cabinets
   id: 76739e53c933471ab4a219d26793f42d
 - alias: Update Lights Before Sunset
   trigger:
@@ -894,28 +837,21 @@
           entity_id: input_boolean.mode_guest
           state: 'on'
       sequence:
-      - service: script.turn_on
-        entity_id: script.update_lights
-        data:
-          variables:
-            lights:
-            - kitchen
-            - living_room
-            - living_room_tv
-            - bedroom
-            - den
-            - den_cabinets
-            - patio
-            - patio_string_lights
-            seconds: 10
+      - action: script.turn_on
+        target:
+          entity_id:
+          - script.lighting_living_room_tv
+          - script.lighting_bedroom
+          - script.lighting_den
+          - script.lighting_den_cabinets
+          - script.lighting_patio
+          - script.lighting_patio_string_lights
     default:
-    - service: script.turn_on
-      entity_id: script.update_lights
-      data:
-        variables:
-          lights:
-          - patio
-          - patio_string_lights
+    - action: script.turn_on
+      target:
+        entity_id:
+        - script.lighting_patio
+        - script.lighting_patio_string_lights
   id: 6a7097221eac4b17aa39a26cc81a78d8
 - alias: Update Lights at Night
   trigger:
@@ -933,18 +869,13 @@
       state: 'on'
   action:
   - delay: 00:00:01
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - kitchen
-        - living_room
-        - living_room_tv
-        - bedroom
-        - den
-        - den_cabinets
-        seconds: 10
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_living_room_tv
+      - script.lighting_bedroom
+      - script.lighting_den
+      - script.lighting_den_cabinets
   id: 38843906373a44dc87e8d6e7142333f0
 - alias: Update Lights at Late Night
   trigger:
@@ -961,41 +892,6 @@
   - service: light.turn_off
     entity_id: group.outside_lights
   id: 6d5e863edaff4d449ed1c3474a13461f
-- alias: Update Lights at Night Progressive Dimming
-  trigger:
-  - platform: time
-    at: input_datetime.prefer_lighting_mid_time
-  - platform: time
-    at: input_datetime.prefer_lighting_low_time
-  condition:
-    condition: and
-    conditions:
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: group.residents
-        state: home
-      - condition: state
-        entity_id: input_boolean.mode_guest
-        state: 'on'
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: light.kitchen
-        state: 'on'
-      - condition: state
-        entity_id: light.living_room
-        state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - kitchen
-        - living_room
-        seconds: 10
-  id: a1a25314a7e44a00bd7140d894b97890
 - id: 54a23323fa1a409ca7fa8817482d5366
   alias: Bedroom Lights at Night - Sleep Mode On
   trigger:
@@ -1031,12 +927,10 @@
     entity_id: input_boolean.mode_morning
     state: 'off'
   action:
-  - entity_id: script.update_lights
-    data:
-      variables:
-        lights:
-        - bedroom
-    action: script.turn_on
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_bedroom
 - alias: Set All Thermostats to ECO When Windows Open
   trigger:
   - platform: state
@@ -2186,20 +2080,8 @@
   triggers:
   - platform: state
     entity_id:
-    - input_datetime.sunrise_ends
     - input_datetime.sunset_ends
   actions:
-  - target:
-      entity_id: input_datetime.prefer_lighting_high_time
-    data:
-      datetime: '{{ states(''input_datetime.sunrise_ends'') }}'
-    action: input_datetime.set_datetime
-  - target:
-      entity_id: input_datetime.prefer_lighting_mid_time
-    data:
-      datetime: '{{ (((as_timestamp(prefer_low) - as_timestamp(sunset)) / 2) + as_timestamp(sunset))
-        | timestamp_custom(''%Y-%m-%d %H:%M:%S'') }}'
-    action: input_datetime.set_datetime
   - target:
       entity_id: input_datetime.prefer_lighting_low_time
     data:
@@ -2209,7 +2091,6 @@
     prefer_low: '{{ states(''sensor.date'') ~ '' 20:00:00'' if now().strftime(''%A'')|lower
       in [''sunday'', ''monday'', ''tuesday'', ''wednesday'', ''thursday''] else states(''sensor.date'')
       ~ '' 21:00:00'' }}'
-    sunset: '{{ states(''input_datetime.sunset_ends'') }}'
 - alias: Energy Tariff - Select On-Peak
   trigger:
   - platform: time
@@ -3377,12 +3258,10 @@
     - conditions:
       - '{{ trigger.event.data.value == "KeyPressed2x" }}'
       sequence:
-      - service: script.turn_on
-        entity_id: script.update_lights
-        data:
-          variables:
-            lights:
-            - upstairs_hallway_group
+      - action: script.turn_on
+        target:
+          entity_id:
+          - script.lighting_upstairs_hallway_group
       - service: input_boolean.turn_off
         entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
     - conditions:
@@ -3435,12 +3314,10 @@
     - conditions:
       - '{{ trigger.event.data.value == "KeyPressed2x" }}'
       sequence:
-      - service: script.turn_on
-        entity_id: script.update_lights
-        data:
-          variables:
-            lights:
-            - upstairs_hallway_group
+      - action: script.turn_on
+        target:
+          entity_id:
+          - script.lighting_upstairs_hallway_group
       - service: input_boolean.turn_off
         entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
     - conditions:
@@ -3493,12 +3370,10 @@
     - conditions:
       - '{{ trigger.event.data.value == "KeyPressed2x" }}'
       sequence:
-      - service: script.turn_on
-        entity_id: script.update_lights
-        data:
-          variables:
-            lights:
-            - upstairs_hallway_group
+      - action: script.turn_on
+        target:
+          entity_id:
+          - script.lighting_upstairs_hallway_group
       - service: input_boolean.turn_off
         entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
     - conditions:
@@ -3621,12 +3496,10 @@
     - conditions:
       - '{{ trigger.event.data.value == "KeyPressed2x" }}'
       sequence:
-      - service: script.turn_on
-        entity_id: script.update_lights
-        data:
-          variables:
-            lights:
-            - den_cabinets
+      - action: script.turn_on
+        target:
+          entity_id:
+          - script.lighting_den_cabinets
     - conditions:
       - '{{ trigger.event.data.value == "KeyHeldDown" }}'
       sequence:
@@ -4064,3 +3937,81 @@
     action: notify.mobile_app_alexis_iphone
   - event: mode_laundry_turn_on
   mode: single
+- id: '1774734576803'
+  alias: Lighting - Kitchen Brightness Update
+  description: Triggers kitchen lighting script when mode, brightness curve, HT state,
+    or sleep mode changes. Part of the dynamic brightness system.
+  triggers:
+  - platform: state
+    entity_id: sensor.dashboard_current_home_mode
+    id: mode_change
+  - platform: state
+    entity_id: sensor.brightness_curve_position
+    id: curve_update
+  - platform: state
+    entity_id: input_boolean.mode_home_theater
+    id: ht_change
+  - platform: state
+    entity_id: media_player.living_room_apple_tv
+    id: ht_playing
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    id: sleep_change
+  - platform: homeassistant
+    event: start
+    id: startup
+  actions:
+  - action: script.turn_on
+    target:
+      entity_id: script.lighting_kitchen
+  mode: restart
+- id: '1774734578979'
+  alias: Lighting - Living Room Brightness Update
+  description: Triggers living room lighting script when mode, brightness curve, HT
+    state, or sleep mode changes. Part of the dynamic brightness system.
+  triggers:
+  - platform: state
+    entity_id: sensor.dashboard_current_home_mode
+    id: mode_change
+  - platform: state
+    entity_id: sensor.brightness_curve_position
+    id: curve_update
+  - platform: state
+    entity_id: input_boolean.mode_home_theater
+    id: ht_change
+  - platform: state
+    entity_id: media_player.living_room_apple_tv
+    id: ht_playing
+  - platform: state
+    entity_id: input_boolean.mode_sleep
+    id: sleep_change
+  - platform: homeassistant
+    event: start
+    id: startup
+  actions:
+  - action: script.turn_on
+    target:
+      entity_id: script.lighting_living_room
+  mode: restart
+- id: '1774737442762'
+  alias: Lighting - Refresh All Lights
+  description: Manual refresh of mode-driven room lights. Excludes transit rooms (hallways,
+    garage stairs) which are motion-triggered only.
+  triggers:
+  - platform: state
+    entity_id: input_button.refresh_all_lights
+  actions:
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_kitchen
+      - script.lighting_living_room
+      - script.lighting_rec_room_canvas
+      - script.lighting_living_room_tv
+      - script.lighting_den
+      - script.lighting_den_cabinets
+      - script.lighting_bedroom
+      - script.lighting_patio
+      - script.lighting_patio_string_lights
+      - script.lighting_studio
+  mode: restart
