@@ -2620,14 +2620,15 @@
                   "heading": "System Modes"
                 },
                 {
-                  "type": "tile",
+                  "type": "custom:mushroom-template-card",
                   "entity": "sensor.dashboard_current_home_mode",
+                  "primary": "{{ states('sensor.dashboard_current_home_mode') }} Mode",
+                  "icon": "{{ state_attr('sensor.dashboard_current_home_mode', 'icon') }}",
+                  "icon_color": "{% set mode = states('sensor.dashboard_current_home_mode') %}{{ 'orange' if mode == 'Morning' else 'yellow' if mode == 'Day' else 'orange' if mode == 'Sunset' else 'deep-purple' if mode == 'Night' else 'grey' }}",
+                  "layout": "horizontal",
                   "layout_options": {
                     "grid_columns": 4,
                     "grid_rows": 1
-                  },
-                  "card_mod": {
-                    "style": "ha-card {\n  {% set mode = states('sensor.dashboard_current_home_mode') %}\n  --tile-color: {{ 'var(--orange-color)' if mode == 'Morning' else 'var(--yellow-color)' if mode == 'Day' else 'var(--orange-color)' if mode == 'Sunset' else 'var(--purple-color)' if mode == 'Night' else 'var(--disabled-color)' }};\n}\n"
                   }
                 }
               ]
