@@ -2621,7 +2621,7 @@
                 },
                 {
                   "type": "tile",
-                  "entity": "input_select.time_of_day_mode",
+                  "entity": "sensor.dashboard_current_home_mode",
                   "layout_options": {
                     "grid_columns": 4,
                     "grid_rows": 1
