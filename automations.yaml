@@ -3684,12 +3684,10 @@
         brightness: 255
 - id: '1724805095859'
   alias: Update Lights - House Cleaning Mode Off
-  description: ''
   trigger:
   - platform: state
     entity_id: input_boolean.mode_house_cleaning
     to: 'off'
-  condition: []
   action:
   - entity_id:
     - light.garage_stairs
