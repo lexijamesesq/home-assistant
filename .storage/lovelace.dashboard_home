@@ -1698,7 +1698,7 @@
                 },
                 {
                   "type": "tile",
-                  "entity": "binary_sensor.downstairs_hallway_motion",
+                  "entity": "binary_sensor.downstairs_hallway_trisensor_sensor",
                   "name": "Downstairs Hallway"
                 },
                 {
