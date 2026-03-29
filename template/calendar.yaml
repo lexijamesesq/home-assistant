@@ -2,82 +2,61 @@
   sensor:
     - name: Trash Pickup
       unique_id: trash_pickup
+      icon: "mdi:delete"
+      availability: "{{ has_value('calendar.trash_pickup') }}"
       state: >-
-        {% set forcerefresh = states("sensor.time") %}
-        {% set nextpickup = as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(nextpickup + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
-        {% set dayof = states.sensor.date.state == nextpickup %}
-        {% if daybefore or dayof %}
-          on
-        {% else %}
-          off
-        {% endif %}
+        {% set next = state_attr('calendar.trash_pickup', 'start_time') %}
+        {% set next_date = next[:10] if next else '' %}
+        {% set today = now().strftime('%Y-%m-%d') %}
+        {% set tomorrow = (now() + timedelta(days=1)).strftime('%Y-%m-%d') %}
+        {{ 'on' if next_date == today or (next_date == tomorrow and now().hour >= 17) else 'off' }}
       attributes:
         date: >-
-          {% set forcerefresh = states("sensor.time") %}
-          {% set nextpickup = as_timestamp(states.calendar.trash.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-          {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(nextpickup + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
-          {% set dayof = states.sensor.date.state == nextpickup %}
-          {% if daybefore %}
-            Tomorrow
-          {% elif dayof %}
-            Today
-          {% else %}
-            {{ as_timestamp(nextpickup + ' 00:00:00')|timestamp_custom('%A') }}
-          {% endif %}
-      icon: "mdi:delete"
+          {% set next = state_attr('calendar.trash_pickup', 'start_time') %}
+          {% set next_date = next[:10] if next else '' %}
+          {% set today = now().strftime('%Y-%m-%d') %}
+          {% set tomorrow = (now() + timedelta(days=1)).strftime('%Y-%m-%d') %}
+          {{ 'Today' if next_date == today else ('Tomorrow' if next_date == tomorrow else as_datetime(next).strftime('%A')) }}
     - name: Recycling Pickup
       unique_id: recycling_pickup
+      icon: "mdi:recycle"
+      availability: "{{ has_value('calendar.recycling_pickup') }}"
       state: >-
-        {% set forcerefresh = states("sensor.time") %}
-        {% set nextpickup = as_timestamp(states.calendar.recycling.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(nextpickup + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
-        {% set dayof = states.sensor.date.state == nextpickup %}
-        {% if daybefore or dayof %}
-          on
-        {% else %}
-          off
-        {% endif %}
+        {% set next = state_attr('calendar.recycling_pickup', 'start_time') %}
+        {% set next_date = next[:10] if next else '' %}
+        {% set today = now().strftime('%Y-%m-%d') %}
+        {% set tomorrow = (now() + timedelta(days=1)).strftime('%Y-%m-%d') %}
+        {{ 'on' if next_date == today or (next_date == tomorrow and now().hour >= 17) else 'off' }}
       attributes:
         date: >-
-          {% set forcerefresh = states("sensor.time") %}
-          {% set nextpickup = as_timestamp(states.calendar.recycling.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-          {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(nextpickup + ' 00:00:00') - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
-          {% set dayof = states.sensor.date.state == nextpickup %}
-          {% if daybefore %}
-            Tomorrow
-          {% elif dayof %}
-            Today
-          {% else %}
-            {{ as_timestamp(nextpickup + ' 00:00:00')|timestamp_custom('%A') }}
-          {% endif %}
-      icon: "mdi:recycle"
+          {% set next = state_attr('calendar.recycling_pickup', 'start_time') %}
+          {% set next_date = next[:10] if next else '' %}
+          {% set today = now().strftime('%Y-%m-%d') %}
+          {% set tomorrow = (now() + timedelta(days=1)).strftime('%Y-%m-%d') %}
+          {{ 'Today' if next_date == today else ('Tomorrow' if next_date == tomorrow else as_datetime(next).strftime('%A')) }}
     - name: House Cleaning
       unique_id: house_cleaning
+      icon: "mdi:broom"
+      availability: "{{ has_value('calendar.house_cleaning') }}"
       state: >-
-        {% set forcerefresh = states("sensor.time") %}
-        {% set nextcleaning = as_timestamp(states.calendar.house_cleaning.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-        {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.house_cleaning.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') and now().strftime("%H")|int >= 17 %}
-        {% set dayof = states.sensor.date.state == nextcleaning %}
-        {% if daybefore or dayof %}
-          on
-        {% else %}
-          off
-        {% endif %}
+        {% set next = state_attr('calendar.house_cleaning', 'start_time') %}
+        {% set next_date = next[:10] if next else '' %}
+        {% set today = now().strftime('%Y-%m-%d') %}
+        {% set tomorrow = (now() + timedelta(days=1)).strftime('%Y-%m-%d') %}
+        {{ 'on' if next_date == today or (next_date == tomorrow and now().hour >= 17) else 'off' }}
       attributes:
         date: >-
-          {% set forcerefresh = states("sensor.time") %}
-          {% set nextcleaning = as_timestamp(states.calendar.house_cleaning.attributes.start_time)|timestamp_custom('%Y-%m-%d') %}
-          {% set fivedaysbefore = as_timestamp(now()) > (as_timestamp(states.calendar.house_cleaning.attributes.start_time) - (24*60*60*5)) and as_timestamp(now()) < as_timestamp(states.calendar.house_cleaning.attributes.start_time) %}
-          {% set daybefore = as_timestamp(now())|timestamp_custom('%Y-%m-%d') == (as_timestamp(states.calendar.house_cleaning.attributes.start_time) - (24*60*60))|timestamp_custom('%Y-%m-%d') %}
-          {% set dayof = states.sensor.date.state == nextcleaning %}
-          {% if daybefore %}
-            Tomorrow
-          {% elif dayof %}
+          {% set next = state_attr('calendar.house_cleaning', 'start_time') %}
+          {% set next_date = next[:10] if next else '' %}
+          {% set today = now().strftime('%Y-%m-%d') %}
+          {% set tomorrow = (now() + timedelta(days=1)).strftime('%Y-%m-%d') %}
+          {% set days_until = (as_datetime(next).replace(tzinfo=None) - now().replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None)).days if next else -1 %}
+          {% if next_date == today %}
             Today
-          {% elif fivedaysbefore %}
-            {{ as_timestamp(states.calendar.house_cleaning.attributes.start_time)|timestamp_custom('%A') }}
-          {% else %}
-            {{ as_timestamp(states.calendar.house_cleaning.attributes.start_time)|timestamp_custom('%B %-d') }}
+          {% elif next_date == tomorrow %}
+            Tomorrow
+          {% elif days_until <= 5 and days_until > 0 %}
+            {{ as_datetime(next).strftime('%A') }}
+          {% elif next %}
+            {{ as_datetime(next).strftime('%B %-d') }}
           {% endif %}
-      icon: "mdi:broom"
