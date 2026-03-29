@@ -2624,7 +2624,7 @@
                   "entity": "sensor.dashboard_current_home_mode",
                   "primary": "{{ states('sensor.dashboard_current_home_mode') }} Mode",
                   "icon": "{{ state_attr('sensor.dashboard_current_home_mode', 'icon') }}",
-                  "icon_color": "{% set mode = states('sensor.dashboard_current_home_mode') %}{{ 'orange' if mode == 'Morning' else 'yellow' if mode == 'Day' else 'orange' if mode == 'Sunset' else 'deep-purple' if mode == 'Night' else 'grey' }}",
+                  "icon_color": "{% set mode = states('sensor.dashboard_current_home_mode') %}{{ 'orange' if mode == 'Morning' else 'yellow' if mode == 'Day' else 'orange' if mode == 'Sunset' else 'purple' if mode == 'Night' else 'grey' }}",
                   "layout": "horizontal",
                   "layout_options": {
                     "grid_columns": 4,
