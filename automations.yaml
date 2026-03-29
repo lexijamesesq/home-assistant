@@ -3659,48 +3659,44 @@
 - id: '1724803728374'
 - id: '1724804282087'
   alias: Update Lights - House Cleaning Mode On
-  description: Turn on all common area lights at full brightness for cleaning
+  description: Turn on all cleanable rooms at full brightness
   triggers:
   - entity_id: input_boolean.mode_house_cleaning
     to: 'on'
     trigger: state
   actions:
-  - parallel:
-    - action: light.turn_on
-      target:
-        entity_id:
-        - light.garage_stairs
-        - light.downstairs_hallway
-        - light.kitchen
-        - light.living_room
-        - light.main_stairs
-        - light.upstairs_hallway
-        - light.bedroom_hallway
-        - light.downstairs_bathroom
-        - light.bathroom
-        - light.bathroom_wc_dimmer
-        - light.upstairs_bathroom
-      data:
-        brightness: 255
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.downstairs_hallway
+      - light.garage_stairs
+      - light.kitchen
+      - light.living_room
+      - light.rec_room
+      - light.main_stairs
+      - light.upstairs_hallway
+      - light.bedroom_hallway
+      - light.den_hallway
+      - light.bedroom
+      - light.den
+      - light.studio
+      - light.downstairs_bathroom
+      - light.bathroom
+      - light.bathroom_wc_dimmer
+      - light.upstairs_bathroom
+    data:
+      brightness: 255
 - id: '1724805095859'
   alias: Update Lights - House Cleaning Mode Off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_house_cleaning
+  description: Restore all lights to mode-appropriate brightness
+  triggers:
+  - entity_id: input_boolean.mode_house_cleaning
     to: 'off'
-  action:
-  - entity_id:
-    - light.garage_stairs
-    - light.downstairs_hallway
-    - light.downstairs_bathroom
-    - light.kitchen
-    - light.living_room
-    - light.upstairs_hallway_group
-    - light.bathroom
-    - light.bathroom_wc_dimmer
-    - light.upstairs_bathroom
-    action: light.turn_off
-  mode: single
+    trigger: state
+  actions:
+  - action: input_button.press
+    target:
+      entity_id: input_button.refresh_all_lights
 - id: '1735600259809'
   alias: Studio Dimmer Lights Sync
   triggers:
