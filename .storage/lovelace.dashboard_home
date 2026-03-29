@@ -2625,6 +2625,9 @@
                   "layout_options": {
                     "grid_columns": 4,
                     "grid_rows": 1
+                  },
+                  "card_mod": {
+                    "style": "ha-card {\n  {% set mode = states('sensor.dashboard_current_home_mode') %}\n  --tile-color: {{ 'var(--orange-color)' if mode == 'Morning' else 'var(--yellow-color)' if mode == 'Day' else 'var(--orange-color)' if mode == 'Sunset' else 'var(--purple-color)' if mode == 'Night' else 'var(--disabled-color)' }};\n}\n"
                   }
                 }
               ]
