@@ -837,33 +837,26 @@ lighting_patio_string_lights:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       is_day: '{{ mode_key in [''day'', ''morning''] }}'
       holiday: '{{ is_state(''calendar.holiday_lighting'', ''on'') }}'
-      holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') if
-        holiday else '''' }}'
+      holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') | lower if holiday else '''' }}'
+      holiday_scene: '{{ ''scene.holiday_'' ~ holiday_name if holiday else '''' }}'
   - choose:
     - conditions:
       - '{{ is_day }}'
-      sequence: []
+      sequence:
+      - action: light.turn_off
+        target:
+          entity_id:
+          - light.downstairs_patio_string
+          - light.upstairs_patio_string
     - conditions:
-      - '{{ holiday and holiday_name == ''Pride'' }}'
+      - '{{ holiday and has_value(holiday_scene) }}'
       sequence:
       - action: scene.turn_on
         target:
-          entity_id: scene.holiday_pride
-    - conditions:
-      - '{{ holiday and holiday_name == ''USA'' }}'
-      sequence:
-      - action: scene.turn_on
-        target:
-          entity_id: scene.holiday_usa
-    - conditions:
-      - '{{ holiday and holiday_name == ''Christmas'' }}'
-      sequence:
-      - action: scene.turn_on
-        target:
-          entity_id: scene.holiday_christmas
+          entity_id: '{{ holiday_scene }}'
     default:
     - parallel:
       - action: light.turn_on
