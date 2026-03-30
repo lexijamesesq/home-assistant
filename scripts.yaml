@@ -206,11 +206,10 @@ lighting_kitchen:
   sequence:
   - variables:
       brightness:
-        morning: 13
+        nightlight: 13
         sunset: 145
         night_ceiling: 145
         night_floor: 35
-        nightlight: 5
       ht_playing_brightness: 13
       transitions:
         default: 2
@@ -221,12 +220,13 @@ lighting_kitchen:
       is_day: '{{ mode_key == ''day'' }}'
       is_ht_playing: '{{ is_state(''input_boolean.mode_home_theater'', ''on'') and
         is_state(''media_player.living_room_apple_tv'', ''playing'') }}'
-      transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default }}'
-      target_brightness: '{% if is_day %}off{% elif is_sleep %}{{ brightness.nightlight
-        }}{% elif is_ht_playing %}{{ ht_playing_brightness }}{% elif mode_key == ''night''
-        %}{{ ((brightness.night_ceiling - brightness.night_floor) * (1.0 - curve) +
-        brightness.night_floor) | round(0) | int }}{% else %}{{ brightness[mode_key]
-        | default(13) }}{% endif %}'
+      transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default
+        }}'
+      target_brightness: '{% if is_day %}off{% elif is_sleep %}off{% elif is_ht_playing
+        %}{{ ht_playing_brightness }}{% elif mode_key == ''morning'' %}{{ brightness.nightlight
+        }}{% elif mode_key == ''night'' %}{{ ((brightness.night_ceiling - brightness.night_floor)
+        * (1.0 - curve) + brightness.night_floor) | round(0) | int }}{% else %}{{
+        brightness[mode_key] | default(brightness.nightlight) }}{% endif %}'
   - if:
     - '{{ target_brightness == ''off'' }}'
     then:
@@ -252,7 +252,6 @@ lighting_living_room:
       brightness:
         night_ceiling: 190
         night_floor: 50
-        nightlight: 10
       ht_on_brightness:
         night_ceiling: 100
         night_floor: 25
@@ -272,12 +271,13 @@ lighting_living_room:
         is_state(''media_player.living_room_apple_tv'', ''playing'') }}'
       is_ht_on: '{{ is_state(''input_boolean.mode_home_theater'', ''on'') and not
         is_state(''media_player.living_room_apple_tv'', ''playing'') }}'
-      transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default }}'
+      transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default
+        }}'
       target_brightness: '{% if is_day %}off{% elif is_ht_playing %}off{% elif is_sleep
-        %}{{ brightness.nightlight }}{% elif is_ht_on %}{{ ((ht_on_brightness.night_ceiling
-        - ht_on_brightness.night_floor) * (1.0 - curve) + ht_on_brightness.night_floor)
-        | round(0) | int }}{% else %}{{ ((brightness.night_ceiling - brightness.night_floor)
-        * (1.0 - curve) + brightness.night_floor) | round(0) | int }}{% endif %}'
+        %}off{% elif is_ht_on %}{{ ((ht_on_brightness.night_ceiling - ht_on_brightness.night_floor)
+        * (1.0 - curve) + ht_on_brightness.night_floor) | round(0) | int }}{% else
+        %}{{ ((brightness.night_ceiling - brightness.night_floor) * (1.0 - curve)
+        + brightness.night_floor) | round(0) | int }}{% endif %}'
   - choose:
     - conditions:
       - '{{ is_ht_playing and not is_day }}'
@@ -308,7 +308,9 @@ lighting_rec_room_canvas:
   sequence:
   - variables:
       mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
-      ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'') and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on'' if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
+      ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'')
+        and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on''
+        if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
       is_sunset: '{{ mode_key == ''sunset'' }}'
       effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
       is_ht_playing: '{{ ht_state == ''playing'' }}'
@@ -351,7 +353,10 @@ lighting_downstairs_hallway:
   sequence:
   - variables:
       mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
-      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 0.5 else ''high'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
+      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'')
+        | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'')
+        | float(0.0)) >= 0.5 else ''high'') }}'
       brightness:
         morning:
           high: 25
@@ -372,8 +377,8 @@ lighting_downstairs_hallway:
       is_sunset: '{{ mode_key == ''sunset'' }}'
       effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
       level: '{{ brightness_level }}'
-      target_brightness: '{{ brightness[effective_mode][level] | default(brightness.night[level]
-        | default(25)) }}'
+      target_brightness: '{% if is_sleep %}10{% else %}{{ brightness[effective_mode][level]
+        | default(brightness.night[level] | default(25)) }}{% endif %}'
   - action: light.turn_on
     target:
       entity_id: light.downstairs_hallway
@@ -387,8 +392,13 @@ lighting_upstairs_hallway_group:
   sequence:
   - variables:
       mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
-      ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'') and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on'' if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
-      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 0.5 else ''high'') }}'
+      ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'')
+        and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on''
+        if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
+      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'')
+        | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'')
+        | float(0.0)) >= 0.5 else ''high'') }}'
       brightness:
         morning:
           high: 25
@@ -411,13 +421,13 @@ lighting_upstairs_hallway_group:
       effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
       is_ht_playing: '{{ ht_state == ''playing'' }}'
       level: '{{ brightness_level }}'
-      sleep_recently_ended: "{{ is_state('input_boolean.mode_sleep', 'off') and\n
-        \  (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed))
-        < 300 }}"
-      target_brightness: "{% if is_ht_playing %}\n  {{ ht_playing_brightness }}\n{%
-        elif effective_mode == 'day' and level == 'mid' and sleep_recently_ended %}\n
-        \ 25\n{% else %}\n  {{ brightness[effective_mode][level] | default(brightness.night[level]
-        | default(25)) }}\n{% endif %}"
+      sleep_recently_ended: '{{ is_state(''input_boolean.mode_sleep'', ''off'') and
+        (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed))
+        < 300 }}'
+      target_brightness: '{% if is_sleep %}10{% elif is_ht_playing %}{{ ht_playing_brightness
+        }}{% elif effective_mode == ''day'' and level == ''mid'' and sleep_recently_ended
+        %}25{% else %}{{ brightness[effective_mode][level] | default(brightness.night[level]
+        | default(25)) }}{% endif %}'
   - action: light.turn_on
     target:
       entity_id: light.upstairs_hallway_group
@@ -483,7 +493,10 @@ lighting_den_hallway:
   sequence:
   - variables:
       mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
-      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 0.5 else ''high'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
+      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'')
+        | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'')
+        | float(0.0)) >= 0.5 else ''high'') }}'
       brightness:
         morning:
           high: 35
@@ -504,7 +517,8 @@ lighting_den_hallway:
       is_sunset: '{{ mode_key == ''sunset'' }}'
       effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
       level: '{{ brightness_level }}'
-      target_brightness: '{{ brightness[effective_mode][level] | default(35) }}'
+      target_brightness: '{% if is_sleep %}10{% else %}{{ brightness[effective_mode][level]
+        | default(35) }}{% endif %}'
   - action: light.turn_on
     target:
       entity_id: light.den_hallway
@@ -518,7 +532,10 @@ lighting_garage_stairs:
   sequence:
   - variables:
       mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
-      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'') | float(0.0)) >= 0.5 else ''high'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
+      brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'')
+        | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'')
+        | float(0.0)) >= 0.5 else ''high'') }}'
       brightness:
         morning:
           high: 25
@@ -539,7 +556,8 @@ lighting_garage_stairs:
       is_sunset: '{{ mode_key == ''sunset'' }}'
       effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
       level: '{{ brightness_level }}'
-      target_brightness: '{{ brightness[effective_mode][level] | default(25) }}'
+      target_brightness: '{% if is_sleep %}10{% else %}{{ brightness[effective_mode][level]
+        | default(25) }}{% endif %}'
   - action: light.turn_on
     target:
       entity_id: light.garage_stairs
@@ -594,7 +612,9 @@ lighting_living_room_tv:
   sequence:
   - variables:
       mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
-      ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'') and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on'' if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
+      ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'')
+        and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on''
+        if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
       is_day: '{{ mode_key == ''day'' }}'
       is_sunset: '{{ mode_key == ''sunset'' }}'
       effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
@@ -616,46 +636,166 @@ lighting_living_room_tv:
           format: lifx
           power_on: true
           colors:
-          - [46604, 23592, 18424, 3500]
-          - [42576, 21053, 17964, 3500]
-          - [38549, 18513, 17503, 3500]
-          - [34521, 15974, 17042, 3500]
-          - [32505, 14704, 16812, 3500]
-          - [30491, 13434, 16582, 3500]
-          - [26464, 10895, 16121, 3500]
-          - [24450, 9625, 15891, 3500]
-          - [22436, 8355, 15660, 3500]
-          - [18408, 5816, 15200, 3500]
-          - [16395, 4546, 14970, 3500]
-          - [14381, 3276, 14739, 3500]
-          - [18067, 11059, 14739, 3500]
-          - [21753, 18841, 14739, 3500]
-          - [25440, 26623, 14739, 3500]
-          - [27283, 30514, 14739, 3500]
-          - [29126, 34405, 14739, 3500]
-          - [32815, 42188, 14740, 3500]
-          - [34658, 46079, 14740, 3500]
-          - [36501, 49970, 14739, 3500]
-          - [40187, 57752, 14739, 3500]
-          - [42030, 61643, 14739, 3500]
-          - [43874, 65535, 14740, 3500]
-          - [46559, 59883, 15615, 3500]
-          - [49244, 54230, 16490, 3500]
-          - [51929, 48577, 17365, 3500]
-          - [53271, 45751, 17802, 3500]
-          - [54614, 42925, 18240, 3500]
-          - [57299, 37273, 19115, 3500]
-          - [58642, 34447, 19553, 3500]
-          - [59984, 31620, 19990, 3500]
-          - [62669, 25968, 20865, 3500]
-          - [64012, 23142, 21303, 3500]
-          - [65354, 20315, 21741, 3500]
-          - [64352, 19742, 22800, 3500]
-          - [63352, 19168, 23859, 3500]
-          - [62351, 18595, 24919, 3500]
-          - [61350, 18022, 25979, 3500]
-          - [60348, 17448, 27038, 3500]
-          - [59347, 16875, 28097, 3500]
+          - - 46604
+            - 23592
+            - 18424
+            - 3500
+          - - 42576
+            - 21053
+            - 17964
+            - 3500
+          - - 38549
+            - 18513
+            - 17503
+            - 3500
+          - - 34521
+            - 15974
+            - 17042
+            - 3500
+          - - 32505
+            - 14704
+            - 16812
+            - 3500
+          - - 30491
+            - 13434
+            - 16582
+            - 3500
+          - - 26464
+            - 10895
+            - 16121
+            - 3500
+          - - 24450
+            - 9625
+            - 15891
+            - 3500
+          - - 22436
+            - 8355
+            - 15660
+            - 3500
+          - - 18408
+            - 5816
+            - 15200
+            - 3500
+          - - 16395
+            - 4546
+            - 14970
+            - 3500
+          - - 14381
+            - 3276
+            - 14739
+            - 3500
+          - - 18067
+            - 11059
+            - 14739
+            - 3500
+          - - 21753
+            - 18841
+            - 14739
+            - 3500
+          - - 25440
+            - 26623
+            - 14739
+            - 3500
+          - - 27283
+            - 30514
+            - 14739
+            - 3500
+          - - 29126
+            - 34405
+            - 14739
+            - 3500
+          - - 32815
+            - 42188
+            - 14740
+            - 3500
+          - - 34658
+            - 46079
+            - 14740
+            - 3500
+          - - 36501
+            - 49970
+            - 14739
+            - 3500
+          - - 40187
+            - 57752
+            - 14739
+            - 3500
+          - - 42030
+            - 61643
+            - 14739
+            - 3500
+          - - 43874
+            - 65535
+            - 14740
+            - 3500
+          - - 46559
+            - 59883
+            - 15615
+            - 3500
+          - - 49244
+            - 54230
+            - 16490
+            - 3500
+          - - 51929
+            - 48577
+            - 17365
+            - 3500
+          - - 53271
+            - 45751
+            - 17802
+            - 3500
+          - - 54614
+            - 42925
+            - 18240
+            - 3500
+          - - 57299
+            - 37273
+            - 19115
+            - 3500
+          - - 58642
+            - 34447
+            - 19553
+            - 3500
+          - - 59984
+            - 31620
+            - 19990
+            - 3500
+          - - 62669
+            - 25968
+            - 20865
+            - 3500
+          - - 64012
+            - 23142
+            - 21303
+            - 3500
+          - - 65354
+            - 20315
+            - 21741
+            - 3500
+          - - 64352
+            - 19742
+            - 22800
+            - 3500
+          - - 63352
+            - 19168
+            - 23859
+            - 3500
+          - - 62351
+            - 18595
+            - 24919
+            - 3500
+          - - 61350
+            - 18022
+            - 25979
+            - 3500
+          - - 60348
+            - 17448
+            - 27038
+            - 3500
+          - - 59347
+            - 16875
+            - 28097
+            - 3500
     - conditions:
       - '{{ action == ''ht_playing'' }}'
       sequence:
@@ -720,8 +860,10 @@ lighting_patio_string_lights:
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       is_day: '{{ mode_key in [''day'', ''morning''] }}'
       holiday: '{{ is_state(''calendar.holiday_lighting'', ''on'') }}'
-      holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') | lower if holiday else '''' }}'
-      holiday_script: '{{ ''script.holiday_'' ~ holiday_name if holiday else '''' }}'
+      holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') | lower
+        if holiday else '''' }}'
+      holiday_script: '{{ ''script.holiday_'' ~ holiday_name if holiday else ''''
+        }}'
   - choose:
     - conditions:
       - '{{ is_day }}'
@@ -841,84 +983,300 @@ holiday_pride:
         format: lifx
         power_on: true
         colors:
-        - [39139, 55704, 39576, 3500]
-        - [30036, 55704, 39576, 3500]
-        - [48242, 55705, 39576, 3500]
-        - [63533, 57670, 39576, 3500]
-        - [54431, 57670, 39576, 3500]
-        - [7099, 57670, 39576, 3500]
-        - [21845, 32768, 39576, 3500]
-        - [12742, 32767, 39576, 3500]
-        - [30948, 32768, 39576, 3500]
-        - [10922, 65535, 39576, 3500]
-        - [1820, 65535, 39576, 3500]
-        - [20024, 65535, 39576, 3500]
-        - [43691, 65535, 39576, 3500]
-        - [34588, 65535, 39576, 3500]
-        - [52793, 65535, 39576, 3500]
-        - [49334, 65535, 39576, 3500]
-        - [40232, 65535, 39576, 3500]
-        - [58436, 65535, 39576, 3500]
-        - [5825, 65535, 39576, 3500]
-        - [62259, 65535, 39576, 3500]
-        - [14927, 65535, 39576, 3500]
-        - [55159, 13107, 39576, 3500]
-        - [46057, 13107, 39576, 3500]
-        - [64261, 13107, 39576, 3500]
-        - [39139, 55704, 39576, 3500]
-        - [30036, 55704, 39576, 3500]
-        - [48242, 55705, 39576, 3500]
-        - [63533, 57670, 39576, 3500]
-        - [54431, 57670, 39576, 3500]
-        - [7099, 57670, 39576, 3500]
-        - [21845, 32768, 39576, 3500]
-        - [12742, 32767, 39576, 3500]
-        - [30948, 32768, 39576, 3500]
-        - [10922, 65535, 39576, 3500]
-        - [1820, 65535, 39576, 3500]
-        - [20024, 65535, 39576, 3500]
+        - - 39139
+          - 55704
+          - 39576
+          - 3500
+        - - 30036
+          - 55704
+          - 39576
+          - 3500
+        - - 48242
+          - 55705
+          - 39576
+          - 3500
+        - - 63533
+          - 57670
+          - 39576
+          - 3500
+        - - 54431
+          - 57670
+          - 39576
+          - 3500
+        - - 7099
+          - 57670
+          - 39576
+          - 3500
+        - - 21845
+          - 32768
+          - 39576
+          - 3500
+        - - 12742
+          - 32767
+          - 39576
+          - 3500
+        - - 30948
+          - 32768
+          - 39576
+          - 3500
+        - - 10922
+          - 65535
+          - 39576
+          - 3500
+        - - 1820
+          - 65535
+          - 39576
+          - 3500
+        - - 20024
+          - 65535
+          - 39576
+          - 3500
+        - - 43691
+          - 65535
+          - 39576
+          - 3500
+        - - 34588
+          - 65535
+          - 39576
+          - 3500
+        - - 52793
+          - 65535
+          - 39576
+          - 3500
+        - - 49334
+          - 65535
+          - 39576
+          - 3500
+        - - 40232
+          - 65535
+          - 39576
+          - 3500
+        - - 58436
+          - 65535
+          - 39576
+          - 3500
+        - - 5825
+          - 65535
+          - 39576
+          - 3500
+        - - 62259
+          - 65535
+          - 39576
+          - 3500
+        - - 14927
+          - 65535
+          - 39576
+          - 3500
+        - - 55159
+          - 13107
+          - 39576
+          - 3500
+        - - 46057
+          - 13107
+          - 39576
+          - 3500
+        - - 64261
+          - 13107
+          - 39576
+          - 3500
+        - - 39139
+          - 55704
+          - 39576
+          - 3500
+        - - 30036
+          - 55704
+          - 39576
+          - 3500
+        - - 48242
+          - 55705
+          - 39576
+          - 3500
+        - - 63533
+          - 57670
+          - 39576
+          - 3500
+        - - 54431
+          - 57670
+          - 39576
+          - 3500
+        - - 7099
+          - 57670
+          - 39576
+          - 3500
+        - - 21845
+          - 32768
+          - 39576
+          - 3500
+        - - 12742
+          - 32767
+          - 39576
+          - 3500
+        - - 30948
+          - 32768
+          - 39576
+          - 3500
+        - - 10922
+          - 65535
+          - 39576
+          - 3500
+        - - 1820
+          - 65535
+          - 39576
+          - 3500
+        - - 20024
+          - 65535
+          - 39576
+          - 3500
     - action: pyscript.lifx_set_zones
       data:
         entity_id: light.upstairs_patio_string
         format: lifx
         power_on: true
         colors:
-        - [63533, 57670, 39576, 3500]
-        - [54431, 57670, 39576, 3500]
-        - [7099, 57670, 39576, 3500]
-        - [43691, 65535, 39576, 3500]
-        - [34588, 65535, 39576, 3500]
-        - [52793, 65535, 39576, 3500]
-        - [49334, 65535, 39576, 3500]
-        - [40232, 65535, 39576, 3500]
-        - [58436, 65535, 39576, 3500]
-        - [55159, 13107, 39576, 3500]
-        - [46057, 13107, 39576, 3500]
-        - [64261, 13107, 39576, 3500]
-        - [21845, 32768, 39576, 3500]
-        - [12742, 32767, 39576, 3500]
-        - [30948, 32768, 39576, 3500]
-        - [5825, 65535, 39576, 3500]
-        - [62259, 65535, 39576, 3500]
-        - [14927, 65535, 39576, 3500]
-        - [39139, 55704, 39576, 3500]
-        - [30036, 55704, 39576, 3500]
-        - [48242, 55705, 39576, 3500]
-        - [10922, 65535, 39576, 3500]
-        - [1820, 65535, 39576, 3500]
-        - [20024, 65535, 39576, 3500]
-        - [63533, 57670, 39576, 3500]
-        - [54431, 57670, 39576, 3500]
-        - [7099, 57670, 39576, 3500]
-        - [43691, 65535, 39576, 3500]
-        - [34588, 65535, 39576, 3500]
-        - [52793, 65535, 39576, 3500]
-        - [49334, 65535, 39576, 3500]
-        - [40232, 65535, 39576, 3500]
-        - [58436, 65535, 39576, 3500]
-        - [55159, 13107, 39576, 3500]
-        - [46057, 13107, 39576, 3500]
-        - [64261, 13107, 39576, 3500]
+        - - 63533
+          - 57670
+          - 39576
+          - 3500
+        - - 54431
+          - 57670
+          - 39576
+          - 3500
+        - - 7099
+          - 57670
+          - 39576
+          - 3500
+        - - 43691
+          - 65535
+          - 39576
+          - 3500
+        - - 34588
+          - 65535
+          - 39576
+          - 3500
+        - - 52793
+          - 65535
+          - 39576
+          - 3500
+        - - 49334
+          - 65535
+          - 39576
+          - 3500
+        - - 40232
+          - 65535
+          - 39576
+          - 3500
+        - - 58436
+          - 65535
+          - 39576
+          - 3500
+        - - 55159
+          - 13107
+          - 39576
+          - 3500
+        - - 46057
+          - 13107
+          - 39576
+          - 3500
+        - - 64261
+          - 13107
+          - 39576
+          - 3500
+        - - 21845
+          - 32768
+          - 39576
+          - 3500
+        - - 12742
+          - 32767
+          - 39576
+          - 3500
+        - - 30948
+          - 32768
+          - 39576
+          - 3500
+        - - 5825
+          - 65535
+          - 39576
+          - 3500
+        - - 62259
+          - 65535
+          - 39576
+          - 3500
+        - - 14927
+          - 65535
+          - 39576
+          - 3500
+        - - 39139
+          - 55704
+          - 39576
+          - 3500
+        - - 30036
+          - 55704
+          - 39576
+          - 3500
+        - - 48242
+          - 55705
+          - 39576
+          - 3500
+        - - 10922
+          - 65535
+          - 39576
+          - 3500
+        - - 1820
+          - 65535
+          - 39576
+          - 3500
+        - - 20024
+          - 65535
+          - 39576
+          - 3500
+        - - 63533
+          - 57670
+          - 39576
+          - 3500
+        - - 54431
+          - 57670
+          - 39576
+          - 3500
+        - - 7099
+          - 57670
+          - 39576
+          - 3500
+        - - 43691
+          - 65535
+          - 39576
+          - 3500
+        - - 34588
+          - 65535
+          - 39576
+          - 3500
+        - - 52793
+          - 65535
+          - 39576
+          - 3500
+        - - 49334
+          - 65535
+          - 39576
+          - 3500
+        - - 40232
+          - 65535
+          - 39576
+          - 3500
+        - - 58436
+          - 65535
+          - 39576
+          - 3500
+        - - 55159
+          - 13107
+          - 39576
+          - 3500
+        - - 46057
+          - 13107
+          - 39576
+          - 3500
+        - - 64261
+          - 13107
+          - 39576
+          - 3500
 holiday_usa:
   alias: Holiday - USA
   icon: mdi:flag
@@ -931,84 +1289,300 @@ holiday_usa:
         format: lifx
         power_on: true
         colors:
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
     - action: pyscript.lifx_set_zones
       data:
         entity_id: light.upstairs_patio_string
         format: lifx
         power_on: true
         colors:
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [43691, 65535, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 0, 39321, 6500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
-        - [0, 65535, 39321, 3500]
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 43691
+          - 65535
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 0
+          - 39321
+          - 6500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
+        - - 0
+          - 65535
+          - 39321
+          - 3500
 holiday_christmas:
   alias: Holiday - Christmas
   icon: mdi:pine-tree
@@ -1021,81 +1595,297 @@ holiday_christmas:
         format: lifx
         power_on: true
         colors:
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [0, 0, 39576, 6500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
-        - [52389, 21686, 39576, 3500]
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 0
+          - 0
+          - 39576
+          - 6500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
+        - - 52389
+          - 21686
+          - 39576
+          - 3500
     - action: pyscript.lifx_set_zones
       data:
         entity_id: light.upstairs_patio_string
         format: lifx
         power_on: true
         colors:
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [52701, 21245, 39035, 3500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
-        - [0, 0, 39113, 6500]
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 52701
+          - 21245
+          - 39035
+          - 3500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500
+        - - 0
+          - 0
+          - 39113
+          - 6500

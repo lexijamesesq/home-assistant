@@ -3764,8 +3764,8 @@
   mode: single
 - id: '1774734576803'
   alias: Lighting - Kitchen Brightness Update
-  description: Triggers kitchen lighting script when mode, brightness curve, HT state,
-    or sleep mode changes. Part of the dynamic brightness system.
+  description: Adjusts kitchen brightness when mode, curve, or HT state changes. Curve
+    updates only apply when light is already on.
   triggers:
   - platform: state
     entity_id: sensor.dashboard_current_home_mode
@@ -3779,12 +3779,16 @@
   - platform: state
     entity_id: media_player.living_room_apple_tv
     id: ht_playing
-  - platform: state
-    entity_id: input_boolean.mode_sleep
-    id: sleep_change
-  - platform: homeassistant
-    event: start
-    id: startup
+  conditions:
+  - condition: or
+    conditions:
+    - condition: not
+      conditions:
+      - condition: trigger
+        id: curve_update
+    - condition: state
+      entity_id: light.kitchen
+      state: 'on'
   actions:
   - action: script.turn_on
     target:
@@ -3792,8 +3796,8 @@
   mode: restart
 - id: '1774734578979'
   alias: Lighting - Living Room Brightness Update
-  description: Triggers living room lighting script when mode, brightness curve, HT
-    state, or sleep mode changes. Part of the dynamic brightness system.
+  description: Adjusts living room brightness when mode, curve, or HT state changes.
+    Curve updates only apply when light is already on.
   triggers:
   - platform: state
     entity_id: sensor.dashboard_current_home_mode
@@ -3807,12 +3811,16 @@
   - platform: state
     entity_id: media_player.living_room_apple_tv
     id: ht_playing
-  - platform: state
-    entity_id: input_boolean.mode_sleep
-    id: sleep_change
-  - platform: homeassistant
-    event: start
-    id: startup
+  conditions:
+  - condition: or
+    conditions:
+    - condition: not
+      conditions:
+      - condition: trigger
+        id: curve_update
+    - condition: state
+      entity_id: light.living_room
+      state: 'on'
   actions:
   - action: script.turn_on
     target:
