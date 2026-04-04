@@ -214,7 +214,7 @@ lighting_kitchen:
       transitions:
         default: 2
         ht_playing: 5
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       curve: '{{ states(''sensor.brightness_curve_position'') | float(0.5) }}'
       is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
       is_day: '{{ mode_key == ''day'' }}'
@@ -263,7 +263,7 @@ lighting_living_room:
       transitions:
         default: 2
         ht_playing: 5
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       curve: '{{ states(''sensor.brightness_curve_position'') | float(0.5) }}'
       is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
       is_day: '{{ mode_key in [''day'', ''morning''] }}'
@@ -307,7 +307,7 @@ lighting_rec_room_canvas:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'')
         and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on''
         if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
@@ -352,7 +352,7 @@ lighting_downstairs_hallway:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
       brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'')
         | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'')
@@ -391,7 +391,7 @@ lighting_upstairs_hallway_group:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'')
         and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on''
         if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
@@ -440,21 +440,28 @@ lighting_den:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      brightness:
+        default: 75
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
       is_day: '{{ mode_key == ''day'' }}'
-  - choose:
-    - conditions:
-      - '{{ is_day }}'
-      sequence:
-      - action: light.turn_off
-        target:
-          entity_id: light.den
-    default:
+      target_brightness: '{% if is_day %}off{% elif is_sleep %}off{% else %}{{ brightness.default
+        }}{% endif %}'
+  - if:
+    - '{{ target_brightness == ''off'' }}'
+    then:
+    - condition: state
+      entity_id: light.den
+      state: 'on'
+    - action: light.turn_off
+      target:
+        entity_id: light.den
+    else:
     - action: light.turn_on
       target:
         entity_id: light.den
       data:
-        brightness: 75
+        brightness: '{{ target_brightness | int }}'
         color_temp_kelvin: 3500
         transition: 2
     - delay:
@@ -470,11 +477,19 @@ lighting_den_cabinets:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      brightness:
+        default: 75
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
       is_day: '{{ mode_key == ''day'' }}'
+      target_brightness: '{% if is_day %}off{% elif is_sleep %}off{% else %}{{ brightness.default
+        }}{% endif %}'
   - if:
-    - '{{ is_day }}'
+    - '{{ target_brightness == ''off'' }}'
     then:
+    - condition: state
+      entity_id: light.den_cabinets
+      state: 'on'
     - action: light.turn_off
       target:
         entity_id: light.den_cabinets
@@ -483,7 +498,7 @@ lighting_den_cabinets:
       target:
         entity_id: light.den_cabinets
       data:
-        brightness: 75
+        brightness: '{{ target_brightness | int }}'
         color_temp_kelvin: 3500
         transition: 5
 lighting_den_hallway:
@@ -492,7 +507,7 @@ lighting_den_hallway:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
       brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'')
         | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'')
@@ -531,7 +546,7 @@ lighting_garage_stairs:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
       brightness_level: '{{ ''low'' if (states(''sensor.brightness_curve_position'')
         | float(0.0)) >= 1.0 else (''mid'' if (states(''sensor.brightness_curve_position'')
@@ -570,7 +585,7 @@ lighting_bedroom:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       is_day: '{{ mode_key == ''day'' }}'
       is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
       sleep_recently_ended: '{{ is_state(''input_boolean.mode_sleep'', ''off'') and
@@ -611,7 +626,7 @@ lighting_living_room_tv:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       ht_state: '{{ ''playing'' if is_state(''input_boolean.mode_home_theater'', ''on'')
         and is_state(''media_player.living_room_apple_tv'', ''playing'') else (''on''
         if is_state(''input_boolean.mode_home_theater'', ''on'') else ''none'') }}'
@@ -820,12 +835,22 @@ lighting_patio:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
       is_day: '{{ mode_key in [''day'', ''morning''] }}'
       holiday: '{{ is_state(''calendar.holiday_lighting'', ''on'') }}'
       holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') if
         holiday else '''' }}'
   - choose:
+    - conditions:
+      - '{{ is_sleep }}'
+      sequence:
+      - condition: state
+        entity_id: light.patio
+        state: 'on'
+      - action: light.turn_off
+        target:
+          entity_id: light.patio
     - conditions:
       - '{{ is_day }}'
       sequence: []
@@ -858,6 +883,7 @@ lighting_patio_string_lights:
   sequence:
   - variables:
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') }}'
       is_day: '{{ mode_key in [''day'', ''morning''] }}'
       holiday: '{{ is_state(''calendar.holiday_lighting'', ''on'') }}'
       holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') | lower
@@ -865,6 +891,14 @@ lighting_patio_string_lights:
       holiday_script: '{{ ''script.holiday_'' ~ holiday_name if holiday else ''''
         }}'
   - choose:
+    - conditions:
+      - '{{ is_sleep }}'
+      sequence:
+      - action: light.turn_off
+        target:
+          entity_id:
+          - light.downstairs_patio_string
+          - light.upstairs_patio_string
     - conditions:
       - '{{ is_day }}'
       sequence:
@@ -901,7 +935,7 @@ lighting_studio:
   mode: restart
   sequence:
   - variables:
-      mode_key: '{{ states(''sensor.dashboard_current_home_mode'') | lower }}'
+      mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       is_day: '{{ mode_key == ''day'' }}'
   - if:
     - '{{ is_day }}'

@@ -328,7 +328,7 @@
     - trigger: time_pattern
       minutes: "/5"
     - trigger: state
-      entity_id: sensor.dashboard_current_home_mode
+      entity_id: input_select.time_of_day_mode
     - trigger: homeassistant
       event: start
   sensor:
@@ -336,7 +336,7 @@
       unique_id: brightness_curve_position
       icon: mdi:brightness-auto
       state: >-
-        {% set mode = states('sensor.dashboard_current_home_mode') | lower %}
+        {% set mode = states('input_select.time_of_day_mode') | lower %}
         {% if mode != 'night' %}
           0.0
         {% else %}
