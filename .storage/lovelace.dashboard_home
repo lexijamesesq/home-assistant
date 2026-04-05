@@ -37,7 +37,7 @@
                         "action": "none"
                       },
                       "icon": "{{ state_attr(entity, \"icon\") }}",
-                      "icon_color": "{% set mode = states(entity) %}\n{% if mode == \"Morning\" %}\n  {{ \"var(--mush-rgb-orange)\" }}\n{% elif mode == \"Day\" %}\n  {{ \"var(--mush-rgb-yellow)\" }}\n{% elif mode == \"Sunset\" %}\n  {{ \"var(--mush-rgb-orange)\" }}\n{% elif mode == \"Night\" %}\n  {{ \"var(--mush-rgb-purple)\" }}\n{% elif mode == \"Theater\" %}\n  {{ \"var(--mush-rgb-orange)\" }}\n{% elif mode == \"Cleaning\" %}\n  {{ \"var(--mush-rgb-yellow)\" }}\n{% elif mode == \"Laundry\" %}\n  {{ \"var(--mush-rgb-blue)\" }}\n{% elif mode == \"Sleep\" %}\n  {{ \"var(--mush-rgb-purple)\" }}\n{% endif %}\n",
+                      "icon_color": "{% set mode = states(entity) %}\n{% if mode == \"Morning\" %}\n  rgb(var(--mush-rgb-orange))\n{% elif mode == \"Day\" %}\n  rgb(var(--mush-rgb-yellow))\n{% elif mode == \"Sunset\" %}\n  rgb(var(--mush-rgb-orange))\n{% elif mode == \"Night\" %}\n  rgb(var(--mush-rgb-purple))\n{% elif mode == \"Theater\" %}\n  rgb(var(--mush-rgb-orange))\n{% elif mode == \"Cleaning\" %}\n  rgb(var(--mush-rgb-yellow))\n{% elif mode == \"Laundry\" %}\n  rgb(var(--mush-rgb-blue))\n{% elif mode == \"Sleep\" %}\n  rgb(var(--mush-rgb-purple))\n{% endif %}\n",
                       "content": "{{ states(entity) }}",
                       "tap_action": {
                         "action": "navigate",
@@ -58,7 +58,7 @@
                         "action": "none"
                       },
                       "icon": "{{ state_attr(entity, \"icon\") }}",
-                      "icon_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"Secure\") else \"var(--mush-rgb-red)\" }}\n",
+                      "icon_color": "{{ \"rgb(var(--mush-rgb-green))\" if is_state(entity, \"Secure\") else \"rgb(var(--mush-rgb-red))\" }}",
                       "content": "{{ states(entity) }}"
                     },
                     {
@@ -75,7 +75,7 @@
                         "entity": "sensor.dashboard_garage_actual_status_short",
                         "tap_action": {
                           "action": "navigate",
-                          "navigation_path": "/lovelace/security"
+                          "navigation_path": "/dashboard-home/security"
                         },
                         "hold_action": {
                           "action": "none"
@@ -101,7 +101,7 @@
                         "entity": "sensor.dashboard_open_door_status_short",
                         "tap_action": {
                           "action": "navigate",
-                          "navigation_path": "/lovelace/security"
+                          "navigation_path": "/dashboard-home/security"
                         },
                         "hold_action": {
                           "action": "none"
@@ -127,7 +127,7 @@
                         "entity": "sensor.dashboard_open_window_status_short",
                         "tap_action": {
                           "action": "navigate",
-                          "navigation_path": "/lovelace/security"
+                          "navigation_path": "/dashboard-home/security"
                         },
                         "hold_action": {
                           "action": "none"
@@ -234,10 +234,6 @@
                   "double_tap_action": {
                     "action": "none"
                   },
-                  "layout_options": {
-                    "grid_columns": 3,
-                    "grid_rows": 1
-                  },
                   "entity": "climate.downstairs",
                   "badge_icon": "{% if is_state_attr(entity, 'fan_mode', 'on') %}\n  mdi:fan\n{% endif %}",
                   "badge_color": "{{ \"var(--mush-rgb-grey)\" }}",
@@ -247,7 +243,11 @@
                   "icon_tap_action": {
                     "action": "more-info"
                   },
-                  "color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  rgb(var(--mush-rgb-blue))\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  rgb(var(--mush-rgb-orange))\n{% endif %}"
+                  "color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  rgb(var(--mush-rgb-blue))\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  rgb(var(--mush-rgb-orange))\n{% endif %}",
+                  "grid_options": {
+                    "rows": 1,
+                    "columns": "full"
+                  }
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -264,10 +264,6 @@
                   "double_tap_action": {
                     "action": "none"
                   },
-                  "layout_options": {
-                    "grid_columns": 3,
-                    "grid_rows": 1
-                  },
                   "badge_icon": "{% if is_state_attr(entity, 'fan_mode', 'on') %}\n  mdi:fan\n{% endif %}",
                   "badge_color": "{{ \"var(--mush-rgb-grey)\" }}",
                   "card_mod": {
@@ -276,7 +272,10 @@
                   "icon_tap_action": {
                     "action": "more-info"
                   },
-                  "color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  rgb(var(--mush-rgb-blue))\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  rgb(var(--mush-rgb-orange))\n{% endif %}"
+                  "color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  rgb(var(--mush-rgb-blue))\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  rgb(var(--mush-rgb-orange))\n{% endif %}",
+                  "grid_options": {
+                    "columns": "full"
+                  }
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -462,7 +461,7 @@
                       "double_tap_action": {
                         "action": "none"
                       },
-                      "icon_color": "{{ \"var(--mush-rgb-amber)\" if is_state(entity, \"on\") else \"var(--mush-rgb-grey)\" }}",
+                      "icon_color": "{{ \"rgb(var(--mush-rgb-amber))\" if is_state(entity, \"on\") else \"rgb(var(--mush-rgb-grey))\" }}",
                       "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.garage_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Garage' if num_lights >= 1 else 'Garage' }}"
                     },
                     {
@@ -482,7 +481,7 @@
                       "double_tap_action": {
                         "action": "none"
                       },
-                      "icon_color": "{{ \"var(--mush-rgb-amber)\" if is_state(entity, \"on\") else \"var(--mush-rgb-grey)\" }}",
+                      "icon_color": "{{ \"rgb(var(--mush-rgb-amber))\" if is_state(entity, \"on\") else \"rgb(var(--mush-rgb-grey))\" }}",
                       "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.downstairs_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Downstairs' if num_lights >= 1 else 'Downstairs' }}"
                     },
                     {
@@ -502,7 +501,7 @@
                       "double_tap_action": {
                         "action": "none"
                       },
-                      "icon_color": "{{ \"var(--mush-rgb-amber)\" if is_state(entity, \"on\") else \"var(--mush-rgb-grey)\" }}",
+                      "icon_color": "{{ \"rgb(var(--mush-rgb-amber))\" if is_state(entity, \"on\") else \"rgb(var(--mush-rgb-grey))\" }}",
                       "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.upstairs_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Upstairs' if num_lights >= 1 else 'Upstairs' }}"
                     },
                     {
@@ -1083,7 +1082,7 @@
                   "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_alexbussa_state\", \"playing\") else \"mdi:pause\" }}",
                   "fill_container": false,
                   "multiline_secondary": false,
-                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_alexbussa_state\", \"playing\") }}",
+                  "badge_color": "{{ \"rgb(var(--mush-rgb-orange))\" if is_state(\"sensor.tautulli_alexbussa_state\", \"playing\") }}",
                   "picture": "{{ states(\"sensor.tautulli_alexbussa_session_thumbnail\") }}",
                   "tap_action": {
                     "action": "more-info"
@@ -1111,7 +1110,7 @@
                   "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_acouch12_state\", \"playing\") else \"mdi:pause\" }}",
                   "fill_container": false,
                   "multiline_secondary": false,
-                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_acouch12_state\", \"playing\") }}",
+                  "badge_color": "{{ \"rgb(var(--mush-rgb-orange))\" if is_state(\"sensor.tautulli_acouch12_state\", \"playing\") }}",
                   "picture": "{{ states(\"sensor.tautulli_acouch12_session_thumbnail\") }}",
                   "tap_action": {
                     "action": "more-info"
@@ -1140,7 +1139,7 @@
                   "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_chelsea209_state\", \"playing\") else \"mdi:pause\" }}",
                   "fill_container": false,
                   "multiline_secondary": false,
-                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_chelsea209_state\", \"playing\") }}",
+                  "badge_color": "{{ \"rgb(var(--mush-rgb-orange))\" if is_state(\"sensor.tautulli_chelsea209_state\", \"playing\") }}",
                   "picture": "{{ states(\"sensor.tautulli_chelsea209_session_thumbnail\") }}",
                   "tap_action": {
                     "action": "more-info"
@@ -1169,7 +1168,7 @@
                   "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_hybred_state\", \"playing\") else \"mdi:pause\" }}",
                   "fill_container": false,
                   "multiline_secondary": false,
-                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_hybred_state\", \"playing\") }}",
+                  "badge_color": "{{ \"rgb(var(--mush-rgb-orange))\" if is_state(\"sensor.tautulli_hybred_state\", \"playing\") }}",
                   "picture": "{{ states(\"sensor.tautulli_hybred_session_thumbnail\") }}",
                   "tap_action": {
                     "action": "more-info"
@@ -1198,7 +1197,7 @@
                   "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_jan553_state\", \"playing\") else \"mdi:pause\" }}",
                   "fill_container": false,
                   "multiline_secondary": false,
-                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_jan553_state\", \"playing\") }}",
+                  "badge_color": "{{ \"rgb(var(--mush-rgb-orange))\" if is_state(\"sensor.tautulli_jan553_state\", \"playing\") }}",
                   "picture": "{{ states(\"sensor.tautulli_jan553_session_thumbnail\") }}",
                   "tap_action": {
                     "action": "more-info"
@@ -1227,7 +1226,7 @@
                   "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_mindblender_state\", \"playing\") else \"mdi:pause\" }}",
                   "fill_container": false,
                   "multiline_secondary": false,
-                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_mindblender_state\", \"playing\") }}",
+                  "badge_color": "{{ \"rgb(var(--mush-rgb-orange))\" if is_state(\"sensor.tautulli_mindblender_state\", \"playing\") }}",
                   "picture": "{{ states(\"sensor.tautulli_mindblender_session_thumbnail\") }}",
                   "tap_action": {
                     "action": "more-info"
@@ -1256,7 +1255,7 @@
                   "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_monkypirate_state\", \"playing\") else \"mdi:pause\" }}",
                   "fill_container": false,
                   "multiline_secondary": false,
-                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_monkypirate_state\", \"playing\") }}",
+                  "badge_color": "{{ \"rgb(var(--mush-rgb-orange))\" if is_state(\"sensor.tautulli_monkypirate_state\", \"playing\") }}",
                   "picture": "{{ states(\"sensor.tautulli_monkypirate_session_thumbnail\") }}",
                   "tap_action": {
                     "action": "more-info"
@@ -1285,7 +1284,7 @@
                   "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_tiffanybeeson_state\", \"playing\") else \"mdi:pause\" }}",
                   "fill_container": false,
                   "multiline_secondary": false,
-                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_tiffanybeeson_state\", \"playing\") }}",
+                  "badge_color": "{{ \"rgb(var(--mush-rgb-orange))\" if is_state(\"sensor.tautulli_tiffanybeeson_state\", \"playing\") }}",
                   "picture": "{{ states(\"sensor.tautulli_tiffanybeeson_session_thumbnail\") }}",
                   "tap_action": {
                     "action": "more-info"
@@ -1314,7 +1313,7 @@
                   "badge_icon": "{{ \"mdi:play\" if is_state(\"sensor.tautulli_zharm_state\", \"playing\") else \"mdi:pause\" }}",
                   "fill_container": false,
                   "multiline_secondary": false,
-                  "badge_color": "{{ \"var(--mush-rgb-orange)\" if is_state(\"sensor.tautulli_zharm_state\", \"playing\") }}",
+                  "badge_color": "{{ \"rgb(var(--mush-rgb-orange))\" if is_state(\"sensor.tautulli_zharm_state\", \"playing\") }}",
                   "picture": "{{ states(\"sensor.tautulli_zharm_session_thumbnail\") }}",
                   "tap_action": {
                     "action": "more-info"
@@ -1442,7 +1441,7 @@
                         "action": "none"
                       },
                       "icon": "{{ state_attr(entity, \"icon\") }}",
-                      "icon_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"Secure\") else \"var(--mush-rgb-red)\" }}\n",
+                      "icon_color": "{{ \"rgb(var(--mush-rgb-green))\" if is_state(entity, \"Secure\") else \"rgb(var(--mush-rgb-red))\" }}",
                       "content": "{{ states(entity) }}"
                     },
                     {
@@ -1459,7 +1458,7 @@
                         "entity": "sensor.dashboard_garage_actual_status_short",
                         "tap_action": {
                           "action": "navigate",
-                          "navigation_path": "/lovelace/security"
+                          "navigation_path": "/dashboard-home/security"
                         },
                         "hold_action": {
                           "action": "none"
@@ -1485,7 +1484,7 @@
                         "entity": "sensor.dashboard_open_door_status_short",
                         "tap_action": {
                           "action": "navigate",
-                          "navigation_path": "/lovelace/security"
+                          "navigation_path": "/dashboard-home/security"
                         },
                         "hold_action": {
                           "action": "none"
@@ -1511,7 +1510,7 @@
                         "entity": "sensor.dashboard_open_window_status_short",
                         "tap_action": {
                           "action": "navigate",
-                          "navigation_path": "/lovelace/security"
+                          "navigation_path": "/dashboard-home/security"
                         },
                         "hold_action": {
                           "action": "none"
@@ -2354,44 +2353,6 @@
                 {
                   "type": "tile",
                   "entity": "sensor.dashboard_date_time",
-                  "icon": "mdi:clock-time-five-outline",
-                  "name": "Prefer Lighting High Time",
-                  "show_entity_picture": false,
-                  "hide_state": false,
-                  "tap_action": {
-                    "action": "none"
-                  },
-                  "icon_tap_action": {
-                    "action": "none"
-                  },
-                  "state_content": "prefer_high",
-                  "layout_options": {
-                    "grid_columns": 4,
-                    "grid_rows": 1
-                  }
-                },
-                {
-                  "type": "tile",
-                  "entity": "sensor.dashboard_date_time",
-                  "icon": "mdi:clock-time-seven-outline",
-                  "name": "Prefer Lighting Mid Time",
-                  "show_entity_picture": false,
-                  "hide_state": false,
-                  "tap_action": {
-                    "action": "none"
-                  },
-                  "icon_tap_action": {
-                    "action": "none"
-                  },
-                  "layout_options": {
-                    "grid_columns": 4,
-                    "grid_rows": 1
-                  },
-                  "state_content": "prefer_mid"
-                },
-                {
-                  "type": "tile",
-                  "entity": "sensor.dashboard_date_time",
                   "icon": "mdi:clock-time-nine-outline",
                   "name": "Prefer Lighting Low Time",
                   "show_entity_picture": false,
@@ -2407,24 +2368,6 @@
                     "grid_rows": 1
                   },
                   "state_content": "prefer_low"
-                },
-                {
-                  "type": "tile",
-                  "icon": "mdi:progress-download",
-                  "name": "Progressive Dimming at Night",
-                  "show_entity_picture": false,
-                  "hide_state": false,
-                  "tap_action": {
-                    "action": "toggle"
-                  },
-                  "icon_tap_action": {
-                    "action": "toggle"
-                  },
-                  "layout_options": {
-                    "grid_columns": 4,
-                    "grid_rows": 1
-                  },
-                  "entity": "automation.update_lights_at_night_progressive_dimming"
                 }
               ]
             },
