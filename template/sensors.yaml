@@ -469,8 +469,8 @@
     - name: "Sonos Rec Room TV Volume"
       unique_id: sonos_rec_room_tv_volume
       state: >-
-        {%- if state_attr('media_player.sonos_rec_room', 'volume_level') is defined and state_attr('media_player.sonos_rec_room', 'volume_level') is number -%}
-          {{ (state_attr('media_player.sonos_rec_room', 'volume_level') * 100) | int(0) ~ '%' }}
+        {%- if state_attr('media_player.sonos_rec_room_tv', 'volume_level') is defined and state_attr('media_player.sonos_rec_room_tv', 'volume_level') is number -%}
+          {{ (state_attr('media_player.sonos_rec_room_tv', 'volume_level') * 100) | int(0) ~ '%' }}
         {%- else -%}
           Unavailable
         {%- endif %}

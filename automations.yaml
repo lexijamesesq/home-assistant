@@ -835,15 +835,18 @@
     target:
       entity_id:
       - script.lighting_bedroom
-- alias: Set All Thermostats to ECO When Windows Open
-  trigger:
-  - platform: state
+- id: aea3b2614a494bf2956e983acefe5900
+  alias: Thermostat Eco When Windows Open
+  description: Sets thermostats to eco when windows open for 30s, restores when closed.
+    Only touches thermostats not already in eco (preserves manual eco).
+  triggers:
+  - trigger: state
     entity_id: group.all_windows
     from: 'off'
     to: 'on'
     for:
       seconds: 30
-  condition:
+  conditions:
   - condition: or
     conditions:
     - condition: state
@@ -852,51 +855,58 @@
     - condition: state
       entity_id: input_boolean.mode_guest
       state: 'on'
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: climate.downstairs
-      attribute: preset_mode
-      state: eco
-    - condition: state
-      entity_id: climate.upstairs
-      attribute: preset_mode
-      state: eco
-  action:
-  - service: climate.set_preset_mode
-    data:
-      entity_id:
-      - climate.downstairs
-      - climate.upstairs
-      preset_mode: eco
-  id: aea3b2614a494bf2956e983acefe5900
-- alias: Restore All Thermostats When Windows Close
-  trigger:
-  - platform: state
-    entity_id: group.all_windows
-    from: 'on'
-    to: 'off'
-  condition:
-    condition: or
-    conditions:
-    - condition: state
-      entity_id: group.residents
-      state: home
-    - condition: state
-      entity_id: input_boolean.mode_guest
-      state: 'on'
-  action:
-  - service: climate.set_preset_mode
-    data:
-      entity_id:
-      - climate.downstairs
-      - climate.upstairs
-      preset_mode: none
-  id: 6093415dea134340a100dfc1500d1eb4
+  actions:
+  - variables:
+      set_downstairs: '{{ state_attr(''climate.downstairs'', ''preset_mode'') != ''eco''
+        }}'
+      set_upstairs: '{{ state_attr(''climate.upstairs'', ''preset_mode'') != ''eco''
+        }}'
+  - condition: '{{ set_downstairs or set_upstairs }}'
+  - if:
+    - '{{ set_downstairs }}'
+    then:
+    - action: climate.set_preset_mode
+      target:
+        entity_id: climate.downstairs
+      data:
+        preset_mode: eco
+  - if:
+    - '{{ set_upstairs }}'
+    then:
+    - action: climate.set_preset_mode
+      target:
+        entity_id: climate.upstairs
+      data:
+        preset_mode: eco
+  - wait_for_trigger:
+    - trigger: state
+      entity_id: group.all_windows
+      to: 'off'
+  - if:
+    - '{{ set_downstairs }}'
+    then:
+    - action: climate.set_preset_mode
+      target:
+        entity_id: climate.downstairs
+      data:
+        preset_mode: none
+  - if:
+    - '{{ set_upstairs }}'
+    then:
+    - action: climate.set_preset_mode
+      target:
+        entity_id: climate.upstairs
+      data:
+        preset_mode: none
+  mode: single
+  max_exceeded: silent
 - id: 5a0afe3c6b58437f9b514aac1819c5ab
   alias: Notify Battery - Replace Low Battery
+  description: Alerts when battery-powered devices drop below 40%. Sends push notification
+    and creates Things maintenance task.
   triggers:
-  - entity_id:
+  - trigger: numeric_state
+    entity_id:
     - sensor.august_web_front_door_battery
     - sensor.august_web_garage_door_battery
     - sensor.garage_motion_battery_level
@@ -912,25 +922,28 @@
     below: 40
     for:
       hours: 1
-    trigger: numeric_state
   actions:
-  - data:
+  - action: notify.mobile_app_alexis_iphone
+    data:
       title: Condo
-      message: The {{ trigger.to_state.attributes.friendly_name.replace('Battery level',
-        '').replace('Battery Charege', '').replace('Battery', '') }} battery is at
-        {{ trigger.to_state.state }}%. A task to replace it has been added to Things.
+      message: The {{ trigger.to_state.attributes.friendly_name | replace('Battery
+        level', '') | replace('Battery Charge', '') | replace('Battery', '') | trim
+        }} battery is at {{ trigger.to_state.state }}%.
       data:
+        tag: battery-{{ trigger.entity_id }}
         url: /dashboard-home/health
         push:
           thread-id: system
           sound: gesture.wav
-    action: notify.mobile_app_alexis_iphone
-  - data:
-      title: Replace {{ trigger.to_state.attributes.friendly_name.replace('Battery
-        level', '').replace('Battery Charege', '').replace('Battery', '') }} Battery
+  - action: rest_command.things_add_task
+    data:
+      title: Replace {{ trigger.to_state.attributes.friendly_name | replace('Battery
+        level', '') | replace('Battery Charge', '') | replace('Battery', '') | trim
+        }} Battery
       when: Today
       list: Maintenance
-    action: rest_command.things_add_task
+  mode: queued
+  max: 5
 - id: 43d533db8d0f47369353b80f63487884
   alias: Notify Laundry - Washing Machine Completed
   triggers:
@@ -1758,59 +1771,71 @@
   id: 98b5e6dcea21457c80e537919f7addfe
 - id: fc4453a7eb8240298d7fedae6c0f6898
   alias: Sonos - Paused Reset
+  description: After 30 minutes of pause, reset all volumes to targets and regroup
+    all speakers under Bedroom via pyscript/node-sonos-http-api. Rec Room TV excluded
+    (TV-connected).
   triggers:
-  - entity_id: sensor.sonos_group_master_state
+  - trigger: state
+    entity_id: sensor.sonos_group_master_state
     from: playing
     to: paused
     for:
       minutes: 30
-    trigger: state
   actions:
-  - data:
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_kitchen
-      volume_level: '{{ (states("input_number.sonos_kitchen_volume") | float - offset)
-        | round(2, "floor") }}'
-    action: media_player.volume_set
-  - data:
+    data:
+      volume_level: '{{ (states(''input_number.sonos_kitchen_volume'') | float - offset)
+        | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_living_room
-      volume_level: '{{ (states("input_number.sonos_living_room_volume") | float -
-        offset) | round(2, "floor") }}'
-    action: media_player.volume_set
-  - data:
+    data:
+      volume_level: '{{ (states(''input_number.sonos_living_room_volume'') | float
+        - offset) | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_rec_room
-      volume_level: '{{ (states("input_number.sonos_rec_room_volume") | float - offset)
-        | round(2, "floor") }}'
-    action: media_player.volume_set
-  - data:
+    data:
+      volume_level: '{{ (states(''input_number.sonos_rec_room_volume'') | float -
+        offset) | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_bedroom
-      volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset)
-        | round(2, "floor") }}'
-    action: media_player.volume_set
-  - data:
+    data:
+      volume_level: '{{ (states(''input_number.sonos_bedroom_volume'') | float - offset)
+        | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_bathroom
-      volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset)
-        | round(2, "floor") }}'
-    action: media_player.volume_set
-  - data:
+    data:
+      volume_level: '{{ (states(''input_number.sonos_bathroom_volume'') | float -
+        offset) | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_den
-      volume_level: '{{ states("input_number.sonos_den_volume") | float }}'
-    action: media_player.volume_set
-  - data:
+    data:
+      volume_level: '{{ states(''input_number.sonos_den_volume'') | float }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_move
-      volume_level: '{{ states("input_number.sonos_move_volume") | float }}'
-    action: media_player.volume_set
-  - data:
-      entity_id: media_player.sonos_bedroom
-      group_members:
-      - media_player.sonos_bathroom
-      - media_player.sonos_den
-      - media_player.sonos_kitchen
-      - media_player.sonos_living_room
-      - media_player.sonos_rec_room
-      - media_player.sonos_move
-    action: media_player.join
+    data:
+      volume_level: '{{ states(''input_number.sonos_move_volume'') | float }}'
+    continue_on_error: true
+  - action: pyscript.sonos_group_all
+    data:
+      coordinator_name: Bedroom
+      delay: 2
   variables:
     offset: 0.02
+  mode: single
 - alias: Sonos - Shuffle On
   trigger:
   - platform: state
@@ -2117,34 +2142,33 @@
               entity_id: fan.kitchen
               percentage: 50
   id: bb2d1df521fd41ce91372c6a37ef3242
-- alias: Fan - Bedroom - Bedroom Window Open
-  trigger:
-  - platform: state
+- id: 311904deb8a4428181cb2896c5612def
+  alias: Fan - Bedroom - Window Open
+  description: Turns off bedroom fan when windows open, restores when closed. Only
+    acts if fan was already running.
+  triggers:
+  - trigger: state
     entity_id: binary_sensor.bedroom_windows
     to: 'on'
     for:
       seconds: 30
-  condition:
+  conditions:
   - condition: state
     entity_id: fan.bedroom
     state: 'on'
-  action:
-  - service: fan.turn_off
-    entity_id: fan.bedroom
-  id: 311904deb8a4428181cb2896c5612def
-- alias: Fan - Bedroom - Bedroom Window Closed
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.bedroom_windows
-    to: 'off'
-  condition:
-  - condition: state
-    entity_id: fan.bedroom
-    state: 'off'
-  action:
-  - service: fan.turn_on
-    entity_id: fan.bedroom
-  id: 86e3e850aa894e958ed289d6bab77c7c
+  actions:
+  - action: fan.turn_off
+    target:
+      entity_id: fan.bedroom
+  - wait_for_trigger:
+    - trigger: state
+      entity_id: binary_sensor.bedroom_windows
+      to: 'off'
+  - action: fan.turn_on
+    target:
+      entity_id: fan.bedroom
+  mode: single
+  max_exceeded: silent
 - alias: Garage Lighting on Motion
   trigger:
   - platform: state
@@ -3532,69 +3556,63 @@
   mode: single
 - id: '1724791118711'
   alias: Circulate Stale Air
-  description: ''
-  trigger:
-  - platform: time_pattern
+  description: Every 3 hours, run HVAC fans for 8 minutes each (staggered) to circulate
+    stale air. Skips fans already running manually.
+  triggers:
+  - trigger: time_pattern
     hours: /3
     minutes: 0
     seconds: 0
-    id: start_downstairs_fan
-  - platform: state
-    entity_id: climate.downstairs
-    attribute: fan_mode
-    to: 'on'
-    for: 00:04:00
-    id: start_upstairs_fan
-  - platform: state
-    entity_id: climate.downstairs
-    attribute: fan_mode
-    to: 'on'
-    for: 00:08:00
-    id: stop_downstairs_fan
-  - platform: state
-    entity_id: climate.upstairs
-    attribute: fan_mode
-    to: 'on'
-    for: 00:08:00
-    id: stop_upstairs_fan
-  condition:
+  conditions:
   - condition: state
     entity_id: group.all_windows
     state: 'off'
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: start_downstairs_fan
-      sequence:
-      - action: climate.set_fan_mode
+  actions:
+  - variables:
+      downstairs_already_on: '{{ state_attr(''climate.downstairs'', ''fan_mode'')
+        == ''on'' }}'
+      upstairs_already_on: '{{ state_attr(''climate.upstairs'', ''fan_mode'') == ''on''
+        }}'
+  - if:
+    - '{{ not downstairs_already_on }}'
+    then:
+    - action: climate.set_fan_mode
+      target:
         entity_id: climate.downstairs
-        data:
-          fan_mode: 'on'
-    - conditions:
-      - condition: trigger
-        id: start_upstairs_fan
-      sequence:
-      - action: climate.set_fan_mode
+      data:
+        fan_mode: 'on'
+  - delay:
+      minutes: 4
+  - if:
+    - '{{ not upstairs_already_on }}'
+    then:
+    - action: climate.set_fan_mode
+      target:
         entity_id: climate.upstairs
-        data:
-          fan_mode: 'on'
-    - conditions:
-      - condition: trigger
-        id: stop_downstairs_fan
-      sequence:
-      - action: climate.set_fan_mode
+      data:
+        fan_mode: 'on'
+  - delay:
+      minutes: 4
+  - if:
+    - '{{ not downstairs_already_on }}'
+    then:
+    - action: climate.set_fan_mode
+      target:
         entity_id: climate.downstairs
-        data:
-          fan_mode: 'off'
-    - conditions:
-      - condition: trigger
-        id: stop_upstairs_fan
-      sequence:
-      - action: climate.set_fan_mode
+      data:
+        fan_mode: 'off'
+  - delay:
+      minutes: 4
+  - if:
+    - '{{ not upstairs_already_on }}'
+    then:
+    - action: climate.set_fan_mode
+      target:
         entity_id: climate.upstairs
-        data:
-          fan_mode: 'off'
+      data:
+        fan_mode: 'off'
+  mode: single
+  max_exceeded: silent
 - id: '1724803728374'
 - id: '1724804282087'
   alias: Update Lights - House Cleaning Mode On
