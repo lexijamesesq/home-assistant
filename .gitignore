@@ -75,3 +75,5 @@ rtsp2webrtc_*
 
 # Keep dotfiles we need
 !.gitignore
+.cache/
+.automatic/

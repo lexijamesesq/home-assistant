@@ -11,7 +11,7 @@
       },
       {
         "id": "c76332eac9534afb9f39af5eed6480e8",
-        "url": "/browser_mod.js?automatically-added&2.10.1",
+        "url": "/browser_mod.js?automatically-added&2.10.2",
         "type": "module"
       },
       {
@@ -46,7 +46,7 @@
       },
       {
         "id": "c8aac57eaa104a68be49adf4dac4dbbf",
-        "url": "/hacsfiles/kiosk-mode/kiosk-mode.js?hacstag=4973191281100",
+        "url": "/hacsfiles/kiosk-mode/kiosk-mode.js?hacstag=4973191281200",
         "type": "module"
       },
       {

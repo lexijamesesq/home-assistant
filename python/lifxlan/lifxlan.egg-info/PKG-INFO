@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: lifxlan
+Version: 1.2.7
+Summary: API for local communication with LIFX devices over a LAN.
+Home-page: http://github.com/mclarkk/lifxlan
+Author: Meghan Clark
+Author-email: mclarkk@berkeley.edu
+License: MIT
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+License-File: LICENSE.md

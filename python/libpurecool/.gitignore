@@ -1,0 +1,17 @@
+*.iml
+.idea
+runtime/*
+.coverage
+.tox/
+.cache/
+libpurecool.egg-info/
+libpurecool/__pycache__/
+tests/__pycache__/
+dist/*
+build/
+.SVN/
+main/
+.project
+.pydevproject
+docs/_build
+README.rst
