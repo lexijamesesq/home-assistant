@@ -1112,41 +1112,42 @@
   - choose:
     - conditions:
       - condition: template
-        value_template: "{{ states('lock.august_web_front_door') == 'unlocked' }}"
+        value_template: '{{ states(''lock.august_web_front_door'') == ''unlocked''
+          }}'
       sequence:
       - data:
           title: Condo
-          message: "{% if is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
-            Lock') or is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
-            Unlock') %}\n  {% set message = 'manually ' ~ states('lock.august_web_front_door')
-            %}\n{% else %}\n  {% set message = states('lock.august_web_front_door') ~
-            ' by ' ~ state_attr('lock.august_web_front_door', 'changed_by') %}\n{% endif
-            %} The Front Door was {{ message }}."
+          message: "{% if is_state_attr('lock.august_web_front_door', 'changed_by',
+            'Manual Lock') or is_state_attr('lock.august_web_front_door', 'changed_by',
+            'Manual Unlock') %}\n  {% set message = 'manually ' ~ states('lock.august_web_front_door')
+            %}\n{% else %}\n  {% set message = states('lock.august_web_front_door')
+            ~ ' by ' ~ state_attr('lock.august_web_front_door', 'changed_by') %}\n{%
+            endif %} The Front Door was {{ message }}."
           data:
             url: /dashboard-home/security
             push:
               thread-id: security
               sound: basic-bit-shots.wav
             actions:
-              - action: LOCK_FRONT_DOOR
-                title: Lock Door
-                icon: 'sfsymbols:lock'
+            - action: LOCK_FRONT_DOOR
+              title: Lock Door
+              icon: sfsymbols:lock
         action: notify.mobile_app_alexis_iphone
     default:
-      - data:
-          title: Condo
-          message: "{% if is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
-            Lock') or is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
-            Unlock') %}\n  {% set message = 'manually ' ~ states('lock.august_web_front_door')
-            %}\n{% else %}\n  {% set message = states('lock.august_web_front_door') ~
-            ' by ' ~ state_attr('lock.august_web_front_door', 'changed_by') %}\n{% endif
-            %} The Front Door was {{ message }}."
-          data:
-            url: /dashboard-home/security
-            push:
-              thread-id: security
-              sound: basic-bit-shots.wav
-        action: notify.mobile_app_alexis_iphone
+    - data:
+        title: Condo
+        message: "{% if is_state_attr('lock.august_web_front_door', 'changed_by',
+          'Manual Lock') or is_state_attr('lock.august_web_front_door', 'changed_by',
+          'Manual Unlock') %}\n  {% set message = 'manually ' ~ states('lock.august_web_front_door')
+          %}\n{% else %}\n  {% set message = states('lock.august_web_front_door')
+          ~ ' by ' ~ state_attr('lock.august_web_front_door', 'changed_by') %}\n{%
+          endif %} The Front Door was {{ message }}."
+        data:
+          url: /dashboard-home/security
+          push:
+            thread-id: security
+            sound: basic-bit-shots.wav
+      action: notify.mobile_app_alexis_iphone
 - id: 60b9d55c16624c8ea648895ce8395e13
   alias: Notify Security - Garage Actual Opened or Closed
   trigger:
@@ -1173,9 +1174,9 @@
           thread-id: security
           sound: gamelan.wav
         actions:
-          - action: CLOSE_GARAGE
-            title: Close Garage
-            icon: 'sfsymbols:arrow.down.square'
+        - action: CLOSE_GARAGE
+          title: Close Garage
+          icon: sfsymbols:arrow.down.square
     action: notify.mobile_app_alexis_iphone
   mode: queued
 - id: ba0e5069adff40f29a505cc276288f5a
@@ -1215,7 +1216,7 @@
         {{ (trigger.for.total_seconds() / 60) | int(0) }} minutes.
       data:
         url: /dashboard-home/security
-        tag: "door-open-{{ trigger.entity_id }}"
+        tag: door-open-{{ trigger.entity_id }}
         push:
           thread-id: security
           sound: siren.wav
@@ -1251,9 +1252,9 @@
           thread-id: security
           sound: siren.wav
         actions:
-          - action: CLOSE_GARAGE
-            title: Close Garage
-            icon: 'sfsymbols:arrow.down.square'
+        - action: CLOSE_GARAGE
+          title: Close Garage
+          icon: sfsymbols:arrow.down.square
     action: notify.mobile_app_alexis_iphone
   mode: queued
 - id: a958ff4f89e846b0a965ea2b614bdd57
@@ -3906,3 +3907,29 @@
     target:
       entity_id: script.lighting_patio_string_lights
   mode: restart
+- id: '1775351356182'
+  alias: Notification Action - Close Garage
+  description: Responds to CLOSE_GARAGE actionable notification button tap
+  triggers:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: CLOSE_GARAGE
+  actions:
+  - target:
+      entity_id: cover.garage_actual
+    action: cover.close_cover
+  mode: single
+- id: '1775351357409'
+  alias: Notification Action - Lock Front Door
+  description: Responds to LOCK_FRONT_DOOR actionable notification button tap
+  triggers:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: LOCK_FRONT_DOOR
+  actions:
+  - target:
+      entity_id: lock.august_smart_lock_pro_3rd_gen
+    action: lock.lock
+  mode: single
