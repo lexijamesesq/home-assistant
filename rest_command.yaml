@@ -50,6 +50,6 @@ garage_entrance_dashboard_wake:
 # Sonos Grouping (node-sonos-http-api)
 ##############################################################
 sonos_join_to_group:
-  url: "http://10.0.1.20:5005/{{ room }}/join/{{ master }}"
+  url: !secret sonos_join_to_group_url
 sonos_leave_group:
-  url: "http://10.0.1.20:5005/{{ room }}/leave"
+  url: !secret sonos_leave_group_url
