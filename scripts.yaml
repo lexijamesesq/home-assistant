@@ -134,6 +134,9 @@ sonos_speaker_unjoin_group:
       room: '{{ state_attr(speaker, ''friendly_name'') }}'
 sonos_volume_ramp_up:
   alias: Sonos Volume Ramp Up
+  description: Gradually increase all speakers to target volume over 5 minutes when
+    playback starts.
+  mode: queued
   variables:
     increment: 0.01
   sequence:
@@ -142,62 +145,98 @@ sonos_volume_ramp_up:
       - condition: or
         conditions:
         - condition: template
-          value_template: '{{ state_attr("media_player.sonos_kitchen", "volume_level")
-            | default(0) < states("input_number.sonos_kitchen_volume") | float }}'
+          value_template: '{{ state_attr(''media_player.sonos_kitchen'', ''volume_level'')
+            | default(0) < states(''input_number.sonos_kitchen_volume'') | float }}'
         - condition: template
-          value_template: '{{ state_attr("media_player.sonos_living_room", "volume_level")
-            | default(0) < states("input_number.sonos_living_room_volume") | float
+          value_template: '{{ state_attr(''media_player.sonos_living_room'', ''volume_level'')
+            | default(0) < states(''input_number.sonos_living_room_volume'') | float
             }}'
         - condition: template
-          value_template: '{{ state_attr("media_player.sonos_rec_room", "volume_level")
-            | default(0) < states("input_number.sonos_rec_room_volume") | float }}'
+          value_template: '{{ state_attr(''media_player.sonos_rec_room'', ''volume_level'')
+            | default(0) < states(''input_number.sonos_rec_room_volume'') | float
+            }}'
         - condition: template
-          value_template: '{{ state_attr("media_player.sonos_bedroom", "volume_level")
-            | default(0) < states("input_number.sonos_bedroom_volume") | float }}'
+          value_template: '{{ state_attr(''media_player.sonos_bedroom'', ''volume_level'')
+            | default(0) < states(''input_number.sonos_bedroom_volume'') | float }}'
         - condition: template
-          value_template: '{{ state_attr("media_player.sonos_bathroom", "volume_level")
-            | default(0) < states("input_number.sonos_bathroom_volume") | float }}'
+          value_template: '{{ state_attr(''media_player.sonos_bathroom'', ''volume_level'')
+            | default(0) < states(''input_number.sonos_bathroom_volume'') | float
+            }}'
+        - condition: template
+          value_template: '{{ state_attr(''media_player.sonos_den'', ''volume_level'')
+            | default(0) < states(''input_number.sonos_den_volume'') | float }}'
+        - condition: template
+          value_template: '{{ state_attr(''media_player.sonos_move'', ''volume_level'')
+            | default(0) < states(''input_number.sonos_move_volume'') | float }}'
       - condition: template
-        value_template: '{{ is_state("sensor.sonos_group_master_state", "playing")
+        value_template: '{{ is_state(''sensor.sonos_group_master_state'', ''playing'')
           and repeat.index <= 5 }}'
       sequence:
       - delay: 00:01:00
-      - data:
+      - action: media_player.volume_set
+        target:
           entity_id: media_player.sonos_kitchen
-          volume_level: '{{ (state_attr("media_player.sonos_kitchen", "volume_level")
-            | default(0) + increment) | round(2, "floor") if state_attr("media_player.sonos_kitchen",
-            "volume_level") | default(0) < states("input_number.sonos_kitchen_volume")
-            | float else states("input_number.sonos_kitchen_volume") | float }}'
-        action: media_player.volume_set
-      - data:
+        data:
+          volume_level: '{{ (state_attr(''media_player.sonos_kitchen'', ''volume_level'')
+            | default(0) + increment) | round(2, ''floor'') if state_attr(''media_player.sonos_kitchen'',
+            ''volume_level'') | default(0) < states(''input_number.sonos_kitchen_volume'')
+            | float else states(''input_number.sonos_kitchen_volume'') | float }}'
+        continue_on_error: true
+      - action: media_player.volume_set
+        target:
           entity_id: media_player.sonos_living_room
-          volume_level: '{{ (state_attr("media_player.sonos_living_room", "volume_level")
-            | default(0) + increment) | round(2, "floor") if state_attr("media_player.sonos_living_room",
-            "volume_level") | default(0) < states("input_number.sonos_living_room_volume")
-            | float else states("input_number.sonos_living_room_volume") | float }}'
-        action: media_player.volume_set
-      - data:
+        data:
+          volume_level: '{{ (state_attr(''media_player.sonos_living_room'', ''volume_level'')
+            | default(0) + increment) | round(2, ''floor'') if state_attr(''media_player.sonos_living_room'',
+            ''volume_level'') | default(0) < states(''input_number.sonos_living_room_volume'')
+            | float else states(''input_number.sonos_living_room_volume'') | float
+            }}'
+        continue_on_error: true
+      - action: media_player.volume_set
+        target:
           entity_id: media_player.sonos_rec_room
-          volume_level: '{{ (state_attr("media_player.sonos_rec_room", "volume_level")
-            | default(0) + increment) | round(2, "floor") if state_attr("media_player.sonos_rec_room",
-            "volume_level") | default(0) < states("input_number.sonos_rec_room_volume")
-            | float else states("input_number.sonos_rec_room_volume") | float }}'
-        action: media_player.volume_set
-      - data:
+        data:
+          volume_level: '{{ (state_attr(''media_player.sonos_rec_room'', ''volume_level'')
+            | default(0) + increment) | round(2, ''floor'') if state_attr(''media_player.sonos_rec_room'',
+            ''volume_level'') | default(0) < states(''input_number.sonos_rec_room_volume'')
+            | float else states(''input_number.sonos_rec_room_volume'') | float }}'
+        continue_on_error: true
+      - action: media_player.volume_set
+        target:
           entity_id: media_player.sonos_bedroom
-          volume_level: '{{ (state_attr("media_player.sonos_bedroom", "volume_level")
-            | default(0) + increment) | round(2, "floor") if state_attr("media_player.sonos_bedroom",
-            "volume_level") | default(0) < states("input_number.sonos_bedroom_volume")
-            | float else states("input_number.sonos_bedroom_volume") | float }}'
-        action: media_player.volume_set
-      - data:
+        data:
+          volume_level: '{{ (state_attr(''media_player.sonos_bedroom'', ''volume_level'')
+            | default(0) + increment) | round(2, ''floor'') if state_attr(''media_player.sonos_bedroom'',
+            ''volume_level'') | default(0) < states(''input_number.sonos_bedroom_volume'')
+            | float else states(''input_number.sonos_bedroom_volume'') | float }}'
+        continue_on_error: true
+      - action: media_player.volume_set
+        target:
           entity_id: media_player.sonos_bathroom
-          volume_level: '{{ (state_attr("media_player.sonos_bathroom", "volume_level")
-            | default(0) + increment) | round(2, "floor") if state_attr("media_player.sonos_bathroom",
-            "volume_level") | default(0) < states("input_number.sonos_bathroom_volume")
-            | float else states("input_number.sonos_bathroom_volume") | float }}'
-        action: media_player.volume_set
-  mode: queued
+        data:
+          volume_level: '{{ (state_attr(''media_player.sonos_bathroom'', ''volume_level'')
+            | default(0) + increment) | round(2, ''floor'') if state_attr(''media_player.sonos_bathroom'',
+            ''volume_level'') | default(0) < states(''input_number.sonos_bathroom_volume'')
+            | float else states(''input_number.sonos_bathroom_volume'') | float }}'
+        continue_on_error: true
+      - action: media_player.volume_set
+        target:
+          entity_id: media_player.sonos_den
+        data:
+          volume_level: '{{ (state_attr(''media_player.sonos_den'', ''volume_level'')
+            | default(0) + increment) | round(2, ''floor'') if state_attr(''media_player.sonos_den'',
+            ''volume_level'') | default(0) < states(''input_number.sonos_den_volume'')
+            | float else states(''input_number.sonos_den_volume'') | float }}'
+        continue_on_error: true
+      - action: media_player.volume_set
+        target:
+          entity_id: media_player.sonos_move
+        data:
+          volume_level: '{{ (state_attr(''media_player.sonos_move'', ''volume_level'')
+            | default(0) + increment) | round(2, ''floor'') if state_attr(''media_player.sonos_move'',
+            ''volume_level'') | default(0) < states(''input_number.sonos_move_volume'')
+            | float else states(''input_number.sonos_move_volume'') | float }}'
+        continue_on_error: true
 lighting_kitchen:
   alias: Lighting - Kitchen
   icon: mdi:lightbulb

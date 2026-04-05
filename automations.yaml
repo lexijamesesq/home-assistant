@@ -1907,11 +1907,13 @@
   mode: single
 - id: 9013b60ccaed4d989607f196abea99a0
   alias: Sonos - Volume Ramp Up
-  trigger:
-  - platform: state
+  description: Trigger gradual volume ramp when playback starts and any speaker is
+    below target.
+  triggers:
+  - trigger: state
     entity_id: sensor.sonos_group_master_state
     to: playing
-  condition:
+  conditions:
   - condition: and
     conditions:
     - condition: state
@@ -1920,23 +1922,31 @@
     - condition: or
       conditions:
       - condition: template
-        value_template: '{{ state_attr("media_player.sonos_kitchen", "volume_level")
-          | default(0) < states("input_number.sonos_kitchen_volume") | float }}'
+        value_template: '{{ state_attr(''media_player.sonos_kitchen'', ''volume_level'')
+          | default(0) < states(''input_number.sonos_kitchen_volume'') | float }}'
       - condition: template
-        value_template: '{{ state_attr("media_player.sonos_living_room", "volume_level")
-          | default(0) < states("input_number.sonos_living_room_volume") | float }}'
+        value_template: '{{ state_attr(''media_player.sonos_living_room'', ''volume_level'')
+          | default(0) < states(''input_number.sonos_living_room_volume'') | float
+          }}'
       - condition: template
-        value_template: '{{ state_attr("media_player.sonos_rec_room", "volume_level")
-          | default(0) < states("input_number.sonos_rec_room_volume") | float }}'
+        value_template: '{{ state_attr(''media_player.sonos_rec_room'', ''volume_level'')
+          | default(0) < states(''input_number.sonos_rec_room_volume'') | float }}'
       - condition: template
-        value_template: '{{ state_attr("media_player.sonos_bedroom", "volume_level")
-          | default(0) < states("input_number.sonos_bedroom_volume") | float }}'
+        value_template: '{{ state_attr(''media_player.sonos_bedroom'', ''volume_level'')
+          | default(0) < states(''input_number.sonos_bedroom_volume'') | float }}'
       - condition: template
-        value_template: '{{ state_attr("media_player.sonos_bathroom", "volume_level")
-          | default(0) < states("input_number.sonos_bathroom_volume") | float }}'
-  action:
-  - entity_id: script.sonos_volume_ramp_up
-    action: script.turn_on
+        value_template: '{{ state_attr(''media_player.sonos_bathroom'', ''volume_level'')
+          | default(0) < states(''input_number.sonos_bathroom_volume'') | float }}'
+      - condition: template
+        value_template: '{{ state_attr(''media_player.sonos_den'', ''volume_level'')
+          | default(0) < states(''input_number.sonos_den_volume'') | float }}'
+      - condition: template
+        value_template: '{{ state_attr(''media_player.sonos_move'', ''volume_level'')
+          | default(0) < states(''input_number.sonos_move_volume'') | float }}'
+  actions:
+  - action: script.turn_on
+    target:
+      entity_id: script.sonos_volume_ramp_up
   mode: single
 - alias: Browser Mod Switch to Sonos Tab
   trigger:
