@@ -247,37 +247,7 @@
                   "icon_tap_action": {
                     "action": "more-info"
                   },
-                  "color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  rgb(var(--mush-rgb-blue))\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  rgb(var(--mush-rgb-orange))\n{% elif is_state_attr(entity, 'hvac_action', 'idle') %}\n  rgb(var(--mush-rgb-blue-grey))\n{% else %}\n  rgb(var(--mush-rgb-grey))\n{% endif %}"
-                },
-                {
-                  "type": "custom:mushroom-template-card",
-                  "primary": "",
-                  "secondary": "",
-                  "icon": "mdi:leaf",
-                  "layout_options": {
-                    "grid_columns": 1,
-                    "grid_rows": 1
-                  },
-                  "entity": "climate.downstairs",
-                  "fill_container": false,
-                  "tap_action": {
-                    "action": "call-service",
-                    "service": "script.nest_toggle_downstairs_eco",
-                    "target": {}
-                  },
-                  "hold_action": {
-                    "action": "none"
-                  },
-                  "double_tap_action": {
-                    "action": "none"
-                  },
-                  "card_mod": {
-                    "style": "ha-card .container .content {\n  justify-content: center;\n  display: flex;\n}\n"
-                  },
-                  "icon_tap_action": {
-                    "action": "more-info"
-                  },
-                  "color": "{% if is_state_attr(entity, 'preset_mode', 'eco') %}\n  rgb(var(--mush-rgb-green))\n{% else %}\n  rgb(var(--mush-rgb-grey))\n{% endif %}"
+                  "color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  rgb(var(--mush-rgb-blue))\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  rgb(var(--mush-rgb-orange))\n{% endif %}"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -306,37 +276,7 @@
                   "icon_tap_action": {
                     "action": "more-info"
                   },
-                  "color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  rgb(var(--mush-rgb-blue))\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  rgb(var(--mush-rgb-orange))\n{% elif is_state_attr(entity, 'hvac_action', 'idle') %}\n  rgb(var(--mush-rgb-blue-grey))\n{% else %}\n  rgb(var(--mush-rgb-grey))\n{% endif %}"
-                },
-                {
-                  "type": "custom:mushroom-template-card",
-                  "primary": "",
-                  "secondary": "",
-                  "icon": "mdi:leaf",
-                  "layout_options": {
-                    "grid_columns": 1,
-                    "grid_rows": 1
-                  },
-                  "fill_container": false,
-                  "tap_action": {
-                    "action": "call-service",
-                    "service": "script.nest_toggle_upstairs_eco",
-                    "target": {}
-                  },
-                  "hold_action": {
-                    "action": "none"
-                  },
-                  "double_tap_action": {
-                    "action": "none"
-                  },
-                  "entity": "climate.upstairs",
-                  "card_mod": {
-                    "style": "ha-card .container .content {\n  justify-content: center;\n  display: flex;\n}\n"
-                  },
-                  "icon_tap_action": {
-                    "action": "more-info"
-                  },
-                  "color": "{% if is_state_attr(entity, 'preset_mode', 'eco') %}\n  rgb(var(--mush-rgb-green))\n{% else %}\n  rgb(var(--mush-rgb-grey))\n{% endif %}"
+                  "color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  rgb(var(--mush-rgb-blue))\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  rgb(var(--mush-rgb-orange))\n{% endif %}"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -446,7 +386,11 @@
                   },
                   "multiline_secondary": false,
                   "icon_tap_action": {
-                    "action": "more-info"
+                    "action": "perform-action",
+                    "perform_action": "switch.toggle",
+                    "target": {
+                      "entity_id": "switch.washer_power"
+                    }
                   },
                   "color": "{{ 'rgb(var(--mush-rgb-blue))' if states(entity) != 'power_off' }}"
                 },
@@ -466,7 +410,11 @@
                     "action": "none"
                   },
                   "icon_tap_action": {
-                    "action": "more-info"
+                    "action": "perform-action",
+                    "perform_action": "switch.toggle",
+                    "target": {
+                      "entity_id": "switch.dryer_power"
+                    }
                   },
                   "color": "{{ 'rgb(var(--mush-rgb-blue))' if states(entity) != 'power_off' }}"
                 }
@@ -867,7 +815,10 @@
                   },
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
                   "entity": "script.sonos_playlist_favorite_songs",
-                  "color": "rgb(var(--mush-rgb-blue-grey))"
+                  "color": "rgb(var(--mush-rgb-blue-grey))",
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  }
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -890,7 +841,10 @@
                   },
                   "entity": "script.sonos_playlist_country_caffeine",
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
-                  "color": "rgb(var(--mush-rgb-blue-grey))"
+                  "color": "rgb(var(--mush-rgb-blue-grey))",
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  }
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -913,7 +867,10 @@
                   },
                   "entity": "script.sonos_playlist_country_risers",
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
-                  "color": "rgb(var(--mush-rgb-blue-grey))"
+                  "color": "rgb(var(--mush-rgb-blue-grey))",
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  }
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -936,7 +893,10 @@
                   },
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
                   "entity": "script.sonos_playlist_little_bit_country",
-                  "color": "rgb(var(--mush-rgb-blue-grey))"
+                  "color": "rgb(var(--mush-rgb-blue-grey))",
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  }
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -959,7 +919,10 @@
                   },
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
                   "entity": "script.sonos_playlist_two_step_music",
-                  "color": "rgb(var(--mush-rgb-blue-grey))"
+                  "color": "rgb(var(--mush-rgb-blue-grey))",
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  }
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -982,7 +945,10 @@
                   },
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
                   "entity": "script.sonos_playlist_west_coast_swing",
-                  "color": "rgb(var(--mush-rgb-blue-grey))"
+                  "color": "rgb(var(--mush-rgb-blue-grey))",
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  }
                 }
               ]
             }
@@ -1735,7 +1701,7 @@
                 },
                 {
                   "type": "tile",
-                  "entity": "binary_sensor.main_floor_motion",
+                  "entity": "binary_sensor.g4_instant_motion",
                   "name": "Kitchen"
                 },
                 {
