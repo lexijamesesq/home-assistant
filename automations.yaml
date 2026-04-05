@@ -3679,7 +3679,6 @@
         fan_mode: 'off'
   mode: single
   max_exceeded: silent
-- id: '1724803728374'
 - id: '1724804282087'
   alias: Update Lights - House Cleaning Mode On
   description: Turn on all cleanable rooms at full brightness
