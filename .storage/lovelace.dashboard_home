@@ -2318,26 +2318,49 @@
               "cards": [
                 {
                   "type": "heading",
-                  "heading": "Dimming"
+                  "heading": "Progressive Dimming"
                 },
                 {
-                  "type": "tile",
-                  "entity": "sensor.dashboard_date_time",
-                  "icon": "mdi:clock-time-nine-outline",
-                  "name": "Prefer Lighting Low Time",
-                  "show_entity_picture": false,
-                  "hide_state": false,
+                  "type": "custom:mushroom-template-card",
+                  "entity": "sensor.brightness_curve_position",
+                  "primary": "Brightness Level",
+                  "secondary": "{{ ((1 - states('sensor.brightness_curve_position') | float(0)) * 100) | round(0) }}%",
+                  "icon": "mdi:brightness-auto",
                   "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
                     "action": "none"
                   },
-                  "icon_tap_action": {
+                  "double_tap_action": {
                     "action": "none"
                   },
                   "layout_options": {
                     "grid_columns": 4,
                     "grid_rows": 1
                   },
-                  "state_content": "prefer_low"
+                  "color": "var(--mush-rgb-disabled)"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "entity": "input_datetime.prefer_lighting_low_time",
+                  "primary": "Bedtime",
+                  "secondary": "{{ as_timestamp(states('input_datetime.prefer_lighting_low_time')) | timestamp_custom('%I:%M %p') }}",
+                  "icon": "mdi:weather-night",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "layout_options": {
+                    "grid_columns": 4,
+                    "grid_rows": 1
+                  },
+                  "color": "var(--mush-rgb-disabled)"
                 }
               ]
             },
@@ -2449,7 +2472,7 @@
                 },
                 {
                   "type": "tile",
-                  "entity": "automation.simulate_presence_mode_update_lights",
+                  "entity": "input_boolean.mode_simulate_presence",
                   "name": "Simulate Presence at Night",
                   "icon": "mdi:home-lightbulb",
                   "layout_options": {
