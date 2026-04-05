@@ -101,20 +101,37 @@ sonos_playlist_west_coast_swing:
     entity_id: script.sonos_playlist_toggle_play
 sonos_speaker_join_group:
   alias: Sonos Speaker Join Group
-  sequence:
-  - data:
-      entity_id: '{{ "media_player.sonos_"+ states.input_select.master_sonos.state|lower|replace("
-        ", "_") }}'
-      group_members: '{{ speaker }}'
-    action: media_player.join
+  description: Join a speaker to the current master group via node-sonos-http-api.
   mode: queued
+  fields:
+    speaker:
+      name: Speaker
+      description: media_player entity ID (e.g., media_player.sonos_kitchen)
+      selector:
+        entity:
+          domain: media_player
+          integration: sonos
+  sequence:
+  - action: rest_command.sonos_join_to_group
+    data:
+      room: '{{ state_attr(speaker, ''friendly_name'') }}'
+      master: '{{ states(''input_select.master_sonos'') }}'
 sonos_speaker_unjoin_group:
   alias: Sonos Speaker Unjoin Group
-  sequence:
-  - data:
-      entity_id: '{{ speaker }}'
-    action: media_player.unjoin
+  description: Remove a speaker from its group via node-sonos-http-api.
   mode: queued
+  fields:
+    speaker:
+      name: Speaker
+      description: media_player entity ID (e.g., media_player.sonos_kitchen)
+      selector:
+        entity:
+          domain: media_player
+          integration: sonos
+  sequence:
+  - action: rest_command.sonos_leave_group
+    data:
+      room: '{{ state_attr(speaker, ''friendly_name'') }}'
 sonos_volume_ramp_up:
   alias: Sonos Volume Ramp Up
   variables:

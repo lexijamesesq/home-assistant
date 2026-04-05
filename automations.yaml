@@ -1589,39 +1589,47 @@
           thread-id: system
           sound: gesture.wav
   id: ee44b05bfde94911b76f55d3872e5f68
-- alias: Sonos - Pause Speakers When HT Mode Starts
-  trigger:
-  - platform: state
+- id: 0d2af93e5ce84b1a973e633643c17b26
+  alias: Sonos - Pause Speakers When HT Mode Starts
+  description: Pause the Sonos group when Home Theater mode activates.
+  triggers:
+  - trigger: state
     entity_id: input_boolean.mode_home_theater
     to: 'on'
-  condition:
+  conditions:
   - condition: state
     entity_id: sensor.sonos_group_master_state
     state: playing
-  action:
-  - service: media_player.media_pause
-    data:
-      entity_id: '{{ states.sensor.sonos_group_master.state }}'
-  id: 0d2af93e5ce84b1a973e633643c17b26
-- alias: Sonos - Sleep Mode Volume
-  trigger:
-  - platform: state
+  actions:
+  - action: media_player.media_pause
+    target:
+      entity_id: '{{ states(''sensor.sonos_group_master'') }}'
+  mode: single
+- id: 8cde3eb887224daeabca4ee53890bdb1
+  alias: Sonos - Sleep Mode Volume
+  description: Reduce bedroom and bathroom volume when sleep mode activates.
+  triggers:
+  - trigger: state
     entity_id: input_boolean.mode_sleep
     to: 'on'
+  actions:
+  - action: media_player.volume_set
+    target:
+      entity_id: media_player.sonos_bedroom
+    data:
+      volume_level: '{{ (states(''input_number.sonos_bedroom_volume'') | float - offset)
+        | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
+      entity_id: media_player.sonos_bathroom
+    data:
+      volume_level: '{{ (states(''input_number.sonos_bathroom_volume'') | float -
+        offset) | round(2, ''floor'') }}'
+    continue_on_error: true
   variables:
     offset: 0.08
-  action:
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.sonos_bedroom
-      volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset)
-        | round(2, "floor") }}'
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.sonos_bathroom
-      volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset)
-        | round(2, "floor") }}'
-  id: 8cde3eb887224daeabca4ee53890bdb1
+  mode: single
 - id: 88c9d5e9e5fb4907a6b437fd69d42d0e
   alias: Set Sonos Group Master Input Select
   trigger:
@@ -1694,81 +1702,126 @@
         speaker: '{{ trigger.to_state.entity_id|replace("input_boolean", "media_player")
           }}'
   id: 37f6c302f00445f8b0d34cf456d246f5
-- alias: Sonos - Wakeup Volume
-  trigger:
-  - platform: time
+- id: 01386299ef2a414eafebd08720add5fc
+  alias: Sonos - Wakeup Volume
+  description: Pre-dawn volume reduction at 3 AM. Offsets main speakers, sets den/move
+    to direct target.
+  triggers:
+  - trigger: time
     at: 03:00:00
+  actions:
+  - action: media_player.volume_set
+    target:
+      entity_id: media_player.sonos_kitchen
+    data:
+      volume_level: '{{ (states(''input_number.sonos_kitchen_volume'') | float - offset)
+        | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
+      entity_id: media_player.sonos_living_room
+    data:
+      volume_level: '{{ (states(''input_number.sonos_living_room_volume'') | float
+        - offset) | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
+      entity_id: media_player.sonos_rec_room
+    data:
+      volume_level: '{{ (states(''input_number.sonos_rec_room_volume'') | float -
+        offset) | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
+      entity_id: media_player.sonos_bedroom
+    data:
+      volume_level: '{{ (states(''input_number.sonos_bedroom_volume'') | float - offset)
+        | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
+      entity_id: media_player.sonos_bathroom
+    data:
+      volume_level: '{{ (states(''input_number.sonos_bathroom_volume'') | float -
+        offset) | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
+      entity_id: media_player.sonos_den
+    data:
+      volume_level: '{{ states(''input_number.sonos_den_volume'') | float }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
+      entity_id: media_player.sonos_move
+    data:
+      volume_level: '{{ states(''input_number.sonos_move_volume'') | float }}'
+    continue_on_error: true
   variables:
     offset: 0.05
-  action:
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.sonos_kitchen
-      volume_level: '{{ (states("input_number.sonos_kitchen_volume") | float - offset)
-        | round(2, "floor") }}'
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.sonos_living_room
-      volume_level: '{{ (states("input_number.sonos_living_room_volume") | float -
-        offset) | round(2, "floor") }}'
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.sonos_rec_room
-      volume_level: '{{ (states("input_number.sonos_rec_room_volume") | float - offset)
-        | round(2, "floor") }}'
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.sonos_rec_room_tv
-      volume_level: '{{ (states("input_number.sonos_rec_room_tv_volume") | float -
-        offset) | round(2, "floor") }}'
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.sonos_bedroom
-      volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset)
-        | round(2, "floor") }}'
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.sonos_bathroom
-      volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset)
-        | round(2, "floor") }}'
-  id: 01386299ef2a414eafebd08720add5fc
-- alias: Sonos - Morning Volume
-  trigger:
-  - platform: time
+  mode: single
+- id: 98b5e6dcea21457c80e537919f7addfe
+  alias: Sonos - Morning Volume
+  description: Morning volume at 11 AM (paused only). Offsets main speakers, sets
+    den/move to direct target.
+  triggers:
+  - trigger: time
     at: '11:00:00'
-  variables:
-    offset: 0.02
-  condition:
+  conditions:
   - condition: state
     entity_id: sensor.sonos_group_master_state
     state: paused
-  action:
-  - service: media_player.volume_set
-    data:
+  actions:
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_kitchen
-      volume_level: '{{ (states("input_number.sonos_kitchen_volume") | float - offset)
-        | round(2, "floor") }}'
-  - service: media_player.volume_set
     data:
+      volume_level: '{{ (states(''input_number.sonos_kitchen_volume'') | float - offset)
+        | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_living_room
-      volume_level: '{{ (states("input_number.sonos_living_room_volume") | float -
-        offset) | round(2, "floor") }}'
-  - service: media_player.volume_set
     data:
+      volume_level: '{{ (states(''input_number.sonos_living_room_volume'') | float
+        - offset) | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_rec_room
-      volume_level: '{{ (states("input_number.sonos_rec_room_volume") | float - offset)
-        | round(2, "floor") }}'
-  - service: media_player.volume_set
     data:
+      volume_level: '{{ (states(''input_number.sonos_rec_room_volume'') | float -
+        offset) | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_bedroom
-      volume_level: '{{ (states("input_number.sonos_bedroom_volume") | float - offset)
-        | round(2, "floor") }}'
-  - service: media_player.volume_set
     data:
+      volume_level: '{{ (states(''input_number.sonos_bedroom_volume'') | float - offset)
+        | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
       entity_id: media_player.sonos_bathroom
-      volume_level: '{{ (states("input_number.sonos_bathroom_volume") | float - offset)
-        | round(2, "floor") }}'
-  id: 98b5e6dcea21457c80e537919f7addfe
+    data:
+      volume_level: '{{ (states(''input_number.sonos_bathroom_volume'') | float -
+        offset) | round(2, ''floor'') }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
+      entity_id: media_player.sonos_den
+    data:
+      volume_level: '{{ states(''input_number.sonos_den_volume'') | float }}'
+    continue_on_error: true
+  - action: media_player.volume_set
+    target:
+      entity_id: media_player.sonos_move
+    data:
+      volume_level: '{{ states(''input_number.sonos_move_volume'') | float }}'
+    continue_on_error: true
+  variables:
+    offset: 0.02
+  mode: single
 - id: fc4453a7eb8240298d7fedae6c0f6898
   alias: Sonos - Paused Reset
   description: After 30 minutes of pause, reset all volumes to targets and regroup
@@ -1836,19 +1889,22 @@
   variables:
     offset: 0.02
   mode: single
-- alias: Sonos - Shuffle On
-  trigger:
-  - platform: state
+- id: 94597e4f50574f93bd1887267ca48488
+  alias: Sonos - Shuffle On
+  description: Force shuffle on when playback starts.
+  triggers:
+  - trigger: state
     entity_id: sensor.sonos_group_master_state
     to: playing
-  condition:
-  - '{{ is_state_attr(states("sensor.sonos_group_master"), "shuffle", false) }}'
-  action:
-  - service: media_player.shuffle_set
+  conditions:
+  - '{{ is_state_attr(states(''sensor.sonos_group_master''), ''shuffle'', false) }}'
+  actions:
+  - action: media_player.shuffle_set
+    target:
+      entity_id: '{{ states(''sensor.sonos_group_master'') }}'
     data:
-      entity_id: '{{ states("sensor.sonos_group_master") }}'
       shuffle: true
-  id: 94597e4f50574f93bd1887267ca48488
+  mode: single
 - id: 9013b60ccaed4d989607f196abea99a0
   alias: Sonos - Volume Ramp Up
   trigger:
