@@ -4016,3 +4016,57 @@
       entity_id: lock.august_smart_lock_pro_3rd_gen
     action: lock.lock
   mode: single
+- id: '1775416117940'
+  alias: Device Health - Stale Battery Check
+  description: Daily check for battery-powered Z-Wave devices that haven't reported
+    in 10+ days. Sends per-device tagged notifications. Clears notifications when
+    devices recover.
+  triggers:
+  - platform: time
+    at: '10:00:00'
+  actions:
+  - repeat:
+      for_each: '{{ monitored_sensors }}'
+      sequence:
+      - variables:
+          ts: '{{ as_timestamp(states(repeat.item), 0) }}'
+          days: '{{ ((as_timestamp(now()) - (ts | float)) / 86400) | int if (ts |
+            float) > 0 else 0 }}'
+          is_stale: '{{ days | int >= threshold_days | int }}'
+          device_name: '{{ repeat.item | replace(''sensor.'', '''') | replace(''_last_seen'',
+            '''') | replace(''_'', '' '') | title }}'
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ is_stale }}'
+          sequence:
+          - action: notify.mobile_app_alexis_iphone
+            data:
+              title: Condo
+              message: '{{ device_name }} hasn''t reported in {{ days }} days.'
+              data:
+                tag: stale-{{ repeat.item }}
+                url: /dashboard-home/health
+                push:
+                  thread-id: system
+                  sound: gesture.wav
+        default:
+        - action: notify.mobile_app_alexis_iphone
+          data:
+            message: clear_notification
+            data:
+              tag: stale-{{ repeat.item }}
+  mode: single
+  variables:
+    monitored_sensors:
+    - sensor.garage_motion_last_seen
+    - sensor.garage_stairs_multisensor_last_seen
+    - sensor.downstairs_hallway_trisensor_last_seen
+    - sensor.main_stairs_multisensor_last_seen
+    - sensor.den_multisensor_last_seen
+    - sensor.bedroom_closet_trisensor_last_seen
+    - sensor.studio_closet_door_last_seen
+    - sensor.laundry_door_left_last_seen
+    - sensor.laundry_door_right_last_seen
+    - sensor.bedroom_closet_door_last_seen
+    threshold_days: 10

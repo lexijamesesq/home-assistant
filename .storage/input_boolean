@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "input_boolean",
+  "data": {
+    "items": [
+      {
+        "id": "show_all_batteries",
+        "name": "Show All Batteries",
+        "icon": "mdi:battery-eye",
+        "initial": false
+      }
+    ]
+  }
+}
