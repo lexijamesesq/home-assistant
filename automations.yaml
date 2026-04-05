@@ -920,9 +920,9 @@
         '').replace('Battery Charege', '').replace('Battery', '') }} battery is at
         {{ trigger.to_state.state }}%. A task to replace it has been added to Things.
       data:
-        url: /dashboard-phone/health
+        url: /dashboard-home/health
         push:
-          thread-id: ha-condo-group
+          thread-id: system
           sound: gesture.wav
     action: notify.mobile_app_alexis_iphone
   - data:
@@ -944,7 +944,7 @@
       message: The laundry in the washing machine is ready to be put in the dryer.
       data:
         push:
-          thread-id: ha-condo-group
+          thread-id: appliances
           sound: gentle-alarm.wav
     action: notify.mobile_app_alexis_iphone
   - event: mode_laundry_turn_on
@@ -1050,9 +1050,9 @@
       message: The {{ trigger.to_state.attributes.friendly_name }} were {% if trigger.to_state.state
         == 'on' %}opened{% else %}closed{% endif %}.
       data:
-        url: /lovelace/security
+        url: /dashboard-home/security
         push:
-          thread-id: ha-condo-group
+          thread-id: security
           sound: gamelan.wav
     action: notify.mobile_app_alexis_iphone
   mode: queued
@@ -1076,9 +1076,9 @@
       message: The {{ trigger.to_state.attributes.friendly_name }} was {% if trigger.to_state.state
         == 'on' %}opened{% else %}closed{% endif %}.
       data:
-        url: /lovelace/security
+        url: /dashboard-home/security
         push:
-          thread-id: ha-condo-group
+          thread-id: security
           sound: gamelan.wav
     action: notify.mobile_app_alexis_iphone
   mode: queued
@@ -1109,20 +1109,44 @@
       minutes: 0
       seconds: 1
       milliseconds: 0
-  - data:
-      title: Condo
-      message: "{% if is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
-        Lock') or is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
-        Unlock') %}\n  {% set message = 'manually ' ~ states('lock.august_web_front_door')
-        %}\n{% else %}\n  {% set message = states('lock.august_web_front_door') ~
-        ' by ' ~ state_attr('lock.august_web_front_door', 'changed_by') %}\n{% endif
-        %} The Front Door was {{ message }}."
-      data:
-        url: /lovelace/security
-        push:
-          thread-id: ha-condo-group
-          sound: basic-bit-shots.wav
-    action: notify.mobile_app_alexis_iphone
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{ states('lock.august_web_front_door') == 'unlocked' }}"
+      sequence:
+      - data:
+          title: Condo
+          message: "{% if is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
+            Lock') or is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
+            Unlock') %}\n  {% set message = 'manually ' ~ states('lock.august_web_front_door')
+            %}\n{% else %}\n  {% set message = states('lock.august_web_front_door') ~
+            ' by ' ~ state_attr('lock.august_web_front_door', 'changed_by') %}\n{% endif
+            %} The Front Door was {{ message }}."
+          data:
+            url: /dashboard-home/security
+            push:
+              thread-id: security
+              sound: basic-bit-shots.wav
+            actions:
+              - action: LOCK_FRONT_DOOR
+                title: Lock Door
+                icon: 'sfsymbols:lock'
+        action: notify.mobile_app_alexis_iphone
+    default:
+      - data:
+          title: Condo
+          message: "{% if is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
+            Lock') or is_state_attr('lock.august_web_front_door', 'changed_by', 'Manual
+            Unlock') %}\n  {% set message = 'manually ' ~ states('lock.august_web_front_door')
+            %}\n{% else %}\n  {% set message = states('lock.august_web_front_door') ~
+            ' by ' ~ state_attr('lock.august_web_front_door', 'changed_by') %}\n{% endif
+            %} The Front Door was {{ message }}."
+          data:
+            url: /dashboard-home/security
+            push:
+              thread-id: security
+              sound: basic-bit-shots.wav
+        action: notify.mobile_app_alexis_iphone
 - id: 60b9d55c16624c8ea648895ce8395e13
   alias: Notify Security - Garage Actual Opened or Closed
   trigger:
@@ -1144,10 +1168,14 @@
       message: The {{ trigger.to_state.attributes.friendly_name }} was {% if trigger.to_state.state
         == 'open' %}opened{% else %}closed{% endif %}.
       data:
-        url: /lovelace/security
+        url: /dashboard-home/security
         push:
-          thread-id: ha-condo-group
+          thread-id: security
           sound: gamelan.wav
+        actions:
+          - action: CLOSE_GARAGE
+            title: Close Garage
+            icon: 'sfsymbols:arrow.down.square'
     action: notify.mobile_app_alexis_iphone
   mode: queued
 - id: ba0e5069adff40f29a505cc276288f5a
@@ -1186,9 +1214,10 @@
       message: The {{ trigger.to_state.attributes.friendly_name }} has been open for
         {{ (trigger.for.total_seconds() / 60) | int(0) }} minutes.
       data:
-        url: /lovelace/security
+        url: /dashboard-home/security
+        tag: "door-open-{{ trigger.entity_id }}"
         push:
-          thread-id: ha-condo-group
+          thread-id: security
           sound: siren.wav
     action: notify.mobile_app_alexis_iphone
   mode: queued
@@ -1216,10 +1245,15 @@
       message: The {{ trigger.to_state.attributes.friendly_name }} has been open for
         {{ (trigger.for.total_seconds() / 60) | int(0) }} minutes.
       data:
-        url: /lovelace/security
+        url: /dashboard-home/security
+        tag: garage-open-alert
         push:
-          thread-id: ha-condo-group
+          thread-id: security
           sound: siren.wav
+        actions:
+          - action: CLOSE_GARAGE
+            title: Close Garage
+            icon: 'sfsymbols:arrow.down.square'
     action: notify.mobile_app_alexis_iphone
   mode: queued
 - id: a958ff4f89e846b0a965ea2b614bdd57
@@ -1240,9 +1274,9 @@
         anyone?\n{%- else -%}\n  Guest Mode has been triggered and the front door
         is locked. Cats? Aliens?\n{%- endif %}"
       data:
-        url: /lovelace/security
+        url: /dashboard-home/security
         push:
-          thread-id: ha-condo-group
+          thread-id: security
           sound: siren.wav
     action: notify.mobile_app_alexis_iphone
   mode: queued
@@ -1262,9 +1296,9 @@
       message: Motion in guest areas has not been detected for 30 minutes. Guest Mode
         has been turned off.
       data:
-        url: /lovelace/security
+        url: /dashboard-home/security
         push:
-          thread-id: ha-condo-group
+          thread-id: security
           sound: gamelan.wav
     action: notify.mobile_app_alexis_iphone
   mode: queued
@@ -1308,9 +1342,9 @@
       title: Condo
       message: The condo has not been secure for 10 minutes.
       data:
-        url: /lovelace/security
+        url: /dashboard-home/security
         push:
-          thread-id: ha-condo-group
+          thread-id: security
           sound:
             name: siren.wav
     action: notify.mobile_app_alexis_iphone
@@ -1343,9 +1377,9 @@
       title: Condo
       message: The {{ trigger.to_state.attributes.friendly_name }} was opened.
       data:
-        url: /lovelace/security
+        url: /dashboard-home/security
         push:
-          thread-id: ha-condo-group
+          thread-id: security
           sound:
             name: siren.wav
             critical: 1
@@ -1386,15 +1420,15 @@
   action:
   - service: notify.mobile_app_alexis_iphone
     data:
-      url: /dashboard-phone/health
       title: Woodhouse
       message: '{%- set level = ''critical'' if states("sensor.woodhouse_cpu1_temp")
         | int(0) > 79 or states("sensor.woodhouse_cpu2_temp") | int(0) > 79 else ''warning''
         -%} {{- level | title }}. The server has been running hot for {{ (trigger.for.total_seconds()
         / 60) | int(0) }} minutes.'
       data:
+        url: /dashboard-home/health
         push:
-          thread-id: ha-server-group
+          thread-id: system
           sound:
             name: siren.wav
             critical: 1
@@ -1415,12 +1449,12 @@
   action:
   - service: notify.mobile_app_alexis_iphone
     data:
-      url: /dashboard-phone/health
       title: Woodhouse
-      message: The server has been restored to a normal operating temperature."
+      message: The server has been restored to a normal operating temperature.
       data:
+        url: /dashboard-home/health
         push:
-          thread-id: ha-server-group
+          thread-id: system
           sound: gesture.wav
   id: da0d7059831e49039dd18a25de59cc04
 - alias: Notify Server Rack - UPS on Battery
@@ -1451,7 +1485,6 @@
   action:
   - service: notify.mobile_app_alexis_iphone
     data:
-      url: /dashboard-phone/health
       title: Server Rack
       message: "{%- if ((as_timestamp(now()) - as_timestamp(states.sensor.server_rack_ups_status_data.last_changed))
         / 60) | int(0) < 5 -%}\n  The UPS is running on battery power.\n{%- else -%}\n
@@ -1459,8 +1492,9 @@
         / 60) | int(0) }} minutes. {{ states.sensor.server_rack_ups_battery_charge.state
         }}% remaining.\n{%- endif %}"
       data:
+        url: /dashboard-home/health
         push:
-          thread-id: ha-server-group
+          thread-id: system
           sound:
             name: siren.wav
             critical: 1
@@ -1475,14 +1509,14 @@
   action:
   - service: notify.mobile_app_alexis_iphone
     data:
-      url: /dashboard-phone/health
       title: Server Rack
       message: "{% if is_state('sensor.server_rack_ups_status_data', 'OL') %}\n  The
         UPS is online and fully charged.\n{% elif is_state('sensor.server_rack_ups_status_data',
         'OL CHRG') %}\n  The UPS is back online and charging.\n{% endif %}"
       data:
+        url: /dashboard-home/health
         push:
-          thread-id: ha-server-group
+          thread-id: system
           sound: gesture.wav
   id: d67d597acf40444d9181941c7b796c56
 - alias: Notify HA - New Major Version
@@ -1523,7 +1557,7 @@
       message: The container has been down for 10 minutes and is being restarted.
       data:
         push:
-          thread-id: ha-server-group
+          thread-id: system
           sound: gesture.wav
   id: a4281f6e48a64061b61fe24ccc97f7c8
 - alias: Notify Service Update - Plex
@@ -1538,7 +1572,7 @@
         {{ state_attr("sensor.tautulli_plex_update_available", "version") }}
       data:
         push:
-          thread-id: ha-server-group
+          thread-id: system
           sound: gesture.wav
   id: ee44b05bfde94911b76f55d3872e5f68
 - alias: Sonos - Pause Speakers When HT Mode Starts
@@ -2421,7 +2455,7 @@
         message: Unable to update current mode. No conditions matched.
         data:
           push:
-            thread-id: ha-condo-group
+            thread-id: system
             sound: gentle-alarm.wav
   id: a9c2f8e880f84814bf38200487b361f8
 - alias: Mode - Guest On
@@ -2641,26 +2675,26 @@
   - service: input_boolean.turn_off
     entity_id: input_boolean.motion_downstairs_hallway
   id: 1f5bba80e3344fb3b6caa038a46ede14
-- alias: Motion Started in Kitchen
-  trigger:
+- id: 10dd4d5d4a134807b472d33103f398ad
+  alias: Motion Started in Kitchen
+  triggers:
   - platform: state
-    entity_id: binary_sensor.main_floor_motion
+    entity_id: binary_sensor.g4_instant_motion
     to: 'on'
-  action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.motion_kitchen
-  id: 10dd4d5d4a134807b472d33103f398ad
-- alias: Motion Ended in Kitchen
-  trigger:
+  actions:
+  - entity_id: input_boolean.motion_kitchen
+    action: input_boolean.turn_on
+- id: c4e2fc0862fe49a99f76efe90a05e46e
+  alias: Motion Ended in Kitchen
+  triggers:
   - platform: state
-    entity_id: binary_sensor.main_floor_motion
+    entity_id: binary_sensor.g4_instant_motion
     to: 'off'
     for:
       minutes: 2
-  action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.motion_kitchen
-  id: c4e2fc0862fe49a99f76efe90a05e46e
+  actions:
+  - entity_id: input_boolean.motion_kitchen
+    action: input_boolean.turn_off
 - alias: Motion Started in Den Hallway
   trigger:
   - platform: state
@@ -3489,9 +3523,9 @@
         ' by ' ~ state_attr('lock.august_web_garage_door', 'changed_by') %}\n{% endif
         %} The Garage Door was {{ message }}."
       data:
-        url: /lovelace/security
+        url: /dashboard-home/security
         push:
-          thread-id: ha-condo-group
+          thread-id: security
           sound: basic-bit-shots.wav
     action: notify.mobile_app_alexis_iphone
   mode: single
@@ -3661,7 +3695,7 @@
       message: The laundry in the dryer is ready to be taken out.
       data:
         push:
-          thread-id: ha-condo-group
+          thread-id: appliances
           sound: gentle-alarm.wav
     action: notify.mobile_app_alexis_iphone
   - event: mode_laundry_turn_on
