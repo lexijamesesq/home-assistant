@@ -73,6 +73,11 @@
         "id": "cf3094d2dc0641408e3d591a0ae94a1e",
         "url": "/hacsfiles/lovelace-card-tools/card-tools.js?hacstag=16140332811",
         "type": "module"
+      },
+      {
+        "id": "d060d18872f741a488b20595f6b8906a",
+        "url": "/hacsfiles/lovelace-auto-entities/auto-entities.js?hacstag=1677445841161",
+        "type": "module"
       }
     ]
   }

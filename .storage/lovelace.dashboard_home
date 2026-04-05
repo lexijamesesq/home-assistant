@@ -37,12 +37,12 @@
                         "action": "none"
                       },
                       "icon": "{{ state_attr(entity, \"icon\") }}",
-                      "icon_color": "{% set mode = states(entity) %}\n{% if mode == \"Morning\" %}\n  rgb(var(--mush-rgb-orange))\n{% elif mode == \"Day\" %}\n  rgb(var(--mush-rgb-yellow))\n{% elif mode == \"Sunset\" %}\n  rgb(var(--mush-rgb-orange))\n{% elif mode == \"Night\" %}\n  rgb(var(--mush-rgb-purple))\n{% elif mode == \"Theater\" %}\n  rgb(var(--mush-rgb-orange))\n{% elif mode == \"Cleaning\" %}\n  rgb(var(--mush-rgb-yellow))\n{% elif mode == \"Laundry\" %}\n  rgb(var(--mush-rgb-blue))\n{% elif mode == \"Sleep\" %}\n  rgb(var(--mush-rgb-purple))\n{% endif %}\n",
                       "content": "{{ states(entity) }}",
                       "tap_action": {
                         "action": "navigate",
                         "navigation_path": "/dashboard-home/modes"
-                      }
+                      },
+                      "icon_color": "{% set mode = states(entity) %}\n{% if mode == \"Morning\" %}\n  var(--mush-rgb-orange)\n{% elif mode == \"Day\" %}\n  var(--mush-rgb-yellow)\n{% elif mode == \"Sunset\" %}\n  var(--mush-rgb-orange)\n{% elif mode == \"Night\" %}\n  var(--mush-rgb-purple)\n{% elif mode == \"Theater\" %}\n  var(--mush-rgb-orange)\n{% elif mode == \"Cleaning\" %}\n  var(--mush-rgb-yellow)\n{% elif mode == \"Laundry\" %}\n  var(--mush-rgb-blue)\n{% elif mode == \"Sleep\" %}\n  var(--mush-rgb-purple)\n{% endif %}\n"
                     },
                     {
                       "type": "template",
@@ -58,8 +58,8 @@
                         "action": "none"
                       },
                       "icon": "{{ state_attr(entity, \"icon\") }}",
-                      "icon_color": "{{ \"rgb(var(--mush-rgb-green))\" if is_state(entity, \"Secure\") else \"rgb(var(--mush-rgb-red))\" }}",
-                      "content": "{{ states(entity) }}"
+                      "content": "{{ states(entity) }}",
+                      "icon_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"Secure\") else \"var(--mush-rgb-red)\" }}"
                     },
                     {
                       "type": "conditional",
@@ -461,8 +461,8 @@
                       "double_tap_action": {
                         "action": "none"
                       },
-                      "icon_color": "{{ \"rgb(var(--mush-rgb-amber))\" if is_state(entity, \"on\") else \"rgb(var(--mush-rgb-grey))\" }}",
-                      "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.garage_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Garage' if num_lights >= 1 else 'Garage' }}"
+                      "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.garage_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Garage' if num_lights >= 1 else 'Garage' }}",
+                      "icon_color": "{{ \"var(--mush-rgb-amber)\" if is_state(entity, \"on\") else \"var(--mush-rgb-disabled)\" }}"
                     },
                     {
                       "type": "template",
@@ -481,8 +481,8 @@
                       "double_tap_action": {
                         "action": "none"
                       },
-                      "icon_color": "{{ \"rgb(var(--mush-rgb-amber))\" if is_state(entity, \"on\") else \"rgb(var(--mush-rgb-grey))\" }}",
-                      "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.downstairs_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Downstairs' if num_lights >= 1 else 'Downstairs' }}"
+                      "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.downstairs_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Downstairs' if num_lights >= 1 else 'Downstairs' }}",
+                      "icon_color": "{{ \"var(--mush-rgb-amber)\" if is_state(entity, \"on\") else \"var(--mush-rgb-disabled)\" }}"
                     },
                     {
                       "type": "template",
@@ -501,8 +501,8 @@
                       "double_tap_action": {
                         "action": "none"
                       },
-                      "icon_color": "{{ \"rgb(var(--mush-rgb-amber))\" if is_state(entity, \"on\") else \"rgb(var(--mush-rgb-grey))\" }}",
-                      "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.upstairs_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Upstairs' if num_lights >= 1 else 'Upstairs' }}"
+                      "content": "{% set num_lights = states.light\n  | selectattr('entity_id', 'in', states.group.upstairs_lights.attributes.entity_id)\n  | selectattr('state', 'eq', 'on')\n  | list\n  | length\n%}\n\n{{ num_lights | string + ' Upstairs' if num_lights >= 1 else 'Upstairs' }}",
+                      "icon_color": "{{ \"var(--mush-rgb-amber)\" if is_state(entity, \"on\") else \"var(--mush-rgb-disabled)\" }}"
                     },
                     {
                       "type": "entity",
@@ -1441,8 +1441,8 @@
                         "action": "none"
                       },
                       "icon": "{{ state_attr(entity, \"icon\") }}",
-                      "icon_color": "{{ \"rgb(var(--mush-rgb-green))\" if is_state(entity, \"Secure\") else \"rgb(var(--mush-rgb-red))\" }}",
-                      "content": "{{ states(entity) }}"
+                      "content": "{{ states(entity) }}",
+                      "icon_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"Secure\") else \"var(--mush-rgb-red)\" }}"
                     },
                     {
                       "type": "conditional",
@@ -2247,83 +2247,53 @@
                   "heading": "Batteries"
                 },
                 {
-                  "type": "entities",
-                  "show_header_toggle": false,
-                  "entities": [
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.august_web_front_door_battery",
-                      "name": "Front Door Lock",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    },
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.august_web_garage_door_battery",
-                      "name": "Garage Door Lock",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    },
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.garage_motion_battery_level",
-                      "name": "Garage Motion Sensor",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    },
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.garage_stairs_multisensor_battery_level",
-                      "name": "Garage Stairs MultiSensor",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    },
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.downstairs_hallway_trisensor_battery_level",
-                      "name": "Downstairs Hallway TriSensor",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    },
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.main_stairs_multisensor_battery_level",
-                      "name": "Main Stairs MultiSensor",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    },
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.bedroom_closet_door_battery_level",
-                      "name": "Bedroom Closet Door Sensor",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    },
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.bedroom_closet_trisensor_battery_level",
-                      "name": "Bedroom Closet TriSensor",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    },
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.laundry_door_left_battery_level",
-                      "name": "Laundry Door Left Sensor",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    },
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.laundry_door_right_battery_level",
-                      "name": "Laundry Door Right Sensor",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    },
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.den_multisensor_battery_level",
-                      "name": "Den MultiSensor",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    },
-                    {
-                      "type": "custom:template-entity-row",
-                      "entity": "sensor.studio_closet_door_battery_level",
-                      "name": "Studio Closet Door Sensor",
-                      "state": "{{ states(config.entity) | int(0) }}%"
-                    }
-                  ],
-                  "state_color": true
+                  "type": "custom:auto-entities",
+                  "card": {
+                    "type": "entities",
+                    "show_header_toggle": false,
+                    "state_color": true
+                  },
+                  "filter": {
+                    "include": [
+                      {
+                        "attributes": {
+                          "device_class": "battery"
+                        },
+                        "options": {
+                          "type": "custom:template-entity-row",
+                          "state": "{{ states(config.entity) | int(0) }}%",
+                          "name": "{{ state_attr(config.entity, 'friendly_name') | replace(' Battery level', '') | replace(' Battery Charge', '') | replace(' Battery', '') }}"
+                        }
+                      }
+                    ],
+                    "exclude": [
+                      {
+                        "entity_id": "sensor.alexis_*"
+                      },
+                      {
+                        "entity_id": "sensor.dashboard_*"
+                      },
+                      {
+                        "entity_id": "sensor.sonos_move_battery"
+                      },
+                      {
+                        "entity_id": "sensor.octavia_car_battery"
+                      },
+                      {
+                        "entity_id": "*_battery_state"
+                      },
+                      {
+                        "state": "unavailable"
+                      },
+                      {
+                        "state": "unknown"
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "method": "state",
+                    "numeric": true
+                  }
                 }
               ]
             }
