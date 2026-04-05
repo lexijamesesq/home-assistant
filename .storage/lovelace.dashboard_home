@@ -155,7 +155,10 @@
                       "show_temperature": true,
                       "show_conditions": true
                     }
-                  ]
+                  ],
+                  "card_mod": {
+                    "style": "ha-card .chip-container {\n  flex-wrap: nowrap !important;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\nha-card .chip-container::-webkit-scrollbar {\n  display: none;\n}\nha-card .chip-container > * {\n  flex-shrink: 0;\n}\n"
+                  }
                 }
               ]
             },
@@ -174,7 +177,7 @@
                   "entity": "person.lexi",
                   "picture": "{{ state_attr(entity, \"entity_picture\") }}",
                   "badge_icon": "{{ \"mdi:home\" if is_state(entity, \"home\") else \"mdi:home-export-outline\" }}",
-                  "badge_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"home\") else \"var(--mush-rgb-red)\" }}",
+                  "badge_color": "{{ \"rgb(var(--mush-rgb-green))\" if is_state(entity, \"home\") else \"rgb(var(--mush-rgb-red))\" }}",
                   "tap_action": {
                     "action": "more-info"
                   },
@@ -194,7 +197,7 @@
                   "icon": "{{ state_attr(entity, 'icon') }}",
                   "picture": "{{ state_attr(entity, \"entity_picture\") }}",
                   "badge_icon": "{{ \"mdi:home\" if is_state(entity, \"home\") else \"mdi:home-export-outline\" }}",
-                  "badge_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"home\") else \"var(--mush-rgb-red)\" }}",
+                  "badge_color": "{{ \"rgb(var(--mush-rgb-green))\" if is_state(entity, \"home\") else \"rgb(var(--mush-rgb-red))\" }}",
                   "tap_action": {
                     "action": "more-info"
                   },
@@ -231,7 +234,6 @@
                   "double_tap_action": {
                     "action": "none"
                   },
-                  "icon_color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  {{ \"var(--mush-rgb-blue)\" }}\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  {{ \"var(--mush-rgb-orange)\" }}\n{% elif is_state_attr(entity, 'hvac_action', 'idle') %}\n  {{ \"var(--mush-rgb-blue-grey)\" }}\n{% else %}\n  {{ \"var(--mush-rgb-grey)\" }}\n{% endif %}",
                   "layout_options": {
                     "grid_columns": 3,
                     "grid_rows": 1
@@ -240,8 +242,12 @@
                   "badge_icon": "{% if is_state_attr(entity, 'fan_mode', 'on') %}\n  mdi:fan\n{% endif %}",
                   "badge_color": "{{ \"var(--mush-rgb-grey)\" }}",
                   "card_mod": {
-                    "style": "@keyframes spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(359deg);\n  }\n}\nha-state-icon {\n  display: none;\n}\nha-card mushroom-shape-icon::after {\n  content: \"{{ states.climate.downstairs.attributes.current_temperature | string }}\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  display: flex;\n  width: 36px;\n  height: 36px;\n  align-items: center;\n  justify-content: center;\n  color: var(--icon-color);\n  font-size: 15px;\n  font-weight: bold;\n}\nha-card mushroom-badge-icon {\n  animation: spin 1.5s infinite linear;\n}\n"
-                  }
+                    "style": "@keyframes spin {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(359deg); }\n}\nha-state-icon {\n  display: none;\n}\nha-tile-icon::after {\n  content: \"{{ states.climate.downstairs.attributes.current_temperature | string }}\";\n  position: absolute;\n  inset: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: rgb(var(--tile-color));\n  font-size: 15px;\n  font-weight: bold;\n  pointer-events: none;\n}\nha-tile-badge {\n  animation: spin 1.5s infinite linear;\n}\n"
+                  },
+                  "icon_tap_action": {
+                    "action": "more-info"
+                  },
+                  "color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  rgb(var(--mush-rgb-blue))\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  rgb(var(--mush-rgb-orange))\n{% elif is_state_attr(entity, 'hvac_action', 'idle') %}\n  rgb(var(--mush-rgb-blue-grey))\n{% else %}\n  rgb(var(--mush-rgb-grey))\n{% endif %}"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -265,10 +271,13 @@
                   "double_tap_action": {
                     "action": "none"
                   },
-                  "icon_color": "{% if is_state_attr(entity, 'preset_mode', 'eco') %}\n  {{ \"var(--mush-rgb-green)\" }}\n{% else %}\n  {{ \"var(--mush-rgb-grey)\" }}\n{% endif %}",
                   "card_mod": {
-                    "style": "ha-card mushroom-state-item {\njustify-content: center;\ndisplay: flex;\n"
-                  }
+                    "style": "ha-card .container .content {\n  justify-content: center;\n  display: flex;\n}\n"
+                  },
+                  "icon_tap_action": {
+                    "action": "more-info"
+                  },
+                  "color": "{% if is_state_attr(entity, 'preset_mode', 'eco') %}\n  rgb(var(--mush-rgb-green))\n{% else %}\n  rgb(var(--mush-rgb-grey))\n{% endif %}"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -285,7 +294,6 @@
                   "double_tap_action": {
                     "action": "none"
                   },
-                  "icon_color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  {{ \"var(--mush-rgb-blue)\" }}\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  {{ \"var(--mush-rgb-orange)\" }}\n{% elif is_state_attr(entity, 'hvac_action', 'idle') %}\n  {{ \"var(--mush-rgb-blue-grey)\" }}\n{% else %}\n  {{ \"var(--mush-rgb-grey)\" }}\n{% endif %}",
                   "layout_options": {
                     "grid_columns": 3,
                     "grid_rows": 1
@@ -293,8 +301,12 @@
                   "badge_icon": "{% if is_state_attr(entity, 'fan_mode', 'on') %}\n  mdi:fan\n{% endif %}",
                   "badge_color": "{{ \"var(--mush-rgb-grey)\" }}",
                   "card_mod": {
-                    "style": "@keyframes spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(359deg);\n  }\n}\nha-state-icon {\n  display: none;\n}\nha-card mushroom-shape-icon::after {\n  content: \"{{ states.climate.upstairs.attributes.current_temperature | string }}\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  display: flex;\n  width: 36px;\n  height: 36px;\n  align-items: center;\n  justify-content: center;\n  color: var(--icon-color);\n  font-size: 15px;\n  font-weight: bold;\n}\nha-card mushroom-badge-icon {\n  animation: spin 1.5s infinite linear;\n}\n"
-                  }
+                    "style": "@keyframes spin {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(359deg); }\n}\nha-state-icon {\n  display: none;\n}\nha-tile-icon::after {\n  content: \"{{ states.climate.upstairs.attributes.current_temperature | string }}\";\n  position: absolute;\n  inset: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: rgb(var(--tile-color));\n  font-size: 15px;\n  font-weight: bold;\n  pointer-events: none;\n}\nha-tile-badge {\n  animation: spin 1.5s infinite linear;\n}\n"
+                  },
+                  "icon_tap_action": {
+                    "action": "more-info"
+                  },
+                  "color": "{% if is_state_attr(entity, 'hvac_action', 'cooling') %}\n  rgb(var(--mush-rgb-blue))\n{% elif is_state_attr(entity, 'hvac_action', 'heating') %}\n  rgb(var(--mush-rgb-orange))\n{% elif is_state_attr(entity, 'hvac_action', 'idle') %}\n  rgb(var(--mush-rgb-blue-grey))\n{% else %}\n  rgb(var(--mush-rgb-grey))\n{% endif %}"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -317,11 +329,14 @@
                   "double_tap_action": {
                     "action": "none"
                   },
-                  "icon_color": "{% if is_state_attr(entity, 'preset_mode', 'eco') %}\n  {{ \"var(--mush-rgb-green)\" }}\n{% else %}\n  {{ \"var(--mush-rgb-grey)\" }}\n{% endif %}",
                   "entity": "climate.upstairs",
                   "card_mod": {
-                    "style": "ha-card mushroom-state-item {\njustify-content: center;\ndisplay: flex;\n"
-                  }
+                    "style": "ha-card .container .content {\n  justify-content: center;\n  display: flex;\n}\n"
+                  },
+                  "icon_tap_action": {
+                    "action": "more-info"
+                  },
+                  "color": "{% if is_state_attr(entity, 'preset_mode', 'eco') %}\n  rgb(var(--mush-rgb-green))\n{% else %}\n  rgb(var(--mush-rgb-grey))\n{% endif %}"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -329,7 +344,6 @@
                   "secondary": "{{ states(entity) }}",
                   "icon": "{{ state_attr(entity, \"icon\") }}",
                   "entity": "sensor.u_s_air_quality_index",
-                  "icon_color": "{% set state = states(entity) | int(0) %}\n\n{% if state | is_number %}\n  {% if state > 300 %}\n    var(--mush-rgb-maroon)\n  {% elif state > 200 %}\n    var(--mush-rgb-purple)\n  {% elif state > 150 %}\n    var(--mush-rgb-red)\n  {% elif state > 100 %}\n    var(--mush-rgb-orange)\n  {% elif state > 50 %}\n    var(--mush-rgb-yellow)\n  {% elif state > 0 %}\n    var(--mush-rgb-green)\n  {% endif %}\n{% endif %}\n",
                   "tap_action": {
                     "action": "more-info"
                   },
@@ -338,7 +352,8 @@
                   },
                   "double_tap_action": {
                     "action": "none"
-                  }
+                  },
+                  "color": "{% set state = states(entity) | int(0) %}\n{% if state | is_number %}\n  {% if state > 300 %}\n    rgb(var(--mush-rgb-maroon))\n  {% elif state > 200 %}\n    rgb(var(--mush-rgb-purple))\n  {% elif state > 150 %}\n    rgb(var(--mush-rgb-red))\n  {% elif state > 100 %}\n    rgb(var(--mush-rgb-orange))\n  {% elif state > 50 %}\n    rgb(var(--mush-rgb-yellow))\n  {% elif state > 0 %}\n    rgb(var(--mush-rgb-green))\n  {% endif %}\n{% endif %}"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -355,7 +370,7 @@
                   "double_tap_action": {
                     "action": "none"
                   },
-                  "icon_color": "var(--mush-rgb-orange)"
+                  "color": "rgb(var(--mush-rgb-orange))"
                 }
               ]
             },
@@ -382,7 +397,8 @@
                   "double_tap_action": {
                     "action": "none"
                   },
-                  "icon_color": "{% set state = states(entity) | int(0) %}\n\n{% if state | is_number %}\n  {% if state > 6000 %}\n    var(--mush-rgb-red)\n  {% elif state > 3500 %}\n    var(--mush-rgb-orange)\n  {% elif state > 1500 %}\n    var(--mush-rgb-yellow)\n  {% elif state >= 0 %}\n    var(--mush-rgb-green)\n  {% endif %}\n{% endif %}"
+                  "icon_color": "{% set state = states(entity) | int(0) %}\n\n{% if state | is_number %}\n  {% if state > 6000 %}\n    var(--mush-rgb-red)\n  {% elif state > 3500 %}\n    var(--mush-rgb-orange)\n  {% elif state > 1500 %}\n    var(--mush-rgb-yellow)\n  {% elif state >= 0 %}\n    var(--mush-rgb-green)\n  {% endif %}\n{% endif %}",
+                  "color": "{% set state = states(entity) | int(0) %}\n{% if state | is_number %}\n  {% if state > 6000 %}\n    rgb(var(--mush-rgb-red))\n  {% elif state > 3500 %}\n    rgb(var(--mush-rgb-orange))\n  {% elif state > 1500 %}\n    rgb(var(--mush-rgb-yellow))\n  {% elif state >= 0 %}\n    rgb(var(--mush-rgb-green))\n  {% endif %}\n{% endif %}"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -400,7 +416,8 @@
                   "double_tap_action": {
                     "action": "none"
                   },
-                  "icon_color": "{% set state = states(entity) | int(0) %}\n\n{% if state | is_number %}\n  {% if state > 70 %}\n    var(--mush-rgb-red)\n  {% elif state > 55 %}\n    var(--mush-rgb-orange)\n  {% elif state > 40 %}\n    var(--mush-rgb-yellow)\n  {% elif state >= 0 %}\n    var(--mush-rgb-green)\n  {% endif %}\n{% endif %}"
+                  "icon_color": "{% set state = states(entity) | int(0) %}\n\n{% if state | is_number %}\n  {% if state > 70 %}\n    var(--mush-rgb-red)\n  {% elif state > 55 %}\n    var(--mush-rgb-orange)\n  {% elif state > 40 %}\n    var(--mush-rgb-yellow)\n  {% elif state >= 0 %}\n    var(--mush-rgb-green)\n  {% endif %}\n{% endif %}",
+                  "color": "{% set state = states(entity) | int(0) %}\n{% if state | is_number %}\n  {% if state > 70 %}\n    rgb(var(--mush-rgb-red))\n  {% elif state > 55 %}\n    rgb(var(--mush-rgb-orange))\n  {% elif state > 40 %}\n    rgb(var(--mush-rgb-yellow))\n  {% elif state >= 0 %}\n    rgb(var(--mush-rgb-green))\n  {% endif %}\n{% endif %}"
                 }
               ]
             },
@@ -418,7 +435,6 @@
                   "secondary": "{% set static = {\n  'power_off': 'Off',\n  'end': 'Finished',\n  'pause': 'Paused',\n  'error': 'Error',\n  'reserved': 'Scheduled',\n  'initial': 'Ready',\n  'detecting': 'Detecting',\n  'rinse_hold': 'Rinse Hold'\n} %}\n{% set timer = states('sensor.washer_remaining_time') %}\n{% if states(entity) in static %}\n  {{ static[states(entity)] }}\n{% elif timer not in ['unknown', 'unavailable'] and timer %}\n  {{ relative_time(now() - (timer | as_datetime - now())) }} remaining\n{% else %}\n  Running\n{% endif %}",
                   "icon": "mdi:washing-machine",
                   "entity": "sensor.washer_current_status",
-                  "icon_color": "{{ 'var(--mush-rgb-blue)' if states(entity) != 'power_off' }}",
                   "tap_action": {
                     "action": "more-info"
                   },
@@ -428,7 +444,11 @@
                   "double_tap_action": {
                     "action": "none"
                   },
-                  "multiline_secondary": false
+                  "multiline_secondary": false,
+                  "icon_tap_action": {
+                    "action": "more-info"
+                  },
+                  "color": "{{ 'rgb(var(--mush-rgb-blue))' if states(entity) != 'power_off' }}"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -436,7 +456,6 @@
                   "secondary": "{% set static = {\n  'power_off': 'Off',\n  'end': 'Finished',\n  'pause': 'Paused',\n  'error': 'Error',\n  'reserved': 'Scheduled',\n  'initial': 'Ready',\n  'detecting': 'Detecting'\n} %}\n{% set timer = states('sensor.dryer_remaining_time') %}\n{% if states(entity) in static %}\n  {{ static[states(entity)] }}\n{% elif timer not in ['unknown', 'unavailable'] and timer %}\n  {{ relative_time(now() - (timer | as_datetime - now())) }} remaining\n{% else %}\n  Running\n{% endif %}",
                   "icon": "mdi:tumble-dryer",
                   "entity": "sensor.dryer_current_status",
-                  "icon_color": "{{ 'var(--mush-rgb-blue)' if states(entity) != 'power_off' }}",
                   "tap_action": {
                     "action": "more-info"
                   },
@@ -445,7 +464,11 @@
                   },
                   "double_tap_action": {
                     "action": "none"
-                  }
+                  },
+                  "icon_tap_action": {
+                    "action": "more-info"
+                  },
+                  "color": "{{ 'rgb(var(--mush-rgb-blue))' if states(entity) != 'power_off' }}"
                 }
               ]
             }
@@ -551,7 +574,10 @@
                       "content_info": "name",
                       "icon": "mdi:cog"
                     }
-                  ]
+                  ],
+                  "card_mod": {
+                    "style": "ha-card .chip-container {\n  flex-wrap: nowrap !important;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\nha-card .chip-container::-webkit-scrollbar {\n  display: none;\n}\nha-card .chip-container > * {\n  flex-shrink: 0;\n}\n"
+                  }
                 }
               ]
             },
@@ -841,7 +867,7 @@
                   },
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
                   "entity": "script.sonos_playlist_favorite_songs",
-                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                  "color": "rgb(var(--mush-rgb-blue-grey))"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -864,7 +890,7 @@
                   },
                   "entity": "script.sonos_playlist_country_caffeine",
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
-                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                  "color": "rgb(var(--mush-rgb-blue-grey))"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -887,7 +913,7 @@
                   },
                   "entity": "script.sonos_playlist_country_risers",
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
-                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                  "color": "rgb(var(--mush-rgb-blue-grey))"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -910,7 +936,7 @@
                   },
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
                   "entity": "script.sonos_playlist_little_bit_country",
-                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                  "color": "rgb(var(--mush-rgb-blue-grey))"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -933,7 +959,7 @@
                   },
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
                   "entity": "script.sonos_playlist_two_step_music",
-                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                  "color": "rgb(var(--mush-rgb-blue-grey))"
                 },
                 {
                   "type": "custom:mushroom-template-card",
@@ -956,7 +982,7 @@
                   },
                   "picture": "{% set group_master = states('sensor.sonos_group_master') %}\n{% set playlist = state_attr(group_master, 'media_playlist') | string %}\n{% if is_state('sensor.sonos_group_master_state', 'playing') and is_state_attr(entity, 'friendly_name', 'Sonos Playlist ' + playlist) %}\n  /local/icons/equalizer.gif\n{% endif %}",
                   "entity": "script.sonos_playlist_west_coast_swing",
-                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                  "color": "rgb(var(--mush-rgb-blue-grey))"
                 }
               ]
             }
@@ -1405,7 +1431,7 @@
                   "double_tap_action": {
                     "action": "none"
                   },
-                  "icon_color": "{{ \"var(--mush-rgb-blue-grey)\" }}"
+                  "color": "rgb(var(--mush-rgb-blue-grey))"
                 }
               ]
             }
@@ -1545,7 +1571,10 @@
                         "entity": "sensor.mode_simulate_presence"
                       }
                     }
-                  ]
+                  ],
+                  "card_mod": {
+                    "style": "ha-card .chip-container {\n  flex-wrap: nowrap !important;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\nha-card .chip-container::-webkit-scrollbar {\n  display: none;\n}\nha-card .chip-container > * {\n  flex-shrink: 0;\n}\n"
+                  }
                 }
               ]
             },
@@ -1563,8 +1592,7 @@
                   "icon": "{{ state_attr(entity, 'icon') }}",
                   "entity": "cover.garage_actual",
                   "badge_icon": "{% if is_state('cover.garage_actual', 'open') and (now() > states.cover.garage_actual.last_changed + timedelta(minutes=10)) %}\nmdi:exclamation-thick\n{% endif %}",
-                  "badge_color": "var(--mush-rgb-red)",
-                  "icon_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"closed\") else \"var(--mush-rgb-amber)\" }}",
+                  "badge_color": "rgb(var(--mush-rgb-red))",
                   "tap_action": {
                     "action": "toggle"
                   },
@@ -1573,7 +1601,11 @@
                   },
                   "double_tap_action": {
                     "action": "none"
-                  }
+                  },
+                  "icon_tap_action": {
+                    "action": "more-info"
+                  },
+                  "color": "{{ \"rgb(var(--mush-rgb-green))\" if is_state(entity, \"closed\") else \"rgb(var(--mush-rgb-amber))\" }}"
                 },
                 {
                   "type": "tile",
@@ -2624,12 +2656,15 @@
                   "entity": "sensor.dashboard_current_home_mode",
                   "primary": "{{ states('sensor.dashboard_current_home_mode') }} Mode",
                   "icon": "{{ state_attr('sensor.dashboard_current_home_mode', 'icon') }}",
-                  "icon_color": "{% set mode = states('sensor.dashboard_current_home_mode') %}{{ 'orange' if mode == 'Morning' else 'yellow' if mode == 'Day' else 'orange' if mode == 'Sunset' else 'purple' if mode == 'Night' else 'grey' }}",
                   "layout": "horizontal",
                   "layout_options": {
                     "grid_columns": 4,
                     "grid_rows": 1
-                  }
+                  },
+                  "icon_tap_action": {
+                    "action": "more-info"
+                  },
+                  "color": "{% set m = states('sensor.dashboard_current_home_mode') %}{{ 'orange' if m == 'Morning' else 'yellow' if m == 'Day' else 'orange' if m == 'Sunset' else 'purple' if m == 'Night' else 'grey' }}"
                 }
               ]
             },
