@@ -796,21 +796,23 @@
   id: 6d5e863edaff4d449ed1c3474a13461f
 - id: 54a23323fa1a409ca7fa8817482d5366
   alias: Bedroom Lights at Night - Sleep Mode On
-  trigger:
+  description: When sleep mode activates and bedroom lights are on, re-run the bedroom
+    lighting script to apply sleep-mode settings (3000K color temp).
+  triggers:
   - platform: state
     entity_id: input_boolean.mode_sleep
     to: 'on'
-  condition:
+  conditions:
   - condition: state
     entity_id: group.residents
     state: home
   - condition: state
-    entity_id:
-    - light.bedroom
+    entity_id: light.bedroom
     state: 'on'
-  action:
-  - entity_id: script.scene_bedroom_sleep_mode_on
-    action: script.turn_on
+  actions:
+  - action: script.turn_on
+    target:
+      entity_id: script.lighting_bedroom
 - id: 95d4190e272949a2a91190afd8d5a628
   alias: Bedroom Lights at Night - Sleep Mode Off
   trigger:
@@ -2918,48 +2920,89 @@
   id: 4f2f9c9c99a14949862fa60334cc0f82
 - id: 2e470db960fa421686c0904a91894653
   alias: Downstairs Patio Dimmer Lights Sync
+  description: Sync brightness between Downstairs Patio Dimmer (Inovelli VZW31-SN,
+    Smart Bulb Mode) and Downstairs Patio Lights (LIFX). Only sets the OTHER entity
+    to prevent Z-Wave round-trip echo.
   triggers:
-  - id: brightness
-    platform: state
-    entity_id:
-    - light.downstairs_patio
-    - light.downstairs_patio_dimmer
+  - id: patio_brightness
+    trigger: state
+    entity_id: light.downstairs_patio
     attribute: brightness
-  - id: 'off'
-    platform: state
-    entity_id:
-    - light.downstairs_patio
-    - light.downstairs_patio_dimmer
+  - id: patio_off
+    trigger: state
+    entity_id: light.downstairs_patio
     to: 'off'
+  - id: patio_on
+    trigger: state
+    entity_id: light.downstairs_patio
+    to: 'on'
+  - id: dimmer_brightness
+    trigger: state
+    entity_id: light.downstairs_patio_dimmer
+    attribute: brightness
+  - id: dimmer_off
+    trigger: state
+    entity_id: light.downstairs_patio_dimmer
+    to: 'off'
+  - id: dimmer_on
+    trigger: state
+    entity_id: light.downstairs_patio_dimmer
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != ''unavailable'' and trigger.to_state.state
+      != ''unavailable'' }}'
+  - condition: template
+    value_template: '{{ states(''light.downstairs_patio'') != states(''light.downstairs_patio_dimmer'')
+      or (states(''light.downstairs_patio'') == ''on'' and states(''light.downstairs_patio_dimmer'')
+      == ''on'' and ((state_attr(''light.downstairs_patio'', ''brightness'') | int(0))
+      - (state_attr(''light.downstairs_patio_dimmer'', ''brightness'') | int(0)))
+      | abs > 3) }}'
   actions:
-  - wait_template: '{{ is_state(''script.lighting_patio'', ''off'') }}'
-    timeout: 00:00:10
-    continue_on_timeout: false
   - choose:
     - conditions:
       - condition: trigger
-        id: brightness
+        id:
+        - patio_brightness
+        - patio_off
+        - patio_on
       sequence:
-      - delay: 00:00:01
-      - parallel:
-        - entity_id: light.downstairs_patio
+      - if:
+        - condition: template
+          value_template: '{{ states(''light.downstairs_patio'') == ''off'' }}'
+        then:
+        - action: light.turn_off
+          target:
+            entity_id: light.downstairs_patio_dimmer
+        else:
+        - action: light.turn_on
+          target:
+            entity_id: light.downstairs_patio_dimmer
           data:
-            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
-              }}'
-          action: light.turn_on
-        - data:
-            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
-              }}'
-          entity_id: light.downstairs_patio_dimmer
-          action: light.turn_on
+            brightness: '{{ state_attr(''light.downstairs_patio'', ''brightness'')
+              | int(0) }}'
     - conditions:
       - condition: trigger
-        id: 'off'
+        id:
+        - dimmer_brightness
+        - dimmer_off
+        - dimmer_on
       sequence:
-      - entity_id:
-        - light.downstairs_patio
-        - light.downstairs_patio_dimmer
-        action: light.turn_off
+      - if:
+        - condition: template
+          value_template: '{{ states(''light.downstairs_patio_dimmer'') == ''off''
+            }}'
+        then:
+        - action: light.turn_off
+          target:
+            entity_id: light.downstairs_patio
+        else:
+        - action: light.turn_on
+          target:
+            entity_id: light.downstairs_patio
+          data:
+            brightness: '{{ state_attr(''light.downstairs_patio_dimmer'', ''brightness'')
+              | int(0) }}'
   mode: restart
 - alias: Downstairs Patio Physical Switch On
   trigger:
@@ -3289,48 +3332,87 @@
   id: 3851b7ab38ee4ca79fff2733de14b52f
 - id: b9b90ddb31d1474798d9dd7bfca01f5d
   alias: Bedroom Dimmer Lights Sync
+  description: Sync brightness between Bedroom Dimmer (Inovelli VZW31-SN, Smart Bulb
+    Mode) and Bedroom Lights (LIFX). Only sets the OTHER entity to prevent Z-Wave
+    round-trip echo that causes brightness jumps.
   triggers:
-  - id: brightness
-    platform: state
-    entity_id:
-    - light.bedroom
-    - light.bedroom_switch
+  - id: bedroom_brightness
+    trigger: state
+    entity_id: light.bedroom
     attribute: brightness
-  - id: 'off'
-    platform: state
-    entity_id:
-    - light.bedroom
-    - light.bedroom_switch
+  - id: bedroom_off
+    trigger: state
+    entity_id: light.bedroom
     to: 'off'
+  - id: bedroom_on
+    trigger: state
+    entity_id: light.bedroom
+    to: 'on'
+  - id: dimmer_brightness
+    trigger: state
+    entity_id: light.bedroom_switch
+    attribute: brightness
+  - id: dimmer_off
+    trigger: state
+    entity_id: light.bedroom_switch
+    to: 'off'
+  - id: dimmer_on
+    trigger: state
+    entity_id: light.bedroom_switch
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != ''unavailable'' and trigger.to_state.state
+      != ''unavailable'' }}'
+  - condition: template
+    value_template: '{{ states(''light.bedroom'') != states(''light.bedroom_switch'')
+      or (states(''light.bedroom'') == ''on'' and states(''light.bedroom_switch'')
+      == ''on'' and ((state_attr(''light.bedroom'', ''brightness'') | int(0)) - (state_attr(''light.bedroom_switch'',
+      ''brightness'') | int(0))) | abs > 3) }}'
   actions:
-  - wait_template: '{{ is_state(''script.lighting_bedroom'', ''off'') }}'
-    timeout: 00:00:10
-    continue_on_timeout: false
   - choose:
     - conditions:
       - condition: trigger
-        id: brightness
+        id:
+        - bedroom_brightness
+        - bedroom_off
+        - bedroom_on
       sequence:
-      - delay: 00:00:01
-      - parallel:
-        - entity_id: light.bedroom
+      - if:
+        - condition: template
+          value_template: '{{ states(''light.bedroom'') == ''off'' }}'
+        then:
+        - action: light.turn_off
+          target:
+            entity_id: light.bedroom_switch
+        else:
+        - action: light.turn_on
+          target:
+            entity_id: light.bedroom_switch
           data:
-            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+            brightness: '{{ state_attr(''light.bedroom'', ''brightness'') | int(0)
               }}'
-          action: light.turn_on
-        - data:
-            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
-              }}'
-          entity_id: light.bedroom_switch
-          action: light.turn_on
     - conditions:
       - condition: trigger
-        id: 'off'
+        id:
+        - dimmer_brightness
+        - dimmer_off
+        - dimmer_on
       sequence:
-      - entity_id:
-        - light.bedroom
-        - light.bedroom_switch
-        action: light.turn_off
+      - if:
+        - condition: template
+          value_template: '{{ states(''light.bedroom_switch'') == ''off'' }}'
+        then:
+        - action: light.turn_off
+          target:
+            entity_id: light.bedroom
+        else:
+        - action: light.turn_on
+          target:
+            entity_id: light.bedroom
+          data:
+            brightness: '{{ state_attr(''light.bedroom_switch'', ''brightness'') |
+              int(0) }}'
   mode: restart
 - alias: Bedroom Dimmer Config Scene Toggle
   trigger:
@@ -3412,48 +3494,86 @@
   id: dda528feb6ce4cd1a1a4a9f7a7df4456
 - id: c916853495f04c9e9681169d014dc88c
   alias: Den Dimmer Lights Sync
+  description: Sync brightness between Den Dimmer (Inovelli VZW31-SN, Smart Bulb Mode)
+    and Den Lights (LIFX). Only sets the OTHER entity to prevent Z-Wave round-trip
+    echo that causes brightness jumps.
   triggers:
-  - id: brightness
-    platform: state
-    entity_id:
-    - light.den
-    - light.den_dimmer
+  - id: den_brightness
+    trigger: state
+    entity_id: light.den
     attribute: brightness
-  - id: 'off'
-    platform: state
-    entity_id:
-    - light.den
-    - light.den_dimmer
+  - id: den_off
+    trigger: state
+    entity_id: light.den
     to: 'off'
+  - id: den_on
+    trigger: state
+    entity_id: light.den
+    to: 'on'
+  - id: dimmer_brightness
+    trigger: state
+    entity_id: light.den_dimmer
+    attribute: brightness
+  - id: dimmer_off
+    trigger: state
+    entity_id: light.den_dimmer
+    to: 'off'
+  - id: dimmer_on
+    trigger: state
+    entity_id: light.den_dimmer
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != ''unavailable'' and trigger.to_state.state
+      != ''unavailable'' }}'
+  - condition: template
+    value_template: '{{ states(''light.den'') != states(''light.den_dimmer'') or (states(''light.den'')
+      == ''on'' and states(''light.den_dimmer'') == ''on'' and ((state_attr(''light.den'',
+      ''brightness'') | int(0)) - (state_attr(''light.den_dimmer'', ''brightness'')
+      | int(0))) | abs > 3) }}'
   actions:
-  - wait_template: '{{ is_state(''script.lighting_den'', ''off'') }}'
-    timeout: 00:00:10
-    continue_on_timeout: false
   - choose:
     - conditions:
       - condition: trigger
-        id: brightness
+        id:
+        - den_brightness
+        - den_off
+        - den_on
       sequence:
-      - delay: 00:00:01
-      - parallel:
-        - entity_id: light.den
+      - if:
+        - condition: template
+          value_template: '{{ states(''light.den'') == ''off'' }}'
+        then:
+        - action: light.turn_off
+          target:
+            entity_id: light.den_dimmer
+        else:
+        - action: light.turn_on
+          target:
+            entity_id: light.den_dimmer
           data:
-            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
-              }}'
-          action: light.turn_on
-        - data:
-            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
-              }}'
-          entity_id: light.den_dimmer
-          action: light.turn_on
+            brightness: '{{ state_attr(''light.den'', ''brightness'') | int(0) }}'
     - conditions:
       - condition: trigger
-        id: 'off'
+        id:
+        - dimmer_brightness
+        - dimmer_off
+        - dimmer_on
       sequence:
-      - entity_id:
-        - light.den
-        - light.den_dimmer
-        action: light.turn_off
+      - if:
+        - condition: template
+          value_template: '{{ states(''light.den_dimmer'') == ''off'' }}'
+        then:
+        - action: light.turn_off
+          target:
+            entity_id: light.den
+        else:
+        - action: light.turn_on
+          target:
+            entity_id: light.den
+          data:
+            brightness: '{{ state_attr(''light.den_dimmer'', ''brightness'') | int(0)
+              }}'
   mode: restart
 - alias: Den Dimmer Config Scene Toggle
   trigger:
@@ -3482,48 +3602,88 @@
   id: 32489df4ce0c45639fd72bc3d8127add
 - id: 637d6b8ce1d8412b817799844fed9fe3
   alias: Upstairs Patio Dimmer Lights Sync
+  description: Sync brightness between Upstairs Patio Dimmer (Inovelli VZW31-SN, Smart
+    Bulb Mode) and Upstairs Patio Lights (LIFX). Only sets the OTHER entity to prevent
+    Z-Wave round-trip echo.
   triggers:
-  - id: brightness
-    platform: state
-    entity_id:
-    - light.upstairs_patio
-    - light.upstairs_patio_dimmer
+  - id: patio_brightness
+    trigger: state
+    entity_id: light.upstairs_patio
     attribute: brightness
-  - id: 'off'
-    platform: state
-    entity_id:
-    - light.upstairs_patio
-    - light.upstairs_patio_dimmer
+  - id: patio_off
+    trigger: state
+    entity_id: light.upstairs_patio
     to: 'off'
+  - id: patio_on
+    trigger: state
+    entity_id: light.upstairs_patio
+    to: 'on'
+  - id: dimmer_brightness
+    trigger: state
+    entity_id: light.upstairs_patio_dimmer
+    attribute: brightness
+  - id: dimmer_off
+    trigger: state
+    entity_id: light.upstairs_patio_dimmer
+    to: 'off'
+  - id: dimmer_on
+    trigger: state
+    entity_id: light.upstairs_patio_dimmer
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != ''unavailable'' and trigger.to_state.state
+      != ''unavailable'' }}'
+  - condition: template
+    value_template: '{{ states(''light.upstairs_patio'') != states(''light.upstairs_patio_dimmer'')
+      or (states(''light.upstairs_patio'') == ''on'' and states(''light.upstairs_patio_dimmer'')
+      == ''on'' and ((state_attr(''light.upstairs_patio'', ''brightness'') | int(0))
+      - (state_attr(''light.upstairs_patio_dimmer'', ''brightness'') | int(0))) |
+      abs > 3) }}'
   actions:
-  - wait_template: '{{ is_state(''script.lighting_patio'', ''off'') }}'
-    timeout: 00:00:10
-    continue_on_timeout: false
   - choose:
     - conditions:
       - condition: trigger
-        id: brightness
+        id:
+        - patio_brightness
+        - patio_off
+        - patio_on
       sequence:
-      - delay: 00:00:01
-      - parallel:
-        - entity_id: light.upstairs_patio
+      - if:
+        - condition: template
+          value_template: '{{ states(''light.upstairs_patio'') == ''off'' }}'
+        then:
+        - action: light.turn_off
+          target:
+            entity_id: light.upstairs_patio_dimmer
+        else:
+        - action: light.turn_on
+          target:
+            entity_id: light.upstairs_patio_dimmer
           data:
-            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
-              }}'
-          action: light.turn_on
-        - data:
-            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
-              }}'
-          entity_id: light.upstairs_patio_dimmer
-          action: light.turn_on
+            brightness: '{{ state_attr(''light.upstairs_patio'', ''brightness'') |
+              int(0) }}'
     - conditions:
       - condition: trigger
-        id: 'off'
+        id:
+        - dimmer_brightness
+        - dimmer_off
+        - dimmer_on
       sequence:
-      - entity_id:
-        - light.upstairs_patio
-        - light.upstairs_patio_dimmer
-        action: light.turn_off
+      - if:
+        - condition: template
+          value_template: '{{ states(''light.upstairs_patio_dimmer'') == ''off'' }}'
+        then:
+        - action: light.turn_off
+          target:
+            entity_id: light.upstairs_patio
+        else:
+        - action: light.turn_on
+          target:
+            entity_id: light.upstairs_patio
+          data:
+            brightness: '{{ state_attr(''light.upstairs_patio_dimmer'', ''brightness'')
+              | int(0) }}'
   mode: restart
 - alias: Upstairs Patio Physical Switch On
   trigger:
@@ -3721,48 +3881,87 @@
       entity_id: input_button.refresh_all_lights
 - id: '1735600259809'
   alias: Studio Dimmer Lights Sync
+  description: Sync brightness between Studio Dimmer (Inovelli VZW31-SN, Smart Bulb
+    Mode) and Studio Lights (LIFX). Only sets the OTHER entity to prevent Z-Wave round-trip
+    echo that causes brightness jumps.
   triggers:
-  - id: brightness
-    entity_id:
-    - light.studio
-    - light.studio_dimmer
+  - id: studio_brightness
+    trigger: state
+    entity_id: light.studio
     attribute: brightness
+  - id: studio_off
     trigger: state
-  - id: 'off'
-    entity_id:
-    - light.studio
-    - light.studio_dimmer
+    entity_id: light.studio
     to: 'off'
+  - id: studio_on
     trigger: state
+    entity_id: light.studio
+    to: 'on'
+  - id: dimmer_brightness
+    trigger: state
+    entity_id: light.studio_dimmer
+    attribute: brightness
+  - id: dimmer_off
+    trigger: state
+    entity_id: light.studio_dimmer
+    to: 'off'
+  - id: dimmer_on
+    trigger: state
+    entity_id: light.studio_dimmer
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != ''unavailable'' and trigger.to_state.state
+      != ''unavailable'' }}'
+  - condition: template
+    value_template: '{{ states(''light.studio'') != states(''light.studio_dimmer'')
+      or (states(''light.studio'') == ''on'' and states(''light.studio_dimmer'') ==
+      ''on'' and ((state_attr(''light.studio'', ''brightness'') | int(0)) - (state_attr(''light.studio_dimmer'',
+      ''brightness'') | int(0))) | abs > 3) }}'
   actions:
-  - wait_template: '{{ is_state(''script.lighting_studio'', ''off'') }}'
-    timeout: 00:00:10
-    continue_on_timeout: false
   - choose:
     - conditions:
       - condition: trigger
-        id: brightness
+        id:
+        - studio_brightness
+        - studio_off
+        - studio_on
       sequence:
-      - delay: 00:00:01
-      - parallel:
-        - entity_id: light.studio
+      - if:
+        - condition: template
+          value_template: '{{ states(''light.studio'') == ''off'' }}'
+        then:
+        - action: light.turn_off
+          target:
+            entity_id: light.studio_dimmer
+        else:
+        - action: light.turn_on
+          target:
+            entity_id: light.studio_dimmer
           data:
-            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
+            brightness: '{{ state_attr(''light.studio'', ''brightness'') | int(0)
               }}'
-          action: light.turn_on
-        - data:
-            brightness: '{{ state_attr(trigger.entity_id, ''brightness'') | int(0)
-              }}'
-          entity_id: light.studio_dimmer
-          action: light.turn_on
     - conditions:
       - condition: trigger
-        id: 'off'
+        id:
+        - dimmer_brightness
+        - dimmer_off
+        - dimmer_on
       sequence:
-      - entity_id:
-        - light.studio
-        - light.studio_dimmer
-        action: light.turn_off
+      - if:
+        - condition: template
+          value_template: '{{ states(''light.studio_dimmer'') == ''off'' }}'
+        then:
+        - action: light.turn_off
+          target:
+            entity_id: light.studio
+        else:
+        - action: light.turn_on
+          target:
+            entity_id: light.studio
+          data:
+            brightness: '{{ state_attr(''light.studio_dimmer'', ''brightness'') |
+              int(0) }}'
   mode: restart
 - id: '1767560752032'
   alias: Notify Laundry - Dryer Completed
@@ -4070,3 +4269,34 @@
     - sensor.laundry_door_right_last_seen
     - sensor.bedroom_closet_door_last_seen
     threshold_days: 10
+- id: '1775440748862'
+  alias: Bedroom Nightstand Switch
+  description: Zooz ZEN34 nightstand remote — single tap up turns on bedroom lights
+    (mode-aware), single tap down turns off. Ignores holds and multi-taps.
+  triggers:
+  - id: 'on'
+    trigger: state
+    entity_id: event.bedroom_nightstand_switch_scene_001
+  - id: 'off'
+    trigger: state
+    entity_id: event.bedroom_nightstand_switch_scene_002
+  conditions:
+  - condition: template
+    value_template: '{{ trigger.to_state.attributes.event_type == ''KeyPressed'' }}'
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: 'on'
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.lighting_bedroom
+    - conditions:
+      - condition: trigger
+        id: 'off'
+      sequence:
+      - action: light.turn_off
+        target:
+          entity_id: light.bedroom
+  mode: single
