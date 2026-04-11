@@ -674,23 +674,24 @@
     data:
       value: 1
     action: number.set_value
-- alias: Sleep Mode Wake Up Time Ended Update Lights
-  trigger:
+- id: 6f4b16d23c374f779269ae60ac1b97eb
+  alias: Sleep Mode Wake Up Time Ended Update Lights
+  triggers:
   - platform: state
     entity_id: input_boolean.mode_sleep
     to: 'off'
     for:
-      hours: 3
-  condition:
+      hours: 1
+      minutes: 30
+  conditions:
   - condition: state
     entity_id: light.bedroom
     state: 'on'
-  action:
+  actions:
   - action: script.turn_on
     target:
       entity_id:
       - script.lighting_bedroom
-  id: 6f4b16d23c374f779269ae60ac1b97eb
 - alias: Sleep Mode Lights On When Patio Door Opens
   trigger:
   - platform: state
