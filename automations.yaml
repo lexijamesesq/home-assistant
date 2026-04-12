@@ -232,16 +232,9 @@
     entity_id: input_boolean.motion_downstairs_hallway
     to: 'on'
   conditions:
-    condition: and
-    conditions:
-    - condition: state
-      entity_id: light.downstairs_hallway
-      state: 'off'
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: input_select.time_of_day_mode
-        state: Day
+  - condition: state
+    entity_id: light.downstairs_hallway
+    state: 'off'
   actions:
   - action: script.turn_on
     target:
@@ -256,16 +249,9 @@
     entity_id: binary_sensor.front_door
     to: 'on'
   conditions:
-    condition: and
-    conditions:
-    - condition: state
-      entity_id: light.downstairs_hallway
-      state: 'off'
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: input_select.time_of_day_mode
-        state: Day
+  - condition: state
+    entity_id: light.downstairs_hallway
+    state: 'off'
   actions:
   - action: script.turn_on
     target:
@@ -329,16 +315,9 @@
     entity_id: group.motion_upstairs_hallway_group_areas
     to: 'on'
   conditions:
-    condition: and
-    conditions:
-    - condition: state
-      entity_id: light.upstairs_hallway_group
-      state: 'off'
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: input_select.time_of_day_mode
-        state: Day
+  - condition: state
+    entity_id: light.upstairs_hallway_group
+    state: 'off'
   actions:
   - action: script.turn_on
     target:
@@ -375,16 +354,9 @@
     entity_id: input_boolean.motion_den_hallway
     to: 'on'
   conditions:
-    condition: and
-    conditions:
-    - condition: state
-      entity_id: light.den_hallway
-      state: 'off'
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: input_select.time_of_day_mode
-        state: Day
+  - condition: state
+    entity_id: light.den_hallway
+    state: 'off'
   actions:
   - action: script.turn_on
     target:
