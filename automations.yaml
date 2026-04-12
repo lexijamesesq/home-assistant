@@ -151,40 +151,26 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.motion_trigger_garage_stairs_lights
   id: a1d2c56afe9f4b5cbf711da41ee20129
-- alias: Garage Stairs Lighting on Door Open
-  trigger:
+- id: 1463409aeb2448048080084c7a65a7c2
+  alias: Garage Stairs Lighting on Door Open
+  triggers:
   - platform: state
     entity_id: binary_sensor.garage_door
     to: 'on'
-  condition:
+  conditions:
     condition: state
     entity_id: light.garage_stairs
     state: 'off'
-  action:
-  - choose:
-    - conditions:
-      - condition: numeric_state
-        entity_id: sensor.downstairs_hallway_trisensor_luminance
-        below: 20.0
-      sequence:
-      - action: script.turn_on
-        target:
-          entity_id:
-          - script.lighting_garage_stairs
-          - script.lighting_downstairs_hallway
-    default:
-    - action: script.turn_on
-      target:
-        entity_id:
-        - script.lighting_garage_stairs
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.door_trigger_garage_stairs_lights
-  - condition: numeric_state
-    entity_id: sensor.downstairs_hallway_trisensor_luminance
-    below: 20.0
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.door_trigger_downstairs_hallway_lights
-  id: 1463409aeb2448048080084c7a65a7c2
+  actions:
+  - action: script.turn_on
+    target:
+      entity_id:
+      - script.lighting_garage_stairs
+      - script.lighting_downstairs_hallway
+  - entity_id: input_boolean.door_trigger_garage_stairs_lights
+    action: input_boolean.turn_on
+  - entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+    action: input_boolean.turn_on
 - alias: Garage Stairs Lighting Door to Motion Transition
   trigger:
     platform: state
@@ -239,64 +225,54 @@
     - input_boolean.motion_trigger_garage_stairs_lights
     - input_boolean.door_trigger_garage_stairs_lights
   id: eb61782de265430187fad99500311ae9
-- alias: Downstairs Hallway Lighting on Motion
-  trigger:
+- id: 7aec67203d0c435fad630e024f08038d
+  alias: Downstairs Hallway Lighting on Motion
+  triggers:
   - platform: state
     entity_id: input_boolean.motion_downstairs_hallway
     to: 'on'
-  condition:
+  conditions:
     condition: and
     conditions:
     - condition: state
       entity_id: light.downstairs_hallway
       state: 'off'
-    - condition: or
+    - condition: not
       conditions:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: input_select.time_of_day_mode
-          state: Day
-      - condition: numeric_state
-        entity_id: sensor.downstairs_hallway_trisensor_luminance
-        below: 20.0
-  action:
+      - condition: state
+        entity_id: input_select.time_of_day_mode
+        state: Day
+  actions:
   - action: script.turn_on
     target:
       entity_id:
       - script.lighting_downstairs_hallway
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
-  id: 7aec67203d0c435fad630e024f08038d
-- alias: Downstairs Hallway Lighting on Door Open
-  trigger:
+  - entity_id: input_boolean.motion_trigger_downstairs_hallway_lights
+    action: input_boolean.turn_on
+- id: 537df3fac8054803a1979f0600a77690
+  alias: Downstairs Hallway Lighting on Door Open
+  triggers:
   - platform: state
     entity_id: binary_sensor.front_door
     to: 'on'
-  condition:
+  conditions:
     condition: and
     conditions:
     - condition: state
       entity_id: light.downstairs_hallway
       state: 'off'
-    - condition: or
+    - condition: not
       conditions:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: input_select.time_of_day_mode
-          state: Day
-      - condition: numeric_state
-        entity_id: sensor.downstairs_hallway_trisensor_luminance
-        below: 20.0
-  action:
+      - condition: state
+        entity_id: input_select.time_of_day_mode
+        state: Day
+  actions:
   - action: script.turn_on
     target:
       entity_id:
       - script.lighting_downstairs_hallway
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.door_trigger_downstairs_hallway_lights
-  id: 537df3fac8054803a1979f0600a77690
+  - entity_id: input_boolean.door_trigger_downstairs_hallway_lights
+    action: input_boolean.turn_on
 - alias: Downstairs Hallway Lighting Door to Motion Transition
   trigger:
     platform: state
@@ -346,35 +322,30 @@
     - input_boolean.motion_trigger_downstairs_hallway_lights
     - input_boolean.door_trigger_downstairs_hallway_lights
   id: 596469b0430c4a25b3bdab7c43b95edb
-- alias: Upstairs Hallway Group Lighting on Motion
-  trigger:
+- id: 9cf8b66af54b4da9a2241e437a3d6ea3
+  alias: Upstairs Hallway Group Lighting on Motion
+  triggers:
   - platform: state
     entity_id: group.motion_upstairs_hallway_group_areas
     to: 'on'
-  condition:
+  conditions:
     condition: and
     conditions:
     - condition: state
       entity_id: light.upstairs_hallway_group
       state: 'off'
-    - condition: or
+    - condition: not
       conditions:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: input_select.time_of_day_mode
-          state: Day
-      - condition: numeric_state
-        entity_id: sensor.main_stairs_multisensor_luminance
-        below: 70.0
-  action:
+      - condition: state
+        entity_id: input_select.time_of_day_mode
+        state: Day
+  actions:
   - action: script.turn_on
     target:
       entity_id:
       - script.lighting_upstairs_hallway_group
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
-  id: 9cf8b66af54b4da9a2241e437a3d6ea3
+  - entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
+    action: input_boolean.turn_on
 - alias: Upstairs Hallway Group Lighting Timed Out
   trigger:
   - platform: state
@@ -397,35 +368,30 @@
   - service: input_boolean.turn_off
     entity_id: input_boolean.motion_trigger_upstairs_hallway_group_lights
   id: 07359fec3559474785cd241bcd33381e
-- alias: Den Hallway Lighting on Motion
-  trigger:
+- id: 8b9ecf8f51c748f99abccb2b05034a4b
+  alias: Den Hallway Lighting on Motion
+  triggers:
   - platform: state
     entity_id: input_boolean.motion_den_hallway
     to: 'on'
-  condition:
+  conditions:
     condition: and
     conditions:
     - condition: state
       entity_id: light.den_hallway
       state: 'off'
-    - condition: or
+    - condition: not
       conditions:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: input_select.time_of_day_mode
-          state: Day
-      - condition: numeric_state
-        entity_id: sensor.den_multisensor_luminance
-        below: 20.0
-  action:
+      - condition: state
+        entity_id: input_select.time_of_day_mode
+        state: Day
+  actions:
   - action: script.turn_on
     target:
       entity_id:
       - script.lighting_den_hallway
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.motion_trigger_den_hallway_lights
-  id: 8b9ecf8f51c748f99abccb2b05034a4b
+  - entity_id: input_boolean.motion_trigger_den_hallway_lights
+    action: input_boolean.turn_on
 - alias: Den Hallway Lighting Timed Out
   trigger:
   - platform: state
