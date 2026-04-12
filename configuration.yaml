@@ -133,10 +133,6 @@ alexa:
       script.scene_bedroom_alarm_dismissed:
         display_categories: SWITCH
 
-geofency:
-  mobile_beacons:
-    - Octavia
-
 homekit:
   - filter:
       include_domains:
