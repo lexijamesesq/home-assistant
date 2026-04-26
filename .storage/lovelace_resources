@@ -11,7 +11,7 @@
       },
       {
         "id": "c76332eac9534afb9f39af5eed6480e8",
-        "url": "/browser_mod.js?automatically-added&2.10.2",
+        "url": "/browser_mod.js?automatically-added&2.11.0",
         "type": "module"
       },
       {
@@ -61,7 +61,7 @@
       },
       {
         "id": "a344d073f7d240f481d8d369068f0f68",
-        "url": "/hacsfiles/custom-sonos-card/custom-sonos-card.js?hacstag=4494168161064",
+        "url": "/hacsfiles/custom-sonos-card/custom-sonos-card.js?hacstag=4494168161067",
         "type": "module"
       },
       {
