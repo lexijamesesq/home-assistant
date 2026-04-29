@@ -3721,13 +3721,13 @@
   mode: single
 - id: '1724791118711'
   alias: Circulate Stale Air
-  description: Every 3 hours, run HVAC fans for 8 minutes each (staggered) to circulate
+  description: Every 3 hours, run HVAC fans for 10 minutes each (staggered) to circulate
     stale air. Skips fans already running manually.
   triggers:
-  - trigger: time_pattern
-    hours: /3
+  - hours: /3
     minutes: 0
     seconds: 0
+    platform: time_pattern
   conditions:
   - condition: state
     entity_id: group.all_windows
@@ -3746,8 +3746,9 @@
         entity_id: climate.downstairs
       data:
         fan_mode: 'on'
+    continue_on_error: true
   - delay:
-      minutes: 4
+      minutes: 5
   - if:
     - '{{ not upstairs_already_on }}'
     then:
@@ -3756,8 +3757,9 @@
         entity_id: climate.upstairs
       data:
         fan_mode: 'on'
+    continue_on_error: true
   - delay:
-      minutes: 4
+      minutes: 5
   - if:
     - '{{ not downstairs_already_on }}'
     then:
@@ -3766,8 +3768,9 @@
         entity_id: climate.downstairs
       data:
         fan_mode: 'off'
+    continue_on_error: true
   - delay:
-      minutes: 4
+      minutes: 5
   - if:
     - '{{ not upstairs_already_on }}'
     then:
@@ -3776,6 +3779,7 @@
         entity_id: climate.upstairs
       data:
         fan_mode: 'off'
+    continue_on_error: true
   mode: single
   max_exceeded: silent
 - id: '1724804282087'
