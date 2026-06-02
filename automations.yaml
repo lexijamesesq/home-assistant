@@ -2090,92 +2090,6 @@
     data:
       option: '{{ tariff }}'
   id: 141a4cd7e86f4d908a31c8b93a74d4fd
-- alias: Fan - Sleep Mode
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_sleep
-    to: 'on'
-    id: sleep_on
-  - platform: state
-    entity_id: input_boolean.mode_sleep
-    to: 'off'
-    id: sleep_off
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: sleep_on
-      sequence:
-      - parallel:
-        - sequence:
-          - condition: state
-            entity_id: fan.bedroom
-            state: 'on'
-          - service: switch.turn_on
-            entity_id: switch.bedroom_night_mode
-          - service: fan.set_percentage
-            data:
-              entity_id: fan.bedroom
-              percentage: 40
-        - sequence:
-          - condition: state
-            entity_id: fan.kitchen
-            state: 'on'
-          - service: switch.turn_on
-            entity_id: switch.kitchen_night_mode
-    - conditions:
-      - condition: trigger
-        id: sleep_off
-      sequence:
-      - parallel:
-        - sequence:
-          - condition: state
-            entity_id: fan.bedroom
-            state: 'on'
-          - service: switch.turn_off
-            entity_id: switch.bedroom_night_mode
-          - service: fan.set_percentage
-            data:
-              entity_id: fan.bedroom
-              percentage: 40
-        - sequence:
-          - condition: state
-            entity_id: fan.kitchen
-            state: 'on'
-          - service: switch.turn_off
-            entity_id: switch.kitchen_night_mode
-          - service: fan.set_percentage
-            data:
-              entity_id: fan.kitchen
-              percentage: 50
-  id: bb2d1df521fd41ce91372c6a37ef3242
-- id: 311904deb8a4428181cb2896c5612def
-  alias: Fan - Bedroom - Window Open
-  description: Turns off bedroom fan when windows open, restores when closed. Only
-    acts if fan was already running.
-  triggers:
-  - trigger: state
-    entity_id: binary_sensor.bedroom_windows
-    to: 'on'
-    for:
-      seconds: 30
-  conditions:
-  - condition: state
-    entity_id: fan.bedroom
-    state: 'on'
-  actions:
-  - action: fan.turn_off
-    target:
-      entity_id: fan.bedroom
-  - wait_for_trigger:
-    - trigger: state
-      entity_id: binary_sensor.bedroom_windows
-      to: 'off'
-  - action: fan.turn_on
-    target:
-      entity_id: fan.bedroom
-  mode: single
-  max_exceeded: silent
 - alias: Garage Lighting on Motion
   trigger:
   - platform: state
@@ -4270,3 +4184,207 @@
         target:
           entity_id: light.bathroom
   mode: single
+- id: '1780341327003'
+  alias: Bedroom Humidifier - Schedule On
+  triggers:
+  - at: '19:30:00'
+    platform: time
+  conditions:
+  - condition: state
+    entity_id: group.residents
+    state: home
+  actions:
+  - action: humidifier.turn_on
+    target:
+      entity_id: humidifier.bedroom_humidifier
+  - action: humidifier.set_mode
+    target:
+      entity_id: humidifier.bedroom_humidifier
+    data:
+      mode: auto
+- id: '1780341327513'
+  alias: Bedroom Humidifier - Schedule Off
+  triggers:
+  - at: 05:00:00
+    platform: time
+  actions:
+  - action: humidifier.turn_off
+    target:
+      entity_id: humidifier.bedroom_humidifier
+- id: '1780341329951'
+  alias: Bedroom Humidifier - Sleep Mode
+  triggers:
+  - entity_id: input_boolean.mode_sleep
+    to: 'on'
+    id: sleep_on
+    platform: state
+  - entity_id: input_boolean.mode_sleep
+    to: 'off'
+    id: sleep_off
+    platform: state
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sleep_on
+      sequence:
+      - action: switch.turn_off
+        target:
+          entity_id: switch.bedroom_humidifier_display
+    - conditions:
+      - condition: trigger
+        id: sleep_off
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.bedroom_humidifier_display
+- id: '1780341331255'
+  alias: Bedroom Humidifier - Away Off
+  triggers:
+  - entity_id: group.residents
+    to: not_home
+    platform: state
+  conditions: []
+  actions:
+  - action: humidifier.turn_off
+    target:
+      entity_id: humidifier.bedroom_humidifier
+- id: '1780341332788'
+  alias: Bedroom Humidifier - Arrive Resume
+  triggers:
+  - entity_id: group.residents
+    to: home
+    platform: state
+  conditions:
+  - condition: time
+    after: '19:30:00'
+    before: 05:00:00
+  actions:
+  - action: humidifier.turn_on
+    target:
+      entity_id: humidifier.bedroom_humidifier
+  - action: humidifier.set_mode
+    target:
+      entity_id: humidifier.bedroom_humidifier
+    data:
+      mode: auto
+- id: '1780341334663'
+  alias: Den Purifier - Sleep Mode
+  triggers:
+  - trigger: state
+    entity_id: input_boolean.mode_sleep
+    to: 'on'
+    id: sleep_on
+  - trigger: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
+    id: sleep_off
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sleep_on
+      sequence:
+      - action: fan.set_percentage
+        target:
+          entity_id: fan.den_purifier
+        data:
+          percentage: 75
+      - action: switch.turn_off
+        target:
+          entity_id: switch.den_purifier_display
+    - conditions:
+      - condition: trigger
+        id: sleep_off
+      sequence:
+      - action: fan.set_percentage
+        target:
+          entity_id: fan.den_purifier
+        data:
+          percentage: 50
+      - action: switch.turn_on
+        target:
+          entity_id: switch.den_purifier_display
+- id: '1780341336373'
+  alias: Living Room Purifier - Sleep Mode
+  triggers:
+  - entity_id: input_boolean.mode_sleep
+    to: 'on'
+    id: sleep_on
+    platform: state
+  - entity_id: input_boolean.mode_sleep
+    to: 'off'
+    id: sleep_off
+    platform: state
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sleep_on
+      sequence:
+      - action: switch.turn_off
+        target:
+          entity_id: switch.living_room_purifier_display
+    - conditions:
+      - condition: trigger
+        id: sleep_off
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.living_room_purifier_display
+- id: '1780373926005'
+  alias: Bedroom Purifier - Speed Schedule
+  triggers:
+  - trigger: time
+    at: '19:30:00'
+    id: evening
+  - at: 09:00:00
+    id: morning
+    platform: time
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: humidifier_on
+      sequence:
+      - action: fan.set_percentage
+        target:
+          entity_id: fan.bedroom_purifier
+        data:
+          percentage: 50
+    - conditions:
+      - condition: trigger
+        id: morning
+      sequence:
+      - action: fan.set_percentage
+        target:
+          entity_id: fan.bedroom_purifier
+        data:
+          percentage: 75
+- id: '1780373928339'
+  alias: Bedroom Purifier - Sleep Mode
+  triggers:
+  - entity_id: input_boolean.mode_sleep
+    to: 'on'
+    id: sleep_on
+    platform: state
+  - entity_id: input_boolean.mode_sleep
+    to: 'off'
+    id: sleep_off
+    platform: state
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sleep_on
+      sequence:
+      - action: switch.turn_off
+        target:
+          entity_id: switch.bedroom_purifier_display
+    - conditions:
+      - condition: trigger
+        id: sleep_off
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.bedroom_purifier_display
