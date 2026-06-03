@@ -4335,9 +4335,9 @@
 - id: '1780373926005'
   alias: Bedroom Purifier - Speed Schedule
   triggers:
-  - trigger: time
-    at: '19:30:00'
+  - at: '19:30:00'
     id: evening
+    platform: time
   - at: 09:00:00
     id: morning
     platform: time
@@ -4345,7 +4345,7 @@
   - choose:
     - conditions:
       - condition: trigger
-        id: humidifier_on
+        id: evening
       sequence:
       - action: fan.set_percentage
         target:
