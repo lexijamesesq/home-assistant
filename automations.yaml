@@ -4202,6 +4202,9 @@
       entity_id: humidifier.bedroom_humidifier
     data:
       mode: auto
+  - action: switch.turn_on
+    target:
+      entity_id: switch.bedroom_humidifier_display
 - id: '1780341327513'
   alias: Bedroom Humidifier - Schedule Off
   triggers:
@@ -4235,6 +4238,9 @@
       - condition: trigger
         id: sleep_off
       sequence:
+      - condition: state
+        entity_id: humidifier.bedroom_humidifier
+        state: 'on'
       - action: switch.turn_on
         target:
           entity_id: switch.bedroom_humidifier_display
