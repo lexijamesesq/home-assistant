@@ -3636,12 +3636,13 @@
 - id: '1724791118711'
   alias: Circulate Stale Air
   description: Every 3 hours, run HVAC fans for 10 minutes each (staggered) to circulate
-    stale air. Skips fans already running manually.
+    stale air. Skips fans already running manually. Turn-off is unconditional with
+    verify-and-retry to handle intermittent Nest cloud API failures.
   triggers:
   - hours: /3
     minutes: 0
     seconds: 0
-    platform: time_pattern
+    trigger: time_pattern
   conditions:
   - condition: state
     entity_id: group.all_windows
@@ -3674,26 +3675,53 @@
     continue_on_error: true
   - delay:
       minutes: 5
+  - action: climate.set_fan_mode
+    target:
+      entity_id: climate.downstairs
+    data:
+      fan_mode: 'off'
+    continue_on_error: true
+  - delay:
+      seconds: 30
   - if:
-    - '{{ not downstairs_already_on }}'
+    - condition: state
+      entity_id: climate.downstairs
+      attribute: fan_mode
+      state: 'on'
     then:
     - action: climate.set_fan_mode
       target:
         entity_id: climate.downstairs
       data:
         fan_mode: 'off'
+      continue_on_error: true
+    note: Nest cloud API intermittently drops fan-off commands. Verify state after
+      30s and retry once if needed.
+  - delay:
+      minutes: 4
+      seconds: 30
+  - action: climate.set_fan_mode
+    target:
+      entity_id: climate.upstairs
+    data:
+      fan_mode: 'off'
     continue_on_error: true
   - delay:
-      minutes: 5
+      seconds: 30
   - if:
-    - '{{ not upstairs_already_on }}'
+    - condition: state
+      entity_id: climate.upstairs
+      attribute: fan_mode
+      state: 'on'
     then:
     - action: climate.set_fan_mode
       target:
         entity_id: climate.upstairs
       data:
         fan_mode: 'off'
-    continue_on_error: true
+      continue_on_error: true
+    note: Nest cloud API intermittently drops fan-off commands. Verify state after
+      30s and retry once if needed.
   mode: single
   max_exceeded: silent
 - id: '1724804282087'
@@ -4214,36 +4242,6 @@
   - action: humidifier.turn_off
     target:
       entity_id: humidifier.bedroom_humidifier
-- id: '1780341329951'
-  alias: Bedroom Humidifier - Sleep Mode
-  triggers:
-  - entity_id: input_boolean.mode_sleep
-    to: 'on'
-    id: sleep_on
-    platform: state
-  - entity_id: input_boolean.mode_sleep
-    to: 'off'
-    id: sleep_off
-    platform: state
-  actions:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: sleep_on
-      sequence:
-      - action: switch.turn_off
-        target:
-          entity_id: switch.bedroom_humidifier_display
-    - conditions:
-      - condition: trigger
-        id: sleep_off
-      sequence:
-      - condition: state
-        entity_id: humidifier.bedroom_humidifier
-        state: 'on'
-      - action: switch.turn_on
-        target:
-          entity_id: switch.bedroom_humidifier_display
 - id: '1780341331255'
   alias: Bedroom Humidifier - Away Off
   triggers:
@@ -4367,30 +4365,47 @@
           entity_id: fan.bedroom_purifier
         data:
           percentage: 75
-- id: '1780373928339'
-  alias: Bedroom Purifier - Sleep Mode
+- id: '1781364383135'
+  alias: Bedroom Device Displays Off When Lights Off
   triggers:
-  - entity_id: input_boolean.mode_sleep
-    to: 'on'
-    id: sleep_on
-    platform: state
-  - entity_id: input_boolean.mode_sleep
+  - trigger: state
+    entity_id: group.bedroom_lights
     to: 'off'
-    id: sleep_off
-    platform: state
+  conditions:
+  - condition: state
+    entity_id: input_boolean.mode_sleep
+    state: 'on'
   actions:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: sleep_on
-      sequence:
-      - action: switch.turn_off
-        target:
-          entity_id: switch.bedroom_purifier_display
-    - conditions:
-      - condition: trigger
-        id: sleep_off
-      sequence:
-      - action: switch.turn_on
-        target:
-          entity_id: switch.bedroom_purifier_display
+  - action: switch.turn_off
+    target:
+      entity_id:
+      - switch.bedroom_humidifier_display
+      - switch.bedroom_purifier_display
+  mode: single
+- id: '1781364385732'
+  alias: Bedroom Device Displays On When Lights On
+  triggers:
+  - trigger: state
+    entity_id: group.bedroom_lights
+    to: 'on'
+  - trigger: state
+    entity_id: input_boolean.mode_sleep
+    to: 'off'
+  actions:
+  - if:
+    - condition: state
+      entity_id: humidifier.bedroom_humidifier
+      state: 'on'
+    then:
+    - action: switch.turn_on
+      target:
+        entity_id: switch.bedroom_humidifier_display
+  - if:
+    - condition: state
+      entity_id: fan.bedroom_purifier
+      state: 'on'
+    then:
+    - action: switch.turn_on
+      target:
+        entity_id: switch.bedroom_purifier_display
+  mode: single
