@@ -45,6 +45,13 @@
         "icon": "mdi:weather-night",
         "has_date": true,
         "has_time": true
+      },
+      {
+        "id": "virtual_next_event_time",
+        "name": "Virtual Next Event Time",
+        "icon": "mdi:clock-outline",
+        "has_date": true,
+        "has_time": true
       }
     ]
   }

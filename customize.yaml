@@ -343,8 +343,6 @@ sensor.tautulli_wan_bandwidth:
   icon: mdi:speedometer
 sensor.tautulli_lan_bandwidth:
   icon: mdi:speedometer
-sensor.mode_simulate_presence:
-  icon: mdi:home-lightbulb
 light.rec_room_canvas:
   icon: mdi:lightbulb
 binary_sensor.downstairs_hallway_trisensor_sensor:
