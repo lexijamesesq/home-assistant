@@ -1686,7 +1686,7 @@
                 },
                 {
                   "type": "tile",
-                  "entity": "binary_sensor.g4_instant_motion",
+                  "entity": "binary_sensor.main_floor_motion",
                   "name": "Kitchen"
                 },
                 {

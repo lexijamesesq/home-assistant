@@ -2560,7 +2560,7 @@
   alias: Motion Started in Kitchen
   triggers:
   - platform: state
-    entity_id: binary_sensor.g4_instant_motion
+    entity_id: binary_sensor.main_floor_motion
     to: 'on'
   actions:
   - entity_id: input_boolean.motion_kitchen
@@ -2569,7 +2569,7 @@
   alias: Motion Ended in Kitchen
   triggers:
   - platform: state
-    entity_id: binary_sensor.g4_instant_motion
+    entity_id: binary_sensor.main_floor_motion
     to: 'off'
     for:
       minutes: 2
