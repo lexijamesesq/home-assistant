@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "input_text",
+  "data": {
+    "items": [
+      {
+        "id": "virtual_plan_recipe",
+        "name": "Virtual Plan Recipe",
+        "icon": "mdi:script-text-outline",
+        "max": 255,
+        "mode": "text",
+        "min": 0
+      }
+    ]
+  }
+}

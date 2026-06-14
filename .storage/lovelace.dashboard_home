@@ -1521,20 +1521,6 @@
                         "icon": "mdi:window-open",
                         "icon_color": "amber"
                       }
-                    },
-                    {
-                      "type": "conditional",
-                      "conditions": [
-                        {
-                          "condition": "state",
-                          "entity": "input_boolean.mode_simulate_presence",
-                          "state": "on"
-                        }
-                      ],
-                      "chip": {
-                        "type": "entity",
-                        "entity": "sensor.mode_simulate_presence"
-                      }
                     }
                   ],
                   "card_mod": {
@@ -2670,8 +2656,8 @@
                 },
                 {
                   "type": "tile",
-                  "entity": "input_boolean.mode_simulate_presence",
-                  "name": "Simulate Presence at Night",
+                  "entity": "input_boolean.virtual_occupant_active",
+                  "name": "Virtual Occupant",
                   "icon": "mdi:home-lightbulb",
                   "layout_options": {
                     "grid_columns": 4,
@@ -2834,7 +2820,7 @@
                 },
                 {
                   "type": "tile",
-                  "entity": "input_boolean.mode_simulate_presence",
+                  "entity": "input_boolean.virtual_occupant_active",
                   "layout_options": {
                     "grid_columns": 4,
                     "grid_rows": 1
