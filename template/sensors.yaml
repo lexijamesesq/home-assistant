@@ -24,18 +24,6 @@
         {{ states('input_boolean.mode_sleep') }}
       icon: "mdi:sleep"
 
-    - name: "Simulate Presence Mode"
-      unique_id: mode_simulate_presence
-      state: >
-        {% if is_state('input_boolean.mode_simulate_presence', 'on') %}
-          {% if is_state("group.inside_lights", "on") %}
-            Lights On
-          {% else %}
-            Lights Off
-          {% endif %}
-        {% else %}
-          off
-        {% endif %}
 
 # ──────────────────────────────────────────────
 # Group 2: Dashboard view sensors
@@ -88,6 +76,8 @@
           Resident
         {% elif is_state("sensor.mode_guest", "on") %}
           Guest
+        {% elif is_state("input_boolean.virtual_occupant_active", "on") %}
+          Virtual
         {% else %}
           Cats
         {% endif %}
@@ -96,17 +86,10 @@
           mdi:account-multiple
         {% elif is_state("sensor.mode_guest", "on") %}
           mdi:human-greeting
+        {% elif is_state("input_boolean.virtual_occupant_active", "on") %}
+          mdi:account-outline
         {% else %}
           mdi:cat
-        {% endif %}
-
-    - name: "Simulate Presence Status"
-      unique_id: dashboard_simulate_presence_status
-      state: >
-        {% if is_state('input_boolean.mode_simulate_presence', 'on') %}
-          Simulating presence.
-        {% else %}
-          off
         {% endif %}
 
     - name: "Garage Actual Status"

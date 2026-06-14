@@ -94,8 +94,8 @@ card:
           entities:
             - title: Security
               entities:
-                - entity: sensor.mode_simulate_presence
-                  name: Presence
+                - entity: input_boolean.virtual_occupant_active
+                  name: Virtual Occupant
                   hideState: true
                   hold_action:
                     action: none
