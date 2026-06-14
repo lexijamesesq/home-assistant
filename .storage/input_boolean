@@ -9,6 +9,27 @@
         "name": "Show All Batteries",
         "icon": "mdi:battery-eye",
         "initial": false
+      },
+      {
+        "id": "virtual_occupant_active",
+        "name": "Virtual Occupant Active",
+        "icon": "mdi:account-outline",
+        "initial": false
+      },
+      {
+        "id": "virtual_home_theater",
+        "name": "Virtual Home Theater",
+        "icon": "mdi:television"
+      },
+      {
+        "id": "virtual_home_theater_playing",
+        "name": "Virtual Home Theater Playing",
+        "icon": "mdi:play-circle"
+      },
+      {
+        "id": "virtual_sleep",
+        "name": "Virtual Sleep",
+        "icon": "mdi:sleep"
       }
     ]
   }

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "counter",
+  "data": {
+    "items": [
+      {
+        "id": "virtual_event_cursor",
+        "name": "Virtual Event Cursor",
+        "icon": "mdi:counter",
+        "minimum": 0,
+        "step": 1,
+        "restore": true,
+        "maximum": null,
+        "initial": 0
+      }
+    ]
+  }
+}

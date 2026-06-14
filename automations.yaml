@@ -56,45 +56,45 @@
   - action: script.turn_on
     target:
       entity_id: script.lighting_rec_room_canvas
-- alias: Alert Stranger Danger On
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_stranger_danger
+- id: 4bf1d4391b1f4c2a9079e03c69f01d40
+  alias: Alert Stranger Danger On
+  triggers:
+  - entity_id: input_boolean.mode_stranger_danger
     to: 'on'
-  action:
-  - service: select.select_option
-    target:
+    trigger: state
+  actions:
+  - target:
       entity_id: group.led_strip_effect
     data:
       option: Pulse
-  - service: number.set_value
-    target:
+    action: select.select_option
+  - target:
       entity_id: group.led_strip_effect_color
     data:
       value: 0
-  - service: number.set_value
-    target:
+    action: number.set_value
+  - target:
       entity_id: group.led_strip_effect_duration
     data:
       value: 255
-  id: 4bf1d4391b1f4c2a9079e03c69f01d40
-- alias: Alert Stranger Danger Off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_stranger_danger
+    action: number.set_value
+- id: 5783e93e654b4d2aae7853a219586a1a
+  alias: Alert Stranger Danger Off
+  triggers:
+  - entity_id: input_boolean.mode_stranger_danger
     to: 'off'
-  action:
-  - service: select.select_option
-    target:
+    trigger: state
+  actions:
+  - target:
       entity_id: group.led_strip_effect
     data:
       option: 'Off'
-  - service: number.set_value
-    target:
+    action: select.select_option
+  - target:
       entity_id: group.led_strip_effect_duration
     data:
       value: 0
-  id: 5783e93e654b4d2aae7853a219586a1a
+    action: number.set_value
 - alias: Alert Laundry On
   trigger:
   - platform: state
@@ -518,63 +518,16 @@
         - script.lighting_den
         - script.lighting_den_cabinets
   id: f7213450ce71441880c50a427d5c9c06
-- alias: Start Away Lighting
-  trigger:
-  - platform: state
-    entity_id: group.residents
-    to: not_home
-    for:
-      minutes: 4
-  - platform: state
-    entity_id: input_boolean.mode_guest
-    to: 'off'
-  condition:
-  - condition: state
-    entity_id: group.residents
-    state: not_home
-  - condition: state
-    entity_id: input_boolean.mode_guest
-    state: 'off'
-  action:
-  - choose:
-    - conditions:
-        condition: or
-        conditions:
-        - condition: state
-          entity_id: group.motion_guest_areas
-          state: 'on'
-        - condition: state
-          entity_id: input_boolean.mode_home_theater
-          state: 'on'
-      sequence:
-      - event: mode_guest_turn_on
-    default:
-    - service: light.turn_off
-      entity_id: group.inside_lights
-  id: 074a15c7d04a4927aa5c5ce013038f0a
-- alias: Simulate Presence Mode - Update Lights
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_simulate_presence
-    to: 'on'
-  action:
-  - service: script.turn_on
-    entity_id: script.simulate_presence
-  id: 2d0358baea7843258fc191ec5ac61eae
-- alias: Simulate Presence Mode - Off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mode_simulate_presence
-    to: 'off'
-  action:
-  - service: script.turn_off
-    entity_id: script.simulate_presence
-  id: 355c0e77ccf64b8c8d1304b3530fdeb6
 - id: ee1380ba381c47d7a9bcafec1ef2345e
   alias: Sleep Mode Started - Turn Off Lights
   triggers:
   - platform: state
     entity_id: input_boolean.mode_sleep
+    to: 'on'
+    for:
+      minutes: 2
+  - platform: state
+    entity_id: input_boolean.virtual_sleep
     to: 'on'
     for:
       minutes: 2
@@ -594,10 +547,18 @@
   - platform: state
     entity_id: input_boolean.mode_sleep
     to: 'off'
+  - platform: state
+    entity_id: input_boolean.virtual_sleep
+    to: 'off'
   conditions:
-  - condition: state
-    entity_id: group.residents
-    state: home
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: group.residents
+      state: home
+    - condition: state
+      entity_id: input_boolean.virtual_occupant_active
+      state: 'on'
   actions:
   - action: script.turn_on
     target:
@@ -654,9 +615,14 @@
     entity_id: group.bedroom_lights
     to: 'off'
   condition:
-  - condition: state
-    entity_id: input_boolean.mode_sleep
-    state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_boolean.mode_sleep
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.virtual_sleep
+      state: 'on'
   action:
   - target:
       entity_id:
@@ -676,6 +642,9 @@
   - platform: state
     entity_id: input_boolean.mode_sleep
     to: 'off'
+  - platform: state
+    entity_id: input_boolean.virtual_sleep
+    to: 'off'
   action:
   - target:
       entity_id:
@@ -686,15 +655,16 @@
       value: 2
     action: number.set_value
   mode: single
-- alias: Update Switch Colors
-  trigger:
-  - platform: state
-    entity_id: input_select.time_of_day_mode
+- id: a12ed7dbc9f54516abdfba834138931b
+  alias: Update Switch Colors
+  triggers:
+  - entity_id: input_select.time_of_day_mode
     to: Morning
-  - platform: state
-    entity_id: input_select.time_of_day_mode
+    trigger: state
+  - entity_id: input_select.time_of_day_mode
     to: Night
-  action:
+    trigger: state
+  actions:
   - delay: 00:00:01
   - choose:
     - conditions:
@@ -702,22 +672,21 @@
         entity_id: input_select.time_of_day_mode
         state: Night
       sequence:
-      - service: number.set_value
-        target:
+      - target:
           entity_id:
           - group.led_color_when_off
           - group.led_color_when_on
         data:
           value: 190
+        action: number.set_value
     default:
-    - service: number.set_value
-      target:
+    - target:
         entity_id:
         - group.led_color_when_off
         - group.led_color_when_on
       data:
         value: 255
-  id: a12ed7dbc9f54516abdfba834138931b
+      action: number.set_value
 - alias: Update Lights at Late Night
   trigger:
   - platform: time
@@ -735,16 +704,24 @@
   id: 6d5e863edaff4d449ed1c3474a13461f
 - id: 54a23323fa1a409ca7fa8817482d5366
   alias: Bedroom Lights at Night - Sleep Mode On
-  description: When sleep mode activates and bedroom lights are on, re-run the bedroom
-    lighting script to apply sleep-mode settings (3000K color temp).
+  description: When sleep mode (real or virtual) activates and bedroom lights are on,
+    re-run the bedroom lighting script to apply sleep-mode settings (3000K color temp).
   triggers:
   - platform: state
     entity_id: input_boolean.mode_sleep
     to: 'on'
+  - platform: state
+    entity_id: input_boolean.virtual_sleep
+    to: 'on'
   conditions:
-  - condition: state
-    entity_id: group.residents
-    state: home
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: group.residents
+      state: home
+    - condition: state
+      entity_id: input_boolean.virtual_occupant_active
+      state: 'on'
   - condition: state
     entity_id: light.bedroom
     state: 'on'
@@ -758,10 +735,18 @@
   - platform: state
     entity_id: input_boolean.mode_sleep
     to: 'off'
+  - platform: state
+    entity_id: input_boolean.virtual_sleep
+    to: 'off'
   condition:
-  - condition: state
-    entity_id: group.residents
-    state: home
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: group.residents
+      state: home
+    - condition: state
+      entity_id: input_boolean.virtual_occupant_active
+      state: 'on'
   - condition: state
     entity_id:
     - light.bedroom
@@ -2440,56 +2425,6 @@
   - service: input_boolean.turn_off
     entity_id: input_boolean.mode_guest
   id: 639dbc905e0d423ba47e67b66e865866
-- alias: Mode - Simulate Presence On
-  trigger:
-  - platform: state
-    entity_id: group.residents
-    to: not_home
-    for:
-      minutes: 4
-  - platform: state
-    entity_id: input_boolean.mode_guest
-    to: 'off'
-  - platform: state
-    entity_id: input_select.time_of_day_mode
-    to: Night
-  condition:
-    condition: and
-    conditions:
-    - condition: state
-      entity_id: input_select.time_of_day_mode
-      state: Night
-    - condition: state
-      entity_id: group.residents
-      state: not_home
-    - condition: state
-      entity_id: input_boolean.mode_guest
-      state: 'off'
-    - condition: time
-      after: '17:00:00'
-      before: '23:00:00'
-  action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.mode_simulate_presence
-  id: c9f490c9a54546c9b11b740d7aea4d66
-- alias: Mode - Simulate Presence Off
-  trigger:
-  - platform: state
-    entity_id: group.residents
-    to: home
-  - platform: state
-    entity_id: input_boolean.mode_guest
-    to: 'on'
-  - platform: time
-    at: '23:00:00'
-  condition:
-  - condition: state
-    entity_id: input_boolean.mode_simulate_presence
-    state: 'on'
-  action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.mode_simulate_presence
-  id: 3ca6471d86aa44e18b1085dab0e7b0c8
 - alias: Mode - Sleep Toggle
   trigger:
   - platform: event
@@ -3873,18 +3808,24 @@
   description: Adjusts kitchen brightness when mode, curve, or HT state changes. Curve
     updates only apply when light is already on.
   triggers:
-  - platform: state
-    entity_id: input_select.time_of_day_mode
+  - entity_id: input_select.time_of_day_mode
     id: mode_change
-  - platform: state
-    entity_id: sensor.brightness_curve_position
+    trigger: state
+  - entity_id: sensor.brightness_curve_position
     id: curve_update
-  - platform: state
-    entity_id: input_boolean.mode_home_theater
+    trigger: state
+  - entity_id: input_boolean.mode_home_theater
     id: ht_change
-  - platform: state
-    entity_id: media_player.living_room_apple_tv
+    trigger: state
+  - entity_id: media_player.living_room_apple_tv
     id: ht_playing
+    trigger: state
+  - trigger: state
+    entity_id: input_boolean.virtual_home_theater
+    id: virtual_ht_change
+  - trigger: state
+    entity_id: input_boolean.virtual_home_theater_playing
+    id: virtual_ht_playing_change
   conditions:
   - condition: or
     conditions:
@@ -3905,18 +3846,24 @@
   description: Adjusts living room brightness when mode, curve, or HT state changes.
     Curve updates only apply when light is already on.
   triggers:
-  - platform: state
-    entity_id: input_select.time_of_day_mode
+  - entity_id: input_select.time_of_day_mode
     id: mode_change
-  - platform: state
-    entity_id: sensor.brightness_curve_position
+    trigger: state
+  - entity_id: sensor.brightness_curve_position
     id: curve_update
-  - platform: state
-    entity_id: input_boolean.mode_home_theater
+    trigger: state
+  - entity_id: input_boolean.mode_home_theater
     id: ht_change
-  - platform: state
-    entity_id: media_player.living_room_apple_tv
+    trigger: state
+  - entity_id: media_player.living_room_apple_tv
     id: ht_playing
+    trigger: state
+  - trigger: state
+    entity_id: input_boolean.virtual_home_theater
+    id: virtual_ht_change
+  - trigger: state
+    entity_id: input_boolean.virtual_home_theater_playing
+    id: virtual_ht_playing_change
   conditions:
   - condition: or
     conditions:
@@ -3959,18 +3906,9 @@
   description: Re-evaluates den lighting when time-of-day mode changes. Script handles
     all state logic.
   triggers:
-  - platform: state
-    entity_id: input_select.time_of_day_mode
+  - entity_id: input_select.time_of_day_mode
     id: mode_change
-  conditions:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: group.residents
-      state: home
-    - condition: state
-      entity_id: input_boolean.mode_guest
-      state: 'on'
+    trigger: state
   actions:
   - action: script.turn_on
     target:
@@ -3981,18 +3919,9 @@
   description: Re-evaluates den cabinet lighting when time-of-day mode changes. Script
     handles all state logic.
   triggers:
-  - platform: state
-    entity_id: input_select.time_of_day_mode
+  - entity_id: input_select.time_of_day_mode
     id: mode_change
-  conditions:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: group.residents
-      state: home
-    - condition: state
-      entity_id: input_boolean.mode_guest
-      state: 'on'
+    trigger: state
   actions:
   - action: script.turn_on
     target:
@@ -4003,24 +3932,21 @@
   description: Re-evaluates living room TV strip when mode or HT state changes. Script
     handles all state logic.
   triggers:
-  - platform: state
-    entity_id: input_select.time_of_day_mode
+  - entity_id: input_select.time_of_day_mode
     id: mode_change
-  - platform: state
-    entity_id: input_boolean.mode_home_theater
+    trigger: state
+  - entity_id: input_boolean.mode_home_theater
     id: ht_change
-  - platform: state
-    entity_id: media_player.living_room_apple_tv
+    trigger: state
+  - entity_id: media_player.living_room_apple_tv
     id: ht_playing
-  conditions:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: group.residents
-      state: home
-    - condition: state
-      entity_id: input_boolean.mode_guest
-      state: 'on'
+    trigger: state
+  - trigger: state
+    entity_id: input_boolean.virtual_home_theater
+    id: virtual_ht_change
+  - trigger: state
+    entity_id: input_boolean.virtual_home_theater_playing
+    id: virtual_ht_playing_change
   actions:
   - action: script.turn_on
     target:
@@ -4031,18 +3957,9 @@
   description: Re-evaluates bedroom lighting when time-of-day mode changes. Script
     handles all state logic.
   triggers:
-  - platform: state
-    entity_id: input_select.time_of_day_mode
+  - entity_id: input_select.time_of_day_mode
     id: mode_change
-  conditions:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: group.residents
-      state: home
-    - condition: state
-      entity_id: input_boolean.mode_guest
-      state: 'on'
+    trigger: state
   actions:
   - action: script.turn_on
     target:
@@ -4408,4 +4325,112 @@
     - action: switch.turn_on
       target:
         entity_id: switch.bedroom_purifier_display
+  mode: single
+- id: '1781406200330'
+  alias: Lighting - Rec Room Canvas Brightness Update
+  description: Re-evaluates rec room canvas lighting when time-of-day mode changes.
+    Script handles all state logic.
+  triggers:
+  - entity_id: input_select.time_of_day_mode
+    id: mode_change
+    trigger: state
+  - trigger: state
+    entity_id: input_boolean.virtual_home_theater
+    id: virtual_ht_change
+  - trigger: state
+    entity_id: input_boolean.virtual_home_theater_playing
+    id: virtual_ht_playing_change
+  actions:
+  - action: script.turn_on
+    target:
+      entity_id: script.lighting_rec_room_canvas
+  mode: restart
+- id: '1781413766625'
+  alias: Virtual Occupant - Start
+  description: Starts Virtual Lexi when residents leave during the evening, or when
+    mode reaches Sunset/Night while already away. Generates a fresh plan; the engine
+    fires it. Guarded so it never restarts an in-progress sim.
+  triggers:
+  - trigger: state
+    entity_id: group.residents
+    to: not_home
+    for:
+      minutes: 4
+    id: departure
+  - trigger: state
+    entity_id: input_select.time_of_day_mode
+    to: Sunset
+    id: mode
+  - trigger: state
+    entity_id: input_select.time_of_day_mode
+    to: Night
+    id: mode
+  conditions:
+  - condition: state
+    entity_id: group.residents
+    state: not_home
+  - condition: state
+    entity_id: input_boolean.mode_guest
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.virtual_occupant_active
+    state: 'off'
+  - condition: state
+    entity_id: input_select.time_of_day_mode
+    state:
+    - Sunset
+    - Night
+  actions:
+  - action: pyscript.virtual_lexi_start
+  mode: single
+- id: '1781413769428'
+  alias: Virtual Occupant - Next Event (engine)
+  description: 'Event engine: fires the next plan event at its scheduled absolute
+    time, which re-arms the next. No sustained timer.'
+  triggers:
+  - trigger: time
+    at: input_datetime.virtual_next_event_time
+  conditions:
+  - condition: state
+    entity_id: input_boolean.virtual_occupant_active
+    state: 'on'
+  actions:
+  - action: pyscript.virtual_lexi_fire_next
+  mode: single
+- id: '1781413772654'
+  alias: Virtual Occupant - Stop (escape hatch)
+  description: Resident/guest home -> tear down the sim. Directly clears all virtual
+    flags (insurance even if pyscript fails) then calls pyscript stop to neutralize
+    the pending engine fire and re-assert the full base lighting layer.
+  triggers:
+  - trigger: state
+    entity_id: group.residents
+    to: home
+  - trigger: state
+    entity_id: input_boolean.mode_guest
+    to: 'on'
+  actions:
+  - action: input_boolean.turn_off
+    target:
+      entity_id:
+      - input_boolean.virtual_occupant_active
+      - input_boolean.virtual_sleep
+      - input_boolean.virtual_home_theater
+      - input_boolean.virtual_home_theater_playing
+  - action: pyscript.virtual_lexi_stop
+  mode: single
+- id: '1781413788771'
+  alias: Virtual Occupant - Recover On HA Start
+  description: After an HA restart mid-sim, fire any plan events that came due during
+    the outage so the schedule resyncs (red-team C1). The recipe + cursor + next-event
+    time persist across reboot; catchup replays overdue events.
+  triggers:
+  - trigger: homeassistant
+    event: start
+  conditions:
+  - condition: state
+    entity_id: input_boolean.virtual_occupant_active
+    state: 'on'
+  actions:
+  - action: pyscript.virtual_lexi_catchup
   mode: single

@@ -10,15 +10,6 @@ residents:
 ##############################################################
 # Lights
 ##############################################################
-simulate_presence_scenes:
-  name: Simulate Presence Scenes
-  entities:
-    - script.scene_kitchen_night_mid
-    - script.scene_living_room_night_mid
-    - script.scene_rec_room_canvas_night
-    - script.scene_bedroom_night_mid
-    - script.scene_den_night_mid
-
 all_lights:
   entities:
     - light.garage
@@ -94,6 +85,16 @@ downstairs_lights:
     - light.kitchen
     - light.downstairs_patio
     - light.downstairs_patio_string
+    - light.living_room
+    - light.living_room_tv
+    - light.rec_room
+    - light.rec_room_canvas
+
+downstairs_inside_lights:
+  entities:
+    - light.downstairs_hallway
+    - light.downstairs_bathroom
+    - light.kitchen
     - light.living_room
     - light.living_room_tv
     - light.rec_room
