@@ -19,7 +19,7 @@ import datetime as dt
 DTFMT = "%Y-%m-%d %H:%M:%S"
 RECIPE = "input_text.virtual_plan_recipe"
 
-ACTIVE = "input_boolean.virtual_occupant_active"
+ACTIVE = "input_boolean.virtual_lexi"
 SLEEP = "input_boolean.virtual_sleep"
 VHT = "input_boolean.virtual_home_theater"
 VHTP = "input_boolean.virtual_home_theater_playing"

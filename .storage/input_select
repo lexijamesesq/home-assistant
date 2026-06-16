@@ -21,6 +21,17 @@
           "script.lighting_den",
           "script.lighting_den_mood"
         ]
+      },
+      {
+        "id": "alarm_tts_source",
+        "name": "Alarm TTS Source",
+        "icon": "mdi:bullhorn",
+        "options": [
+          "none",
+          "sleep",
+          "automation"
+        ],
+        "initial": "none"
       }
     ]
   }

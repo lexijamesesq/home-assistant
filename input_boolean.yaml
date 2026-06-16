@@ -8,8 +8,6 @@ mode_sleep:
   name: Sleep Mode
 mode_home_theater:
   name: Home Theater Mode
-mode_stranger_danger:
-  name: Stranger Danger
 mode_laundry:
   name: Laundry Mode
 mode_house_cleaning:

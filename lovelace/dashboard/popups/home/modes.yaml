@@ -94,8 +94,8 @@ card:
           entities:
             - title: Security
               entities:
-                - entity: input_boolean.virtual_occupant_active
-                  name: Virtual Occupant
+                - entity: input_boolean.virtual_lexi
+                  name: Virtual Lexi
                   hideState: true
                   hold_action:
                     action: none

@@ -57,16 +57,16 @@
     - name: "Home State"
       unique_id: dashboard_home_state
       state: >-
-        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_web_front_door.state == 'locked' and states.lock.august_web_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
+        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_web_front_door.state == 'locked' and states.lock.august_web_garage_door.state == 'locked' and states.group.all_doors.state == 'off' and states.group.all_windows.state == 'off' %}
           Secure
         {% else %}
           Insecure
         {% endif %}
       icon: >-
-        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_web_front_door.state == 'locked' and states.lock.august_web_garage_door.state == 'locked' and states.group.all_doors.state == 'off' %}
-          mdi:shield-home
+        {% if states.binary_sensor.garage_actual.state == 'off' and states.lock.august_web_front_door.state == 'locked' and states.lock.august_web_garage_door.state == 'locked' and states.group.all_doors.state == 'off' and states.group.all_windows.state == 'off' %}
+          mdi:shield-lock
         {% else %}
-          mdi:shield-off
+          mdi:shield-lock-open
         {% endif %}
 
     - name: "Occupancy State"
@@ -76,7 +76,7 @@
           Resident
         {% elif is_state("sensor.mode_guest", "on") %}
           Guest
-        {% elif is_state("input_boolean.virtual_occupant_active", "on") %}
+        {% elif is_state("input_boolean.virtual_lexi", "on") %}
           Virtual
         {% else %}
           Cats
@@ -86,7 +86,7 @@
           mdi:account-multiple
         {% elif is_state("sensor.mode_guest", "on") %}
           mdi:human-greeting
-        {% elif is_state("input_boolean.virtual_occupant_active", "on") %}
+        {% elif is_state("input_boolean.virtual_lexi", "on") %}
           mdi:account-outline
         {% else %}
           mdi:cat

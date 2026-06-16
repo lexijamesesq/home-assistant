@@ -11,6 +11,15 @@
         "max": 255,
         "mode": "text",
         "min": 0
+      },
+      {
+        "id": "alarm_last_breach",
+        "name": "Alarm Last Breach",
+        "icon": "mdi:shield-alert",
+        "max": 255,
+        "initial": "unknown",
+        "mode": "text",
+        "min": 0
       }
     ]
   }

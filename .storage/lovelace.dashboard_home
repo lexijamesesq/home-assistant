@@ -46,7 +46,7 @@
                     },
                     {
                       "type": "template",
-                      "entity": "sensor.dashboard_home_state",
+                      "entity": "alarm_control_panel.home_alarm",
                       "tap_action": {
                         "action": "navigate",
                         "navigation_path": "/dashboard-home/security"
@@ -57,9 +57,9 @@
                       "double_tap_action": {
                         "action": "none"
                       },
-                      "icon": "{{ state_attr(entity, \"icon\") }}",
-                      "content": "{{ states(entity) }}",
-                      "icon_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"Secure\") else \"var(--mush-rgb-red)\" }}"
+                      "icon": "{% set a = states('alarm_control_panel.home_alarm') %}{% if a == 'armed_home' %}mdi:shield-home{% elif a == 'armed_away' %}mdi:shield-car{% elif a == 'arming' %}mdi:shield-sync{% elif a == 'pending' %}mdi:shield-alert-outline{% elif a == 'triggered' %}mdi:shield-alert{% else %}{{ state_attr('sensor.dashboard_home_state','icon') }}{% endif %}",
+                      "content": "{% set a = states('alarm_control_panel.home_alarm') %}{% if a == 'armed_home' %}Armed - Home{% elif a == 'armed_away' %}Armed - Away{% elif a == 'arming' %}Arming...{% elif a == 'pending' %}Entry...{% elif a == 'triggered' %}Breach{% else %}{{ states('sensor.dashboard_home_state') }}{% endif %}",
+                      "icon_color": "{% set a = states('alarm_control_panel.home_alarm') %}{% if a in ['armed_home','armed_away'] %}var(--mush-rgb-blue){% elif a in ['arming','pending'] %}var(--mush-rgb-amber){% elif a == 'triggered' %}var(--mush-rgb-red){% elif is_state('sensor.dashboard_home_state','Secure') %}var(--mush-rgb-green){% else %}var(--mush-rgb-red){% endif %}"
                     },
                     {
                       "type": "conditional",
@@ -1429,7 +1429,7 @@
                     },
                     {
                       "type": "template",
-                      "entity": "sensor.dashboard_home_state",
+                      "entity": "alarm_control_panel.home_alarm",
                       "tap_action": {
                         "action": "navigate",
                         "navigation_path": "/dashboard-home/home"
@@ -1440,9 +1440,98 @@
                       "double_tap_action": {
                         "action": "none"
                       },
-                      "icon": "{{ state_attr(entity, \"icon\") }}",
-                      "content": "{{ states(entity) }}",
-                      "icon_color": "{{ \"var(--mush-rgb-green)\" if is_state(entity, \"Secure\") else \"var(--mush-rgb-red)\" }}"
+                      "icon": "{% set a = states('alarm_control_panel.home_alarm') %}{% if a == 'armed_home' %}mdi:shield-home{% elif a == 'armed_away' %}mdi:shield-car{% elif a == 'arming' %}mdi:shield-sync{% elif a == 'pending' %}mdi:shield-alert-outline{% elif a == 'triggered' %}mdi:shield-alert{% else %}{{ state_attr('sensor.dashboard_home_state','icon') }}{% endif %}",
+                      "content": "{% set a = states('alarm_control_panel.home_alarm') %}{% if a == 'armed_home' %}Armed - Home{% elif a == 'armed_away' %}Armed - Away{% elif a == 'arming' %}Arming...{% elif a == 'pending' %}Entry...{% elif a == 'triggered' %}Breach{% else %}{{ states('sensor.dashboard_home_state') }}{% endif %}",
+                      "icon_color": "{% set a = states('alarm_control_panel.home_alarm') %}{% if a in ['armed_home','armed_away'] %}var(--mush-rgb-blue){% elif a in ['arming','pending'] %}var(--mush-rgb-amber){% elif a == 'triggered' %}var(--mush-rgb-red){% elif is_state('sensor.dashboard_home_state','Secure') %}var(--mush-rgb-green){% else %}var(--mush-rgb-red){% endif %}"
+                    },
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "alarm_control_panel.home_alarm",
+                          "state": "disarmed"
+                        }
+                      ],
+                      "chip": {
+                        "type": "template",
+                        "icon": "mdi:shield-home",
+                        "content": "Arm Home",
+                        "icon_color": "var(--mush-rgb-blue)",
+                        "tap_action": {
+                          "action": "perform-action",
+                          "perform_action": "script.alarm_arm",
+                          "data": {
+                            "arm_mode": "home",
+                            "source": "manual"
+                          }
+                        },
+                        "hold_action": {
+                          "action": "none"
+                        },
+                        "double_tap_action": {
+                          "action": "none"
+                        }
+                      }
+                    },
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "alarm_control_panel.home_alarm",
+                          "state": "disarmed"
+                        }
+                      ],
+                      "chip": {
+                        "type": "template",
+                        "icon": "mdi:shield-car",
+                        "content": "Arm Away",
+                        "icon_color": "var(--mush-rgb-blue)",
+                        "tap_action": {
+                          "action": "perform-action",
+                          "perform_action": "script.alarm_arm",
+                          "data": {
+                            "arm_mode": "away",
+                            "source": "manual"
+                          }
+                        },
+                        "hold_action": {
+                          "action": "none"
+                        },
+                        "double_tap_action": {
+                          "action": "none"
+                        }
+                      }
+                    },
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "alarm_control_panel.home_alarm",
+                          "state_not": "disarmed"
+                        }
+                      ],
+                      "chip": {
+                        "type": "template",
+                        "icon": "mdi:shield-off",
+                        "content": "Disarm",
+                        "icon_color": "var(--mush-rgb-orange)",
+                        "tap_action": {
+                          "action": "perform-action",
+                          "perform_action": "alarm_control_panel.alarm_disarm",
+                          "target": {
+                            "entity_id": "alarm_control_panel.home_alarm"
+                          }
+                        },
+                        "hold_action": {
+                          "action": "none"
+                        },
+                        "double_tap_action": {
+                          "action": "none"
+                        }
+                      }
                     },
                     {
                       "type": "conditional",
@@ -2656,8 +2745,8 @@
                 },
                 {
                   "type": "tile",
-                  "entity": "input_boolean.virtual_occupant_active",
-                  "name": "Virtual Occupant",
+                  "entity": "input_boolean.virtual_lexi",
+                  "name": "Virtual Lexi",
                   "icon": "mdi:home-lightbulb",
                   "layout_options": {
                     "grid_columns": 4,
@@ -2820,24 +2909,13 @@
                 },
                 {
                   "type": "tile",
-                  "entity": "input_boolean.virtual_occupant_active",
+                  "entity": "input_boolean.virtual_lexi",
                   "layout_options": {
                     "grid_columns": 4,
                     "grid_rows": 1
                   },
                   "icon": "mdi:home-lightbulb",
                   "color": "amber"
-                },
-                {
-                  "type": "tile",
-                  "entity": "input_boolean.mode_stranger_danger",
-                  "layout_options": {
-                    "grid_columns": 4,
-                    "grid_rows": 1
-                  },
-                  "icon": "mdi:shield-account",
-                  "color": "red",
-                  "name": "Stranger Danger Mode"
                 }
               ]
             }

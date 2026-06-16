@@ -237,10 +237,12 @@ lighting_kitchen:
         ht_playing: 5
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       curve: '{{ states(''sensor.brightness_curve_position'') | float(0.5) }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
       is_day: '{{ mode_key == ''day'' }}'
       is_ht_playing: '{{ (is_state(''input_boolean.mode_home_theater'', ''on'') and
-        is_state(''media_player.living_room_apple_tv'', ''playing'')) or is_state(''input_boolean.virtual_home_theater_playing'', ''on'') }}'
+        is_state(''media_player.living_room_apple_tv'', ''playing'')) or is_state(''input_boolean.virtual_home_theater_playing'',
+        ''on'') }}'
       transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default
         }}'
       target_brightness: '{% if is_day %}off{% elif is_sleep %}off{% elif is_ht_playing
@@ -286,12 +288,16 @@ lighting_living_room:
         ht_playing: 5
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       curve: '{{ states(''sensor.brightness_curve_position'') | float(0.5) }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
       is_day: '{{ mode_key in [''day'', ''morning''] }}'
       is_ht_playing: '{{ (is_state(''input_boolean.mode_home_theater'', ''on'') and
-        is_state(''media_player.living_room_apple_tv'', ''playing'')) or is_state(''input_boolean.virtual_home_theater_playing'', ''on'') }}'
+        is_state(''media_player.living_room_apple_tv'', ''playing'')) or is_state(''input_boolean.virtual_home_theater_playing'',
+        ''on'') }}'
       is_ht_on: '{{ (is_state(''input_boolean.mode_home_theater'', ''on'') and not
-        is_state(''media_player.living_room_apple_tv'', ''playing'')) or (is_state(''input_boolean.virtual_home_theater'', ''on'') and not is_state(''input_boolean.virtual_home_theater_playing'', ''on'')) }}'
+        is_state(''media_player.living_room_apple_tv'', ''playing'')) or (is_state(''input_boolean.virtual_home_theater'',
+        ''on'') and not is_state(''input_boolean.virtual_home_theater_playing'', ''on''))
+        }}'
       transition: '{{ transitions.ht_playing if is_ht_playing else transitions.default
         }}'
       target_brightness: '{% if is_day %}off{% elif is_ht_playing %}off{% elif is_sleep
@@ -329,10 +335,13 @@ lighting_rec_room_canvas:
   sequence:
   - variables:
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
-      ht_state: '{{ ''playing'' if (is_state(''input_boolean.mode_home_theater'', ''on'')
-        and is_state(''media_player.living_room_apple_tv'', ''playing'')) or is_state(''input_boolean.virtual_home_theater_playing'', ''on'') else (''on''
-        if is_state(''input_boolean.mode_home_theater'', ''on'') or is_state(''input_boolean.virtual_home_theater'', ''on'') else ''none'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
+      ht_state: '{{ ''playing'' if (is_state(''input_boolean.mode_home_theater'',
+        ''on'') and is_state(''media_player.living_room_apple_tv'', ''playing''))
+        or is_state(''input_boolean.virtual_home_theater_playing'', ''on'') else (''on''
+        if is_state(''input_boolean.mode_home_theater'', ''on'') or is_state(''input_boolean.virtual_home_theater'',
+        ''on'') else ''none'') }}'
       is_sunset: '{{ mode_key == ''sunset'' }}'
       effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
       is_ht_playing: '{{ ht_state == ''playing'' }}'
@@ -383,7 +392,8 @@ lighting_downstairs_hallway:
         night_floor: 25
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       curve: '{{ states(''sensor.brightness_curve_position'') | float(0.5) }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
       sleep_recently_ended: '{{ is_state(''input_boolean.mode_sleep'', ''off'') and
         (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed))
         < 600 }}'
@@ -415,7 +425,8 @@ lighting_upstairs_hallway_group:
         night_floor: 25
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       curve: '{{ states(''sensor.brightness_curve_position'') | float(0.5) }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
       sleep_recently_ended: '{{ is_state(''input_boolean.mode_sleep'', ''off'') and
         (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed))
         < 600 }}'
@@ -441,7 +452,8 @@ lighting_den:
       brightness:
         default: 75
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
       is_day: '{{ mode_key == ''day'' }}'
       target_brightness: '{% if is_day %}off{% elif is_sleep %}off{% else %}{{ brightness.default
         }}{% endif %}'
@@ -478,7 +490,8 @@ lighting_den_cabinets:
       brightness:
         default: 75
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
       is_day: '{{ mode_key == ''day'' }}'
       target_brightness: '{% if is_day %}off{% elif is_sleep %}off{% else %}{{ brightness.default
         }}{% endif %}'
@@ -514,7 +527,8 @@ lighting_den_hallway:
         night_floor: 25
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       curve: '{{ states(''sensor.brightness_curve_position'') | float(0.5) }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
       sleep_recently_ended: '{{ is_state(''input_boolean.mode_sleep'', ''off'') and
         (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed))
         < 600 }}'
@@ -546,7 +560,8 @@ lighting_garage_stairs:
         night_floor: 25
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       curve: '{{ states(''sensor.brightness_curve_position'') | float(0.5) }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
       sleep_recently_ended: '{{ is_state(''input_boolean.mode_sleep'', ''off'') and
         (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed))
         < 600 }}'
@@ -571,7 +586,8 @@ lighting_bedroom:
   - variables:
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
       is_day: '{{ mode_key == ''day'' }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
       light_is_on: '{{ is_state(''light.bedroom'', ''on'') }}'
       sleep_recently_ended: '{{ is_state(''input_boolean.mode_sleep'', ''off'') and
         (as_timestamp(now()) - as_timestamp(states.input_boolean.mode_sleep.last_changed))
@@ -628,10 +644,13 @@ lighting_living_room_tv:
   sequence:
   - variables:
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
-      ht_state: '{{ ''playing'' if (is_state(''input_boolean.mode_home_theater'', ''on'')
-        and is_state(''media_player.living_room_apple_tv'', ''playing'')) or is_state(''input_boolean.virtual_home_theater_playing'', ''on'') else (''on''
-        if is_state(''input_boolean.mode_home_theater'', ''on'') or is_state(''input_boolean.virtual_home_theater'', ''on'') else ''none'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
+      ht_state: '{{ ''playing'' if (is_state(''input_boolean.mode_home_theater'',
+        ''on'') and is_state(''media_player.living_room_apple_tv'', ''playing''))
+        or is_state(''input_boolean.virtual_home_theater_playing'', ''on'') else (''on''
+        if is_state(''input_boolean.mode_home_theater'', ''on'') or is_state(''input_boolean.virtual_home_theater'',
+        ''on'') else ''none'') }}'
       is_day: '{{ mode_key == ''day'' }}'
       is_sunset: '{{ mode_key == ''sunset'' }}'
       effective_mode: '{{ ''night'' if is_sunset else mode_key }}'
@@ -839,7 +858,8 @@ lighting_patio:
   sequence:
   - variables:
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
       is_day: '{{ mode_key in [''day'', ''morning''] }}'
       holiday: '{{ is_state(''calendar.holiday_lighting'', ''on'') }}'
       holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') if
@@ -886,7 +906,8 @@ lighting_patio_string_lights:
   sequence:
   - variables:
       mode_key: '{{ states(''input_select.time_of_day_mode'') | lower }}'
-      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'', ''on'') }}'
+      is_sleep: '{{ is_state(''input_boolean.mode_sleep'', ''on'') or is_state(''input_boolean.virtual_sleep'',
+        ''on'') }}'
       is_day: '{{ mode_key in [''day'', ''morning''] }}'
       holiday: '{{ is_state(''calendar.holiday_lighting'', ''on'') }}'
       holiday_name: '{{ state_attr(''calendar.holiday_lighting'', ''message'') | lower
@@ -1926,3 +1947,131 @@ holiday_christmas:
           - 0
           - 39113
           - 6500
+alarm_arm:
+  alias: Alarm - Arm (make-secure then arm)
+  icon: mdi:shield-home
+  mode: restart
+  fields:
+    arm_mode:
+      description: home or away
+      example: home
+    source:
+      description: sleep, manual, or automation
+      example: manual
+  sequence:
+  - variables:
+      exit_delay: '{{ 10 if arm_mode == ''home'' else 30 }}'
+  - if:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.perimeter_sensors
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.garage_actual
+        state: 'on'
+    then:
+    - action: notify.mobile_app_alexis_iphone
+      data:
+        title: Condo
+        message: 'Can''t arm {{ arm_mode | title }} - open: {{ expand(''binary_sensor.perimeter_sensors'')
+          | selectattr(''state'',''eq'',''on'') | map(attribute=''name'') | join('',
+          '') }}{{ '', Garage Bay'' if is_state(''binary_sensor.garage_actual'',''on'')
+          else '''' }}'
+        data:
+          url: /dashboard-home/security
+          push:
+            thread-id: security
+    - stop: perimeter open - cannot arm
+  - if:
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: sensor.dashboard_home_state
+        state: Secure
+    then:
+    - if:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: lock.august_web_front_door
+          state: locked
+      then:
+      - action: lock.lock
+        target:
+          entity_id: lock.august_web_front_door
+    - if:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: lock.august_web_garage_door
+          state: locked
+      then:
+      - action: lock.lock
+        target:
+          entity_id: lock.august_web_garage_door
+    - repeat:
+        sequence:
+        - action: homeassistant.update_entity
+          target:
+            entity_id:
+            - lock.august_web_front_door
+            - lock.august_web_garage_door
+        - wait_for_trigger:
+          - trigger: state
+            entity_id: sensor.dashboard_home_state
+            to: Secure
+          timeout: 00:00:20
+          continue_on_timeout: true
+        until:
+        - condition: or
+          conditions:
+          - condition: state
+            entity_id: sensor.dashboard_home_state
+            state: Secure
+          - condition: template
+            value_template: '{{ repeat.index >= 15 }}'
+  - if:
+    - condition: state
+      entity_id: sensor.dashboard_home_state
+      state: Secure
+    then:
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ source in [''sleep'',''manual''] }}'
+        sequence:
+        - action: rest_command.notify_sonos_all
+          data:
+            message: Arming in {{ exit_delay }} seconds.
+            volume: 35
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.alarm_tts_source
+      data:
+        option: '{{ ''automation'' if source == ''automation'' else ''none'' }}'
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ arm_mode == ''home'' }}'
+        sequence:
+        - action: alarm_control_panel.alarm_arm_home
+          target:
+            entity_id: alarm_control_panel.home_alarm
+      default:
+      - action: alarm_control_panel.alarm_arm_away
+        target:
+          entity_id: alarm_control_panel.home_alarm
+    else:
+    - action: notify.mobile_app_alexis_iphone
+      data:
+        title: Condo
+        message: Couldn't arm {{ arm_mode | title }} - home didn't reach Secure in
+          5 min.{% if not is_state('lock.august_web_front_door','locked') %} Front
+          lock not locked.{% endif %}{% if not is_state('lock.august_web_garage_door','locked')
+          %} Garage lock not locked.{% endif %} If a lock looks stuck, open the Yale
+          app. Alarm NOT armed.
+        data:
+          url: /dashboard-home/security
+          push:
+            thread-id: security
