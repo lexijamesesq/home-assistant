@@ -1947,131 +1947,67 @@ holiday_christmas:
           - 0
           - 39113
           - 6500
-alarm_arm:
-  alias: Alarm - Arm (make-secure then arm)
-  icon: mdi:shield-home
+lighting_security_breach:
+  alias: Lighting - Security Breach
+  icon: mdi:shield-alert
   mode: restart
-  fields:
-    arm_mode:
-      description: home or away
-      example: home
-    source:
-      description: sleep, manual, or automation
-      example: manual
+  description: 'Alarm breach lighting. Turns the interior ''cleanable rooms'' set
+    on at each room''s calibrated initial-Night brightness (night_ceiling / curve=0)
+    for uniform PERCEIVED illumination — NOT all-lights-100%. Called by alarm_triggered_response;
+    disarm restores via input_button.refresh_all_lights. continue_on_error so one
+    unavailable bulb can''t abort the response. NOTE: rec_room + the 4 bathrooms have
+    no night calibration in their scripts — set to 75 as a starting point, TUNE LIVE.'
   sequence:
-  - variables:
-      exit_delay: '{{ 10 if arm_mode == ''home'' else 30 }}'
-  - if:
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.perimeter_sensors
-        state: 'on'
-      - condition: state
-        entity_id: binary_sensor.garage_actual
-        state: 'on'
-    then:
-    - action: notify.mobile_app_alexis_iphone
-      data:
-        title: Condo
-        message: 'Can''t arm {{ arm_mode | title }} - open: {{ expand(''binary_sensor.perimeter_sensors'')
-          | selectattr(''state'',''eq'',''on'') | map(attribute=''name'') | join('',
-          '') }}{{ '', Garage Bay'' if is_state(''binary_sensor.garage_actual'',''on'')
-          else '''' }}'
-        data:
-          url: /dashboard-home/security
-          push:
-            thread-id: security
-    - stop: perimeter open - cannot arm
-  - if:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: sensor.dashboard_home_state
-        state: Secure
-    then:
-    - if:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: lock.august_web_front_door
-          state: locked
-      then:
-      - action: lock.lock
-        target:
-          entity_id: lock.august_web_front_door
-    - if:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: lock.august_web_garage_door
-          state: locked
-      then:
-      - action: lock.lock
-        target:
-          entity_id: lock.august_web_garage_door
-    - repeat:
-        sequence:
-        - action: homeassistant.update_entity
-          target:
-            entity_id:
-            - lock.august_web_front_door
-            - lock.august_web_garage_door
-        - wait_for_trigger:
-          - trigger: state
-            entity_id: sensor.dashboard_home_state
-            to: Secure
-          timeout: 00:00:20
-          continue_on_timeout: true
-        until:
-        - condition: or
-          conditions:
-          - condition: state
-            entity_id: sensor.dashboard_home_state
-            state: Secure
-          - condition: template
-            value_template: '{{ repeat.index >= 15 }}'
-  - if:
-    - condition: state
-      entity_id: sensor.dashboard_home_state
-      state: Secure
-    then:
-    - choose:
-      - conditions:
-        - condition: template
-          value_template: '{{ source in [''sleep'',''manual''] }}'
-        sequence:
-        - action: rest_command.notify_sonos_all
-          data:
-            message: Arming in {{ exit_delay }} seconds.
-            volume: 35
-    - action: input_select.select_option
-      target:
-        entity_id: input_select.alarm_tts_source
-      data:
-        option: '{{ ''automation'' if source == ''automation'' else ''none'' }}'
-    - choose:
-      - conditions:
-        - condition: template
-          value_template: '{{ arm_mode == ''home'' }}'
-        sequence:
-        - action: alarm_control_panel.alarm_arm_home
-          target:
-            entity_id: alarm_control_panel.home_alarm
-      default:
-      - action: alarm_control_panel.alarm_arm_away
-        target:
-          entity_id: alarm_control_panel.home_alarm
-    else:
-    - action: notify.mobile_app_alexis_iphone
-      data:
-        title: Condo
-        message: Couldn't arm {{ arm_mode | title }} - home didn't reach Secure in
-          5 min.{% if not is_state('lock.august_web_front_door','locked') %} Front
-          lock not locked.{% endif %}{% if not is_state('lock.august_web_garage_door','locked')
-          %} Garage lock not locked.{% endif %} If a lock looks stuck, open the Yale
-          app. Alarm NOT armed.
-        data:
-          url: /dashboard-home/security
-          push:
-            thread-id: security
+  - action: light.turn_on
+    continue_on_error: true
+    target:
+      entity_id: light.living_room
+    data:
+      brightness: 190
+      transition: 1
+  - action: light.turn_on
+    continue_on_error: true
+    target:
+      entity_id: light.kitchen
+    data:
+      brightness: 145
+      transition: 1
+  - action: light.turn_on
+    continue_on_error: true
+    target:
+      entity_id:
+      - light.downstairs_hallway
+      - light.garage_stairs
+      - light.den_hallway
+      - light.upstairs_hallway_group
+      - light.bedroom
+      - light.den
+      - light.studio
+    data:
+      brightness: 75
+      transition: 1
+  - action: light.turn_on
+    continue_on_error: true
+    target:
+      entity_id:
+      - light.rec_room
+      - light.downstairs_bathroom
+      - light.bathroom
+      - light.bathroom_wc_dimmer
+      - light.upstairs_bathroom
+    data:
+      brightness: 75
+      transition: 1
+alarm_arm:
+  alias: Alarm - Arm
+  icon: mdi:shield
+  mode: single
+  description: LEX-288 kernel manual arm. Arms armed_home (the only kernel mode; away
+    is cut). Thin wrapper retained so the dashboard Arm chips + the ALARM_REARM_AWAY
+    notification action keep working after the make-secure coupling was removed. Any
+    arm_mode/source params passed by callers are ignored - it always arms home, which
+    also avoids leaving the panel armed_away-but-deaf (perimeter_breach is gated armed_home).
+  sequence:
+  - action: alarm_control_panel.alarm_arm_home
+    target:
+      entity_id: alarm_control_panel.home_alarm

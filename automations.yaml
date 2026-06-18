@@ -872,13 +872,14 @@
         'playing') -%}\n  Excuse the interruption... Someone is at the front door.\n{%-
         else -%}\n  Someone is at the front door.\n{%- endif %}"
     action: rest_command.notify_sonos_all
-- alias: Notify Security - Sonos - Garage Actual Opened
-  trigger:
-  - platform: state
-    entity_id: sensor.garage_actual
-    from: closed
-    to: open
-  condition:
+- id: b378dea6b26045e598f2bfa9f081b219
+  alias: Notify Security - Sonos - Garage Actual Opened
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.garage_actual
+    from: 'off'
+    to: 'on'
+  conditions:
     condition: and
     conditions:
     - condition: state
@@ -892,14 +893,13 @@
       - condition: state
         entity_id: input_boolean.mode_guest
         state: 'on'
-  action:
-  - service: rest_command.notify_sonos_all
-    data:
+  actions:
+  - data:
       message: "{%- if is_state('input_boolean.mode_home_theater', 'on') -%}\n  Excuse
         the interruption... The garage has opened.\n{%- elif is_state('sensor.sonos_group_master_state',
         'playing') -%}\n  Excuse the interruption... The garage has opened.\n{%- else
         -%}\n  The garage has opened.\n{%- endif %}"
-  id: b378dea6b26045e598f2bfa9f081b219
+    action: rest_command.notify_sonos_all
 - id: 6be753e97e8044889893cc60d1dfb2f0
   alias: Notify Security - Window Opened or Closed When Away
   triggers:
@@ -1019,24 +1019,24 @@
       action: notify.mobile_app_alexis_iphone
 - id: 60b9d55c16624c8ea648895ce8395e13
   alias: Notify Security - Garage Actual Opened or Closed
-  trigger:
-  - platform: state
-    entity_id: sensor.garage_actual
-    from: closed
-    to: open
-  - platform: state
-    entity_id: sensor.garage_actual
-    from: open
-    to: closed
-  condition:
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.garage_actual
+    from: 'off'
+    to: 'on'
+  - trigger: state
+    entity_id: binary_sensor.garage_actual
+    from: 'on'
+    to: 'off'
+  conditions:
   - condition: state
     entity_id: input_boolean.mode_sleep
     state: 'off'
-  action:
+  actions:
   - data:
       title: Condo
       message: The {{ trigger.to_state.attributes.friendly_name }} was {% if trigger.to_state.state
-        == 'open' %}opened{% else %}closed{% endif %}.
+        == 'on' %}opened{% else %}closed{% endif %}.
       data:
         url: /dashboard-home/security
         push:
@@ -1093,23 +1093,27 @@
   mode: queued
 - id: 3914663672bc474e98b6b778cfac7d8c
   alias: Notify Security - Garage Actual Opened for Extended Period of Time
-  trigger:
-  - platform: state
-    entity_id: sensor.garage_actual
-    to: open
+  triggers:
+  - entity_id: binary_sensor.garage_actual
+    to: 'on'
     for:
       minutes: 10
-  - platform: state
-    entity_id: sensor.garage_actual
-    to: open
+    trigger: state
+  - entity_id: binary_sensor.garage_actual
+    to: 'on'
     for:
       minutes: 20
-  - platform: state
-    entity_id: sensor.garage_actual
-    to: open
+    trigger: state
+  - entity_id: binary_sensor.garage_actual
+    to: 'on'
     for:
       minutes: 30
-  action:
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: input_boolean.mode_sleep
+    state: 'off'
+  actions:
   - data:
       title: Condo
       message: The {{ trigger.to_state.attributes.friendly_name }} has been open for
@@ -4308,13 +4312,11 @@
   mode: single
 - id: '1781488978783'
   alias: Alarm - Perimeter Breach
-  description: LEX-288. When the alarm is armed (night or away), any perimeter door/window
-    opening fires alarm_trigger. The panel's per-state delay_time handles the pending
-    window (20s night / 30s away) before triggered. Records the breached entity in
-    input_text.alarm_last_breach so the triggered-response can pick the right camera/message
-    (the alarm state-change carries no sensor context). from:off avoids spurious fires
-    on unavailable->on after a restart/Konnected reconnect. queued so simultaneous
-    openings serialize.
+  description: LEX-288 kernel. When armed_home, any perimeter door/window OR the Garage
+    Actual (Zooz vehicle door) opening fires alarm_trigger. Panel delay_time = 10s
+    entry window before triggered. Records breached entity in input_text.alarm_last_breach
+    for the triggered-response message. from:off avoids spurious fires on unavailable->on
+    after restart/reconnect. queued so simultaneous openings serialize.
   triggers:
   - trigger: state
     entity_id:
@@ -4328,14 +4330,16 @@
     - binary_sensor.studio_windows
     - binary_sensor.patio_door
     - binary_sensor.den_door
+    - binary_sensor.garage_actual
     from: 'off'
     to: 'on'
   conditions:
   - condition: state
     entity_id: alarm_control_panel.home_alarm
-    state:
-    - armed_home
-    - armed_away
+    state: armed_home
+  - condition: state
+    entity_id: input_boolean.alarm_system_enabled
+    state: 'on'
   actions:
   - action: input_text.set_value
     target:
@@ -4349,9 +4353,9 @@
   max: 10
 - id: '1781489099578'
   alias: Alarm - Auto-Arm Home
-  description: 'LEX-288. Real mode_sleep on (disarmed) -> script.alarm_arm(home, sleep):
-    make-secure (lock), nudged 5min wait for Secure, sequenced init TTS, then arm.
-    Fail-fast inside the script if a door/window/garage-bay is open.'
+  description: LEX-288 kernel. mode_sleep on (while disarmed + alarm enabled) -> arm
+    panel armed_home directly. No make-secure/lock coupling (locks handled separately
+    by lock_garage_door_when_away_or_asleep etc.); silent arm. Codeless panel.
   triggers:
   - trigger: state
     entity_id: input_boolean.mode_sleep
@@ -4360,100 +4364,14 @@
   - condition: state
     entity_id: alarm_control_panel.home_alarm
     state: disarmed
+  - condition: state
+    entity_id: input_boolean.alarm_system_enabled
+    state: 'on'
   actions:
-  - action: script.alarm_arm
-    data:
-      arm_mode: home
-      source: sleep
-  mode: single
-- id: '1781489110706'
-  alias: Alarm - Auto-Arm Away
-  description: LEX-288. All residents+guests away (disarmed, guest off, not_home)
-    -> script.alarm_arm(away, automation) - silent init. make-secure + nudged wait
-    + arm; fail-fast in script if anything open.
-  triggers:
-  - trigger: state
-    entity_id: group.residents
-    to: not_home
-    for:
-      minutes: 5
-  - trigger: state
-    entity_id: input_boolean.mode_guest
-    to: 'off'
-  conditions:
-  - condition: state
-    entity_id: alarm_control_panel.home_alarm
-    state: disarmed
-  - condition: state
-    entity_id: input_boolean.mode_guest
-    state: 'off'
-  - condition: state
-    entity_id: group.residents
-    state: not_home
-  actions:
-  - action: script.alarm_arm
-    data:
-      arm_mode: away
-      source: automation
-  mode: single
-- id: '1781492163028'
-  alias: Alarm - Disarm on Arrival
-  description: 'LEX-288. Primary disarm: residents -> home (geofence) disarms from
-    armed_away or pending. Codeless panel - no code passed.'
-  triggers:
-  - trigger: state
-    entity_id: group.residents
-    to: home
-  conditions:
-  - condition: state
-    entity_id: alarm_control_panel.home_alarm
-    state:
-    - armed_away
-    - pending
-  actions:
-  - action: input_select.select_option
-    target:
-      entity_id: input_select.alarm_tts_source
-    data:
-      option: automation
-  - action: alarm_control_panel.alarm_disarm
+  - action: alarm_control_panel.alarm_arm_home
     target:
       entity_id: alarm_control_panel.home_alarm
   mode: single
-- id: '1781492168164'
-  alias: Alarm - Disarm on Lock Entry
-  description: LEX-288. Fallback disarm for entry via a lock-paired door. ANY valid
-    unlock authorizes (lock = access control), excluding our own automation ('Home
-    Assistant')/null/Unknown. Trigger on unlock -> wait_template for pending (true
-    if already pending) -> settle 8s for changed_by -> disarm. Codeless panel - no
-    code passed.
-  triggers:
-  - trigger: state
-    entity_id:
-    - lock.august_web_front_door
-    - lock.august_web_garage_door
-    to: unlocked
-  actions:
-  - wait_template: '{{ is_state(''alarm_control_panel.home_alarm'',''pending'') }}'
-    timeout: 00:01:00
-    continue_on_timeout: false
-  - delay: 00:00:08
-  - condition: state
-    entity_id: alarm_control_panel.home_alarm
-    state: pending
-  - condition: template
-    value_template: '{% set cb = state_attr(trigger.entity_id, ''changed_by'') %}{{
-      cb not in [none, '''', ''Home Assistant'', ''Unknown''] }}'
-  - action: input_select.select_option
-    target:
-      entity_id: input_select.alarm_tts_source
-    data:
-      option: automation
-  - action: alarm_control_panel.alarm_disarm
-    target:
-      entity_id: alarm_control_panel.home_alarm
-  mode: queued
-  max: 5
 - id: '1781492170340'
   alias: Alarm - Disarm on Wake
   description: LEX-288. mode_sleep off disarms from armed_home or arming. Standard
@@ -4481,20 +4399,15 @@
   mode: single
 - id: '1781492408800'
   alias: Alarm - Notification Actions
-  description: LEX-288. Actionable buttons from alarm pushes. ALARM_DISARM disarms
-    (codeless panel). ALARM_REARM_AWAY routes through script.alarm_arm(away, automation)
-    so re-arm runs make-secure + fail-fast.
+  description: LEX-288 kernel. Actionable buttons from alarm pushes. ALARM_DISARM
+    disarms the codeless panel. (ALARM_REARM_AWAY handler removed with the armed_away
+    cut.)
   triggers:
   - trigger: event
     event_type: mobile_app_notification_action
     event_data:
       action: ALARM_DISARM
     id: disarm
-  - trigger: event
-    event_type: mobile_app_notification_action
-    event_data:
-      action: ALARM_REARM_AWAY
-    id: rearm
   actions:
   - choose:
     - conditions:
@@ -4504,23 +4417,14 @@
       - action: alarm_control_panel.alarm_disarm
         target:
           entity_id: alarm_control_panel.home_alarm
-    - conditions:
-      - condition: trigger
-        id: rearm
-      sequence:
-      - action: script.alarm_arm
-        data:
-          arm_mode: away
-          source: automation
   mode: queued
   max: 5
 - id: '1781492422989'
   alias: Alarm - Pending Response
   description: LEX-288. Entry window (someone opened a perimeter sensor while armed).
-    Time-sensitive push with a one-tap Disarm button and a snapshot of the breached
-    zone's nearest camera. breach_camera maps the sensor recorded in input_text.alarm_last_breach
-    to a camera (defaults to main floor). Tablet beep/auto-navigate added in the tablet
-    step.
+    Time-sensitive push with a one-tap Disarm button. (Camera snapshot + breach_camera
+    var removed 2026-06-16 — UniFi Protect app is the video source.) Tablet beep/auto-navigate
+    added in the tablet step.
   triggers:
   - trigger: state
     entity_id: alarm_control_panel.home_alarm
@@ -4537,122 +4441,110 @@
         push:
           thread-id: security
           interruption-level: time-sensitive
-        image: /api/camera_proxy/{{ breach_camera }}
         actions:
         - action: ALARM_DISARM
           title: Disarm
           icon: sfsymbols:shield.slash
   mode: single
-  variables:
-    breach_camera: '{{ {''binary_sensor.front_door'':''camera.front_door_high_resolution_channel'',''binary_sensor.garage_door'':''camera.garage_high_resolution_channel'',''binary_sensor.patio_door'':''camera.main_patio_high_resolution_channel'',''binary_sensor.kitchen_windows'':''camera.main_floor_high_resolution_channel'',''binary_sensor.living_room_windows'':''camera.main_floor_high_resolution_channel'',''binary_sensor.rec_room_windows'':''camera.main_floor_high_resolution_channel''}.get(states(''input_text.alarm_last_breach''),
-      ''camera.main_floor_high_resolution_channel'') }}'
+  variables: {}
 - id: '1781492462128'
   alias: Alarm - Triggered Response
-  description: 'LEX-288. Deterrence chain on breach. Instant: all lights 100% + Inovelli
-    LED red pulse. Critical push w/ camera snapshot + one-tap Disarm. Sonos all-rooms
-    TTS only if someone is home (mode_sleep on OR residents home). Ongoing: silent
-    snapshot refresh every 30s until disarmed. mode restart so a re-trigger restarts
-    cleanly.'
+  description: 'LEX-288 kernel. Breach deterrence. Parallelized: critical push + Sonos
+    fire instantly (branch 1); branch 2 = security lighting (script.lighting_security_breach,
+    per-room calibrated night-ceiling) + Inovelli LED red pulse, FINITE duration 60s
+    (self-expires; replaces stuck duration 255). On disarm, alarm_clear_response stops
+    this automation so the LED branch cannot re-stomp the clear (atomic teardown).
+    mode restart.'
   triggers:
   - trigger: state
     entity_id: alarm_control_panel.home_alarm
     to: triggered
   actions:
-  - action: light.turn_on
-    continue_on_error: true
-    target:
-      entity_id: group.all_lights
-    data:
-      brightness_pct: 100
-  - action: select.select_option
-    continue_on_error: true
-    target:
-      entity_id: group.led_strip_effect
-    data:
-      option: Pulse
-  - action: number.set_value
-    continue_on_error: true
-    target:
-      entity_id: group.led_strip_effect_color
-    data:
-      value: 0
-  - action: number.set_value
-    continue_on_error: true
-    target:
-      entity_id: group.led_strip_effect_duration
-    data:
-      value: 255
-  - action: notify.mobile_app_alexis_iphone
-    data:
-      title: SECURITY ALERT
-      message: 'Breach: {{ breach_name }}. Alarm triggered.'
-      data:
-        url: /dashboard-home/security
-        tag: alarm-event
-        push:
-          thread-id: security
-          interruption-level: critical
-          sound:
-            name: siren.wav
-            critical: 1
-            volume: 1
-        image: /api/camera_proxy/{{ breach_camera }}
-        actions:
-        - action: ALARM_DISARM
-          title: Disarm
-          icon: sfsymbols:shield.slash
-  - if:
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: input_boolean.mode_sleep
-        state: 'on'
-      - condition: state
-        entity_id: group.residents
-        state: home
-    then:
-    - action: rest_command.notify_sonos_all
-      continue_on_error: true
-      data:
-        message: Security alert. This home is monitored. Authorities have been notified.
-        volume: 40
-  - repeat:
-      while:
-      - condition: state
-        entity_id: alarm_control_panel.home_alarm
-        state: triggered
-      sequence:
-      - delay: 00:00:30
-      - condition: state
-        entity_id: alarm_control_panel.home_alarm
-        state: triggered
+  - parallel:
+    - sequence:
       - action: notify.mobile_app_alexis_iphone
         data:
           title: SECURITY ALERT
-          message: Alarm active - {{ breach_name }} ({{ now().strftime('%-I:%M:%S
-            %p') }})
+          message: 'Breach: {{ breach_name }}. Alarm triggered.'
           data:
+            url: /dashboard-home/security
             tag: alarm-event
             push:
               thread-id: security
-              interruption-level: active
-            image: /api/camera_proxy/{{ breach_camera }}
+              interruption-level: critical
+              sound:
+                name: siren.wav
+                critical: 1
+                volume: 1
             actions:
             - action: ALARM_DISARM
               title: Disarm
               icon: sfsymbols:shield.slash
+      - action: rest_command.notify_sonos_all
+        continue_on_error: true
+        data:
+          message: Security alert. This home is monitored. Authorities have been notified.
+          volume: 40
+      - repeat:
+          while:
+          - condition: state
+            entity_id: alarm_control_panel.home_alarm
+            state: triggered
+          sequence:
+          - delay: 00:00:30
+          - condition: state
+            entity_id: alarm_control_panel.home_alarm
+            state: triggered
+          - action: notify.mobile_app_alexis_iphone
+            data:
+              title: SECURITY ALERT
+              message: Alarm active - {{ breach_name }} ({{ now().strftime('%-I:%M:%S
+                %p') }})
+              data:
+                tag: alarm-event
+                push:
+                  thread-id: security
+                  interruption-level: active
+                actions:
+                - action: ALARM_DISARM
+                  title: Disarm
+                  icon: sfsymbols:shield.slash
+    - sequence:
+      - action: script.turn_on
+        continue_on_error: true
+        target:
+          entity_id: script.lighting_security_breach
+      - action: select.select_option
+        continue_on_error: true
+        target:
+          entity_id: group.led_strip_effect
+        data:
+          option: Pulse
+      - action: number.set_value
+        continue_on_error: true
+        target:
+          entity_id: group.led_strip_effect_color
+        data:
+          value: 0
+      - action: number.set_value
+        continue_on_error: true
+        target:
+          entity_id: group.led_strip_effect_duration
+        data:
+          value: 60
   mode: restart
   variables:
-    breach_camera: '{{ {''binary_sensor.front_door'':''camera.front_door_high_resolution_channel'',''binary_sensor.garage_door'':''camera.garage_high_resolution_channel'',''binary_sensor.patio_door'':''camera.main_patio_high_resolution_channel'',''binary_sensor.kitchen_windows'':''camera.main_floor_high_resolution_channel'',''binary_sensor.living_room_windows'':''camera.main_floor_high_resolution_channel'',''binary_sensor.rec_room_windows'':''camera.main_floor_high_resolution_channel''}.get(states(''input_text.alarm_last_breach''),
-      ''camera.main_floor_high_resolution_channel'') }}'
     breach_name: '{{ state_attr(states(''input_text.alarm_last_breach''), ''friendly_name'')
       or ''perimeter'' }}'
 - id: '1781492482445'
   alias: Alarm - Clear Response
-  description: 'LEX-288. Fires only when disarming OUT of triggered/pending. Always:
-    restore LEDs, all-clear push, re-arm-if-away. ONLY when coming from triggered:
-    reset lighting - all-lights off then re-apply the mode rooms. Scoped via trigger
-    id so a pending-only disarm doesn''t flicker untouched lights.'
+  description: 'LEX-288 kernel. Fires on disarm from triggered/pending. FIRST stops
+    alarm_triggered_response (turn_off stop_actions, then re-enable) so its slow LED
+    branch cannot re-stomp this clear (atomic teardown). Then: LED off + duration
+    0; all-clear push; from triggered only -> all-lights off then re-apply mode-room
+    scripts (transit rooms excluded, self-restore via motion). Parallelized so cleanup
+    is not blocked behind the slow LED-off. (armed_away re-arm prompt removed with
+    the away cut.)'
   triggers:
   - trigger: state
     entity_id: alarm_control_panel.home_alarm
@@ -4665,109 +4557,68 @@
     from: pending
     id: from_pending
   actions:
-  - action: select.select_option
-    continue_on_error: true
+  - action: automation.turn_off
     target:
-      entity_id: group.led_strip_effect
+      entity_id: automation.alarm_triggered_response
     data:
-      option: 'Off'
-  - action: number.set_value
-    continue_on_error: true
+      stop_actions: true
+  - action: automation.turn_on
     target:
-      entity_id: group.led_strip_effect_duration
-    data:
-      value: 0
-  - action: notify.mobile_app_alexis_iphone
-    data:
-      title: Condo
-      message: All clear - alarm disarmed.
-      data:
-        tag: alarm-event
-        push:
-          thread-id: security
-          interruption-level: active
-        url: /dashboard-home/security
-  - if:
-    - condition: state
-      entity_id: group.residents
-      state: not_home
-    then:
-    - action: notify.mobile_app_alexis_iphone
-      data:
-        title: Condo
-        message: House is disarmed and unprotected while you are away. Re-arm?
+      entity_id: automation.alarm_triggered_response
+  - parallel:
+    - sequence:
+      - action: select.select_option
+        continue_on_error: true
+        target:
+          entity_id: group.led_strip_effect
         data:
-          url: /dashboard-home/security
-          push:
-            thread-id: security
-            interruption-level: time-sensitive
-          actions:
-          - action: ALARM_REARM_AWAY
-            title: Re-arm Away
-            icon: sfsymbols:shield
-  - if:
-    - condition: trigger
-      id: from_triggered
-    then:
-    - action: light.turn_off
-      continue_on_error: true
-      target:
-        entity_id: group.all_lights
-    - delay: 00:00:01
-    - action: script.turn_on
-      target:
-        entity_id:
-        - script.lighting_kitchen
-        - script.lighting_living_room
-        - script.lighting_rec_room_canvas
-        - script.lighting_living_room_tv
-        - script.lighting_den
-        - script.lighting_den_cabinets
-        - script.lighting_bedroom
-        - script.lighting_patio
-        - script.lighting_patio_string_lights
-        - script.lighting_studio
-  mode: single
-- id: '1781496257120'
-  alias: Alarm - Garage Bay Opened While Armed
-  description: LEX-288. Alert-only (garage has no Sonos/LEDs for deterrence; the bay
-    only reaches the garage - the interior garage_door is the real entry and is a
-    perimeter trigger). Restores garage-during-sleep coverage removed with the old
-    sleep-security chain, plus covers armed_away. Uses binary_sensor.garage_actual
-    (the working z-wave entity; sensor.garage_actual is stale).
-  triggers:
-  - trigger: state
-    entity_id: binary_sensor.garage_actual
-    to: 'on'
-  conditions:
-  - condition: state
-    entity_id: alarm_control_panel.home_alarm
-    state:
-    - armed_home
-    - armed_away
-  actions:
-  - action: notify.mobile_app_alexis_iphone
-    data:
-      title: SECURITY ALERT
-      message: Garage bay door opened while armed.
-      data:
-        url: /dashboard-home/security
-        tag: garage-armed
-        push:
-          thread-id: security
-          interruption-level: time-sensitive
-        image: /api/camera_proxy/camera.garage_high_resolution_channel
-        actions:
-        - action: CLOSE_GARAGE
-          title: Close Garage
-          icon: sfsymbols:arrow.down.square
+          option: 'Off'
+      - action: number.set_value
+        continue_on_error: true
+        target:
+          entity_id: group.led_strip_effect_duration
+        data:
+          value: 0
+    - sequence:
+      - action: notify.mobile_app_alexis_iphone
+        data:
+          title: Condo
+          message: All clear - alarm disarmed.
+          data:
+            tag: alarm-event
+            push:
+              thread-id: security
+              interruption-level: active
+            url: /dashboard-home/security
+      - if:
+        - condition: trigger
+          id: from_triggered
+        then:
+        - action: light.turn_off
+          continue_on_error: true
+          target:
+            entity_id: group.all_lights
+        - delay: 00:00:01
+        - action: script.turn_on
+          target:
+            entity_id:
+            - script.lighting_kitchen
+            - script.lighting_living_room
+            - script.lighting_rec_room_canvas
+            - script.lighting_living_room_tv
+            - script.lighting_den
+            - script.lighting_den_cabinets
+            - script.lighting_bedroom
+            - script.lighting_patio
+            - script.lighting_patio_string_lights
+            - script.lighting_studio
   mode: single
 - id: '1781496260809'
   alias: Alarm - Perimeter Offline While Armed
-  description: LEX-288. Armed-but-deaf guard. If the perimeter group goes unavailable
-    while armed (e.g. Konnected board offline), the alarm can't see breaches. Triggers
-    on the group, not the 10 sensors, to avoid a notification flood when they all
-    drop together.
+  description: LEX-288 kernel. Armed-but-deaf guard. If the perimeter group goes unavailable
+    while armed_home (e.g. Konnected board offline), the alarm cannot see breaches.
+    Triggers on the group, not the 10 sensors, to avoid a notification flood when
+    they all drop together.
   triggers:
   - trigger: state
     entity_id: binary_sensor.perimeter_sensors
@@ -4775,9 +4626,7 @@
   conditions:
   - condition: state
     entity_id: alarm_control_panel.home_alarm
-    state:
-    - armed_home
-    - armed_away
+    state: armed_home
   actions:
   - action: notify.mobile_app_alexis_iphone
     data:
@@ -4812,23 +4661,22 @@
   mode: single
 - id: '1781573311502'
   alias: Alarm - TTS Announcements
-  description: 'LEX-288. Central TTS for ARMED + DISARMED, standard all-rooms announcements
-    only: source ''none'' (manual + sleep) -> announce via notify_sonos_all; source
-    ''automation'' (auto-away, arrival, lock-entry) -> silent. Sleep no longer has
-    a custom Bedroom branch. Clears the marker to none at terminal states.'
+  description: 'LEX-288 kernel. Central TTS for ARMED + DISARMED all-rooms announcements:
+    source ''none'' (manual + sleep) -> announce via notify_sonos_all; source ''automation''
+    -> silent. Clears the marker to none at terminal states. (armed_away dropped with
+    the away cut.)'
   triggers:
   - trigger: state
     entity_id: alarm_control_panel.home_alarm
     to:
     - armed_home
-    - armed_away
     - disarmed
   actions:
   - choose:
     - conditions:
       - condition: template
-        value_template: '{{ phase in [''armed_home'',''armed_away''] and someone_home
-          and source == ''none'' }}'
+        value_template: '{{ phase == ''armed_home'' and someone_home and source ==
+          ''none'' }}'
       sequence:
       - action: rest_command.notify_sonos_all
         data:
@@ -4844,7 +4692,7 @@
           volume: 35
   - if:
     - condition: template
-      value_template: '{{ phase in [''armed_home'',''armed_away'',''disarmed''] }}'
+      value_template: '{{ phase in [''armed_home'',''disarmed''] }}'
     then:
     - action: input_select.select_option
       target:
@@ -4856,7 +4704,70 @@
   variables:
     source: '{{ states(''input_select.alarm_tts_source'') }}'
     phase: '{{ trigger.to_state.state }}'
-    exit_delay: '{{ 10 if state_attr(''alarm_control_panel.home_alarm'',''next_state'')
-      == ''armed_home'' else 30 }}'
     someone_home: '{{ is_state(''group.residents'',''home'') or is_state(''input_boolean.mode_sleep'',''on'')
       }}'
+- id: '1781664733113'
+  alias: Alarm - Master Off (kill switch)
+  description: 'LEX-288. Master kill switch. input_boolean.alarm_system_enabled ->
+    off: disarm the panel + force the LED deterrence off (retried 3x with 2s gaps;
+    the Z-Wave LED group fan-out is unreliable and stuck ON for 16 min on 2026-06-16).
+    perimeter_breach + auto_arm_home/away are gated on alarm_system_enabled, so OFF
+    makes the whole alarm subsystem inert (cannot arm, cannot trigger). Flip back
+    on to re-enable.'
+  triggers:
+  - trigger: state
+    entity_id: input_boolean.alarm_system_enabled
+    to: 'off'
+  actions:
+  - action: alarm_control_panel.alarm_disarm
+    target:
+      entity_id: alarm_control_panel.home_alarm
+  - repeat:
+      count: 3
+      sequence:
+      - action: select.select_option
+        continue_on_error: true
+        target:
+          entity_id: group.led_strip_effect
+        data:
+          option: 'Off'
+      - action: number.set_value
+        continue_on_error: true
+        target:
+          entity_id: group.led_strip_effect_duration
+        data:
+          value: 0
+      - delay: 00:00:02
+  mode: single
+- id: '1781744965973'
+  alias: Alarm - Garage Actual Opened While Armed
+  description: LEX-288 kernel. Garage Actual (Zooz vehicle door) opened while armed_home
+    -> immediate companion push with a Close-Garage action, alongside the full breach
+    (alarm_perimeter_breach also triggers on binary_sensor.garage_actual ~10s later).
+    Keeps CLOSE_GARAGE available on a garage breach without templating the critical
+    breach push. from:off avoids a spurious push on unavailable->on after a restart.
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.garage_actual
+    from: 'off'
+    to: 'on'
+  conditions:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_home
+  actions:
+  - action: notify.mobile_app_alexis_iphone
+    data:
+      title: Garage
+      message: Garage Actual opened while armed.
+      data:
+        url: /dashboard-home/security
+        tag: garage-armed
+        push:
+          thread-id: security
+          interruption-level: time-sensitive
+        actions:
+        - action: CLOSE_GARAGE
+          title: Close Garage
+          icon: sfsymbols:arrow.down.square
+  mode: single

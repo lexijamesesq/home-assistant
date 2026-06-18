@@ -28,6 +28,12 @@
       {
         "id": "virtual_lexi",
         "name": "Virtual Lexi"
+      },
+      {
+        "id": "alarm_system_enabled",
+        "name": "Alarm System Enabled",
+        "icon": "mdi:shield-off-outline",
+        "initial": true
       }
     ]
   }
