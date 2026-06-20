@@ -4662,10 +4662,10 @@
   mode: single
 - id: '1781573311502'
   alias: Alarm - TTS Announcements
-  description: 'LEX-288. source=none: armed_home→all-rooms; armed_night→Bedroom only;
-    disarmed→delay then scope from from_state (5s+Bedroom for night, 3s+all-rooms
-    for home). source=automation→silent. Volume reads current Bedroom speaker level
-    to avoid Sonos group disruption. Clears marker to none.'
+  description: 'LEX-288. source=none: notify_sonos_all at current speaker volume (no
+    override, matches doorbell pattern); disarmed→delay (5s from armed_night, 3s from
+    armed_home) then notify_sonos_all. source=automation→silent. Clears marker to
+    none.'
   triggers:
   - trigger: state
     entity_id: alarm_control_panel.home_alarm
@@ -4683,18 +4683,13 @@
       - action: rest_command.notify_sonos_all
         data:
           message: Alarm system, armed.
-          volume: '{{ (state_attr(''media_player.sonos_bedroom'', ''volume_level'')
-            * 100) | int }}'
     - conditions:
       - condition: template
         value_template: '{{ phase == ''armed_night'' and source == ''none'' }}'
       sequence:
-      - action: rest_command.notify_sonos_room
+      - action: rest_command.notify_sonos_all
         data:
-          room: Bedroom
           message: Alarm system, armed.
-          volume: '{{ (state_attr(''media_player.sonos_bedroom'', ''volume_level'')
-            * 100) | int }}'
     - conditions:
       - condition: template
         value_template: '{{ phase == ''disarmed'' and source == ''none'' }}'
@@ -4706,18 +4701,13 @@
           - condition: template
             value_template: '{{ from_phase == ''armed_night'' }}'
           sequence:
-          - action: rest_command.notify_sonos_room
+          - action: rest_command.notify_sonos_all
             data:
-              room: Bedroom
               message: Alarm system, disarmed.
-              volume: '{{ (state_attr(''media_player.sonos_bedroom'', ''volume_level'')
-                * 100) | int }}'
         default:
         - action: rest_command.notify_sonos_all
           data:
             message: Alarm system, disarmed.
-            volume: '{{ (state_attr(''media_player.sonos_bedroom'', ''volume_level'')
-              * 100) | int }}'
   - if:
     - condition: template
       value_template: '{{ phase in [''armed_home'', ''armed_night'', ''disarmed'']
