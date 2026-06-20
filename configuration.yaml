@@ -291,14 +291,18 @@ notify:
 # effectively "stay triggered until manually disarmed".
 alarm_control_panel:
   - platform: manual
-    name: "Home Alarm"
+    name: Home Alarm
     unique_id: home_alarm
     code_arm_required: false
     disarm_after_trigger: false
     arming_states:
       - armed_home
+      - armed_night
     armed_home:
       delay_time: 10
-      arming_time: 10
+      arming_time: 3
       trigger_time: 31622400
-
+    armed_night:
+      delay_time: 20
+      arming_time: 5
+      trigger_time: 31622400
