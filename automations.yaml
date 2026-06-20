@@ -4312,10 +4312,10 @@
   mode: single
 - id: '1781488978783'
   alias: Alarm - Perimeter Breach
-  description: LEX-288 kernel. When armed_home, any perimeter door/window OR the Garage
-    Actual (Zooz vehicle door) opening fires alarm_trigger. Panel delay_time = 10s
-    entry window before triggered. Records breached entity in input_text.alarm_last_breach
-    for the triggered-response message. from:off avoids spurious fires on unavailable->on
+  description: LEX-288 kernel. When armed_home or armed_night, any perimeter door/window
+    OR Garage Actual opening fires alarm_trigger. Panel delay_time = entry window
+    before triggered. Records breached entity in input_text.alarm_last_breach for
+    the triggered-response message. from:off avoids spurious fires on unavailable->on
     after restart/reconnect. queued so simultaneous openings serialize.
   triggers:
   - trigger: state
@@ -4336,7 +4336,9 @@
   conditions:
   - condition: state
     entity_id: alarm_control_panel.home_alarm
-    state: armed_home
+    state:
+    - armed_home
+    - armed_night
   - condition: state
     entity_id: input_boolean.alarm_system_enabled
     state: 'on'
@@ -4352,10 +4354,9 @@
   mode: queued
   max: 10
 - id: '1781489099578'
-  alias: Alarm - Auto-Arm Home
+  alias: Alarm - Auto-Arm Sleep
   description: LEX-288 kernel. mode_sleep on (while disarmed + alarm enabled) -> arm
-    panel armed_home directly. No make-secure/lock coupling (locks handled separately
-    by lock_garage_door_when_away_or_asleep etc.); silent arm. Codeless panel.
+    panel armed_night. Codeless panel.
   triggers:
   - trigger: state
     entity_id: input_boolean.mode_sleep
@@ -4368,15 +4369,14 @@
     entity_id: input_boolean.alarm_system_enabled
     state: 'on'
   actions:
-  - action: alarm_control_panel.alarm_arm_home
+  - action: alarm_control_panel.alarm_arm_night
     target:
       entity_id: alarm_control_panel.home_alarm
   mode: single
 - id: '1781492170340'
   alias: Alarm - Disarm on Wake
-  description: LEX-288. mode_sleep off disarms from armed_home or arming. Standard
-    (none) TTS path - all-rooms 'Alarm system, disarmed'. Codeless panel - no code
-    passed.
+  description: LEX-288. mode_sleep off disarms from armed_home, armed_night, or arming.
+    Codeless panel - no code passed.
   triggers:
   - trigger: state
     entity_id: input_boolean.mode_sleep
@@ -4386,6 +4386,7 @@
     entity_id: alarm_control_panel.home_alarm
     state:
     - armed_home
+    - armed_night
     - arming
   actions:
   - action: input_select.select_option
@@ -4661,15 +4662,16 @@
   mode: single
 - id: '1781573311502'
   alias: Alarm - TTS Announcements
-  description: 'LEX-288 kernel. Central TTS for ARMED + DISARMED all-rooms announcements:
-    source ''none'' (manual + sleep) -> announce via notify_sonos_all; source ''automation''
-    -> silent. Clears the marker to none at terminal states. (armed_away dropped with
-    the away cut.)'
+  description: 'LEX-288. source=none: armed_home→all-rooms; armed_night→Bedroom only;
+    disarmed→delay then scope from from_state (5s+Bedroom for night, 3s+all-rooms
+    for home). source=automation→silent. No volume override - speakers play at set
+    level. Clears marker to none.'
   triggers:
   - trigger: state
     entity_id: alarm_control_panel.home_alarm
     to:
     - armed_home
+    - armed_night
     - disarmed
   actions:
   - choose:
@@ -4681,31 +4683,51 @@
       - action: rest_command.notify_sonos_all
         data:
           message: Alarm system, armed.
-          volume: 35
+    - conditions:
+      - condition: template
+        value_template: '{{ phase == ''armed_night'' and source == ''none'' }}'
+      sequence:
+      - action: rest_command.notify_sonos_room
+        data:
+          room: Bedroom
+          message: Alarm system, armed.
     - conditions:
       - condition: template
         value_template: '{{ phase == ''disarmed'' and source == ''none'' }}'
       sequence:
-      - action: rest_command.notify_sonos_all
-        data:
-          message: Alarm system, disarmed.
-          volume: 35
+      - delay:
+          seconds: '{{ 5 if from_phase == ''armed_night'' else 3 }}'
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ from_phase == ''armed_night'' }}'
+          sequence:
+          - action: rest_command.notify_sonos_room
+            data:
+              room: Bedroom
+              message: Alarm system, disarmed.
+        default:
+        - action: rest_command.notify_sonos_all
+          data:
+            message: Alarm system, disarmed.
   - if:
     - condition: template
-      value_template: '{{ phase in [''armed_home'',''disarmed''] }}'
+      value_template: '{{ phase in [''armed_home'', ''armed_night'', ''disarmed'']
+        }}'
     then:
     - action: input_select.select_option
       target:
         entity_id: input_select.alarm_tts_source
       data:
         option: none
-  mode: queued
-  max: 10
   variables:
     source: '{{ states(''input_select.alarm_tts_source'') }}'
     phase: '{{ trigger.to_state.state }}'
+    from_phase: '{{ trigger.from_state.state }}'
     someone_home: '{{ is_state(''group.residents'',''home'') or is_state(''input_boolean.mode_sleep'',''on'')
       }}'
+  mode: queued
+  max: 10
 - id: '1781664733113'
   alias: Alarm - Master Off (kill switch)
   description: 'LEX-288. Master kill switch. input_boolean.alarm_system_enabled ->
