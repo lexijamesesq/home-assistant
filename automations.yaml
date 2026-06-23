@@ -4223,9 +4223,11 @@
   mode: restart
 - id: '1781413766625'
   alias: Virtual Lexi - Start
-  description: Starts Virtual Lexi when residents leave during the evening, or when
-    mode reaches Sunset/Night while already away. Generates a fresh plan; the engine
-    fires it. Guarded so it never restarts an in-progress sim.
+  description: Starts Virtual Lexi when residents leave during the evening, when mode
+    reaches Sunset/Night while already away, or when guest mode clears while still
+    away (symmetric to the escape-hatch teardown on guest-on; closes the late-guest-clear
+    gap where that night's Sunset/Night re-arm has already passed). Generates a fresh
+    plan; the engine fires it. Guarded so it never restarts an in-progress sim.
   triggers:
   - trigger: state
     entity_id: group.residents
@@ -4241,6 +4243,10 @@
     entity_id: input_select.time_of_day_mode
     to: Night
     id: mode
+  - trigger: state
+    entity_id: input_boolean.mode_guest
+    to: 'off'
+    id: guest_cleared
   conditions:
   - condition: state
     entity_id: group.residents
