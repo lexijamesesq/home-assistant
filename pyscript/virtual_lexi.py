@@ -58,14 +58,18 @@ def _draw_bedtime(start, rng):
     return bt
 
 
-def _draw_wake(start, rng):
+def _draw_wake(night_date, rng):
+    # `night_date` is the date the evening began; wake is the FOLLOWING morning.
+    # Anchoring to the night (not the plan start) keeps the evening path byte-identical
+    # (an evening start and its night share a date) while giving a correct same-morning
+    # wake for a pre-dawn "straight to bed" plan, whose night began the previous day.
     # Fri/Sat night -> weekend (later) morning; else weekday early.
-    if start.weekday() in (4, 5):
+    if night_date.weekday() in (4, 5):
         mins = rng.uniform(6 * 60 + 30, 8 * 60 + 30)
     else:
         mins = rng.uniform(5 * 60 + 15, 5 * 60 + 40)
-    wbase = dt.datetime.combine((start + dt.timedelta(days=1)).date(), dt.time(0, 0))
-    return wbase + dt.timedelta(minutes=mins)
+    morning = dt.datetime.combine(night_date + dt.timedelta(days=1), dt.time(0, 0))
+    return morning + dt.timedelta(minutes=mins)
 
 
 def _split(total, k, rng):
@@ -144,6 +148,19 @@ def _normalize(events):
 
 
 def generate_plan(start, rng):
+    # Pre-dawn start: the calling automation (virtual_lexi_start) gates the sim to
+    # Sunset/Night mode, so start.hour < 12 means we are in the pre-dawn tail of the
+    # night (00:00 -> night_ends), never midday. Lexi "arrived" late -> declare bed with
+    # no evening ceremony, so virtual_sleep is set before the Night->Morning dawn
+    # transition re-lights an empty house. Reuses _expand_bed (emits goodnight_downstairs
+    # + sleep_mode + lights_out, satisfying _valid); wake anchors to the night that began
+    # the previous evening.
+    if start.hour < 12:
+        events = []
+        bedtime = start + dt.timedelta(minutes=rng.uniform(0, 1))
+        _expand_bed(events, bedtime, rng)
+        events.append(_ev(_draw_wake((start - dt.timedelta(days=1)).date(), rng), "wake", "Wake up"))
+        return _normalize(events)
     events = []
     bedtime = _draw_bedtime(start, rng)
     cursor = start + dt.timedelta(minutes=rng.uniform(3, 12))        # settle in
@@ -158,7 +175,7 @@ def generate_plan(start, rng):
             activity = "watch"
         guard += 1
     _expand_bed(events, bedtime, rng)
-    events.append(_ev(_draw_wake(start, rng), "wake", "Wake up"))
+    events.append(_ev(_draw_wake(start.date(), rng), "wake", "Wake up"))
     return _normalize(events)
 
 
