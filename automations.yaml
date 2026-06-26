@@ -4069,11 +4069,15 @@
   alias: Den Purifier - Sleep Mode
   triggers:
   - trigger: state
-    entity_id: input_boolean.mode_sleep
+    entity_id:
+    - input_boolean.mode_sleep
+    - input_boolean.virtual_sleep
     to: 'on'
     id: sleep_on
   - trigger: state
-    entity_id: input_boolean.mode_sleep
+    entity_id:
+    - input_boolean.mode_sleep
+    - input_boolean.virtual_sleep
     to: 'off'
     id: sleep_off
   actions:
@@ -4093,6 +4097,12 @@
     - conditions:
       - condition: trigger
         id: sleep_off
+      - condition: state
+        entity_id: input_boolean.mode_sleep
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.virtual_sleep
+        state: 'off'
       sequence:
       - action: fan.set_percentage
         target:
@@ -4105,14 +4115,18 @@
 - id: '1780341336373'
   alias: Living Room Purifier - Sleep Mode
   triggers:
-  - entity_id: input_boolean.mode_sleep
+  - entity_id:
+    - input_boolean.mode_sleep
+    - input_boolean.virtual_sleep
     to: 'on'
     id: sleep_on
-    platform: state
-  - entity_id: input_boolean.mode_sleep
+    trigger: state
+  - entity_id:
+    - input_boolean.mode_sleep
+    - input_boolean.virtual_sleep
     to: 'off'
     id: sleep_off
-    platform: state
+    trigger: state
   actions:
   - choose:
     - conditions:
@@ -4125,6 +4139,12 @@
     - conditions:
       - condition: trigger
         id: sleep_off
+      - condition: state
+        entity_id: input_boolean.mode_sleep
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.virtual_sleep
+        state: 'off'
       sequence:
       - action: switch.turn_on
         target:
@@ -4165,9 +4185,14 @@
     entity_id: group.bedroom_lights
     to: 'off'
   conditions:
-  - condition: state
-    entity_id: input_boolean.mode_sleep
-    state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_boolean.mode_sleep
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.virtual_sleep
+      state: 'on'
   actions:
   - action: switch.turn_off
     target:
@@ -4182,7 +4207,9 @@
     entity_id: group.bedroom_lights
     to: 'on'
   - trigger: state
-    entity_id: input_boolean.mode_sleep
+    entity_id:
+    - input_boolean.mode_sleep
+    - input_boolean.virtual_sleep
     to: 'off'
   actions:
   - if:
@@ -4796,4 +4823,108 @@
         - action: CLOSE_GARAGE
           title: Close Garage
           icon: sfsymbols:arrow.down.square
+  mode: single
+- id: '1782514445689'
+  alias: Living Room Purifier - Restore Speed 3 on Preset Drift
+  description: 'Self-heal: the purifier''s touch controls sit on its top surface and
+    can be bumped (e.g. a cat landing on it), flipping it into Auto/Sleep preset.
+    Baseline is manual speed 3 (75%). When it enters any preset, restore manual 75%.
+    Observed 2026-06-24: bumped into Sleep ~05:37 while away and held ~2.5 days because
+    nothing reset it. HA has no other automation managing this fan''s speed - only
+    its display.'
+  triggers:
+  - trigger: state
+    entity_id: fan.living_room_purifier
+    attribute: preset_mode
+  conditions:
+  - condition: state
+    entity_id: fan.living_room_purifier
+    attribute: preset_mode
+    state:
+    - auto
+    - sleep
+  actions:
+  - action: fan.set_percentage
+    target:
+      entity_id: fan.living_room_purifier
+    data:
+      percentage: 75
+  mode: single
+- id: '1782515193916'
+  alias: Bedroom Purifier - Restore Speed on Preset Drift
+  description: 'Self-heal mirror of the Living Room purifier: top-surface touch controls
+    can be bumped into Auto/Sleep preset (e.g. cat). Baseline is the time-scheduled
+    manual speed from bedroom_purifier_speed_schedule (75% during 09:00-19:30, 50%
+    during 19:30-09:00). On preset entry, restore the schedule-appropriate manual
+    speed.'
+  triggers:
+  - trigger: state
+    entity_id: fan.bedroom_purifier
+    attribute: preset_mode
+  conditions:
+  - condition: state
+    entity_id: fan.bedroom_purifier
+    attribute: preset_mode
+    state:
+    - auto
+    - sleep
+  actions:
+  - choose:
+    - conditions:
+      - condition: time
+        after: 09:00:00
+        before: '19:30:00'
+      sequence:
+      - action: fan.set_percentage
+        target:
+          entity_id: fan.bedroom_purifier
+        data:
+          percentage: 75
+    default:
+    - action: fan.set_percentage
+      target:
+        entity_id: fan.bedroom_purifier
+      data:
+        percentage: 50
+  mode: single
+- id: '1782516269778'
+  alias: Den Purifier - Restore Speed on Preset Drift
+  description: 'Self-heal mirror of the Living Room/Bedroom purifiers: top-surface
+    touch controls can be bumped into Auto/Sleep preset (e.g. cat). Baseline from
+    den_purifier_speed_by_mode: 75% in sleep mode, 50% otherwise. On preset entry,
+    restore the mode-appropriate manual speed.'
+  triggers:
+  - trigger: state
+    entity_id: fan.den_purifier
+    attribute: preset_mode
+  conditions:
+  - condition: state
+    entity_id: fan.den_purifier
+    attribute: preset_mode
+    state:
+    - auto
+    - sleep
+  actions:
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_boolean.mode_sleep
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.virtual_sleep
+          state: 'on'
+      sequence:
+      - action: fan.set_percentage
+        target:
+          entity_id: fan.den_purifier
+        data:
+          percentage: 75
+    default:
+    - action: fan.set_percentage
+      target:
+        entity_id: fan.den_purifier
+      data:
+        percentage: 50
   mode: single

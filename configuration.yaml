@@ -260,7 +260,6 @@ mobile_app:
 #   platform: google
 
 # Includes ###################################################
-# automation: !include_dir_merge_list automation/
 automation: !include automations.yaml
 binary_sensor: !include binary_sensor.yaml
 group: !include group.yaml
