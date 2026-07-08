@@ -1,4 +1,0 @@
-Versions
-========
-
-.. include:: ../RELEASES.rst
