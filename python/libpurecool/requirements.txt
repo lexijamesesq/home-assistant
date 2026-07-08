@@ -1,5 +1,0 @@
-netifaces
-six
-requests
-paho_mqtt
-pycryptodome
