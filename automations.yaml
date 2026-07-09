@@ -4345,7 +4345,7 @@
   mode: single
 - id: '1781488978783'
   alias: Alarm - Perimeter Breach
-  description: LEX-288 kernel. When armed_home or armed_night, any perimeter door/window
+  description: When armed_home or armed_night, any perimeter door/window
     OR Garage Actual opening fires alarm_trigger. Panel delay_time = entry window
     before triggered. Records breached entity in input_text.alarm_last_breach for
     the triggered-response message. from:off avoids spurious fires on unavailable->on
@@ -4388,7 +4388,7 @@
   max: 10
 - id: '1781489099578'
   alias: Alarm - Auto-Arm Sleep
-  description: 'LEX-288 kernel. mode_sleep on (while disarmed + alarm enabled) ->
+  description: 'mode_sleep on (while disarmed + alarm enabled) ->
     arm panel armed_night. Codeless panel. Marks alarm_tts_source=sleep before arming
     so tts_announcements stays silent: entering sleep is a silent transition. Manual
     arm paths never set the marker, so they still announce.'
@@ -4415,7 +4415,7 @@
   mode: single
 - id: '1781492170340'
   alias: Alarm - Disarm on Wake
-  description: 'LEX-288. mode_sleep off disarms from armed_home, armed_night, or arming.
+  description: 'mode_sleep off disarms from armed_home, armed_night, or arming.
     Codeless panel - no code passed. Marks alarm_tts_source=sleep before disarming
     so tts_announcements stays silent: leaving sleep is a silent transition. Manual
     disarm paths (chip, ALARM_DISARM push, kill switch) leave the marker at none and
@@ -4443,7 +4443,7 @@
   mode: single
 - id: '1781492408800'
   alias: Alarm - Notification Actions
-  description: LEX-288 kernel. Actionable buttons from alarm pushes. ALARM_DISARM
+  description: Actionable buttons from alarm pushes. ALARM_DISARM
     disarms the codeless panel. (ALARM_REARM_AWAY handler removed with the armed_away
     cut.)
   triggers:
@@ -4465,7 +4465,7 @@
   max: 5
 - id: '1781492422989'
   alias: Alarm - Pending Response
-  description: LEX-288. Entry window (someone opened a perimeter sensor while armed).
+  description: Entry window (someone opened a perimeter sensor while armed).
     Time-sensitive push with a one-tap Disarm button. (Camera snapshot + breach_camera
     var removed 2026-06-16 — UniFi Protect app is the video source.) Tablet beep/auto-navigate
     added in the tablet step.
@@ -4493,7 +4493,7 @@
   variables: {}
 - id: '1781492462128'
   alias: Alarm - Triggered Response
-  description: 'LEX-288 kernel. Breach deterrence. Parallelized: critical push + Sonos
+  description: 'Breach deterrence. Parallelized: critical push + Sonos
     fire instantly (branch 1); branch 2 = security lighting (script.lighting_security_breach,
     per-room calibrated night-ceiling) + Inovelli LED red pulse, FINITE duration 60s
     (self-expires; replaces stuck duration 255). On disarm, alarm_clear_response stops
@@ -4582,7 +4582,7 @@
       or ''perimeter'' }}'
 - id: '1781492482445'
   alias: Alarm - Clear Response
-  description: 'LEX-288 kernel. Fires on disarm from triggered/pending. FIRST stops
+  description: 'Fires on disarm from triggered/pending. FIRST stops
     alarm_triggered_response (turn_off stop_actions, then re-enable) so its slow LED
     branch cannot re-stomp this clear (atomic teardown). Then: LED off + duration
     0; all-clear push; from triggered only -> all-lights off then re-apply mode-room
@@ -4659,7 +4659,7 @@
   mode: single
 - id: '1781496260809'
   alias: Alarm - Perimeter Offline While Armed
-  description: LEX-288 kernel. Armed-but-deaf guard. If the perimeter group goes unavailable
+  description: Armed-but-deaf guard. If the perimeter group goes unavailable
     while armed_home (e.g. Konnected board offline), the alarm cannot see breaches.
     Triggers on the group, not the 10 sensors, to avoid a notification flood when
     they all drop together.
@@ -4685,7 +4685,7 @@
   mode: single
 - id: '1781496323700'
   alias: Alarm - Tablet Wake on Alert
-  description: LEX-288. Wakes the wall tablets when the alarm enters pending/triggered
+  description: Wakes the wall tablets when the alarm enters pending/triggered
     so the alarm surface is lit (part of the 'house reacting' deterrence). Tablets
     otherwise sleep normally (bedroom hallway stays dark at night). Beep + auto-navigate
     to the Security view are a follow-up pending Fully Kiosk command-signature validation.
@@ -4705,7 +4705,7 @@
   mode: single
 - id: '1781573311502'
   alias: Alarm - TTS Announcements
-  description: 'LEX-288. source=none: notify_sonos_all at current speaker volume (no
+  description: 'source=none: notify_sonos_all at current speaker volume (no
     override, matches doorbell pattern); disarmed -> delay (5s from armed_night, 3s
     from armed_home) then notify_sonos_all. source=sleep (set by auto_arm_sleep +
     disarm_on_wake) -> silent: sleep-mode on/off arms and disarms without announcing.
@@ -4773,7 +4773,7 @@
   max: 10
 - id: '1781664733113'
   alias: Alarm - Master Off (kill switch)
-  description: 'LEX-288. Master kill switch. input_boolean.alarm_system_enabled ->
+  description: 'Master kill switch. input_boolean.alarm_system_enabled ->
     off: disarm the panel + force the LED deterrence off (retried 3x with 2s gaps;
     the Z-Wave LED group fan-out is unreliable and stuck ON for 16 min on 2026-06-16).
     perimeter_breach + auto_arm_home/away are gated on alarm_system_enabled, so OFF
@@ -4806,7 +4806,7 @@
   mode: single
 - id: '1781744965973'
   alias: Alarm - Garage Actual Opened While Armed
-  description: LEX-288 kernel. Garage Actual (Zooz vehicle door) opened while armed_home
+  description: Garage Actual (Zooz vehicle door) opened while armed_home
     -> immediate companion push with a Close-Garage action, alongside the full breach
     (alarm_perimeter_breach also triggers on binary_sensor.garage_actual ~10s later).
     Keeps CLOSE_GARAGE available on a garage breach without templating the critical
