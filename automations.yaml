@@ -4388,8 +4388,10 @@
   max: 10
 - id: '1781489099578'
   alias: Alarm - Auto-Arm Sleep
-  description: LEX-288 kernel. mode_sleep on (while disarmed + alarm enabled) -> arm
-    panel armed_night. Codeless panel.
+  description: 'LEX-288 kernel. mode_sleep on (while disarmed + alarm enabled) ->
+    arm panel armed_night. Codeless panel. Marks alarm_tts_source=sleep before arming
+    so tts_announcements stays silent: entering sleep is a silent transition. Manual
+    arm paths never set the marker, so they still announce.'
   triggers:
   - trigger: state
     entity_id: input_boolean.mode_sleep
@@ -4402,14 +4404,22 @@
     entity_id: input_boolean.alarm_system_enabled
     state: 'on'
   actions:
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.alarm_tts_source
+    data:
+      option: sleep
   - action: alarm_control_panel.alarm_arm_night
     target:
       entity_id: alarm_control_panel.home_alarm
   mode: single
 - id: '1781492170340'
   alias: Alarm - Disarm on Wake
-  description: LEX-288. mode_sleep off disarms from armed_home, armed_night, or arming.
-    Codeless panel - no code passed.
+  description: 'LEX-288. mode_sleep off disarms from armed_home, armed_night, or arming.
+    Codeless panel - no code passed. Marks alarm_tts_source=sleep before disarming
+    so tts_announcements stays silent: leaving sleep is a silent transition. Manual
+    disarm paths (chip, ALARM_DISARM push, kill switch) leave the marker at none and
+    still announce.'
   triggers:
   - trigger: state
     entity_id: input_boolean.mode_sleep
@@ -4426,7 +4436,7 @@
     target:
       entity_id: input_select.alarm_tts_source
     data:
-      option: none
+      option: sleep
   - action: alarm_control_panel.alarm_disarm
     target:
       entity_id: alarm_control_panel.home_alarm
@@ -4696,9 +4706,11 @@
 - id: '1781573311502'
   alias: Alarm - TTS Announcements
   description: 'LEX-288. source=none: notify_sonos_all at current speaker volume (no
-    override, matches doorbell pattern); disarmed→delay (5s from armed_night, 3s from
-    armed_home) then notify_sonos_all. source=automation→silent. Clears marker to
-    none.'
+    override, matches doorbell pattern); disarmed -> delay (5s from armed_night, 3s
+    from armed_home) then notify_sonos_all. source=sleep (set by auto_arm_sleep +
+    disarm_on_wake) -> silent: sleep-mode on/off arms and disarms without announcing.
+    source=automation -> silent. Every armed/disarmed transition clears the marker
+    back to none, so the next manual arm/disarm speaks.'
   triggers:
   - trigger: state
     entity_id: alarm_control_panel.home_alarm
