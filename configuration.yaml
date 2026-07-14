@@ -277,11 +277,20 @@ shell_command: !include shell_command.yaml
 template: !include_dir_merge_list template/
 
 # Notification Groups
+# notify.lexi_phone is the STABLE indirection every automation + Uptime Kuma calls.
+# The raw mobile_app_* device service is slugged from the device name and silently
+# renames on any device rename (a phone swap on 2026-07-13 renamed it and broke
+# every push notification at once). On the next phone/device rename, update ONLY
+# the one member line below (mobile_app_<new-device-slug>) — nothing else.
 notify:
+  - name: lexi_phone
+    platform: group
+    services:
+      - action: mobile_app_lexis_iphone
   - name: all_devices
     platform: group
     services:
-      - action: mobile_app_alexis_iphone
+      - action: lexi_phone
       - action: mobile_app_alexis_ipad_mini
 
 # Manual Alarm Control Panel (LEX-288)

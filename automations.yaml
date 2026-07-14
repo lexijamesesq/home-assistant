@@ -811,7 +811,7 @@
     for:
       hours: 1
   actions:
-  - action: notify.mobile_app_alexis_iphone
+  - action: notify.lexi_phone
     data:
       title: Condo
       message: The {{ trigger.to_state.attributes.friendly_name | replace('Battery
@@ -847,7 +847,7 @@
         push:
           thread-id: appliances
           sound: gentle-alarm.wav
-    action: notify.mobile_app_alexis_iphone
+    action: notify.lexi_phone
   - event: mode_laundry_turn_on
 - id: b3f216e47d8a4a1295b0f333ef373dc8
   alias: Notify Security - Sonos - Doorbell Pressed
@@ -926,7 +926,7 @@
         push:
           thread-id: security
           sound: gamelan.wav
-    action: notify.mobile_app_alexis_iphone
+    action: notify.lexi_phone
   mode: queued
 - id: efd1286a56a6434cb2aca8b1ca18b675
   alias: Notify Security - Door Opened
@@ -952,7 +952,7 @@
         push:
           thread-id: security
           sound: gamelan.wav
-    action: notify.mobile_app_alexis_iphone
+    action: notify.lexi_phone
   mode: queued
 - id: 9a6811fa31cf40f380abb666e858ba42
   alias: Notify Security - Front Door Locked or Unlocked
@@ -1003,7 +1003,7 @@
             - action: LOCK_FRONT_DOOR
               title: Lock Door
               icon: sfsymbols:lock
-        action: notify.mobile_app_alexis_iphone
+        action: notify.lexi_phone
     default:
     - data:
         title: Condo
@@ -1016,7 +1016,7 @@
           push:
             thread-id: security
             sound: basic-bit-shots.wav
-      action: notify.mobile_app_alexis_iphone
+      action: notify.lexi_phone
 - id: 60b9d55c16624c8ea648895ce8395e13
   alias: Notify Security - Garage Actual Opened or Closed
   triggers:
@@ -1046,7 +1046,7 @@
         - action: CLOSE_GARAGE
           title: Close Garage
           icon: sfsymbols:arrow.down.square
-    action: notify.mobile_app_alexis_iphone
+    action: notify.lexi_phone
   mode: queued
 - id: ba0e5069adff40f29a505cc276288f5a
   alias: Notify Security - Door Opened for Extended Period of Time
@@ -1089,7 +1089,7 @@
         push:
           thread-id: security
           sound: siren.wav
-    action: notify.mobile_app_alexis_iphone
+    action: notify.lexi_phone
   mode: queued
 - id: 3914663672bc474e98b6b778cfac7d8c
   alias: Notify Security - Garage Actual Opened for Extended Period of Time
@@ -1128,7 +1128,7 @@
         - action: CLOSE_GARAGE
           title: Close Garage
           icon: sfsymbols:arrow.down.square
-    action: notify.mobile_app_alexis_iphone
+    action: notify.lexi_phone
   mode: queued
 - id: a958ff4f89e846b0a965ea2b614bdd57
   alias: Notify of Guest Motion Detected
@@ -1152,7 +1152,7 @@
         push:
           thread-id: security
           sound: siren.wav
-    action: notify.mobile_app_alexis_iphone
+    action: notify.lexi_phone
   mode: queued
 - id: 52723054e1e54c509bf18456b0a9aa80
   alias: Notify of Guest Mode Ended
@@ -1174,7 +1174,7 @@
         push:
           thread-id: security
           sound: gamelan.wav
-    action: notify.mobile_app_alexis_iphone
+    action: notify.lexi_phone
   mode: queued
 - id: f886bf013ad441abbb8d33e3036794c7
   alias: Notify Security - Home Not Secure for Extended Period of Time When Away
@@ -1221,7 +1221,7 @@
           thread-id: security
           sound:
             name: siren.wav
-    action: notify.mobile_app_alexis_iphone
+    action: notify.lexi_phone
   mode: queued
 - alias: Notify Woodhouse - Excessive CPU Temp
   trigger:
@@ -1254,7 +1254,7 @@
     for:
       minutes: 60
   action:
-  - service: notify.mobile_app_alexis_iphone
+  - service: notify.lexi_phone
     data:
       title: Woodhouse
       message: '{%- set level = ''critical'' if states("sensor.woodhouse_cpu1_temp")
@@ -1283,7 +1283,7 @@
   - '{{ trigger.from_state is not none }}'
   - '{{ trigger.from_state.state is number }}'
   action:
-  - service: notify.mobile_app_alexis_iphone
+  - service: notify.lexi_phone
     data:
       title: Woodhouse
       message: The server has been restored to a normal operating temperature.
@@ -1319,7 +1319,7 @@
     for:
       minutes: 20
   action:
-  - service: notify.mobile_app_alexis_iphone
+  - service: notify.lexi_phone
     data:
       title: Server Rack
       message: "{%- if ((as_timestamp(now()) - as_timestamp(states.sensor.server_rack_ups_status_data.last_changed))
@@ -1343,7 +1343,7 @@
     to: OL CHRG
     from: OB DISCHRG
   action:
-  - service: notify.mobile_app_alexis_iphone
+  - service: notify.lexi_phone
     data:
       title: Server Rack
       message: "{% if is_state('sensor.server_rack_ups_status_data', 'OL') %}\n  The
@@ -1375,7 +1375,7 @@
   - platform: event
     event_type: event_service_restart_sonarr
   action:
-  - service: notify.mobile_app_alexis_iphone
+  - service: notify.lexi_phone
     data:
       title: Sonarr
       message: The container has been down for 10 minutes and is being restarted.
@@ -1389,7 +1389,7 @@
   - platform: event
     event_type: event_service_upgrading_plex
   action:
-  - service: notify.mobile_app_alexis_iphone
+  - service: notify.lexi_phone
     data:
       title: Plex
       message: Update available. The container is restarting to update to version
@@ -2264,7 +2264,7 @@
         data:
           option: Night
     default:
-    - service: notify.mobile_app_alexis_iphone
+    - service: notify.lexi_phone
       data:
         title: Home Assistant
         message: Unable to update current mode. No conditions matched.
@@ -3442,7 +3442,7 @@
         push:
           thread-id: security
           sound: basic-bit-shots.wav
-    action: notify.mobile_app_alexis_iphone
+    action: notify.lexi_phone
   mode: single
 - id: '1724791118711'
   alias: Circulate Stale Air
@@ -3676,7 +3676,7 @@
         push:
           thread-id: appliances
           sound: gentle-alarm.wav
-    action: notify.mobile_app_alexis_iphone
+    action: notify.lexi_phone
   - event: mode_laundry_turn_on
   mode: single
 - id: '1774734576803'
@@ -3917,7 +3917,7 @@
           - condition: template
             value_template: '{{ is_stale }}'
           sequence:
-          - action: notify.mobile_app_alexis_iphone
+          - action: notify.lexi_phone
             data:
               title: Condo
               message: '{{ device_name }} hasn''t reported in {{ days }} days.'
@@ -3928,7 +3928,7 @@
                   thread-id: system
                   sound: gesture.wav
         default:
-        - action: notify.mobile_app_alexis_iphone
+        - action: notify.lexi_phone
           data:
             message: clear_notification
             data:
@@ -4474,7 +4474,7 @@
     entity_id: alarm_control_panel.home_alarm
     to: pending
   actions:
-  - action: notify.mobile_app_alexis_iphone
+  - action: notify.lexi_phone
     data:
       title: Condo
       message: Entry detected - {{ state_attr(states('input_text.alarm_last_breach'),
@@ -4506,7 +4506,7 @@
   actions:
   - parallel:
     - sequence:
-      - action: notify.mobile_app_alexis_iphone
+      - action: notify.lexi_phone
         data:
           title: SECURITY ALERT
           message: 'Breach: {{ breach_name }}. Alarm triggered.'
@@ -4539,7 +4539,7 @@
           - condition: state
             entity_id: alarm_control_panel.home_alarm
             state: triggered
-          - action: notify.mobile_app_alexis_iphone
+          - action: notify.lexi_phone
             data:
               title: SECURITY ALERT
               message: Alarm active - {{ breach_name }} ({{ now().strftime('%-I:%M:%S
@@ -4624,7 +4624,7 @@
         data:
           value: 0
     - sequence:
-      - action: notify.mobile_app_alexis_iphone
+      - action: notify.lexi_phone
         data:
           title: Condo
           message: All clear - alarm disarmed.
@@ -4672,7 +4672,7 @@
     entity_id: alarm_control_panel.home_alarm
     state: armed_home
   actions:
-  - action: notify.mobile_app_alexis_iphone
+  - action: notify.lexi_phone
     data:
       title: SECURITY ALERT
       message: Perimeter sensors offline while armed - coverage lost. Check Konnected.
@@ -4821,7 +4821,7 @@
     entity_id: alarm_control_panel.home_alarm
     state: armed_home
   actions:
-  - action: notify.mobile_app_alexis_iphone
+  - action: notify.lexi_phone
     data:
       title: Garage
       message: Garage Actual opened while armed.
