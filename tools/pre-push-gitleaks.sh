@@ -34,9 +34,14 @@ if [[ "$TOPLEVEL" != "/homeassistant" ]]; then
     exit 1
 fi
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Derived from the already-validated TOPLEVEL, not BASH_SOURCE-relative
+# path math: a hook invoked through the install-hooks.sh symlink sees its
+# own path as .git/hooks/pre-push, so dirname/.. from there lands one level
+# too deep (inside .git), not at the work tree root.
+REPO_ROOT="$TOPLEVEL"
 GITLEAKS="$REPO_ROOT/.tools/gitleaks"
 OVERLAY_PATH="${HOME}/.config/gitleaks/operator-rules.toml"
+DEFAULT_BRANCH="$(git -C "$REPO_ROOT" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || echo origin/master)"
 
 if [[ ! -x "$GITLEAKS" ]]; then
     echo "pre-push: gitleaks binary missing at $GITLEAKS — run tools/install-hooks.sh first. Refusing to push unscanned." >&2
@@ -51,7 +56,10 @@ while read -r local_ref local_sha remote_ref remote_sha; do
     if [[ "$remote_sha" == "0000000000000000000000000000000000000000" ]]; then
         # New remote ref: scanning the whole history being introduced is too
         # broad; scan against the merge-base with the default branch instead.
-        base="$(git -C "$REPO_ROOT" merge-base "$local_sha" origin/main 2>/dev/null || echo "$local_sha")"
+        # This repo's default is master, not main — a hardcoded origin/main
+        # here previously failed silently and produced an empty (unscanned)
+        # range on every new-branch push.
+        base="$(git -C "$REPO_ROOT" merge-base "$local_sha" "$DEFAULT_BRANCH" 2>/dev/null || echo "$local_sha")"
         range="${base}..${local_sha}"
     else
         range="${remote_sha}..${local_sha}"
