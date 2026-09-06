@@ -23,6 +23,7 @@ jobs:
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         with:
+          allowed_bots: claude-the-enduring
           prompt: |
             Review this PR for security concerns: hardcoded credentials,
             injection vulnerabilities, unsafe file operations, PII exposure.
