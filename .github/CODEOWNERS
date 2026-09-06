@@ -5,6 +5,8 @@
 /README.md
 /sensor.yaml
 /binary_sensor.yaml
-/themes/
-/lovelace/
+/themes/**/*.md
+/themes/**/*.yaml
+/lovelace/**/*.md
+/lovelace/**/*.yaml
 /ui-dashboard.yaml
