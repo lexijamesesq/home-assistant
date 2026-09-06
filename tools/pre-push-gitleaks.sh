@@ -24,10 +24,13 @@ set -euo pipefail
 # Refuse to run against anything but this repo's own working copy. Git
 # invokes hooks with cwd already at the work tree root, so this is a real
 # check, not a formality — it's the backstop if this script is ever copied
-# or symlinked into a context other than /config.
+# or symlinked into a context other than this one. /config is a symlink
+# into the add-on container (-> /homeassistant, the actual persistent-volume
+# mount); git rev-parse always resolves through it to the real path, so that
+# real path is what this compares against, not the add-on's /config alias.
 TOPLEVEL="$(git rev-parse --show-toplevel 2>/dev/null || true)"
-if [[ "$TOPLEVEL" != "/config" ]]; then
-    echo "pre-push: refusing — this hook only runs against /config (got '${TOPLEVEL:-<none>}')." >&2
+if [[ "$TOPLEVEL" != "/homeassistant" ]]; then
+    echo "pre-push: refusing — this hook only runs against /homeassistant, i.e. /config (got '${TOPLEVEL:-<none>}')." >&2
     exit 1
 fi
 
