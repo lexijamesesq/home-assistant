@@ -56,6 +56,43 @@ media_player.yaml
 - `www/` — frontend cards managed by HACS
 - Databases, logs, backups, binaries
 
+## Pre-push secret scan (on the Pi)
+
+This repo's working copy lives in the Terminal & SSH add-on's container,
+which is rebuilt on every add-on update — a manually-installed git hook or a
+manually-placed binary does not survive that. `tools/install-hooks.sh` is
+the thing that re-applies both, idempotently, so it can run every time the
+container starts rather than being a one-off step someone has to remember.
+
+**One-time (or after a rebuild), from the add-on's own terminal:**
+
+```
+cd /config
+bash tools/install-hooks.sh          # installs .tools/gitleaks + the pre-push hook
+bash tools/install-hooks.sh --check  # read-only: reports drift, changes nothing
+```
+
+**To survive a container rebuild automatically**, add to the Terminal & SSH
+add-on's configuration (Settings → Add-ons → Terminal & SSH → Configuration),
+under `init_commands`:
+
+```yaml
+init_commands:
+  - "bash /config/tools/install-hooks.sh"
+```
+
+This re-applies the hook and the gitleaks binary on every add-on start —
+the mechanism the estate previously tried and lost to a rebuild once
+already (recorded in `System/Knowledge/leak-prevention-architecture.md`),
+this time with a script that re-runs instead of a step that gets forgotten.
+
+The hook itself (`tools/pre-push-gitleaks.sh`) scans every outgoing push
+with gitleaks' default rules, plus the operator's private pattern overlay if
+present at its fixed path on this device (`~/.config/gitleaks/operator-rules.toml`)
+— delivered here from the Mini by `tools/deliver-overlay.sh`, never tracked
+in this repo, never echoed anywhere. Neither script edits any Home Assistant
+configuration file; both are confined to `.git/hooks/` and `.tools/`.
+
 ## History
 
 Originally installed ~2017 on a Supermicro 1U rack server running Ubuntu with Docker. Hand-edited YAML, split across `automation/` and `script/` directories with `!include_dir_merge_list`. Migrated to HAOS on Raspberry Pi 5 in March 2025. Config consolidated to `automations.yaml` and `scripts.yaml` (UI-managed). Repository synced to current state in March 2026.
