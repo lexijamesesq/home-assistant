@@ -3,10 +3,3 @@
 # Unattended paths: a pattern with no owner clears ownership for it.
 
 /README.md
-/sensor.yaml
-/binary_sensor.yaml
-/themes/**/*.md
-/themes/**/*.yaml
-/lovelace/**/*.md
-/lovelace/**/*.yaml
-/ui-dashboard.yaml
