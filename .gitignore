@@ -65,6 +65,10 @@ go2rtc-*
 rtsp2webrtc_*
 *.swp
 
+# Pre-push hook tooling (tools/install-hooks.sh re-provisions this — the
+# binary is downloaded per-device, never tracked)
+.tools/
+
 # macOS
 ._*
 .DS_Store
