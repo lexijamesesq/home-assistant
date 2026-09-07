@@ -8,6 +8,11 @@ permissions:
   contents: read
 
 jobs:
+  # This is a config-only appendix repo: it ships no .pre-commit-config.yaml
+  # and no .gitleaks.toml (the Pi authors the config; no house hooks run over
+  # it). The estate core lane is pinned at v2026.09.07-7, which supplies
+  # dotty's own base rules on both the routine and trusted lanes when a caller
+  # ships none -- the empty-appendix handling this repo depends on.
   universal-ci:
     uses: lexijamesesq/dotty/.github/workflows/estate-ci.yml@v2026.09.07-7
     with:
