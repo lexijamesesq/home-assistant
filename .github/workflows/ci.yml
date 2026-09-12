@@ -40,9 +40,7 @@ jobs:
             --entrypoint "" \
             --volume "$GITHUB_WORKSPACE:/config" \
             ghcr.io/home-assistant/home-assistant:2026.6.3 \
-              python -m homeassistant \
-                --config /config \
-                --script check_config
+              python /config/tools/check-ha-config.py
 
   all-checks-passed:
     needs: [universal-ci, home-assistant-config]
