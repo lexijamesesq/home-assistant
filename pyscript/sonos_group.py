@@ -1,6 +1,6 @@
 """Sonos Grouping Service for pyscript.
 
-Uses node-sonos-http-api (10.0.1.20:5005) for reliable speaker grouping.
+Uses the privately configured node-sonos-http-api endpoint for speaker grouping.
 The HTTP API handles transport state management internally, avoiding the
 UPnP Error 800 and timeout issues with HA's media_player.join and SoCo.
 """
@@ -8,7 +8,7 @@ UPnP Error 800 and timeout issues with HA's media_player.join and SoCo.
 import requests
 from urllib.parse import quote
 
-SONOS_API = "http://10.0.1.20:5005"
+SONOS_API = pyscript.config["global"]["sonos_api_url"].rstrip("/")
 
 # Main group excludes Rec Room TV (Beam, TV-connected)
 MAIN_GROUP_MEMBERS = ["Bathroom", "Kitchen", "Living Room", "Rec Room", "Den", "Move"]

@@ -1,0 +1,22 @@
+# Public base rules; the Pi's native shared pre-push scanner separately
+# requires the private operator overlay for full outgoing-tree protection.
+[extend]
+useDefault = true
+
+[[rules]]
+id = "ha-ipv4-address"
+description = "Keep instance network addresses out of the public configuration"
+regex = '''\b(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}\b'''
+[[rules.allowlists]]
+description = "Protocol constants, loopback and RFC 5737 documentation addresses"
+regexTarget = "match"
+regexes = ['''^(?:0\.0\.0\.0|255\.255\.255\.255|127\.0\.0\.1|192\.0\.2\.\d+|198\.51\.100\.\d+|203\.0\.113\.\d+)$''']
+
+[[rules]]
+id = "ha-mac-address"
+description = "Keep device hardware addresses out of the public configuration"
+regex = '''(?i)\b(?:[0-9a-f]{2}[:-]){5}[0-9a-f]{2}\b'''
+[[rules.allowlists]]
+description = "Protocol constants and explicit locally administered synthetic fixtures"
+regexTarget = "match"
+regexes = ['''(?i)^(?:ff:ff:ff:ff:ff:ff|00:00:00:00:00:00|02:00:00:00:00:0[12])$''']

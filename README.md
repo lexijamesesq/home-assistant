@@ -58,42 +58,108 @@ media_player.yaml
 
 ## Pre-push secret scan (on the Pi)
 
-This repo's working copy lives in the Terminal & SSH add-on's container,
-which is rebuilt on every add-on update — a manually-installed git hook or a
-manually-placed binary does not survive that. `tools/install-hooks.sh` is
-the thing that re-applies both, idempotently, so it can run every time the
-container starts rather than being a one-off step someone has to remember.
+The Terminal & SSH App can be rebuilt, while its `/config` mount persists.
+The native hook, public scanner bundle, binary and private overlay all live
+under that mount. The installer reuses checksum-valid artifacts and reports
+incomplete setup until the required configurations are loadable.
 
-**One-time (or after a rebuild), from the add-on's own terminal:**
+From the App's terminal, after preparing the private overlay with
+`PI_HOST=ha.example.invalid bash tools/deliver-overlay.sh` on the workstation:
 
-```
-cd /config
-bash tools/install-hooks.sh          # installs .tools/gitleaks + the pre-push hook
-bash tools/install-hooks.sh --check  # read-only: reports drift, changes nothing
-```
-
-**To survive a container rebuild automatically**, add to the Terminal & SSH
-add-on's configuration (Settings → Add-ons → Terminal & SSH → Configuration),
-under `init_commands`:
-
-```yaml
-init_commands:
-  - "bash /config/tools/install-hooks.sh"
+```sh
+bash /config/tools/install-hooks.sh
+bash /config/tools/install-hooks.sh --check
 ```
 
-This re-applies the hook and the gitleaks binary on every add-on start —
-the mechanism the estate previously tried and lost to a rebuild once
-already (recorded in `System/Knowledge/leak-prevention-architecture.md`),
-this time with a script that re-runs instead of a step that gets forgotten.
+The delivery command uses the existing workstation rules and SSH identity;
+substitute the actual SSH host privately. It never prints rule contents.
+An optional `init_commands` entry can run `bash /config/tools/install-hooks.sh`
+after App startup to detect and repair public runtime drift. Persistence does
+not depend on downloading the scanner again on every start.
 
 The hook itself (`tools/pre-push-gitleaks.sh`) scans every outgoing push
-with gitleaks' default rules, plus the operator's private pattern overlay if
-present at its fixed path on this device (`~/.config/gitleaks/operator-rules.toml`)
+with Dotty's fail-closed scanner and the operator's private pattern overlay at
+its persistent fixed path (`/config/.tools/operator-config/gitleaks/operator-rules.toml`)
 — delivered here from the Mini by `tools/deliver-overlay.sh`, never tracked
 in this repo, never echoed anywhere. Neither script edits any Home Assistant
-configuration file; both are confined to `.git/hooks/` and `.tools/`.
+configuration file; the hook runtime, scanner, and overlay are confined to
+`.git/hooks/` and the gitignored `.tools/`. A missing or invalid overlay blocks
+the push.
 
 ## History
 
 Originally installed ~2017 on a Supermicro 1U rack server running Ubuntu with Docker. Hand-edited YAML, split across `automation/` and `script/` directories with `!include_dir_merge_list`. Migrated to HAOS on Raspberry Pi 5 in March 2025. Config consolidated to `automations.yaml` and `scripts.yaml` (UI-managed). Repository synced to current state in March 2026.
 
+## Candidate configuration validation
+
+CI combines the shared estate checks with Home Assistant Core's native
+configuration checker. The official Core image is pinned by version and digest
+to the installed release. Update that pin when upgrading Core and repeat both
+the valid and invalid-automation acceptance probes before relying on the new pin.
+
+CI substitutes `fakesecrets.yaml` for the untracked `secrets.yaml` and mounts the
+candidate at `/config`, with network access disabled. `tools/check-ha-config.py`
+retains native validation and additionally rejects ERROR logs: Core 2026.6.3 can
+disable an invalid automation while returning exit 0, including in strict mode.
+The standard pre-commit YAML hook only checks syntax; it does not replace Core.
+
+This checks the proposed public configuration, not the running house. It does
+not prove devices, credentials, custom integrations, or automation behavior. The
+HA MCP live configuration check validates the installed `/config`; it does not
+validate an arbitrary PR checkout. No deployment or reload is triggered by this
+workflow.
+
+### Persistent scanner acceptance
+
+After provisioning the public hook bundle and gitleaks binary, run
+`bash tools/test-pre-push-gitleaks.sh`. The harness uses synthetic rules and
+disposable local repositories; it never reads the real operator overlay or pushes
+to GitHub. The operator overlay is mandatory for real Pi pushes. Installation
+reports incomplete setup until the overlay is delivered and loadable.
+
+### Private runtime inputs and deployment order
+
+The repository remains public. Home Assistant resolves `!secret` YAML nodes;
+standalone Python does not automatically read them. Pyscript uses its native
+`pyscript.config["global"]["sonos_api_url"]` setting. The standalone scene and
+manual utility scripts take required arguments and have no device-address
+fallback. HA already supports a complete `shell_command` value via `!secret`;
+that remains the boundary for HA-launched scripts. This uses the estate's
+public-code/private-instance-data pattern with HA's supported configuration
+mechanism, without a runtime dependency on the estate's 1Password broker.
+
+Before deploying the changed scripts, privately provision these values:
+
+| Secret | Required value | Existing value source |
+|---|---|---|
+| `sonos_api_url` | Complete API URL | Previous `pyscript/sonos_group.py` constant |
+| `lifxlan_living_room_tv_ht_on` | Complete `python /config/python/scenes/living_room_tv_ht_on.py MAC ADDRESS` command | Previous script constructor |
+| `lifx_bedroom_tiles_wakeup` | Existing command updated with `MAC ADDRESS` arguments | Previous bedroom script constructor |
+
+Do not copy `fakesecrets.yaml` to production. Take a backup, prepare private
+values first, validate the candidate and live configuration, then use HA's
+supported reload/deployment mechanism during an idle period. Verify the Sonos
+grouping service and both scene callers after deployment. Retain the backup
+for rollback. The live HA-managed checkout must not be overwritten or rebased
+to deploy this change. Manual `restart_sonarr.py` now takes a URL argument and
+`python/scenes/test.py` takes MAC then address. Arguments can briefly appear in
+the container process list; this interface is for device addresses, not tokens
+or passwords.
+
+The CI image includes exactly Pyscript 2.0.1 with its manifest dependencies so
+the added YAML domain is checked, not ignored. Image preparation downloads
+public dependencies; candidate execution stays network-disabled. CI does not
+exercise live Pyscript services or device behavior.
+
+The scanner rejects IPv4 and colon/hyphen-separated MAC literals, except protocol
+constants and explicit documentation fixtures. Genuine instance values are
+not exempted. Cleaning the current tree does not rewrite previously published
+Git history.
+
+### Retiring the duplicate hosted scan
+
+First merge the paired Dotty declaration, then have the operator run the
+provisioner's `--check` and converge steps. The only expected drift is removal
+of the duplicate `secret-scan` context; the two shared contexts remain required.
+Only after read-back confirms that state should the legacy workflow be removed
+and this PR merged. Stop if the provisioner reports unrelated drift.
