@@ -4940,3 +4940,9 @@
       data:
         percentage: 50
   mode: single
+- id: ci_invalid_automation_probe
+  alias: CI invalid automation probe
+  triggers:
+    - platform: definitely_not_a_real_trigger_platform
+  actions:
+    - action: light.turn_on
