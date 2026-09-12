@@ -39,7 +39,7 @@ jobs:
           docker run --rm --network none \
             --entrypoint "" \
             --volume "$GITHUB_WORKSPACE:/config" \
-            ghcr.io/home-assistant/home-assistant:2026.6.3 \
+            ghcr.io/home-assistant/home-assistant:2026.6.3@sha256:aed891b8f801072302815b4b0fab5adb714182967e9d2e2d4a2be558241c73ad \
               python /config/tools/check-ha-config.py
 
   all-checks-passed:
