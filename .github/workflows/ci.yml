@@ -18,8 +18,34 @@ jobs:
     with:
       dotty_ref: v2026.09.07-7
 
+  home-assistant-config:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout configuration
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # The live checkout is /config and configuration.yaml deliberately
+      # allow-lists /config/json. Mounting the repository at that same path
+      # keeps CI faithful to the production path contract. The community
+      # action mounts at /github/workspace, so it cannot represent this repo
+      # without rewriting production configuration for the test.
+      - name: Check Home Assistant 2026.6.3 configuration
+        run: |
+          set -euo pipefail
+          cp fakesecrets.yaml secrets.yaml
+          docker run --rm --network none \
+            --entrypoint "" \
+            --volume "$GITHUB_WORKSPACE:/config" \
+            ghcr.io/home-assistant/home-assistant:2026.6.3 \
+              python -m homeassistant \
+                --config /config \
+                --script check_config
+
   all-checks-passed:
-    needs: [universal-ci]
+    needs: [universal-ci, home-assistant-config]
     if: always()
     runs-on: ubuntu-latest
     steps:
