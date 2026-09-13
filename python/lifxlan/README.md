@@ -132,7 +132,7 @@ You can get Light objects automatically though LAN-based discovery (takes a few 
 
 ```
 lights = lan.get_lights()                              # Option 1: Discovery
-light = Light("12:34:56:78:9a:bc", "192.168.1.42")     # Option 2: Direct
+light = Light("02:00:00:00:00:01", "192.0.2.1")     # Option 2: Direct
 ```
 
 The Light API provides everything in the Device API, as well as:
@@ -193,7 +193,7 @@ get_multizone_effect()                                             # returns cur
 set_multizone_effect([effect_type], [speed], [duration], [instanceid], [parameters], [rapid]) # starts the firmware effect sequence
 ```
 
-The LIFX Z can be instantiated as either a Light or MultiZoneLight object, but to use the MultiZone API you'll need to instantiate it as a MultiZoneLight. Just like with more generic Light objects, you can instantiate a MultiZoneLight directly with `light = MultiZoneLight("12:34:56:78:9a:bc", "192.168.1.23")`. You can also get a list of all MultiZone lights using `lights = lan.get_multizone_lights()`, where lan is a LifxLAN object.
+The LIFX Z can be instantiated as either a Light or MultiZoneLight object, but to use the MultiZone API you'll need to instantiate it as a MultiZoneLight. Just like with more generic Light objects, you can instantiate a MultiZoneLight directly with `light = MultiZoneLight("02:00:00:00:00:01", "192.0.2.1")`. You can also get a list of all MultiZone lights using `lights = lan.get_multizone_lights()`, where lan is a LifxLAN object.
 
 ##### TileChain API
 
@@ -230,7 +230,7 @@ set_tile_coordinates(tile_index, x, y)  # Permanently sets the specified tile's 
 get_tile_map([refresh_cache])           # Returns a 2D list with canvas_dimensions rows and cols where each element contains either a (tile_index, color_index) tuple or 0. This maps a pixel on the canvas to the tile number and LED number on that tile that the pixel corresponds to, or 0 if there is no tile in that location.
 ```
 
-A LIFX Tile light can be instantiated as either a Light or TileChain object, but to use the TileChain API you'll need to instantiate it as a TileChain. Just like with more generic Light objects, you can instantiate a TileChain directly with `light = TileChain("12:34:56:78:9a:bc", "192.168.1.23")`. You can also get a list of all tilechain lights using `lights = lan.get_tilechain_lights()`, where lan is a LifxLAN object.
+A LIFX Tile light can be instantiated as either a Light or TileChain object, but to use the TileChain API you'll need to instantiate it as a TileChain. Just like with more generic Light objects, you can instantiate a TileChain directly with `light = TileChain("02:00:00:00:00:01", "192.0.2.1")`. You can also get a list of all tilechain lights using `lights = lan.get_tilechain_lights()`, where lan is a LifxLAN object.
 
 ##### Group API
 
@@ -244,8 +244,8 @@ g = lan.get_devices_by_group("Living Room")
 g = lan.get_devices_by_location("My Home")
 
 # This method is fastest
-right = Light("12:34:56:78:9a:bc", "192.168.0.2")
-left = Light("cb:a9:87:65:43:21", "192.168.0.3")
+right = Light("02:00:00:00:00:01", "192.0.2.1")
+left = Light("02:00:00:00:00:01", "192.0.2.1")
 g = Group([right, left])
 ```
 

@@ -8,18 +8,44 @@ permissions:
   contents: read
 
 jobs:
-  # This is a config-only appendix repo: it ships no .pre-commit-config.yaml
-  # and no .gitleaks.toml (the Pi authors the config; no house hooks run over
-  # it). The estate core lane is pinned at v2026.09.07-7, which supplies
-  # dotty's own base rules on both the routine and trusted lanes when a caller
-  # ships none -- the empty-appendix handling this repo depends on.
+  # Shared publication checks plus this repository's YAML syntax appendix.
   universal-ci:
     uses: lexijamesesq/dotty/.github/workflows/estate-ci.yml@v2026.09.07-7
     with:
       dotty_ref: v2026.09.07-7
 
+  home-assistant-config:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout configuration
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # The live checkout is /config and configuration.yaml deliberately
+      # allow-lists /config/json. Mounting the repository at that same path
+      # keeps CI faithful to the production path contract. The community
+      # action mounts at /github/workspace, so it cannot represent this repo
+      # without rewriting production configuration for the test.
+      - name: Prepare production-matched Core and Pyscript
+        run: docker build --tag ha-config-ci - < tools/ha-ci.Dockerfile
+
+      - name: Test standalone script interfaces
+        run: python3 -m unittest discover -s tests
+
+      - name: Check Home Assistant 2026.6.3 configuration
+        run: |
+          set -euo pipefail
+          cp fakesecrets.yaml secrets.yaml
+          docker run --rm --network none \
+            --entrypoint "" \
+            --volume "$GITHUB_WORKSPACE:/config" \
+            ha-config-ci \
+              sh -ec 'mkdir -p /config/custom_components; cp -r /opt/ci-pyscript /config/custom_components/pyscript; python /config/tools/check-ha-config.py'
+
   all-checks-passed:
-    needs: [universal-ci]
+    needs: [universal-ci, home-assistant-config]
     if: always()
     runs-on: ubuntu-latest
     steps:

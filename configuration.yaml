@@ -314,3 +314,8 @@ alarm_control_panel:
       delay_time: 20
       arming_time: 5
       trigger_time: 31622400
+
+# Pyscript accepts free-form YAML settings even when installed through the UI.
+pyscript:
+  global:
+    sonos_api_url: !secret sonos_api_url

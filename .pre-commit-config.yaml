@@ -1,0 +1,17 @@
+# HA's custom YAML tags need syntax parsing without constructing their values.
+# Native Core validation in CI supplies the integration/schema checks.
+default_stages: [pre-commit]
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # v6.0.0
+    hooks:
+      - id: check-yaml
+        args: [--unsafe]
+  - repo: local
+    hooks:
+      - id: network-rule-fixtures
+        name: public network-rule fixtures
+        entry: python3 tools/test-network-rules.py
+        language: system
+        pass_filenames: false
+        always_run: true
