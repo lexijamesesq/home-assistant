@@ -3696,6 +3696,7 @@
   - entity_id: media_player.living_room_apple_tv
     id: ht_playing
     trigger: state
+    to: null
   - trigger: state
     entity_id: input_boolean.virtual_home_theater
     id: virtual_ht_change
@@ -3720,7 +3721,7 @@
 - id: '1774734578979'
   alias: Lighting - Living Room Brightness Update
   description: Adjusts living room brightness when mode, curve, or HT state changes.
-    Curve updates only apply when light is already on.
+    Curve updates only apply when light is already on and theater playback is inactive.
   triggers:
   - entity_id: input_select.time_of_day_mode
     id: mode_change
@@ -3734,6 +3735,7 @@
   - entity_id: media_player.living_room_apple_tv
     id: ht_playing
     trigger: state
+    to: null
   - trigger: state
     entity_id: input_boolean.virtual_home_theater
     id: virtual_ht_change
@@ -3747,9 +3749,26 @@
       conditions:
       - condition: trigger
         id: curve_update
-    - condition: state
-      entity_id: light.living_room
-      state: 'on'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: light.living_room
+        state: 'on'
+      - condition: not
+        conditions:
+        - condition: or
+          conditions:
+          - condition: and
+            conditions:
+            - condition: state
+              entity_id: input_boolean.mode_home_theater
+              state: 'on'
+            - condition: state
+              entity_id: media_player.living_room_apple_tv
+              state: playing
+          - condition: state
+            entity_id: input_boolean.virtual_home_theater_playing
+            state: 'on'
   actions:
   - action: script.turn_on
     target:
@@ -3817,6 +3836,7 @@
   - entity_id: media_player.living_room_apple_tv
     id: ht_playing
     trigger: state
+    to: null
   - trigger: state
     entity_id: input_boolean.virtual_home_theater
     id: virtual_ht_change
