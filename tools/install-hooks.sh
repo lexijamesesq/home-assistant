@@ -2,8 +2,8 @@
 #
 # install-hooks.sh — idempotently provision the pre-push secret-scan hook on
 # this checkout, and the gitleaks binary it needs. Run from the Terminal &
-# SSH add-on's shell, or from its init_commands so a container rebuild
-# re-applies both.
+# SSH add-on's shell. The official add-on has no init_commands setting; these
+# artifacts live under its persistent /config mount and survive rebuilds.
 #
 # WHY THIS EXISTS
 # ---------------

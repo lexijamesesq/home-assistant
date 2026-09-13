@@ -72,10 +72,11 @@ bash /config/tools/install-hooks.sh --check
 ```
 
 The delivery command uses the existing workstation rules and SSH identity;
-substitute the actual SSH host privately. It never prints rule contents.
-An optional `init_commands` entry can run `bash /config/tools/install-hooks.sh`
-after App startup to detect and repair public runtime drift. Persistence does
-not depend on downloading the scanner again on every start.
+substitute the actual SSH host privately. It never prints rule contents. The
+official Terminal & SSH App has no `init_commands` setting. Because the hook,
+scanner and overlay are all under persistent `/config`, they survive App
+rebuilds; run the `--check` command manually after an App update or before a
+push when you want an explicit readiness check.
 
 The hook itself (`tools/pre-push-gitleaks.sh`) scans every outgoing push
 with Dotty's fail-closed scanner and the operator's private pattern overlay at
@@ -134,12 +135,16 @@ Before deploying the changed scripts, privately provision these values:
 |---|---|---|
 | `sonos_api_url` | Complete API URL | Previous `pyscript/sonos_group.py` constant |
 | `lifxlan_living_room_tv_ht_on` | Complete `python /config/python/scenes/living_room_tv_ht_on.py MAC ADDRESS` command | Previous script constructor |
-| `lifx_bedroom_tiles_wakeup` | Existing command updated with `MAC ADDRESS` arguments | Previous bedroom script constructor |
+
+The existing `lifx_bedroom_tiles_wakeup` secret is unrelated to
+`python/scenes/bedroom_tiles_wakeup.py` and remains unchanged. That Python file
+is a manual utility after this migration; supply MAC then address only if an
+explicit consumer is identified later.
 
 Do not copy `fakesecrets.yaml` to production. Take a backup, prepare private
 values first, validate the candidate and live configuration, then use HA's
 supported reload/deployment mechanism during an idle period. Verify the Sonos
-grouping service and both scene callers after deployment. Retain the backup
+grouping service and living-room scene caller after deployment. Retain the backup
 for rollback. The live HA-managed checkout must not be overwritten or rebased
 to deploy this change. Manual `restart_sonarr.py` now takes a URL argument and
 `python/scenes/test.py` takes MAC then address. Arguments can briefly appear in
