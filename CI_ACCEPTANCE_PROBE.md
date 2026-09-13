@@ -1,0 +1,1 @@
+This temporary branch verifies that the merged Home Assistant baseline runs the native configuration check and both required shared checks. It changes no runtime configuration and must be closed without merging after the receipt is recorded.
