@@ -1,5 +1,40 @@
-# Default: every path waits for the operator's review.
-* @lexijamesesq
-# Unattended paths: a pattern with no owner clears ownership for it.
+# CODEOWNERS — coverage model (un-inverted).
+#
+# DEFAULT = UNOWNED: any path not matched below needs no code-owner review, so a
+# low-risk deterministic PR (and a Margot LOW-risk verdict) can merge without the
+# operator. There is deliberately NO `* @owner` catch-all.
+#
+# OWNED (listed below) = paths where a JUDGMENT change must have a human: the
+# safety / identity / gate machinery. The branch ruleset requires code-owner
+# review (with 0 baseline approvals), so touching any owned path holds the PR for
+# @lexijamesesq; touching only unowned paths does not.
+#
+# When adding a path: uncertain -> OWNED (under-coverage — an owned path left
+# unowned — is the dangerous direction). Here the owned surface is the
+# command-execution / trust boundary; the declarative HA content is the flow lane.
 
-/README.md
+# --- Gate machinery (CI) ---
+/.github/workflows/            @lexijamesesq
+
+# --- Gate / lint configs (can DISABLE a check) ---
+/.pre-commit-config.yaml       @lexijamesesq
+/.gitleaks.toml                @lexijamesesq
+
+# --- Governance & policy ---
+/.github/CODEOWNERS            @lexijamesesq
+
+# --- Command-execution / trust-boundary surfaces (host command exec + root include) ---
+/shell_command.yaml            @lexijamesesq
+/rest_command.yaml             @lexijamesesq
+/configuration.yaml            @lexijamesesq
+/pyscript/                     @lexijamesesq
+
+# UNOWNED by default (flow without the operator): the declarative HA content —
+# automations.yaml, scripts.yaml, scene.yaml, sensor.yaml, binary_sensor.yaml,
+# input_*.yaml, customize.yaml, group.yaml, media_player.yaml, ui-dashboard.yaml,
+# fakesecrets.yaml (fixture), .storage/**, .cache/**, README.md, LICENSE.
+#
+# ACCEPTED RESIDUAL (surfaced, not covered): an unowned automations.yaml /
+# scripts.yaml entry can invoke an existing owned shell_command with
+# attacker-controlled template params without touching an owned file. Owning all
+# of automations.yaml would gut the HA flow lane, so this residual is accepted.
