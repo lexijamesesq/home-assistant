@@ -21,7 +21,7 @@ repos:
         always_run: true
 
   - repo: https://github.com/lexijamesesq/dotty
-    rev: v2026.09.22-4
+    rev: v2026.09.22-7
     hooks:
       - id: gitleaks-staged
       - id: gitleaks-pre-push
