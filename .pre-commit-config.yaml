@@ -1,5 +1,6 @@
 # HA's custom YAML tags need syntax parsing without constructing their values.
 # Native Core validation in CI supplies the integration/schema checks.
+default_install_hook_types: [pre-commit, pre-push, commit-msg]
 default_stages: [pre-commit]
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -7,6 +8,9 @@ repos:
     hooks:
       - id: check-yaml
         args: [--unsafe]
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
   - repo: local
     hooks:
       - id: network-rule-fixtures
@@ -15,3 +19,44 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+
+  - repo: https://github.com/lexijamesesq/dotty
+    rev: v2026.09.22-4
+    hooks:
+      - id: gitleaks-staged
+      - id: gitleaks-pre-push
+      - id: gitleaks-commit-msg
+      - id: house-code
+      - id: house-scaffold-no-tracked-scratch
+      - id: house-scaffold-sample-shape
+      - id: house-scaffold-sample-placeholder
+      - id: vale-self-narration
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.5
+    hooks:
+      - id: ruff
+      - id: ruff-format
+
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.14.1-1
+    hooks:
+      - id: shfmt
+        stages: [pre-commit]
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+        stages: [pre-commit]
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.49.1
+    hooks:
+      - id: markdownlint
+        stages: [pre-commit]
