@@ -9,6 +9,14 @@ concurrency:
 
 jobs:
   security-review:
+    # Only run for the authors this review actually covers: humans and the
+    # allowed bot (claude-the-enduring). For any other bot (Ollie's dependency
+    # bumps, Dependabot) claude-code-action correctly SKIPS its review, but a
+    # later internal node24 step exits 1 and fails the whole job. That spurious
+    # red check (non-required, but Renovate will not automerge past any red
+    # check) permanently blocks bot bumps on this repo. Gating the job to its
+    # real review scope removes the false failure with no coverage lost.
+    if: ${{ github.event.pull_request.user.type != 'Bot' || github.event.pull_request.user.login == 'claude-the-enduring[bot]' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
