@@ -1,7 +1,7 @@
 name: Self-instrument merge alert
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - ".github/workflows/self-instrument-alert.yml"
 
