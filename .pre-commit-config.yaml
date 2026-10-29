@@ -38,7 +38,7 @@ repos:
       - id: shellcheck
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.0
+    rev: v0.17.3
     hooks:
       - id: ruff
       - id: ruff-format
@@ -56,16 +56,16 @@ repos:
         stages: [pre-commit]
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.49.1
+    rev: v0.50.0
     hooks:
       - id: markdownlint
         stages: [pre-commit]
 
   - repo: https://github.com/biomejs/pre-commit
-    rev: v2.5.15
+    rev: v2.6.4
     hooks:
       - id: biome-check
-        additional_dependencies: ["@biomejs/biome@2.5.15"]
+        additional_dependencies: ["@biomejs/biome@2.6.4"]
         exclude: '\.(jsonc?|vue|svelte|astro)$'
         stages: [pre-commit]
 
