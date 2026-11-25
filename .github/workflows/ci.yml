@@ -1,59 +1,69 @@
 name: CI
 on:
-  pull_request:
-  push:
-    branches: [master]
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review, edited]
 
 permissions:
   contents: read
+  pull-requests: read
+  checks: read
+  actions: read
 
-# A PR's runs group on its ref (refs/pull/<N>/merge), so a new push cancels the
-# superseded run. A push to the default branch groups on its own sha and is
-# never cancelled: GitHub keeps only one pending run per group, so a shared
-# group would silently drop a pending push run -- and with it any job a repo
-# adds that must run on every merge, such as a release job.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
+# The reusable uses one PR concurrency group and cancels superseded runs.
 jobs:
-  # Shared publication checks plus this repository's YAML syntax appendix.
-  floor:
-    # The required check is `ci / checks`: this job's name, then the called
-    # job's (estate-ci.yml's check_name). Convention `<lane> / <what it checks>`.
-    name: ci
-    # Ceiling only: the reusable's own job declares the narrow scopes it
-    # actually needs (contents/pull-requests/checks: read, for Jev's triage
-    # answer on the head's check-runs) and a called workflow can never exceed
-    # what its caller grants. No write scope, no secret: this is the lane a
-    # PR controls.
-    permissions: read-all
-    uses: lexijamesesq/dotty/.github/workflows/estate-ci.yml@v1
+  checks:
+    name: Shared
+    uses: lexijamesesq/dotty/.github/workflows/estate-pr-ci.yml@v1
+    secrets:
+      OPERATOR_RULES: ${{ secrets.OPERATOR_RULES }}
+      MARGOT_APP_KEY: ${{ secrets.MARGOT_APP_KEY }}
+      MARGOT_JEV_KEY: ${{ secrets.MARGOT_JEV_KEY }}
+      MARGOT_ANTHROPIC_TOKEN: ${{ secrets.MARGOT_ANTHROPIC_TOKEN }}
 
+  # Home Assistant's own configuration check needs a production-matched Core
+  # container, so it runs here rather than as a local hook.
   home-assistant-config:
-    name: ci / home-assistant-config
-    needs: [floor]
-    if: ${{ needs.floor.outputs.mechanical != 'true' }}
+    name: Home Assistant Configuration
+    needs: checks
+    if: needs.checks.outputs.classification != 'mechanical' && needs.checks.outputs.classification != 'documentation'
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+    concurrency:
+      group: home-assistant-config-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
     steps:
-      - name: Checkout configuration
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Require the classified PR head
+        env:
+          CLASSIFICATION: ${{ needs.checks.outputs.classification }}
+          HEAD_SHA: ${{ needs.checks.outputs.head_sha }}
+          EVENT_HEAD: ${{ github.event.pull_request.head.sha }}
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
+          script: |
+            const { CLASSIFICATION, HEAD_SHA, EVENT_HEAD, ACTIONS_CACHE_MODE } = process.env;
+            if (CLASSIFICATION !== 'functional' || HEAD_SHA !== EVENT_HEAD ||
+                !/^[0-9a-f]{40}$/.test(HEAD_SHA ?? '') ||
+                !['read', 'none'].includes(ACTIONS_CACHE_MODE)) {
+              core.setFailed('Expected a functional PR, matching authenticated head, and read-only or disabled cache access.');
+            }
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.checks.outputs.head_sha }}
           persist-credentials: false
 
-      # The live checkout is /config and configuration.yaml deliberately
-      # allow-lists /config/json. Mounting the repository at that same path
-      # keeps CI faithful to the production path contract. The community
-      # action mounts at /github/workspace, so it cannot represent this repo
-      # without rewriting production configuration for the test.
+      # The live checkout is /config and configuration.yaml allow-lists
+      # /config/json, so the repository is mounted at that same path.
       - name: Prepare production-matched Core and Pyscript
         run: docker build --tag ha-config-ci - < tools/ha-ci.Dockerfile
 
+      # Two small interface tests, kept beside the configuration check: on a
+      # public repository the runner costs nothing and moving them adds nothing.
       - name: Test standalone script interfaces
         run: python3 -m unittest discover -s tests
 
-      - name: Check Home Assistant 2026.6.3 configuration
+      - name: Check the Home Assistant configuration
         run: |
           set -euo pipefail
           cp fakesecrets.yaml secrets.yaml

@@ -1,16 +1,41 @@
-# HA's custom YAML tags need syntax parsing without constructing their values.
-# Native Core validation in CI supplies the integration/schema checks.
-default_install_hook_types: [pre-commit, pre-push, commit-msg]
+# Native consumer baseline. See new-repo/README.md before applying.
+# Preserve newer compatible consumer pins and legitimate native extensions.
+#
+# This repository's working tree is the live Home Assistant /config, so some
+# tracked files are written by Home Assistant itself. Its own configuration
+# check runs in CI. Extensions below keep the shared checks from fighting what
+# Home Assistant writes:
+# - python/lifxlan/ is a vendored third-party library, and blueprints/*/homeassistant/
+#   are blueprints Home Assistant ships; neither is edited here, so the lint
+#   hooks skip them. The secret and content scans still see every file.
+# - .storage/* is JSON Home Assistant rewrites without a trailing newline.
+# - check-yaml parses Home Assistant's custom tags (!secret, !include) as syntax.
+# - Node hooks use the system Node: on the Pi it comes from the SSH add-on's
+#   Alpine packages, where pre-commit's own Node download does not work.
+default_install_hook_types: [pre-commit, commit-msg, pre-push]
 default_stages: [pre-commit]
+default_language_version:
+  node: system
+
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0 # v6.0.0
+  - repo: https://github.com/lexijamesesq/dotty
+    rev: v2026.11.22
     hooks:
-      - id: check-yaml
-        args: [--unsafe]
-      - id: check-json
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
+      - id: gitleaks-staged
+        stages: [pre-commit]
+      - id: gitleaks-commit-msg
+        stages: [commit-msg]
+      - id: gitleaks-pre-push
+        stages: [pre-push]
+      - id: house-code
+        stages: [pre-commit]
+      - id: vale-self-narration
+        stages: [pre-commit]
+      - id: actionlint
+        stages: [pre-commit]
+      - id: zizmor
+        stages: [pre-commit]
+
   - repo: local
     hooks:
       - id: network-rule-fixtures
@@ -19,60 +44,64 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+        stages: [pre-commit]
 
-  - repo: https://github.com/lexijamesesq/dotty
-    rev: v2026.10.08
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.6
     hooks:
-      - id: gitleaks-staged
-      - id: gitleaks-pre-push
-      - id: gitleaks-commit-msg
-      - id: house-code
-      - id: house-scaffold-no-tracked-scratch
-      - id: house-scaffold-sample-shape
-      - id: house-scaffold-sample-placeholder
-      - id: vale-self-narration
+      - id: ruff
+        args: [--fix]
+        exclude: &vendored '^(python/lifxlan/|blueprints/[^/]+/homeassistant/)'
+        stages: [pre-commit]
+      - id: ruff-format
+        exclude: *vendored
+        stages: [pre-commit]
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+        args: [--unsafe]
+        exclude: *vendored
+        stages: [pre-commit]
+      - id: check-json
+        exclude: *vendored
+        stages: [pre-commit]
+      - id: end-of-file-fixer
+        # Native type owners: Ruff and shfmt; Home Assistant owns .storage.
+        exclude_types: [python, shell]
+        exclude: '^(\.storage/|python/lifxlan/|blueprints/[^/]+/homeassistant/)'
+        stages: [pre-commit]
+      - id: trailing-whitespace
+        args: ['--markdown-linebreak-ext=md,markdown']
+        exclude_types: [python, shell]
+        exclude: '^(\.storage/|python/lifxlan/|blueprints/[^/]+/homeassistant/)'
+        stages: [pre-commit]
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.10.0.1
     hooks:
       - id: shellcheck
-
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.0
-    hooks:
-      - id: ruff
-      - id: ruff-format
+        exclude: *vendored
+        stages: [pre-commit]
 
   - repo: https://github.com/scop/pre-commit-shfmt
     rev: v3.14.1-1
     hooks:
       - id: shfmt
+        exclude: *vendored
         stages: [pre-commit]
 
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.38.0
     hooks:
       - id: yamllint
+        exclude: *vendored
         stages: [pre-commit]
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.49.1
+    rev: v0.50.1
     hooks:
       - id: markdownlint
-        stages: [pre-commit]
-
-  - repo: https://github.com/biomejs/pre-commit
-    rev: v2.5.15
-    hooks:
-      - id: biome-check
-        additional_dependencies: ["@biomejs/biome@2.5.15"]
-        exclude: '\.(jsonc?|vue|svelte|astro)$'
-        stages: [pre-commit]
-
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.1.0
-    hooks:
-      - id: prettier
-        types_or: [html]
-        additional_dependencies: ["prettier@3.9.10"]
+        exclude: *vendored
         stages: [pre-commit]
