@@ -47,8 +47,9 @@ else
 	# live change. A Pi change waits uncommitted instead.
 	if ! git merge-base --is-ancestor "$old" "$new"; then
 		echo "pi-sync: stopped, nothing changed. The Pi holds commits that are not on $branch:" >&2
-		git log --format='  %h %s' "$new..$old" >&2
-		echo "Undo them with 'git reset --soft $(git merge-base "$old" "$new" | cut -c1-12)', which keeps the change live and uncommitted, then rerun." >&2
+		git log --abbrev=12 --format='  %h %s' "$new..$old" >&2
+		base="$(git merge-base "$old" "$new")"
+		echo "Undo them with 'git reset --soft ${base:0:12}', which keeps the change live and uncommitted, then rerun." >&2
 		exit 1
 	fi
 fi
