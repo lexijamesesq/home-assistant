@@ -108,9 +108,7 @@ class RestartSonarrArgumentTests(unittest.TestCase):
 
         module.main(["https://example.invalid/restart"])
 
-        self.requests.post.assert_called_once_with(
-            "https://example.invalid/restart"
-        )
+        self.requests.post.assert_called_once_with("https://example.invalid/restart")
 
     def test_url_is_required(self):
         module = self.load_restart()

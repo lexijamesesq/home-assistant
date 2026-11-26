@@ -15,7 +15,11 @@ cases = [
     ("private-ip", ".".join(map(str, (10, 123, 45, 67))), IP_RULE),
     ("public-ip", ".".join(map(str, (8, 8, 4, 4))), IP_RULE),
     ("hardware-address", ":".join(("a4", "b1", "c2", "d3", "e4", "f5")), MAC_RULE),
-    ("hyphenated-hardware-address", "-".join(("a4", "b1", "c2", "d3", "e4", "f5")), MAC_RULE),
+    (
+        "hyphenated-hardware-address",
+        "-".join(("a4", "b1", "c2", "d3", "e4", "f5")),
+        MAC_RULE,
+    ),
     ("documentation-ip", "192.0.2.1", None),
     ("synthetic-mac", "02:00:00:00:00:01", None),
     ("broadcast-mac", ":".join(["ff"] * 6), None),
@@ -32,9 +36,21 @@ with tempfile.TemporaryDirectory(prefix="ha-network-rules-") as directory:
     for name, value, expected in cases:
         (source / "config.txt").write_text(value + "\n")
         result = subprocess.run(
-            ["gitleaks", "dir", str(source), "--config", str(ROOT / ".gitleaks.toml"),
-             "--redact", "--no-banner", "--report-format", "json", "--report-path", str(report)],
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            [
+                "gitleaks",
+                "dir",
+                str(source),
+                "--config",
+                str(ROOT / ".gitleaks.toml"),
+                "--redact",
+                "--no-banner",
+                "--report-format",
+                "json",
+                "--report-path",
+                str(report),
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
         )
         if result.returncode not in (0, 1) or not report.is_file():
             raise SystemExit(f"FAIL: scanner could not complete {name}")
