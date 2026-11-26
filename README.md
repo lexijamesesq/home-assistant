@@ -61,8 +61,8 @@ media_player.yaml
 The repository's native hooks run on the Pi too, in the Terminal & SSH add-on,
 which keeps only `/config` across an update:
 
-- The add-on installs pre-commit, Node and npm itself, from its own `apks`
-  option.
+- The add-on installs pre-commit, Node, npm and Vale itself, from its own
+  `apks` option.
 - `tools/install-hooks.sh` keeps the pinned gitleaks binary under
   `/config/.tools/` and runs the native `pre-commit install`. pre-commit keeps
   its environments under `/config/.tools/pre-commit`.

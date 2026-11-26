@@ -4,7 +4,7 @@
 # Run once from the Terminal & SSH add-on, and again after an add-on update if
 # --check reports drift.
 #
-# The add-on installs pre-commit, Node and npm itself, from its own `apks`
+# The add-on installs pre-commit, Node, npm and Vale itself, from its own `apks`
 # option. Alpine does not package gitleaks, so this keeps the pinned,
 # checksum-verified binary at /config/.tools/gitleaks, then runs the native
 # `pre-commit install` that the repository's working guide names, replacing any
@@ -24,7 +24,8 @@ MODE=install
 [[ "${1:-}" == "--check" ]] && MODE=check
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-# shellcheck source=tools/pi-hook-env.sh
+# pi-hook-env.sh is checked as a file of its own.
+# shellcheck disable=SC1091
 . "$REPO_ROOT/tools/pi-hook-env.sh"
 GITLEAKS_VERSION="8.30.1"
 GITLEAKS_ARCHIVE_SHA="e4a487ee7ccd7d3a7f7ec08657610aa3606637dab924210b3aee62570fb4b080"
@@ -63,7 +64,7 @@ else
 fi
 
 # --- the tools the add-on provides ------------------------------------------
-for tool in pre-commit node npm; do
+for tool in pre-commit node npm vale; do
 	command -v "$tool" >/dev/null 2>&1 || drift "$tool is missing; add it to the Terminal & SSH add-on's apks option and restart the add-on"
 done
 
