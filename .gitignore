@@ -65,8 +65,8 @@ go2rtc-*
 rtsp2webrtc_*
 *.swp
 
-# Pre-push hook tooling (tools/install-hooks.sh re-provisions this — the
-# binary is downloaded per-device, never tracked)
+# Hook tooling and the operator's scan inputs on the Pi (tools/install-hooks.sh
+# and the review host's apply provision them; never tracked)
 .tools/
 
 # macOS

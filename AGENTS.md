@@ -87,11 +87,11 @@ repository is its record and its git backup. It is public.
 
 ### Setup
 
-Clone it and use the native hooks above. On the Pi, running them needs
-pre-commit, Node and npm in the Terminal & SSH add-on, from the add-on's own
-`apks` option, with pre-commit's environments kept under `/config` so they
-survive an add-on update. Until that is in place, the Pi runs only the pre-push
-secret scan the README describes.
+Clone it and use the native hooks above. On the Pi the same hooks run in the
+Terminal & SSH add-on: `tools/install-hooks.sh` sets them up, and every commit
+or push there starts with `. /config/tools/pi-hook-env.sh`, because an SSH
+command loads no shell profile. The README's "Checks on the Pi" says what
+provides each piece.
 
 ### Build / Test
 

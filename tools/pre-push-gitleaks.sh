@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
-# Home Assistant adapter for Dotty's canonical fail-closed pre-push scanner.
-# Runtime files and private rules live below /config's persistent volume.
-
-set -euo pipefail
-
-REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
-if [[ "$REPO_ROOT" != "/homeassistant" ]]; then
-    echo "pre-push: refusing — expected the /config checkout at /homeassistant (got '${REPO_ROOT:-<none>}')." >&2
-    exit 1
-fi
-
-exec "$REPO_ROOT/tools/run-persistent-gitleaks.sh" "$REPO_ROOT" "$@"
+# Retired. The Pi's checkout once linked its pre-push hook here; until
+# tools/install-hooks.sh replaces that hook with the native pre-commit one, a
+# push must fail closed rather than go out unscanned.
+echo "pre-push: the Pi's hooks are not set up. Run tools/install-hooks.sh, then push again." >&2
+exit 1
