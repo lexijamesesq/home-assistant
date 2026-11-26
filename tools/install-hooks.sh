@@ -12,7 +12,8 @@
 # /config/.tools/pre-commit, so they survive an add-on update. The scan inputs
 # are not installed here: the review host's merged-main apply keeps them current
 # under /config/.tools/operator-config. It never edits a Home Assistant
-# configuration file.
+# configuration file. It changes anything only when run from the live /config
+# checkout; from any other copy it can only check.
 #
 #     tools/install-hooks.sh [--check]
 #
@@ -33,6 +34,12 @@ GITLEAKS_BINARY_SHA="00e91bbe655bd7c47753e8cfe61cb76ea1a5d7e7702fe161ee40102b46b
 TOOLS_DIR="$PI_TOOLS"
 GITLEAKS_BIN="$TOOLS_DIR/gitleaks"
 GIT_DIR="$(git -C "$REPO_ROOT" rev-parse --absolute-git-dir)"
+# The tools under /config/.tools serve the live checkout. Only that checkout may
+# change them; any other copy can only check.
+if [[ "$MODE" == install && "$(cd "$REPO_ROOT" && pwd -P)" != "$(cd /config 2>/dev/null && pwd -P)" ]]; then
+	echo "install-hooks: refusing to change $TOOLS_DIR from $REPO_ROOT; run it from /config, or use --check" >&2
+	exit 2
+fi
 HOOK_TYPES=(pre-commit pre-push commit-msg prepare-commit-msg)
 
 note() { printf '%s\n' "$1"; }
