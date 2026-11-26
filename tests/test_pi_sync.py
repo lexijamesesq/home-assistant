@@ -147,6 +147,27 @@ class PiSyncTests(unittest.TestCase):
         self.assertEqual(self.git(self.pi, "rev-parse", "HEAD").strip(), old)
         self.assertEqual((self.pi / "automations.yaml").read_text(), "- id: pi\n")
 
+    def test_stops_when_the_default_branch_starts_tracking_a_file_only_the_pi_has(self):
+        self.write(self.work, ".gitignore", "json/*.json\nsecrets.yaml\n")
+        self.git(self.work, "add", ".gitignore")
+        self.git(self.work, "commit", "--quiet", "-m", "ignore secrets")
+        self.git(self.work, "push", "--quiet", "origin", "master")
+        self.git(self.pi, "pull", "--quiet", "--ff-only")
+        self.write(self.pi, "secrets.yaml", "live: value\n")
+        old = self.git(self.pi, "rev-parse", "HEAD").strip()
+
+        def edit():
+            self.write(self.work, "secrets.yaml", "placeholder: value\n")
+            self.git(self.work, "add", "-f", "secrets.yaml")
+
+        self.upstream(edit)
+        result = self.sync()
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("secrets.yaml", result.stderr)
+        self.assertEqual(self.git(self.pi, "rev-parse", "HEAD").strip(), old)
+        self.assertEqual((self.pi / "secrets.yaml").read_text(), "live: value\n")
+
 
 if __name__ == "__main__":
     unittest.main()

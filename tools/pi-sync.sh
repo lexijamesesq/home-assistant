@@ -4,8 +4,9 @@
 # The working tree is the running /config, and pull requests are squash-merged,
 # so a fast-forward never applies. This moves HEAD and the index to the
 # default branch, then brings in only the files the default branch changed. It
-# never overwrites or deletes a file changed on the Pi: if the default branch
-# changed one of those too, it stops before changing anything. A file the
+# never overwrites or deletes a file changed on the Pi, or one only the Pi has,
+# ignored ones included: if the default branch changed or added one of those,
+# it stops before changing anything. A file the
 # default branch stopped tracking stays on disk if it has local changes or is
 # now ignored, and is removed otherwise. Files Home Assistant reads are listed afterwards, because
 # applying them needs a reload or restart.
@@ -37,10 +38,13 @@ git diff --name-only --no-renames "$old" "$new" >"$work/changed"
 
 is_local() { grep -qxF -- "$1" "$work/local"; }
 in_new() { git cat-file -e "$new:$1" 2>/dev/null; }
+in_old() { git cat-file -e "$old:$1" 2>/dev/null; }
+# A file on disk that was not tracked, ignored ones included, exists only on the Pi.
+pi_only() { [[ -e "$1" || -L "$1" ]] && ! in_old "$1"; }
 
 conflicts=0
 while IFS= read -r path; do
-	if is_local "$path" && in_new "$path"; then
+	if in_new "$path" && { is_local "$path" || pi_only "$path"; }; then
 		[[ "$conflicts" -eq 1 ]] || echo "pi-sync: stopped, nothing changed. $branch and the Pi both changed:" >&2
 		echo "  $path" >&2
 		conflicts=1

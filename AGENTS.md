@@ -107,8 +107,9 @@ updated, move the Core pin in `tools/ha-ci.Dockerfile` in the same change.
   its MCP server, or in files over SSH, then record it from the Pi. Tooling and
   CI changes can be made from a clone; they reach the Pi only when its checkout
   is brought level with the default branch by `tools/pi-sync.sh`, run on the Pi
-  after a merge. It stops without changing anything if the default branch and
-  the Pi changed the same file, and lists the files Home Assistant must reload.
+  after a merge. It stops without changing anything if the default branch
+  changes a file the Pi changed, or one only the Pi has, and lists the files
+  Home Assistant must reload.
 - Home Assistant writes `automations.yaml`, `scripts.yaml`, `scene.yaml` and
   `.storage/*` itself. The hooks accept the style Home Assistant writes, and
   the end-of-file and whitespace fixers leave `.storage/` alone; edit these
