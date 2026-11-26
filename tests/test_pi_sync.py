@@ -168,6 +168,28 @@ class PiSyncTests(unittest.TestCase):
         self.assertEqual(self.git(self.pi, "rev-parse", "HEAD").strip(), old)
         self.assertEqual((self.pi / "secrets.yaml").read_text(), "live: value\n")
 
+    def test_a_rerun_finishes_a_sync_that_was_interrupted(self):
+        self.write(self.pi, "automations.yaml", "- id: one\n- id: two\n")
+        old = self.git(self.pi, "rev-parse", "HEAD").strip()
+        new = self.upstream(lambda: self.write(self.work, "tools/check.py", "new\n"))
+        # The state a sync leaves if it stops right after moving HEAD and the index.
+        self.git(self.pi, "fetch", "--quiet", "origin")
+        git_dir = Path(self.git(self.pi, "rev-parse", "--absolute-git-dir").strip())
+        (git_dir / "pi-sync-from").write_text(old + "\n")
+        self.git(self.pi, "reset", "--quiet", "--mixed", new)
+
+        result = self.sync()
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.pi / "tools/check.py").read_text(), "new\n")
+        self.assertEqual(
+            (self.pi / "automations.yaml").read_text(), "- id: one\n- id: two\n"
+        )
+        self.assertEqual(
+            self.git(self.pi, "status", "--porcelain").strip(), "M automations.yaml"
+        )
+        self.assertFalse((git_dir / "pi-sync-from").exists())
+
 
 if __name__ == "__main__":
     unittest.main()
