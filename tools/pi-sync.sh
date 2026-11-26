@@ -6,8 +6,8 @@
 # default branch, then brings in only the files the default branch changed. It
 # never overwrites or deletes a file changed on the Pi: if the default branch
 # changed one of those too, it stops before changing anything. A file the
-# default branch stopped tracking stays on disk if it has local changes, and is
-# removed otherwise. Files Home Assistant reads are listed afterwards, because
+# default branch stopped tracking stays on disk if it has local changes or is
+# now ignored, and is removed otherwise. Files Home Assistant reads are listed afterwards, because
 # applying them needs a reload or restart.
 #
 # Usage: tools/pi-sync.sh [checkout]   (default /config)
@@ -51,13 +51,21 @@ done <"$work/changed"
 git reset --quiet --mixed "$new"
 echo "pi-sync: ${old:0:12} -> ${new:0:12} on $branch"
 : >"$work/applied"
+# Bring in everything the default branch has first, .gitignore included, so a
+# file it stopped tracking is judged against its own ignore rules.
 while IFS= read -r path; do
 	if in_new "$path"; then
 		git checkout --quiet -- "$path"
 		echo "  updated  $path"
 		echo "$path" >>"$work/applied"
-	elif is_local "$path"; then
+	fi
+done <"$work/changed"
+while IFS= read -r path; do
+	in_new "$path" && continue
+	if is_local "$path"; then
 		echo "  kept, no longer tracked  $path"
+	elif git check-ignore --quiet --no-index -- "$path"; then
+		[[ ! -e "$path" ]] || echo "  kept, now ignored  $path"
 	elif [[ -e "$path" ]]; then
 		rm -f -- "$path"
 		echo "  removed  $path"
@@ -65,12 +73,14 @@ while IFS= read -r path; do
 	fi
 done <"$work/changed"
 
+# What Home Assistant reads: its YAML and .storage, and the code and assets it loads.
 reload=""
 while IFS= read -r path; do
 	case "$path" in
-	.storage/*) reload="$reload  $path"$'\n' ;;
-	.github/* | tools/* | tests/* | json/.gitkeep | *.md | .[!.]*) ;;
-	*) reload="$reload  $path"$'\n' ;;
+	.github/* | tools/* | tests/* | .*.yaml) ;;
+	.storage/* | *.yaml | pyscript/* | python/* | themes/* | blueprints/* | lovelace/* | template/* | custom_components/* | www/*)
+		reload="$reload  $path"$'\n'
+		;;
 	esac
 done <"$work/applied"
 if [[ -n "$reload" ]]; then

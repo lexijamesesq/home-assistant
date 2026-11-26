@@ -54,7 +54,9 @@ class PiSyncTests(unittest.TestCase):
             "tools",
         )
         self.write(self.work, "json/sun.json", "{}\n")
-        self.git(self.work, "add", "-f", "json/sun.json")
+        self.write(self.work, "json/moon.json", "{}\n")
+        self.write(self.work, "ruff.toml", "old\n")
+        self.git(self.work, "add", "-f", "json/sun.json", "json/moon.json", "ruff.toml")
         self.git(self.work, "commit", "--quiet", "-m", "base")
         self.git(self.work, "push", "--quiet", "origin", "master")
         self.git(base, "clone", "--quiet", str(self.origin), str(self.pi))
@@ -100,7 +102,15 @@ class PiSyncTests(unittest.TestCase):
             self.write(self.work, "tools/check.py", "new\n")
             self.write(self.work, "scripts.yaml", "a: 2\n")
             (self.work / "tools/retired.sh").unlink()
-            self.git(self.work, "rm", "--quiet", "--cached", "json/sun.json")
+            self.write(self.work, "ruff.toml", "new\n")
+            self.git(
+                self.work,
+                "rm",
+                "--quiet",
+                "--cached",
+                "json/sun.json",
+                "json/moon.json",
+            )
 
         new = self.upstream(edit)
         result = self.sync()
@@ -111,6 +121,7 @@ class PiSyncTests(unittest.TestCase):
         self.assertEqual((self.pi / "scripts.yaml").read_text(), "a: 2\n")
         self.assertFalse((self.pi / "tools/retired.sh").exists())
         self.assertEqual((self.pi / "json/sun.json").read_text(), '{"today": 1}\n')
+        self.assertEqual((self.pi / "json/moon.json").read_text(), "{}\n")
         self.assertEqual(
             (self.pi / "automations.yaml").read_text(), "- id: one\n- id: two\n"
         )
@@ -118,7 +129,9 @@ class PiSyncTests(unittest.TestCase):
             self.git(self.pi, "status", "--porcelain").strip(), "M automations.yaml"
         )
         self.assertIn("reload or restart", result.stdout)
-        self.assertIn("  scripts.yaml", result.stdout.split("reload or restart")[1])
+        reload = result.stdout.split("reload or restart")[1]
+        self.assertIn("  scripts.yaml", reload)
+        self.assertNotIn("ruff.toml", reload)
 
     def test_stops_without_changing_anything_when_both_sides_changed_a_file(self):
         self.write(self.pi, "automations.yaml", "- id: pi\n")
