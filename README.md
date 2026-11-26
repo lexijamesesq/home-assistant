@@ -5,7 +5,7 @@ Personal [Home Assistant](https://home-assistant.io/) configuration.
 ## Platform
 
 | | |
-|---|---|
+| --- | --- |
 | **Hardware** | Raspberry Pi 5 |
 | **Install** | Home Assistant OS |
 | **Network** | UniFi (Protect, Network) |
@@ -13,7 +13,7 @@ Personal [Home Assistant](https://home-assistant.io/) configuration.
 
 ## Repository Structure
 
-```
+```text
 configuration.yaml          # Main config — includes, integrations, utility meters
 automations.yaml            # All automations (UI-managed)
 scripts.yaml                # All scripts (UI-managed)
@@ -132,7 +132,7 @@ mechanism, without a runtime dependency on the estate's 1Password broker.
 Before deploying the changed scripts, privately provision these values:
 
 | Secret | Required value | Existing value source |
-|---|---|---|
+| --- | --- | --- |
 | `sonos_api_url` | Complete API URL | Previous `pyscript/sonos_group.py` constant |
 | `lifxlan_living_room_tv_ht_on` | Complete `python /config/python/scenes/living_room_tv_ht_on.py MAC ADDRESS` command | Previous script constructor |
 
@@ -160,11 +160,3 @@ The scanner rejects IPv4 and colon/hyphen-separated MAC literals, except protoco
 constants and explicit documentation fixtures. Genuine instance values are
 not exempted. Cleaning the current tree does not rewrite previously published
 Git history.
-
-### Retiring the duplicate hosted scan
-
-First merge the paired Dotty declaration, then have the operator run the
-provisioner's `--check` and converge steps. The only expected drift is removal
-of the duplicate `secret-scan` context; the two shared contexts remain required.
-Only after read-back confirms that state should the legacy workflow be removed
-and this PR merged. Stop if the provisioner reports unrelated drift.

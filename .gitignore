@@ -81,3 +81,6 @@ rtsp2webrtc_*
 !.gitignore
 .cache/
 .automatic/
+
+# Written by scripts and sensors under the allow-listed /config/json.
+json/*.json
