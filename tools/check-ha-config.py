@@ -24,8 +24,14 @@ if __name__ == "__main__":
     logging.basicConfig(stream=sys.stdout, level=logging.INFO)
     errors = ErrorCounter()
     logging.getLogger().addHandler(errors)
-    sys.argv = ["homeassistant", "--config", "/config", "--script", "check_config",
-                "--fail-on-warnings"]
+    sys.argv = [
+        "homeassistant",
+        "--config",
+        "/config",
+        "--script",
+        "check_config",
+        "--fail-on-warnings",
+    ]
     status = 0
     try:
         runpy.run_module("homeassistant", run_name="__main__")
@@ -34,7 +40,9 @@ if __name__ == "__main__":
     finally:
         logging.getLogger().removeHandler(errors)
     if errors.count:
-        print(f"Configuration check logged {errors.count} error(s); refusing clearance.",
-              file=sys.stderr)
+        print(
+            f"Configuration check logged {errors.count} error(s); refusing clearance.",
+            file=sys.stderr,
+        )
         status = status or 1
     raise SystemExit(status)
