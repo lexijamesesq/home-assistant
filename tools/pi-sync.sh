@@ -12,7 +12,9 @@
 #   branch has a version, the sync stops before changing anything; if not, the
 #   Pi's copy stays on disk, untracked.
 # The commit the Pi was on is recorded before anything moves, so a rerun after an
-# interruption finishes the same sync. Files Home Assistant reads are listed
+# interruption finishes the same sync. It stops if the Pi holds commits that are
+# not on the default branch, because a change made on the Pi waits uncommitted
+# until it is published. Files Home Assistant reads are listed
 # afterwards, because applying them needs a reload or restart.
 #
 # Usage: tools/pi-sync.sh [checkout]   (default /config)
@@ -39,6 +41,15 @@ else
 	if [[ "$old" == "$new" ]]; then
 		echo "pi-sync: already level with $branch at ${new:0:12}"
 		exit 0
+	fi
+	# A commit made on the Pi and not yet on the default branch would be judged
+	# as already in place and its files reset to the default branch, undoing a
+	# live change. A Pi change waits uncommitted instead.
+	if ! git merge-base --is-ancestor "$old" "$new"; then
+		echo "pi-sync: stopped, nothing changed. The Pi holds commits that are not on $branch:" >&2
+		git log --format='  %h %s' "$new..$old" >&2
+		echo "Undo them with 'git reset --soft $(git merge-base "$old" "$new" | cut -c1-12)', which keeps the change live and uncommitted, then rerun." >&2
+		exit 1
 	fi
 fi
 

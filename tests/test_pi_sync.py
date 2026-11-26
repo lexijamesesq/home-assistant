@@ -198,6 +198,32 @@ class PiSyncTests(unittest.TestCase):
         self.assertFalse((git_dir / "pi-sync-from").exists())
         self.assertIn("  scripts.yaml", result.stdout.split("reload or restart")[-1])
 
+    def test_stops_while_the_pi_holds_a_commit_not_on_the_default_branch(self):
+        self.write(self.pi, "automations.yaml", "- id: one\n- id: pi\n")
+        self.git(self.pi, "commit", "--quiet", "-am", "pi change, not yet published")
+        old = self.git(self.pi, "rev-parse", "HEAD").strip()
+        self.upstream(lambda: self.write(self.work, "tools/check.py", "new\n"))
+
+        result = self.sync()
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("pi change, not yet published", result.stderr)
+        self.assertEqual(self.git(self.pi, "rev-parse", "HEAD").strip(), old)
+        self.assertEqual(
+            (self.pi / "automations.yaml").read_text(), "- id: one\n- id: pi\n"
+        )
+        self.assertEqual((self.pi / "tools/check.py").read_text(), "old\n")
+        # The undo it names leaves the change live and uncommitted, and the sync then runs.
+        undo = result.stderr.split("git reset --soft ")[1].split("'")[0]
+        self.git(self.pi, "reset", "--quiet", "--soft", undo)
+        self.git(self.pi, "reset", "--quiet")
+        result = self.sync()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(
+            (self.pi / "automations.yaml").read_text(), "- id: one\n- id: pi\n"
+        )
+        self.assertEqual((self.pi / "tools/check.py").read_text(), "new\n")
+
 
 if __name__ == "__main__":
     unittest.main()
