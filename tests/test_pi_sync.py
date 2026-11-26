@@ -171,12 +171,19 @@ class PiSyncTests(unittest.TestCase):
     def test_a_rerun_finishes_a_sync_that_was_interrupted(self):
         self.write(self.pi, "automations.yaml", "- id: one\n- id: two\n")
         old = self.git(self.pi, "rev-parse", "HEAD").strip()
-        new = self.upstream(lambda: self.write(self.work, "tools/check.py", "new\n"))
-        # The state a sync leaves if it stops right after moving HEAD and the index.
+
+        def edit():
+            self.write(self.work, "tools/check.py", "new\n")
+            self.write(self.work, "scripts.yaml", "a: 2\n")
+
+        new = self.upstream(edit)
+        # The state a sync leaves if it stops after moving HEAD and the index and
+        # bringing in one file Home Assistant reads.
         self.git(self.pi, "fetch", "--quiet", "origin")
         git_dir = Path(self.git(self.pi, "rev-parse", "--absolute-git-dir").strip())
         (git_dir / "pi-sync-from").write_text(old + "\n")
         self.git(self.pi, "reset", "--quiet", "--mixed", new)
+        self.git(self.pi, "checkout", "--quiet", "--", "scripts.yaml")
 
         result = self.sync()
 
@@ -189,6 +196,7 @@ class PiSyncTests(unittest.TestCase):
             self.git(self.pi, "status", "--porcelain").strip(), "M automations.yaml"
         )
         self.assertFalse((git_dir / "pi-sync-from").exists())
+        self.assertIn("  scripts.yaml", result.stdout.split("reload or restart")[-1])
 
 
 if __name__ == "__main__":

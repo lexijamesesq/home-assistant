@@ -106,6 +106,14 @@ while IFS= read -r path; do
 	esac
 done <"$work/changed"
 rm -f "$marker"
+# Everything now live as the default branch has it counts, including files an
+# interrupted run had already brought in.
+while IFS= read -r path; do
+	if [[ "$(blob "$new" "$path")" != absent && "$(state "$path")" == applied ]]; then
+		echo "$path"
+	fi
+done <"$work/changed" >>"$work/applied"
+sort -u -o "$work/applied" "$work/applied"
 
 # What Home Assistant reads: its YAML and .storage, and the code and assets it loads.
 reload=""
