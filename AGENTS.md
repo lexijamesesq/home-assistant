@@ -107,9 +107,10 @@ updated, move the Core pin in `tools/ha-ci.Dockerfile` in the same change.
   its MCP server, or in files over SSH, then record it from the Pi. Tooling and
   CI changes can be made from a clone; they reach the Pi only when its checkout
   is brought level with the default branch.
-- Home Assistant writes `automations.yaml`, `scripts.yaml`, `scenes.yaml` and
-  `.storage/*` itself. The hooks don't lint their style; edit them through Home
-  Assistant rather than by reformatting.
+- Home Assistant writes `automations.yaml`, `scripts.yaml`, `scene.yaml` and
+  `.storage/*` itself. The hooks accept the style Home Assistant writes, and
+  the end-of-file and whitespace fixers leave `.storage/` alone; edit these
+  files through Home Assistant rather than by reformatting.
 - Home Assistant regenerates `.cache/` and `json/*.json`; they are not tracked.
 - Stage files by path, never `git add -A`: the live tree always carries runtime
   changes that must not be committed in bulk.

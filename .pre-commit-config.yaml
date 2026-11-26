@@ -6,8 +6,9 @@
 # check runs in CI. Extensions below keep the shared checks from fighting what
 # Home Assistant writes:
 # - python/lifxlan/ is a vendored third-party library, and blueprints/*/homeassistant/
-#   are blueprints Home Assistant ships; neither is edited here, so the lint
-#   hooks skip them. The secret and content scans still see every file.
+#   are blueprints Home Assistant ships; neither is edited here, so the style
+#   and code linters skip them. YAML syntax and duplicate-key checks, and the
+#   secret and content scans, still see every file.
 # - .storage/* is JSON Home Assistant rewrites without a trailing newline.
 # - check-yaml parses Home Assistant's custom tags (!secret, !include) as syntax.
 # - Node hooks use the system Node: on the Pi it comes from the SSH add-on's
@@ -62,7 +63,6 @@ repos:
     hooks:
       - id: check-yaml
         args: [--unsafe]
-        exclude: *vendored
         stages: [pre-commit]
       - id: check-json
         exclude: *vendored
@@ -96,7 +96,6 @@ repos:
     rev: v1.38.0
     hooks:
       - id: yamllint
-        exclude: *vendored
         stages: [pre-commit]
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
