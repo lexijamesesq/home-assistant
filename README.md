@@ -56,36 +56,36 @@ media_player.yaml
 - `www/` — frontend cards managed by HACS
 - Databases, logs, backups, binaries
 
-## Pre-push secret scan (on the Pi)
+## Checks on the Pi
 
-The Terminal & SSH App can be rebuilt, while its `/config` mount persists.
-The native hook, public scanner bundle, binary and private overlay all live
-under that mount. The installer reuses checksum-valid artifacts and reports
-incomplete setup until the required configurations are loadable.
+The repository's native hooks run on the Pi too, in the Terminal & SSH add-on,
+which keeps only `/config` across an update:
 
-From the App's terminal, after preparing the private overlay with
-`PI_HOST=ha.example.invalid bash tools/deliver-overlay.sh` on the workstation:
+- The add-on installs pre-commit, Node and npm itself, from its own `apks`
+  option.
+- `tools/install-hooks.sh` keeps the pinned gitleaks binary under
+  `/config/.tools/` and runs the native `pre-commit install`. pre-commit keeps
+  its environments under `/config/.tools/pre-commit`.
+- The operator's private scan inputs, the gitleaks rules and the rosters, are
+  kept current under `/config/.tools/operator-config/` by the review host's
+  merged-main apply. They are never tracked here and never printed.
+
+Set up once from the add-on, and check after an add-on update:
 
 ```sh
 bash /config/tools/install-hooks.sh
 bash /config/tools/install-hooks.sh --check
 ```
 
-The delivery command uses the existing workstation rules and SSH identity;
-substitute the actual SSH host privately. It never prints rule contents. The
-official Terminal & SSH App has no `init_commands` setting. Because the hook,
-scanner and overlay are all under persistent `/config`, they survive App
-rebuilds; run the `--check` command manually after an App update or before a
-push when you want an explicit readiness check.
+An SSH command loads no shell profile, so source the hook settings before
+committing or pushing on the Pi:
 
-The hook itself (`tools/pre-push-gitleaks.sh`) scans every outgoing push
-with Dotty's fail-closed scanner and the operator's private pattern overlay at
-its persistent fixed path (`/config/.tools/operator-config/gitleaks/operator-rules.toml`)
-— delivered here from the Mini by `tools/deliver-overlay.sh`, never tracked
-in this repo, never echoed anywhere. Neither script edits any Home Assistant
-configuration file; the hook runtime, scanner, and overlay are confined to
-`.git/hooks/` and the gitignored `.tools/`. A missing or invalid overlay blocks
-the push.
+```sh
+. /config/tools/pi-hook-env.sh
+```
+
+Without them the scans fail closed and refuse the commit. After a merge, bring
+the Pi level with the default branch with `tools/pi-sync.sh`.
 
 ## History
 
@@ -109,14 +109,6 @@ not prove devices, credentials, custom integrations, or automation behavior. The
 HA MCP live configuration check validates the installed `/config`; it does not
 validate an arbitrary PR checkout. No deployment or reload is triggered by this
 workflow.
-
-### Persistent scanner acceptance
-
-After provisioning the public hook bundle and gitleaks binary, run
-`bash tools/test-pre-push-gitleaks.sh`. The harness uses synthetic rules and
-disposable local repositories; it never reads the real operator overlay or pushes
-to GitHub. The operator overlay is mandatory for real Pi pushes. Installation
-reports incomplete setup until the overlay is delivered and loadable.
 
 ### Private runtime inputs and deployment order
 
