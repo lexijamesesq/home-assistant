@@ -1,0 +1,458 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.tablet_home",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Home",
+          "path": "home",
+          "type": "sidebar",
+          "icon": "mdi:home",
+          "cards": [
+            {
+              "type": "vertical-stack",
+              "view_layout": {
+                "position": "sidebar"
+              },
+              "cards": [
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "{{ now().strftime('%-I:%M') }}",
+                  "secondary": "{{ now().strftime('%A, %B %-d') }}",
+                  "icon": "",
+                  "entity": "sensor.dashboard_date_time",
+                  "tap_action": {
+                    "action": "none"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "layout": "vertical",
+                  "card_mod": {
+                    "style": "ha-card {\n  background: transparent !important;\n  border: none !important;\n  box-shadow: none !important;\n  padding: 20px 8px 8px 8px;\n}\nha-card .container .content ha-tile-info > span:first-of-type {\n  font-size: 56px !important;\n  font-weight: 200 !important;\n  line-height: 1 !important;\n  letter-spacing: -2px;\n}\nha-card .container .content ha-tile-info > span:nth-of-type(2) {\n  font-size: 15px !important;\n  opacity: 0.7;\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "entity": "alarm_control_panel.home_alarm",
+                      "tap_action": {
+                        "action": "none"
+                      },
+                      "hold_action": {
+                        "action": "none"
+                      },
+                      "icon": "{% set a = states('alarm_control_panel.home_alarm') %}{% if a == 'armed_home' %}mdi:shield-home{% elif a == 'armed_away' %}mdi:shield-car{% elif a == 'arming' %}mdi:shield-sync{% elif a == 'pending' %}mdi:shield-alert-outline{% elif a == 'triggered' %}mdi:shield-alert{% else %}{{ state_attr('sensor.dashboard_home_state','icon') }}{% endif %}",
+                      "content": "{% set a = states('alarm_control_panel.home_alarm') %}{% if a == 'armed_home' %}Armed{% elif a == 'armed_away' %}Away{% elif a == 'arming' %}Arming{% elif a == 'pending' %}Entry{% elif a == 'triggered' %}Breach{% else %}{{ states('sensor.dashboard_home_state') }}{% endif %}",
+                      "icon_color": "{% set a = states('alarm_control_panel.home_alarm') %}{% if a in ['armed_home','armed_away'] %}blue{% elif a in ['arming','pending'] %}amber{% elif a == 'triggered' %}red{% elif is_state('sensor.dashboard_home_state','Secure') %}green{% else %}red{% endif %}"
+                    },
+                    {
+                      "type": "template",
+                      "entity": "sensor.dashboard_current_mode",
+                      "hold_action": {
+                        "action": "none"
+                      },
+                      "icon": "{{ state_attr(entity, 'icon') }}",
+                      "content": "{{ states(entity) }}",
+                      "tap_action": {
+                        "action": "none"
+                      },
+                      "icon_color": "{% set mode = states(entity) %}{% if mode == 'Morning' %}orange{% elif mode == 'Day' %}yellow{% elif mode == 'Sunset' %}orange{% elif mode == 'Night' %}purple{% elif mode == 'Theater' %}orange{% elif mode == 'Cleaning' %}yellow{% elif mode == 'Laundry' %}blue{% elif mode == 'Sleep' %}purple{% endif %}"
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card {\n  background: transparent;\n  border: none;\n  box-shadow: none;\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "chips": [
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "alarm_control_panel.home_alarm",
+                          "state": "disarmed"
+                        }
+                      ],
+                      "chip": {
+                        "type": "template",
+                        "icon": "mdi:shield-home",
+                        "content": "Arm Home",
+                        "icon_color": "blue",
+                        "tap_action": {
+                          "action": "perform-action",
+                          "perform_action": "script.alarm_arm",
+                          "data": {
+                            "arm_mode": "home",
+                            "source": "manual"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "conditional",
+                      "conditions": [
+                        {
+                          "condition": "state",
+                          "entity": "alarm_control_panel.home_alarm",
+                          "state_not": "disarmed"
+                        }
+                      ],
+                      "chip": {
+                        "type": "template",
+                        "icon": "mdi:shield-off",
+                        "content": "Disarm",
+                        "icon_color": "orange",
+                        "tap_action": {
+                          "action": "perform-action",
+                          "perform_action": "alarm_control_panel.alarm_disarm",
+                          "target": {
+                            "entity_id": "alarm_control_panel.home_alarm"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card {\n  background: transparent;\n  border: none;\n  box-shadow: none;\n}\n"
+                  }
+                },
+                {
+                  "type": "markdown",
+                  "content": "{% set ns = namespace(lines=[]) %}{% if states('sensor.dashboard_garage_actual_status') != 'off' %}{% set ns.lines = ns.lines + [states('sensor.dashboard_garage_actual_status')] %}{% endif %}{% if states('sensor.dashboard_open_door_status') != 'off' %}{% set ns.lines = ns.lines + [states('sensor.dashboard_open_door_status')] %}{% endif %}{% if states('sensor.dashboard_unlocked_door_status') != 'off' %}{% set ns.lines = ns.lines + [states('sensor.dashboard_unlocked_door_status')] %}{% endif %}{% if states('sensor.dashboard_open_window_status') != 'off' %}{% set ns.lines = ns.lines + [states('sensor.dashboard_open_window_status')] %}{% endif %}{% if states('sensor.dashboard_lights_on_status') != 'off' %}{% set ns.lines = ns.lines + [states('sensor.dashboard_lights_on_status')] %}{% endif %}{{ ns.lines | join('\n\n') }}",
+                  "card_mod": {
+                    "style": "ha-card {\n  background: transparent;\n  border: none;\n  box-shadow: none;\n  min-height: 0;\n}\nha-card .card-content {\n  padding: 8px 16px;\n  font-size: 14px;\n  line-height: 1.4;\n}\nha-card .card-content p {\n  margin: 0 0 4px 0;\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "content": "Home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/tablet-home/home"
+                      },
+                      "icon_color": "blue"
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:music",
+                      "content": "Media",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/tablet-home/media"
+                      },
+                      "icon_color": "blue"
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb",
+                      "content": "Lights",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/tablet-home/lights"
+                      },
+                      "icon_color": "blue"
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card {\n  background: transparent;\n  border: none;\n  box-shadow: none;\n}\nha-card .chip-container {\n  flex-direction: column;\n  gap: 8px;\n  padding: 8px 16px;\n}\nha-card .chip-container > * {\n  width: 100%;\n}\n"
+                  }
+                },
+                {
+                  "type": "weather-forecast",
+                  "entity": "weather.tomorrow_io_home_daily",
+                  "show_forecast": false,
+                  "card_mod": {
+                    "style": "ha-card {\n  background: transparent;\n  border: none;\n  box-shadow: none;\n}\n"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "columns": 3,
+              "square": false,
+              "cards": [
+                {
+                  "type": "vertical-stack",
+                  "cards": [
+                    {
+                      "type": "heading",
+                      "heading": "Climate",
+                      "heading_style": "subtitle"
+                    },
+                    {
+                      "type": "grid",
+                      "columns": 2,
+                      "square": false,
+                      "cards": [
+                        {
+                          "type": "custom:mushroom-template-card",
+                          "primary": "Downstairs",
+                          "secondary": "{% set hvac = state_attr('climate.downstairs', 'hvac_action') %}{% if hvac == 'cooling' %}Cooling to {{ state_attr('climate.downstairs', 'target_temp_high') | default(state_attr('climate.downstairs', 'temperature')) }}°{% elif hvac == 'heating' %}Heating to {{ state_attr('climate.downstairs', 'target_temp_low') | default(state_attr('climate.downstairs', 'temperature')) }}°{% elif states('climate.downstairs') == 'heat_cool' %}Auto {{ state_attr('climate.downstairs', 'target_temp_low') }}–{{ state_attr('climate.downstairs', 'target_temp_high') }}°{% else %}{{ states('climate.downstairs') | capitalize }}{% endif %} · {{ states('sensor.downstairs_humidity') }}%",
+                          "icon": "{% if is_state('climate.downstairs', 'cool') %}mdi:snowflake{% elif is_state('climate.downstairs', 'heat') %}mdi:fire{% else %}mdi:sun-snowflake-variant{% endif %}",
+                          "entity": "climate.downstairs",
+                          "tap_action": {
+                            "action": "more-info"
+                          },
+                          "icon_tap_action": {
+                            "action": "more-info"
+                          },
+                          "color": "{% if is_state_attr('climate.downstairs', 'hvac_action', 'cooling') %}rgb(var(--mush-rgb-blue)){% elif is_state_attr('climate.downstairs', 'hvac_action', 'heating') %}rgb(var(--mush-rgb-orange)){% endif %}",
+                          "card_mod": {
+                            "style": "ha-card {\n  background: rgba(255, 255, 255, 0.05) !important;\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n}\nha-state-icon { display: none; }\nha-tile-icon::after {\n  content: \"{{ states.climate.downstairs.attributes.current_temperature | string }}\";\n  position: absolute; inset: 0;\n  display: flex; align-items: center; justify-content: center;\n  color: rgb(var(--tile-color)); font-size: 15px; font-weight: bold;\n  pointer-events: none;\n}\n"
+                          }
+                        },
+                        {
+                          "type": "custom:mushroom-template-card",
+                          "primary": "Upstairs",
+                          "secondary": "{% set hvac = state_attr('climate.upstairs', 'hvac_action') %}{% if hvac == 'cooling' %}Cooling to {{ state_attr('climate.upstairs', 'target_temp_high') | default(state_attr('climate.upstairs', 'temperature')) }}°{% elif hvac == 'heating' %}Heating to {{ state_attr('climate.upstairs', 'target_temp_low') | default(state_attr('climate.upstairs', 'temperature')) }}°{% elif states('climate.upstairs') == 'heat_cool' %}Auto {{ state_attr('climate.upstairs', 'target_temp_low') }}–{{ state_attr('climate.upstairs', 'target_temp_high') }}°{% else %}{{ states('climate.upstairs') | capitalize }}{% endif %} · {{ states('sensor.upstairs_humidity') }}%",
+                          "icon": "{% if is_state('climate.upstairs', 'cool') %}mdi:snowflake{% elif is_state('climate.upstairs', 'heat') %}mdi:fire{% else %}mdi:sun-snowflake-variant{% endif %}",
+                          "entity": "climate.upstairs",
+                          "tap_action": {
+                            "action": "more-info"
+                          },
+                          "icon_tap_action": {
+                            "action": "more-info"
+                          },
+                          "color": "{% if is_state_attr('climate.upstairs', 'hvac_action', 'cooling') %}rgb(var(--mush-rgb-blue)){% elif is_state_attr('climate.upstairs', 'hvac_action', 'heating') %}rgb(var(--mush-rgb-orange)){% endif %}",
+                          "card_mod": {
+                            "style": "ha-card {\n  background: rgba(255, 255, 255, 0.05) !important;\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n}\nha-state-icon { display: none; }\nha-tile-icon::after {\n  content: \"{{ states.climate.upstairs.attributes.current_temperature | string }}\";\n  position: absolute; inset: 0;\n  display: flex; align-items: center; justify-content: center;\n  color: rgb(var(--tile-color)); font-size: 15px; font-weight: bold;\n  pointer-events: none;\n}\n"
+                          }
+                        },
+                        {
+                          "type": "custom:mushroom-template-card",
+                          "primary": "Air Quality",
+                          "secondary": "{{ states('sensor.u_s_air_quality_index') }}",
+                          "icon": "{{ state_attr('sensor.u_s_air_quality_index', 'icon') }}",
+                          "entity": "sensor.u_s_air_quality_index",
+                          "tap_action": {
+                            "action": "more-info"
+                          },
+                          "color": "{% set s = states('sensor.u_s_air_quality_index') | int(0) %}{% if s > 200 %}rgb(var(--mush-rgb-red)){% elif s > 100 %}rgb(var(--mush-rgb-orange)){% elif s > 50 %}rgb(var(--mush-rgb-yellow)){% else %}rgb(var(--mush-rgb-green)){% endif %}",
+                          "card_mod": {
+                            "style": "ha-card {\n  background: rgba(255, 255, 255, 0.05) !important;\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n}\n"
+                          }
+                        },
+                        {
+                          "type": "custom:mushroom-template-card",
+                          "primary": "{{ 'First Light' if is_state('sensor.first_light_show', 'on') else 'Golden Hour' }}",
+                          "secondary": "{{ state_attr('sensor.dashboard_date_time', 'first_light') if is_state('sensor.first_light_show', 'on') else state_attr('sensor.dashboard_date_time', 'golden_hour') }}",
+                          "icon": "{{ 'mdi:weather-sunset-up' if is_state('sensor.first_light_show', 'on') else 'mdi:weather-sunset-down' }}",
+                          "tap_action": {
+                            "action": "none"
+                          },
+                          "color": "rgb(var(--mush-rgb-orange))",
+                          "card_mod": {
+                            "style": "ha-card {\n  background: rgba(255, 255, 255, 0.05) !important;\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n}\n"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "vertical-stack",
+                  "cards": [
+                    {
+                      "type": "heading",
+                      "heading": "Upcoming",
+                      "heading_style": "subtitle"
+                    },
+                    {
+                      "type": "grid",
+                      "columns": 2,
+                      "square": false,
+                      "cards": [
+                        {
+                          "type": "custom:mushroom-template-card",
+                          "primary": "Trash",
+                          "secondary": "{{ state_attr('sensor.trash_pickup', 'date') }}",
+                          "icon": "{{ state_attr('sensor.trash_pickup', 'icon') }}",
+                          "entity": "sensor.trash_pickup",
+                          "tap_action": {
+                            "action": "none"
+                          },
+                          "card_mod": {
+                            "style": "ha-card {\n  background: rgba(255, 255, 255, 0.05) !important;\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n}\n"
+                          }
+                        },
+                        {
+                          "type": "custom:mushroom-template-card",
+                          "primary": "Recycling",
+                          "secondary": "{{ state_attr('sensor.recycling_pickup', 'date') }}",
+                          "icon": "{{ state_attr('sensor.recycling_pickup', 'icon') }}",
+                          "entity": "sensor.recycling_pickup",
+                          "tap_action": {
+                            "action": "none"
+                          },
+                          "card_mod": {
+                            "style": "ha-card {\n  background: rgba(255, 255, 255, 0.05) !important;\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n}\n"
+                          }
+                        },
+                        {
+                          "type": "custom:mushroom-template-card",
+                          "primary": "Cleaning",
+                          "secondary": "{{ state_attr('sensor.house_cleaning', 'date') }}",
+                          "icon": "{{ state_attr('sensor.house_cleaning', 'icon') }}",
+                          "entity": "sensor.house_cleaning",
+                          "tap_action": {
+                            "action": "none"
+                          },
+                          "card_mod": {
+                            "style": "ha-card {\n  background: rgba(255, 255, 255, 0.05) !important;\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n}\n"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "vertical-stack",
+                  "cards": [
+                    {
+                      "type": "heading",
+                      "heading": "Controls",
+                      "heading_style": "subtitle"
+                    },
+                    {
+                      "type": "grid",
+                      "columns": 2,
+                      "square": false,
+                      "cards": [
+                        {
+                          "type": "tile",
+                          "entity": "lock.august_web_front_door",
+                          "name": "Front Door",
+                          "icon_tap_action": {
+                            "action": "toggle"
+                          },
+                          "card_mod": {
+                            "style": "ha-card {\n  background: rgba(255, 255, 255, 0.05) !important;\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n}\n"
+                          }
+                        },
+                        {
+                          "type": "tile",
+                          "entity": "lock.august_web_garage_door",
+                          "name": "Garage Lock",
+                          "icon_tap_action": {
+                            "action": "toggle"
+                          },
+                          "card_mod": {
+                            "style": "ha-card {\n  background: rgba(255, 255, 255, 0.05) !important;\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n}\n"
+                          }
+                        },
+                        {
+                          "type": "tile",
+                          "entity": "cover.garage_actual",
+                          "name": "Garage Door",
+                          "icon_tap_action": {
+                            "action": "toggle"
+                          },
+                          "card_mod": {
+                            "style": "ha-card {\n  background: rgba(255, 255, 255, 0.05) !important;\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n}\n"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "heading": "Cameras",
+              "heading_style": "subtitle"
+            },
+            {
+              "type": "grid",
+              "columns": 3,
+              "square": false,
+              "cards": [
+                {
+                  "type": "picture-entity",
+                  "entity": "camera.front_door_high_resolution_channel",
+                  "name": "Front Door",
+                  "show_state": false,
+                  "camera_view": "auto",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "card_mod": {
+                    "style": "ha-card {\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n  overflow: hidden;\n}\n"
+                  }
+                },
+                {
+                  "type": "picture-entity",
+                  "entity": "camera.main_floor_high_resolution_channel",
+                  "name": "Main Floor",
+                  "show_state": false,
+                  "camera_view": "auto",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "card_mod": {
+                    "style": "ha-card {\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n  overflow: hidden;\n}\n"
+                  }
+                },
+                {
+                  "type": "picture-entity",
+                  "entity": "camera.garage_high_resolution_channel",
+                  "name": "Garage",
+                  "show_state": false,
+                  "camera_view": "auto",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "card_mod": {
+                    "style": "ha-card {\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n  overflow: hidden;\n}\n"
+                  }
+                },
+                {
+                  "type": "picture-entity",
+                  "entity": "camera.main_patio_high_resolution_channel",
+                  "name": "Main Patio",
+                  "show_state": false,
+                  "camera_view": "auto",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "card_mod": {
+                    "style": "ha-card {\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n  overflow: hidden;\n}\n"
+                  }
+                },
+                {
+                  "type": "picture-entity",
+                  "entity": "camera.downstairs_hallway_high_resolution_channel",
+                  "name": "Hallway",
+                  "show_state": false,
+                  "camera_view": "auto",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "card_mod": {
+                    "style": "ha-card {\n  border: 1px solid rgba(255, 255, 255, 0.08) !important;\n  box-shadow: none !important;\n  overflow: hidden;\n}\n"
+                  }
+                }
+              ]
+            }
+          ],
+          "theme": "Catppuccin Frappe",
+          "background": {
+            "color": "var(--primary-background-color)"
+          }
+        }
+      ]
+    }
+  }
+}
