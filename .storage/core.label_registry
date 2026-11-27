@@ -210,6 +210,15 @@
         "name": "House Cleaning",
         "created_at": "2024-08-28T00:12:29.009346+00:00",
         "modified_at": "2024-08-28T00:12:29.009351+00:00"
+      },
+      {
+        "color": "teal",
+        "description": "VeSync air-quality subsystem — purifiers and humidifier (automations + related entities).",
+        "icon": "mdi:air-filter",
+        "label_id": "air_quality",
+        "name": "Air Quality",
+        "created_at": "2026-06-26T23:00:41.154965+00:00",
+        "modified_at": "2026-06-26T23:00:41.154971+00:00"
       }
     ]
   }
