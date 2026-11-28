@@ -95,10 +95,14 @@ Originally installed ~2017 on a Supermicro 1U rack server running Ubuntu with Do
 
 Home Assistant checks its own configuration on the house: `ha core check`, or
 the HA MCP configuration check, validates the installed `/config` against the
-Core the house runs. A change is checked there before it's recorded here. CI
-runs the shared estate checks; the native hooks add YAML syntax and duplicate
-keys, the network-rule fixtures, and the script interface tests in `tests/` on
-push. None of these replaces Home Assistant's own check.
+Core the house runs. That check can pass while Home Assistant disables an
+invalid automation as it loads, so a change isn't done until, after its reload,
+Core's log shows no new errors, no new repair has appeared, and a live readback
+or trace shows what changed works. All of that happens on the house before a
+change is recorded here. CI runs the shared estate checks; the native hooks add
+YAML syntax and duplicate keys, the network-rule fixtures, and the script
+interface tests in `tests/` on push. None of these replaces Home Assistant's
+own checks.
 
 ### Private runtime inputs and deployment order
 

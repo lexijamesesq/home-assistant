@@ -96,9 +96,11 @@ provides each piece.
 ### Build / Test
 
 There is no build. Commit and push run the native hooks; push also runs the
-script interface tests in `tests/`. CI runs the shared estate checks. Home
-Assistant checks its own configuration on the house (`ha core check`), so a
-change is checked there before it's recorded.
+script interface tests in `tests/`. CI runs the shared estate checks. A
+change is checked on the house before it's recorded: `ha core check`, then,
+after the reload, no new errors in Core's log, no new repair, and a live
+readback or trace of what changed. The configuration check alone can pass
+while Home Assistant disables an invalid automation as it loads.
 
 ### Conventions
 
