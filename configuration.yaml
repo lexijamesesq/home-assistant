@@ -14,18 +14,6 @@ my:
 
 # updater:
 
-http:
-  # Uncomment this to add a password (recommended!)
-  # api_password: !secret api_password
-  # Uncomment this if you are using SSL or running in Docker etc
-  # ssl_certificate: !secret ssl_certificate
-  # ssl_key: !secret ssl_key
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - !secret trusted_proxy_ip_cf
-  ip_ban_enabled: true
-  login_attempts_threshold: 5
-
 recorder:
   purge_keep_days: 5
 #  db_url: !secret recorder_db_url
@@ -87,8 +75,6 @@ utility_meter:
 alexa:
   smart_home:
     locale: en-US
-
-
 
     filter:
       include_entities:
@@ -192,7 +178,7 @@ homekit:
     entity_config:
       camera.front_door_high_resolution_channel:
         support_audio: true
-        linked_doorbell_sensor: binary_sensor.front_door_doorbell
+        linked_doorbell_sensor: event.front_door_doorbell
         linked_motion_sensor: binary_sensor.front_door_motion
   - name: Downstairs Hallway Camera
     port: 51027
@@ -293,7 +279,7 @@ notify:
       - action: lexi_phone
       - action: mobile_app_alexis_ipad_mini
 
-# Manual Alarm Control Panel (LEX-288)
+# Manual Alarm Control Panel
 # Entry delay exists to cover the August-cloud lock-attribution race (~12s) for
 # lock-paired doors; applies uniformly per state. trigger_time is ~1yr =
 # effectively "stay triggered until manually disarmed".
