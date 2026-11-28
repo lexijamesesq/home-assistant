@@ -20,7 +20,7 @@ default_language_version:
 
 repos:
   - repo: https://github.com/lexijamesesq/dotty
-    rev: v2026.11.26-2
+    rev: v2026.11.28
     hooks:
       - id: gitleaks-staged
         stages: [pre-commit]
