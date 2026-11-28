@@ -91,24 +91,18 @@ the Pi level with the default branch with `tools/pi-sync.sh`.
 
 Originally installed ~2017 on a Supermicro 1U rack server running Ubuntu with Docker. Hand-edited YAML, split across `automation/` and `script/` directories with `!include_dir_merge_list`. Migrated to HAOS on Raspberry Pi 5 in March 2025. Config consolidated to `automations.yaml` and `scripts.yaml` (UI-managed). Repository synced to current state in March 2026.
 
-## Candidate configuration validation
+## Configuration validation
 
-CI combines the shared estate checks with Home Assistant Core's native
-configuration checker. The official Core image is pinned by version and digest
-to the installed release. Update that pin when upgrading Core and repeat both
-the valid and invalid-automation acceptance probes before relying on the new pin.
-
-CI substitutes `fakesecrets.yaml` for the untracked `secrets.yaml` and mounts the
-candidate at `/config`, with network access disabled. `tools/check-ha-config.py`
-retains native validation and additionally rejects ERROR logs: Core 2026.6.3 can
-disable an invalid automation while returning exit 0, including in strict mode.
-The standard pre-commit YAML hook only checks syntax; it does not replace Core.
-
-This checks the proposed public configuration, not the running house. It does
-not prove devices, credentials, custom integrations, or automation behavior. The
-HA MCP live configuration check validates the installed `/config`; it does not
-validate an arbitrary PR checkout. No deployment or reload is triggered by this
-workflow.
+Home Assistant checks its own configuration on the house: `ha core check`, or
+the HA MCP configuration check, validates the installed `/config` against the
+Core the house runs. That check can pass while Home Assistant disables an
+invalid automation as it loads, so a change isn't done until, after its reload,
+Core's log shows no new errors, no new repair has appeared, and a live readback
+or trace shows what changed works. All of that happens on the house before a
+change is recorded here. CI runs the shared estate checks; the native hooks add
+YAML syntax and duplicate keys, the network-rule fixtures, and the script
+interface tests in `tests/` on push. None of these replaces Home Assistant's
+own checks.
 
 ### Private runtime inputs and deployment order
 
@@ -133,8 +127,7 @@ The existing `lifx_bedroom_tiles_wakeup` secret is unrelated to
 is a manual utility after this migration; supply MAC then address only if an
 explicit consumer is identified later.
 
-Do not copy `fakesecrets.yaml` to production. Take a backup, prepare private
-values first, validate the candidate and live configuration, then use HA's
+Take a backup, prepare private values first, check the configuration on the house, then use HA's
 supported reload/deployment mechanism during an idle period. Verify the Sonos
 grouping service and living-room scene caller after deployment. Retain the backup
 for rollback. The live HA-managed checkout must not be overwritten or rebased
@@ -142,11 +135,6 @@ to deploy this change. Manual `restart_sonarr.py` now takes a URL argument and
 `python/scenes/test.py` takes MAC then address. Arguments can briefly appear in
 the container process list; this interface is for device addresses, not tokens
 or passwords.
-
-The CI image includes exactly Pyscript 2.0.1 with its manifest dependencies so
-the added YAML domain is checked, not ignored. Image preparation downloads
-public dependencies; candidate execution stays network-disabled. CI does not
-exercise live Pyscript services or device behavior.
 
 The scanner rejects IPv4 and colon/hyphen-separated MAC literals, except protocol
 constants and explicit documentation fixtures. Genuine instance values are

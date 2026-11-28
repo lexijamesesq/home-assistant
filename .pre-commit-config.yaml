@@ -2,9 +2,9 @@
 # Preserve newer compatible consumer pins and legitimate native extensions.
 #
 # This repository's working tree is the live Home Assistant /config, so some
-# tracked files are written by Home Assistant itself. Its own configuration
-# check runs in CI. Extensions below keep the shared checks from fighting what
-# Home Assistant writes:
+# tracked files are written by Home Assistant itself, and Home Assistant checks
+# its own configuration on the house. Extensions below keep the shared checks
+# from fighting what Home Assistant writes:
 # - python/lifxlan/ is a vendored third-party library, and blueprints/*/homeassistant/
 #   are blueprints Home Assistant ships; neither is edited here, so the style
 #   and code linters skip them. YAML syntax and duplicate-key checks, and the
@@ -46,6 +46,13 @@ repos:
         pass_filenames: false
         always_run: true
         stages: [pre-commit]
+      - id: script-interface-tests
+        name: script interface tests
+        entry: python3 -m unittest discover -s tests
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.17.6
