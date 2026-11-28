@@ -851,12 +851,12 @@
   - event: mode_laundry_turn_on
 - id: b3f216e47d8a4a1295b0f333ef373dc8
   alias: Notify Security - Sonos - Doorbell Pressed
-  trigger:
-  - platform: state
+  triggers:
+  - trigger: state
     entity_id: binary_sensor.front_door_doorbell
     from: 'off'
     to: 'on'
-  condition:
+  conditions:
   - condition: or
     conditions:
     - condition: state
@@ -865,7 +865,7 @@
     - condition: state
       entity_id: input_boolean.mode_guest
       state: 'on'
-  action:
+  actions:
   - data:
       message: "{%- if is_state('input_boolean.mode_home_theater', 'on') -%}\n  Excuse
         the interruption... Someone is at the front door.\n{%- elif is_state('sensor.sonos_group_master_state',
