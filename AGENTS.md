@@ -95,11 +95,10 @@ provides each piece.
 
 ### Build / Test
 
-There is no build. Commit and push run the native hooks. CI runs the shared
-estate checks and, for a functional change, Home Assistant's own configuration
-check in a production-matched Core container (`tools/ha-ci.Dockerfile`), with
-the two interface tests in `tests/` beside it. When Home Assistant Core is
-updated, move the Core pin in `tools/ha-ci.Dockerfile` in the same change.
+There is no build. Commit and push run the native hooks; push also runs the
+script interface tests in `tests/`. CI runs the shared estate checks. Home
+Assistant checks its own configuration on the house (`ha core check`), so a
+change is checked there before it's recorded.
 
 ### Conventions
 
